@@ -1,0 +1,222 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Plantillas</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/plantilla/documentos">Formatos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar formato</span>
+                <span *ngIf="!item">Crear formato</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title" *ngIf="item">Editar formato</h2>
+                <h2 class="title" *ngIf="!item">Crear formato</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="nombre" required>
+                        <mat-error *ngFor="let error of form.get('nombre').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Nombre de la plantilla.">info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Grupo de documento</mat-label>
+                        <mat-select [compareWith]="compareWith" formControlName="grupoDocumentoId" required>
+                            <mat-option *ngFor="let item of grupos" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('grupoDocumentoId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Grupo de documento al que está asociado la plantilla.">info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Documento</mat-label>
+                        <mat-select [compareWith]="compareWith" formControlName="documentoId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of documentos" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('documentoId').error | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Documento que está asociado a la plantilla.">info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Encabezado</mat-label>
+                        <mat-select [compareWith]="compareWith" formControlName="encabezadoId">
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of cabezeras" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('encabezadoId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Encabezado de la plantilla.">info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Pie de página</mat-label>
+                        <mat-select [compareWith]="compareWith" formControlName="piePaginaId">
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of pies" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('piePaginaId').error | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Pie de página de la plantilla.">info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Versión</mat-label>
+                        <input matInput formControlName="version">
+                        <mat-error *ngFor="let error of form.get('version').error | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Número de la versión del documento.">info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Fecha de vigencia</mat-label>
+                    <input matInput [matDatepicker]="fechaVigencia" (focus)="fechaVigencia.open()"
+                        (click)="fechaVigencia.open()" formControlName="fechaVigencia" required>
+                    <mat-datepicker-toggle matPrefix [for]="fechaVigencia"></mat-datepicker-toggle>
+                    <mat-datepicker #fechaVigencia> </mat-datepicker>
+                    <mat-icon matSuffix matTooltip="Fecha de vigencia de la plantilla.">info</mat-icon>
+                    <mat-error *ngFor="let error of form.get('fechaVigencia').errors  | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                No es un formato de fecha válido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+
+
+                <div>
+                    <label>
+                        Cuerpo del documento *
+                        <mat-icon matSuffix matTooltip="Cuerpo del documento.">info
+                        </mat-icon>
+                    </label>
+                    <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
+                        formControlName="cuerpoDocumento"></ckeditor>
+                    <div
+                        *ngIf="form.get('cuerpoDocumento').invalid && (form.get('cuerpoDocumento').dirty || form.get('cuerpoDocumento').touched)">
+                        <mat-error *ngFor="let error of form.get('cuerpoDocumento').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                    </div>
+                </div>
+
+
+                <div class="actions">
+                    <a mat-raised-button routerLink="/plantilla/documentos">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+                    <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                        <mat-icon>save</mat-icon>
+                        <span>Guardar</span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+<!--/ CONTENT -->
+</div>

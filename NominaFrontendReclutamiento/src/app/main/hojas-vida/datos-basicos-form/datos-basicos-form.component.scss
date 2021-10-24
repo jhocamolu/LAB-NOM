@@ -1,0 +1,54 @@
+hojas-vida-datos-basicos-form {
+    @import "src/@alcanos/scss/alcanos-v2";
+    .spinner{
+        position: absolute;
+        z-index: 999;
+        margin-top: 25px;
+    }
+
+    .padding_{
+        padding: 24px;
+    }
+    .title_{
+        font-size: 21px;
+        font-weight: bold;
+        padding: 24px;
+        padding-top: 0 !important;
+        padding-left: 0 !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+    .content_head {
+        border-radius: 8px;
+        box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+        background: white;
+    }
+
+    .container_spinner{
+        min-height: 150px;
+        width: 100px;
+        text-align: center;
+        margin: auto;
+        height: 100px;
+    }
+
+    .hoja_vida_header{
+        display: flex;
+        place-content: center space-between
+    }
+
+    .spinner_save{
+        top: 45%;
+        left: 39%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    .div_spinner{
+        background: #ffffff85;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 20px;
+        z-index: 9999;
+    }
+}

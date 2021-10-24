@@ -1,0 +1,115 @@
+<div class="btn-filter">
+    <button class="mat-icon-button" (click)="filtroHandle($event)">
+        <span class="mat-button-wrapper">
+            <mat-icon matTooltip="Filtrar" aria-hidden="true">
+                filter_list
+            </mat-icon>
+        </span>
+    </button>
+</div>
+
+
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Nómina</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span (click)="cerrar()" class="pointer" style="cursor: pointer;">Procesar costos</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Cargos distribuidos por centro de costo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Cargos distribuidos por centro de costo</h2>
+            </div>
+        </div>
+        <div class="Acciones">
+            <button color="accent" mat-raised-button [matMenuTriggerFor]="menu">
+                <mat-icon class="s-20">add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a routerLink="/nomina/proceso-costos" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+            <alcanos-empty-list (fnCreate)="null" [visibleBtnCreate]="false" 
+                labelH1="¡Uy! Aún registrado cargos distribuidos por centro de costo." labelBtn=""
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna Cargo -->
+                    <ng-container matColumnDef="cargo/nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Cargo</th>
+                        <td mat-cell *matCellDef="let element"> {{element.cargo.nombre}} </td>
+                    </ng-container>
+
+                    <!-- Columna Centro Operativo -->
+                    <ng-container matColumnDef="centroOperativo/nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Centro operativo </th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate">{{element.centroOperativo.nombre}} </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna Centro Costos -->
+                    <ng-container matColumnDef="actividadCentroCosto/centroCosto/nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Centro de Costo </th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate">{{element.actividadCentroCosto.centroCosto.codigo}} -
+                                {{element.actividadCentroCosto.centroCosto.nombre}} </p>
+                        </td>
+                    </ng-container>
+
+
+                    <!-- Columna Porcentaje -->
+                    <ng-container matColumnDef="porcentaje">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Porcentaje </th>
+                        <td mat-cell *matCellDef="let element" class="percent">
+                            <p class="text-truncate">{{element.porcentaje | percent}} </p>
+                        </td>
+                    </ng-container>
+
+
+                    <!-- Columna Fecha Corte -->
+                    <ng-container matColumnDef="fechaCorte">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de corte </th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate">{{element.fechaCorte | date:'dd / LL / yyyy'}} </p>
+                        </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

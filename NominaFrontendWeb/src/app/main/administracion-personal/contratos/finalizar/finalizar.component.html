@@ -1,0 +1,79 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+	<h1 mat-dialog-title>Finalizar contrato</h1>
+	<div mat-dialog-content fusePerfectScrollbar>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Causal de terminación</mat-label>
+			<mat-select formControlName="causalTerminacionId" required>
+				<mat-option></mat-option>
+				<mat-option *ngFor="let causal of causalTerminaciones" [value]="causal.id">
+					{{ causal.nombre }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngFor="let error of objToArray(form.get('causalTerminacionId').errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Indica el motivo de la finalización del contrato antes de tiempo.">info
+			</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Fecha de terminación</mat-label>
+			<input matInput [matDatepicker]="fechaTerminacion" (focus)="fechaTerminacion.open()" [readonly]="desabilitar"
+				(click)="fechaTerminacion.open()" formControlName="fechaTerminacion" required>
+			<mat-datepicker-toggle matPrefix [for]="fechaTerminacion">
+			</mat-datepicker-toggle>
+			<mat-datepicker startView="year" #fechaTerminacion></mat-datepicker>
+			<mat-error *ngFor="let error of form.get('fechaTerminacion').errors | keyvalue">
+				<div [ngSwitch]="error.key">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template [ngSwitchCase]="'matDatepickerParse'">
+						No es un formato de fecha válido.
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error.key}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Fecha de terminación del contrato.">info
+			</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Observaciones de la finalización del contrato</mat-label>
+			<textarea matInput formControlName="observacionFinalizacionContrato" required>	</textarea>
+			<mat-error *ngFor="let error of objToArray(form.get('observacionFinalizacionContrato').errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Breve descripción acerca de la terminación del contrato.">
+				info</mat-icon>
+		</mat-form-field>
+
+	</div>
+	<div mat-dialog-actions>
+		<button mat-raised-button type="button" (click)="dialogRef.close() ">
+			<mat-icon>cancel</mat-icon>
+			<span>Cancelar</span>
+		</button>
+		<button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+			<mat-icon>save</mat-icon>
+			<span>Guardar</span>
+		</button>
+	</div>
+</form>

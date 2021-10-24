@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "ef737b49-1f5b-4f31-90e5-bcaccf3e09c3",
+		"name": "HU105_Documentos_Soporte_Hoja_de_Vida",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtener hojaDeVidaDocumento",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/HojadeVidaDocumentos/?$expand=tipoSoporte",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"HojadeVidaDocumentos",
+						""
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "tipoSoporte"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CrearHojadeVidaDocumentos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t \"hojaDeVidaId\":2,\r\n\t \"tipoSoporteID\":1,\r\n\t \"comentario\":\"Este soporte\",\r\n\t \"adjunto\":\"objectId\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/HojadeVidaDocumentos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojadeVidaDocumentos"
+					]
+				},
+				"description": "{{host}}/api/documentoFuncionarios"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarHojadeVidaDocumentos/1",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\":1,\r\n\t \"hojaDeVidaId\":2,\r\n\t \"tipoSoporteID\":1,\r\n\t \"comentario\":\"comentario\",\r\n\t \"adjunto\":\"asdas\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/HojadeVidaDocumentos/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojadeVidaDocumentos",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/documentoFuncionarios/1"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialHojadeVidaDocumentos/1",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\":2,\r\n\t\"activo\":false\r\n\t \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/HojadeVidaDocumentos/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojadeVidaDocumentos",
+						"2"
+					]
+				},
+				"description": "{{host}}/api/documentoFuncionarios/1"
+			},
+			"response": []
+		},
+		{
+			"name": "ElimianrHojadeVidaDocumentos/1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/HojadeVidaDocumentos/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojadeVidaDocumentos",
+						"2"
+					]
+				},
+				"description": "{{host}}/api/documentoFuncionarios/1"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

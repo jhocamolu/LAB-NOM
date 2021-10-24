@@ -1,0 +1,147 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Desde</mat-label>
+            <input matInput [matDatepicker]="fechaInicio" (focus)="fechaInicio.open()" (click)="fechaInicio.open()"
+                formControlName="fechaInicio">
+            <mat-datepicker-toggle matPrefix [for]="fechaInicio">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+            <mat-error *ngFor="let error of form.get('fechaInicio').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Fecha inicial del rango de búsqueda de las requisiciones.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Hasta</mat-label>
+            <input matInput [matDatepicker]="fechaFin" (focus)="fechaFin.open()" (click)="fechaFin.open()"
+                formControlName="fechaFin">
+            <mat-datepicker-toggle matPrefix [for]="fechaFin">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaFin></mat-datepicker>
+            <mat-error *ngFor="let error of form.get('fechaFin').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Fecha final del rango de búsqueda de las requisiciones.">
+                info
+            </mat-icon>
+        </mat-form-field>
+               
+        <mat-form-field appearance="outline">
+            <mat-label>Funcionario solicitante</mat-label>
+            <input matInput placeholder="" formControlName="funcionario">
+            <mat-error *ngFor="let error of funcionario.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número de identificación y nombre completo del funcionario que solicita la requisición.">info</mat-icon>
+        </mat-form-field>
+
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Cargo solicitante</mat-label>
+            <input matInput placeholder="" formControlName="cargoSolicitante">
+            <mat-error *ngFor="let error of cargoSolicitante.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Cargo al cual pertenece el solicitante de la requisición.">info</mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cargo solicitado</mat-label>
+            <input matInput placeholder="" formControlName="cargoSolicitado">
+            <mat-error *ngFor="let error of cargoSolicitado.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Nombre del cargo que se solicita en la requisición.">info</mat-icon>
+        </mat-form-field>
+        
+
+        <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estado">
+                <mat-option [value]='null'></mat-option>
+                <mat-option [value]="estadoReqisicionPersonal.anulada">Anulada</mat-option>
+                <mat-option [value]="estadoReqisicionPersonal.aprobada">Aprobada</mat-option>
+                <mat-option [value]="estadoReqisicionPersonal.autorizada">Autorizada</mat-option>
+                <mat-option [value]="estadoReqisicionPersonal.cancelada">Cancelada</mat-option>
+                <mat-option [value]="estadoReqisicionPersonal.cubierta">Cubierta</mat-option>
+                <mat-option [value]="estadoReqisicionPersonal.rechazada">Rechazada</mat-option>
+                <mat-option [value]="estadoReqisicionPersonal.revisada">Revisada</mat-option>
+                <mat-option [value]="estadoReqisicionPersonal.solicitada">Solicitada</mat-option>
+            </mat-select>
+
+            <mat-error *ngFor="let error of form.get('estado').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Estado de la requisición.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+            <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+                <mat-icon>cancel</mat-icon>
+                <span>Borrar filtros</span>
+            </button>
+            <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+                <mat-icon>search</mat-icon>
+                <span>Buscar</span>
+            </button>
+        </div>
+    </div>
+
+</form>

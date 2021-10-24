@@ -1,0 +1,56 @@
+{
+	"info": {
+		"_postman_id": "59eb96cb-fc5b-40ac-bd95-5c97831b0e95",
+		"name": "HUM013 -DesprendiblePago",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar Top 6",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/desprendiblepagos/5686",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"desprendiblepagos",
+						"5686"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generar Desprendible",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nominaFuncionarioId\": 2711\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/desprendiblepagos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"desprendiblepagos"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,27 @@
+<div class="navbar-header" [ngClass]="fuseConfig.layout.navbar.secondaryBackground">
+
+    <div class="logo" fxHide.sm>
+        <img class="logo-icon" src="{{ newImage }}">
+        <span class="logo-text"></span>
+    </div>
+
+    <button class="menu-button" mat-icon-button class="toggle-sidebar-folded" (click)="toggleSidebarFolded()"
+        fxHide.lt-lg>
+        <mat-icon>menu</mat-icon>
+    </button>
+
+    <button mat-icon-button class="toggle-sidebar-opened" (click)="toggleSidebarOpened()" fxHide.gt-md>
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+
+</div>
+
+<div class="navbar-content" fusePerfectScrollbar [fusePerfectScrollbarOptions]="{suppressScrollX: true}"
+    [ngClass]="fuseConfig.layout.navbar.primaryBackground">
+    <fuse-navigation layout="vertical"></fuse-navigation>
+</div>
+
+<div fxHide fxShow.gt-sm [ngStyle]="{'text-align': 'center', 
+'font-size': alcanosConfig?.footer.fontSize }" [ngClass]="fuseConfig.layout.navbar.secondaryBackground">
+    <p>{{ alcanosConfig?.footer.texto }}</p>
+</div>

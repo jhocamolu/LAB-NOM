@@ -1,0 +1,128 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Novedades</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/novedades/otra-novedades">Otras novedades</a>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Otras novedades</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+            <button *ngIf="arrayPermisos.crear" mat-raised-button color="accent" class="terciaria" (click)="cargarHandle($event)">
+                <mat-icon>open_in_browser</mat-icon>
+                <span>Cargar</span>
+            </button>
+            <button *ngIf="arrayPermisos.crear" mat-raised-button color="accent" (click)="crearHandle($event)">
+                <mat-icon>add</mat-icon>
+                <span>Registrar novedad</span>
+            </button>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <alcanos-empty-list (fnCreate)="crearHandle($event)" labelH1="¡Uy! Aún no has registrado otras novedades."
+            [visibleBtnCreate]="arrayPermisos.crear"
+                labelBtn="Registrar novedad" [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna N° documento -->
+                    <ng-container matColumnDef="funcionario/numeroDocumento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> N° documento</th>
+                        <td mat-cell *matCellDef="let element"> {{element.funcionario?.numeroDocumento}} </td>
+                    </ng-container>
+
+                    <!-- Columna N° criterio de busqueda -->
+                    <ng-container matColumnDef="funcionario/criterioBusqueda">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Funcionario</th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate">{{element.funcionario?.primerNombre}}
+                                {{element.funcionario?.segundoNombre}} {{element.funcionario?.primerApellido}}
+                                {{element.funcionario?.segundoApellido}} </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna novedad -->
+                    <ng-container matColumnDef="categoriaNovedad/nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Novedad </th>
+                        <td mat-cell *matCellDef="let element">{{element.categoriaNovedad?.nombre}} </td>
+                    </ng-container>
+
+                    <!-- Columna Fecha -->
+                    <ng-container matColumnDef="fechaAplicacion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de aplicación</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="text-truncate">{{element.fechaAplicacion | date:'dd / LL / yyyy'}} </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna estado -->
+                    <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.estado == 'EnCurso'? 'En curso': element.estado}}
+                            </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef
+                        [ngStyle]="{'display': !( arrayPermisos.actualizar || arrayPermisos.obtener ) ? 'none' : ''}" > Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="1">
+                                <a *ngIf="arrayPermisos.obtener" mat-icon-button routerLink="/novedades/otra-novedades/{{element.id}}/mostrar">
+                                    <mat-icon matTooltip="Visualizar">visibility</mat-icon>
+                                </a>
+                                <!-- <button mat-icon-button (click)="mostrarHandle($event, element)">
+                                    <mat-icon matTooltip="Visualizar">visibility</mat-icon>
+                                </button> -->
+
+                                <a mat-icon-button
+                                    *ngIf="arrayPermisos.actualizar && (element.estado == estadoNovedad.pendiente || element.estado ==
+                                    estadoNovedad.enCurso )"
+                                    routerLink="/novedades/otra-novedades/{{element.id}}/editar">
+                                    <mat-icon matTooltip="Editar">edit</mat-icon>
+                                </a>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

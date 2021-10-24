@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="Administradora_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[Administradora] ON 
+GO
+
+INSERT INTO dbo.Administradora (Id, Codigo, Nit, Dv, Nombre, TipoAdministradoraId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(126, 'EPS013', '800250119', '1', 'Saludcoop E.P.S', 4, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Administradora (Id, Codigo, Nit, Dv, Nombre, TipoAdministradoraId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(127, 'EPS044', '901097473', '5', 'Medimás EPS', 4, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Administradora (Id, Codigo, Nit, Dv, Nombre, TipoAdministradoraId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(128, 'EPS040', '900604350', '0', 'Caja de Compensación Familiar de Antioquía - Comfama', 5, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Administradora (Id, Codigo, Nit, Dv, Nombre, TipoAdministradoraId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(129, '14-11', '890903790', '5', 'ARL Sura', 1, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Administradora (Id, Codigo, Nit, Dv, Nombre, TipoAdministradoraId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(130, 'EPS042', '900226715', '3', 'COOSALUD EPS', 4, 'Activo    ', 'sistema', GETDATE());
+
+
+SET IDENTITY_INSERT [dbo].[Administradora] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[Administradora] WHERE Id BETWEEN 126 AND 130;
+</rollback>
+</changeSet>
+</databaseChangeLog>

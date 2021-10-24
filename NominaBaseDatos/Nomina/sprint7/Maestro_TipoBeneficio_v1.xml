@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="maestro_TipoBeneficio_v1">
+<sql endDelimiter="GO" splitStatements="true">
+GO
+SET IDENTITY_INSERT [dbo].[TipoBeneficio] ON 
+GO
+INSERT [dbo].[TipoBeneficio] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ConceptoNominaDevengoId], [ConceptoNominaDeduccionId], [ConceptoNominaCalculoId], [RequiereAprobacionJefe], [MontoMaximo], [ValorSolicitado], [PlazoMes], [CuotaPermitida], [PeriodoPago], [PermiteAuxilioEducativo], [PermiteDescuentoNomina], [ValorAutorizado], [DiasAntiguedad], [VecesAnio], [Descripcion]) VALUES (1, N'Activo    ', NULL, NULL, NULL, NULL, NULL, NULL, N'Auxilio Optico', NULL, NULL, NULL, 0, 200000.0000, 1, 0, 0, 0, 0, 0, 1, 0, 1, N'Auxilio óptico')
+GO
+INSERT [dbo].[TipoBeneficio] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ConceptoNominaDevengoId], [ConceptoNominaDeduccionId], [ConceptoNominaCalculoId], [RequiereAprobacionJefe], [MontoMaximo], [ValorSolicitado], [PlazoMes], [CuotaPermitida], [PeriodoPago], [PermiteAuxilioEducativo], [PermiteDescuentoNomina], [ValorAutorizado], [DiasAntiguedad], [VecesAnio], [Descripcion]) VALUES (2, N'Activo    ', NULL, NULL, NULL, NULL, NULL, NULL, N'Permiso adelantar estudios', NULL, NULL, NULL, 1, 0.0000, 0, 0, 0, 0, 0, 0, 0, 0, 2, N'Permiso otorgado por la compañía para adelantar estudios')
+GO
+INSERT [dbo].[TipoBeneficio] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ConceptoNominaDevengoId], [ConceptoNominaDeduccionId], [ConceptoNominaCalculoId], [RequiereAprobacionJefe], [MontoMaximo], [ValorSolicitado], [PlazoMes], [CuotaPermitida], [PeriodoPago], [PermiteAuxilioEducativo], [PermiteDescuentoNomina], [ValorAutorizado], [DiasAntiguedad], [VecesAnio], [Descripcion]) VALUES (3, N'Activo    ', NULL, NULL, NULL, NULL, NULL, NULL, N'Préstamo educativo', NULL, NULL, NULL, 1, 0.0000, 0, 1, 6, 1, 1, 1, 1, 720, 2, N'Préstamo educativo condonable')
+GO
+INSERT [dbo].[TipoBeneficio] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ConceptoNominaDevengoId], [ConceptoNominaDeduccionId], [ConceptoNominaCalculoId], [RequiereAprobacionJefe], [MontoMaximo], [ValorSolicitado], [PlazoMes], [CuotaPermitida], [PeriodoPago], [PermiteAuxilioEducativo], [PermiteDescuentoNomina], [ValorAutorizado], [DiasAntiguedad], [VecesAnio], [Descripcion]) VALUES (4, N'Activo    ', NULL, NULL, NULL, NULL, NULL, NULL, N'Préstamo por calamidad', NULL, NULL, NULL, 1, 3512000.0000, 1, 1, 6, 0, 0, 1, 1, 0, 0, N'Préstamo por calamidad')
+GO
+SET IDENTITY_INSERT [dbo].[TipoBeneficio] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoBeneficio] WHERE Id BETWEEN 1 AND 4;
+</rollback>
+</changeSet>
+</databaseChangeLog>

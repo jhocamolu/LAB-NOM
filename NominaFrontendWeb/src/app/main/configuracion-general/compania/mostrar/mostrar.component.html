@@ -1,0 +1,323 @@
+<div class="page-layout simple fullwidth">
+
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Compañia</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/compania">Datos básicos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Datos básicos</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Datos básicos</h2>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button mat-raised-button color="accent" *ngIf="arrayPermisos.actualizar && (newVacio.length != 0)"
+                routerLink="/configuracion/compania/1/editar" routerLinkActive="router-link-active">
+                <mat-icon>edit</mat-icon>
+                <span>Editar datos básicos</span>
+            </button>
+            <button mat-raised-button color="accent" *ngIf="arrayPermisos.actualizar && (newVacio.length == 0)" disabled
+                routerLinkActive="router-link-active">
+                <mat-icon>edit</mat-icon>
+                <span>Editar datos básicos</span>
+            </button>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="box-shadow">
+            <!-- CONTENIDO -->
+            <div *ngIf="!arrayPermisos.obtener || newVacio.length == 0">
+                <div class="empty p-24" fxLayoutAlign="center center" fxLayout="column">
+                    <img src="/assets/alcanos/empty_state_crear.svg" width="50%" />
+                    <div fxLayout="row">
+                        <h1 *ngIf="!arrayPermisos.obtener">No autorizado: sin permisos para observar esta información.</h1>
+                        <h1 *ngIf="arrayPermisos.obtener">No existe información de la compañía en la base de datos.</h1>
+                    </div>
+                    <div fxLayout="row">
+                        <h2>¡Contacte al área de TI!</h2>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px">
+                        <button mat-raised-button color="accent" routerLink="/">
+                            <mat-icon>home</mat-icon>
+                            <span>Ir a la página principal</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="arrayPermisos.obtener && newVacio.length != 0">
+                <div class="list-item-title">
+                    <mat-icon>assignment</mat-icon>
+                    <h2>Información general</h2>
+                </div>
+                <div>
+                    <h3>
+                        Nombre
+                        <mat-icon class="s-16" matSuffix matTooltip="Nombre comercial de la compañía.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.nombre}}</p>
+                    
+                </div>
+
+                <div class="dos-bloque">
+
+                    <div>
+                        <h3>
+                            Tipo de documento
+                            <mat-icon class="s-16" matSuffix matTooltip="Tipo de documento de identificación de la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.tipoDocumento?.nombre}}</p>
+                    </div>
+                    <div>
+                        <h3>
+                            Nit
+                            <mat-icon class="s-16" matSuffix matTooltip="Número de identificación tributaria.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.nit}}-{{item.digitoVerificacion}}</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>
+                        Razón social
+                        <mat-icon class="s-16" matSuffix matTooltip="Denominación por la cual se conoce legalmente a la compañía.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.razonSocial}}</p>
+                </div>
+
+                <div class="dos-bloque">
+
+                    <div>
+                        <h3>
+                            País
+                            <mat-icon class="s-16" matSuffix matTooltip="País en el que se encuentra ubicada la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{item.divisionPoliticaNivel2?.divisionPoliticaNivel1?.pais.nombre}}</p>
+                    </div>
+
+                    <div>
+                        <h3>
+                            Departamento
+                            <mat-icon class="s-16" matSuffix matTooltip="Departamento en el que se encuentra ubicada la sede principal de la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.divisionPoliticaNivel2?.divisionPoliticaNivel1?.nombre}}</p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+
+                    <div>
+                        <h3>
+                            Municipio
+                            <mat-icon class="s-16" matSuffix matTooltip="Municipio en el que se encuentra ubicada la sede principal de la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.divisionPoliticaNivel2?.nombre}}</p>
+                    </div>
+
+                    <div>
+                        <h3>
+                            Dirección
+                            <mat-icon class="s-16" matSuffix matTooltip="Dirección de la sede principal de la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.direccion}}</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>
+                        Actividad económica
+                        <mat-icon class="s-16" matSuffix matTooltip="Clasificación que otorga la DIAN según la actividad que desarrolle la compañía.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.actividadEconomica?.nombre}}</p>
+                </div>
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Teléfono de contacto
+                            <mat-icon class="s-16" matSuffix matTooltip="Número de teléfono de contacto principal.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.telefono}}</p>
+                    </div>
+                    <div>
+                        <h3>
+                            Fax
+                            <mat-icon class="s-16" matSuffix matTooltip="Número de fax de la sede principal.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.fax}}</p>
+                    </div>
+                </div>
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Sitio web
+                            <mat-icon class="s-16" matSuffix matTooltip="Url del sitio web de la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.web}}</p>
+                    </div>
+                    <div>
+                        <h3>
+                            Correo de contacto
+                            <mat-icon class="s-16" matSuffix matTooltip="Correo electrónico de contacto principal.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.correoElectronico}}</p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Fecha de constitución
+                            <mat-icon class="s-16" matSuffix matTooltip="Fecha de constitución legal de la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.fechaConstitucion | date:'dd / LL / yyyy' }}</p>
+                    </div>
+                    <div>
+                        <h3>
+                            Tipo de contribuyente
+                            <mat-icon class="s-16" matSuffix matTooltip="Categoría de contribuyente según la DIAN a la que pertenece la compañÍa.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.tipoContribuyente?.nombre}}</p>
+                    </div>
+
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Operador de pagos
+                            <mat-icon class="s-16" matSuffix matTooltip="Entidad con la cual la compañía hace la liquidación de los aportes.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.operadorPago?.nombre}}</p>
+                    </div>
+                    <div>
+                        <h3>
+                            Compañia ARL
+                            <mat-icon class="s-16" matSuffix matTooltip="Administradora de riesgos laborales que utiliza la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.arl?.nombre}}</p>
+                    </div>
+                </div>
+                <div class="list-item-title">
+                    <mat-icon>ballot</mat-icon>
+                    <h2>Información PILA</h2>
+                </div>
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Naturaleza jurídica
+                            <mat-icon class="s-16" matSuffix matTooltip="Naturaleza jurídica de la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.naturalezaJuridica?.nombre}}</p>
+                    </div>
+                    <div>
+                        <h3>
+                            Tipo de persona
+                            <mat-icon class="s-16" matSuffix matTooltip="Tipo de persona que corresponde a la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.tipoPersona?.nombre}}</p>
+                    </div>
+                </div>
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Clase de aportante
+                            <mat-icon class="s-16" matSuffix matTooltip="Clase de aportante a la que corresponde la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.claseAportanteTipoAportante?.claseAportante?.nombre}}</p>
+                    </div>
+                    <div>
+                        <h3>
+                            Tipo de aportante
+                            <mat-icon class="s-16" matSuffix matTooltip="Tipo de aportante al que corresponde la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.claseAportanteTipoAportante?.tipoAportante?.nombre}}</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>
+                        Cargo representante legal
+                        <mat-icon class="s-16" matSuffix matTooltip="Cargo del representante legal de la compañía.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.cargo?.nombre}}</p>
+                </div>
+                <div>
+                    <h3>
+                        ¿Beneficiario Ley 1429 de 2010?
+                        <mat-icon class="s-16" matSuffix matTooltip="Indica si la compañía es beneficiaria de la Ley 1429 de 2020.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.beneficiarioLey1429De2010 ? 'Si' : 'No'}}</p>
+                </div>
+                <div>
+                    <h3>
+                        ¿Beneficiario Ley impuesto a la equidad CREE?
+                        <mat-icon class="s-16" matSuffix matTooltip="Indica si la compañía es beneficiaria de la Ley impuesto a la equidad CREE.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.beneficiarioImpuestoEquidad ? 'Si' : 'No'}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

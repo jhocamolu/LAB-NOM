@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "1c6c7542-2e76-457c-b1d2-6c03b500f300",
+		"name": "HU028",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Funcionario Estudio",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cliente",
+						"value": "Tm9taW5hTW92aWxBbGNhbm9zQ29sb21iaWFFc3A=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"FuncionarioId\": \"1\",\n    \"NivelEducativoId\": \"1\",\n    \"InstitucionEducativa\": \"Institucion. Educativa, ABC123-\",\n    \"PaisId\": \"1\",\n    \"ProfesionId\": \"2\",\n    \"AnioDeInicio\": \"2004-12-31\",\n    \"AnioDeFin\": \"2005-12-01\",\n    \"EstadoEstudio\": \"3\",\n    \"TarjetaProfesional\": \"12345679 8TLM\",\n    \"Titulo\": \"Titulohgkjhjkhjbnm\",\n    \"Observacion\": \"Observacion aoisdhfo8327y4ehfjkbn298y4bejfks9r8y43rfbndsm\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/funcionarioestudios",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"funcionarioestudios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Funcionario Estudio",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/funcionarioestudios",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"funcionarioestudios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Funcionario Estudio",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cliente",
+						"value": "Tm9taW5hTW92aWxBbGNhbm9zQ29sb21iaWFFc3A=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \t\"id\":3,\n    \"FuncionarioId\": \"1\",\n    \"NivelEducativoId\": \"1\",\n    \"InstitucionEducativa\": \"Institucion. Educativa, ABC123-\",\n    \"PaisId\": \"1\",\n    \"ProfesionId\": \"2\",\n    \"AnioDeInicio\": \"2004-12-31\",\n    \"AnioDeFin\": \"2005-12-01\",\n    \"EstadoEstudio\": \"3\",\n    \"TarjetaProfesional\": \"12345679 8TLM\",\n    \"Titulo\": \"Titulohgkjhjkhjbnm\",\n    \"Observacion\": \"Observacion aoisdhfo8327y4ehfjkbn298y4bejfks9r8y43rfbndsm\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/funcionarioestudios/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"funcionarioestudios",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial Funcionario Estudio",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cliente",
+						"value": "Tm9taW5hTW92aWxBbGNhbm9zQ29sb21iaWFFc3A=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \t\"id\":3,\n  \t\"FuncionarioId\":1,\n    \"Estado\":\"Validado\"\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/funcionarioestudios/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"funcionarioestudios",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar un estudio funcionario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/odata/funcionarioestudios/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"odata",
+						"funcionarioestudios",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

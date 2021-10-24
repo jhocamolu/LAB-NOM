@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TipoLiquidacionComprobante_V2">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    ALTER TABLE [TipoLiquidacionComprobante] DROP CONSTRAINT [CK_TipoLiquidacionComprobante_TipoComprobante];
+
+GO
+
+ALTER TABLE [TipoLiquidacionComprobante] ADD CONSTRAINT [CK_TipoLiquidacionComprobante_TipoComprobante] CHECK (([TipoComprobante]='Contabilizacion' OR [TipoComprobante]='Transferencia' OR [TipoComprobante]='Reversion' ));
+
+GO
+   
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+  ALTER TABLE [TipoLiquidacionComprobante] DROP CONSTRAINT [CK_TipoLiquidacionComprobante_TipoComprobante];
+
+GO
+ALTER TABLE [TipoLiquidacionComprobante] ADD CONSTRAINT [CK_TipoLiquidacionComprobante_TipoComprobante] CHECK (([TipoComprobante]='Contabilizacion' OR [TipoComprobante]='Transferencia' OR [TipoComprobante]='Reversión' ));
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

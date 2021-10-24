@@ -1,0 +1,39 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+    <h1 mat-dialog-title>{{title}} </h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div *ngIf="model.length == 0">
+            No existe información relacionada.
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+
+            <table class="simple" *ngIf="model.length > 0">
+                <thead>
+                    <tr>
+                        <th class="mat-header-cell identificacion" >Identificación</th>
+                        <th class="mat-header-cell">Nombre</th>
+                        <th class="mat-header-cell">Cargo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of model" class="mat-row">
+                        <td>{{item.numeroDocumento}}</td>
+                        <td> <div class="text-truncate"> {{item.criterioBusqueda.replace( (item.numeroDocumento + " -"), "")}} {{item.primerApellido}} </div></td>
+                        <td>{{item.cargo}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Cerrar</span>
+        </button>
+    </div>
+
+</div>

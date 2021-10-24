@@ -1,0 +1,446 @@
+{
+	"info": {
+		"_postman_id": "dd5a6024-4d31-4ae3-988e-88047cb4894b",
+		"name": "HU043_Tipo_Periodo",
+		"description": "Colección que administra el recurso de Tipo de Periodo Y subPeriodos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "HU043_Sub_Periodo",
+			"item": [
+				{
+					"name": "Listado SubPeriodos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/odata/SubPeriodos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"SubPeriodos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener  SubPeriodo",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/odata/SubPeriodos/34",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"SubPeriodos",
+								"34"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear SubPeriodos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"dias\":20,\r\n    \"nombre\": \"Pruaba\",\r\n    \"tipoPeriodoId\":7,\r\n    \"diaInicial\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/SubPeriodos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"SubPeriodos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar SubPeriodos",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":9,\r\n\t\"dias\":20,\r\n    \"nombre\": \"Pruaba\",\r\n    \"tipoPeriodoId\":7,\r\n    \"diaInicial\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/SubPeriodos/9",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"SubPeriodos",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar SubPeriodos",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/SubPeriodos/5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"SubPeriodos",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizacion Parcial SubPeriodos",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":41,\r\n\t\"dias\":49,\r\n\t\"nombre\": \"Casas\",\r\n    \"tipoPeriodoId\":40,\r\n    \"diaInicial\":11\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/SubPeriodos/41",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"SubPeriodos",
+								"41"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Colección  que administra los subperiodos",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Crear TipoPeriodos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Prueba null\",\r\n    \"pagoPorDefecto\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/TipoPeriodos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"TipoPeriodos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar TipoPeriodos",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\":8,\r\n\t\"nombre\": \"Prueba null\",\r\n    \"pagoPorDefecto\": false\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/TipoPeriodos/8",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"TipoPeriodos",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial TipoPeriodos",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\":45,\r\n\t \"nombre\": \"pERIODO prueba version Dos\",\r\n\t \"pagoPorDefecto\":true,\r\n\t \"activo\":true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/TipoPeriodos/6",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"TipoPeriodos",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar TipoPeriodos",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/TipoPeriodos/6",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"TipoPeriodos",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listado de TipoPeriodos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/odata/TipoPeriodos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"TipoPeriodos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener TipoPeriodos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/odata/TipoPeriodos/45",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"TipoPeriodos",
+						"45"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "dc5e846f-6316-4618-ad57-d4b5d03b3366",
+		"name": "HU011_Administrar_tipo_documento",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ObtenerTipoDocumentos(Todos)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "JwtToken",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE1OTg2NzQ0MjksImV4cCI6MTU5ODY4ODgyOSwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.SGjVFjiQAJUNjkDgcKFhcyGYWZk50iTUTBZ7Sk_ExGw"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/odata/tipodocumentos/1008",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"tipodocumentos",
+						"1008"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				},
+				"description": " - Habilitado para Odata\n"
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerTipoDocumento/id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/odata/tipodocumentos/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"tipodocumentos",
+						"1"
+					]
+				},
+				"description": "- Habilitado para Odata"
+			},
+			"response": []
+		},
+		{
+			"name": "CambiarEstadoRegistroTipoDocumento",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":\"3\",\n\t\"activo\":1\n\n\t\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/tipodocumentos/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"tipodocumentos",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CrearTipoDocumento ",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0ODc0NzIiLCJDb3JyZW8iOiJhbGJlaXJvMTk4OUBnbWFpbC5jb20iLCJOb21icmUiOiJKRVNVUyBBTEJFSVJPIEdBVklSSUEgUlVCSU8iLCJVc3VhcmlvIjoiIiwiVGlwb0F1dCI6IklEIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNTk4OTAyODcyLCJleHAiOjE1OTg5MTcyNzIsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0._qPX8sVHREyCs_3Ae_8zrnLQ22663u0zzWMQ4yKLpb4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"codigoDian\":\"99\",\n\t\"codigoPila\":\"zz\",\n\t\"nombre\":\"prueba Cedula Ciudadania\",\n\t\"formato\":\"Numerico\",\n    \"EquivalenteBancario\":\"050\"\n\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/tipodocumentos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"tipodocumentos"
+					]
+				},
+				"description": "Tener en cuenta que el tipo de Formato enviado debe ser:\n- Alfanumerico\n- Numerico\n"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTipoDocumento",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/api/tipodocumentos/35",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"tipodocumentos",
+						"35"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ActulizarTipoDocumento",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE1OTg2NzQ0MjksImV4cCI6MTU5ODY4ODgyOSwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.SGjVFjiQAJUNjkDgcKFhcyGYWZk50iTUTBZ7Sk_ExGw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":1008,\r\n\t\"codigoDian\":\"98\",\r\n\t\"codigoPila\":\"xx\",\r\n\t\"nombre\":\"pruebas Cedula Ciudadania\",\r\n\t\"formato\":\"Numerico\",\r\n    \"EquivalenteBancario\":\"0090\"\r\n\r\n}\r\n\r\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/tipodocumentos/1008",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"tipodocumentos",
+						"1008"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

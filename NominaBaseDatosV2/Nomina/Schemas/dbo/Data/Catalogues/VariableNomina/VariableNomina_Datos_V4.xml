@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="VariableNomina_Datos_V4">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[VariableNomina] ON 
+GO
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(25, 'ContratoFechaInicio', 'DATE', NULL, 'Input', 'Fecha de incio del contrato del funcionario.', 'Activo', 'sistema', GETDATE());
+GO
+SET IDENTITY_INSERT [dbo].[VariableNomina] OFF
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[VariableNomina] WHERE Id = 25;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

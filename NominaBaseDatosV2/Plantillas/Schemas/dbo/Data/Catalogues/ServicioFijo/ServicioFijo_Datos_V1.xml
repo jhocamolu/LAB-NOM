@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="ServicioFijo_Datos_V1">
+<comment>Migración Inicial</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[ServicioFijo] ON 
+GO
+INSERT [dbo].[ServicioFijo] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Servicio], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (1, N'Activo', CAST(N'2020-01-08T10:09:06.2730000' AS DateTime2), CAST(N'2020-01-08T10:09:06.2730000' AS DateTime2), NULL, N'informacionBasica', N'/odata/informacionbasicas/1?$expand=divisionPoliticaNivel2($expand=divisionpoliticanivel1($expand=pais)),actividadEconomica,tipoContribuyente,arl', NULL, NULL, NULL)
+GO
+INSERT [dbo].[ServicioFijo] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Servicio], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (2, N'Activo', CAST(N'2020-03-27T15:54:04.4970000' AS DateTime2), CAST(N'2020-03-27T15:54:04.4970000' AS DateTime2), NULL, N'representanteEmpresa', N'/api/representanteEmpresas/gruposlug/{slug}/fecha/{fecha}', NULL, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[ServicioFijo] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [ServicioFijo]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

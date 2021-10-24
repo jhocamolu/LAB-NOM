@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_GenerarDetalleContable_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_GenerarDetalleContable', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_GenerarDetalleContable as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 22/12/2020
+-- Description:	Procedimiento almacenado, el cual se encarga de generar el detalle contable de la nómina.
+--
+-- Parameters:
+--  @NominaId:						Identificador de la nómina
+--  @UsuarioOperacion :				Usuario que realiza la operación.
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_GenerarDetalleContable] @NominaId         INT, 
+                                                   @UsuarioOperacion VARCHAR(255)
+AS
+    BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+        DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+        DECLARE @MensajeExcepcion VARCHAR(255);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        DECLARE @AuditoriaActivo VARCHAR(255);
+        DECLARE @NominaFuncionarioId INT;
+        DECLARE @NominaFuncionarioLiquidado VARCHAR(255);
+        DECLARE @OrigenCentroCosto VARCHAR(255);
+        DECLARE @ConceptoNominaId INT;
+        DECLARE @NominaDetalleProcesado VARCHAR(255);
+        DECLARE @VerificaExisteConcepto INT;
+        DECLARE @Respuesta VARCHAR(MAX);
+        DECLARE @NombreConceptoNomina VARCHAR(255);
+        DECLARE @NominaDetalleId INT;
+        DECLARE @NitTercero VARCHAR(255);
+        DECLARE @Credito MONEY;
+        DECLARE @Debito MONEY;
+        DECLARE @TipoComprobante VARCHAR(255)= 'Contabilizacion';
+        DECLARE @FechaActual DATE= CONVERT(DATE, GETDATE());
+        DECLARE @CentroCostoId INT;
+        DECLARE @CuentaContableId INT;
+        DECLARE @NaturalezaContable VARCHAR(255);
+        DECLARE @NaturalezaContableCredito VARCHAR(255);
+        DECLARE @NaturalezaContableDebito VARCHAR(255);
+		DECLARE @NominaDetalleValor MONEY; 
+		DECLARE @PorcentajeCentroCosto DECIMAL(16,6);
+		DECLARE @FuncionarioCentroCostoAplicado VARCHAR(255);
+		DECLARE @Valor MONEY;
+		DECLARE @AcumuladoValor MONEY;
+
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+
+            -- Inicio de la transacción
+            BEGIN TRAN GenerarDetalleContable;
+
+            -- Se consultan constantes asociadas a estados
+            SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO, 
+                   @NominaFuncionarioLiquidado = vce.NOMINAFUNCIONARIO_LIQUIDADO, 
+                   @NominaDetalleProcesado = vce.NOMINADETALLE_PROCESADO,
+				   @FuncionarioCentroCostoAplicado = vce.FUNCIONARIOCENTROCOSTO_APLICADO
+            FROM util.VW_ConstanteEstado AS vce;
+
+            --
+            SELECT @NaturalezaContableDebito = cnc.DEBITO, 
+                   @NaturalezaContableCredito = cnc.CREDITO
+            FROM [util].[VW_ConstanteNaturalezaContable] cnc;
+
+			/* Cursor obtiene  los funcionarios que se encuentran en la liquidación de nómina 
+			* en la tabla NominaFuncionario
+			*/
+
+            DECLARE GenerarDetalle CURSOR LOCAL
+            FOR SELECT nf.Id
+                FROM dbo.NominaFuncionario nf
+                WHERE nf.EstadoRegistro = @AuditoriaActivo
+                      AND nf.Estado = @NominaFuncionarioLiquidado
+                      AND nf.NominaId = @NominaId;
+            OPEN GenerarDetalle;
+            FETCH NEXT FROM GenerarDetalle INTO @NominaFuncionarioId;
+            WHILE @@FETCH_STATUS = 0
+                BEGIN
+                    --------------------------------------------------------------------------
+                    --Consultar conceptos de nómina liquidados en la tabla NominaDetalle CURSOR
+                    --------------------------------------------------------------------------
+                    DECLARE ObtenerConceptos CURSOR LOCAL
+                    FOR SELECT nd.ConceptoNominaId, 
+                               cn.OrigenCentroCosto,
+							   nd.Valor
+                        FROM dbo.NominaDetalle nd
+                             INNER JOIN dbo.ConceptoNomina cn ON nd.ConceptoNominaId = cn.Id
+                        WHERE nd.EstadoRegistro = @AuditoriaActivo
+                              AND nd.Estado = @NominaDetalleProcesado;
+                    OPEN ObtenerConceptos;
+                    FETCH NEXT FROM ObtenerConceptos INTO @NominaDetalleId, @ConceptoNominaId, @OrigenCentroCosto, @NominaDetalleValor;
+                    WHILE @@FETCH_STATUS = 0
+                        BEGIN
+
+                            -- Validar la parametrización del campo OrigenCentroCosto del concepto de nómina.
+                            IF @OrigenCentroCosto = 'Especifico'
+                                BEGIN
+                                    -- Cosulta información del concepto de nómina
+                                    SELECT @NombreConceptoNomina = cn.Nombre
+                                    FROM dbo.ConceptoNomina cn
+                                    WHERE cn.Id = @ConceptoNominaId;
+
+                                    --Verifica parametrización contable concepto
+                                    SELECT @VerificaExisteConcepto = COUNT(*)
+                                    FROM dbo.ConceptoNominaCuentaContable AS c
+                                    WHERE c.ConceptoNominaId = @ConceptoNominaId
+                                          AND c.EstadoRegistro = @AuditoriaActivo;
+                                    IF @VerificaExisteConcepto = 0
+                                        BEGIN
+                                            SET @Respuesta += CONCAT('Error no se encontró concepto de nomina parametrizado para ', @NombreConceptoNomina);
+                                    END;
+                                    IF @VerificaExisteConcepto > 1
+                                        BEGIN
+                                            SET @Respuesta += CONCAT('Error se encontró más de un concepto de nomina parametrizado para  ', @NombreConceptoNomina);
+                                    END;
+                                    IF @VerificaExisteConcepto = 1
+                                        BEGIN 
+                                            -- Obtener tercero deacuerdo a su origen 
+                                            EXECUTE @NitTercero = [dbo].[USP_ObtenerTercero] 
+                                                    @NominaDetalleId, 
+                                                    @UsuarioOperacion;
+
+                                            --Consultar parametrización contable concepto
+                                            SELECT @CentroCostoId = c.CentroCostoId, 
+                                                   @CuentaContableId = c.CuentaContableId, 
+                                                   @NaturalezaContable = cc.Naturaleza
+                                            FROM dbo.ConceptoNominaCuentaContable AS c
+                                                 INNER JOIN dbo.CuentaContable cc ON c.CuentaContableId = cc.Id
+                                            WHERE c.ConceptoNominaId = @ConceptoNominaId
+                                                  AND c.EstadoRegistro = @AuditoriaActivo;
+                                            
+											-- Obtiene el porcentaje de centro de costo
+											-- Consulta la informacion del funcionario con el centro de costo
+											SELECT @PorcentajeCentroCosto = fcc.Porcentaje FROM dbo.FuncionarioCentroCosto fcc
+											INNER JOIN dbo.ActividadCentroCosto acc ON fcc.ActividadCentroCostoId = acc.Id
+											WHERE fcc.FuncionarioId = 1 
+											AND acc.CentroCostoId = @CentroCostoId
+											AND fcc.EstadoRegistro = @AuditoriaActivo
+											AND fcc.Estado = @FuncionarioCentroCostoAplicado;	
+
+											-- Si no existe informacion del porcentaje del centro de costo
+											IF @PorcentajeCentroCosto  IS NULL OR
+											   @PorcentajeCentroCosto = 0
+												BEGIN
+													SET @PorcentajeCentroCosto = 1;
+												END 
+											SET @Valor = @NominaDetalleValor * @PorcentajeCentroCosto;
+											SET @Credito = NULL;
+											SET @Debito = NULL;
+
+											-- Calcula el valor debito / crédito según la naturaleza 
+                                            IF @NaturalezaContable = @NaturalezaContableDebito
+                                                BEGIN
+												SET @Debito = @Valor;
+                                            END;
+                                            IF @NaturalezaContable = @NaturalezaContableCredito
+                                                BEGIN
+												SET @Credito = @Valor;
+                                            END;
+                                            
+                                            EXECUTE [dbo].[USP_RegistrarDetalleContable] 
+                                                    @TipoComprobante, 
+                                                    @NominaFuncionarioId, 
+                                                    @ConceptoNominaId, 
+                                                    @NitTercero, 
+                                                    @CentroCostoId, 
+                                                    @CuentaContableId,
+                                                    @FechaActual, 
+                                                    @Debito, 
+                                                    @Credito,
+													@UsuarioOperacion;
+
+											EXECUTE [dbo].[USP_RegistrarNominaCentroCosto] 
+                                                    @NominaFuncionarioId, 
+													@ConceptoNominaId, 
+                                                    @NitTercero, 
+                                                    @CentroCostoId, 
+                                                    @Valor,
+													@UsuarioOperacion;
+
+                                    END;
+                            END;
+                            /*IF @OrigenCentroCosto = 'DelFuncionario'
+                                BEGIN
+
+/*Consultar centros de costo del funcionario de la tabla 
+								FuncionarioCentroCosto cuya fecha de corte se encuentre 
+								entre el periodo de liquidación de la nómina.
+
+								Si no se tiene distribución de centros de costo, se debe 
+								consultar el centro de costo parametrizado en el contrato.*/
+
+                            END;*/
+
+                            -- Acumulador neto a pagar por cada concepto
+							SET @AcumuladoValor += @Valor;
+                            FETCH NEXT FROM ObtenerConceptos INTO @NominaDetalleId, @ConceptoNominaId, @OrigenCentroCosto, @NominaDetalleValor;
+                        END;
+                    CLOSE ObtenerConceptos;
+                    DEALLOCATE ObtenerConceptos;
+                    ------------------------
+                    -- Registra partida crédito
+                    -- Pendiente por definir
+
+                    FETCH NEXT FROM GenerarDetalle INTO @NominaFuncionarioId;
+                END;
+            CLOSE GenerarDetalle;
+            DEALLOCATE GenerarDetalle;
+
+            -- Cierre de la transacción
+            IF @@TRANCOUNT > 0
+                BEGIN
+                    IF XACT_STATE() = 1
+                        BEGIN
+                            COMMIT TRAN GenerarDetalleContable;
+                    END;
+                        ELSE
+                        BEGIN
+                            EXEC util.USP_GenerarExcepcion 
+                                 50000, 
+                                 'No se puede confirmar la transacción.  Error desconocido.';
+                    END;
+            END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+    GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+  
+IF OBJECT_ID('dbo.USP_GenerarDetalleContable', 'P') IS NOT NULL
+BEGIN
+    DROP PROCEDURE [dbo].[USP_GenerarDetalleContable];
+END;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

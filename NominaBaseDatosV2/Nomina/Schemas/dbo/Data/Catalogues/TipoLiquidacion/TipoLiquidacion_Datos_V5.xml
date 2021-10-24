@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoLiquidacion_Datos_V5">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoLiquidacion] ON
+GO
+INSERT INTO dbo.TipoLiquidacion (Id, Codigo, TipoPeriodoId, Nombre, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion, FechaManual, AplicaPila, ConceptoNominaAgrupadorId, Contabiliza, Proceso, OperacionTotal) VALUES(14, 'COME', 1, 'Liquidación Quincenal Comercial', 'Contiene los conceptos para la generación de una nómina quincenal para funcionarios comerciales', 'Activo    ', 'sistema', GETDATE(), 0, 1, 117, 1, 'Normal', 'TotalDevengosMenosTotalDeducciones');
+SET IDENTITY_INSERT [dbo].[TipoLiquidacion] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[TipoLiquidacion] WHERE Id=14;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,40 @@
+tipo-documentos-listar {
+    @import "src/@alcanos/scss/alcanos-v2";
+
+    .text-success {
+        color: green;
+    }
+
+    .text-danger {
+        color: red;
+    }
+
+    table {
+        width: 100%;
+        .mat-column-codigo {
+            max-width: 70px;
+        }
+        .mat-column-nombre {
+            max-width: 150px;
+        }
+        .mat-column-porcentajeRiesgo {
+            max-width: 70px;
+        }
+        .mat-column-acciones {
+            max-width: 50px;
+        }
+
+        .mat-column-equivalenteBancario {
+            text-align: center !important;
+            justify-content: end !important;
+            .mat-sort-header-container {
+                width: 85px;
+            }
+            .mat-sort-header-button {
+                width: 100%;
+                text-align: center !important;
+                justify-content: end !important;
+            }
+        }
+    }
+}

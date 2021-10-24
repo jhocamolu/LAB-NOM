@@ -1,0 +1,22 @@
+<div class="empty" *ngIf="visible" fxLayoutAlign="center center" fxLayout="column">
+    <img src="/assets/alcanos/empty_state_crear.svg" />
+    <div fxLayout="row">
+        <h1 *ngIf="!labelH1">
+            ¡Uy! Aún no has registrado items.
+        </h1>
+        <h1 *ngIf="labelH1">
+            {{labelH1}}
+        </h1>
+    </div>
+    <div fxLayout="row" *ngIf="visibleBtnCreate">
+        <h2>¡Vamos a cambiar esto!</h2>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px">
+        <button mat-raised-button color="accent" (click)="fnCreateHandle($event)" *ngIf="visibleBtnCreate">
+            <mat-icon *ngIf="iconBtn">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="!iconBtn">add</mat-icon>
+            <span *ngIf="!labelBtn">Crear</span>
+            <span *ngIf="labelBtn">{{labelBtn}}</span>
+        </button>
+    </div>
+</div>

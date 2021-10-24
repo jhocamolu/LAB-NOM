@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="Dependencia_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[Dependencia] ON 
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('1', '001', 'ASAMBLEA DE ACCIONISTAS', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('2', '002', 'JUNTA DIRECTIVA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('3', '003', 'AUDITORIA EXTERNA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('4', '004', 'COMITÉ DE AUDITORIA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('5', '005', 'GERENCIA GENERAL', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('6', '006', 'COMITÉ DE GERENCIA GENERAL', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('7', '007', 'SECRETARIA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('8', '008', 'DIRECTOR JURIDICO', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('9', '009', 'TECNOLOGIAS DE LA INFORMACION Y COMUNICACIONES (TICS)', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('10', '010', 'CONTROL INTERNO', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('11', '011', 'CENTRO OPERATIVO NEIVA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('12', '012', 'CENTRO OPERATIVO IBAGUE', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('13', '013', 'CENTRO OPERATIVO FUSAGASUGÁ', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('14', '014', 'CENTRO OPERATIVO GIRARDOT', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('15', '015', 'CENTRO OPERATIVO FLORENCIA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('16', '016', 'CENTRO OPERATIVO LA DORADA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('17', '017', 'CENTRO OPERATIVO RIONEGRO', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('18', '018', 'CENTRO OPERATIVO POPAYÁN', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('19', '019', 'CENTRO OPERATIVO PASTO', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('20', '020', 'DIRECCION CALIDAD DE OBRA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('21', '021', 'CERTIFICACION DE INSTALACIONES NUEVAS', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('22', '022', 'REVISIONES PERIODICAS', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('23', '023', 'METROLOGIA Y ESTÁNDARES', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('24', '024', 'INTERVENTORÍA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('25', '025', 'DIRECCIÓN TÉCNICA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('26', '026', 'GAS NATURAL', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('27', '027', 'GAS COMPRIMIDO', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('28', '028', 'REDES', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('29', '029', 'CARTOGRAFÍA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('30', '030', 'OPERACIÓN Y MANTENIMIENTO', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('31', '031', 'PROYECTOS E INGENIERÍA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('32', '032', 'DIRECCION DE SERVICIOS TÉCNICOS', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('33', '033', 'CONSTRUCCIONES', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('34', '034', 'CONTROL Y PÉRDIDAS', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('35', '035', 'SUSPENSIÓN Y RECONEXIÓN', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('36', '036', 'INSPECCIÓN', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('37', '037', 'ANOMALIAS DE FACTURACIÓN', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('38', '038', 'SERVICIOS ASOCIADOS', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('39', '039', 'DIRECCIÓN FINANCIERA Y ADMINISTRATIVA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('40', '040', 'CONTABILIDAD E IMPUESTOS', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('41', '041', 'TESORERIA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('42', '042', 'SERVICIOS GENERALES', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('43', '043', 'PLANEACIÓN Y REGULACIÓN', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('44', '044', 'CARTERA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('45', '045', 'GESTIÓN DOCUMENTAL', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('46', '046', 'DIRECCIÓN DE ABASTECIMIENTO', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('47', '047', 'COMPRAS Y CONTRATACIÓN', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('48', '048', 'GESTIÓN DE ALMACENES E INVENTARIO', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('49', '049', 'DIRECCIÓN COMERCIAL', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('50', '050', 'COMERCIALIZACIÓN DE GAS', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('51', '051', 'FACTURACIÓN', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('52', '052', 'SERVICIO AL CLIENTE', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('53', '053', 'GESTIÓN SOCIAL', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('54', '054', 'CLIENTES ESPECIALES', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('55', '055', 'CONTACT CENTER', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('56', '056', 'MERCADEO Y VENTAS', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('57', '057', 'DIRECCIÓN GESTIÓN HUMANA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('58', '058', 'HSEQ', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('59', '059', 'NÓMINA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('60', '060', 'GESTIÓN HUMANA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('61', '061', 'BIENESTAR LABORAL', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('62', '062', 'CAPACITACIÓN Y DESARROLLO', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('63', '063', 'SELECCIÓN Y VINCULACIÓN', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('64', '064', 'COMUNICACIONES', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('65', '065', 'CENTRAL DE OPERACIONES', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('66', '066', 'PROYECTO INSTALACIONES - CONSTRUCTORA', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('67', '067', 'PROYECTO GNC', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('68', '068', 'PROYECTO NOMINA GH', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('69', '069', 'PROYECTO FACTURACIÓN', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[Dependencia] (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('70', '070', 'PROYECTO SERVICIOS TÉCNICOS', 'Activo', 'sistema', GETDATE())
+GO
+
+SET IDENTITY_INSERT [dbo].[Dependencia] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[Dependencia] WHERE Id BETWEEN 1 AND 70;
+</rollback>
+</changeSet>
+</databaseChangeLog>

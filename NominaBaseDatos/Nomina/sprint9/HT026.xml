@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="HT026">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 14/04/2020
+-- Description: Permite obtener la cantidad según el concepto para NominaFuncionario.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario.
+--   @NominaId:					Identificador de la nómina.
+--   @AliasConcepto:			Alias identificación del concepto.
+--		
+--	 Returns:						
+--	 Cantidad:					Cantidad de la tabla NominaDetalle.
+-- ==========================================================================================
+CREATE PROCEDURE USP_ObtenerNominaFuncionarioCantidad  (@FuncionarioId INT, @NominaId INT, @AliasConcepto VARCHAR(20) )  
+AS
+BEGIN
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	
+	DECLARE @ConceptoNominaId 		INT = NULL;
+	DECLARE @Cantidad 				INT = NULL;
+	DECLARE @NominaFuncionarioId 	INT = NULL;
+	DECLARE @MensajeError 			VARCHAR(250);
+	DECLARE @ErrorMessage  			NVARCHAR(4000); 
+   	DECLARE @ErrorSeverity 			INT;
+   	DECLARE @ErrorState    			INT;
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	BEGIN TRY
+		-- Consulta el identificador del Concepto de nómina.
+		SELECT @ConceptoNominaId = id FROM ConceptoNomina WHERE Alias = @AliasConcepto;
+		
+		IF @ConceptoNominaId IS NULL
+		BEGIN
+			RAISERROR ( 'No existe el concepto de nómina.',16,1);
+		END 
+		
+		-- Consulta identificador de la tabla NominaFuncionario
+		SELECT @NominaFuncionarioId = Id  FROM NominaFuncionario WHERE FuncionarioId = @FuncionarioId  AND NominaId = @NominaId;
+	
+		IF @NominaFuncionarioId IS NULL
+		BEGIN
+			RAISERROR ( 'No existe la relación del funcionario y la nómina.',16,1);
+		END 
+		
+		-- Consulta cantidad según parámetros ingresados.
+		SELECT @Cantidad =  Cantidad FROM NominaDetalle WHERE NominaFuncionarioId = @NominaFuncionarioId AND ConceptoNominaId = @ConceptoNominaId;
+	
+		IF @Cantidad IS NULL
+		BEGIN
+			SET @MensajeError = 'No se encontró información para el FuncionarioId: '+ CONVERT(VARCHAR(10), @FuncionarioId)  +', el AliasConcepto: ' + @AliasConcepto 
+			RAISERROR ( @MensajeError,16,1);
+		END 
+	
+		RETURN @Cantidad;
+	END TRY
+	BEGIN CATCH
+
+		SELECT 
+       		@ErrorMessage = ERROR_MESSAGE(), 
+        	@ErrorSeverity = ERROR_SEVERITY(), 
+        	@ErrorState = ERROR_STATE();
+ 
+    	-- retorna el error dentro el bloque CATCH 
+    	RAISERROR(@ErrorMessage, @ErrorSeverity, @ErrorState);
+	END CATCH
+
+END 
+]]>
+</sql>
+<rollback>
+DROP PROCEDURE [dbo].[USP_ObtenerNominaFuncionarioCantidad];
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoContrato_Datos_V4">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+    UPDATE dbo.TipoContrato SET Nombre='Término fijo a 1 año' WHERE Id=7;
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    UPDATE dbo.TipoContrato SET Nombre='Término fijo inferior a 1 año' WHERE Id=7;
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

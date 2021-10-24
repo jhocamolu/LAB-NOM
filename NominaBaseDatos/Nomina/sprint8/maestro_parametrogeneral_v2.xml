@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_parametrogeneral_v2">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+
+UPDATE [dbo].[ParametroGeneral] SET HtmlOpcion = 'min="828000", max="10000000"' WHERE Id=1
+GO
+UPDATE [dbo].[ParametroGeneral] SET HtmlOpcion = 'min="90000", max="110000"' WHERE Id=2
+GO
+UPDATE [dbo].[ParametroGeneral] SET Etiqueta = 'Valor del UVT', Orden = '3' WHERE Id=3
+GO
+UPDATE [dbo].[ParametroGeneral] SET Etiqueta = 'Porcentaje de renta exenta', Orden = '4' WHERE Id=4
+GO
+INSERT [dbo].[ParametroGeneral] ([EstadoRegistro], [CreadoPor], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId])
+VALUES('Activo', 'sistema', GETDATE(), NULL, NULL, 'DecimalesMostrar', 'Number', '', 'Cantidad de decimales a mostrar', 'Cantidad de números decimales que se pueden mostrar en la nómina', 5, NULL, 1, 6, 1);
+GO
+INSERT [dbo].[ParametroGeneral] ([EstadoRegistro], [CreadoPor], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId])
+VALUES('Activo', 'sistema', GETDATE(), NULL, NULL, 'ConceptoDescuentoLibranza', 'Text', '', 'Concepto descuento de libranza', 'Concepto que se usará para descuento de libranza', 6, NULL, 1, 'Libranza', 1);
+GO
+INSERT [dbo].[ParametroGeneral] ([EstadoRegistro], [CreadoPor], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId])
+VALUES('Activo', 'sistema', GETDATE(), NULL, NULL, 'ConceptoSeguridadSocial', 'Text', '', 'Concepto neto de pago de seguridad social', 'Concepto que se usará para mostrar el valor neto a pagar de parafiscales en la nómina', 7, NULL, 1, 'NetoSeguridadSocial', 1);
+GO
+INSERT [dbo].[ParametroGeneral] ([EstadoRegistro], [CreadoPor], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId])
+VALUES('Activo', 'sistema', GETDATE(), NULL, NULL, 'ConceptoARL', 'Text', '', 'Concepto neto de pago de ARL', 'Concepto que se usará para mostrar el valor neto a pagar a la ARL en la nómina', 8, NULL, 1, 'NetoARL', 1);
+GO
+INSERT [dbo].[ParametroGeneral] ([EstadoRegistro], [CreadoPor], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId])
+VALUES('Activo', 'sistema', GETDATE(), NULL, NULL, 'ConceptoParafiscales', 'Text', '', 'Concepto neto de pago de parafiscales', 'Concepto que se usará para mostrar el valor neto a pagar a parafiscales en la nómina', 9, NULL, 1, 'NetoParafiscales', 1);
+GO
+INSERT [dbo].[ParametroGeneral] ([EstadoRegistro], [CreadoPor], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId])
+VALUES('Activo', 'sistema', GETDATE(), NULL, NULL, 'ConceptoProvisiones', 'Text', '', 'Concepto neto de pago de provisiones', 'Concepto que se usará para mostrar el valor neto a pagar de provisiones en la nómina', 10, NULL, 1, 'NetoProvisiones', 1);
+GO
+
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[ParametroGeneral] WHERE Id BETWEEN 1 AND 10;
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON
+GO
+INSERT [dbo].[ParametroGeneral] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, 'SalarioMinimoActual', 'Number', 'min="828000", max="5000000"', 'Salario mínimo', 'Es el salario mínimo establecido para el año en curso.', 1, NULL, 1, '877803', 1)
+GO
+INSERT [dbo].[ParametroGeneral] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, 'AuxilioTransporteActual', 'Number', 'min="90000", max="1000000"', 'Auxilio de transporte', 'Es el valor del auxilio de transporte establecido para el año en curso.', 2, NULL, 1, '102853', 1)
+GO
+INSERT [dbo].[ParametroGeneral] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, 'UvtAnual', 'Number', 'min="34270"', 'Razon social', 'El valor del UVT establecido para el año en curso.', 1, NULL, 1, '34270', 1)
+GO
+INSERT [dbo].[ParametroGeneral] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, 'RentaExenta', 'Number', 'min="1", max="100"', 'Renta exenta', 'Es el valor de la renta exenta.', 2, NULL, 1, '25', 1)
+GO
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF
+
+</rollback>
+</changeSet>
+</databaseChangeLog>

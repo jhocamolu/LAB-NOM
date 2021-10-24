@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="maestro_TipoBeneficioRequisito_v1">
+<sql endDelimiter="GO" splitStatements="true">
+GO
+SET IDENTITY_INSERT [dbo].[TipoBeneficioRequisito] ON 
+GO
+INSERT [dbo].[TipoBeneficioRequisito] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [TipoBeneficioId], [TipoSoporteId]) VALUES (1, N'Activo    ', NULL, NULL, NULL, NULL, NULL, NULL, 1, 1)
+GO
+INSERT [dbo].[TipoBeneficioRequisito] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [TipoBeneficioId], [TipoSoporteId]) VALUES (2, N'Activo    ', NULL, NULL, NULL, NULL, NULL, NULL, 3, 1)
+GO
+INSERT [dbo].[TipoBeneficioRequisito] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [TipoBeneficioId], [TipoSoporteId]) VALUES (3, N'Activo    ', NULL, NULL, NULL, NULL, NULL, NULL, 3, 31)
+GO
+INSERT [dbo].[TipoBeneficioRequisito] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [TipoBeneficioId], [TipoSoporteId]) VALUES (4, N'Activo    ', NULL, NULL, NULL, NULL, NULL, NULL, 3, 30)
+GO
+SET IDENTITY_INSERT [dbo].[TipoBeneficioRequisito] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoBeneficioRequisito] WHERE Id BETWEEN 1 AND 14;
+</rollback>
+</changeSet>
+</databaseChangeLog>

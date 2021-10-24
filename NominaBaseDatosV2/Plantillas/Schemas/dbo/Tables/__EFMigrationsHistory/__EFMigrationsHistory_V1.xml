@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="__EFMigrationsHistory_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [dbo].[__EFMigrationsHistory]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

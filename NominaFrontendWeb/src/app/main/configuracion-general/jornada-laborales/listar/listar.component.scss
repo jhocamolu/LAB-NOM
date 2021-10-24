@@ -1,0 +1,35 @@
+jornada-laborales-listar {
+    @import "src/@alcanos/scss/alcanos-v2";
+    .text-success {
+        color: green;
+    }
+
+    .text-danger {
+        color: red;
+    }
+
+    table {
+        width: 100%;
+
+        .mat-column-nombre {
+            min-width: 120px;
+        }
+
+        .mat-column-jornadaLaboralDias {
+            max-width: 70px;
+            text-align: left;
+        }
+
+        .mat-column-acciones {
+            min-width: 70px;
+        }
+
+        .mat-column-estadoRegistro {
+            min-width: 70px;
+        }
+
+        .dr {
+            padding-left: 189px;
+        }
+    }
+}

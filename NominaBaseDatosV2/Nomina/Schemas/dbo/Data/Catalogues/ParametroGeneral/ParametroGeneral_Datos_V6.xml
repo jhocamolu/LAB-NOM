@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="ParametroGeneral_Datos_V6">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.ParametroGeneral SET AnnoVigenciaId = 1 WHERE Id <= 22;
+
+]]>
+</sql>
+
+<rollback>
+
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.ParametroGeneral SET AnnoVigenciaId = 0 WHERE Id <= 22;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

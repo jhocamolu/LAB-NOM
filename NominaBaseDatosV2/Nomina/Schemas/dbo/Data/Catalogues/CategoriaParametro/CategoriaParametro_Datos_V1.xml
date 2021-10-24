@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="CategoriaParametro_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[CategoriaParametro] ON 
+GO
+INSERT [dbo].[CategoriaParametro] ([CreadoPor], [Id], [Nombre], [Descripcion], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 1, 'Nómina', 'Parámetros asociados a temas de liquidación de nómina.', 'Activo', GETDATE(), NULL, NULL)
+GO
+INSERT [dbo].[CategoriaParametro] ([CreadoPor], [Id], [Nombre], [Descripcion], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 2, 'Vacaciones', 'Parámetros asociados a temas de las vacaciones.', 'Activo', GETDATE(), NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[CategoriaParametro] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[CategoriaParametro] WHERE Id BETWEEN 1 AND 2;
+</rollback>
+</changeSet>
+</databaseChangeLog>

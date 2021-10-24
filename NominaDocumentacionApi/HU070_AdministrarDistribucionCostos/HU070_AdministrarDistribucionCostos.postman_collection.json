@@ -1,0 +1,264 @@
+{
+	"info": {
+		"_postman_id": "c4e75a5e-4cc1-4f5b-9379-d8aca2df6b10",
+		"name": "HU070_AdministrarDistribucionCostos",
+		"description": "        [Key]\r\n        public int Id { get; set; }\r\n\r\n        [Required]\r\n        [Column(TypeName = \"varchar(255)\")]\r\n        public string Codigo { get; set; }\r\n\r\n        [Required]\r\n        [Column(TypeName = \"varchar(255)\")]\r\n        public string Nombre { get; set; }\r\n        \r\n        [Required]\r\n        public int PromedioProductividad { get; set; }\r\n\r\n        [Required]\r\n        [Column(TypeName = \"decimal(19, 6)\")]\r\n        public decimal ValorComplejidad { get; set; }\r\n\r\n        [Column(TypeName = \"text\")]\r\n        public string Descripcion { get; set; }",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Actividad centro costo",
+			"item": [
+				{
+					"name": "Crear actividad centro costo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"actividadId\": 1,\r\n    \"centroCostoId\": 1,\r\n    \"municipioId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/ActividadCentroCostos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"ActividadCentroCostos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Actividad Centro Costo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/ActividadCentroCostos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"ActividadCentroCostos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizar  actividad CentroCostos ",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 2,\r\n    \"actividadId\": 1,\r\n    \"centroCostoId\": 1,\r\n    \"municipioId\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/ActividadCentroCostos/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"ActividadCentroCostos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "parcial actividadCentroCostos",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 2,\r\n    \"activo\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/ActividadCentroCostos/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"ActividadCentroCostos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "        [Key]\r\n        public int Id { get; set; }\r\n\r\n        [Required]\r\n        public int ActividadId { get; set; }\r\n        public virtual Actividad Actividad { get; set; }\r\n\r\n        [Required]\r\n        public int CentroCostoId { get; set; }\r\n        public virtual CentroCosto CentroCosto { get; set; }\r\n\r\n        [Required]\r\n        public int MunicipioId { get; set; }\r\n        public virtual DivisionPoliticaNivel2 Municipio { get; set; }",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e0df5fae-3707-4b19-aaf0-3ce6d1208725",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7cb9e3cb-a975-4248-9ce3-c2a95e1d7fc7",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Listar Actividad",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Actividades",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Actividades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Actividad",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"codigo\": \"a45\",\r\n    \"nombre\": \"Primera  sactividad\",\r\n    \"promedioProductividad\": 12,\r\n    \"descripcion\": \"Actividad  de desarrollo de la construcción de distintos casos\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Actividades",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Actividades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Actividades",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"codigo\": \"bt5\",\r\n    \"nombre\": \"Primera  sactividad\",\r\n    \"promedioProductividad\": 12,\r\n    \"descripcion\": \"Actividad  de desarrollo de la construcción de distintos casos\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Actividades/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Actividades",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial Actividades",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"activo\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Actividades/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Actividades",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "17da4e9c-f53c-4b89-87b5-f85e053f27b2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "de9d4b1e-d6bc-4bad-8ba7-a45e7b068ab2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

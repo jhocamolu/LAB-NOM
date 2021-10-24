@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="NominaDetalle_V2">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+DECLARE @var1 sysname;
+SELECT @var1 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[NominaDetalle]') AND [c].[name] = N'Inconsistencia');
+IF @var1 IS NOT NULL EXEC(N'ALTER TABLE [NominaDetalle] DROP CONSTRAINT [' + @var1 + '];');
+
+ALTER TABLE [NominaDetalle] ALTER COLUMN [Inconsistencia] text NULL;
+
+GO
+ALTER TABLE [NominaDetalle] DROP CONSTRAINT [FK_NominaDetalle_ConceptoNomina_ConceptoNominaId];
+
+GO
+ALTER TABLE [NominaDetalle] ADD CONSTRAINT [FK_NominaDetalle_ConceptoNomina_ConceptoNominaId] FOREIGN KEY ([ConceptoNominaId]) REFERENCES [ConceptoNomina] ([Id]) ON DELETE CASCADE;
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [NominaDetalle];
+
+CREATE TABLE [NominaDetalle] (
+    [Id] int NOT NULL IDENTITY,
+    [NominaFuncionarioId] int NOT NULL,
+    [NominaFuenteNovedadId] int NULL,
+    [ConceptoNominaId] int NOT NULL,
+    [UnidadMedida] varchar(255) NOT NULL,
+    [Cantidad] int NOT NULL,
+    [Valor] money NOT NULL,
+	[Estado] varchar(255) NOT NULL,
+	[Inconsistencia] TEXT NULL,
+	[EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    CONSTRAINT [PK_NominaDetalle] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_NominaDetalle_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+	CONSTRAINT [CK_NominaDetalle_Estado] CHECK (([Estado]='Pendiente' OR [Estado]='Procesado' OR [Estado]='Inconsistente')),
+    CONSTRAINT [FK_NominaDetalle_ConceptoNomina_ConceptoNominaId] FOREIGN KEY ([ConceptoNominaId]) REFERENCES [ConceptoNomina] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_NominaDetalle_NominaFuenteNovedad_NominaFuenteNovedadId] FOREIGN KEY ([NominaFuenteNovedadId]) REFERENCES [NominaFuenteNovedad] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_NominaDetalle_NominaFuncionario_NominaFuncionarioId] FOREIGN KEY ([NominaFuncionarioId]) REFERENCES [NominaFuncionario] ([Id]) ON DELETE NO ACTION
+);
+
+GO
+
+CREATE INDEX [IX_NominaDetalle_ConceptoNominaId] ON [NominaDetalle] ([ConceptoNominaId]);
+
+GO
+
+CREATE INDEX [IX_NominaDetalle_NominaFuenteNovedadId] ON [NominaDetalle] ([NominaFuenteNovedadId]);
+
+GO
+
+CREATE INDEX [IX_NominaDetalle_NominaFuncionarioId] ON [NominaDetalle] ([NominaFuncionarioId]);
+
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

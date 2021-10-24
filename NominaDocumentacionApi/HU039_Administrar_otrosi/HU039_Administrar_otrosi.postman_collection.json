@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "885b9059-9f8a-4ead-aff3-bf93bf94e0f9",
+		"name": "HU039_Administrar_otrosi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ConsultarOtroSi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/ContratoOtroSis",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"ContratoOtroSis"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{host}}/api/OtroSis",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDUyMDk2NzksImV4cCI6MTYwNTIyNDA3OSwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.CTOrQ-doGglTYAYH2CEQZgLn2iv9yoSswV0sIMcN6u4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"ContratoId\":\"11874\",\n\t\"TipoContratoId\":3,\n\t\"cargoDependenciaId\":1,\n\t\"fechaFinalizacion\":\"2021-11-18\",\n\t\"fechaAplicacion\":\"2020-11-20\",\n\t\"dependenciaId\": 4,\n\t\"cargoId\": 4,\n\t\"sueldo\": 5896244,\n\t\"centroOperativoId\": 2,\n\t\"DivisionPoliticaNivel2Id\": 25,\n\t\"observaciones\":\"casa\",\n    \"confirmacion\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/ContratoOtroSis",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ContratoOtroSis"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarContratoOtroSis/1",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 1,\n    \"contratoId\": 49,\n    \"tipoContratoId\": 1005,\n    \"fechaFinalizacion\": \"2019-12-18T00:00:00-05:00\",\n    \"fechaAplicacion\":\"2018-02-19\",\n    \"dependenciaId\": 4,\n    \"cargoId\": 4,\n    \"numeroOtroSi\": 0,\n    \"sueldo\": 5896244.0,\n    \"centroOperativoId\": 2,\n    \"divisionPoliticaNivel2Id\": 25,\n    \"observaciones\": \"Casa\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/ContratoOtroSis/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ContratoOtroSis",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/ContratoOtroSis/1"
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarContratoOtroSis",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/javascript",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/ContratoOtroSis/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ContratoOtroSis",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/ContratoOtroSis/1"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialContratoOtroSis",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 2,\n    \"contratoId\": 49,\n    \"dependenciaId\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/ContratoOtroSis/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ContratoOtroSis",
+						"2"
+					]
+				},
+				"description": "{{host}}/api/ContratoOtroSis/2"
+			},
+			"response": []
+		},
+		{
+			"name": "Aumentar Salario Ley",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTc0NDciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yMUBhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkpIT05BVEFOIE1PUkVOTyIsIlVzdWFyaW8iOiJqaG1vcmVubyIsIlRpcG9BdXQiOiJJRCIsIlRpcG9Ub2tlbiI6IkFVVCIsIm5iZiI6MTYxMDQ2MTA0MSwiZXhwIjoxNjEwNDc1NDQxLCJpc3MiOiJTaWNvbVNlcnZlciIsImF1ZCI6IlZlbnRhc0FwcCJ9.QrNSVjv7Db3TZu2mOtamaSg71TNbNtngvdP2gCAve64",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fechaAplicacion\":\"2021-01-01\",\n\t\"porcentajeAplicacion\": \"3.5\",\n\t\"aplicar\": \"Todos\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/ContratoOtroSis/Aumentar",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ContratoOtroSis",
+						"Aumentar"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

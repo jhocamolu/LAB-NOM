@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>Principal</DataSourceReference>
+      <CommandText>SELECT TOP 1 iba.Nombre, iba.Nit, iba.DigitoVerificacion, iba.RazonSocial, dpn2.Nombre DivisionPoliticaNivel2Nombre,
+dpn1.Nombre DivisionPoliticaNivel1Nombre, iba.Direccion, iba.Telefono
+FROM dbo.InformacionBasica iba
+LEFT JOIN dbo.DivisionPoliticaNivel2 dpn2 ON (iba.DivisionPoliticaNivel2Id = dpn2.Id)
+LEFT JOIN dbo.DivisionPoliticaNivel1 dpn1 ON (dpn2.DivisionPoliticaNivel1Id = dpn1.Id)
+WHERE iba.EstadoRegistro = (SELECT vce.AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado vce)</CommandText>
+      <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+    </Query>
+    <Fields>
+      <Field Name="Nombre">
+        <DataField>Nombre</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Nit">
+        <DataField>Nit</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="DigitoVerificacion">
+        <DataField>DigitoVerificacion</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="RazonSocial">
+        <DataField>RazonSocial</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="DivisionPoliticaNivel2Nombre">
+        <DataField>DivisionPoliticaNivel2Nombre</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="DivisionPoliticaNivel1Nombre">
+        <DataField>DivisionPoliticaNivel1Nombre</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Direccion">
+        <DataField>Direccion</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Telefono">
+        <DataField>Telefono</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

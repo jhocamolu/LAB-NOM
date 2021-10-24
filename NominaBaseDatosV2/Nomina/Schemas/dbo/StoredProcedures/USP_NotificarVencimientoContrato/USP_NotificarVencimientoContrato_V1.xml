@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_NotificarVencimientoContrato_V1">
+<comment>HT023</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[USP_NotificarVencimientoContrato]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE [dbo].[USP_NotificarVencimientoContrato] as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Jhonatan Camilo Moreno - Laura Katherine Estrada Arango
+-- Create date: 12-08-2020
+-- Description: Se realiza una consulta a una función en la base de datos, donde se identifican los 
+--				contratos vigentes que tengan otro si con fecha de finalización entre la fecha actual
+--				y la suma de la fecha actual con el parámetro días de vencimiento, y los contratos 
+--				vigentes con fecha de finalización entre la fecha actual y la suma de la fecha actual 
+--				con el parámetro días de vencimiento. 
+--
+-- Parameters:
+-- ==========================================================================================
+ALTER PROCEDURE dbo.USP_NotificarVencimientoContrato @UsuarioOperacion VARCHAR(255), 
+                                                     @Alias            VARCHAR(255)
+AS
+    BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion), '&', '@Alias=', CONVERT(VARCHAR, @Alias));
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        -- Variable para generar tabla
+        DECLARE @tabla TABLE
+        (FuncionarioId     INT, 
+         NumeroDocumento   INT, 
+         Funcionario       VARCHAR(255), 
+		 FuncionarioNombreCompleto VARCHAR(255), 
+         Cargo             VARCHAR(255), 
+         FechaFinalizacion DATE
+        );
+
+        -- Variable para Generar Script XML y convertir HTML
+        DECLARE @Resultado NVARCHAR(255)= '';
+
+        -- Variable para Generar Script XML y convertir HTML
+        DECLARE @HtmlString NVARCHAR(MAX);
+		DECLARE @HtmlStringJefeInmediato NVARCHAR(MAX);
+
+        -- Variable Plantilla de la Notificacion
+        DECLARE @NotificacionPlantilla NVARCHAR(MAX);
+		DECLARE @NotificacionPlantillaJefeInmediato  NVARCHAR(MAX);
+
+        ---------------------------------------------------------------------------
+        -- Variables para envio procedimiento [util].[USP_RegistrarNotificacion] --
+        ---------------------------------------------------------------------------
+        DECLARE @Tipo VARCHAR(255)= 'Email';
+        DECLARE @Fecha DATE= GETDATE();
+        DECLARE @Titulo VARCHAR(255);
+        DECLARE @Mensaje VARCHAR(MAX);
+        DECLARE @DestinatariosXml XML;
+        ---------------------------------------------------------------------------
+        ---------------------------------------------------------------------------
+        -- Variable para obtener ejecucion de procedimiento
+        DECLARE @FuncionarioId INT;
+        DECLARE @AuditoriaActivo VARCHAR(255);
+        DECLARE @AliasDiasVencimientoContrato VARCHAR(255);
+        DECLARE @AliasFuncionarioVencimiento VARCHAR(255);
+        DECLARE @DiasVencimientoContrato VARCHAR(255);
+        DECLARE @FuncionarioNotificacionVencimientoId VARCHAR(255);
+        DECLARE @NombreFuncionarioNotificacionVencimiento VARCHAR(255);
+        DECLARE @ContratoVigente VARCHAR(255);
+        DECLARE @TareaProgramadaLogExitoso VARCHAR(255);
+        DECLARE @TareaProgramadaLogFallido VARCHAR(255);
+        DECLARE @RegistrosAfectados INT;
+        DECLARE @Estado VARCHAR(30);
+		DECLARE @ErrorFuncion INT;
+		DECLARE @JefeInmediatoId INT;
+		DECLARE @FechaFinalizacion DATE;
+		DECLARE @FuncionarioNombreCompleto VARCHAR(255);
+		DECLARE @NombreJefeInmediato VARCHAR(255);
+		DECLARE @AliasNotificacionVencimientoContrato VARCHAR(255);
+		DECLARE @AliasNotificacionVencimientoContratoJefeInmediato VARCHAR(255);
+
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+
+			SET @ErrorFuncion = (	SELECT vcg.ERRORFUNCION
+             FROM util.VW_ConstanteGenerica AS vcg)
+
+            -- Obtener constante estado
+            SELECT @TareaProgramadaLogExitoso = ces.TAREAPROGRAMADALOG_EXITOSO, 
+                   @TareaProgramadaLogFallido = ces.TAREAPROGRAMADALOG_FALLIDO, 
+                   @AuditoriaActivo = ces.AUDITORIA_ACTIVO, 
+                   @ContratoVigente = ces.CONTRATO_VIGENTE
+            FROM util.VW_ConstanteEstado AS ces;
+
+            -- Obtener alias diasVencimientoContrato , funcionarioVencimiento
+            SELECT @AliasFuncionarioVencimiento = vcpg.FUNCIONARIOVENCIMIENTO, 
+                   @AliasDiasVencimientoContrato = vcpg.DIASVENCIMIENTOCONTRATO
+            FROM util.VW_ConstanteParametroGeneral vcpg;
+
+            SET @FuncionarioNotificacionVencimientoId =
+            (
+                SELECT util.UFS_ObtenerParametro(UPPER(@AliasFuncionarioVencimiento), NULL)
+            );
+
+            -- Obtener valor de funcionario vencimiento en la tabla parámetro general
+            SET @NombreFuncionarioNotificacionVencimiento =
+            (
+                SELECT fun.PrimerNombre
+                FROM Funcionario fun
+                WHERE Id = @FuncionarioNotificacionVencimientoId
+            );
+
+            -- Obtener valor de DiasVencimientoContrato en la tabla parámetro general
+            SELECT @DiasVencimientoContrato =
+            (
+                SELECT util.UFS_ObtenerParametro(UPPER(@AliasDiasVencimientoContrato), NULL)
+            );
+			 
+			-- Obtener alias para buscar plantillas
+			SELECT 
+				@AliasNotificacionVencimientoContrato = cnp.ALIAS_NOTIFICACIONVENCIMIENTOCONTRATO,
+				@AliasNotificacionVencimientoContratoJefeInmediato = cnp.ALIAS_NOTIFICACIONVENCIMIENTOCONTRATOJEFEINMEDIATO
+			FROM 
+			util.VW_ConstanteAliasNotificacionPlantilla cnp;
+
+            SELECT @NotificacionPlantilla = Plantilla, 
+                   @Titulo = Descripcion
+            FROM NotificacionPlantilla
+            WHERE Alias = @AliasNotificacionVencimientoContrato;
+
+            IF(
+            (
+                SELECT EnEjecucion
+                FROM dbo.TareaProgramada
+                WHERE Alias = @Alias
+            ) = 1)
+                BEGIN
+                    EXECUTE [dbo].[USP_RegistrarTareaProgramadaLog] 
+                            @UsuarioOperacion = @UsuarioOperacion, 
+                            @Estado = @TareaProgramadaLogFallido, 
+                            @Resultado = @Resultado, 
+                            @Alias = @Alias;
+            END;
+                ELSE
+                BEGIN
+                    SET @RegistrosAfectados = 0;
+                    SET @Resultado = '';
+                    IF @NotificacionPlantilla IS NOT NULL
+                        BEGIN
+
+                            -- Inicio de la transacción
+                            BEGIN TRAN GenerarNotificacion;
+
+                            -- Inserta datos en la variable tabla
+                            INSERT INTO @tabla
+                                   -- Busqueda Otro Si.
+                                   SELECT fun.Id AS Id, 
+                                          fun.NumeroDocumento AS NumeroDocumento, 
+                                          UPPER(CONCAT(fun.PrimerNombre, ' ', fun.PrimerApellido)) AS Funcionario, 
+										  UPPER(CONCAT(fun.PrimerNombre,' ',fun.SegundoNombre,' ',fun.PrimerApellido,' ',fun.SegundoApellido)) AS FuncionarioNombreCompleto, 
+                                          UPPER(car.Nombre) AS Cargo, 
+                                          os.FechaFinalizacion AS FechaFinalizacion
+                                   FROM ContratoOtroSi os
+                                        INNER JOIN Contrato con ON os.ContratoId = con.Id
+                                        INNER JOIN VW_FuncionarioDatoActual fun ON con.FuncionarioId = fun.Id
+                                        INNER JOIN Cargo car ON fun.CargoId = car.Id
+                                   WHERE os.FechaFinalizacion BETWEEN GETDATE() AND(GETDATE() +
+                                   (
+                                       SELECT CONVERT(INT, @DiasVencimientoContrato)
+                                   ))
+                                         AND os.EstadoRegistro = @AuditoriaActivo
+                                         AND con.EstadoRegistro = @AuditoriaActivo
+                                         AND con.Estado = @ContratoVigente
+                                   UNION
+                                   -- Busqueda Contrato.
+                                   SELECT fun.Id AS Id, 
+                                          fun.NumeroDocumento AS NumeroDocumento, 
+                                          UPPER(CONCAT(fun.PrimerNombre, ' ', fun.PrimerApellido)) AS Funcionario, 
+										  UPPER(CONCAT(fun.PrimerNombre,' ',fun.SegundoNombre,' ',fun.PrimerApellido,' ',fun.SegundoApellido)) AS FuncionarioNombreCompleto, 
+                                          UPPER(car.Nombre) AS Cargo, 
+                                          con.FechaFinalizacion AS FechaFinalizacion
+                                   FROM Contrato con
+                                        INNER JOIN VW_FuncionarioDatoActual fun ON con.FuncionarioId = fun.Id
+                                        INNER JOIN Cargo car ON fun.CargoId = car.Id
+                                   WHERE con.FechaFinalizacion BETWEEN GETDATE() AND(GETDATE() +
+                                   (
+                                       SELECT CONVERT(INT, @DiasVencimientoContrato)
+                                   ))
+                                         AND con.EstadoRegistro = @AuditoriaActivo
+                                         AND con.Estado = @ContratoVigente;
+                            IF EXISTS
+                            (
+                                SELECT *
+                                FROM @tabla
+                            )
+                                BEGIN
+                                    SET @RegistrosAfectados =
+                                    (
+                                        SELECT COUNT(*)
+                                        FROM @Tabla
+                                    );
+
+                                    -- Se instancia @HtmlString con los datos xml de la variable tabla
+                                    SET @HtmlString =
+                                    (
+                                        SELECT NumeroDocumento, 
+                                               Funcionario, 
+                                               Cargo, 
+                                               FechaFinalizacion
+                                        FROM @tabla FOR XML PATH
+                                    );
+
+                                    -- Se Tranforma los datos XML en HTML
+
+                                    SET @HtmlString = REPLACE(@HtmlString, 'row', 'tr');
+                                    SET @HtmlString = REPLACE(@HtmlString, '/row', '/tr');
+                                    SET @HtmlString = REPLACE(@HtmlString, 'NumeroDocumento', 'td');
+                                    SET @HtmlString = REPLACE(@HtmlString, '/NumeroDocumento', '/td');
+                                    SET @HtmlString = REPLACE(@HtmlString, 'Funcionario', 'td');
+                                    SET @HtmlString = REPLACE(@HtmlString, '/Funcionario', '/td');
+                                    SET @HtmlString = REPLACE(@HtmlString, 'Cargo', 'td');
+                                    SET @HtmlString = REPLACE(@HtmlString, '/Cargo', '/td');
+                                    SET @HtmlString = REPLACE(@HtmlString, 'FechaFinalizacion', 'td');
+                                    SET @HtmlString = REPLACE(@HtmlString, '/FechaFinalizacion', '/td');
+
+                                    -- Reemplazo de |&|NOMBREENCARGADO|&|
+                                    SET @NotificacionPlantilla = REPLACE(@NotificacionPlantilla, '|&|NOMBREENCARGADO|&|', @NombreFuncionarioNotificacionVencimiento);
+                                    -- Reemplazo de |&|NOMBREENCARGADO|&|
+                                    SET @NotificacionPlantilla = REPLACE(@NotificacionPlantilla, '|&|DIASVENCIMIENTOCONTRATO|&|', @DiasVencimientoContrato);
+                                    -- Reemplazo de |&|CONTENIDO|&|
+                                    SET @NotificacionPlantilla = REPLACE(@NotificacionPlantilla, '|&|CONTENIDO|&|', @HtmlString);
+                                    SET @Mensaje = @NotificacionPlantilla;
+                                    SET @DestinatariosXml =
+                                    (
+                                        SELECT Id AS [@Id]
+                                        FROM dbo.Funcionario
+                                        WHERE Id = @FuncionarioNotificacionVencimientoId FOR XML PATH('Funcionario'), ROOT('Funcionarios')
+                                    );
+                                    EXECUTE [util].[USP_RegistrarNotificacion] 
+                                            @Tipo, 
+                                            @Fecha, 
+                                            @Titulo, 
+                                            @Mensaje, 
+                                            @DestinatariosXml,
+                                            NULL, 
+                                            @UsuarioOperacion;
+
+                                    ---------------------------------------------------------------
+                                    -- Notificación jefe inmediato
+                                    ---------------------------------------------------------------
+                                    -- Crea Cursor
+                                    DECLARE CUR_NotificarJefeInmediato CURSOR LOCAL
+                                    FOR SELECT FuncionarioId, FechaFinalizacion, FuncionarioNombreCompleto
+                                        FROM @tabla;
+                                    OPEN CUR_NotificarJefeInmediato;
+                                    FETCH NEXT FROM CUR_NotificarJefeInmediato INTO @FuncionarioId, @FechaFinalizacion,@FuncionarioNombreCompleto;
+                                    WHILE @@fetch_status = 0
+                                        BEGIN
+											SET  @JefeInmediatoId = (SELECT [dbo].[UFS_ObtenerJefeInmediato] (@FuncionarioId));
+
+                                            -- Consulta jefe inmediato
+											IF  @JefeInmediatoId <> @ErrorFuncion
+											BEGIN
+												SELECT @NotificacionPlantillaJefeInmediato = Plantilla 
+												FROM NotificacionPlantilla
+												WHERE Alias = @AliasNotificacionVencimientoContratoJefeInmediato;
+
+												-- Consulta el nombre del jefe inmediato
+												SELECT @NombreJefeInmediato = fun.PrimerNombre 
+												FROM Funcionario fun
+												WHERE Id = @JefeInmediatoId;
+
+												-- Reemplazo de |&|JEFEINMEDIATO|&|
+												SET @NotificacionPlantillaJefeInmediato = REPLACE(@NotificacionPlantillaJefeInmediato, '|&|JEFEINMEDIATO|&|', @NombreJefeInmediato);
+												-- Reemplazo de |&|FUNCIONARIONOMBRECOMPLETO|&|
+												SET @NotificacionPlantillaJefeInmediato = REPLACE(@NotificacionPlantillaJefeInmediato, '|&|FUNCIONARIONOMBRECOMPLETO|&|', @FuncionarioNombreCompleto);
+												-- Reemplazo de |&|FECHAFINALIZACION|&|
+												SET @NotificacionPlantillaJefeInmediato = REPLACE(@NotificacionPlantillaJefeInmediato, '|&|FECHAFINALIZACION|&|', @FechaFinalizacion);
+												SET @Mensaje = @NotificacionPlantillaJefeInmediato;
+												SET @DestinatariosXml =
+												(
+													SELECT Id AS [@Id]
+													FROM dbo.Funcionario
+													WHERE Id = @JefeInmediatoId FOR XML PATH('Funcionario'), ROOT('Funcionarios')
+												);
+												-- Enviar notificación a cada uno de los jefes inmediatos
+												EXECUTE [util].[USP_RegistrarNotificacion] 
+													@Tipo, 
+													@Fecha, 
+													@Titulo, 
+													@Mensaje, 
+													@DestinatariosXml,
+                                                    NULL, 
+													@UsuarioOperacion;
+											END
+
+                                            FETCH NEXT FROM CUR_NotificarJefeInmediato INTO @FuncionarioId, @FechaFinalizacion,@FuncionarioNombreCompleto;
+										END;
+                                    CLOSE CUR_NotificarJefeInmediato;
+                                    DEALLOCATE CUR_NotificarJefeInmediato;
+
+                                    ---------------------------------------------------------------
+                                    SET @Resultado = 'Contratos próximos a vencer: ' + CONVERT(NVARCHAR(MAX), @RegistrosAfectados);
+                                    EXECUTE [dbo].[USP_RegistrarTareaProgramadaLog] 
+                                            @UsuarioOperacion = @UsuarioOperacion, 
+                                            @Estado = @TareaProgramadaLogExitoso, 
+                                            @Resultado = @Resultado, 
+                                            @Alias = @Alias;
+
+                                    -- Actualiza el registro de la tarea programada
+                                    UPDATE dbo.TareaProgramada
+                                      SET 
+                                          dbo.TareaProgramada.EnEjecucion = 0
+                                    WHERE Alias = @Alias;
+                            END;
+
+                            -- Cierre de la transacción
+                            IF @@TRANCOUNT > 0
+                                BEGIN
+                                    IF XACT_STATE() = 1
+                                        BEGIN
+                                            COMMIT TRAN GenerarNotificacion;
+                                    END;
+                                        ELSE
+                                        BEGIN
+                                            EXEC util.USP_GenerarExcepcion 
+                                                 50000, 
+                                                 'No se puede confirmar la transacción.  Error desconocido.';
+                                    END;
+                            END;
+                    END;
+                    -- Cierre de la transacción
+                    IF @@TRANCOUNT > 0
+                        BEGIN
+                            IF XACT_STATE() = 1
+                                BEGIN
+                                    COMMIT TRAN FinalizarContratos;
+                            END;
+                                ELSE
+                                BEGIN
+                                    EXEC util.USP_GenerarExcepcion 
+                                         50000, 
+                                         'No se puede confirmar la transacción.  Error desconocido.';
+                            END;
+                    END;
+            END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_NotificarVencimientoContrato];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

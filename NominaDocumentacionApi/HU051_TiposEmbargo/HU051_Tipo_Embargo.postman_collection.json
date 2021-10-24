@@ -1,0 +1,268 @@
+{
+	"info": {
+		"_postman_id": "b2c4a74b-bb4d-45a4-b4f0-f5c79da0131f",
+		"name": "HU051_Tipo_Embargo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TipoEmbargoConceptoNomina",
+			"item": [
+				{
+					"name": "Listado Tipo Embargo Concepto Nomina",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/TipoEmbargoConceptoNominas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"TipoEmbargoConceptoNominas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Tipo Embargo Concepto Nomina",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/TipoEmbargoConceptoNominas/8",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"TipoEmbargoConceptoNominas",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Tipo Embargo Concepto Nomina",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"tipoEmbargoId\": 8,\r\n    \"conceptoNominaId\": 8,\r\n    \"maximoEmbargarConcepto\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/TipoEmbargoConceptoNominas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoEmbargoConceptoNominas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Tipo Embargo Concepto Nomina",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 8,\r\n    \"tipoEmbargoId\": 12,\r\n    \"conceptoNominaId\": 2,\r\n    \"maximoEmbargarConcepto\": 12\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/TipoEmbargoConceptoNominas/8",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoEmbargoConceptoNominas",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Tipo Embargo Concepto Nomina",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/TipoEmbargoConceptoNominas/8",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoEmbargoConceptoNominas",
+								"8"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Listado de tipos de embargo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/tipoembargos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"tipoembargos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener tipo de embargo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/tipoembargos/7",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"tipoembargos",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear tipo de embargo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Alyimdetnoeooidpto s\",\r\n    \"salarioMinimoEmbargable\": false,\r\n    \"prioridad\": 12,\r\n    \"conceptoNominaId\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/tipoembargos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"tipoembargos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar tipo de embargo",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 8,\r\n    \"activo\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/tipoembargos/8",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"tipoembargos",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar tipo de embargo",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 8,\r\n    \"nombre\": \"Aliamientos\",\r\n    \"conceptoRelacionadoId\": 120,\r\n    \"prioridad\":15, \r\n    \"conceptoNominaId\":5,\r\n    \"salarioMinimoEmbargable\":true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/tipoembargos/8",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"tipoembargos",
+						"8"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

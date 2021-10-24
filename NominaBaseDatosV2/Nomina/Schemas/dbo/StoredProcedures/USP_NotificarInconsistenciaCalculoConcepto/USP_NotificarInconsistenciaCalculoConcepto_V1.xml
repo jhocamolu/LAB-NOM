@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_NotificarInconsistenciaCalculoConcepto_V1">
+<comment>HU056</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[USP_NotificarInconsistenciaCalculoConcepto]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE [dbo].[USP_NotificarInconsistenciaCalculoConcepto] as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 14/05/2020
+-- Description: Permite retornar información asociada a inconsistencia en el cálculo de un concepto
+--
+-- Parameters:
+--   @Codigo:		     Código de la notificación a reportar
+--   @Valor:		     Parámetro de salida con el valor de la constante para inconsistencias
+--   @Inconsistencia:	Descripción de la inconsistencia
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_NotificarInconsistenciaCalculoConcepto]
+    @Codigo VARCHAR(255),
+    @Valor MONEY OUTPUT,
+    @Inconsistencia VARCHAR(255) OUTPUT
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Valor=', CONVERT(VARCHAR, @Valor), '&', '@Inconsistencia=', CONVERT(VARCHAR, @Inconsistencia));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @CodigoGenerico VARCHAR(255) = 'INCONSISTENCIA_GENERICA';
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+	   -- Si pasan el parámetro código, se asigna el generico
+	   IF @Codigo IS NULL
+	   BEGIN
+		  SET @Codigo = @CodigoGenerico;
+	   END
+
+	   -- Se el tipo de inconsistencia para el código suministrado
+	   SELECT @Valor = tic.Valor, @Inconsistencia = tic.Mensaje
+	   FROM dbo.TipoInconsistencia tic
+	   WHERE tic.Codigo = @Codigo;
+
+	   -- Si no se encontró el tipo de inconsistencia se asigna la inconstencia por defecto
+	   IF @Valor IS NULL
+	   BEGIN
+		  SELECT @Valor = tic.Valor, @Inconsistencia = tic.Mensaje
+		  FROM dbo.TipoInconsistencia tic
+		  WHERE tic.Codigo = @CodigoGenerico;
+	   END
+
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_NotificarInconsistenciaCalculoConcepto];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

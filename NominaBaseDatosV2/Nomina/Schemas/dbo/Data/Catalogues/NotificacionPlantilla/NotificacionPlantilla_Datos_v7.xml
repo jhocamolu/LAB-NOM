@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="NotificacionPlantilla_Datos_v7">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+	UPDATE dbo.NotificacionPlantilla
+	SET Plantilla='<div><p>Hola |&|PrimerNombreEncargado|&|!</p><p>Queremos informarte que las siguientes requisiciones de personal han sido revisadas por los funcionarios responsables. Por favor revísalas para continuar con el flujo de aprobación.</p><table style="width: 100%;" cellpadding="4">    <thead>       <tr>            <th>Cargo solicitado</th>            <th>Número de vacantes</th>            <th>Ciudad</th>        </tr>    </thead>    <tbody>|&|TABLA|&| </tbody></table></div>'
+	WHERE Id=8;
+	GO
+
+	UPDATE dbo.NotificacionPlantilla
+	SET Plantilla='<div><p>Hola |&|PRIMERNOMBREENCARGADO|&|!</p><p>Queremos informarte que las siguientes requisiciones de personal han sido aprobadas por los funcionarios responsables. Por favor revísalas para continuar con el flujo de aprobación.</p><table style="width: 100%;" cellpadding="4">    <thead>        <tr>            <th>Cargo solicitado</th>            <th>Número de vacantes</th>            <th>Ciudad</th>        </tr>    </thead>    <tbody>|&|TABLA|&|   </tbody></table></div>'
+	WHERE Id=9;
+	GO
+
+	UPDATE dbo.NotificacionPlantilla
+	SET Plantilla='<div><p>Hola</p><p>Queremos informarte del vencimiento del plazo para cubrir las vacantes de los siguientes cargos:</p><table style="width: 100%;" cellpadding="4"><thead><tr><th>Cargo solicitado</th><th>Número de vacantes</th><th>Ciudad</th><th>Días restantes para cubrir la vacante</th></tr></thead><tbody>|&|TABLA|&| </tbody></table></div>'
+	WHERE Id=10;
+	GO
+
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+    UPDATE dbo.NotificacionPlantilla
+	SET Plantilla='<div><p>Hola |&|PrimerNombreEncargado|&|!</p><p>Queremos informarte que las siguientes requisiciones de personal han sido revisadas por los funcionarios responsables. Por favor revísalas para continuar con el flujo de aprobación.</p><table>    <thead>        <tr>            <th>Cargo solicitado</th>            <th>Número de vacantes</th>            <th>Ciudad</th>        </tr>    </thead>    <tbody>|&|TABLA|&| </tbody></table></div>'
+	WHERE Id=8;
+	GO
+
+	UPDATE dbo.NotificacionPlantilla
+	SET Plantilla='<div><p>Hola |&|PRIMERNOMBREENCARGADO|&|!</p><p>Queremos informarte que las siguientes requisiciones de personal han sido aprobadas por los funcionarios responsables. Por favor revísalas para continuar con el flujo de aprobación.</p><table>    <thead>        <tr>            <th>Cargo solicitado</th>            <th>Número de vacantes</th>            <th>Ciudad</th>        </tr>    </thead>    <tbody>|&|TABLA|&|   </tbody></table></div>'
+	WHERE Id=9;
+	GO
+
+	UPDATE dbo.NotificacionPlantilla
+	SET Plantilla='<div><p>Hola</p><p>Queremos informarte del vencimiento del plazo para cubrir las vacantes de los siguientes cargos:</p><table><thead><tr><th>Cargo solicitado</th><th>Número de vacantes</th><th>Ciudad</th><th>Días restantes para cubrir la vacante</th></tr></thead><tbody>|&|TABLA|&| </tbody></table></div>'
+	WHERE Id=10;
+	GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

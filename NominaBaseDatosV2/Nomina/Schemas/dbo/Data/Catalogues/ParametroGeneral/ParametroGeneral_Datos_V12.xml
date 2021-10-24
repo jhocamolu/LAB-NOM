@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="ParametroGeneral_Datos_V12">
+<comment>Update ReclutamientoYSeleccion parametros vencieminto notificacion</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+
+    UPDATE dbo.ParametroGeneral 
+    SET Ayuda='Funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas y autorizadas para los cargos de clase Nacional y Centro operativo de ibagué, fusagasuga y girardot.'
+    WHERE alias ='revisorRequisicionIbague';
+    
+
+    UPDATE dbo.ParametroGeneral 
+    SET Ayuda='Funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas y autorizadas para los cargos de clase Nacional y Centro operativo de rionegro y la dorada.'
+    WHERE alias ='revisorRequisicionRionegro';
+    
+
+    UPDATE dbo.ParametroGeneral 
+    SET Ayuda='Primer funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas y autorizadas para los cargos de clase Nacional y Centro operativo de pasto y popaayán.'
+    WHERE alias ='revisorRequisicionPasto1';
+    
+
+    UPDATE dbo.ParametroGeneral 
+    SET Ayuda='Segundo funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas y autorizadas para los cargos de clase Nacional y Centro operativo de pasto y popaayán.'
+    WHERE alias ='revisorRequisicionPasto2';
+    
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    UPDATE dbo.ParametroGeneral 
+    SET Ayuda='Funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas y autorizadas para los cargos de clase Nacional y Centro operativo de rionegro y la dorada.'
+    WHERE alias ='revisorRequisicionIbague';
+    
+
+    UPDATE dbo.ParametroGeneral 
+    SET Ayuda='Primer funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas y autorizadas para los cargos de clase Nacional y Centro operativo de pasto y popaayán.'
+    WHERE alias ='revisorRequisicionRionegro';
+    
+
+    UPDATE dbo.ParametroGeneral 
+    SET Ayuda='Segundo funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas y autorizadas para los cargos de clase Nacional y Centro operativo de pasto y popaayán.'
+    WHERE alias ='revisorRequisicionPasto1';
+    
+
+    UPDATE dbo.ParametroGeneral 
+    SET Ayuda='Funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas, revisada, aprobadas y autorizadas, independientemente de la clase del cargo.'
+    WHERE alias ='revisorRequisicionPasto1';
+    
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

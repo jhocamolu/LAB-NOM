@@ -1,0 +1,76 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Revisar exámenes médicos</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>¿El candidato es seleccionado?</mat-label>
+            <mat-select formControlName="estado" required [compareWith]="compareBooleanWith">
+                <mat-option [value]="null"></mat-option>
+                <mat-option [value]="'Seleccionado'">Si</mat-option>
+                <mat-option [value]="'NoApto'">No</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(form.get('estado').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Indica si el candidato supera los exámenes médicos.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Justificación</mat-label>
+            <textarea matInput formControlName="justificacion">
+                            </textarea>
+            <mat-error *ngFor="let error of objToArray(form.get('justificacion').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Breve descripción de la acción realizada.">
+                info</mat-icon>
+        </mat-form-field>
+
+        <div class="margen">
+            <label>Exámenes médicos</label>
+            <input type="file" formControlName="file" accept=".pdf" (change)="fileInputHandle($event)" required>
+            <mat-icon matSuffix matTooltip="El formato del archivo debe ser PDF.">
+                info
+            </mat-icon>
+            <div *ngIf="form.get('file').invalid && (form.get('file').dirty || form.get('file').touched)">
+                <mat-error *ngFor="let error of form.get('file').errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+            </div>
+        </div>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

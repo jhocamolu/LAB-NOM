@@ -1,0 +1,307 @@
+{
+	"info": {
+		"_postman_id": "09df1d03-a05f-4e58-a806-7456911a8e3d",
+		"name": "HT037-Reporteador",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Frontend",
+			"item": [
+				{
+					"name": "Categorias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.1.70:9009/odata/categorias",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"1",
+								"70"
+							],
+							"port": "9009",
+							"path": [
+								"odata",
+								"categorias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar todos Reportes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.1.70:9009/odata/VistaFrontendReportes",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"1",
+								"70"
+							],
+							"port": "9009",
+							"path": [
+								"odata",
+								"VistaFrontendReportes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar solo un reporte",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.1.70:9009/odata/VistaFrontendReportes/Ejemplo",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"1",
+								"70"
+							],
+							"port": "9009",
+							"path": [
+								"odata",
+								"VistaFrontendReportes",
+								"Ejemplo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subcategorias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.1.70:9009/odata/Subcategorias",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"1",
+								"70"
+							],
+							"port": "9009",
+							"path": [
+								"odata",
+								"Subcategorias"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Backend",
+			"item": [
+				{
+					"name": "Generar Reportes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"reporteId\":3,\n\t\"parametros\":{\n\t\t\"Pais\":42,\n\t\t\"DivisionPoliticaNivel1\":16\n\t}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/generarReportes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"generarReportes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Todos los reportes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.1.70:9009/odata/Reportes",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"1",
+								"70"
+							],
+							"port": "9009",
+							"path": [
+								"odata",
+								"Reportes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un reporte",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.1.70:9009/odata/Reportes/1",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"1",
+								"70"
+							],
+							"port": "9009",
+							"path": [
+								"odata",
+								"Reportes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Todos los Parametros",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.1.70:9009/odata/Parametros",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"1",
+								"70"
+							],
+							"port": "9009",
+							"path": [
+								"odata",
+								"Parametros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un Parametro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.1.70:9009/odata/Parametros/1",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"1",
+								"70"
+							],
+							"port": "9009",
+							"path": [
+								"odata",
+								"Parametros",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Todos ReporteParametros",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.1.70:9009/odata/reporteParametros",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"1",
+								"70"
+							],
+							"port": "9009",
+							"path": [
+								"odata",
+								"reporteParametros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un ReporteParametro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.1.70:9009/odata/reporteParametros/1",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"1",
+								"70"
+							],
+							"port": "9009",
+							"path": [
+								"odata",
+								"reporteParametros",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un reporte por alias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://172.16.1.70:9009/api/reportes/ejemplo",
+							"protocol": "http",
+							"host": [
+								"172",
+								"16",
+								"1",
+								"70"
+							],
+							"port": "9009",
+							"path": [
+								"api",
+								"reportes",
+								"ejemplo"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

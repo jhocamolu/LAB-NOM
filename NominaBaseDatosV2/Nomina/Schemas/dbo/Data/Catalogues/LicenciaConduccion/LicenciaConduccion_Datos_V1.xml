@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="LicenciaConduccion_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[LicenciaConduccion] ON 
+GO
+INSERT [dbo].[LicenciaConduccion] ([Id], [Nombre], [Clase], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (1, 'A1', '', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[LicenciaConduccion] ([Id], [Nombre], [Clase], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (2, 'A2', '', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[LicenciaConduccion] ([Id], [Nombre], [Clase], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (3, 'B1', '', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[LicenciaConduccion] ([Id], [Nombre], [Clase], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (4, 'B2', '', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[LicenciaConduccion] ([Id], [Nombre], [Clase], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (5, 'B3', '', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[LicenciaConduccion] ([Id], [Nombre], [Clase], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (6, 'C1', '', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[LicenciaConduccion] ([Id], [Nombre], [Clase], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (7, 'C2', '', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[LicenciaConduccion] ([Id], [Nombre], [Clase], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (8, 'C3', '', 'Activo', 'sistema', GETDATE())
+GO
+SET IDENTITY_INSERT [dbo].[LicenciaConduccion] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[LicenciaConduccion] WHERE Id BETWEEN 1 AND 8;
+</rollback>
+</changeSet>
+</databaseChangeLog>

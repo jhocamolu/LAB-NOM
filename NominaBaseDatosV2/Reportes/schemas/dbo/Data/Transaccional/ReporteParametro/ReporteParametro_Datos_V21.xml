@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="ReporteParametro_V21">
+<comment>Migración Inicial HU109</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[ReporteParametro] ON 
+GO
+INSERT [dbo].[ReporteParametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [ReporteId], [ParametroId], [EsRequerido]) VALUES (84, N'Activo    ', N'sistema', CAST(N'2020-06-03T15:21:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 19, 51, 1)
+GO
+SET IDENTITY_INSERT [dbo].[ReporteParametro] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[ReporteParametro] WHERE Id IN (84)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

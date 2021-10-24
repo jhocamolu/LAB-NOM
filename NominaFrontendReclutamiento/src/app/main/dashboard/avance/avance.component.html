@@ -1,0 +1,20 @@
+<div *ngIf="loading" class="container_spinner">
+    <mat-spinner class="spinner"></mat-spinner>
+</div>
+<div class="col-md-4" *ngFor="let item of items; let i = index" [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}">
+    <mat-card class="mat-elevation-z4">
+        <mat-card-header>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="card-circe" [style.color]="colors[i]">
+                {{item.numero}}
+            </div>
+            <p>
+                {{item.nombre}}
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+
+        </mat-card-actions>
+    </mat-card>
+</div>

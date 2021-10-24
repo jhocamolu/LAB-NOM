@@ -1,0 +1,41 @@
+@import "src/@fuse/scss/fuse";
+.probar-formula-dialog {
+    @include media-breakpoint("xs") {
+        width: 100%;
+    }
+    @include media-breakpoint("gt-xs") {
+        width: 600px;
+        min-height: 400px;
+    }
+    formula-probar {
+        .content {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .formula {
+            span {
+                padding-right: 5px;
+            }
+        }
+        h3 {
+            mat-icon {
+                font-size: 15px;
+            }
+            font-weight: bold;
+            margin-bottom: 0px;
+        }
+        form {          
+            width: 100%;
+            mat-form-field {
+                width: 100%;
+            }
+            .secundary {
+                background-color: #028696;
+                color: white;
+            }
+        }
+        button mat-icon {
+            margin-right: 5px;
+        }
+    }
+}

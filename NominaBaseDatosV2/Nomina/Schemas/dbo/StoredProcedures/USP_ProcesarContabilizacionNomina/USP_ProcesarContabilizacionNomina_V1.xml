@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="USP_ProcesarContabilizacionNomina_V1">
+<comment>HU057</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ProcesarContabilizacionNomina', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ProcesarContabilizacionNomina as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Jesus Albeiro Gaviria R
+-- Create date: 15/02/2021
+-- Description: Pemite realizar la contabilización de la nómina, 
+--  este proceso se llama desde USP_AprobarNomina.
+--
+-- Parameters:
+--  @NominaId:			Identificador de la nómina que se va a contabilizar
+--  @FechaInicio:	   	Fecha de incio de la nómina que se va a contabilizar
+--  @FechaFinal:	   	Fecha de fin de la nómina que se va a contabilizar
+--  @UsuarioOperacion:	Usuario que realiza la operación
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ProcesarContabilizacionNomina] 	@NominaId          INT,
+														 	@FechaInicio 		DATE,
+														 	@FechaFinal 		DATE,
+                                                         	@UsuarioOperacion 	VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@FechaInicio=', CONVERT(VARCHAR, @FechaInicio), '&', '@FechaFinal=', CONVERT(VARCHAR, @FechaFinal), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables Global
+    --------------------------------------------------------------------------
+	DECLARE @FuncionarioId INT= 0;
+	DECLARE @NominaFuncionarioId INT= 0;
+	DECLARE @TipoLiquidacionId INT= 0;
+	DECLARE @AuditoriaActivo VARCHAR(255);
+	DECLARE @Delfuncionario VARCHAR(255);
+	DECLARE @Especifico VARCHAR(255);
+	DECLARE @NoAplica VARCHAR(255);
+	DECLARE @NaturalezaCredito VARCHAR(255);
+	DECLARE @NaturalezaDebito VARCHAR(255);
+	DECLARE @NetoPagar money;
+
+
+	SELECT @AuditoriaActivo = ces.AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado AS ces;
+	SELECT @Delfuncionario = DELFUNCIONARIO, @Especifico =ESPECIFICO, @NoAplica = NOAPLICA FROM util.VW_ConstanteOrigenCentroCosto;
+	SELECT @NaturalezaDebito = DEBITO, @NaturalezaCredito = CREDITO from util.VW_ConstanteNaturalezaContable 
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN ProcesarContabilizacionNomina;
+
+        -- Cursor para obtener los funcionarios en la Nomina
+			DECLARE CUR_ContabilizacionNomina CURSOR LOCAL
+			FOR SELECT nominaFuncionario.FuncionarioId, nominaFuncionario.Id, nomina.TipoLiquidacionId, nominaFuncionario.NetoPagar
+				FROM NominaFuncionario nominaFuncionario
+				INNER JOIN Nomina nomina on nominaFuncionario.NominaId = nomina.Id
+				WHERE nominaFuncionario.NominaId = @NominaId 
+				ORDER BY nominaFuncionario.Id
+			OPEN CUR_ContabilizacionNomina;
+				FETCH NEXT FROM CUR_ContabilizacionNomina INTO @FuncionarioId, @NominaFuncionarioId, @TipoLiquidacionId, @NetoPagar;
+				WHILE @@FETCH_STATUS = 0
+			    BEGIN
+				    --------------------------------------------------------------------------
+					-- Consultar conceptos de nómina liquidados en la tabla NominaDetalle 
+				    -- Variables por FuncionarioId
+				    --------------------------------------------------------------------------
+					DECLARE @ConceptoNominaId INT= 0;
+					DECLARE @nomDetalleId INT= 0;
+					DECLARE @nomDetalleValor as money;
+					DECLARE @OrigenCentroCosto VARCHAR(255);
+				
+					DECLARE CUR_ConcetoNomina CURSOR LOCAL
+					FOR SELECT conNom.OrigenCentroCosto, nomDetalle.Id, nomDetalle.ConceptoNominaId, nomDetalle.Valor
+					    FROM NominaDetalle nomDetalle
+						INNER JOIN ConceptoNomina conNom ON nomDetalle.ConceptoNominaId = conNom.Id 
+					    WHERE nomDetalle.NominaFuncionarioId = @NominaFuncionarioId
+					    	AND nomDetalle.Valor != 0
+							AND conNom.OrigenCentroCosto != @NoAplica
+						ORDER BY conNom.ClaseConceptoNomina DESC --Primero los Devengo, Deducion, Calculo
+					OPEN CUR_ConcetoNomina;
+						FETCH NEXT FROM CUR_ConcetoNomina INTO @OrigenCentroCosto, @nomDetalleId, @ConceptoNominaId, @nomDetalleValor;
+						WHILE @@FETCH_STATUS = 0
+					    BEGIN 
+						    --------------------------------------------------------------------------
+							-- Validar por tipo origen Centro costo.
+						    -- Variables por @nomDetalleId
+						    --------------------------------------------------------------------------
+						    DECLARE @CentroCostoId INT = 0;
+				 		    DECLARE @CuentaContableId INT = 0;
+							DECLARE @NumeroRegistros INT = 0;
+				 		   	DECLARE @PorcentajeCentroCosto decimal(16,6) = 0;
+							DECLARE @ValorDebito decimal(16,6) = 0;
+							DECLARE @ValorCredito decimal(16,6) = 0;
+							DECLARE @Naturaleza varchar(255) = '';
+							DECLARE @ObtenerTercero VARCHAR(255)
+							DECLARE @TableCentroCostoFuncionario TABLE(PorcentajeCentroCosto decimal(16,6),CentroCostoId INT)
+							DELETE @TableCentroCostoFuncionario;
+							EXEC USP_ObtenerTercero @nomDetalleId, @UsuarioOperacion, @Tercero = @ObtenerTercero OUTPUT;
+				    	    --Origen Centro Costo @Delfuncionario
+						    IF(@OrigenCentroCosto = @Delfuncionario)
+						    BEGIN
+								INSERT INTO @TableCentroCostoFuncionario
+									SELECT funcionarioCC.Porcentaje,actividadCC.CentroCostoId
+									FROM ActividadCentroCosto actividadCC
+									INNER JOIN FuncionarioCentroCosto funcionarioCC on actividadCC.Id = funcionarioCC.ActividadCentroCostoId
+																					AND funcionarioCC.EstadoRegistro = @AuditoriaActivo
+									WHERE funcionarioCC.FuncionarioId = @FuncionarioId
+									AND funcionarioCC.FechaCorte BETWEEN @FechaInicIo and @FechaFinal
+									AND actividadCC.EstadoRegistro = @AuditoriaActivo;
+
+								IF (SELECT COUNT(*)  FROM @TableCentroCostoFuncionario) = 0 
+								BEGIN
+									--Validamos si existe distribucion por cargo, si es null, cargamos porcentaje 1 y centrocosto del contrato
+									INSERT INTO @TableCentroCostoFuncionario
+										SELECT ISNULL(cargoCC.Porcentaje, 1), ISNULL(actividadCC.CentroCostoId, contrato.CentroCostoId)
+										FROM Contrato contrato 
+										INNER JOIN CargoDependencia cargoDependencia ON contrato.CargoDependenciaId = cargoDependencia.Id
+										LEFT JOIN CargoCentroCosto cargoCC ON  contrato.CentroOperativoId = cargoCC.CentroOperativoId
+											AND cargoDependencia.CargoId = cargoCC.CargoId
+										LEFT JOIN ActividadCentroCosto actividadCC ON cargoCC.ActividadCentroCostoId = actividadCC.Id
+																					AND actividadCC.EstadoRegistro = @AuditoriaActivo
+										WHERE contrato.FuncionarioId = @FuncionarioId
+										AND contrato.EstadoRegistro = @AuditoriaActivo
+										AND Estado in ( 'Vigente', 'PendientePorLiquidar')
+									
+								END
+								IF(SELECT COUNT(*)  FROM @TableCentroCostoFuncionario) = 0 
+									BEGIN
+										SET @MensajeExcepcion = 'Origen centro Delfuncionario, no existe contrato activo.';
+											   SET @Parametros += @MensajeExcepcion;
+							                   EXEC util.USP_GenerarExcepcion 
+						                         50000, 
+						                         @MensajeExcepcion;
+									END
+
+								DECLARE CUR_CentroCostoFuncionario CURSOR LOCAL
+								FOR SELECT PorcentajeCentroCosto, CentroCostoId 
+								FROM @TableCentroCostoFuncionario 
+								OPEN CUR_CentroCostoFuncionario
+									FETCH NEXT FROM CUR_CentroCostoFuncionario INTO  @PorcentajeCentroCosto, @CentroCostoId
+									WHILE @@FETCH_STATUS = 0
+									BEGIN 
+
+										IF(@CentroCostoId = 0)
+									    BEGIN
+										   SET @MensajeExcepcion = 'Origen centro Delfuncionario, parametrizacion de del centro de costos no están en parametrización contable concepto, CentroCostoId ='+ CONVERT(VARCHAR, @CentroCostoId) + ' ConceptoNominaId ='+ CONVERT(VARCHAR, @ConceptoNominaId)+' NominaFuncionarioId='+ CONVERT(VARCHAR, @NominaFuncionarioId);
+										   SET @Parametros += @MensajeExcepcion;
+						                   EXEC util.USP_GenerarExcepcion 
+					                         50000, 
+					                         @MensajeExcepcion;
+									    END	
+
+									    SET @CuentaContableId =0 ;
+									    SELECT  @CentroCostoId, @ConceptoNominaId
+									    SELECT @CuentaContableId = ISNULL(CuentaContableId,0) 
+									    FROM ConceptoNominaCuentaContable
+									    INNER JOIN CuentaContable ON ConceptoNominaCuentaContable.CuentaContableId = CuentaContable.Id
+									    WHERE CentroCostoId = @CentroCostoId 
+									    AND ConceptoNominaId = @ConceptoNominaId;
+									    
+									    SELECT @Naturaleza = Naturaleza FROM CuentaContable WHERE Id = @CuentaContableId;
+									   
+									    IF(@PorcentajeCentroCosto<0)
+										BEGIN
+											SET @PorcentajeCentroCosto = 1;							
+										END
+														
+										IF (@Naturaleza = @NaturalezaDebito)
+										BEGIN
+											set @ValorDebito = @nomDetalleValor * @PorcentajeCentroCosto;
+											set @ValorCredito = 0;
+										END
+										ELSE IF (@Naturaleza = @NaturalezaCredito)
+										BEGIN
+											SELECT @NaturalezaCredito
+											set @ValorDebito = 0;
+											set @ValorCredito = @nomDetalleValor * @PorcentajeCentroCosto;
+										END
+									    
+									   
+									   	SET @Parametros += CONCAT(
+											'TipoComprobante= Contabilizacion', '&',
+											'NominaFuncionarioId=', CONVERT(VARCHAR, @NominaFuncionarioId), '&',
+											'ConceptoNominaId=', CONVERT(VARCHAR, @ConceptoNominaId), '&',
+											'Nit=', CONVERT(VARCHAR, @ObtenerTercero), '&',
+											'CentroCostoId=', CONVERT(VARCHAR, @CentroCostoId), '&',
+											'CuentaContableId=', CONVERT(VARCHAR, @CuentaContableId), '&',
+											'Fecha=', CONVERT(VARCHAR, GETDATE()), '&',
+											'Debito=', CONVERT(VARCHAR, @ValorDebito), '&',
+											'Credito=', CONVERT(VARCHAR, @ValorCredito)								
+										);
+										
+										INSERT INTO NominaContabilidad(
+										TipoComprobante,NominaFuncionarioId, ConceptoNominaId, Nit,
+										CentroCostoId, CuentaContableId, Fecha, Debito, Credito,
+										EstadoRegistro, FechaCreacion, CreadoPor)
+										values(
+										'Contabilizacion', @NominaFuncionarioId, @ConceptoNominaId, @ObtenerTercero ,
+										@CentroCostoId, @CuentaContableId, GETDATE(), @ValorDebito, @ValorCredito,
+										@AuditoriaActivo, GETDATE(), @UsuarioOperacion
+										)
+										
+										INSERT INTO NominaCentroCosto(
+										NominaFuncionarioId,ConceptoNominaId, NitTercero, CentroCostoId, Valor,
+										EstadoRegistro, FechaCreacion, CreadoPor)
+										VALUES(
+										@NominaFuncionarioId,@ConceptoNominaId, @ObtenerTercero, @CentroCostoId, @ValorDebito + @ValorCredito,
+										@AuditoriaActivo, GETDATE(), @UsuarioOperacion)
+										
+										FETCH NEXT FROM CUR_CentroCostoFuncionario INTO  @PorcentajeCentroCosto, @CentroCostoId
+									END
+								CLOSE CUR_CentroCostoFuncionario	
+								DEALLOCATE CUR_CentroCostoFuncionario
+
+							    
+								
+						    END
+						    ELSE IF(@OrigenCentroCosto = @Especifico)
+						    BEGIN
+							    
+							    SELECT @NumeroRegistros = Count(*) 
+							    FROM ConceptoNominaCuentaContable
+								WHERE ConceptoNominaId = @ConceptoNominaId AND EstadoRegistro = @AuditoriaActivo;
+							
+							    IF(@NumeroRegistros !=1 )
+								BEGIN
+									SET @MensajeExcepcion = 'Origen centro Especifico, costo La parametrizacion contable no es correcta, numero de registros en  ConceptoNominaId'+CONVERT(VARCHAR, @ConceptoNominaId);
+									SET @Parametros += @MensajeExcepcion;
+				             EXEC util.USP_GenerarExcepcion 
+			                         50000, 
+			                         @MensajeExcepcion;
+								END
+								 
+								SELECT @CentroCostoId = CentroCostoId, @CuentaContableId = CuentaContableId 
+								FROM ConceptoNominaCuentaContable 
+								WHERE ConceptoNominaId = @ConceptoNominaId;
+							
+								IF(@CuentaContableId = 0 OR @CentroCostoId = 0  )
+								BEGIN
+								   SET @MensajeExcepcion = 'La parametrizacion de del centro de costos no están en parametrización contable concepto, CentroCostoId ='+ CONVERT(VARCHAR, @CentroCostoId) + ' CuentaContableId ='+ CONVERT(VARCHAR, @CuentaContableId)+' ConceptoNominaId='+ CONVERT(VARCHAR, @ConceptoNominaId);
+ 								   SET @Parametros += @MensajeExcepcion;
+				                   EXEC util.USP_GenerarExcepcion 
+			                         50000, 
+			                         @MensajeExcepcion;
+							    END
+							   
+							    SELECT @Naturaleza = Naturaleza FROM CuentaContable WHERE Id = @CuentaContableId;
+							
+								SELECT @PorcentajeCentroCosto = funcionarioCC.Porcentaje 
+								FROM ActividadCentroCosto actividadCC
+								INNER JOIN FuncionarioCentroCosto funcionarioCC on actividadCC.Id = funcionarioCC.ActividadCentroCostoId
+								WHERE actividadCC.CentroCostoId =@CentroCostoId
+				
+								if(@PorcentajeCentroCosto<0)
+								BEGIN
+									SET @PorcentajeCentroCosto = 1;							
+								END
+												
+								IF (@Naturaleza = @NaturalezaDebito)
+								BEGIN
+									set @ValorDebito = @nomDetalleValor * @PorcentajeCentroCosto;
+									set @ValorCredito = 0;
+								END
+								ELSE IF (@Naturaleza = @NaturalezaCredito)
+								BEGIN
+									set @ValorDebito = 0;
+									set @ValorCredito = @nomDetalleValor * @PorcentajeCentroCosto;
+								END
+							   
+							   	SET @Parametros += CONCAT(
+									'TipoComprobante= Contabilizacion', '&',
+									'NominaFuncionarioId=', CONVERT(VARCHAR, @NominaFuncionarioId), '&',
+									'ConceptoNominaId=', CONVERT(VARCHAR, @ConceptoNominaId), '&',
+									'Nit=', CONVERT(VARCHAR, @ObtenerTercero), '&',
+									'CentroCostoId=', CONVERT(VARCHAR, @CentroCostoId), '&',
+									'CuentaContableId=', CONVERT(VARCHAR, @CuentaContableId), '&',
+									'Fecha=', CONVERT(VARCHAR, GETDATE()), '&',
+									'Debito=', CONVERT(VARCHAR, @ValorDebito), '&',
+									'Credito=', CONVERT(VARCHAR, @ValorCredito)								
+								);
+								
+								INSERT INTO NominaContabilidad(
+								TipoComprobante,NominaFuncionarioId, ConceptoNominaId, Nit,
+								CentroCostoId, CuentaContableId, Fecha, Debito, Credito,
+								EstadoRegistro, FechaCreacion, CreadoPor)
+								values(
+								'Contabilizacion', @NominaFuncionarioId, @ConceptoNominaId, @ObtenerTercero ,
+								@CentroCostoId, @CuentaContableId, GETDATE(), @ValorDebito, @ValorCredito,
+								@AuditoriaActivo, GETDATE(), @UsuarioOperacion
+								)
+								
+								INSERT INTO NominaCentroCosto(
+								NominaFuncionarioId,ConceptoNominaId, NitTercero, CentroCostoId, Valor,
+								EstadoRegistro, FechaCreacion, CreadoPor)
+								VALUES(
+								@NominaFuncionarioId,@ConceptoNominaId, 58223, @CentroCostoId, @ValorDebito + @ValorCredito,
+								@AuditoriaActivo, GETDATE(), @UsuarioOperacion)
+								
+							END
+						   FETCH NEXT FROM CUR_ConcetoNomina INTO @OrigenCentroCosto, @nomDetalleId, @ConceptoNominaId, @nomDetalleValor;
+					    END
+					 CLOSE CUR_ConcetoNomina;
+					 DEALLOCATE CUR_ConcetoNomina;
+					
+					---Proceso Insertar Contrapartida Credito
+					SELECT @CentroCostoId = CentroCostoId, @CuentaContableId = CuentaContableId 
+					FROM TipoLiquidacionComprobante 
+					WHERE TipoComprobante='Contabilizacion' and Naturaleza ='Credito'
+					AND TipoLiquidacionId = @TipoLiquidacionId;
+					
+					DECLARE @DocuemntoDVFuncionario AS VARCHAR(255) = (SELECT CONCAT(NumeroDocumento, '-',DigitoVerificacion) 
+													  FROM Funcionario 
+													 WHERE Id = @FuncionarioId AND EstadoRegistro = @AuditoriaActivo ); 
+					INSERT INTO NominaContabilidad(
+					TipoComprobante,NominaFuncionarioId, ConceptoNominaId, Nit,
+					CentroCostoId, CuentaContableId, Fecha, Debito, Credito,
+					EstadoRegistro, FechaCreacion, CreadoPor)
+					values(
+					'Contabilizacion', @NominaFuncionarioId, null, @DocuemntoDVFuncionario ,
+					@CentroCostoId, @CuentaContableId, GETDATE(), null, @NetoPagar,
+					@AuditoriaActivo, GETDATE(), @UsuarioOperacion)
+					
+				        
+					    
+			 	FETCH NEXT FROM CUR_ContabilizacionNomina INTO @FuncionarioId, @NominaFuncionarioId, @TipoLiquidacionId, @NetoPagar;
+			    END
+			 CLOSE CUR_ContabilizacionNomina;
+			 DEALLOCATE CUR_ContabilizacionNomina;
+			 
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN ProcesarContabilizacionNomina;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+
+    
+
+
+
+
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ProcesarContabilizacionNomina];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

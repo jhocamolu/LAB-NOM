@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Reporte_V23">
+<comment>Reporte consolidado conceptos de nómina </comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+UPDATE [dbo].[Reporte] SET [EsModal]= 0 , [VistaGeneracion] = N'familiares-funcionario' WHERE Id =  10;
+GO
+
+UPDATE [dbo].[Reporte] SET [EsModal]= 0 , [VistaGeneracion] = N'regreso-vacaciones-ausentismos' WHERE Id =  11;
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+UPDATE [dbo].[Reporte] SET [EsModal]= 1 , [VistaGeneracion] = N'familiaresfuncionario' WHERE Id =  10;
+GO
+
+UPDATE [dbo].[Reporte] SET [EsModal]= 1 , [VistaGeneracion] = N'regresovacacionesausentismos' WHERE Id =  11;
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

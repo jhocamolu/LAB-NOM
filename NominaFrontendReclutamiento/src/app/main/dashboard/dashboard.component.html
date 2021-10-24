@@ -1,0 +1,115 @@
+<div id="contacts" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+     <!-- HEADER -->
+     <div class="" fxLayout="column" fxLayoutAlign="start"
+     fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+    <!-- APP TITLE -->
+    <div class="pl-5" fxLayoutAlign="start center">
+
+        <button mat-icon-button class="sidebar-toggle mr-12" fxHide.gt-sm
+                (click)="toggleSidebar('menu-sidebar')">
+                Menu
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+    <!-- / APP TITLE -->
+</div>
+<!-- / HEADER -->
+    <!-- SELECTED BAR -->
+    <!-- <selected-bar class="accent-600" *ngIf="hasSelectedContacts" [@slideInTop]></selected-bar> -->
+    <!-- / SELECTED BAR -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- SIDEBAR -->
+        <fuse-sidebar class="sidebar" name="menu-sidebar" position="left" lockedOpen="gt-sm">
+
+            <!-- SIDEBAR CONTENT -->
+            <div class="content" fusePerfectScrollbar>
+                <menu-sidebar [@animate]="{value:'*'}"></menu-sidebar>
+            </div>
+            <!-- / SIDEBAR CONTENT -->
+
+        </fuse-sidebar>
+        <!-- / SIDEBAR -->
+
+        <!-- CENTER -->
+        <div class="center p-24 pb-56" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}" *ngIf="menu==='inicio'" >
+            <!-- CONTENT -->
+            <ng-container>
+                <div class="title_">
+                    Dashboard
+                </div>
+                <div class="content padding_">
+                    <avance-list class="row"></avance-list>
+                </div>
+            </ng-container>
+            
+            <!-- / CONTENT -->
+
+        </div>
+
+        <div class="center p-24 pb-56" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}" *ngIf="menu==='convocatorias'" >
+            <!-- CONTENT -->
+            <ng-container>
+                <div class="title_">
+                    Convocatorias
+                </div>
+                <div class="content padding_" *ngIf="submenu !== 'mostrar_convocatoria'">
+                    <mat-list-item>
+                    <convocatorias-listar class="row"></convocatorias-listar>
+                    </mat-list-item>
+                </div>
+
+                <div class="content padding_" *ngIf="submenu === 'mostrar_convocatoria'">
+                    <mat-list-item>
+                    <convocatoria-mostrar></convocatoria-mostrar>
+                    </mat-list-item>
+                </div>
+            </ng-container>
+            
+            <!-- / CONTENT -->
+
+        </div>
+
+        <div class="center p-24 pb-56" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}" *ngIf="menu==='aplicaciones'" >
+            <!-- CONTENT -->
+            <ng-container>
+                <div class="title_">
+                    Aplicaciones
+                </div>
+                <div class="content padding_" *ngIf="submenu !== 'mostrar_aplicacion'">
+                    <mat-list-item>
+                    <aplicaciones-listar class="row"></aplicaciones-listar>
+                    </mat-list-item>
+                </div>
+
+                <div class="content padding_" *ngIf="submenu === 'mostrar_aplicacion'">
+                    <mat-list-item>
+                    <aplicacion-mostrar></aplicacion-mostrar>
+                    </mat-list-item>
+                </div>
+            </ng-container>
+            
+            <!-- / CONTENT -->
+
+        </div>
+
+        <div class="center p-24 pb-56" [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}" *ngIf="menu==='hoja_vida'" >
+            <!-- CONTENT -->
+            <ng-container>
+                <div>
+                    <hojas-vida-datos-basicos-form></hojas-vida-datos-basicos-form>
+                </div>
+            </ng-container>
+            
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CENTER -->
+
+    </div>
+    <!-- / CONTENT-->
+
+</div>

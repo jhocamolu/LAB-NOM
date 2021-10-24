@@ -1,0 +1,52 @@
+<div *ngIf="estaOcultoSpinner">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="p-28 pb-12 pt-8">
+    <h1><strong>¿Cómo te podemos ayudar?</strong></h1>
+    <mat-form-field class="busqueda">
+        <mat-label>Ingresa una pregunta o palabra clave.</mat-label>
+        <input matInput type="text" [(ngModel)]="inputValue" (input)="onSearchChange($event)">
+        <mat-icon matSuffix class="secondary-text mat-icon" style="cursor: pointer;" (click)="limpiarHandle($event)">cancel</mat-icon>
+    </mat-form-field>
+</div>
+
+<div *ngIf="estado">
+
+    <div *ngFor="let item of categoriaAll">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{ item.catagoriaPadre.nombre }}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-list role="list">
+                    <mat-list-item *ngIf="item.listaCategias.length == 0 && item.listaArticulos.length == 0">
+                        No se ha encontrado información.
+                    </mat-list-item>
+                    <mat-list-item *ngFor="let catHijo of item.listaCategias" (click)="emitirCategoria($event, catHijo, item.listaCategias)" data-type="categoria" class="cat-pointer">
+                        <mat-icon class="work">folder_open</mat-icon>
+                        {{ catHijo.nombre }}
+                    </mat-list-item>
+                    <mat-list-item *ngFor="let artHijo of item.listaArticulos" (click)="emitirArticulo($event, artHijo)" data-type="articulo" class="cat-pointer">
+                        <mat-icon class="work">insert_drive_file</mat-icon>
+                        {{ artHijo.titulo }}
+                    </mat-list-item>
+
+                </mat-list>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
+<div *ngIf="!estado">
+    <mat-list class="pr-4 pl-4">
+        <mat-list-item *ngFor="let item of categoriaOnly" (click)="emitirArticulo($event, item)">
+            <mat-icon class="work">insert_drive_file</mat-icon>
+            {{item.titulo}}
+        </mat-list-item>
+        <mat-list-item *ngIf="noContenido">
+            No se ha encontrado información.
+        </mat-list-item>
+    </mat-list>
+</div>

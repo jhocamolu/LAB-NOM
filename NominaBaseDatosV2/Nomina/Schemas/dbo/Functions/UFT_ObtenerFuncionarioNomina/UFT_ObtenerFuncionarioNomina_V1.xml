@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="UFT_ObtenerFuncionarioNomina_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_DevuelveFuncionarioNomina]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_DevuelveFuncionarioNomina];
+END;
+
+IF OBJECT_ID('[dbo].[UFT_ObtenerFuncionarioNomina]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerFuncionarioNomina];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:			   Jhonatan Camilo Moreno Luna
+-- Create date:		   20-02-2020
+-- Description:		   Permite obtener los funcionarios que se pueden incluir en 
+--					   una liquidación
+-- Parametros:	 
+-- @NominaId INT:		   Identifica el id de la nomina que se desea buscar.
+-- @NominaFechaInicio DATE: Fecha de inicio de la nomina.
+-- @NominaFechaFin DATE:	   Fecha de inicio de la nomina.
+-- @TipoLiquidacionId:	   Tipo de liquidación de nómina utilizado
+-- @TipoProceso:		   Proceso que se realiza de acuerdo al tipo de liquidación.
+--
+-- Retorna: 
+-- @Tabla TABLE:		   Retorna todos los valores para lista los funcionarios que se 
+--					   pueden seleccionar
+-- ==========================================================================================
+
+CREATE FUNCTION [dbo].[UFT_ObtenerFuncionarioNomina]
+(@NominaId INT
+)
+RETURNS @Tabla TABLE
+(FuncionarioId         INT,
+ NumeroDocumento       VARCHAR(255),
+ PrimerNombre          VARCHAR(255),
+ SegundoNombre         VARCHAR(255),
+ PrimerApellido        VARCHAR(255),
+ SegundoApellido       VARCHAR(255),
+ CriterioBusqueda      NVARCHAR(MAX),
+ DependenciaId         INT,
+ CargoId               INT,
+ CargoNombre           VARCHAR(255),
+ CentroOperativoId     INT,
+ CentroOperativoNombre VARCHAR(255),
+ GrupoNominaId         INT,
+ GrupoNominaNombre     VARCHAR(255)
+)
+AS
+     BEGIN
+
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         DECLARE @AuditoriaActivo VARCHAR(255);
+         DECLARE @ContratoPendientePorLiquidar VARCHAR(255);
+         DECLARE @SolicituVacacionesAutorizada VARCHAR(255);
+         DECLARE @SolicituVacacionesEnCurso VARCHAR(255);
+         DECLARE @SolicitudCesantiasAprobada VARCHAR(255);
+         DECLARE @NominaAplicada VARCHAR(255);
+         DECLARE @NominaFechaInicio DATE;
+         DECLARE @NominaFechaFin DATE;
+         DECLARE @TipoLiquidacionId INT;
+         DECLARE @TipoProceso VARCHAR(255);
+         DECLARE @TipoProcesoNormal VARCHAR(255);
+         DECLARE @TipoProcesoDefinitivo VARCHAR(255);
+         DECLARE @TipoProcesoVacaciones VARCHAR(255);
+         DECLARE @TipoProcesoAnticipo VARCHAR(255);
+         DECLARE @TipoProcesoCesantias VARCHAR(255);
+         DECLARE @CodigoCesantiaConsolidada VARCHAR(255)=
+         (
+             SELECT vcctl.CODIGO_CONSOLIDACIONCESANTIAS
+             FROM util.VW_ConstanteCodigoTipoLiquidacion AS vcctl
+         );
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+         -- Se consultan los estado
+         SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+                @ContratoPendientePorLiquidar = vce.CONTRATO_PENDIENTEPORLIQUIDAR,
+                @SolicituVacacionesAutorizada = vce.SOLICITUDVACACIONES_AUTORIZADA,
+                @SolicituVacacionesEnCurso = vce.SOLICITUDVACACIONES_ENCURSO,
+                @SolicitudCesantiasAprobada = vce.SOLICITUDCESANTIAS_APROBADA,
+                @NominaAplicada = vce.NOMINA_APLICADA
+         FROM util.VW_ConstanteEstado AS vce;
+
+         -- Se consultan los datos de la nómina
+         SELECT @NominaFechaInicio = nom.FechaInicio,
+                @NominaFechaFin = nom.FechaFinal,
+                @TipoLiquidacionId = nom.TipoLiquidacionId
+         FROM [dbo].[Nomina] AS nom
+         WHERE Id = @NominaId;
+
+         -- se consulta el tipo de proceso 
+         SELECT @TipoProceso = tl.Proceso
+         FROM TipoLiquidacion AS tl
+              INNER JOIN Nomina AS n ON n.TipoLiquidacionId = tl.Id
+         WHERE n.Id = @NominaId;
+
+         -- Se consultan los procesos asociados a los tipos de liquidación
+         SELECT @TipoProcesoAnticipo = vcpt.ANTICIPOCESANTIAS,
+                @TipoProcesoCesantias = vcpt.CESANTIAS,
+                @TipoProcesoDefinitivo = vcpt.DEFINITIVO,
+                @TipoProcesoNormal = vcpt.NORMAL,
+                @TipoProcesoVacaciones = vcpt.VACACIONES
+         FROM util.VW_ConstanteProcesoTipoLiquidacion AS vcpt;
+
+         -- Se obtiene la información que retorna la función
+         INSERT INTO @Tabla
+                SELECT vfd.Id,
+                       vfd.NumeroDocumento,
+                       vfd.PrimerNombre,
+                       vfd.SegundoNombre,
+                       vfd.PrimerApellido,
+                       vfd.SegundoApellido,
+                       vfd.CriterioBusqueda,
+                       CASE
+                           WHEN otr.Id <> NULL
+                           THEN otrdep.Id
+                           ELSE dep.Id
+                       END AS DependenciaId,
+                       CASE
+                           WHEN otr.Id <> NULL
+                           THEN otrcar.Id
+                              ELSE car.Id
+                       END AS CargoId,
+                       CASE
+                           WHEN otr.Id <> NULL
+                           THEN otrcar.Nombre
+                              ELSE car.Nombre
+                       END AS CargoNombre,
+                       CASE
+                           WHEN otr.Id <> NULL
+                           THEN otrceo.Id
+                              ELSE ceo.Id
+                       END AS CentroOperativoId,
+                       CASE
+                           WHEN otr.Id <> NULL
+                           THEN otrceo.Nombre
+                              ELSE ceo.Nombre
+                       END AS CentroOperativoNombre,
+                       grn.Id AS GrupoNominaId,
+                       grn.Nombre AS GrupoNominaNombre
+                FROM [dbo].[VW_FuncionarioDatoActual] AS vfd
+                     -- Datos de Contrato
+                     INNER JOIN [dbo].[Contrato] AS con ON(vfd.ContratoId = con.Id)
+                     INNER JOIN [dbo].[GrupoNomina] AS grn ON(grn.Id = con.GrupoNominaId)
+                     INNER JOIN [dbo].[CargoDependencia] AS cardep ON(cardep.Id = con.CargoDependenciaId)
+                     INNER JOIN [dbo].[Dependencia] AS dep ON(cardep.DependenciaId = dep.Id)
+                     INNER JOIN [dbo].[Cargo] AS car ON(cardep.CargoId = car.Id)
+                     INNER JOIN [dbo].CentroOperativo AS ceo ON(ceo.Id = con.CentroOperativoId)
+                     -- Datos de Otro Si
+                     LEFT JOIN [dbo].[ContratoOtroSi] AS otr ON(vfd.ContratoOtroSiId = otr.Id)
+                     LEFT JOIN [dbo].[CargoDependencia] AS otrcardep ON(otrcardep.Id = otr.CargoDependenciaId)
+                     LEFT JOIN [dbo].[Dependencia] AS otrdep ON(otrcardep.DependenciaId = otrdep.Id)
+                     LEFT JOIN [dbo].[Cargo] AS otrcar ON(otrcardep.CargoId = otrcar.Id)
+                     LEFT JOIN [dbo].CentroOperativo AS otrceo ON(otrceo.Id = otr.CentroOperativoId)
+                     -- Datos de la nomina
+                     INNER JOIN TipoLiquidacionEstado AS tle ON(tle.EstadoContrato = con.Estado
+                                                                AND tle.EstadoFuncionario = vfd.Estado
+                                                                AND tle.EstadoRegistro = @AuditoriaActivo)
+                     INNER JOIN TipoLiquidacion AS tli ON(tle.TipoLiquidacionId = tli.Id)
+                     INNER JOIN dbo.Nomina AS nom ON(nom.TipoLiquidacionId = tli.Id)
+                WHERE nom.Id = @NominaId
+                      AND vfd.Id NOT IN
+                (
+                    SELECT nof.FuncionarioId
+                    FROM NominaFuncionario AS nof
+                         INNER JOIN Nomina AS nom ON nof.NominaId = nom.id
+                    WHERE(nof.NominaId = @NominaId)
+                         OR (nom.id <> @NominaId
+                             AND nom.FechaInicio = @NominaFechaInicio
+                             AND nom.FechaFinal = @NominaFechaFin
+                             AND nom.TipoLiquidacionId = @TipoLiquidacionId)
+                )
+                    -- Definitivo
+                    AND ((@TipoProceso = @TipoProcesoDefinitivo
+                          AND vfd.Id IN
+                (
+                    SELECT FuncionarioId
+                    FROM Contrato
+                    WHERE Estado = @ContratoPendientePorLiquidar
+                          AND EstadoRegistro = @AuditoriaActivo
+                ))
+                         OR (@TipoProceso != @TipoProcesoDefinitivo))
+                    -- Vacaciones
+                    AND ((@TipoProceso = @TipoProcesoVacaciones
+                          AND vfd.Id IN
+                (
+                    SELECT FuncionarioId
+                    FROM SolicitudVacaciones
+                    WHERE Estado IN(@SolicituVacacionesAutorizada, @SolicituVacacionesEnCurso)
+                    AND NominaFuncionarioId IS NULL
+                    AND EstadoRegistro = @AuditoriaActivo
+                ))
+                      OR (@TipoProceso != @TipoProcesoVacaciones))
+                -- AnticipoCesantias
+                AND ((@TipoProceso = @TipoProcesoAnticipo
+                      AND vfd.Id IN
+                (
+                    SELECT FuncionarioId
+                    FROM SolicitudCesantia
+                    WHERE Estado = @SolicitudCesantiasAprobada
+                          AND EstadoRegistro = @AuditoriaActivo
+                ))
+                     OR (@TipoProceso != @TipoProcesoAnticipo))
+                -- Cesantias
+                AND ((@TipoProceso = @TipoProcesoCesantias
+                      AND vfd.Id IN
+                (
+                    SELECT FuncionarioId
+                    FROM NominaFuncionario AS nf
+                         INNER JOIN Nomina AS n ON nf.NominaId = n.Id
+                         INNER JOIN TipoLiquidacion AS tl ON tl.Id = n.TipoLiquidacionId
+                    WHERE tl.Codigo = @CodigoCesantiaConsolidada
+                          AND @NominaFechaFin BETWEEN n.FechaInicio AND n.FechaFinal
+                          AND n.Estado = @NominaAplicada
+                          AND n.EstadoRegistro = @AuditoriaActivo
+                ))
+                      OR (@TipoProceso != @TipoProcesoCesantias));
+
+         RETURN;
+
+     END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerFuncionarioNomina]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerFuncionarioNomina]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

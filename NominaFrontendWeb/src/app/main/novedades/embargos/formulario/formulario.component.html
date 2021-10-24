@@ -1,0 +1,469 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Novedades</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/novedades/embargos/'">Embargos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar embargo</span>
+                <span *ngIf="!item">Registrar embargo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar embargo </h2>
+                <h2 *ngIf="!item">Registrar embargo</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a routerLink="/novedades/embargos/" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="box-shadow">
+            <!-- CONTENIDO -->
+
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Funcionario</mat-label>
+                    <input matInput formControlName="funcionario" [matAutocomplete]="autoFn" (focusout)="focusData($event)" required>
+                    <mat-autocomplete [displayWith]="displayFnFuncionarios" #autoFn="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredFuncionarios | async" [value]="item">
+                            {{item.criterioBusqueda}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <mat-error *ngFor="let error of form.get('funcionario').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Número de identificación y nombre completo del funcionario.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Tipo de embargo</mat-label>
+                    <mat-select formControlName="tipoEmbargoId" required>
+                        <mat-option></mat-option>
+                        <mat-option *ngFor="let item of tipoEmbargos" [value]="item.id">
+                            {{item.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngFor="let error of form.get('tipoEmbargoId').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Nombre relacionado tipo de embargo.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Juzgado</mat-label>
+                    <input matInput formControlName="juzgado" [matAutocomplete]="autoFnJuzgado">
+                    <mat-autocomplete [displayWith]="displayFn" #autoFnJuzgado="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredJuzgados | async" [value]="item">
+                            {{item.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <mat-error *ngFor="let error of form.get('juzgado').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Nombre del juzgado que emite la orden de embargo.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Proceso</mat-label>
+                    <input matInput formControlName="numeroProceso">
+                    <mat-error *ngFor="let error of form.get('numeroProceso').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Número del proceso contenido en la orden de embargo.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Prioridad</mat-label>
+                        <!--(focusout)="procesoLeave($event)"-->
+                        <input matInput formControlName="prioridad" required>
+                        <mat-error *ngFor="let error of form.get('prioridad').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'min'">
+                                    Valor mínimo 1.
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'max'">
+                                    Valor máximo 99.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Número de prioridad del embargo.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Entidad financiera</mat-label>
+                        <mat-select formControlName="entidadFinancieraId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of entidadFinancieras" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('entidadFinancieraId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Entidad financiera donde se consigna la cuota del embargo.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Cuenta a consignar</mat-label>
+                        <input matInput formControlName="numeroCuenta" required>
+                        <mat-error *ngFor="let error of form.get('numeroCuenta').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Número de la cuenta a consignar la cuota del embargo.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="45" class="pl-12 pr-12 pb-12">
+                        <mat-label>Documento demandante</mat-label>
+                        <input matInput formControlName="numeroDocumentoDemandante" required>
+                        <mat-error *ngFor="let error of form.get('numeroDocumentoDemandante').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Número de identificación del demandante.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="15" class="pr-0">
+                        <mat-label>DV</mat-label>
+                        <input matInput formControlName="digitoVerificacionDemandante">
+                        <mat-error *ngFor="let error of form.get('digitoVerificacionDemandante').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Dígito de verificación del documento del demandante.">info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Demandante</mat-label>
+                    <input matInput formControlName="demandante" required>
+                    <mat-error *ngFor="let error of form.get('demandante').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Nombre del demandante.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha de inicio</mat-label>
+                        <input matInput [matDatepicker]="fechaInicio" (focus)="fechaInicio.open()"
+                            (click)="fechaInicio.open()" formControlName="fechaInicio">
+                        <mat-datepicker-toggle matPrefix [for]="fechaInicio">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+                        <mat-error *ngFor="let error of form.get('fechaInicio').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                    No es un formato de fecha válido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Fecha inicial del desembolso de la cuota del embargo.">info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha finalización</mat-label>
+                        <input matInput [matDatepicker]="fechaFin" (focus)="fechaFin.open()" (click)="fechaFin.open()"
+                            formControlName="fechaFin">
+                        <mat-datepicker-toggle matPrefix [for]="fechaFin">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker startView="year" #fechaFin></mat-datepicker>
+                        <mat-error *ngFor="let error of form.get('fechaFin').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                    No es un formato de fecha válido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Fecha final del desembolso de la cuota del embargo.">info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Valor embargo</mat-label>
+                        <input matInput formControlName="valorEmbargo" mask="separator.2"
+                            separatorLimit="100000000" thousandSeparator=".">
+                        <mat-error *ngFor="let error of form.get('valorEmbargo').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Valor de la totalidad del embargo.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Valor cuota</mat-label>
+                        <input matInput formControlName="valorCuota" mask="separator.2"
+                            separatorLimit="999999999" thousandSeparator=".">
+                        <mat-error *ngFor="let error of form.get('valorCuota').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Valor de la cuota del embargo.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+
+                <div class="dos-bloque">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Porcentaje cuota</mat-label>
+                        <input matInput formControlName="porcentajeCuota" mask="separator.2" suffix="%">
+                        <mat-error *ngFor="let error of form.get('porcentajeCuota').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Porcentaje de la cuota del embargo a descontar.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Período de pago</mat-label>
+                        <mat-select formControlName="tipoPeriodo" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of tipoPeriodosInicial.value" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('tipoPeriodo').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Indica en qué período de pago se descuenta el valor de la cuota del embargo.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Periodicidad</mat-label>
+                        <mat-select formControlName="subPeriodoId" required multiple>
+                            <mat-option disabled></mat-option>
+                            <mat-option *ngFor="let item of subPeriodos" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('subPeriodoId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Indica cuál es la periodicidad para realizar el descuento de la cuota del embargo.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Conceptos a embargar</mat-label>
+                        <mat-select formControlName="conceptoNominaId" required multiple>
+                            <mat-option disabled></mat-option>
+                            <mat-option *ngFor="let item of conceptoNomina" [value]="item.conceptoNomina?.id">
+                                {{item.conceptoNomina?.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('conceptoNominaId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Indica cuál o cuáles son los conceptos a embargar según lo emitido en la orden de embargo.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                </div>
+
+
+                <div class="actions">
+                    <a *ngIf="!item" mat-raised-button [routerLink]="'/novedades/embargos/'">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+                    <a *ngIf="item" mat-raised-button routerLink="/novedades/embargos/{{item.id}}/mostrar">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+
+                    <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                        <mat-icon>save</mat-icon>
+                        <span>Guardar</span>
+                    </button>
+                </div>
+
+
+            </form>
+
+        </div>
+        <!-- / CONTENIDO -->
+    </div>
+
+    <!-- / CONTENT -->
+</div>

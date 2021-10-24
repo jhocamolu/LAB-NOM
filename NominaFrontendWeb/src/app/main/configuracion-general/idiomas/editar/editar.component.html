@@ -1,0 +1,56 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+   <h1 mat-dialog-title>Editar idioma</h1>
+   <div mat-dialog-content fusePerfectScrollbar>
+
+      <mat-form-field appearance="outline">
+         <mat-label>Código</mat-label>
+         <input matInput placeholder="" formControlName="codigo" required type="text" step="any">
+         <mat-error *ngFor="let error of objToArray(codigo.errors)">
+            <div [ngSwitch]="error">
+               <ng-template [ngSwitchCase]="'required'">
+                  Requerido
+               </ng-template>
+               <ng-template ngSwitchDefault>
+                  {{error}}
+               </ng-template>
+            </div>
+         </mat-error>
+         <mat-icon matSuffix matTooltip="Código del idioma emitido por la ISO 639-1.">info</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+         <mat-label>Nombre</mat-label>
+         <input matInput placeholder="" formControlName="nombre" required>
+         <mat-error *ngFor="let error of objToArray(nombre.errors)">
+            <div [ngSwitch]="error">
+               <ng-template [ngSwitchCase]="'required'">
+                  Requerido
+               </ng-template>
+               <ng-template [ngSwitchCase]="'pattern'">
+                  Requiere Alfabético sin espacios en mayusculas
+               </ng-template>
+               <ng-template [ngSwitchCase]="'maxlength'">
+                  Máximo {{ nombre.errors.maxlength.requiredLength }} caracteres actualmente tiene
+                  {{ nombre.errors.maxlength.actualLength }}
+               </ng-template>
+               <ng-template ngSwitchDefault>
+                  {{error}}
+               </ng-template>
+            </div>
+         </mat-error>
+         <mat-icon matSuffix matTooltip="Nombre del idioma emitido por la ISO 639-1.">info</mat-icon>
+      </mat-form-field>
+
+   </div>
+
+   <div mat-dialog-actions>
+      <button mat-raised-button type="button" (click)="dialogRef.close() ">
+         <mat-icon>cancel</mat-icon>
+         <span>Cancelar</span>
+      </button>
+      <button mat-raised-button type="submit" [disabled]="form.invalid || submit " color="accent">
+         <mat-icon>save</mat-icon>
+         <span>Guardar</span>
+      </button>
+   </div>
+</form>

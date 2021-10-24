@@ -1,0 +1,31 @@
+<div class="">
+    
+    <div mat-dialog-title fxLayout="row " fxLayoutAlign="center center " [ngClass]="['dialog-title', element?.clase]">
+        <div [ngSwitch]="element?.clase">
+            <ng-template [ngSwitchCase]="'error'">
+                <mat-icon>cancel_circle</mat-icon>
+            </ng-template>
+            <ng-template [ngSwitchCase]="'advertencia'">
+                <mat-icon>warning</mat-icon>
+            </ng-template>
+            <ng-template [ngSwitchCase]="'exito'">
+                <mat-icon>check_circle</mat-icon>
+            </ng-template>
+            <ng-template ngSwitchDefault>
+                <mat-icon>info</mat-icon>
+            </ng-template>
+        </div>
+    </div>
+    <div mat-dialog-content class="p-48 max-width-content-editable" fusePerfectScrollbar>
+        {{ element?.mensaje}}
+    </div>
+    <div style="z-index: 500;" mat-dialog-actions class="pb-32" fxLayout="row " fxLayoutAlign="end center ">
+        <button mat-raised-button [ngClass]="[element?.clase]" (click)="dialogRef.close(false)">
+            <mat-icon>check_circle</mat-icon>
+            Aceptar <div class="spiner" *ngIf="element?.espera">
+                <mat-spinner></mat-spinner>
+            </div>
+        </button>
+    </div>
+
+</div>

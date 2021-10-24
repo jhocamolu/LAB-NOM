@@ -1,0 +1,122 @@
+<!-- CONTENIDO -->
+<div class="page-layout simple fullwidth">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span class="secondary-text">Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard" class="secondary-text">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/configuracion/tipo-embargos'" class="secondary-text">Tipos de embargo</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span class="secondary-text">Visualizar tipo de embargo</span>
+            </div>
+            <div>
+                <h2 class="title">Visualizar tipo de embargo</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngIf="arrayPermisos.actualizar"
+                    routerLink="/configuracion/tipo-embargos/{{item.id}}/editar">
+                    <span>Editar tipo de embargo</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisosConceptos.crear"
+                    (click)="crearHandle($event, item.tipoEmbargoId)">
+                    <span>Agregar concepto</span>
+                </button>
+                <a routerLink="/configuracion/tipo-embargos" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="selectedTabChangeHandle($event)">
+                <!-- Información -->
+                <mat-tab label="Información">
+     
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Nombre
+                                    <mat-icon class="s-16" matSuffix matTooltip="Nombre del tipo de embargo.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.tipoEmbargo?.nombre}}</p>
+                            </div>
+                            <div>
+                                <h3>¿El SMMLV es embargable?
+                                    <mat-icon class="s-16" matSuffix matTooltip="Indica si el SMMLV aplica para ser embargado según el tipo de embargo.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.tipoEmbargo?.salarioMinimoEmbargable == true?'Si': 'No'}}</p>
+                            </div>
+                        </div>
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Concepto de descuento
+                                    <mat-icon class="s-16" matSuffix matTooltip="Concepto de descuento relacionado al tipo de embargo.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.conceptoNomina?.nombre}}</p>
+                            </div>
+                            <div>
+                                <h3>Prioridad
+                                    <mat-icon class="s-16" matSuffix matTooltip="Prioridad del tipo de embargo.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.tipoEmbargo?.prioridad}}</p>
+                            </div>
+                        </div>
+
+                </mat-tab>
+
+                <!-- Conceptos a embargar-->
+
+                <!-- Conceptos asociados-->
+                <mat-tab label="Conceptos a embargar">
+
+                    <alcanos-empty-list labelH1="¡Uy! Aún no has agregado ningún concepto a embargar." 
+                    [visibleBtnCreate]="false" [visible]="conceptoCount == 0">
+                    </alcanos-empty-list>
+
+                    <table class="simple" *ngIf="conceptoCount > 0">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen">Nombre</th>
+                                <th class="mat-header-cell dr">Máximo a embargar por concepto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="mat-row" *ngFor="let item of conceptoAEmbargar">
+                                <td class="margen">{{item.conceptoNomina?.nombre}}</td>
+                                <td class="maximo dr">{{ (item.maximoEmbargarConcepto / 100) | percent}}</td>
+                               
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </mat-tab>
+                <!-- Conceptos asociados-->
+            </mat-tab-group>
+        </div>
+
+        <!-- / CONTENT -->
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="CausalTerminacion_V3">
+<comment>HU040 Finalizar contrato</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [CausalTerminacion] ADD [JustaCausa] bit NOT NULL DEFAULT CAST(0 AS bit);
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [CausalTerminacion] DROP COLUMN [JustaCausa];
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

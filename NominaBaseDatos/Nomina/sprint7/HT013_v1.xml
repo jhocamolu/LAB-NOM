@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="HT013_v1">
+<sql endDelimiter="GO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].TipoAusentismo ON
+GO
+
+INSERT INTO dbo.TipoAusentismo
+(Id, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, Nombre, ClaseAusentismoId, UnidadTiempo, Codigo)
+VALUES(15, 'Activo    ', 'sistema', '2020-03-03 19:25:00.000', NULL, NULL, NULL, NULL, 'Valera emocional', 1, 'Horas', 'VAL');
+
+SET IDENTITY_INSERT [dbo].TipoAusentismo OFF
+GO
+
+UPDATE dbo.TipoAusentismo SET UnidadTiempo = 'Horas' WHERE Id IN (6, 7);
+</sql>
+<rollback>
+DELETE dbo.TipoAusentismo WHERE Id  = 15;
+UPDATE dbo.TipoAusentismo SET UnidadTiempo = 'Días' WHERE Id IN (6, 7);
+</rollback>
+</changeSet>
+</databaseChangeLog>

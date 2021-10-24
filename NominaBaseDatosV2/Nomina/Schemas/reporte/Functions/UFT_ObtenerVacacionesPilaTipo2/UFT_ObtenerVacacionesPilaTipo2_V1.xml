@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="UFT_ObtenerVacacionesPilaTipo2_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[reporte].[UFT_ObtenerVacacionesPilaTipo2]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [reporte].[UFT_ObtenerVacacionesPilaTipo2]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Jhonatan Camilo Moreno Luna
+-- Create date: 13-08-2020
+-- Description: Permite obtener las vacaciones liquidadas en la Nomina para la generacion del registro tipo 2 de la PILA.
+-- Parametros:
+-- @PeriodoPagoId INT= Id del periodo contable que se debe seleccionar para la PILA;
+-- @funcionarios NVARCHAR = Id de los funcionarios que se desean registar para generar la PILA, si es NULL son todos los funcionarios.;
+-- Retorna: 
+-- @Tabla TABLE: Retorna todos los valores para lista los funcionarios seleccionados.
+-- =============================================
+
+CREATE FUNCTION [reporte].[UFT_ObtenerVacacionesPilaTipo2]
+(@PeriodoPagoId INT, 
+ @funcionarios  NVARCHAR(MAX) = NULL
+)
+RETURNS @Funcionario TABLE
+(FuncionarioId    INT, 
+ ModuloRegistroId INT, 
+ FechaInicio      DATE, 
+ FechaFin         DATE, 
+ DiasNoLaborados  INT, 
+ DiferenciaTotal  INT,
+ valorVacaciones money
+)
+AS
+     BEGIN
+         DECLARE @FechaInicio DATE=
+         (
+             SELECT DATEADD(mm, DATEDIFF(mm, 0, pc.Fecha), 0)
+             FROM dbo.PeriodoContable pc
+             WHERE pc.Id = @PeriodoPagoId
+         );
+         DECLARE @FechaFin DATE=
+         (
+             SELECT pc.Fecha
+             FROM dbo.PeriodoContable pc
+             WHERE pc.Id = @PeriodoPagoId
+         );
+         INSERT INTO @Funcionario
+         (FuncionarioId, 
+          ModuloRegistroId, 
+          FechaInicio, 
+          FechaFin, 
+          DiasNoLaborados, 
+          DiferenciaTotal,
+		  ValorVacaciones
+         )
+                SELECT sv.FuncionarioId, 
+                       nfn.ModuloRegistroId, 
+                       sv.FechaInicioDisfrute, 
+                       sv.FechaFinDisfrute, 
+                       SUM(nd.Cantidad) AS 'DiasNoLaborados', 
+                       DATEDIFF(dd, IIF(sv.FechaInicioDisfrute < @FechaInicio, @FechaInicio, sv.FechaInicioDisfrute), IIF(sv.FechaFinDisfrute > @FechaFin, @FechaFin, sv.FechaFinDisfrute)) + 1 AS 'DiferenciaTotal',
+					   sum(nd.Valor) AS 'ValorVacaciones'
+                FROM dbo.NominaDetalle nd
+                     INNER JOIN dbo.NominaFuenteNovedad nfn ON nd.NominaFuenteNovedadId = nfn.Id
+                                                               AND nfn.Modulo =
+                (
+                    SELECT vcms.VACACIONES
+                    FROM util.VW_ConstanteModuloSistema vcms
+                )
+                     INNER JOIN dbo.SolicitudVacaciones sv ON nfn.ModuloRegistroId = sv.Id
+                     INNER JOIN dbo.NominaFuncionario nf ON nd.NominaFuncionarioId = nf.Id
+                                                            AND nf.Estado =
+                (
+                    SELECT vce.NOMINAFUNCIONARIO_LIQUIDADO
+                    FROM util.VW_ConstanteEstado vce
+                )
+                                                            AND nd.Estado =
+                (
+                    SELECT vce.NOMINADETALLE_PROCESADO
+                    FROM util.VW_ConstanteEstado vce
+                )
+                     INNER JOIN dbo.Nomina n ON nf.NominaId = n.Id
+                                                AND n.Estado =
+                (
+                    SELECT vce.NOMINA_APLICADA
+                    FROM util.VW_ConstanteEstado vce
+                )
+                WHERE n.PeriodoContableId = @PeriodoPagoId
+                      AND ((@funcionarios IS NULL)
+                           OR (@funcionarios IS NOT NULL
+                               AND nf.Id IN
+                (
+                    SELECT CAST(Value AS INT) valor
+                    FROM util.UFT_Split(@funcionarios, ',')
+                )))
+                GROUP BY sv.FuncionarioId, 
+                         sv.FechaInicioDisfrute, 
+                         sv.FechaFinDisfrute, 
+                         nfn.ModuloRegistroId;
+         RETURN;
+     END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[reporte].[UFT_ObtenerVacacionesPilaTipo2]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [reporte].[UFT_ObtenerVacacionesPilaTipo2]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

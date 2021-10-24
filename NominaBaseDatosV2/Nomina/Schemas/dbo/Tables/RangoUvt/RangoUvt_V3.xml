@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="RangoUvt_V">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [RangoUvt] ADD [Adiciona] int NOT NULL DEFAULT 0;
+
+GO
+
+ALTER TABLE [RangoUvt] ADD [Sustrae] int NOT NULL DEFAULT 0;
+
+GO
+
+ALTER TABLE [RangoUvt] ADD [ValidoDesde] smalldatetime NOT NULL DEFAULT GETDATE();
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [RangoUvt] DROP COLUMN [Adiciona];
+
+GO
+
+ALTER TABLE [RangoUvt] DROP COLUMN [Sustrae];
+
+GO
+
+ALTER TABLE [RangoUvt] DROP COLUMN [ValidoDesde];
+
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

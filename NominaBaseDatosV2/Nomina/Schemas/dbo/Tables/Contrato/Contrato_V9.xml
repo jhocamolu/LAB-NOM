@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Contrato_V9">
+<comment>se adicina relacion con causal de terminacion  </comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+   
+ALTER TABLE [Contrato] ADD [CausalTerminacionId] int NULL;
+
+GO
+ALTER TABLE [Contrato] ADD [ObservacionFinalizacionContrato] text NULL;
+
+GO
+CREATE INDEX [IX_Contrato_CausalTerminacionId] ON [Contrato] ([CausalTerminacionId]);
+
+GO
+
+ALTER TABLE [Contrato] ADD CONSTRAINT [FK_Contrato_CausalTerminacion_CausalTerminacionId] FOREIGN KEY ([CausalTerminacionId]) REFERENCES [CausalTerminacion] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP INDEX [IX_Contrato_CausalTerminacionId] ON [Contrato];
+
+GO
+
+ALTER TABLE [Contrato]  DROP COLUMN  [CausalTerminacionId] ;
+
+GO
+
+ALTER TABLE [Contrato] DROP COLUMN [ObservacionFinalizacionContrato];
+
+GO
+
+ALTER TABLE [Contrato] DROP CONSTRAINT [FK_Contrato_CausalTerminacion_CausalTerminacionId] ;
+
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

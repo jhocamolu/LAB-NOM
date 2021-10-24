@@ -1,0 +1,98 @@
+convocatorias-listar{
+    @import "src/@alcanos/scss/alcanos-v2";
+
+    .box-shadow{
+        overflow:auto;
+    }
+
+    .padding-r19 {
+        padding-right: 19px !important;
+    }
+
+    .text-success{
+        color: green;
+    }
+
+    .text-danger{
+        color: red;
+    }
+
+    .mat-column-fechaInicio,
+    th .mat-column-fechaInicio {
+        text-align: right !important;
+        span {
+            padding-right: 30px;
+        }
+        .mat-sort-header-container {
+            justify-content: flex-end;
+            padding-right: 10px;
+        }
+    }
+
+    .mat-column-salario,
+    th .mat-column-salario {
+        text-align: right !important;
+        span {
+            padding-right: 30px;
+        }
+        .mat-sort-header-container {
+            justify-content: flex-end;
+            padding-right: 10px;
+        }
+    }
+
+    .mat-column-cantidad,
+    th .mat-column-cantidad {
+        text-align: right !important;   
+        padding-right: 60px;
+        .mat-sort-header-container {
+            justify-content: flex-end;
+        }
+    }
+
+    .mat-column-accion,
+    th .mat-column-accion {
+        text-align: center !important;   
+        padding-right: 60px;
+        .mat-sort-header-container {
+            justify-content: center;
+            padding-right: 10px;
+        }
+    }
+
+    .mat-column-cargoDependenciaSolicitado-cargo-nombre{
+        padding-right: 24px !important;
+    }
+
+    td p {
+        margin: auto;
+    }
+    td,th {
+        white-space: nowrap;
+    }
+
+    .title_{
+        font-size: 21px;
+        font-weight: bold;
+        padding: 24px;
+        padding-top: 0 !important;
+        padding-left: 0 !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+    .content > div{
+        padding: 0 !important;
+        background-color: white;
+        box-shadow: none !important;
+    }
+    .spinner{
+        position: absolute;
+        left: 45%;
+        top: 25%;
+        z-index: 999;
+    }
+
+    .container_spinner{
+        min-height: 150px;
+    }
+}

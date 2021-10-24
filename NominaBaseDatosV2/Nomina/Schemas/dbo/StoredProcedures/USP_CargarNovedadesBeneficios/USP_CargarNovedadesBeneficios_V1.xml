@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_CargarNovedadesBeneficios_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_CargarNovedadesBeneficios', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_CargarNovedadesBeneficios as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 24/04/2020
+-- Description: Pemite cargar las novedades del funcionario para el módulo de beneficios corporativos
+--
+-- Parameters:
+--  @NominaId:			   Identificador de la nómina a la que va a vincular la novedad
+--  @FuncionarioId:		   Identificador del funcionario
+--  @SubperiodoId:		   Subperiodo asociado a la nómina que se esta liquidando
+--  @Id				   Identificador de la novedad a cargar
+--  @UsuarioOperacion:	   Usuario que realiza la operación
+-- ==========================================================================================
+ALTER PROCEDURE dbo.USP_CargarNovedadesBeneficios @NominaId INT,
+									   @FuncionarioId INT,
+                                                @SubperiodoId        INT,
+									   @Id			    INT,
+                                                @UsuarioOperacion    VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@SubperiodoId=', CONVERT(VARCHAR, @SubperiodoId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @NominaFuncionarioId INT;
+    DECLARE @BeneficioAutorizada VARCHAR(255);
+    DECLARE @BeneficioEnReembolso VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @BeneficioId INT= 0;
+    DECLARE @BeneficioEstado VARCHAR(255);
+    DECLARE @Cantidad INT= 1;
+    DECLARE @UnidadMedida VARCHAR(255)=
+    (
+        SELECT cum.[UNIDAD]
+        FROM util.VW_ConstanteUnidadMedida AS cum
+    );
+    DECLARE @NominaFuenteNovedadId INT= 0;
+    DECLARE @ConceptoNominaId INT= 0;
+    DECLARE @ConceptoNominaDeduccionId INT = 0;
+    DECLARE @ConceptoNominaDevengoId INT = 0;
+    DECLARE @ModuloSistema VARCHAR(255)=
+    (
+        SELECT cms.[BENEFICIOS]
+        FROM util.VW_ConstanteModuloSistema AS cms
+    );
+    DECLARE @InsertarNovedad BIT = 0;
+    DECLARE @ValorAutorizado MONEY = 0;
+    DECLARE @ValorCobrar MONEY = 0;
+    DECLARE @ValorNovedad MONEY = 0;
+    DECLARE @NominaDetallePendiente VARCHAR(255);
+	DECLARE @NominaFechaFinal DATE;
+
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN CargarNovedadesBeneficios;
+
+	   -- Se consultan los estados
+	   SELECT 
+	   @BeneficioAutorizada = ces.[BENEFICIO_AUTORIZADA],
+	   @BeneficioEnReembolso = [BENEFICIO_ENREEMBOLSO],
+	   @AuditoriaActivo = ces.AUDITORIA_ACTIVO,
+	   @NominaDetallePendiente = ces.NOMINADETALLE_PENDIENTE 
+	   FROM util.VW_ConstanteEstado ces;
+	   
+	   -- Se consulta la información de la nómina
+	   SELECT @NominaFechaFinal = nom.FechaFinal
+	   FROM dbo.Nomina nom
+	   WHERE nom.Id = @NominaId;
+
+       -- Cursor para obtener las solicitudes de beneficios corporativos del funcionario
+       DECLARE CUR_Beneficios CURSOR LOCAL
+       FOR 
+	   SELECT nfu.Id, ben.Id, ben.Estado, tbe.ConceptoNominaDeduccionId, tbe.ConceptoNominaDevengoId, ben.ValorAutorizado, ben.ValorCobrar
+	   FROM dbo.Beneficio ben
+	   INNER JOIN dbo.NominaFuncionario nfu ON (nfu.FuncionarioId = ben.FuncionarioId)
+	   INNER JOIN dbo.TipoBeneficio tbe ON (tbe.Id = ben.TipoBeneficioId)
+	   WHERE nfu.NominaId = @NominaId
+	   AND nfu.FuncionarioId = @FuncionarioId
+	   AND ((@Id IS NOT NULL AND ben.Id = @Id) OR (@Id IS NULL))
+	   AND ben.Estado IN (@BeneficioAutorizada, @BeneficioEnReembolso)
+	   AND (tbe.ValorAutorizado = 1 OR tbe.PermiteDescuentoNomina = 1)
+	   AND ben.FechaSolicitud <= @NominaFechaFinal
+	   AND ben.EstadoRegistro = @AuditoriaActivo
+	   
+
+        OPEN CUR_Beneficios;
+
+        FETCH NEXT FROM CUR_Beneficios INTO @NominaFuncionarioId, @BeneficioId, @BeneficioEstado, @ConceptoNominaDeduccionId, @ConceptoNominaDevengoId, @ValorAutorizado, @ValorCobrar;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+		  SET @InsertarNovedad = 0;
+
+		  -- Si el estado de la solicitud de beneficio es Autorizada la novedad debe ser de devengo
+		  IF @BeneficioEstado = @BeneficioAutorizada
+		  BEGIN
+
+			 IF @ConceptoNominaDevengoId IS NULL OR @ConceptoNominaDevengoId = 0
+			 BEGIN
+				SET @MensajeExcepcion = 'No existe el concepto de devengo para el beneficio. @BeneficioId=' + CONVERT(VARCHAR, @BeneficioId);
+			 END
+
+			 SET @ConceptoNominaId = @ConceptoNominaDevengoId;
+			 SET @ValorNovedad = @ValorAutorizado;
+			 SET @InsertarNovedad = 1;
+		  END
+
+		  -- Si el estado de la solicitud de beneficio es En reembolso la novedad debe ser de deducción
+		  ELSE IF @BeneficioEstado = @BeneficioEnReembolso
+		  BEGIN
+
+			 -- Se consulta si el subperiodo de la nómina aplica para alguno de los subperiodos de descuento asociados al beneficio
+			 IF EXISTS (
+				SELECT bsu.Id
+				FROM dbo.BeneficioSubperiodo bsu 
+				WHERE bsu.BeneficioId = @BeneficioId
+				AND bsu.SubPeriodoId = @SubperiodoId
+				AND bsu.EstadoRegistro = @AuditoriaActivo
+			 )
+			 BEGIN
+
+				IF @ConceptoNominaDeduccionId IS NULL OR @ConceptoNominaDeduccionId = 0
+				BEGIN
+				    SET @MensajeExcepcion = 'No existe el concepto de deducción para el beneficio. @BeneficioId=' + CONVERT(VARCHAR, @BeneficioId);
+				END
+
+				SET @ConceptoNominaId = @ConceptoNominaDeduccionId;
+				SET @ValorNovedad = @ValorCobrar;
+				SET @InsertarNovedad = 1;
+			 END
+		  END
+
+		  -- Si hay algún mensaje de excepción se dispara
+		  IF @MensajeExcepcion IS NOT NULL
+		  BEGIN
+			 EXEC util.USP_GenerarExcepcion 50000, @MensajeExcepcion;
+		  END
+
+
+		  IF @InsertarNovedad = 1
+		  BEGIN
+			 --- Inserta  NominaFuenteNovedad
+			 INSERT INTO [dbo].[NominaFuenteNovedad]
+			 ([EstadoRegistro],
+			  [CreadoPor],
+			  [FechaCreacion],
+			  [Modulo],
+			  [ModuloRegistroId]
+			 )
+			 VALUES
+			 (@AuditoriaActivo,
+			  @UsuarioOperacion,
+			  GETDATE(),
+			  @ModuloSistema,
+			  @BeneficioId
+			 );
+
+			 SET @NominaFuenteNovedadId =
+			 (
+				SELECT SCOPE_IDENTITY()
+			 );
+
+			 -- Inserta NominaDetalle
+			 INSERT INTO [dbo].[NominaDetalle]
+			 ([EstadoRegistro],
+			  [CreadoPor],
+			  [FechaCreacion],
+			  [NominaFuncionarioId],
+			  [NominaFuenteNovedadId],
+			  [ConceptoNominaId],
+			  [UnidadMedida],
+			  [Cantidad],
+			  [Valor],
+			  [Estado]
+			 )
+			 VALUES
+			 (@AuditoriaActivo,
+			  @UsuarioOperacion,
+			  GETDATE(),
+			  @NominaFuncionarioId,
+			  @NominaFuenteNovedadId,
+			  @ConceptoNominaId,
+			  @UnidadMedida,
+			  @Cantidad,
+			  @ValorNovedad,
+			  @NominaDetallePendiente
+			 );
+		  END
+		  
+
+            FETCH NEXT FROM CUR_Beneficios INTO @NominaFuncionarioId, @BeneficioId, @BeneficioEstado, @ConceptoNominaDeduccionId, @ConceptoNominaDevengoId, @ValorAutorizado, @ValorCobrar;
+        END;
+
+        CLOSE CUR_Beneficios;
+
+        DEALLOCATE CUR_Beneficios;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN CargarNovedadesBeneficios;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_CargarNovedadesBeneficios];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

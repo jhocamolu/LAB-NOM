@@ -1,0 +1,98 @@
+<!-- CONTENIDO -->
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Nómina</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/nomina/proceso-costos">Procesar costos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Funcionario</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Costos por funcionario</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a *ngIf="arrayPermisos.actualizar" mat-menu-item (click)="limpiarActividades()">
+                    <span>Limpiar actividades</span>
+                </a>
+                <a routerLink="/nomina/costos-cargo" mat-menu-item>
+                    <span>Ver cargos distribuidos</span>
+                </a>
+                <a routerLink="/nomina/proceso-costos/" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="box-shadow">
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="selectedTabChangeHandle($event)">
+                <!-- Información -->
+
+                <mat-tab label="Información">
+                    <div *ngIf="item">
+
+                        <div>
+                            <h3>Funcionario <mat-icon class="s-16" matSuffix
+                                    matTooltip="Trabajador que labora en la compañía.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{item.funcionario.criterioBusqueda}} </p>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Dependencia <mat-icon class="s-16" matSuffix
+                                        matTooltip="Área de la compañía.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{item.dependencia}} </p>
+                            </div>
+
+                            <div>
+                                <h3>Cargo <mat-icon class="s-16" matSuffix
+                                        matTooltip="Puesto del funcionario en la compañía.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p style="text-transform:capitalize !important"> {{item.cargo}} </p>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+               
+                <!--  Actividades  -->
+                <mat-tab label="Actividades" [disabled]="!arrayPermisos.listar">
+                    <actividades-listar [actividades-id]="item.funcionarioId"></actividades-listar>
+                </mat-tab>
+             <!-- / Actividades -->
+
+                <!-- Centros de costos  -->
+                <mat-tab label="Centros de costos" [disabled]="!arrayPermisosCentroCostos.listar">
+                    <centro-costos-listar [actividades-id]="item.funcionarioId"></centro-costos-listar>
+                </mat-tab>
+                <!-- Centros de costos  -->
+
+            </mat-tab-group>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

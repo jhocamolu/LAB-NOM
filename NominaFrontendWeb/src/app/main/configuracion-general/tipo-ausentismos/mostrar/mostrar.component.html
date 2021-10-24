@@ -1,0 +1,100 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/tipo-ausentismos">Tipos de ausentismos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar tipo de ausentismo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar tipo de ausentismo</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a mat-menu-item *ngIf="arrayPermisos.actualizar"
+                    routerLink="/configuracion/tipo-ausentismos/{{item.id}}/editar">
+                    <span>Editar tipo de ausentismo</span>
+                </a>
+                <button mat-menu-item *ngIf="arrayPermisosConceptos.crear" (click)="conceptoHandle($event)">
+                    <span>Agregar concepto</span>
+                </button>
+                <a routerLink="/configuracion/tipo-ausentismos" mat-menu-item>Volver</a>
+
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="box-shadow">
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="selectedTabChangeHandle($event)">
+                <!-- Información -->
+                <mat-tab label="Información">
+                    <div *ngIf="item">
+
+                        <div>
+                            <div>
+                                <h3>Nombre <mat-icon class="s-16" matSuffix
+                                        matTooltip="Nombre del tipo de ausentismo.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{item.nombre}} </p>
+                            </div>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Clase <mat-icon class="s-16" matSuffix
+                                        matTooltip="Clase de ausentismo al que corresponde el tipo ausentismo.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.claseAusentismo?.nombre}}</p>
+                            </div>
+
+                            <div>
+                                <h3>Unidad de tiempo <mat-icon class="s-16" matSuffix
+                                        matTooltip="Indica si el tipo de ausentismo se da en horas o días.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.unidadTiempo}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </mat-tab>
+
+                <!-- Conceptos relacionados-->
+                <mat-tab label="Conceptos relacionados">
+
+                    <tipo-ausentismos-concepto [tipo-ausentismo]="item" [mostrar-boton-crear]="false">
+                    </tipo-ausentismos-concepto>
+
+
+                </mat-tab>
+                <!-- Conceptos asociados-->
+
+            </mat-tab-group>
+        </div>
+
+        <!-- / CONTENIDO -->
+    </div>
+    <!-- / CONTENT -->
+</div>

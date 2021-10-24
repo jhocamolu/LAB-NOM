@@ -1,0 +1,130 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>
+        <div *ngIf="!element?.id">Agregar aprobador</div>
+        <div *ngIf="element?.id">Editar aprobador</div>
+    </h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Dependencia aprobador</mat-label>
+            <mat-select formControlName="dependenciaAprobadorId">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let item of dependenciOptions" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>       
+            <mat-error *ngFor="let error of form.get('dependenciaAprobadorId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Dependencia a la que pertenece el cargo aprobador.">
+                info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cargo aprobador</mat-label>
+            <input matInput formControlName="cargoIndependienteId" [matAutocomplete]="auto" required>
+            <mat-autocomplete [displayWith]="displayFncargos" #auto="matAutocomplete">
+                <mat-option *ngFor="let item of filteredCargos | async" [value]="item">
+                    {{item.cargo.codigo}} - {{item.cargo.nombre}}
+                </mat-option>
+            </mat-autocomplete>
+
+            <mat-error *ngFor="let error of form.get('cargoIndependienteId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Cargo que debe aprobador.">
+                info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="!ocultarCentroOperativoIndependienteId">
+            <mat-label>Centro operativo aprobador</mat-label>
+            <mat-select formControlName="centroOperativoIndependienteId">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let item of coAprobadorOptions" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('centroOperativoIndependienteId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Centro operativo del cargo que debe aprobador.">
+                info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cargo dependiente</mat-label>
+            <mat-select formControlName="cargoDependiente" multiple required
+                (focusout)="cargoDependienteCharge($event)">
+                <mat-option *ngFor="let item of cargoDependienteOptions" [value]="item.cargoDependencia">
+                    {{ item.cargoDependencia?.cargo?.nombre }} - {{ item.cargoDependencia?.dependencia?.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('cargoDependiente').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Cargo que requiere revisión.">
+                info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="!ocultarCentroOperativoDependienteId">
+            <mat-label>Centro operativo dependiente</mat-label>
+            <mat-select formControlName="centroOperativoDependienteId" required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let item of coDependienteOptions" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('centroOperativoDependienteId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Centro operativo del cargo que requiere aprobación.">
+                info</mat-icon>
+        </mat-form-field>
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

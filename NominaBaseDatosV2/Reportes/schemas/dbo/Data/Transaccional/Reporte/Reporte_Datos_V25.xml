@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="Reporte_V25">
+<comment>Migración Inicial HU101</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Reporte] ON 
+GO
+INSERT [dbo].[Reporte] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias], [Nombre], [Descripcion], [SubcategoriaId], [Link], [Path], [Formato], [Extension], [Alto], [Ancho], [EsModal], [VistaGeneracion]) 
+VALUES (17, N'Activo    ', N'sistema', CAST(N'2020-07-04T17:45:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'ArchivoTipo2Pila',  N'Archivo tipo 2 PILA', N'Permite actualizar la información de la compañía frente el operador de pago para iniciar con el proceso de pago de aportes al Sistema de Seguridad Social Integral y Parafiscales.', 3, N'/ReportServer/Pages/ReportViewer.aspx?%2fDesarrollo%2fGHestic%2fReportes%2fNomina_ArchivoTipo2Pila&rs:Command=Render', N'GHESTIC/Reportes/Nomina_ArchivoTipo2Pila', N'TAB', N'TXT', N'11in', N'8.5in', 0, N'archivo-tipo-2-pila')
+GO
+SET IDENTITY_INSERT [dbo].[Reporte] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[Reporte] WHERE Id IN (17)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

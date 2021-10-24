@@ -1,0 +1,180 @@
+<div class="page-layout simple fullwidth cargos-listar">
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/cargos">Cargos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Crear cargo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Crear cargo</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <mat-tab-group>
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+                    <!-- Formulario -->
+                    <form (ngSubmit)="guardarHandle($event)" name="form" [formGroup]="form">
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Código</mat-label>
+                                <input matInput formControlName="codigo" type="text" required>
+                                <mat-error *ngFor="let error of objToArray(codigo.errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Código que identifica el cargo.">
+                                    info</mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nivel del cargo</mat-label>
+                                <mat-select formControlName="nivelCargoId" required>
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let item of nivelCargoOptions" [value]="item.id">
+                                        {{ item.nombre }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of objToArray(nivelCargoId.errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Seleccione el nivel que ocupa este cargo en la compañía.">
+                                    info</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput formControlName="nombre" required>
+                                <mat-error *ngFor="let error of objToArray(nombre.errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Nombre del cargo.">info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Clase</mat-label>
+                                <mat-select formControlName="clase" required>
+                                    <mat-option></mat-option>
+                                    <mat-option value="CentroOperativo">Centro opertativo</mat-option>
+                                    <mat-option value="Nacional">Nacional</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of objToArray(clase.errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Selecciona la clasificación del cargo.">
+                                    info</mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>¿Obtener costos desde SICOM?</mat-label>
+                                <mat-select formControlName="costoSicom" required>
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="true">Si</mat-option>
+                                    <mat-option [value]="false">No</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of objToArray(costoSicom.errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Especifica si el cargo debe tener más de un centro de costo o solamente
+                                    se utiliza un solo centro de costo.">
+                                    info</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Objetivo del cargo</mat-label>
+                                <textarea matInput formControlName="objetivoCargo" required>
+											</textarea>
+                                <mat-error *ngFor="let error of objToArray(objetivoCargo.errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Breve descripción del propósito de este cargo.">
+                                    info</mat-icon>
+                            </mat-form-field>
+                        </div>
+                        <div class="actions">
+                            <a mat-raised-button routerLink="/configuracion/cargos">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <button mat-raised-button [disabled]="form.invalid || submit" type="submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+                    </form>
+                    <!-- / Formulario -->
+                </mat-tab>
+                <!-- / Primer Label -->
+                <mat-tab label="Dependencias" [disabled]="true"> No Existe Contenido. </mat-tab>
+                <mat-tab label="Reporta a" [disabled]="true"> No Existe Contenido. </mat-tab>
+                <mat-tab label="Grados" [disabled]="true"> No Existe Contenido. </mat-tab>
+                <mat-tab label="Grupos" [disabled]="true"> No Existe Contenido. </mat-tab>
+                <mat-tab label="Presupuesto" [disabled]="true"> No Existe Contenido. </mat-tab>
+            </mat-tab-group>
+
+        </div>
+    </div>
+</div>

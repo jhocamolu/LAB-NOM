@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="USP_ObtenerValorPrestacion_V1">
+<comment>HT044</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[USP_ObtenerValorPrestacion]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE [dbo].[USP_ObtenerValorPrestacion] as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Reynaldo Sabogal
+-- Create date: 13/09/2020
+-- Description: Obtiene el valor de una prestación social de acuerdo a una determinada condición.
+--
+-- Parameters:
+--  @FuncionarioId:		   Identificador del funcionario
+--  @NominaFuncionarioId:   Identificador del funcionario en la nómina
+--  @NominaDetalleId	   Identificador de la nómina detalle
+--  @ConceptoAlias:		   Alias del concepto sobre el cual se quiere obtener el valor
+--  @FechaInicio:		   Fecha inicial desde la que se requiere el acumulado
+--  @FechaFin:			   Fecha final hasta la que se requiere el acumulado
+--  @TipoProceso:		   Indica el tipo de proceso de consulta de la prestación ya sea Normal o Definitivo.
+--  @Valor:			   Parámetro de salida con el valor para el detalle
+-- ==========================================================================================
+
+ALTER PROCEDURE dbo.USP_ObtenerValorPrestacion @FuncionarioId       INT,
+                                                @NominaFuncionarioId INT,
+                                                @NominaDetalleId     INT,
+                                                @ConceptoAlias       VARCHAR(255),
+                                                @FechaInicio         DATE,
+                                                @FechaFin            DATE,
+                                                @TipoProceso         VARCHAR(255),
+                                                @Valor               MONEY OUTPUT
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@ConceptoAlias=', CONVERT(VARCHAR, @ConceptoAlias), '&', '@FechaInicio=', CONVERT(VARCHAR, @FechaInicio), '&', '@FechaFin=', CONVERT(VARCHAR, @FechaInicio), '&', '@Valor=', CONVERT(VARCHAR, @Valor));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @ContratoVigente VARCHAR(255);
+    DECLARE @ContratoPendienteLiquidar VARCHAR(255);
+    DECLARE @NominaAplicada VARCHAR(255);
+    DECLARE @NominaFuncionarioLiquidado VARCHAR(255);
+    DECLARE @ModuloVacaciones VARCHAR(255)=
+    (
+        SELECT ces.VACACIONES
+        FROM util.VW_ConstanteModuloSistema AS ces
+    );
+
+    DECLARE @FechaInicioContrato DATE;
+    DECLARE @NominaId INT= NULL;
+    DECLARE @FuncionarioExiste INT= NULL;
+    DECLARE @NominaFechaFinal DATE;
+    DECLARE @FechaTerminacionContrato DATE;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    SELECT @ContratoVigente = vce.CONTRATO_VIGENTE,
+           @ContratoPendienteLiquidar = vce.CONTRATO_PENDIENTEPORLIQUIDAR,
+           @NominaAplicada = vce.NOMINA_APLICADA,
+           @NominaFuncionarioLiquidado = vce.NOMINAFUNCIONARIO_LIQUIDADO,
+           @AuditoriaActivo = vce.AUDITORIA_ACTIVO
+    FROM util.VW_ConstanteEstado AS vce;
+
+    -- Tipo de proceso normal de primas 
+    IF @TipoProceso = 'PrimaNormal'
+    BEGIN
+
+        -- Consulta fecha inicio contrato vigente 
+        SELECT @FechaInicioContrato = FechaInicio
+        FROM dbo.Contrato AS c
+        WHERE FuncionarioId = @FuncionarioId
+              AND Estado = @ContratoVigente
+              AND EstadoRegistro = @AuditoriaActivo;
+
+        IF @FechaInicioContrato > @FechaInicio
+        BEGIN
+            SET @FechaInicio = @FechaInicioContrato;
+        END;
+
+    END;
+
+    -- Tipo de proceso definitivo de primas 
+    IF @TipoProceso = 'PrimaDefinitivo'
+    BEGIN
+
+        -- Consulta fecha inicio y terminación de contrato en estado PendientePorLiquidar 
+        SELECT @FechaInicioContrato = c.FechaInicio,
+               @FechaTerminacionContrato = c.FechaTerminacion
+        FROM dbo.Contrato AS c
+        WHERE c.FuncionarioId = @FuncionarioId
+              AND c.Estado = @ContratoPendienteLiquidar
+              AND c.EstadoRegistro = @AuditoriaActivo;
+
+        -- Consultar última liq de primas 
+        SELECT TOP 1 @NominaFechaFinal = n.FechaFinal
+        FROM Nomina AS n
+             INNER JOIN TipoLiquidacion AS tl ON tl.Id = n.TipoLiquidacionId
+             INNER JOIN dbo.NominaFuncionario AS nof ON(n.Id = nof.NominaId)
+        WHERE tl.Codigo = 'PRIM'
+              AND n.Estado = @NominaAplicada
+              AND nof.FuncionarioId = @FuncionarioId
+              AND n.FechaFinal < @FechaInicio
+              AND n.EstadoRegistro = @AuditoriaActivo
+              AND nof.EstadoRegistro = @AuditoriaActivo
+        ORDER BY n.FechaFinal DESC;
+
+        IF @NominaFechaFinal IS NULL
+        BEGIN
+            SET @FechaInicio = @FechaInicioContrato;
+            SET @FechaFin = @FechaTerminacionContrato;
+        END;
+        ELSE
+        BEGIN
+            SET @FechaInicio = DATEADD(DAY, 1, @NominaFechaFinal);
+            SET @FechaFin = @FechaTerminacionContrato;
+        END;
+
+    END;
+
+    IF @TipoProceso = 'VacacionesNormal'
+    BEGIN
+
+        -- consultar solicitud y obtener fecha de Inicio disfrute 
+        SELECT @FechaFin = sv.FechaInicioDisfrute,
+               @FechaInicio = DATEADD(DAY, -365, @FechaFin)
+        FROM NominaFuncionario AS nf
+             INNER JOIN NominaDetalle AS nd ON nd.NominaFuncionarioId = nf.Id
+             INNER JOIN NominaFuenteNovedad AS nv ON nv.Id = nd.NominaFuenteNovedadId
+             INNER JOIN SolicitudVacaciones AS sv ON(sv.Id = nv.ModuloRegistroId
+                                                     AND nv.Modulo = @ModuloVacaciones
+                                                     AND sv.FuncionarioId = nf.FuncionarioId)
+        WHERE nf.Id = @NominaFuncionarioId
+              AND nd.Id = @NominaDetalleId
+              AND nf.EstadoRegistro = @AuditoriaActivo;
+
+    END;
+
+    -- Proceso de consulta de valor promedio de prestación 
+    SELECT @Valor = COALESCE(AVG(nde.Valor), 0)
+    FROM dbo.NominaFuncionario AS nfu
+         INNER JOIN dbo.Nomina AS nom ON(nom.Id = nfu.NominaId)
+         INNER JOIN dbo.NominaDetalle AS nde ON(nde.NominaFuncionarioId = nfu.Id)
+         INNER JOIN dbo.ConceptoNomina AS cno ON(cno.Id = nde.ConceptoNominaId)
+    WHERE nfu.FuncionarioId = @FuncionarioId
+          AND cno.Alias = @ConceptoAlias
+          AND nom.FechaInicio BETWEEN @FechaInicio AND @FechaFin
+          AND nom.FechaFinal BETWEEN @FechaInicio AND @FechaFin
+		AND nom.Estado = @NominaAplicada
+          AND nfu.EstadoRegistro = @AuditoriaActivo
+          AND nom.EstadoRegistro = @AuditoriaActivo;
+
+END;
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerValorPrestacion];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

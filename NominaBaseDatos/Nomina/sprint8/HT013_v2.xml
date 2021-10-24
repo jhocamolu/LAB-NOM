@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="HT013_v2-1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+-- ==========================================================================================
+-- Author:      Laura Estrada, Diego Villegas
+-- Create date: 13/03/2020
+-- Description: Permite obtener los días laborales en un período de tiempo.
+--
+-- Parameters:
+--   @FechaInicial:				Fecha inicial del periodo
+--   @FechaFinal:				Fecha final del periodo
+--
+-- Returns:						Escalar
+--	 NumeroDias:				Número de días
+-- ==========================================================================================
+
+
+CREATE PROCEDURE [dbo].[USP_ObtenerDiasLaborales] 
+(
+	@FechaInicial DATE, 
+	@FechaFinal DATE
+)  
+AS
+BEGIN
+
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	DECLARE @Acumulador INT = 0;
+	DECLARE @UltimoRegistro DATE;
+	DECLARE @UltimoDiaMes INT = 0;
+	DECLARE @DiasLaborales INT = 0;
+	DECLARE @FechaFinalMes DATE;
+	DECLARE @ConstanteDiasLaborales INT = 30;
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	SELECT TOP 1 @UltimoRegistro =  EOMONTH(DATEADD(MONTH, x.number, @FechaInicial)) 
+	FROM    master.dbo.spt_values x
+	WHERE   x.type = 'P'      
+	AND     x.number <= DATEDIFF(MONTH, @FechaInicial, @FechaFinal)
+		ORDER BY x.number DESC
+
+	SET @Acumulador  = 0
+	DECLARE CUR_DiferenciaEntreFechas CURSOR LOCAL FOR 
+		SELECT EOMONTH(DATEADD(MONTH, x.number, @FechaInicial)) AS FechaFinalMes
+		FROM    master.dbo.spt_values x
+		WHERE   x.type = 'P'      
+		AND     x.number <= DATEDIFF(MONTH, @FechaInicial, @FechaFinal);
+
+	OPEN CUR_DiferenciaEntreFechas
+
+	FETCH NEXT FROM CUR_DiferenciaEntreFechas INTO @FechaFinalMes
+
+	WHILE @@fetch_status = 0
+	BEGIN
+		--Obtener el día la fecha final mes
+		
+		IF(@FechaFinalMes <> @UltimoRegistro)
+		BEGIN
+			SET @UltimoDiaMes = CAST(DAY(@FechaFinalMes) as int) 
+			SET @Acumulador  = @Acumulador + (@ConstanteDiasLaborales - @UltimoDiaMes)
+		END
+		ELSE 
+		BEGIN
+			IF(@FechaFinal = @UltimoRegistro)
+			BEGIN
+				SET @UltimoDiaMes = CAST(DAY(@FechaFinalMes) as int) 
+				SET @Acumulador  = @Acumulador + (@ConstanteDiasLaborales - @UltimoDiaMes)
+			END
+		END 
+
+		FETCH NEXT FROM CUR_DiferenciaEntreFechas INTO @FechaFinalMes
+	END
+
+	CLOSE CUR_DiferenciaEntreFechas
+	DEALLOCATE CUR_DiferenciaEntreFechas
+
+	--Días totales 
+	SET @DiasLaborales = (DATEDIFF(day, @FechaInicial, @FechaFinal)+ @Acumulador + 1);
+	
+	RETURN @DiasLaborales;
+END
+]]>
+</sql>
+<rollback>
+DROP PROCEDURE [dbo].[USP_ObtenerDiasLaborales];
+</rollback>
+</changeSet>
+
+<changeSet author="lestrada" id="HT013_v2-2">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+-- ==========================================================================================
+-- Author:      Laura Estrada, Diego Villegas
+-- Create date: 12/03/2020
+-- Description: Permite obtener los días a trabajados o a pagar de un funcionario en un 
+--				período de tiempo.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @FechaInicial:				Fecha inicial del período
+--   @FechaFinal:				Fecha final del período
+--   @TipoDias:					Tipo de días a obtener TRABAJADOS o APAGAR
+--
+-- Returns:						
+--	 Dias:						Número de días
+-- ==========================================================================================
+
+
+CREATE PROCEDURE [dbo].[USP_ObtenerDiasFuncionario] 
+(
+	@FuncionarioId INT, 
+	@FechaInicial DATE, 
+	@FechaFinal DATE, 
+	@TipoDias VARCHAR(24)
+)  
+AS
+BEGIN
+
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	DECLARE @FechaLimiteInferior DATE;
+	DECLARE @FechaLimiteSuperior DATE;
+	DECLARE @AusentismoFechaInicio DATE;
+	DECLARE @AusentismoFechaFin DATE;
+	DECLARE @AusentismoHoraInicio TIME;
+	DECLARE @AusentismoHoraFin TIME;
+	DECLARE @AusentismoUnidadTiempo VARCHAR(MAX);
+	DECLARE @FechaAusentismoInferior DATE;
+	DECLARE @FechaAusentismoSuperior DATE;
+	DECLARE @DiasAusentismos INT = 0;
+	DECLARE @DiasFuncionario INT = 0;
+	DECLARE @FechaIteracion DATE = NULL;
+	DECLARE @AcumuladorHoras INT = 0;
+	DECLARE @AusentismoId INT = 0;
+
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+
+	-- 2. Obtener fecha inicio del funcionario
+	SELECT @FechaLimiteInferior = con.FechaInicio
+	FROM dbo.Contrato con 
+	WHERE con.FuncionarioId = @FuncionarioId
+	AND con.EstadoRegistro = 'Activo'
+	AND con.FechaInicio <= @FechaFinal
+	ORDER BY con.FechaInicio DESC;
+
+	IF @FechaLimiteInferior < @FechaInicial
+	BEGIN
+		SET @FechaLimiteInferior = @FechaInicial
+	END
+
+	-- 3. Obtener fecha terminación del funcionario
+	SELECT @FechaLimiteSuperior = con.FechaTerminacion
+	FROM dbo.Contrato con 
+	WHERE con.FuncionarioId = @FuncionarioId
+	AND con.EstadoRegistro = 'Activo'
+	AND con.FechaTerminacion >= @FechaInicial
+	ORDER BY con.FechaTerminacion DESC;
+
+	IF @FechaLimiteSuperior > @FechaFinal OR @FechaLimiteSuperior IS NULL
+	BEGIN
+		SET @FechaLimiteSuperior = @FechaFinal
+	END
+
+	-- 4. Obtener dias de ausentismos del funcionario dentro del periodo (Según tipo)
+	DECLARE CUR_Ausentismos CURSOR LOCAL FOR 
+
+		SELECT auf.FechaInicio, auf.FechaFin, auf.HoraInicio, auf.HoraFin, tia.UnidadTiempo, auf.Id
+		FROM dbo.AusentismoFuncionario auf INNER JOIN dbo.TipoAusentismo tia ON (auf.TipoAusentismoId = tia.Id)
+		INNER JOIN dbo.ClaseAusentismo cla ON (tia.ClaseAusentismoId = cla.Id)
+		WHERE auf.FuncionarioId = @FuncionarioId
+		AND ((@TipoDias = 'TRABAJADOS' AND cla.AfectaDiaTrabajado = 1) OR (@TipoDias = 'APAGAR' AND cla.AfectaDiaPagar = 1))
+		AND auf.EstadoRegistro = 'Activo'
+		AND auf.Estado IN ('Aprobado', 'Procesado')
+		AND (
+			(auf.FechaInicio BETWEEN @FechaLimiteInferior AND @FechaLimiteSuperior)
+			OR (auf.FechaFin BETWEEN @FechaLimiteInferior AND @FechaLimiteSuperior)
+			OR (auf.FechaInicio < @FechaLimiteInferior AND auf.FechaFin > @FechaLimiteSuperior)
+		)
+		ORDER BY auf.FechaInicio ASC
+
+	OPEN CUR_Ausentismos
+
+	FETCH NEXT FROM CUR_Ausentismos INTO @AusentismoFechaInicio, @AusentismoFechaFin, @AusentismoHoraInicio, @AusentismoHoraFin, @AusentismoUnidadTiempo, @AusentismoId
+
+	WHILE @@fetch_status = 0
+	BEGIN
+		
+		-- 5. Calcular días
+
+		-- Se establecen los límites superior e inferior del ausentismo para el cálculo de los días de trabajo
+		SET @FechaAusentismoInferior = @AusentismoFechaInicio;
+		SET @FechaAusentismoSuperior = @AusentismoFechaFin;
+
+		IF @AusentismoFechaInicio < @FechaLimiteInferior
+		BEGIN
+			SET @FechaAusentismoInferior = @FechaLimiteInferior;
+		END
+
+		IF @AusentismoFechaFin > @FechaLimiteSuperior
+		BEGIN
+			SET @FechaAusentismoSuperior = @FechaLimiteSuperior;
+		END
+		
+		-- Inicializar la fecha de iteración para el cálculo de horas de ausentismo en una misma fecha
+		IF @FechaIteracion IS NULL
+		BEGIN
+			SET @FechaIteracion = @FechaAusentismoInferior;
+		END
+
+		-- Si la fecha del ausenstimo inferior es diferente de la superior o el ausentismo no 
+		-- requiere horas, se calcula la diferencia de días
+		IF @FechaAusentismoInferior <> @FechaAusentismoSuperior OR @AusentismoUnidadTiempo = 'Días'
+		BEGIN
+			SET @DiasAusentismos = @DiasAusentismos + (DATEDIFF(day, @FechaAusentismoInferior, @FechaAusentismoSuperior) + 1);
+		END
+		
+		-- Si la fecha del ausenstimo inferior es igual a la superior se calcula las horas
+		-- de ausentismo para la fecha
+		ELSE
+		BEGIN
+			
+			IF @FechaIteracion = @FechaAusentismoInferior
+			BEGIN
+				SET @AcumuladorHoras = @AcumuladorHoras + (DATEDIFF(hour, @AusentismoHoraInicio, @AusentismoHoraFin));
+			END
+			ELSE
+			BEGIN
+				-- Si se acumularon 8 o más horas debe sumarse como un día de ausentismo 
+				IF @AcumuladorHoras >= 8
+				BEGIN
+					SET @DiasAusentismos = @DiasAusentismos + 1;
+				END
+				SET @AcumuladorHoras = 0;
+			END
+
+		END
+		
+		SET @FechaIteracion = @FechaAusentismoInferior;
+		
+		FETCH NEXT FROM CUR_Ausentismos INTO @AusentismoFechaInicio, @AusentismoFechaFin, @AusentismoHoraInicio, @AusentismoHoraFin, @AusentismoUnidadTiempo, @AusentismoId
+	END
+	
+	-- Caso Especial, si el la ultima iteracion se acumularon 8 o más horas debe sumarse como un día de ausentismo.
+	-- Esto se calcular fuera del cursor, ya que dentro de este no se cumple la condición para su calculo.
+	IF @AcumuladorHoras >= 8
+	BEGIN
+		SET @DiasAusentismos = @DiasAusentismos + 1;
+	END
+
+	CLOSE CUR_Ausentismos
+	DEALLOCATE CUR_Ausentismos
+
+	-- Días totales 
+	EXEC @DiasFuncionario = [dbo].[USP_ObtenerDiasLaborales]
+			@FechaInicial = @FechaLimiteInferior,
+			@FechaFinal = @FechaLimiteSuperior
+
+	SET @DiasFuncionario = @DiasFuncionario - @DiasAusentismos;
+
+	RETURN @DiasFuncionario;
+	
+END
+]]>
+</sql>
+<rollback>
+DROP PROCEDURE [dbo].[USP_ObtenerDiasFuncionario];
+</rollback>
+</changeSet>
+<changeSet author="lestrada" id="HT013_v2-3">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 17/03/2020
+-- Description: Pemite obtener los días trabajados del funcionario en un rango de tiempo.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @FechaInicial:				Fecha inicial del período.
+--   @FechaFinal:				Fecha final del período.
+--		
+--	 Returns:						
+--	 Dias:						Días trabajados
+-- ==========================================================================================
+CREATE PROCEDURE USP_ObtenerDiasTrabajados  (@FuncionarioId INT, @FechaInicial DATE, @FechaFinal DATE )  
+AS
+BEGIN
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	
+	DECLARE @DiasTrabajados INT;
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	
+	EXEC @DiasTrabajados = [dbo].[USP_ObtenerDiasFuncionario]@FuncionarioId,@FechaInicial,@FechaFinal,'TRABAJADOS'
+
+	RETURN @DiasTrabajados;
+
+END
+
+]]>
+</sql>
+<rollback>
+DROP PROCEDURE [dbo].[USP_ObtenerDiasTrabajados];
+</rollback>
+</changeSet>
+
+<changeSet author="lestrada" id="HT013_v2-4">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 17/03/2020
+-- Description: Pemite obtener los días a pagar del funcionario en un rango de tiempo.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @FechaInicial:				Fecha inicial del período.
+--   @FechaFinal:				Fecha final del período.
+--
+-- Returns:						
+--	 Dias:						Días a pagar
+-- ==========================================================================================
+CREATE PROCEDURE USP_ObtenerDiasApagar  (@FuncionarioId INT, @FechaInicial DATE, @FechaFinal DATE )  
+AS
+BEGIN
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	
+	DECLARE @DiasApagar INT;
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	
+	EXEC @DiasApagar = [dbo].[USP_ObtenerDiasFuncionario]@FuncionarioId,@FechaInicial,@FechaFinal,'APAGAR'
+
+	RETURN @DiasApagar;
+
+END
+
+]]>
+</sql>
+<rollback>
+DROP PROCEDURE [dbo].[USP_ObtenerDiasApagar];
+</rollback>
+</changeSet>
+</databaseChangeLog>

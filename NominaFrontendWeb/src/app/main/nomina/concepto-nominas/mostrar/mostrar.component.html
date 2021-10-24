@@ -1,0 +1,278 @@
+<!-- CONTENIDO -->
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Nómina</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/nomina/concepto-nominas">Conceptos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar concepto</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar concepto</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a *ngIf="arrayPermisos.actualizar" mat-menu-item routerLink="/nomina/concepto-nominas/{{item.id}}/editar">
+                    <span>Editar concepto</span>
+                </a>
+                <a routerLink="/nomina/concepto-nominas" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="box-shadow">
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="selectedTabChangeHandle($event)">
+                <!-- Información -->
+
+                <mat-tab label="Información">
+                    <div *ngIf="item">
+
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Código <mat-icon class="s-16" matSuffix
+                                        matTooltip="Código que identifica el concepto.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{item.codigo}} </p>
+                            </div>
+
+                            <div>
+                                <h3>Alias <mat-icon class="s-16" matSuffix
+                                        matTooltip="Nombre identificador en la fórmula para este concepto.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{item.alias}} </p>
+                            </div>
+                        </div>
+                        <div>
+                            <h3>Nombre <mat-icon class="s-16" matSuffix
+                                    matTooltip="Nombre que identifique el concepto de nómina.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p> {{item.nombre}}</p>
+                        </div>
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Tipo de concepto <mat-icon class="s-16" matSuffix
+                                        matTooltip="Tipo de uso de este concepto en la nómina.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{item.tipoConceptoNomina}}</p>
+                            </div>
+
+                            <div>
+                                <h3>Clase <mat-icon class="s-16" matSuffix
+                                        matTooltip="Forma en la que afectará este concepto en la nómina.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.claseConceptoNomina == 'Calculo' ? 'Cálculo' : '' }}
+                                    {{item.claseConceptoNomina == 'Devengo' ? 'Devengo' : '' }}
+                                    {{item.claseConceptoNomina == 'Deduccion' ? 'Deducción' : ''}}</p>
+                            </div>
+                        </div>
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Orden <mat-icon class="s-16" matSuffix
+                                        matTooltip="Orden en que se va a mostrar el concepto de acuerdo a su clase.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{item.orden}}</p>
+                            </div>
+
+                            <div>
+                                <h3>Visible para impresión <mat-icon class="s-16" matSuffix
+                                        matTooltip="Mostrar o no en el desprendible de impresión del funcionario.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p *ngIf="item.visibleImpresion">Si</p>
+                                <p *ngIf="!item.visibleImpresion">No</p>
+                            </div>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Origen centro de costo <mat-icon class="s-16" matSuffix
+                                        matTooltip="Origen de donde se debe tomar los centros de costo.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p [ngSwitch]="item.origenCentroCosto">
+                                    <ng-template [ngSwitchCase]="'Delfuncionario'">
+                                        Del funcionario
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'Especifico'">
+                                        Específico
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{item.origenCentroCosto}}
+                                    </ng-template>
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3>Origen de tercero <mat-icon class="s-16" matSuffix
+                                        matTooltip="Tipo de tercero que se debe utilizar para el concepto.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p [ngSwitch]="item.origenTercero">
+                                    <ng-template [ngSwitchCase]="'DeLaAdministradora'">
+                                        De la administradora
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'DelFuncionario'">
+                                        Del funcionario
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'Especifico'">
+                                        Específico
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{item.origenTercero}}
+                                    </ng-template>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>¿Es un concepto agrupador? <mat-icon class="s-16" matSuffix
+                                        matTooltip="Indicador si este concepto es usado como base de cálculo para otros conceptos.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p *ngIf="item.conceptoAgrupador">Si</p>
+                                <p *ngIf="!item.conceptoAgrupador">No</p>
+                            </div>
+
+                            <div>
+                                <h3>Unidad de medida <mat-icon class="s-16" matSuffix
+                                        matTooltip="La unidad de medida que va a tener el concepto.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.unidadMedida}}</p>
+                            </div>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Requiere cantidad <mat-icon class="s-16" matSuffix
+                                        matTooltip="Determina si la cantidad que se muestra de este concepto en la nómina debe ser calculada por medio de una función del sistema.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p *ngIf="item.requiereCantidad">Si</p>
+                                <p *ngIf="!item.requiereCantidad">No</p>
+                            </div>
+
+                            <div>
+                                <h3>Función para obtener la cantidad <mat-icon class="s-16" matSuffix
+                                        matTooltip="Nombre de la función que se utilizará para determinar la cantidad.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p *ngIf="item.funcionCantidad">{{item.funcionCantidad}}</p>
+                                <p *ngIf="!item.funcionCantidad">N/A</p>
+                            </div>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Nit del tercero <mat-icon class="s-16" matSuffix
+                                        matTooltip="Número de Identificación Tributaria del tercero establecido por la DIAN.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p *ngIf="item.nitTercero">{{item.nitTercero}}</p>
+                                <p *ngIf="!item.nitTercero">N/A</p>
+                            </div>
+
+                            <div>
+                                <h3>Tipo administradora relacionada <mat-icon class="s-16" matSuffix
+                                        matTooltip="Seleccione si el concepto debe tener un tipo de administradora asociado para realizar su proceso.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p *ngIf="tipoAdministradoraCount == 0"> N/A </p>
+                                <p *ngFor="let datos of tipoAdministradora" >
+                                    {{datos.tipoAdministradora.codigo}}  {{'- ' + datos.tipoAdministradora.nombre}}
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <h3>Descripción <mat-icon class="s-16" matSuffix
+                                    matTooltip="Ingrese una descripción del concepto de nómina.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p> {{item.descripcion}}</p>
+                        </div>
+
+
+
+
+                    </div>
+                </mat-tab>
+
+                <!-- Conceptos asociados-->
+                <mat-tab [label]="item.conceptoAgrupador?'Conceptos asociados' : 'Conceptos base'">
+
+                    <concepto-nominas-asociados [concepto-nomina-id]="item.id"
+                        [concepto-nomina-agrupador]="item.conceptoAgrupador" *ngIf="item">
+                    </concepto-nominas-asociados>
+                </mat-tab>
+                <!-- Conceptos asociados-->
+
+                <!-- Cuentas contables-->
+                <mat-tab label="Cuentas contables">
+                    <concepto-nominas-cuentas-listar [concepto-nomina-id]="item.id" *ngIf="item"
+                        [mostrar-boton-crear]="false">
+                    </concepto-nominas-cuentas-listar>
+
+                </mat-tab>
+                <!-- Cuentas contables-->
+
+                <!-- Fórmula-->
+                <mat-tab label="Fórmula">
+
+                    <alcanos-empty-list labelH1="Aún no se ha ingresado una fórmula para este concepto."
+                        [visibleBtnCreate]="false" [visible]="!item.formula">
+                    </alcanos-empty-list>
+
+                    <div class="area" [innerHTML]="item.formula" *ngIf="item.formula"></div>
+
+                </mat-tab>
+                <!-- Fórmula-->
+
+            </mat-tab-group>
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

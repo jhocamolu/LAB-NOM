@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoCotizanteSubtipoCotizante_Datos_V1">
+<comment>Carga inicial</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[TipoCotizanteSubtipoCotizante] ON 
+GO
+
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (1,1,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (2,1,2,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (3,1,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (4,1,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (5,1,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (6,1,7,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (7,1,8,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (8,1,10,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (9,1,11,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (10,2,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (11,2,2,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (12,2,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (13,2,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (14,2,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (15,3,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (16,3,3,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (17,3,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (18,3,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (19,3,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (20,3,7,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (21,3,9,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (22,4,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (23,5,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (24,6,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (25,6,3,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (26,6,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (27,6,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (28,6,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (29,6,8,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (30,7,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (31,7,2,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (32,7,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (33,7,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (34,7,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (35,7,8,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (36,8,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (37,9,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (38,10,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (39,11,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (40,11,2,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (41,11,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (42,11,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (43,11,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (44,11,7,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (45,11,8,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (46,12,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (47,13,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (48,13,2,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (49,13,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (50,13,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (51,13,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (52,13,7,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (53,13,8,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (54,14,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (55,14,2,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (56,14,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (57,14,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (58,14,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (59,14,8,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (60,15,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (61,15,2,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (62,15,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (63,15,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (64,15,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (65,15,8,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (66,16,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (67,17,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (68,17,3,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (69,17,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (70,17,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (71,17,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (72,17,7,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (73,18,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (74,18,3,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (75,18,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (76,18,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (77,18,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (78,18,7,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (79,19,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (80,20,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (81,21,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (82,22,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (83,23,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (84,23,2,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (85,23,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (86,23,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (87,23,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (88,24,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (89,25,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (90,25,2,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (91,25,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (92,25,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (93,25,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (94,25,8,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (95,26,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (96,26,2,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (97,26,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (98,26,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (99,26,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (100,27,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (101,27,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (102,27,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (103,27,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (104,28,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (105,28,3,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (106,28,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (107,28,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (108,28,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (109,28,7,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (110,28,8,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (111,29,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (112,30,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (113,30,2,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (114,30,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (115,30,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (116,30,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (117,30,8,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (118,31,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (119,32,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (120,32,3,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (121,32,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (122,32,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (123,32,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (124,32,7,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (125,32,10,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (126,32,11,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (127,33,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (128,34,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (129,34,3,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (130,34,4,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (131,34,5,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (132,34,6,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (133,34,7,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (134,34,8,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (135,35,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (136,36,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (137,37,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (138,38,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizanteSubtipoCotizante] ([Id],[TipoCotizanteId],[SubtipoCotizanteId],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (139,39,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+
+
+SET IDENTITY_INSERT [dbo].[TipoCotizanteSubtipoCotizante] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    DELETE FROM [dbo].[TipoCotizanteSubtipoCotizante] WHERE Id<=139;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

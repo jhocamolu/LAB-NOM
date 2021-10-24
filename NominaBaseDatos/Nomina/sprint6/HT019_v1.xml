@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="HT019-V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[_LogError](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Fecha] [datetime] NOT NULL,
+	[Usuario] [sysname] NOT NULL,
+	[Numero] [int] NOT NULL,
+	[Severidad] [int] NULL,
+	[Estado] [int] NULL,
+	[Procedimiento] [nvarchar](126) NULL,
+	[Linea] [int] NULL,
+	[Mensaje] [nvarchar](4000) NOT NULL,
+ CONSTRAINT [PK__LogError] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[_LogError] ADD  CONSTRAINT [DF__LogError_Fecha]  DEFAULT (getdate()) FOR [Fecha]
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Clave primaria para los registros _LogError.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'COLUMN',@level2name=N'Id'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'La fecha y hora en que ocurrió el error.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'COLUMN',@level2name=N'Fecha'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Valor de restricción predeterminado de GETDATE()' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'CONSTRAINT',@level2name=N'DF__LogError_Fecha'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'El usuario que ejecutó el lote en el que ocurrió el error.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'COLUMN',@level2name=N'Usuario'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'El número de error del error que ocurrió.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'COLUMN',@level2name=N'Numero'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'La gravedad del error que ocurrió.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'COLUMN',@level2name=N'Severidad'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'El número de estado del error que ocurrió.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'COLUMN',@level2name=N'Estado'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'El nombre del procedimiento almacenado o disparador donde ocurrió el error.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'COLUMN',@level2name=N'Procedimiento'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'El número de línea en el que ocurrió el error..' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'COLUMN',@level2name=N'Linea'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'El mensaje de texto del error que ocurrió.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'COLUMN',@level2name=N'Mensaje'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Restricción de clave primaria (agrupada)' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'CONSTRAINT',@level2name=N'PK__LogError'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Audita los errores que son atrapados por el bloque CATCH de una construcción TRY ... CATCH. Los datos se insertan mediante el procedimiento almacenado dbo.USP_RegistrarError cuando se ejecutan desde el interior del bloque CATCH de una construcción TRY ... CATCH en procedimientos o disparadores.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError'
+GO
+
+</sql>
+
+<rollback>
+    DROP TABLE [dbo].[_LogError];
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

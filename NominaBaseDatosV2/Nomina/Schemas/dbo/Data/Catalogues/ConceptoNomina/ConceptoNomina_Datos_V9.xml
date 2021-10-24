@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="ConceptoNomina_Datos_V9">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[ConceptoNomina] ON;
+INSERT INTO ConceptoNomina (Id, Codigo, Alias, Nombre, TipoConceptoNomina, ClaseConceptoNomina, Orden, ConceptoAgrupador, OrigenCentroCosto, OrigenTercero, VisibleImpresion, UnidadMedida, RequiereCantidad, FuncionNominaId, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoSql, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion) VALUES(164, 'CAL347', 'Baseviaticosalimentacion', 'Base de viáticos de alimentación', 'Novedad', 'Calculo', 164, 0, 'NoAplica', 'NoAplica', 0, 'Unidad', 0, NULL, NULL, NULL, 'Concepto que se utiliza para hacer base de los viáticos de alimentación.', NULL, NULL, NULL, 'Activo    ', '1110475411', '2020-11-26 16:05:00.000', NULL, NULL, NULL, NULL);
+INSERT INTO ConceptoNomina (Id, Codigo, Alias, Nombre, TipoConceptoNomina, ClaseConceptoNomina, Orden, ConceptoAgrupador, OrigenCentroCosto, OrigenTercero, VisibleImpresion, UnidadMedida, RequiereCantidad, FuncionNominaId, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoSql, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion) VALUES(165, 'CAL348', 'Baseviaticosretefuente', 'Base viáticos retención en la fuente', 'Novedad', 'Calculo', 165, 0, 'NoAplica', 'NoAplica', 0, 'Unidad', 0, NULL, NULL, NULL, 'Concepto que almacena el valor de viáticos que hacen base para retención en la fuente', NULL, NULL, NULL, 'Activo    ', '1110475411', '2020-11-26 16:34:00.000', NULL, NULL, NULL, NULL);
+INSERT INTO ConceptoNomina (Id, Codigo, Alias, Nombre, TipoConceptoNomina, ClaseConceptoNomina, Orden, ConceptoAgrupador, OrigenCentroCosto, OrigenTercero, VisibleImpresion, UnidadMedida, RequiereCantidad, FuncionNominaId, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoSql, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion) VALUES(166, 'CAL349', 'Baseretefuentegv', 'Base viáticos retefuente gv', 'Novedad', 'Calculo', 166, 0, 'NoAplica', 'NoAplica', 0, 'Unidad', 0, NULL, NULL, NULL, 'Concepto que almacena el valor de viáticos que hacen base para retención en la fuente que no tienen soporte del funcionario.', NULL, NULL, NULL, 'Activo    ', '1110475411', '2020-11-26 16:39:00.000', NULL, NULL, NULL, NULL);
+INSERT INTO ConceptoNomina (Id, Codigo, Alias, Nombre, TipoConceptoNomina, ClaseConceptoNomina, Orden, ConceptoAgrupador, OrigenCentroCosto, OrigenTercero, VisibleImpresion, UnidadMedida, RequiereCantidad, FuncionNominaId, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoSql, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion) VALUES(167, 'CAL350', 'Baseviaticoshospedaje', 'Base de viáticos de hospedaje', 'Novedad', 'Calculo', 167, 0, 'NoAplica', 'NoAplica', 0, 'Unidad', 0, NULL, NULL, NULL, 'Concepto que se utiliza para hacer base de los viáticos de hospedaje', NULL, NULL, NULL, 'Activo    ', '1110475411', '2020-11-26 16:43:00.000', NULL, NULL, NULL, NULL);
+SET IDENTITY_INSERT [dbo].[ConceptoNomina] OFF;
+GO 
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+DELETE FROM dbo.ConceptoNomina WHERE Id BETWEEN 164 AND 167;
+]]>
+</sql>
+</rollback>
+
+</changeSet>
+</databaseChangeLog>

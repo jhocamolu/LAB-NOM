@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "61838080-a6e8-490e-83bc-4ae5b7777877",
+		"name": "HU108-ReporteArchivoDispersion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Consulta para la tabla",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/GetNominaValorTotal(FechaInicial=2020-02-01,FechaFinal=2020-02-16)",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"GetNominaValorTotal(FechaInicial=2020-02-01,FechaFinal=2020-02-16)"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reporte Archivo Dispersion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nominas\": [\r\n        1,2\r\n    ],\r\n    \"cuentaBancariaId\":\"6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/ArchivoDispersion",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"ArchivoDispersion"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

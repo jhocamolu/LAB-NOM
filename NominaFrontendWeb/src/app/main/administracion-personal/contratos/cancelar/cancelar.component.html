@@ -1,0 +1,53 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+	<h1 mat-dialog-title>Cancelar contrato</h1>
+	<div mat-dialog-content fusePerfectScrollbar>
+
+			<mat-form-field appearance="outline">
+					<mat-label>¿Este contrato ha sido cancelado?</mat-label>
+					<mat-select formControlName="cancelar" required>
+							<mat-option [value]="null"></mat-option>
+							<mat-option [value]="true">Sí, este contrato ha sido cancelado</mat-option>
+					</mat-select>
+					<mat-error *ngFor="let error of objToArray(form.get('cancelar').errors)">
+							<div [ngSwitch]="error">
+									<ng-template [ngSwitchCase]="'required'">
+											Requerido
+									</ng-template>
+									<ng-template ngSwitchDefault>
+											{{error}}
+									</ng-template>
+							</div>
+					</mat-error>
+					<mat-icon matSuffix matTooltip="Indica si se cancela el contrato.">info
+					</mat-icon>
+			</mat-form-field>
+
+			<mat-form-field appearance="outline">
+					<mat-label>Justificación</mat-label>
+					<textarea matInput formControlName="justificacion" required>	</textarea>
+					<mat-error *ngFor="let error of objToArray(form.get('justificacion').errors)">
+							<div [ngSwitch]="error">
+									<ng-template [ngSwitchCase]="'required'">
+											Requerido
+									</ng-template>
+									<ng-template ngSwitchDefault>
+											{{error}}
+									</ng-template>
+							</div>
+					</mat-error>
+					<mat-icon matSuffix matTooltip="Descripción del porqué de la cancelación del contrato.">
+							info</mat-icon>
+			</mat-form-field>
+
+	</div>
+	<div mat-dialog-actions>
+			<button mat-raised-button type="button" (click)="dialogRef.close() ">
+					<mat-icon>cancel</mat-icon>
+					<span>Cancelar</span>
+			</button>
+			<button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+					<mat-icon>save</mat-icon>
+					<span>Guardar</span>
+			</button>
+	</div>
+</form>

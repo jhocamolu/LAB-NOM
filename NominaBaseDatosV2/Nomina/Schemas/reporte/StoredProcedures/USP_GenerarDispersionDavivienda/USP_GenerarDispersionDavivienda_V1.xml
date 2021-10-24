@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_GenerarDispersionDavivienda_V1">
+<comment>HU108</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('reporte.USP_GenerarDispersionDavivienda', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE reporte.USP_GenerarDispersionDavivienda as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 24/08/2020
+-- Description: Permite generar la información del archivo de dispersión de nómina por davivienda
+--
+-- Parameters:
+--   @Nominas:			   Listado de nóminas separadas por coma
+--   @CuentaBancariaId:	   Identificador de la cuenta de davivienda desde la que se hará el pago
+--		
+-- Returns:						
+--   @Resultado:		   Estado resultado del proceso. = 0 Todo bien; > 0 Error
+-- ==========================================================================================
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 24/08/2020
+-- Description: Permite generar la información del archivo de dispersión de nómina por davivienda
+--
+-- Parameters:
+--   @Nominas:			   Listado de nóminas separadas por coma
+--   @CuentaBancariaId:	   Identificador de la cuenta de davivienda desde la que se hará el pago
+--		
+-- Returns:						
+--   @Resultado:		   Estado resultado del proceso. = 0 Todo bien; > 0 Error
+-- ==========================================================================================
+
+ALTER PROCEDURE [reporte].[USP_GenerarDispersionDavivienda]
+(@Nominas          NVARCHAR(MAX),
+ @CuentaBancariaId INT,
+ @Resultado        INT OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Nominas=', CONVERT(VARCHAR, @Nominas), '@CuentaBancariaId=', CONVERT(VARCHAR, @CuentaBancariaId));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    -- Variables de apoyo
+    DECLARE @MensajeExcepcion VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @NominaFuncionarioLiquidado VARCHAR(255);
+    DECLARE @NominaAplicada VARCHAR(255);
+
+    -- Datos para el encabezado
+    DECLARE @IdentificadorControlRc CHAR(2)= 'RC';
+    DECLARE @NitEmpresa CHAR(16);
+    DECLARE @CodigoServicio CHAR(4)= 'NOMI';
+    DECLARE @CodigoSubServicio CHAR(4)= 'NOIN';
+    DECLARE @CuentaEmpresa CHAR(16);
+    DECLARE @TipoCuentaEmpresa CHAR(2);
+    DECLARE @TipoCuenta CHAR(2);
+    DECLARE @CodigoBancoEmpresa CHAR(6);
+    DECLARE @CodigoBanco CHAR(6);
+    DECLARE @ValorTotalTraslados CHAR(18);
+    DECLARE @NumeroTotalTraslados CHAR(6);
+    DECLARE @FechaProceso CHAR(8);
+    DECLARE @HoraProceso CHAR(6);
+    DECLARE @CodigoOperador CHAR(4)= '0000';
+    DECLARE @CodigoNoProcesado CHAR(4)= '9999';
+    DECLARE @FechaGeneracion CHAR(8)= '00000000';
+    DECLARE @HoraGeneracion CHAR(6)= '000000';
+    DECLARE @IndicacidoInscripcion CHAR(2)= '00';
+    DECLARE @TipoIdentificacion CHAR(2);
+    DECLARE @NumeroClienteBanco CHAR(12)= '000000000000';
+    DECLARE @OficinaRecaudo CHAR(4)= '0000';
+    DECLARE @CamposFuturos CHAR(40)= '0000000000000000000000000000000000000000';
+    DECLARE @LineaEncabezado CHAR(170);
+
+    -- Datos para la tabla detalle
+    DECLARE @TipoRegistroTraslado CHAR(2)= 'TR';
+    DECLARE @NitCuentaDestino CHAR(16);
+    DECLARE @Referencia CHAR(16)= '0000000000000000';
+    DECLARE @CuentaDestino CHAR(16);
+    DECLARE @ValorTrasladoCuota CHAR(18);
+    DECLARE @TalonEmpresa CHAR(6)= '000000';
+    DECLARE @ValidarTrasladoAch CHAR(1)= '0';
+    DECLARE @ResultadoProceso CHAR(4)= '9999';
+    DECLARE @MensajeRespuesta CHAR(40)= '0000000000000000000000000000000000000000';
+    DECLARE @ValorAcumuladoCobro CHAR(18)= '000000000000000000';
+    DECLARE @FechaAplicacion CHAR(8)= '00000000';
+    DECLARE @Motivo CHAR(4)= '0000';
+    DECLARE @Ceros CHAR(7)= '0000000';
+    DECLARE @Linea CHAR(170);
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        SET @Resultado = 1;
+
+        IF @Nominas IS NULL
+           OR @CuentaBancariaId IS NULL
+        BEGIN
+            SET @MensajeExcepcion = 'No se han pasado los parámetros apropiados para ejecutar el procedimiento.';
+            EXEC util.USP_GenerarExcepcion
+                 50000,
+                 @MensajeExcepcion;
+        END;
+
+        --  Se obtiene toda la infórmación del detalle
+        -- Se crea tabla temporal local que contendrá el detalle del archivo
+        CREATE TABLE #DispersionDetalle
+        (TipoRegistroTraslado CHAR(2) NULL,
+         NitCuentaDestino     CHAR(16) NULL, --
+         Referencia           CHAR(16) NULL,
+         CuentaDestino        CHAR(16) NULL,
+         TipoCuenta           CHAR(2) NULL,
+         CodigoBanco          CHAR(6) NULL,
+         ValorTrasladoCuota   CHAR(18) NULL,
+         TalonEmpresa         CHAR(6) NULL,
+         TipoIdentificacion   CHAR(2) NULL,
+         ValidarTrasladoAch   CHAR(1) NULL,
+         ResultadoProceso     CHAR(4) NULL,
+         MensajeRespuesta     CHAR(40) NULL,
+         ValorAcumuladoCobro  CHAR(18) NULL,
+         FechaAplicacion      CHAR(8) NULL,
+         OficinaRecaudo       CHAR(4) NULL,
+         Motivo               CHAR(4) NULL,
+         Ceros                CHAR(7) NULL,
+         Linea                CHAR(170) NULL
+        );
+
+        -- Se inserta la línea para el encabezado
+        SET @Linea = '$ENCABEZADO$';
+
+        INSERT INTO #DispersionDetalle(Linea)
+        VALUES(@Linea);
+
+        -- Se consultan constantes para los estados
+        SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+               @NominaFuncionarioLiquidado = vce.NOMINAFUNCIONARIO_LIQUIDADO,
+               @NominaAplicada = vce.NOMINA_APLICADA
+        FROM util.VW_ConstanteEstado AS vce;
+
+	   -- Se consulta el número de cuenta desde el que se hará la dispersión
+        SELECT @CuentaEmpresa = cub.Numero,
+               @TipoCuentaEmpresa = tic.Codigo,
+               @CodigoBancoEmpresa = efi.Codigo
+        FROM dbo.CuentaBancaria AS cub
+             INNER JOIN dbo.TipoCuenta AS tic ON(cub.TipoCuentaId = tic.Id)
+             INNER JOIN dbo.EntidadFinanciera AS efi ON(cub.EntidadFinancieraId = efi.Id)
+        WHERE cub.Id = @CuentaBancariaId;
+
+        -- Se consultan los funcionarios asignados a la nómina que se encuentren pendientes por liquidar
+        DECLARE CUR_FuncionariosNominas CURSOR LOCAL
+        FOR SELECT DISTINCT
+                   fun.Nit,
+                   con.NumeroCuenta,
+                   tic.Codigo AS TipoCuenta,
+                   CAST(nof.NetoPagar AS INT),
+                   tid.EquivalenteBancario,
+			    efi.Codigo CodigoBanco
+            FROM dbo.Funcionario AS fun
+                 INNER JOIN dbo.NominaFuncionario AS nof ON(fun.Id = nof.FuncionarioId)
+                 INNER JOIN dbo.Nomina AS nom ON(nof.NominaId = nom.Id)
+                 INNER JOIN dbo.VW_FuncionarioDatoActual AS vfda ON(fun.Id = vfda.Id)
+                 INNER JOIN dbo.Contrato AS con ON(vfda.ContratoId = con.Id)
+                 INNER JOIN dbo.TipoCuenta AS tic ON(con.TipoCuentaId = tic.Id)
+                 INNER JOIN dbo.TipoDocumento AS tid ON(fun.TipoDocumentoId = tid.Id)
+			  INNER JOIN dbo.EntidadFinanciera efi ON (con.EntidadFinancieraId = efi.Id)
+            WHERE nom.Id IN
+            (
+                SELECT CAST(Value AS INT) AS valor
+                FROM util.UFT_Split(@Nominas, ',')
+            )
+                 AND nom.Estado = @NominaAplicada
+                 AND nof.Estado = @NominaFuncionarioLiquidado
+                 AND nom.EstadoRegistro = @AuditoriaActivo
+                 AND nof.EstadoRegistro = @AuditoriaActivo;
+
+        OPEN CUR_FuncionariosNominas;
+
+        FETCH NEXT FROM CUR_FuncionariosNominas INTO @NitCuentaDestino, @CuentaDestino, @TipoCuenta, @ValorTrasladoCuota, @TipoIdentificacion, @CodigoBanco;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+            SET @NitCuentaDestino = RIGHT('0000000000000000' + RTRIM(LTRIM(CONVERT(VARCHAR(16), @NitCuentaDestino))), 16);
+            SET @CuentaDestino = RIGHT('0000000000000000' + RTRIM(LTRIM(CONVERT(VARCHAR(16), @CuentaDestino))), 16);
+            SET @CodigoBanco = RIGHT('000000' + RTRIM(LTRIM(CONVERT(VARCHAR(6), @CodigoBanco))), 6);
+            SET @ValorTrasladoCuota = RIGHT('000000000000000000' + RTRIM(LTRIM(CONVERT(VARCHAR(18), @ValorTrasladoCuota))), 18);
+
+            SET @Linea = CONCAT(@TipoRegistroTraslado, @NitCuentaDestino, @Referencia, @CuentaDestino, @TipoCuenta, @CodigoBanco, @ValorTrasladoCuota, @TalonEmpresa, @TipoIdentificacion, @ValidarTrasladoAch, @ResultadoProceso, @MensajeRespuesta, @ValorAcumuladoCobro, @FechaAplicacion, @OficinaRecaudo, @Motivo, @Ceros);
+
+            INSERT INTO #DispersionDetalle
+            (TipoRegistroTraslado,
+             NitCuentaDestino,
+             Referencia,
+             CuentaDestino,
+             TipoCuenta,
+             CodigoBanco,
+             ValorTrasladoCuota,
+             TalonEmpresa,
+             TipoIdentificacion,
+             ValidarTrasladoAch,
+             ResultadoProceso,
+             MensajeRespuesta,
+             ValorAcumuladoCobro,
+             FechaAplicacion,
+             OficinaRecaudo,
+             Motivo,
+             Ceros,
+             Linea
+            )
+            VALUES
+            (@TipoRegistroTraslado,
+             @NitCuentaDestino,
+             @Referencia,
+             @CuentaDestino,
+             @TipoCuenta,
+             @CodigoBanco,
+             @ValorTrasladoCuota,
+             @TalonEmpresa,
+             @TipoIdentificacion,
+             @ValidarTrasladoAch,
+             @ResultadoProceso,
+             @MensajeRespuesta,
+             @ValorAcumuladoCobro,
+             @FechaAplicacion,
+             @OficinaRecaudo,
+             @Motivo,
+             @Ceros,
+             @Linea
+            );
+
+            -- Cambiar el estado del funcionario a En liquidación
+            FETCH NEXT FROM CUR_FuncionariosNominas INTO @NitCuentaDestino, @CuentaDestino, @TipoCuenta, @ValorTrasladoCuota, @TipoIdentificacion, @CodigoBanco;
+
+        END;
+
+        CLOSE CUR_FuncionariosNominas;
+
+        DEALLOCATE CUR_FuncionariosNominas;
+
+        -- Se obtiene la info del encabezado
+        -- Se consultan constantes para los estados
+        SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+               @NominaFuncionarioLiquidado = vce.NOMINAFUNCIONARIO_LIQUIDADO,
+               @NominaAplicada = vce.NOMINA_APLICADA
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Se consulta la información de la empresa
+        SELECT @NitEmpresa = iba.Nit,
+               @TipoIdentificacion = tid.EquivalenteBancario
+        FROM dbo.InformacionBasica AS iba
+             INNER JOIN dbo.TipoDocumento AS tid ON(iba.TipoDocumentoId = tid.Id)
+        WHERE iba.EstadoRegistro = @AuditoriaActivo;
+
+        -- Se obtiene el valor total de los traslados
+        SELECT @ValorTotalTraslados = SUM(CAST(ValorTrasladoCuota AS INT)),
+               @NumeroTotalTraslados = COUNT(*)
+        FROM #DispersionDetalle
+	   WHERE Linea != '$ENCABEZADO$';
+
+        -- Se obtiene fecha y hora del proceso
+        SELECT @FechaProceso = FORMAT(GETDATE(), 'yyyyMMdd'),
+               @HoraProceso = FORMAT(GETDATE(), 'HHmmss');
+
+        SET @NitEmpresa = RIGHT('0000000000000000' + RTRIM(LTRIM(CONVERT(VARCHAR(16), @NitEmpresa))), 16);
+        SET @CuentaEmpresa = RIGHT('0000000000000000' + RTRIM(LTRIM(CONVERT(VARCHAR(16), @CuentaEmpresa))), 16);
+        SET @CodigoBancoEmpresa = RIGHT('000000' + RTRIM(LTRIM(CONVERT(VARCHAR(6), @CodigoBancoEmpresa))), 6);
+        SET @ValorTotalTraslados = RIGHT('000000000000000000' + RTRIM(LTRIM(CONVERT(VARCHAR(18), @ValorTotalTraslados))), 18);
+        SET @NumeroTotalTraslados = RIGHT('000000' + RTRIM(LTRIM(CONVERT(VARCHAR(6), @NumeroTotalTraslados))), 6);
+
+        -- Se construye la línea del encabezado
+        SET @LineaEncabezado = CONCAT(@IdentificadorControlRc, @NitEmpresa, @CodigoServicio, @CodigoSubServicio, @CuentaEmpresa, @TipoCuentaEmpresa, @CodigoBancoEmpresa, @ValorTotalTraslados, @NumeroTotalTraslados, @FechaProceso, @HoraProceso, @CodigoOperador, @CodigoNoProcesado, @FechaGeneracion, @HoraGeneracion, @IndicacidoInscripcion, @TipoIdentificacion, @NumeroClienteBanco, @OficinaRecaudo, @CamposFuturos);
+
+        -- Se actualiza la tabla de detalle
+        UPDATE #DispersionDetalle
+          SET
+              Linea = @LineaEncabezado
+        WHERE Linea = '$ENCABEZADO$';
+
+        -- Se muestran los resultados
+        SELECT *
+        FROM #DispersionDetalle;
+
+        -- No se presento ningún problema se retorna código de estado exitoso
+        SET @Resultado = 0;
+
+        RETURN @Resultado;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [reporte].[USP_GenerarDispersionDavivienda];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="HU052_v1-1">
+<sql endDelimiter="GO" splitStatements="true">
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 28/02/2020
+-- Description:	Función obtiene string y lo cambia en formato camelCase.
+-- =============================================
+CREATE  FUNCTION [dbo].[UFS_CamelCase](@str AS VARCHAR(MAX)) RETURNS VARCHAR(MAX)
+BEGIN
+
+	DECLARE @result VARCHAR(MAX)  
+	
+	SET @result = ''
+	
+	DECLARE @spaceIndex INT
+	SET @spaceIndex = CHARINDEX(' ', @str)
+	DECLARE @contador INT
+	SET @contador = 0
+	WHILE @spaceIndex > 0
+	BEGIN
+		SET @contador = @contador + 1
+
+		IF @contador = 1
+		BEGIN
+			SET @result = @result + LOWER(SUBSTRING(@str, 1, @spaceIndex - 1))		
+		END
+		ELSE
+		BEGIN
+			SET @result = @result + UPPER(SUBSTRING(@str, 1, 1)) + LOWER(SUBSTRING(@str, 2, @spaceIndex - 1))
+		END
+		SET @str = LOWER(SUBSTRING(@str, @spaceIndex + 1, len(@str)))
+		SET @spaceIndex = CHARINDEX(' ', @str)
+		
+	END
+
+	SET @result = @result + LOWER(SUBSTRING(@str, 1, 1))+SUBSTRING(@str, 2, len(@str))
+	SET @result = REPLACE(@result,' ','')
+
+	RETURN @result
+END
+</sql>
+
+
+<rollback>
+DROP FUNCTION [dbo].[UFS_CamelCase];
+</rollback>
+</changeSet>
+
+<changeSet author="lestrada" id="HU052_v1-2">
+<sql endDelimiter="GO" splitStatements="true">
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 28/02/2020
+-- Description:	Disparador utiliza funcion camel case para ajustar el campo alias
+--              de la tabla ParametroGeneral.
+-- =============================================
+CREATE TRIGGER [dbo].[TR_ActualizarAlias]
+   ON [dbo].[ParametroGeneral]
+   AFTER  INSERT,UPDATE
+AS 
+BEGIN
+	IF EXISTS(SELECT Alias 
+            FROM inserted)
+	DECLARE @id as int = ( SELECT i.Id FROM inserted i)
+	DECLARE @alias as varchar(20) = ( SELECT i.Alias FROM inserted i)
+	DECLARE @camelcase as varchar(20)  = (SELECT [dbo].[UFS_CamelCase](@alias))
+	
+    -- Insert statements for trigger here
+	BEGIN TRY	
+			UPDATE 
+            [ParametroGeneral]
+        SET
+            [Alias] = @camelcase
+        WHERE 
+            Id = @Id
+			END TRY
+	BEGIN CATCH 
+		EXECUTE [dbo].[USP_RegistrarError];
+	END CATCH
+END
+</sql>
+
+<rollback>
+DROP TRIGGER [dbo].[TR_ActualizarAlias];
+</rollback>
+
+</changeSet>
+<changeSet author="lestrada" id="HU052_v1-3">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+	SET ANSI_NULLS ON
+	GO
+	SET QUOTED_IDENTIFIER ON
+	GO
+	--=====================================================================================
+	-- Author:      Laura Katherine Estrada Arango.
+	-- Create date: Marzo 4 del 2020
+	-- Description: Trigger que se desencadena cuando se  actualiza el campo
+	--              prioridad, no puede haber prioridades repetidas, entonces si se agrega
+	--              una prioridad existente las demas prioridades se les suma 1.
+	--=====================================================================================
+
+	CREATE TRIGGER [dbo].[TR_RecalculaNumero] ON [dbo].[Nomina]
+	AFTER UPDATE
+	AS
+
+	--Obtenemos los valores insertados.
+	DECLARE @TipoLiquidacionId as varchar(30)   = ( SELECT i.TipoLiquidacionId  FROM deleted i)
+	DECLARE @Numero as int               		= ( SELECT i.Numero      		FROM deleted i)
+	DECLARE @id as int                      	= ( SELECT i.Id					FROM inserted i)
+
+	IF EXISTS(SELECT Numero FROM Nomina 
+				WHERE TipoLiquidacionId = @TipoLiquidacionId AND 
+					  Numero > @Numero)
+	BEGIN TRY		
+			UPDATE 
+				Nomina
+			SET
+				Numero = Numero - 1
+			WHERE
+				TipoLiquidacionId = @TipoLiquidacionId AND
+				Numero >= @Numero AND
+				Id <> @id 
+	END TRY
+	BEGIN CATCH
+		EXECUTE [dbo].[USP_RegistrarError];
+END CATCH
+]]>
+</sql>
+
+<rollback>
+DROP TRIGGER [dbo].[TR_RecalculaNumero];
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,17 @@
+<div class="empty" fxLayoutAlign="center center" fxLayout="column">
+        <img src="/assets/alcanos/error_page_sin permisos.svg" />
+    <div fxLayout="row">
+        <h1>
+            Ooh oh, lo sentimos, no tienes permisos.
+        </h1>
+    </div>
+    <div fxLayout="row" *ngIf="visibleBtnCreate">
+        <h2>No cuentas con los permisos necesarios para realizar esta acción.</h2>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px">
+        <button mat-raised-button color="accent" routerLink="/">
+            <mat-icon>add</mat-icon>
+            <span>Ir al dashboard</span>
+        </button>
+    </div>
+</div>

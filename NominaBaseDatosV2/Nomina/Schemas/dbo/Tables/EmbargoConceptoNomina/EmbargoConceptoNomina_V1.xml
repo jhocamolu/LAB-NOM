@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="EmbargoConceptoNomina_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+CREATE TABLE [EmbargoConceptoNomina] (
+    [Id] int NOT NULL IDENTITY,
+    [EmbargoId] int NOT NULL,
+    [ConceptoNominaId] int NOT NULL,
+	[EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    CONSTRAINT [PK_EmbargoConceptoNomina] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_EmbargoConceptoNomina_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [FK_EmbargoConceptoNomina_ConceptoNomina_ConceptoNominaId] FOREIGN KEY ([ConceptoNominaId]) REFERENCES [ConceptoNomina] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_EmbargoConceptoNomina_Embargo_EmbargoId] FOREIGN KEY ([EmbargoId]) REFERENCES [Embargo] ([Id]) ON DELETE CASCADE
+);
+
+GO
+
+CREATE INDEX [IX_EmbargoConceptoNomina_ConceptoNominaId] ON [EmbargoConceptoNomina] ([ConceptoNominaId]);
+
+GO
+
+CREATE INDEX [IX_EmbargoConceptoNomina_EmbargoId] ON [EmbargoConceptoNomina] ([EmbargoId]);
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [EmbargoConceptoNomina];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

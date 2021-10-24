@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoAusentismoConceptoNomina_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+UPDATE TipoAusentismoConceptoNomina SET ConceptoNominaId='57' WHERE Id='9';
+UPDATE TipoAusentismoConceptoNomina SET ConceptoNominaId='58' WHERE Id='10';
+UPDATE TipoAusentismoConceptoNomina SET ConceptoNominaId='59' WHERE Id='16';
+
+SET IDENTITY_INSERT [dbo].[TipoAusentismoConceptoNomina] ON;
+INSERT INTO dbo.TipoAusentismoConceptoNomina (Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('20', '15', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoAusentismoConceptoNomina (Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('21', '16', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoAusentismoConceptoNomina (Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('22', '17', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[TipoAusentismoConceptoNomina] OFF;
+
+]]>
+
+</sql>
+
+<rollback>
+
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[TipoAusentismoConceptoNomina] WHERE Id IN (20,21,22);
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

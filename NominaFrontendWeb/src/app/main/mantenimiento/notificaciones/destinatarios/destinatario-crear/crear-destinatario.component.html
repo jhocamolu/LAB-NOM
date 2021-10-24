@@ -1,0 +1,89 @@
+<form [formGroup]="form" *ngIf="form">
+    <h1 mat-dialog-title>Agregar destinatario</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo de destinatario</mat-label>
+            <mat-select formControlName="destinatarioId" required>
+                <mat-option></mat-option>
+                <mat-option value=1>
+                    Funcionario
+                </mat-option>
+                <mat-option *ngIf="element.tipo === 'Email'" value=2>
+                    Otro
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(form.get('destinatarioId').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Trabajador de la compañía que se le va a enviar la notificación.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="destinatarioId.value === '1' || element.tipo !== 'Email'">
+            <mat-label>Funcionario</mat-label>
+            <input matInput formControlName="funcionario" [matAutocomplete]="autoFn" required>
+            <mat-autocomplete [displayWith]="displayFnFuncionarios" #autoFn="matAutocomplete" required>
+                <mat-option (click)="selectFuncionario(item)" *ngFor="let item of filteredFuncionarios | async" [value]="item">
+                    {{item.criterioBusqueda}}
+                </mat-option>
+            </mat-autocomplete>
+
+            <mat-error *ngFor="let error of funcionario.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Trabajador de la compañía al que se le va a enviar la notificación.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="destinatarioId.value === '2' && element.tipo === 'Email'">
+            <mat-label>Correo electrónico</mat-label>
+            <input type="email" matInput formControlName="correo" required>
+            <mat-error *ngFor="let error of correo.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Dirección electrónica del destinatario.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button [disabled]="form.invalid || !idFuncionario" (click)="guardarHandle($event)" color="accent" *ngIf="destinatarioId.value === '1'">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+
+        <button mat-raised-button [disabled]="form.invalid" (click)="guardarHandle($event)" color="accent" *ngIf="destinatarioId.value === '2'">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+
+    </div>
+</form>

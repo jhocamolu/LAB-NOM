@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:gravity="center">
+
+    <ImageView
+        style="@style/modalIcon"
+        android:src="@drawable/ic_info"
+        android:tint="@color/azul_cielo"
+        />
+    <TextView
+        android:id="@+id/texto_dialog"
+        style="@style/modalText"
+        android:text=" "
+        android:textSize="22sp"/>
+
+    <Button
+        android:id="@+id/boton_dialog"
+        style="@style/modalButtom"
+        android:backgroundTint="@color/azul_cielo"
+        android:text="@string/aceptar"/>
+
+</LinearLayout>

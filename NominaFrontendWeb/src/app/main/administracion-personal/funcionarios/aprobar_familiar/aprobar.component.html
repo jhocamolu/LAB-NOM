@@ -1,0 +1,55 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Validar registro</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>¿Esta información ha sido validada?</mat-label>
+            <mat-select formControlName="estado" required [compareWith]="compareBooleanWith">
+                <mat-option [value]="null"></mat-option>
+                <mat-option [value]="1">Si, información validada</mat-option>
+                <mat-option [value]="0">No, información rechazada</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(form.get('estado').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Indica si se valida o se rechaza la información familiar registrada.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Justificación</mat-label>
+            <textarea matInput formControlName="justificacion">
+                            </textarea>
+            <mat-error *ngFor="let error of objToArray(form.get('justificacion').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Descripción del porqué del rechazo o validación del registro.">
+                info</mat-icon>
+        </mat-form-field>
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

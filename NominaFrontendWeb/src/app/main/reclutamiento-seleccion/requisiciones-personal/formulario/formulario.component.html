@@ -1,0 +1,735 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Selección de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="reclutamiento-seleccion/requisiciones-personal/">Requisiciones </a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar requisición </span>
+                <span *ngIf="!item">Registrar requisición </span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title" *ngIf="item">Editar requisición </h2>
+                <h2 class="title" *ngIf="!item">Registrar requisición </h2>
+            </div>
+        </div>
+        <div class="Acciones">
+            <button *ngIf="item" color="accent" mat-raised-button [matMenuTriggerFor]="menu">
+                <mat-icon>edit</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a routerLink="/reclutamiento-seleccion/requisiciones-personal" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="box-shadow">
+            <mat-tab-group animationDuration="0ms">
+                <!--CONTRATOS -->
+                <mat-tab label="Requisición">
+
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>person</mat-icon>
+                                <h2>Información del solicitante</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Dependencia</mat-label>
+                                    <mat-select formControlName="dependenciaSolicitante" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of dependencias" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngFor="let error of form.get('dependenciaSolicitante').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Dependencia a la cual pertenece el solicitante de la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Cargo</mat-label>
+                                    <mat-select formControlName="cargoDependenciaSolicitanteId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of cargoDependenciaSolicitante" [value]="item.id">
+                                            {{item.cargo?.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngFor="let error of form.get('cargoDependenciaSolicitanteId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Cargo al cual pertenece el solicitante de la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Centro operativo *</mat-label>
+                                    <mat-select formControlName="centroOperativoSolicitanteId">
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of centroOperativos" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngFor="let error of form.get('centroOperativoSolicitanteId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Centro operativo al cual pertenece el solicitante de la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Funcionario</mat-label>
+                                    <input matInput formControlName="funcionario" [matAutocomplete]="autoFnSolicitante"
+                                        (focusout)="focusData($event)" required>
+                                    <mat-autocomplete [displayWith]="displayFnFuncionarios"
+                                        #autoFnSolicitante="matAutocomplete">
+                                        <mat-option *ngFor="let item of filteredFuncionarios | async" [value]="item">
+                                            {{item.criterioBusqueda}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error *ngFor="let error of form.get('funcionario').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Trabajador que labora en la compañía.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </mat-list-item>
+
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>person_add</mat-icon>
+                                <h2>Información del cargo solicitado</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Cargo solicitado</mat-label>
+                                    <input matInput formControlName="cargoDependenciaSolicitadoId"
+                                        [matAutocomplete]="autoDCSdo" required>
+                                    <mat-autocomplete [displayWith]="displayFnCargoSolicitado"
+                                        #autoDCSdo="matAutocomplete">
+                                        <mat-option *ngFor="let item of filteredCargoSolicitado | async" [value]="item">
+                                            {{item.cargo?.nombre}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error
+                                        *ngFor="let error of form.get('cargoDependenciaSolicitadoId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Nombre del cargo que se solicita en la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Dependencia</mat-label>
+                                    <mat-select formControlName="dependenciaSolicitado" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of dependenciaSolicitado"
+                                            [value]="item.dependenciaId">
+                                            {{item.dependencia?.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngFor="let error of form.get('dependenciaSolicitado').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Nombre de la dependencia a la cual pertenece el cargo que se solicita en la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Centro operativo *</mat-label>
+                                    <mat-select formControlName="centroOperativoSolicitadoId">
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of centroOperativos" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngFor="let error of form.get('centroOperativoSolicitadoId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Nombre del centro operativo en el cual se desea contratar el cargo solicitado en la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Departamento</mat-label>
+                                    <mat-select formControlName="departamentoOrigenId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of departamentosOrigen" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('departamentoOrigenId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Nombre del departamento en el cual se desea contratar el cargo solicitado en la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Municipio</mat-label>
+                                    <mat-select formControlName="municipioOrigenId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of municipiosOrigen" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('municipioOrigenId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Nombre del municipio en el cual se desea contratar el cargo solicitado en la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Cantidad</mat-label>
+                                    <input type="number" matInput formControlName="cantidad" required>
+                                    <mat-error *ngFor="let error of form.get('cantidad').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'max'">
+                                                Valor máximo 3.
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Número de funcionarios solicitados por cargo en la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Tipos de contrato</mat-label>
+                                    <mat-select formControlName="tipoContratoId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of tipoContratos" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('tipoContratoId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Nombre del tipo de contrato bajo el cual se desea contratar el cargo solicitado en la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Centro de costo</mat-label>
+                                    <input matInput formControlName="centroCosto" [matAutocomplete]="auto" required>
+                                    <mat-autocomplete [displayWith]="displayFnCentroDeCosto" #auto="matAutocomplete">
+                                        <mat-option *ngFor="let item of filteredCentroCostos | async" [value]="item">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+
+                                    <mat-error *ngFor="let error of form.get('centroCosto').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Nombre del centro de costo del cargo solicitado en la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>calendar_today</mat-icon>
+                                <h2>Tiempo de contratación</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Fecha de inicio</mat-label>
+                                    <input matInput [matDatepicker]="fechaInicio" (focus)="fechaInicio.open()"
+                                        (click)="fechaInicio.open()" formControlName="fechaInicio" required>
+                                    <mat-datepicker-toggle matPrefix [for]="fechaInicio">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+                                    <mat-error *ngFor="let error of form.get('fechaInicio').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                                No es un formato de fecha válido.
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Fecha inicial de contratación del cargo solicitado en la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Fecha fin</mat-label>
+                                    <input matInput [matDatepicker]="fechaFin" (focus)="fechaFin.open()"
+                                        [readonly]="desabilitar" (click)="fechaFin.open()" formControlName="fechaFin"
+                                        [readonly]="desabilitar">
+                                    <mat-datepicker-toggle matPrefix [for]="fechaFin">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker startView="year" #fechaFin></mat-datepicker>
+                                    <mat-error *ngFor="let error of form.get('fechaFin').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                                No es un formato de fecha válido.
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Fecha final de contratación del cargo solicitado en la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </mat-list-item>
+
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>assignment</mat-icon>
+                                <h2>Información sobre la vacante</h2>
+                            </div>
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Motivo de la vacante</mat-label>
+                                    <mat-select formControlName="motivoVacanteId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of motivoVacantes" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('motivoVacanteId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Motivo de la vacante por la cual se crea la necesidad .">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Funcionario a quién reemplaza</mat-label>
+                                    <input matInput formControlName="funcionarioAQuienReemplaza"
+                                        [matAutocomplete]="autoFnRemplaza" (focusout)="focusData($event)">
+                                    <mat-autocomplete [displayWith]="displayFnFuncionariosRemplaza"
+                                        #autoFnRemplaza="matAutocomplete">
+                                        <mat-option *ngFor="let item of filteredFuncionariosRemplaza | async"
+                                            [value]="item">
+                                            {{item.criterioBusqueda}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error
+                                        *ngFor="let error of form.get('funcionarioAQuienReemplaza').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Número de identificación y nombre completo del funcionario a reemplazar en el cargo solicitado en la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </mat-list-item>
+
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>work</mat-icon>
+                                <h2>Perfil y competencias del cargo</h2>
+                            </div>
+                            <div>
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Perfil</mat-label>
+                                    <textarea matInput formControlName="perfilCargo" required></textarea>
+                                    <mat-error *ngFor="let error of form.get('perfilCargo').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Descripción del perfil requerido en el cargo solicitado.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <div>
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Competencias y habilidades</mat-label>
+                                    <textarea matInput formControlName="competenciaCargo" required></textarea>
+                                    <mat-error *ngFor="let error of form.get('competenciaCargo').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Descripción de las competencias y habilidades requeridas en el cargo solicitado.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </mat-list-item>
+
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>add_circle</mat-icon>
+                                <h2>Uso exclusivo de gestión humana</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Tipo de reclutamiento</mat-label>
+                                    <mat-select formControlName="tipoReclutamiento">
+                                        <mat-option></mat-option>
+                                        <mat-option [value]="estadoTipoReclutamiento.externo">
+                                            {{estadoTipoReclutamiento.externo}}</mat-option>
+                                        <mat-option [value]="estadoTipoReclutamiento.interno">
+                                            {{estadoTipoReclutamiento.interno}}</mat-option>
+                                        <mat-option [value]="estadoTipoReclutamiento.mixto">
+                                            {{estadoTipoReclutamiento.mixto}}</mat-option>
+
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('tipoReclutamiento').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Tipo de reclutamiento a aplicar en el proceso de reclutamiento.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Salario</mat-label>
+                                    <input matInput formControlName="salario" mask="separator.2"
+                                        separatorLimit="100000000" thousandSeparator=".">
+                                    <mat-error *ngFor="let error of form.get('salario').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'max'">
+                                                Valor máximo 999.999.999.
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Valor del salario relacionado a la vacante.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                            </div>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>¿Desea que el salario del cargo aparezca en el portal de reclutamiento?
+                                </mat-label>
+                                <mat-select formControlName="salarioPortalReclutamiento">
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="true">Si</mat-option>
+                                    <mat-option [value]="false">No</mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngFor="let error of form.get('salarioPortalReclutamiento').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si el salario del cargo debe mostrarse en el portal de reclutamiento.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>¿Desea que el perfil del cargo aparezca en el portal de reclutamiento?
+                                </mat-label>
+                                <mat-select formControlName="perfilPortalReclutamiento">
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="true">Si</mat-option>
+                                    <mat-option [value]="false">No</mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngFor="let error of form.get('perfilPortalReclutamiento').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si el perfil del cargo debe mostrarse en el portal de reclutamiento.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>¿Desea que las competencias del cargo aparezca en el portal de reclutamiento?
+                                </mat-label>
+                                <mat-select formControlName="competenciaPortalReclutamiento">
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="true">Si</mat-option>
+                                    <mat-option [value]="false">No</mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngFor="let error of form.get('competenciaPortalReclutamiento').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si las competencias del cargo deben mostrarse en el portal de reclutamiento.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <div>
+                                <mat-form-field appearance="outline" fxFlex="100">
+                                    <mat-label>Observaciones</mat-label>
+                                    <textarea matInput formControlName="observacion"></textarea>
+                                    <mat-error *ngFor="let error of form.get('observacion').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Observaciones de la requisición.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </mat-list-item>
+
+
+                        <div class="actions">
+                            <a *ngIf="!item" mat-raised-button
+                                [routerLink]="'/reclutamiento-seleccion/requisiciones-personal'">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <a *ngIf="item" mat-raised-button
+                                routerLink="/reclutamiento-seleccion/requisiciones-personal">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+
+                            <button type="submit" [disabled]="form.invalid || submit" mat-raised-button color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+
+                    </form>
+
+                </mat-tab>
+                <!-- /CONTRATOS-->
+                <mat-tab label="Candidatos" [disabled]="true"></mat-tab>
+                <mat-tab label="Primer filtro" [disabled]="true"></mat-tab>
+                <mat-tab label="Segundo filtro" [disabled]="true"></mat-tab>
+                <mat-tab label="Seleccionados" [disabled]="true"></mat-tab>
+            </mat-tab-group>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

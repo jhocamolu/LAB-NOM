@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ProcesarEstadosAusentismos_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ProcesarEstadosAusentismos', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ProcesarEstadosAusentismos as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez - Laura Katherine Estrada Arango
+-- Create date: 24/04/2020
+-- Description: Permite realizar cambios de estado en ausentismos y funcionarios según fecha
+--			 de inicio o finalización de las ausentismos
+--
+-- Parameters:
+--  @Fecha:			   Fecha para la cual se hace el proceso
+--  @UsuarioOperacion:	   Usuario que realiza la operación
+--  @Estado:			   Estado resultado del proceso
+--  @Resultado:		   Descripción del resultado
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ProcesarEstadosAusentismos] @Fecha            DATE, 
+                                                   @UsuarioOperacion VARCHAR(255), 
+                                                   @Estado           VARCHAR(255) OUTPUT, 
+                                                   @Resultado        TEXT OUTPUT
+AS
+    BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Fecha=', CONVERT(VARCHAR, @Fecha), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion), '&', '@Estado=', CONVERT(VARCHAR, @Estado), '&', '@Resultado=', CONVERT(VARCHAR, @Resultado));
+        DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+        DECLARE @MensajeExcepcion VARCHAR(255);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        DECLARE @AuditoriaActivo VARCHAR(255);
+        DECLARE @AusentismoId INT;
+        DECLARE @FuncionarioId INT;
+        DECLARE @FuncionarioActivo VARCHAR(255);
+        DECLARE @FuncionarioIncapacitado VARCHAR(255);
+        DECLARE @FuncionarioEnVacaciones VARCHAR(255);
+        DECLARE @AusentismoAprobado VARCHAR(255);
+        DECLARE @AusentismoFinalizado VARCHAR(255);
+        DECLARE @AusentismosAfectados INT;
+        DECLARE @AusentismoFechaFin DATE;
+        DECLARE @TareaProgramadaLogExitoso VARCHAR(255);
+        DECLARE @TareaProgramadaLogFallido VARCHAR(255);
+        DECLARE @ClaseAusentismoIncapacidad VARCHAR(255)=
+        (
+            SELECT CODIGO_INCAPACIDAD
+            FROM util.VW_ConstanteCodigoClaseAusentismo AS vc
+        );
+        DECLARE @FuncionarioEstado VARCHAR(255);
+        DECLARE @TipoAusentismoLuto VARCHAR(255)=
+        (
+            SELECT vc.CODIGO_LICENCIA_LUTO
+            FROM util.VW_ConstanteCodigoAusentismo AS vc
+        );
+
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+
+            -- Se consultan los estados
+            SELECT @AuditoriaActivo = ces.AUDITORIA_ACTIVO, 
+                   @FuncionarioActivo = ces.FUNCIONARIO_ACTIVO, 
+                   @FuncionarioIncapacitado = ces.FUNCIONARIO_INCAPACITADO, 
+                   @FuncionarioEnVacaciones = ces.FUNCIONARIO_ENVACACIONES, 
+                   @TareaProgramadaLogExitoso = ces.TAREAPROGRAMADALOG_EXITOSO, 
+                   @TareaProgramadaLogFallido = ces.TAREAPROGRAMADALOG_FALLIDO, 
+                   @AusentismoAprobado = ces.AUSENTISMO_APROBADO, 
+                   @AusentismoFinalizado = ces.AUSENTISMO_FINALIZADO
+            FROM util.VW_ConstanteEstado AS ces;
+            SET @AusentismosAfectados = 0;
+            SET @Estado = @TareaProgramadaLogExitoso;
+            SET @Resultado = '';
+
+            -- Inicio de la transacción
+            BEGIN TRAN ProcesarEstadosAusentismos;
+
+            -- Se consultan los ausentismos de clase incapacidad aprobados y cuya fecha de inicio sea menor a @Fecha
+            DECLARE CUR_AusentismosPorIniciar CURSOR LOCAL
+            FOR SELECT afu.Id, 
+                       fun.Id
+                FROM dbo.AusentismoFuncionario AS afu
+                     INNER JOIN dbo.Funcionario AS fun ON(fun.Id = afu.FuncionarioId)
+                     INNER JOIN dbo.TipoAusentismo AS tau ON(tau.Id = afu.TipoAusentismoId)
+					 INNER JOIN dbo.ClaseAusentismo AS ca ON ( tau.ClaseAusentismoId = ca.Id )
+                WHERE afu.FechaInicio <= @Fecha
+                      AND afu.Estado = @AusentismoAprobado
+                      AND ca.Codigo = @ClaseAusentismoIncapacidad
+                      AND fun.Estado IN(@FuncionarioActivo, @FuncionarioEnVacaciones)
+                     AND afu.EstadoRegistro = @AuditoriaActivo
+                ORDER BY afu.FechaInicio ASC;
+            OPEN CUR_AusentismosPorIniciar;
+            FETCH NEXT FROM CUR_AusentismosPorIniciar INTO @AusentismoId, @FuncionarioId;
+            WHILE @@FETCH_STATUS = 0
+                BEGIN
+
+                    -- Se cambia el estado del funcionario a Incapacitado
+                    UPDATE dbo.Funcionario
+                      SET 
+                          Estado = @FuncionarioIncapacitado, 
+                          ModificadoPor = @UsuarioOperacion, 
+                          FechaModificacion = GETDATE()
+                    WHERE Id = @FuncionarioId;
+                    SET @AusentismosAfectados = @AusentismosAfectados + 1;
+                    FETCH NEXT FROM CUR_AusentismosPorIniciar INTO @AusentismoId, @FuncionarioId;
+                END;
+            CLOSE CUR_AusentismosPorIniciar;
+            DEALLOCATE CUR_AusentismosPorIniciar;
+			
+            -- Se consultan los ausentismos en estado en curso de clase incapacidad cuya fecha fin sea anterior a @Fecha
+            DECLARE CUR_AusentismosPorFinalizar CURSOR LOCAL
+            FOR SELECT afu.Id, 
+                       fun.Id, 
+                       afu.FechaFin
+                FROM dbo.AusentismoFuncionario AS afu
+                     INNER JOIN dbo.Funcionario AS fun ON(fun.Id = afu.FuncionarioId)
+                     INNER JOIN dbo.TipoAusentismo AS tau ON(tau.Id = afu.TipoAusentismoId)
+					 INNER JOIN dbo.ClaseAusentismo AS ca ON ( tau.ClaseAusentismoId = ca.Id )
+                WHERE afu.FechaFin < @Fecha
+                      AND afu.Estado = @AusentismoAprobado
+                      AND ca.Codigo = @ClaseAusentismoIncapacidad
+                      AND fun.Estado = @FuncionarioIncapacitado
+                      AND afu.EstadoRegistro = @AuditoriaActivo
+                ORDER BY afu.FechaFin ASC;
+            OPEN CUR_AusentismosPorFinalizar;
+            FETCH NEXT FROM CUR_AusentismosPorFinalizar INTO @AusentismoId, @FuncionarioId, @AusentismoFechaFin;
+            WHILE @@FETCH_STATUS = 0
+                BEGIN
+
+                    -- Se cambia el estado del ausentismo a finalizado
+                    UPDATE dbo.AusentismoFuncionario
+                      SET 
+                          Estado = @AusentismoFinalizado, 
+                          ModificadoPor = @UsuarioOperacion, 
+                          FechaModificacion = GETDATE()
+                    WHERE Id = @AusentismoId;
+
+                    -- Se cambia el estado del funcionario a Activo o En vacaciones según corresponda
+                    SET @FuncionarioEstado = @FuncionarioActivo;
+                    IF EXISTS
+                    (
+                        SELECT svi.Id
+                        FROM dbo.SolicitudVacacionesInterrupcion AS svi
+                             INNER JOIN dbo.SolicitudVacaciones AS sva ON(sva.Id = svi.Id)
+                        WHERE svi.FuncionarioAusentismoId = @AusentismoId
+                              AND sva.FuncionarioId = @FuncionarioId
+                              AND @AusentismoFechaFin BETWEEN sva.FechaInicioDisfrute AND sva.FechaFinDisfrute
+                              AND svi.EstadoRegistro = @AuditoriaActivo
+                              AND sva.EstadoRegistro = @AuditoriaActivo
+                    )
+                        BEGIN
+                            SET @FuncionarioEstado = @FuncionarioEnVacaciones;
+                    END;
+                    UPDATE dbo.Funcionario
+                      SET 
+                          Estado = @FuncionarioEstado, 
+                          ModificadoPor = @UsuarioOperacion, 
+                          FechaModificacion = GETDATE()
+                    WHERE Id = @FuncionarioId;
+                    SET @AusentismosAfectados = @AusentismosAfectados + 1;
+                    FETCH NEXT FROM CUR_AusentismosPorFinalizar INTO @AusentismoId, @FuncionarioId, @AusentismoFechaFin;
+                END;
+            CLOSE CUR_AusentismosPorFinalizar;
+            DEALLOCATE CUR_AusentismosPorFinalizar;
+			
+            -------------------------------------------------------------------------------------------------------------
+            -- Se consultan los ausentismos de tipo licencia por luto aprobados y cuya fecha de inicio sea menor a @Fecha
+            ------------------------------------------------------------------------------------------------------------
+            DECLARE CUR_AusentismosPorLuto CURSOR LOCAL
+            FOR SELECT afu.Id, 
+                       fun.Id
+                FROM dbo.AusentismoFuncionario AS afu
+                     INNER JOIN dbo.Funcionario AS fun ON(fun.Id = afu.FuncionarioId)
+                     INNER JOIN dbo.TipoAusentismo AS tau ON(tau.Id = afu.TipoAusentismoId)
+                WHERE afu.FechaInicio <= @Fecha
+                      AND afu.Estado = @AusentismoAprobado
+                      AND tau.Codigo = @TipoAusentismoLuto
+                      AND fun.Estado = @FuncionarioEnVacaciones
+                      AND afu.EstadoRegistro = @AuditoriaActivo
+                ORDER BY afu.FechaInicio ASC;
+            OPEN CUR_AusentismosPorLuto;
+            FETCH NEXT FROM CUR_AusentismosPorLuto INTO @AusentismoId, @FuncionarioId;
+            WHILE @@FETCH_STATUS = 0
+                BEGIN
+                    -- Se cambia el estado del funcionario a activo
+                    UPDATE dbo.Funcionario
+                      SET 
+                          Estado = @FuncionarioActivo, 
+                          ModificadoPor = @UsuarioOperacion, 
+                          FechaModificacion = GETDATE()
+                    WHERE Id = @FuncionarioId;
+                    SET @AusentismosAfectados = @AusentismosAfectados + 1;
+                    FETCH NEXT FROM CUR_AusentismosPorIniciar INTO @AusentismoId, @FuncionarioId;
+                END;
+            CLOSE CUR_AusentismosPorLuto;
+            DEALLOCATE CUR_AusentismosPorLuto;
+            
+            ------------------------------------------------------------------------------------------------------
+            -- Se consultan los ausentismos en estado en curso tipo licencia por luto cuya fecha fin sea anterior a Fecha
+            -------------------------------------------------------------------------------------------------------
+            DECLARE CUR_AusentismosLutoPorFinalizar CURSOR LOCAL
+            FOR SELECT afu.Id, 
+                       fun.Id, 
+                       afu.FechaFin
+                FROM dbo.AusentismoFuncionario AS afu
+                     INNER JOIN dbo.Funcionario AS fun ON(fun.Id = afu.FuncionarioId)
+                     INNER JOIN dbo.TipoAusentismo AS tau ON(tau.Id = afu.TipoAusentismoId)
+                WHERE afu.FechaFin < @Fecha
+                      AND afu.Estado = @AusentismoAprobado
+                      AND tau.Codigo = @TipoAusentismoLuto
+                      AND fun.Estado = @FuncionarioActivo
+                      AND afu.EstadoRegistro = @AuditoriaActivo
+                ORDER BY afu.FechaFin ASC;
+            OPEN CUR_AusentismosLutoPorFinalizar;
+            FETCH NEXT FROM CUR_AusentismosLutoPorFinalizar INTO @AusentismoId, @FuncionarioId, @AusentismoFechaFin;
+            WHILE @@FETCH_STATUS = 0
+                BEGIN
+
+                    -- Se cambia el estado del ausentismo a finalizado
+                    UPDATE dbo.AusentismoFuncionario
+                      SET 
+                          Estado = @AusentismoFinalizado, 
+                          ModificadoPor = @UsuarioOperacion, 
+                          FechaModificacion = GETDATE()
+                    WHERE Id = @AusentismoId;
+
+                    -- Se cambia el estado del funcionario a Activo o En vacaciones según corresponda
+                    SET @FuncionarioEstado = @FuncionarioActivo;
+                    IF EXISTS
+                    (
+                        SELECT svi.Id
+                        FROM dbo.SolicitudVacacionesInterrupcion AS svi
+                             INNER JOIN dbo.SolicitudVacaciones AS sva ON(sva.Id = svi.Id)
+                        WHERE svi.FuncionarioAusentismoId = @AusentismoId
+                              AND sva.FuncionarioId = @FuncionarioId
+                              AND @AusentismoFechaFin BETWEEN sva.FechaInicioDisfrute AND sva.FechaFinDisfrute
+                              AND svi.EstadoRegistro = @AuditoriaActivo
+                              AND sva.EstadoRegistro = @AuditoriaActivo
+                    )
+                        BEGIN
+                            SET @FuncionarioEstado = @FuncionarioEnVacaciones;
+                    END;
+                    UPDATE dbo.Funcionario
+                      SET 
+                          Estado = @FuncionarioEstado, 
+                          ModificadoPor = @UsuarioOperacion, 
+                          FechaModificacion = GETDATE()
+                    WHERE Id = @FuncionarioId;
+                    SET @AusentismosAfectados = @AusentismosAfectados + 1;
+                    FETCH NEXT FROM CUR_AusentismosPorFinalizar INTO @AusentismoId, @FuncionarioId, @AusentismoFechaFin;
+                END;
+            CLOSE CUR_AusentismosLutoPorFinalizar;
+            DEALLOCATE CUR_AusentismosLutoPorFinalizar;
+			
+			SET @Resultado = 'Se afectaron ' + CONVERT(VARCHAR, @AusentismosAfectados) + ' ausentismos.';
+
+            -- Cierre de la transacción
+            IF @@TRANCOUNT > 0
+                BEGIN
+                    IF XACT_STATE() = 1
+                        BEGIN
+                            COMMIT TRAN ProcesarEstadosAusentismos;
+                    END;
+                        ELSE
+                        BEGIN
+                            EXEC util.USP_GenerarExcepcion 
+                                 50000, 
+                                 'No se puede confirmar la transacción.  Error desconocido.';
+                    END;
+            END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ProcesarEstadosAusentismos];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

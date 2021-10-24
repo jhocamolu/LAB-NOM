@@ -1,0 +1,49 @@
+@import "src/@fuse/scss/fuse";
+.funcion-dialog {
+    @include media-breakpoint("xs") {
+        width: 100%;
+    }
+    @include media-breakpoint("gt-xs") {
+        width: 600px;
+        min-height: 400px;
+    }
+    formula-funcion {        
+        form {
+            height: 100%;
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 15px;
+        }
+        .descripcion {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            .titulo {
+                font-weight: bold;
+            }
+            height: 150px !important;
+            overflow: auto;
+        }
+        .mat-dialog-container {
+            padding: 0;
+        }
+        .dialog-content-wrapper {
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+        mat-form-field {
+            width: 100%;
+        }
+        button mat-icon {
+            margin-right: 5px;
+        }
+        select {
+            width: 100%;
+            overflow: auto;
+        }
+        option {
+            padding: 10px;
+            font-size: 15px;
+        }
+    }
+}

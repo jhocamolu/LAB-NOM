@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ProcesarEstadosContratos_V2">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ProcesarEstadosContratos', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ProcesarEstadosContratos as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 24/04/2020
+-- Description: Permite realizar cambios de estado en contratos y funcionarios según fecha
+--			 de inicio o finalización del contrato
+--
+-- Parameters:
+--  @Fecha:			   Fecha para la cual se hace el proceso
+--  @UsuarioOperacion:	   Usuario que realiza la operación
+--  @Estado:			   Estado resultado del proceso
+--  @Resultado:		   Descripción del resultado
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ProcesarEstadosContratos] @Fecha            DATE,
+                                                 @UsuarioOperacion VARCHAR(255),
+                                                 @Estado           VARCHAR(255) OUTPUT,
+                                                 @Resultado        TEXT OUTPUT
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Fecha=', CONVERT(VARCHAR, @Fecha), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion), '&', '@Estado=', CONVERT(VARCHAR, @Estado), '&', '@Resultado=', CONVERT(VARCHAR, @Resultado));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @ContratoSinIniciar VARCHAR(255);
+    DECLARE @ContratoVigente VARCHAR(255);
+    DECLARE @ContratoPendientePorLiquidar VARCHAR(255);
+    DECLARE @ContratoId INT;
+    DECLARE @FuncionarioId INT;
+    DECLARE @FuncionarioActivo VARCHAR(255);
+    DECLARE @FuncionarioRetirado VARCHAR(255);
+    DECLARE @ContratosAfectados INT;
+    DECLARE @TareaProgramadaLogExitoso VARCHAR(255);
+    DECLARE @TareaProgramadaLogFallido VARCHAR(255);
+	DECLARE @FechaFinalizacion DATE;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Se consultan los estados
+        SELECT @AuditoriaActivo = ces.AUDITORIA_ACTIVO,
+               @ContratoSinIniciar = ces.CONTRATO_SININICIAR,
+               @ContratoVigente = ces.CONTRATO_VIGENTE,
+               @ContratoPendientePorLiquidar = ces.CONTRATO_PENDIENTEPORLIQUIDAR,
+               @FuncionarioActivo = ces.FUNCIONARIO_ACTIVO,
+			   @FuncionarioRetirado = ces.FUNCIONARIO_RETIRADO,
+			@TareaProgramadaLogExitoso = ces.TAREAPROGRAMADALOG_EXITOSO,
+			@TareaProgramadaLogFallido = ces.TAREAPROGRAMADALOG_FALLIDO
+        FROM util.VW_ConstanteEstado AS ces;
+
+	   SET @ContratosAfectados = 0;
+	   SET @Estado = @TareaProgramadaLogExitoso;
+	   SET @Resultado = '';
+
+        -- Inicio de la transacción
+        BEGIN TRAN ProcesarEstadosContratos;
+
+        -- Se consultan los contratos sin iniciar cuya fecha sea menor o igual a @Fecha para pasarlos a vigente
+        DECLARE CUR_ContratosSinIniciar CURSOR LOCAL
+        FOR SELECT con.Id,
+                   con.FuncionarioId
+            FROM dbo.Contrato AS con
+            WHERE con.Estado = @ContratoSinIniciar
+                  AND con.FechaInicio <= @Fecha
+                  AND con.EstadoRegistro = @AuditoriaActivo;
+
+        OPEN CUR_ContratosSinIniciar;
+
+        FETCH NEXT FROM CUR_ContratosSinIniciar INTO @ContratoId, @FuncionarioId;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+		  -- Se cambia el estado del contrato a Vigente
+            UPDATE dbo.Contrato
+              SET
+                  Estado = @ContratoVigente,
+                  ModificadoPor = @UsuarioOperacion,
+                  FechaModificacion = GETDATE()
+            WHERE Contrato.Id = @ContratoId;
+
+		  -- Se cambia el estado del funcionario a Activo
+            UPDATE dbo.Funcionario
+              SET
+                  Estado = @FuncionarioActivo,
+                  ModificadoPor = @UsuarioOperacion,
+                  FechaModificacion = GETDATE()
+            WHERE Id = @FuncionarioId;
+
+		  SET @ContratosAfectados = @ContratosAfectados + 1;
+
+            FETCH NEXT FROM CUR_ContratosSinIniciar INTO @ContratoId, @FuncionarioId;
+
+        END;
+
+        CLOSE CUR_ContratosSinIniciar;
+
+        DEALLOCATE CUR_ContratosSinIniciar;
+
+        -- Se consultan los contratos vigentes y la fecha final del contrato sea menor a @Fecha se cambia el estado a Pendiente por liquidar
+        DECLARE CUR_ContratosVigentes CURSOR LOCAL
+        FOR SELECT Id,
+                   FuncionarioId,
+				   FechaFinalizacion
+            FROM
+            (
+                SELECT con.Id,
+                       con.FuncionarioId,
+                       COALESCE(con.FechaTerminacion,
+                (
+                    SELECT TOP 1 cosi.FechaFinalizacion
+                    FROM dbo.ContratoOtroSi AS cosi
+                    WHERE cosi.ContratoId = con.Id
+                          AND cosi.EstadoRegistro = @AuditoriaActivo
+                    ORDER BY cosi.FechaFinalizacion Desc
+                ), con.FechaFinalizacion) AS FechaFinalizacion
+                FROM dbo.Contrato AS con
+                WHERE con.Estado = @ContratoVigente
+                      AND con.EstadoRegistro = @AuditoriaActivo
+            ) AS Contratos
+            WHERE FechaFinalizacion < @Fecha;
+
+        OPEN CUR_ContratosVigentes;
+
+        FETCH NEXT FROM CUR_ContratosVigentes INTO @ContratoId, @FuncionarioId, @FechaFinalizacion;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+			
+		  -- Se cambia el estado del contrato a Pendiente por liquidar
+            UPDATE dbo.Contrato
+              SET
+                  Contrato.Estado = @ContratoPendientePorLiquidar,
+				  Contrato.FechaTerminacion = @FechaFinalizacion,
+                  Contrato.ModificadoPor = @UsuarioOperacion,
+                  Contrato.FechaModificacion = GETDATE()
+            WHERE Contrato.Id = @ContratoId;
+
+		  -- Se cambia el estado del contrato a Retirado
+		  UPDATE dbo.Funcionario
+              SET
+                  Estado = @FuncionarioRetirado,
+                  ModificadoPor = @UsuarioOperacion,
+                  FechaModificacion = GETDATE()
+            WHERE Id = @FuncionarioId;
+
+		  SET @ContratosAfectados = @ContratosAfectados + 1;
+
+            FETCH NEXT FROM CUR_ContratosVigentes INTO @ContratoId, @FuncionarioId, @FechaFinalizacion;
+
+        END;
+
+        CLOSE CUR_ContratosVigentes;
+
+        DEALLOCATE CUR_ContratosVigentes;
+		
+
+	   SET @Resultado = 'Se afectaron ' + CONVERT(VARCHAR, @ContratosAfectados) + ' contratos.';
+
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN ProcesarEstadosContratos;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ProcesarEstadosContratos', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ProcesarEstadosContratos as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 24/04/2020
+-- Description: Permite realizar cambios de estado en contratos y funcionarios según fecha
+--			 de inicio o finalización del contrato
+--
+-- Parameters:
+--  @Fecha:			   Fecha para la cual se hace el proceso
+--  @UsuarioOperacion:	   Usuario que realiza la operación
+--  @Estado:			   Estado resultado del proceso
+--  @Resultado:		   Descripción del resultado
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ProcesarEstadosContratos] @Fecha            DATE,
+                                                 @UsuarioOperacion VARCHAR(255),
+                                                 @Estado           VARCHAR(255) OUTPUT,
+                                                 @Resultado        TEXT OUTPUT
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Fecha=', CONVERT(VARCHAR, @Fecha), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion), '&', '@Estado=', CONVERT(VARCHAR, @Estado), '&', '@Resultado=', CONVERT(VARCHAR, @Resultado));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @ContratoSinIniciar VARCHAR(255);
+    DECLARE @ContratoVigente VARCHAR(255);
+    DECLARE @ContratoPendientePorLiquidar VARCHAR(255);
+    DECLARE @ContratoId INT;
+    DECLARE @FuncionarioId INT;
+    DECLARE @FuncionarioActivo VARCHAR(255);
+    DECLARE @FuncionarioRetirado VARCHAR(255);
+    DECLARE @ContratosAfectados INT;
+    DECLARE @TareaProgramadaLogExitoso VARCHAR(255);
+    DECLARE @TareaProgramadaLogFallido VARCHAR(255);
+
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Se consultan los estados
+        SELECT @AuditoriaActivo = ces.AUDITORIA_ACTIVO,
+               @ContratoSinIniciar = ces.CONTRATO_SININICIAR,
+               @ContratoVigente = ces.CONTRATO_VIGENTE,
+               @ContratoPendientePorLiquidar = ces.CONTRATO_PENDIENTEPORLIQUIDAR,
+               @FuncionarioActivo = ces.FUNCIONARIO_ACTIVO,
+			   @FuncionarioRetirado = ces.FUNCIONARIO_RETIRADO,
+			@TareaProgramadaLogExitoso = ces.TAREAPROGRAMADALOG_EXITOSO,
+			@TareaProgramadaLogFallido = ces.TAREAPROGRAMADALOG_FALLIDO
+        FROM util.VW_ConstanteEstado AS ces;
+
+	   SET @ContratosAfectados = 0;
+	   SET @Estado = @TareaProgramadaLogExitoso;
+	   SET @Resultado = '';
+
+        -- Inicio de la transacción
+        BEGIN TRAN ProcesarEstadosContratos;
+
+        -- Se consultan los contratos sin iniciar cuya fecha sea menor o igual a @Fecha para pasarlos a vigente
+        DECLARE CUR_ContratosSinIniciar CURSOR LOCAL
+        FOR SELECT con.Id,
+                   con.FuncionarioId
+            FROM dbo.Contrato AS con
+            WHERE con.Estado = @ContratoSinIniciar
+                  AND con.FechaInicio <= @Fecha
+                  AND con.EstadoRegistro = @AuditoriaActivo;
+
+        OPEN CUR_ContratosSinIniciar;
+
+        FETCH NEXT FROM CUR_ContratosSinIniciar INTO @ContratoId, @FuncionarioId;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+		  -- Se cambia el estado del contrato a Vigente
+            UPDATE dbo.Contrato
+              SET
+                  Estado = @ContratoVigente,
+                  ModificadoPor = @UsuarioOperacion,
+                  FechaModificacion = GETDATE()
+            WHERE Contrato.Id = @ContratoId;
+
+		  -- Se cambia el estado del funcionario a Activo
+            UPDATE dbo.Funcionario
+              SET
+                  Estado = @FuncionarioActivo,
+                  ModificadoPor = @UsuarioOperacion,
+                  FechaModificacion = GETDATE()
+            WHERE Id = @FuncionarioId;
+
+		  SET @ContratosAfectados = @ContratosAfectados + 1;
+
+            FETCH NEXT FROM CUR_ContratosSinIniciar INTO @ContratoId, @FuncionarioId;
+
+        END;
+
+        CLOSE CUR_ContratosSinIniciar;
+
+        DEALLOCATE CUR_ContratosSinIniciar;
+
+        -- Se consultan los contratos vigentes y la fecha final del contrato sea menor a @Fecha se cambia el estado a Pendiente por liquidar
+        DECLARE CUR_ContratosVigentes CURSOR LOCAL
+        FOR SELECT Id,
+                   FuncionarioId
+            FROM
+            (
+                SELECT con.Id,
+                       con.FuncionarioId,
+                       COALESCE(con.FechaTerminacion,
+                (
+                    SELECT TOP 1 cosi.FechaFinalizacion
+                    FROM dbo.ContratoOtroSi AS cosi
+                    WHERE cosi.ContratoId = con.Id
+                          AND cosi.EstadoRegistro = @AuditoriaActivo
+                    ORDER BY cosi.FechaFinalizacion Desc
+                ), con.FechaFinalizacion) AS FechaFinalizacion
+                FROM dbo.Contrato AS con
+                WHERE con.Estado = @ContratoVigente
+                      AND con.EstadoRegistro = @AuditoriaActivo
+            ) AS Contratos
+            WHERE FechaFinalizacion < @Fecha;
+
+        OPEN CUR_ContratosVigentes;
+
+        FETCH NEXT FROM CUR_ContratosVigentes INTO @ContratoId, @FuncionarioId;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+			
+		  -- Se cambia el estado del contrato a Pendiente por liquidar
+            UPDATE dbo.Contrato
+              SET
+                  Contrato.Estado = @ContratoPendientePorLiquidar,
+                  Contrato.ModificadoPor = @UsuarioOperacion,
+                  Contrato.FechaModificacion = GETDATE()
+            WHERE Contrato.Id = @ContratoId;
+
+		  -- Se cambia el estado del contrato a Retirado
+		  UPDATE dbo.Funcionario
+              SET
+                  Estado = @FuncionarioRetirado,
+                  ModificadoPor = @UsuarioOperacion,
+                  FechaModificacion = GETDATE()
+            WHERE Id = @FuncionarioId;
+
+		  SET @ContratosAfectados = @ContratosAfectados + 1;
+
+            FETCH NEXT FROM CUR_ContratosVigentes INTO @ContratoId, @FuncionarioId;
+
+        END;
+
+        CLOSE CUR_ContratosVigentes;
+
+        DEALLOCATE CUR_ContratosVigentes;
+		
+
+	   SET @Resultado = 'Se afectaron ' + CONVERT(VARCHAR, @ContratosAfectados) + ' contratos.';
+
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN ProcesarEstadosContratos;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

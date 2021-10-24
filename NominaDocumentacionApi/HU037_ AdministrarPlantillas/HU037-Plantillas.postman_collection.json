@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "99611adc-2c22-494a-88c8-394009b7bb15",
+		"name": "HU037-Plantillas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear plantillas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n\"nombre\": \"qwertyuiop\",\r\n\"grupoDocumentoId\": 2,\r\n\"documentoId\": 1,\r\n\"encabezadoId\": 7,\r\n\"piePaginaId\": 5,\r\n\"cuerpoDocumento\": \"<p>fhgfdgghkjdsfhkjfshgikbnglkdxf bbfdsg0ds godfgodfigdfoig ofdhgdfhg ofdgodfuodfihjoifhjxddfd\r\nfffd oigjfdpgujfdpojgfdgdh\r\ndfhg\r\nfdg jdfgojdfgkjfdphjfdphj'gfhiugfhfhfihjf9 hjgflkhjnñgflkjhgfpoiuhj0gfhjgfhf ghpjfhlfgnhfhj gfphjgfhk </p>\",\r\n\"fechaVigencia\": \"2020-01-18\",\r\n\"version\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44343/api/plantillas",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44343",
+					"path": [
+						"api",
+						"plantillas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Plantillas",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 31,\r\n    \"nombre\": \"QwertyuiopQQWF\",\r\n    \"version\": \"1\",\r\n    \"fechaVigencia\": \"2020-01-18T00:00:00\",\r\n    \"grupoDocumentoId\": 2,\r\n    \"encabezadoId\": 7,\r\n    \"piePaginaId\": 5,\r\n    \"documentoId\": 1,\r\n    \"cuerpoDocumento\": \"<p>fhgfdgghkjdsfhkjfshgikbnglkdxf bbfdsg0ds godfgodfigdfoig ofdhghgjhgjdfhg ofdgodfuodfihjohkjhghgjjhgjifhjxddfd\\r\\nfffd oigjfdpgujfdpojgfdgdh\\r\\ndfhg\\r\\nfdg jdfgojdfgkjfdphjfdphj'gfhiugfhfhfihjf9 hjgflkhjnghjhgjñgflkjhgfpoiuhj0gfhjgfhf ghpjfhlfgnhfhj gfphjgfhk </p>\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44343/api/plantillas/31",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44343",
+					"path": [
+						"api",
+						"plantillas",
+						"31"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial Plantillas",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 31,\r\n    \"nombre\": \"QwertyuiopQQWF\",\r\n    \"version\": \"1\",\r\n    \"fechaVigencia\": \"2020-01-18T00:00:00\",\r\n    \"grupoDocumentoId\": 2,\r\n    \"encabezadoId\": 7,\r\n    \"piePaginaId\": 5,\r\n    \"documentoId\": 1,\r\n    \"cuerpoDocumento\": \"<p>fhgfdgghkjdsfhkjfshgikbnglkdxf bbfdsg0ds godfgodfigdfoig ofdhghgjhgjdfhg ofdgodfuodfihjohkjhghgjjhgjifhjxddfd\\r\\nfffd oigjfdpgujfdpojgfdgdh\\r\\ndfhg\\r\\nfdg jdfgojdfgkjfdphjfdphj'gfhiugfhfhfihjf9 hjgflkhjnghjhgjñgflkjhgfpoiuhj0gfhjgfhf ghpjfhlfgnhfhj gfphjgfhk </p>\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44343/api/plantillas/31",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44343",
+					"path": [
+						"api",
+						"plantillas",
+						"31"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar todas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44343/odata/plantillas",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44343",
+					"path": [
+						"odata",
+						"plantillas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar una",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44343/odata/plantillas/31",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44343",
+					"path": [
+						"odata",
+						"plantillas",
+						"31"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

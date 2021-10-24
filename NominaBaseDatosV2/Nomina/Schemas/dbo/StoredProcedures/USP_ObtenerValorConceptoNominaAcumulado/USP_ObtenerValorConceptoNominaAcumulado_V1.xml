@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_ObtenerValorConceptoNominaAcumulado_V1">
+<comment>HT029</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerValorConceptoNominaAcumulado', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerValorConceptoNominaAcumulado as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 02/05/2020
+-- Description: Permite obtener el valor de un concepto acumulado en un rango de fechas para 
+--			 un funcionario
+--
+-- Parameters:
+--  @FuncionarioId:		   Identificador del funcionario
+--  @ConceptoAlias:		   Alias del concepto sobre el cual se quiere obtener el valor
+--  @FechaInicio:		   Fecha inicial desde la que se requiere el acumulado
+--  @FechaFin:			   Fecha final hasta la que se requiere el acumulado
+--  @Valor:			   Parámetro de salida con el valor para el detalle
+-- ==========================================================================================
+ALTER PROCEDURE dbo.USP_ObtenerValorConceptoNominaAcumulado @FuncionarioId INT,
+                                                              @ConceptoAlias VARCHAR(255),
+                                                              @FechaInicio          DATE,
+                                                              @FechaFin            DATE,
+                                                              @Valor         MONEY OUTPUT
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@ConceptoAlias=', CONVERT(VARCHAR, @ConceptoAlias), '&', '@FechaInicio=', CONVERT(VARCHAR, @FechaInicio), '&', '@FechaFin=', CONVERT(VARCHAR, @FechaInicio), '&', '@Valor=', CONVERT(VARCHAR, @Valor));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255)=
+    (
+        SELECT ces.AUDITORIA_ACTIVO
+        FROM util.VW_ConstanteEstado AS ces
+    );
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        SET @Valor = 0;
+
+	   -- Se acumulan los valores del detalle de la nómina asociados al funcionario, concepto y nóminas del mes
+        SELECT @Valor = COALESCE(SUM(nde.Valor),0)
+	   FROM dbo.NominaFuncionario nfu INNER JOIN dbo.Nomina nom ON (nom.Id = nfu.NominaId)
+	   INNER JOIN dbo.NominaDetalle nde ON (nde.NominaFuncionarioId = nfu.Id)
+	   INNER JOIN dbo.ConceptoNomina cno ON (cno.Id = nde.ConceptoNominaId)
+	   WHERE nfu.FuncionarioId = @FuncionarioId
+	   AND cno.Alias = @ConceptoAlias
+	   AND nom.FechaInicio BETWEEN @FechaInicio AND @FechaFin
+	   AND nom.FechaFinal BETWEEN @FechaInicio AND @FechaFin
+	   AND nfu.EstadoRegistro = @AuditoriaActivo
+        AND nom.EstadoRegistro = @AuditoriaActivo;
+
+
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerValorConceptoNominaAcumulado];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

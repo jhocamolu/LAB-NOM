@@ -1,0 +1,105 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content fusePerfectScrollbar>
+            
+        <mat-form-field appearance="outline">
+            <mat-label>Cargo a sustituir </mat-label>
+            <input matInput formControlName="cargoASustituir">
+            <mat-error *ngFor="let error of objToArray(cargoASustituir.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Cargo que va a ser sustituido.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cargo sustituto</mat-label>
+            <input matInput formControlName="cargoSustituto">
+            <mat-error *ngFor="let error of objToArray(cargoSustituto.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Cargo temporal que se responsabilizará de las aprobaciones y/o autorizaciones.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+			<mat-label>Fecha inicio</mat-label>
+			<input matInput [matDatepicker]="fechaInicio" (click)="fechaInicio.open()" formControlName="fechaInicio">
+			<mat-datepicker-toggle matPrefix [for]="fechaInicio">
+			</mat-datepicker-toggle>
+			<mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+			<mat-error *ngFor="let error of objToArray(form.get('fechaInicio').errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template [ngSwitchCase]="'matDatepickerParse'">
+						No es un formato de fecha válido.
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix
+				matTooltip="Fecha de inicio de la sustitución.">
+				info
+			</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Fecha final</mat-label>
+			<input matInput [matDatepicker]="fechaFinal" (click)="fechaFinal.open()" formControlName="fechaFinal">
+			<mat-datepicker-toggle matPrefix [for]="fechaFinal">
+			</mat-datepicker-toggle>
+			<mat-datepicker startView="year" #fechaFinal></mat-datepicker>
+			<mat-error *ngFor="let error of objToArray(form.get('fechaFinal').errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template [ngSwitchCase]="'matDatepickerParse'">
+						No es un formato de fecha válido.
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix
+				matTooltip="Fecha final de la sustitución.">
+				info
+			</mat-icon>
+		</mat-form-field>
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+            <mat-icon>cancel</mat-icon>
+            <span>Borrar filtros</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+            <mat-icon>search</mat-icon>
+            <span>Buscar</span>
+        </button>
+    </div>
+</form>

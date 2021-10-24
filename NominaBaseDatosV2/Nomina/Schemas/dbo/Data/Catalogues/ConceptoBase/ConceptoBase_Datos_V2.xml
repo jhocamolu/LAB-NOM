@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="ConceptoBase_Datos_V2">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[ConceptoBase] ON 
+GO
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(260, 32, 125, 'Activo    ', 'sistema',GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(261, 32, 129, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(262, 32, 128, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(263, 37, 2, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(264, 122, 126, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(265, 122, 125, 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[ConceptoBase] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM dbo.ConceptoBase WHERE Id BETWEEN 260 AND 265;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

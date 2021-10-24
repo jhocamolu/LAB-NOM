@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TareaProgramada_Datos_V5">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TareaProgramada] ON
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [Alias]) 
+VALUES (11, N'Notificar vencimiento cubir vacante', N'diaria', N'Crear notificacion de las requisiciones proximas a vencer, es decir, 
+--              la diferencia entre la fechaActual - (FechaAutorizacion + @PlazoCubrirRequisicion ) 
+--              es menor o igual  @LimiteDiasNotificar', N'node C:\inetpub\wwwroot\NominaConsola\index.js notificar-vencimientocubrirvacante', 0, 'Activo', 'sistema',GETDATE(), N'notificar-vencimientocubrirvacante')
+GO
+
+SET IDENTITY_INSERT [dbo].[TareaProgramada] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[TareaProgramada] WHERE Id =11;
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

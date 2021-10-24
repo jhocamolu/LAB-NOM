@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ObtenerDiasLaborales_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerDiasLaborales', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerDiasLaborales as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Laura Estrada, Diego Villegas
+-- Create date: 13/03/2020
+-- Description: Permite obtener los días laborales en un período de tiempo.
+--
+-- Parameters:
+--   @FechaInicial:				Fecha inicial del periodo
+--   @FechaFinal:				Fecha final del periodo
+--
+-- Returns:						Escalar
+--	 NumeroDias:				Número de días
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerDiasLaborales] 
+(
+	@FechaInicial DATE, 
+	@FechaFinal DATE
+)  
+AS
+BEGIN
+
+	--------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FechaInicial=', CONVERT(VARCHAR, @FechaInicial), '&', '@FechaFinal=', CONVERT(VARCHAR, @FechaFinal)); 
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	DECLARE @Acumulador INT = 0;
+	DECLARE @UltimoRegistro DATE;
+	DECLARE @UltimoDiaMes INT = 0;
+	DECLARE @DiasLaborales INT = 0;
+	DECLARE @FechaFinalMes DATE;
+	DECLARE @ConstanteDiasLaborales INT = 30;
+	
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	BEGIN TRY
+		SELECT TOP 1 @UltimoRegistro =  EOMONTH(DATEADD(MONTH, x.number, @FechaInicial)) 
+		FROM    master.dbo.spt_values x
+		WHERE   x.type = 'P'      
+		AND     x.number <= DATEDIFF(MONTH, @FechaInicial, @FechaFinal)
+			ORDER BY x.number DESC
+
+		SET @Acumulador  = 0
+		DECLARE CUR_DiferenciaEntreFechas CURSOR LOCAL FOR 
+			SELECT EOMONTH(DATEADD(MONTH, x.number, @FechaInicial)) AS FechaFinalMes
+			FROM    master.dbo.spt_values x
+			WHERE   x.type = 'P'      
+			AND     x.number <= DATEDIFF(MONTH, @FechaInicial, @FechaFinal);
+
+		OPEN CUR_DiferenciaEntreFechas
+
+		FETCH NEXT FROM CUR_DiferenciaEntreFechas INTO @FechaFinalMes
+
+		WHILE @@fetch_status = 0
+		BEGIN
+			--Obtener el día la fecha final mes
+		
+			IF(@FechaFinalMes <> @UltimoRegistro)
+			BEGIN
+				SET @UltimoDiaMes = CAST(DAY(@FechaFinalMes) as int) 
+				SET @Acumulador  = @Acumulador + (@ConstanteDiasLaborales - @UltimoDiaMes)
+			END
+			ELSE 
+			BEGIN
+				IF(@FechaFinal = @UltimoRegistro)
+				BEGIN
+					SET @UltimoDiaMes = CAST(DAY(@FechaFinalMes) as int) 
+					SET @Acumulador  = @Acumulador + (@ConstanteDiasLaborales - @UltimoDiaMes)
+				END
+			END 
+
+			FETCH NEXT FROM CUR_DiferenciaEntreFechas INTO @FechaFinalMes
+		END
+
+		CLOSE CUR_DiferenciaEntreFechas
+		DEALLOCATE CUR_DiferenciaEntreFechas
+
+		--Días totales 
+		SET @DiasLaborales = (DATEDIFF(day, @FechaInicial, @FechaFinal)+ @Acumulador + 1);
+	
+		RETURN @DiasLaborales;
+	END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerDiasLaborales];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

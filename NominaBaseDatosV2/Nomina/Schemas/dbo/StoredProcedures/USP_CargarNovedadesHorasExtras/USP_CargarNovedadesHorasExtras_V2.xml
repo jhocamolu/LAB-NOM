@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="USP_CargarNovedadesHorasExtras_V2">
+<comment>HU054</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_CargarNovedadesHorasExtras', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_CargarNovedadesHorasExtras as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 07/08/2020
+-- Description: Pemite cargar las novedades del funcionario para el módulo horas extras
+--
+-- Parameters:
+--  @NominaId:			   Identificador de la nómina
+--  @FuncionarioId:		   Identificador del funcionario
+--  @NominaFuncionarioId	   Identificador del funcionario en la nómina
+--  @NominaFechaFinal	   Fecha final de la nómina
+--  @Id				   Identificador de la hora extra que se quiere cargar
+--  @UsuarioOperacion :	   Usuario que realiza la operación.
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_CargarNovedadesHorasExtras] @NominaId            INT,
+                                                       @FuncionarioId       INT,
+                                                       @NominaFuncionarioId INT,
+                                                       @NominaFechaFinal    DATE,
+											@Id		 INT,
+                                                       @UsuarioOperacion    VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @HoraExtraPendiente VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255);
+
+    DECLARE @HoraExtraId INT;
+    DECLARE @HoraExtraFormaRegistro VARCHAR(255);
+
+    DECLARE @HoraExtraFormaRegistroAutomatico VARCHAR(255)=
+    (
+        SELECT cfrhe.[AUTOMATICO]
+        FROM util.VW_ConstanteFormaRegistroHoraExtra AS cfrhe
+    );
+
+    DECLARE @ValorHoraExtra MONEY= 0;
+    DECLARE @Cantidad DECIMAL(16,6)= 1;
+    DECLARE @UnidadMedida VARCHAR(255)=
+    (
+        SELECT cum.[UNIDAD]
+        FROM util.VW_ConstanteUnidadMedida AS cum
+    );
+    DECLARE @ConceptoNominaId INT= 0;
+    DECLARE @NominaFuenteNovedadId INT= 0;
+    DECLARE @ModuloSistema VARCHAR(255)=
+    (
+        SELECT cms.[HORASEXTRA]
+        FROM util.VW_ConstanteModuloSistema AS cms
+    );
+    DECLARE @NominaDetallePendiente VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN CargarNovedadesHorasExtras;
+
+	   -- Se consultan constantes asociadas a estados
+	   SELECT @NominaDetallePendiente = vce.NOMINADETALLE_PENDIENTE,
+	   @HoraExtraPendiente = vce.HORAEXTRA_PENDIENTE,
+	   @AuditoriaActivo = vce.AUDITORIA_ACTIVO
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Cursor para obtener las horas extras asociadas al funcionario
+        DECLARE CUR_HorasExtras CURSOR LOCAL
+        FOR SELECT hex.Id,
+                   hex.Cantidad,
+                   the.ConceptoNominaId,
+                   con.UnidadMedida,
+                   hex.Valor,
+                   hex.FormaRegistro
+            FROM dbo.HoraExtra AS hex
+                 INNER JOIN dbo.TipoHoraExtra AS the ON(hex.TipoHoraExtraId = the.Id)
+                 LEFT JOIN dbo.ConceptoNomina AS con ON(the.ConceptoNominaId = con.Id)
+            WHERE hex.FuncionarioId = @FuncionarioId
+			   AND ((@Id IS NOT NULL AND hex.Id = @Id) OR (@Id IS NULL))
+                  AND hex.Estado = @HoraExtraPendiente
+                  AND hex.Fecha <= @NominaFechaFinal
+                  AND hex.EstadoRegistro = @AuditoriaActivo;
+
+        OPEN CUR_HorasExtras;
+
+        FETCH NEXT FROM CUR_HorasExtras INTO @HoraExtraId, @Cantidad, @ConceptoNominaId, @UnidadMedida, @ValorHoraExtra, @HoraExtraFormaRegistro;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+            IF @HoraExtraFormaRegistro <> @HoraExtraFormaRegistroAutomatico
+            BEGIN
+                SET @ValorHoraExtra = 0;
+            END;
+
+            --- Inserta  NominaFuenteNovedad
+            INSERT INTO [dbo].[NominaFuenteNovedad]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [Modulo],
+             [ModuloRegistroId]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @ModuloSistema,
+             @HoraExtraId
+            );
+
+            SET @NominaFuenteNovedadId =
+            (
+                SELECT SCOPE_IDENTITY()
+            );
+
+            -- Inserta NominaDetalle
+            INSERT INTO [dbo].[NominaDetalle]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [NominaFuncionarioId],
+             [NominaFuenteNovedadId],
+             [ConceptoNominaId],
+             [UnidadMedida],
+             [Cantidad],
+             [Valor],
+             [Estado]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @NominaFuncionarioId,
+             @NominaFuenteNovedadId,
+             @ConceptoNominaId,
+             @UnidadMedida,
+             @Cantidad,
+             @ValorHoraExtra,
+             @NominaDetallePendiente
+            );
+
+            --PRINT 'Libranza id ' + CONVERT(VARCHAR, @LibranzaId);
+            FETCH NEXT FROM CUR_HorasExtras INTO @HoraExtraId, @Cantidad, @ConceptoNominaId, @UnidadMedida, @ValorHoraExtra, @HoraExtraFormaRegistro;
+        END;
+
+        CLOSE CUR_HorasExtras;
+
+        DEALLOCATE CUR_HorasExtras;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN CargarNovedadesHorasExtras;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+  
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_CargarNovedadesHorasExtras', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_CargarNovedadesHorasExtras as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 07/08/2020
+-- Description: Pemite cargar las novedades del funcionario para el módulo horas extras
+--
+-- Parameters:
+--  @NominaId:			   Identificador de la nómina
+--  @FuncionarioId:		   Identificador del funcionario
+--  @NominaFuncionarioId	   Identificador del funcionario en la nómina
+--  @NominaFechaFinal	   Fecha final de la nómina
+--  @Id				   Identificador de la hora extra que se quiere cargar
+--  @UsuarioOperacion :	   Usuario que realiza la operación.
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_CargarNovedadesHorasExtras] @NominaId            INT,
+                                                       @FuncionarioId       INT,
+                                                       @NominaFuncionarioId INT,
+                                                       @NominaFechaFinal    DATE,
+											@Id		 INT,
+                                                       @UsuarioOperacion    VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @HoraExtraPendiente VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255);
+
+    DECLARE @HoraExtraId INT;
+    DECLARE @HoraExtraFormaRegistro VARCHAR(255);
+
+    DECLARE @HoraExtraFormaRegistroAutomatico VARCHAR(255)=
+    (
+        SELECT cfrhe.[AUTOMATICO]
+        FROM util.VW_ConstanteFormaRegistroHoraExtra AS cfrhe
+    );
+
+    DECLARE @ValorHoraExtra MONEY= 0;
+    DECLARE @Cantidad INT= 1;
+    DECLARE @UnidadMedida VARCHAR(255)=
+    (
+        SELECT cum.[UNIDAD]
+        FROM util.VW_ConstanteUnidadMedida AS cum
+    );
+    DECLARE @ConceptoNominaId INT= 0;
+    DECLARE @NominaFuenteNovedadId INT= 0;
+    DECLARE @ModuloSistema VARCHAR(255)=
+    (
+        SELECT cms.[HORASEXTRA]
+        FROM util.VW_ConstanteModuloSistema AS cms
+    );
+    DECLARE @NominaDetallePendiente VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN CargarNovedadesHorasExtras;
+
+	   -- Se consultan constantes asociadas a estados
+	   SELECT @NominaDetallePendiente = vce.NOMINADETALLE_PENDIENTE,
+	   @HoraExtraPendiente = vce.HORAEXTRA_PENDIENTE,
+	   @AuditoriaActivo = vce.AUDITORIA_ACTIVO
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Cursor para obtener las horas extras asociadas al funcionario
+        DECLARE CUR_HorasExtras CURSOR LOCAL
+        FOR SELECT hex.Id,
+                   hex.Cantidad,
+                   the.ConceptoNominaId,
+                   con.UnidadMedida,
+                   hex.Valor,
+                   hex.FormaRegistro
+            FROM dbo.HoraExtra AS hex
+                 INNER JOIN dbo.TipoHoraExtra AS the ON(hex.TipoHoraExtraId = the.Id)
+                 LEFT JOIN dbo.ConceptoNomina AS con ON(the.ConceptoNominaId = con.Id)
+            WHERE hex.FuncionarioId = @FuncionarioId
+			   AND ((@Id IS NOT NULL AND hex.Id = @Id) OR (@Id IS NULL))
+                  AND hex.Estado = @HoraExtraPendiente
+                  AND hex.Fecha <= @NominaFechaFinal
+                  AND hex.EstadoRegistro = @AuditoriaActivo;
+
+        OPEN CUR_HorasExtras;
+
+        FETCH NEXT FROM CUR_HorasExtras INTO @HoraExtraId, @Cantidad, @ConceptoNominaId, @UnidadMedida, @ValorHoraExtra, @HoraExtraFormaRegistro;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+            IF @HoraExtraFormaRegistro <> @HoraExtraFormaRegistroAutomatico
+            BEGIN
+                SET @ValorHoraExtra = 0;
+            END;
+
+            --- Inserta  NominaFuenteNovedad
+            INSERT INTO [dbo].[NominaFuenteNovedad]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [Modulo],
+             [ModuloRegistroId]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @ModuloSistema,
+             @HoraExtraId
+            );
+
+            SET @NominaFuenteNovedadId =
+            (
+                SELECT SCOPE_IDENTITY()
+            );
+
+            -- Inserta NominaDetalle
+            INSERT INTO [dbo].[NominaDetalle]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [NominaFuncionarioId],
+             [NominaFuenteNovedadId],
+             [ConceptoNominaId],
+             [UnidadMedida],
+             [Cantidad],
+             [Valor],
+             [Estado]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @NominaFuncionarioId,
+             @NominaFuenteNovedadId,
+             @ConceptoNominaId,
+             @UnidadMedida,
+             @Cantidad,
+             @ValorHoraExtra,
+             @NominaDetallePendiente
+            );
+
+            --PRINT 'Libranza id ' + CONVERT(VARCHAR, @LibranzaId);
+            FETCH NEXT FROM CUR_HorasExtras INTO @HoraExtraId, @Cantidad, @ConceptoNominaId, @UnidadMedida, @ValorHoraExtra, @HoraExtraFormaRegistro;
+        END;
+
+        CLOSE CUR_HorasExtras;
+
+        DEALLOCATE CUR_HorasExtras;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN CargarNovedadesHorasExtras;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

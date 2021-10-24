@@ -1,0 +1,105 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Modificar novedad</h1>
+    <b>Nombre <mat-icon class="s-16" matTooltip="Concepto de nómina.">
+            info
+        </mat-icon></b>
+     <p>{{element.conceptoNomina?.nombre}}</p>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div fxLayout="row">
+            <div>
+                <b>Funcionario <mat-icon class="s-16"
+                        matTooltip="Documento de identificación y nombre del funcionario.">
+                        info
+                    </mat-icon></b>
+                <p>{{ element?.nominaFuncionario?.funcionario?.criterioBusqueda }}</p>
+            </div>
+        </div>
+
+        <div fxLayout="row">
+            <div>
+                <b>Unidad <mat-icon class="s-16" matTooltip="Unidad de medida que tiene la novedad.">info
+                    </mat-icon></b>
+                <p>{{ element?.unidadMedida }}</p>
+            </div>
+        </div>
+
+        <mat-form-field appearance="outline" *ngIf="form.get('cantidad').enabled">
+            <mat-label>Cantidad</mat-label>
+            <input matInput formControlName="cantidad" type="number" required>
+            <mat-error *ngFor="let error of form.get('cantidad').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                     <ng-template [ngSwitchCase]="'max'">
+                         Valor máximo 100000.
+                     </ng-template>
+                      <ng-template [ngSwitchCase]="'min'">
+                          Valor mínimo 0.
+                      </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número que se registra en la novedad.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="form.get('valor').enabled">
+            <mat-label>Valor</mat-label>
+            <input matInput formControlName="valor" required mask="separator.2" separatorLimit="1000000000"
+                thousandSeparator=".">
+            <mat-error *ngFor="let error of form.get('valor').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                     <ng-template [ngSwitchCase]="'max'">
+                         Valor máximo 100000000.
+                     </ng-template>
+                     <ng-template [ngSwitchCase]="'min'">
+                         Valor mínimo 1.
+                     </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Monto de dinero que se registra para la novedad.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Observación</mat-label>
+            <textarea matInput formControlName="observacion" required></textarea>
+            <mat-error *ngFor="let error of form.get('observacion').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Descripción de la modificación">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit " color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

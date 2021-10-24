@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFT_Split_V1">
+<comment>Utilidades varias</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFT_Split]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFT_Split]
+END
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 11/06/2020
+-- Description: Permite hacer un split de una cadena según un delimitador y devolver los 
+--				elementos como filas de una consulta
+--
+-- Parameters:
+--   @Cadena:        			Texto que se quiere dividir
+--   @Separador:        		Caracter que se utiliza como separador de la cadena
+
+--
+-- Returns:						Table
+--	 Valor:					    Columna valor con cada elemento
+-- ==========================================================================================
+CREATE FUNCTION [util].[UFT_Split]
+(@Cadena      NVARCHAR(4000),
+ @Delimitador NVARCHAR(10)
+)
+RETURNS @ValueTable TABLE([Value] NVARCHAR(4000))
+     BEGIN
+         DECLARE @NextCadena NVARCHAR(4000);
+         DECLARE @Pos INT;
+         DECLARE @NextPos INT;
+         DECLARE @CommaCheck NVARCHAR(1);
+
+         --Inicializa
+         SET @NextCadena = '';
+         SET @CommaCheck = RIGHT(@Cadena, 1);
+
+         SET @Cadena = @Cadena + @Delimitador;
+
+         --Busca la posición del primer delimitador
+         SET @Pos = CHARINDEX(@Delimitador, @Cadena);
+         SET @NextPos = 1;
+
+         --Itera mientras exista un delimitador en el Cadena
+         WHILE(@pos <> 0)
+         BEGIN
+             SET @NextCadena = SUBSTRING(@Cadena, 1, @Pos - 1);
+
+             INSERT INTO @ValueTable([Value])
+             VALUES(@NextCadena);
+
+             SET @Cadena = SUBSTRING(@Cadena, @pos + 1, LEN(@Cadena));
+
+             SET @NextPos = @Pos;
+             SET @pos = CHARINDEX(@Delimitador, @Cadena);
+         END;
+
+         RETURN;
+     END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFT_Split]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFT_Split]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

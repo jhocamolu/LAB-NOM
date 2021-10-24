@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_CamelCase_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_CamelCase]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_CamelCase]
+END
+GO
+
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 28/02/2020
+-- Description:	Función obtiene string y lo cambia en formato camelCase.
+-- =============================================
+CREATE  FUNCTION [util].[UFS_CamelCase](@str AS VARCHAR(MAX)) RETURNS VARCHAR(MAX)
+BEGIN
+
+	DECLARE @result VARCHAR(MAX)  
+	
+	SET @result = ''
+	
+	DECLARE @spaceIndex INT
+	SET @spaceIndex = CHARINDEX(' ', @str)
+	DECLARE @contador INT
+	SET @contador = 0
+	WHILE @spaceIndex > 0
+	BEGIN
+		SET @contador = @contador + 1
+
+		IF @contador = 1
+		BEGIN
+			SET @result = @result + LOWER(SUBSTRING(@str, 1, @spaceIndex - 1))		
+		END
+		ELSE
+		BEGIN
+			SET @result = @result + UPPER(SUBSTRING(@str, 1, 1)) + LOWER(SUBSTRING(@str, 2, @spaceIndex - 1))
+		END
+		SET @str = LOWER(SUBSTRING(@str, @spaceIndex + 1, len(@str)))
+		SET @spaceIndex = CHARINDEX(' ', @str)
+		
+	END
+
+	SET @result = @result + LOWER(SUBSTRING(@str, 1, 1))+SUBSTRING(@str, 2, len(@str))
+	SET @result = REPLACE(@result,' ','')
+
+	RETURN @result
+END
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_CamelCase]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_CamelCase]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TR_NotificarRequisicion_V2">
+<comment>Actualizar trigger TR_NotificarRequisicion en  RequisicionPersonal, datos en tabla,se jecute despues del insert</comment>
+<sql endDelimiter="GO" splitStatements="true">
+
+<![CDATA[
+IF OBJECT_ID('dbo.TR_NotificarRequisicion', 'TR') IS NULL
+    BEGIN
+        EXECUTE ('CREATE TRIGGER dbo.TR_NotificarRequisicion ON dbo.RequisicionPersonal AFTER UPDATE as SELECT 1');
+END;
+GO
+
+-- =============================================
+-- Author:		Jesus Albeiro Gaviria Rubio
+-- Create date: 14/08/2020
+-- Description:	Crea notificación para algunos cambios de estado en la requisicion.
+-- =============================================
+ALTER TRIGGER [dbo].[TR_NotificarRequisicion] ON  [dbo].[RequisicionPersonal]
+   AFTER UPDATE, INSERT
+AS 
+BEGIN
+
+	--------------------------------------------------------------------------
+    -- Variables Estados Requisicion.
+    --------------------------------------------------------------------------
+    DECLARE @RequisicionSolicitada  as varchar(255);
+   	DECLARE @RequisicionRevisada  	as varchar(255);
+  	DECLARE @RequisicionAprobada  	as varchar(255);
+ 	DECLARE @RequisicionAutorizada  as varchar(255);
+	DECLARE @EstadoRegistroActivo 	as char(10);
+	DECLARE @RequisicionId 			as INT ;
+	DECLARE @Estado 				as VARCHAR(255);
+ 	
+ 	SELECT
+    	@RequisicionSolicitada 	= estado.REQUISICIONPERSONA_SOLICITADA,
+		@RequisicionRevisada   	= estado.REQUISICIONPERSONA_REVISADA,
+		@RequisicionAprobada   	= estado.REQUISICIONPERSONA_APROBADA,
+		@RequisicionAutorizada  = estado.REQUISICIONPERSONA_AUTORIZADA,
+		@EstadoRegistroActivo 	= estado.AUDITORIA_ACTIVO
+ 	FROM util.VW_ConstanteEstado estado;
+	
+	IF EXISTS
+        (
+            SELECT ins.Id, 
+                   ins.Estado
+            FROM inserted ins
+            WHERE ins.Estado IN (@RequisicionSolicitada, @RequisicionRevisada,
+            					 @RequisicionAprobada, @RequisicionAutorizada)
+        )
+		BEGIN
+			
+			--Cargamos valores, para referencia de errores y proximas consultas.
+			SELECT @Estado = ins.Estado,
+                   @RequisicionId =ins.Id
+            FROM inserted ins;
+            
+            --------------------------------------------------------------------------
+            -- Instrucciones de configuración y manejo de errores
+            --------------------------------------------------------------------------
+            SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+            DECLARE @Parametros VARCHAR(MAX)= CONCAT('@RequisicionId = ',@RequisicionId,' @Estado=', @Estado);
+            DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+           
+           	
+           	---------------------------------------------------------------------------
+	        -- Variables para envio procedimiento [util].[USP_RegistrarNotificacion] --
+	        ---------------------------------------------------------------------------
+	        DECLARE @Tipo as varchar(255) = (SELECT tipo.EMAIL FROM util.VW_ConstanteTipoNotificacion tipo);
+           	DECLARE @Fecha as date = GETDATE();
+            DECLARE @titulo as varchar(255);
+            DECLARE @Mensaje as varchar(max);
+	        DECLARE @DestinatariosXml as XML;
+			DECLARE @UsuarioOperacion as varchar(30) = 'Sistemas';
+
+
+            --------------------------------------------------------------------------
+            -- Variables
+            --------------------------------------------------------------------------
+			DECLARE @Destinatarios as varchar(255);
+            Declare @CentroOperativoIbague 		INT;
+			Declare @CentroOperativoNeiva 		INT;
+			Declare @CentroOperativoFusagasuga 	INT;
+			Declare @CentroOperativoGirardot 	INT;
+			Declare @CentroOperativoLaDorada	INT;
+			Declare @CentroOperativoRionegro 	INT;
+			Declare @CentroOperativoPopayan 	INT;
+			Declare @CentroOperativoFlorencia 	INT;
+			Declare @CentroOperativoPasto 		INT;
+			DECLARE @ParametroEncargado varchar(255);
+			DECLARE @PrimerNombreEncargado varchar(255);
+		 	DECLARE @revisorRequisicionNacional varchar(255);
+			DECLARE @aprobadorRequsicion varchar(255);
+		 	DECLARE @autorizadorRequisicion varchar(255);
+			DECLARE @revisorRequisicionIbague varchar(255);
+			DECLARE @revisorRequisicionRionegro varchar(255);
+			DECLARE @revisorRequisicionPasto1 varchar(255);
+			DECLARE @revisorRequisicionPasto2 varchar(255);
+					
+			DECLARE @CargoSolicitado as varchar(255);
+			DECLARE @MunicipioLabores as varchar(255);
+			DECLARE	@MunicipioId as INT;
+			DECLARE	@CentroOperativoSolicitadoId as INT;
+			DECLARE @Cantidad INT;
+		
+			DECLARE @Alias varchar(255);
+		  	DECLARE @AliasFuncionarioVencimiento varchar(255);
+			DECLARE @HtmlString NVARCHAR(MAX);
+		
+		
+		
+		
+            --------------------------------------------------------------------------
+            -- Proceso
+            --------------------------------------------------------------------------
+            BEGIN TRY
+				SET NOCOUNT ON;
+				BEGIN TRAN NotificarAutorizacion;
+			
+
+		 		SELECT 
+		 			@revisorRequisicionNacional = parametros.REVISORREQUISICIONNACIONAL,
+				 	@autorizadorRequisicion = parametros.AUTORIZADORREQUISICION,
+				 	@revisorRequisicionIbague = parametros.REVISORREQUISICIONIBAGUE,
+				 	@revisorRequisicionRionegro = parametros.REVISORREQUISICIONRIONEGRO,
+					@revisorRequisicionPasto1 = parametros.REVISORREQUISICIONPASTO1,
+					@revisorRequisicionPasto2 = parametros.REVISORREQUISICIONPASTO2,
+					@CentroOperativoIbague = util.UFS_ObtenerParametro(UPPER(parametros.CENTROOPERATIVOIBAGUE), NULL),
+					@CentroOperativoNeiva = util.UFS_ObtenerParametro(UPPER(parametros.CENTROOPERATIVONEIVA), NULL),
+					@CentroOperativoFusagasuga = util.UFS_ObtenerParametro(UPPER(parametros.CENTROOPERATIVOFUSAGASUGA), NULL),
+					@CentroOperativoGirardot = util.UFS_ObtenerParametro(UPPER(parametros.CENTROOPERATIVOGIRARDOT), NULL),
+					@CentroOperativoLaDorada = util.UFS_ObtenerParametro(UPPER(parametros.CENTROOPERATIVOLADORADA), NULL),
+					@CentroOperativoRionegro = util.UFS_ObtenerParametro(UPPER(parametros.CENTROOPERATIVORIONEGRO), NULL),
+					@CentroOperativoPopayan = util.UFS_ObtenerParametro(UPPER(parametros.CENTROOPERATIVOPOPAYAN), NULL),
+					@CentroOperativoFlorencia = util.UFS_ObtenerParametro(UPPER(parametros.CENTROOPERATIVOFLORENCIA), NULL),
+					@CentroOperativoPasto = util.UFS_ObtenerParametro(UPPER(parametros.CENTROOPERATIVOPASTO), NULL)
+				FROM util.VW_ConstanteParametroGeneral parametros;
+			
+
+
+
+			
+				--Siempre se envia al @revisorRequisicionNacional
+				SET @Destinatarios =	 (SELECT util.UFS_ObtenerParametro(UPPER(@revisorRequisicionNacional), NULL));
+				
+				
+				--------------------------------------------------------------------------
+		    	-- Validacion segun @Estado, @RequisicionAutorizada OR @RequisicionSolicitada 
+			    --------------------------------------------------------------------------
+		 		IF( @Estado = @RequisicionAutorizada OR @Estado = @RequisicionSolicitada )
+		 			BEGIN
+			 			
+			 			--Segun el @Estado cargamos el @Alias, para obtener la plantilla
+			 			SELECT 
+			 				@Alias = IIF(@Estado=@RequisicionAutorizada,
+			 				cnp.ALIAS_NOTIFICACIONAUTORIZACIONREQUISICION,
+			 				cnp.ALIAS_NOTIFICACIONREGISTROREQUISICION)
+			 			FROM util.VW_ConstanteAliasNotificacionPlantilla cnp
+			 			
+			 			
+			 			--Obtenemos NotificacionPlantilla
+			 			SELECT 
+		       				@Titulo = Descripcion, 
+				       		@Mensaje = Plantilla
+		    	   		FROM dbo.NotificacionPlantilla 
+					 	WHERE Alias = @Alias;
+			 		
+		
+			 			--Obtenemos datos requisicion 
+			 			SELECT 
+							@CargoSolicitado = LOWER(cargo.Nombre),
+							@MunicipioLabores = LOWER(municipio.Nombre),
+							@MunicipioId = municipio.Id,
+							@CentroOperativoSolicitadoId = requisicion.CentroOperativoSolicitadoId
+						FROM 
+							RequisicionPersonal requisicion
+						INNER JOIN dbo.CargoDependencia cargoDependencia ON
+							requisicion.CargoDependenciaSolicitadoId = cargoDependencia.Id
+							AND cargoDependencia.EstadoRegistro = @EstadoRegistroActivo
+						INNER JOIN dbo.Cargo cargo ON
+							cargoDependencia.CargoId = cargo.Id
+							AND cargo.EstadoRegistro = @EstadoRegistroActivo
+						INNER JOIN dbo.DivisionPoliticaNivel2 municipio ON
+							requisicion.DivisionPoliticaNivel2Id = municipio.Id
+							AND municipio.EstadoRegistro = @EstadoRegistroActivo
+						WHERE 
+							requisicion.EstadoRegistro = @EstadoRegistroActivo
+							AND requisicion.Id = @RequisicionId;	
+					 		
+									 
+			 			SET @Titulo = REPLACE(@Titulo,'|&|CargoSolicitado|&|',@CargoSolicitado);
+						SET @Mensaje = REPLACE(@Mensaje,'|&|CargoSolicitado|&|',@CargoSolicitado);
+					 	SET @Mensaje = REPLACE(@Mensaje, '|&|MunicipioLabores|&|', @MunicipioLabores);
+					 
+					 	
+					 	--Selecionar Detinatarios segun @Estado
+					 	IF( @Estado = @RequisicionAutorizada )
+			 			BEGIN	 			
+				 			SET @Destinatarios =CONCAT(@Destinatarios, ',', (SELECT util.UFS_ObtenerParametro(UPPER(@revisorRequisicionNacional), NULL)));
+			 			END ELSE
+			 			BEGIN
+				 			SET @Destinatarios =CONCAT(@Destinatarios, ',', (SELECT util.UFS_ObtenerParametro(UPPER(@aprobadorRequsicion), NULL)));
+			 			END
+			 			
+			 			
+
+					--Selecionar Detinatarios segun @CentroOperativoSolicitadoId
+						IF(	@CentroOperativoSolicitadoId = @CentroOperativoIbague OR 
+							@CentroOperativoSolicitadoId = @CentroOperativoFusagasuga OR
+							@CentroOperativoSolicitadoId = @CentroOperativoGirardot OR
+							@CentroOperativoSolicitadoId IS NULL
+						)
+						BEGIN
+							SET @Destinatarios =CONCAT(@Destinatarios, ',', (SELECT util.UFS_ObtenerParametro(UPPER(@revisorRequisicionIbague), NULL)));
+						END
+						ELSE IF ( @CentroOperativoSolicitadoId = @CentroOperativoRionegro OR 
+	  							  @CentroOperativoSolicitadoId = @CentroOperativoLaDorada OR
+ 								  @CentroOperativoSolicitadoId IS NULL
+						)
+						BEGIN
+							SET @Destinatarios =CONCAT(@Destinatarios, ',', (SELECT util.UFS_ObtenerParametro(UPPER(@revisorRequisicionRionegro), NULL)));							
+						END
+			 			ELSE IF ( @CentroOperativoSolicitadoId = @CentroOperativoPasto OR
+					 			  @CentroOperativoSolicitadoId = @CentroOperativoPopayan OR
+								  @CentroOperativoSolicitadoId IS NULL
+			 			)
+			 			BEGIN
+				 			SET @Destinatarios =CONCAT(@Destinatarios, ',', (SELECT util.UFS_ObtenerParametro(UPPER(@revisorRequisicionPasto1), NULL)));
+					 		SET @Destinatarios =CONCAT(@Destinatarios, ',', (SELECT util.UFS_ObtenerParametro(UPPER(@revisorRequisicionPasto2), NULL)))
+			 			END
+			 			
+				END 
+				--------------------------------------------------------------------------
+		    	-- @RequisicionRevisada OR @RequisicionAprobada 
+			    --------------------------------------------------------------------------
+				ELSE IF( @Estado = @RequisicionRevisada OR @Estado = @RequisicionAprobada)
+		 			BEGIN       
+			 			
+			 			IF( @Estado = @RequisicionRevisada )
+			 			BEGIN
+				 			
+				 			SET @Destinatarios =CONCAT(@Destinatarios, ',', (SELECT util.UFS_ObtenerParametro(UPPER(@aprobadorRequsicion), NULL)));
+			 			END
+			 			ELSE
+			 			BEGIN
+				 			SET @Destinatarios =CONCAT(@Destinatarios, ',', (SELECT util.UFS_ObtenerParametro(UPPER(@autorizadorRequisicion), NULL)));
+			 			END
+			 				 	
+			 			--Segun el @Estado cargamos el @Alias, para obtener la plantilla
+			 			SELECT 
+			 				@Alias = IIF(@Estado=@RequisicionRevisada,
+			 				cnp.ALIAS_NOTIFICACIONREVISADAREQUISICION,
+			 				cnp.ALIAS_NOTIFICACIONAAPROBADAREQUISICIONES)
+			 			FROM util.VW_ConstanteAliasNotificacionPlantilla cnp
+			 			
+			 			--Obtenemos NotificacionPlantilla
+			 			SELECT 
+		       				@Titulo = Descripcion, 
+				       		@Mensaje = Plantilla
+		    	   		FROM dbo.NotificacionPlantilla 
+					 	WHERE Alias = @Alias;
+			 			
+					 
+					 	--Segun el @Estado cargamos el @ParametroEncargado, para obtener PrimerNombreEncargado
+			 			SELECT 
+			 				@ParametroEncargado = IIF(@Estado=@RequisicionRevisada,
+			 				parametros.APROBADORREQUSICION,
+			 				parametros.AUTORIZADORREQUISICION)
+			 			FROM util.VW_ConstanteParametroGeneral parametros
+			 			 
+						--obtenemos nombre encargado
+					 	SET @PrimerNombreEncargado =(	 	
+			                SELECT fun.PrimerNombre
+		    	            FROM Funcionario fun
+		        	        WHERE Id = util.UFS_ObtenerParametro(UPPER(@ParametroEncargado), NULL)
+						);
+		
+			 			--Obtenemos datos requisicion 
+			 	
+						
+						 SET @HtmlString = (
+		                    SELECT 
+							LOWER(cargo.Nombre) CargoSolicitado,
+							requisicion.Cantidad,
+							LOWER(municipio.Nombre) MunicipioLabores
+						FROM 
+							RequisicionPersonal requisicion
+						INNER JOIN dbo.CargoDependencia cargoDependencia ON
+							requisicion.CargoDependenciaSolicitadoId = cargoDependencia.Id
+							AND cargoDependencia.EstadoRegistro = @EstadoRegistroActivo
+						INNER JOIN dbo.Cargo cargo ON
+							cargoDependencia.CargoId = cargo.Id
+							AND cargo.EstadoRegistro = @EstadoRegistroActivo
+						INNER JOIN dbo.DivisionPoliticaNivel2 municipio ON
+							requisicion.DivisionPoliticaNivel2Id = municipio.Id
+							AND municipio.EstadoRegistro = @EstadoRegistroActivo
+						WHERE
+							requisicion.EstadoRegistro = @EstadoRegistroActivo
+							AND requisicion.Id IN (SELECT Id FROM RequisicionPersonal WHERE Estado = @Estado)
+		                FOR XML PATH
+		                );
+		               
+		               
+		               	-- Se Tranforma los datos XML en HTML
+			            SET @HtmlString = REPLACE(@HtmlString, 'row', 'tr');
+			            SET @HtmlString = REPLACE(@HtmlString, '/row', '/tr');
+			            SET @HtmlString = REPLACE(@HtmlString, 'CargoSolicitado', 'td');
+			            SET @HtmlString = REPLACE(@HtmlString, '/CargoSolicitado', '/td');
+			            SET @HtmlString = REPLACE(@HtmlString, 'MunicipioLabores', 'td');
+			            SET @HtmlString = REPLACE(@HtmlString, '/MunicipioLabores', '/td');
+			            SET @HtmlString = REPLACE(@HtmlString, 'Cantidad', 'td');
+			            SET @HtmlString = REPLACE(@HtmlString, '/Cantidad', '/td');
+			           
+			           
+			           	SET @Mensaje = REPLACE(@Mensaje, '|&|TABLA|&|', @HtmlString);
+						SET @Mensaje = REPLACE(@Mensaje, '|&|PRIMERNOMBREENCARGADO|&|', @PrimerNombreEncargado);
+				END;	
+	
+			
+				--------------------------------------------------------------------------
+		    	-- Buscamos los IdDestinatarios. Segun el @Estado, se cargo la variable @Destinatarios
+			    --------------------------------------------------------------------------
+				SET @DestinatariosXml = (
+					SELECT a.Id as [@Id]
+					FROM dbo.Funcionario as a 
+					WHERE a.Id IN (SELECT * FROM util.UFT_SPLIT(@Destinatarios, ',')) 
+					FOR XML PATH('Funcionario'),ROOT('Funcionarios') 
+				);
+				
+				
+					
+	
+				EXECUTE [util].[USP_RegistrarNotificacion] 
+				   	@Tipo,
+					@Fecha,
+					@Titulo,
+					@Mensaje,
+					@DestinatariosXml,
+					null,
+					@UsuarioOperacion; 
+
+      
+            -- Cierre de la transacción	
+            IF @@TRANCOUNT > 0
+                        BEGIN
+                        IF XACT_STATE() = 1
+                            BEGIN
+                                COMMIT TRAN NotificarAutorizacion;
+                            END;
+                        ELSE
+                            BEGIN
+                                EXEC util.USP_GenerarExcepcion 
+                                    50000, 
+                                    'No se puede confirmar la transacción.  Error desconocido.';
+                            END;
+                    END;
+                SET NOCOUNT OFF;
+			END TRY
+			BEGIN CATCH
+                -- Rollback de la transacción
+                IF XACT_STATE() <> 0
+                AND @@TRANCOUNT > 0
+                    BEGIN
+                        ROLLBACK;
+                    END;
+
+                -- Se almacena la información del error
+                EXEC util.USP_Registrarerror 
+                    @NombreObjeto, 
+                    @Parametros;
+
+                -- Se lanza la excepción
+                EXEC util.USP_LanzarExcepcion;
+            END CATCH;
+        END;
+END;
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+	DROP TRIGGER [dbo].[TR_NotificarRequisicion];
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

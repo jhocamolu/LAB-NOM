@@ -1,0 +1,79 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 *ngIf="type == 'aprobada'" mat-dialog-title>Aprobar solicitud de permiso</h1>
+    <h1 *ngIf="type == 'autorizada'" mat-dialog-title>Autorizar solicitud de permiso</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline" *ngIf="type == 'aprobada'">
+            <mat-label>¿Esta solicitud ha sido aprobada o rechazada?</mat-label>
+            <mat-select formControlName="estado" required [compareWith]="compareBooleanWith">
+                <mat-option [value]="null"></mat-option>
+                <mat-option [value]="estadoPermisosAlcanos.aprobada">Esta solicitud ha sido aprobada</mat-option>
+                <mat-option [value]="estadoPermisosAlcanos.rechazada">Esta solicitud ha sido rechazada</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('estado').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Indica si se aprueba o rechaza la solicitud de permiso.">info
+            </mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" *ngIf="type == 'autorizada'">
+            <mat-label>¿Esta solicitud ha sido autorizada o rechazada?</mat-label>
+            <mat-select formControlName="estado" required [compareWith]="compareBooleanWith">
+                <mat-option [value]="null"></mat-option>
+                <mat-option [value]="estadoPermisosAlcanos.autorizada">Esta solicitud ha sido autorizada</mat-option>
+                <mat-option [value]="estadoPermisosAlcanos.rechazada">Esta solicitud ha sido rechazada</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('estado').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Indica si se autoriza o rechaza la solicitud de permiso.">info
+            </mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Justificación</mat-label>
+            <textarea matInput formControlName="justificacion">
+                            </textarea>
+            <mat-error *ngFor="let error of form.get('justificacion').errors  | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Descripción del por qué de la anulación o terminación de la libranza.">
+                info</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

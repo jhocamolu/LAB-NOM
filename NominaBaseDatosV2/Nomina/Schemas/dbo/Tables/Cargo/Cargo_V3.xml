@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Cargo_V3">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [Cargo] DROP COLUMN [ClaseCargo] ;
+GO
+
+ALTER TABLE [Cargo] ADD [CostoSicom] bit NOT NULL DEFAULT CAST(0 AS bit);
+GO
+
+ALTER TABLE [Cargo] ADD [Clase] varchar(255) NOT NULL DEFAULT '';
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+
+ALTER TABLE [Cargo] DROP COLUMN [CostoSicom] ;
+GO
+
+ALTER TABLE [Cargo] DROP COLUMN [Clase];
+
+GO
+
+ALTER TABLE [Cargo] ADD [ClaseCargo] varchar(255) NOT NULL DEFAULT '';
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

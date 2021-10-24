@@ -1,0 +1,202 @@
+<div class="page-layout simple fullwidth cargos-listar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                 <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/tipo-embargos">Tipos de embargo</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Editar tipo de embargo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Editar tipo de embargo</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button mat-raised-button color="accent" mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngIf="arrayPermisosConceptos.crear" (click)="crearHandle($event, id)">
+                    <span>Agregar concepto</span>
+                </button>
+                <a routerLink="/configuracion/tipo-embargos" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="box-shadow">
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab" (selectedTabChange)="tabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+                    <!-- Formulario -->
+
+                    <form (ngSubmit)="guardarHandle($event)" name="form" [formGroup]="form">
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput formControlName="nombre" required>
+                                <mat-error *ngFor="let error of objToArray(nombre.errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Nombre del tipo de embargo.">info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>¿El SMMLV es embargable?</mat-label>
+                                <mat-select formControlName="salarioMinimoEmbargable" required>
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="false">No</mat-option>
+                                    <mat-option [value]="true">Si</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of objToArray(salarioMinimoEmbargable.errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si el SMMLV aplica para ser embargado según el tipo de embargo.">
+                                    info</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="dos-bloque">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Concepto de descuento</mat-label>
+                                <mat-select formControlName="conceptoNominaId" step="any" required>
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let item of conceptoNomina" [value]="item.id">
+                                        {{ item.nombre }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of objToArray(conceptoNominaId.errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Concepto de descuento relacionado al tipo de embargo.">
+                                    info</mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Prioridad</mat-label>
+                                <input matInput formControlName="prioridad" required>
+                                <mat-error *ngFor="let error of objToArray(prioridad.errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'max'">
+                                            Valor máximo {{ prioridad.errors.max.max }}.
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'min'">
+                                            Valor mínimo {{ prioridad.errors.min.min }}.
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Prioridad del tipo de embargo.">
+                                    info</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="actions">
+                            <a mat-raised-button routerLink="/configuracion/tipo-embargos"
+                                routerLinkActive="router-link-active">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <button mat-raised-button [disabled]="form.invalid || submit" type="submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+                    </form>
+                    <!-- / Formulario -->
+                </mat-tab>
+                <!-- / Primer Label -->
+
+                <!-- Segundo Label -->
+                <mat-tab label="Conceptos a embargar">
+
+                    <alcanos-empty-list (fnCreate)="crearHandle($event, id)"
+                        labelH1="¡Uy! Aún no has agregado ningún concepto a embargar." labelBtn="Agregar concepto"
+                        [visible]="conceptoCount == 0">
+                    </alcanos-empty-list>
+
+                    <table class="simple" *ngIf="conceptoCount > 0">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen">Nombre</th>
+                                <th class="mat-header-cell dr">Máximo a embargar por concepto</th>
+                                <th class="mat-header-cell" style="text-align: center"
+                                    [ngStyle]="{'display': !( arrayPermisosConceptos.actualizar ||
+                                    arrayPermisosConceptos.eliminar ) ? 'none' :
+                            ''}">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="mat-row" *ngFor="let item of conceptoAEmbargar">
+
+                                <td class="margen">{{item.conceptoNomina?.nombre}}</td>
+                                <td class="maximo dr">{{item.maximoEmbargarConcepto}}%</td>
+
+                                <td class="text-center">
+                                    <button matTooltip="Editar" *ngIf="arrayPermisosConceptos.actualizar"
+                                        mat-icon-button
+                                        (click)="editarHandle($event, id, item)" aria-label="Botón editar">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                    <button matTooltip="Eliminar" *ngIf="arrayPermisosConceptos.eliminar"
+                                        mat-icon-button
+                                        (click)="borrarHandle($event, item.id)" aria-label="Botón eliminar">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </mat-tab>
+                <!-- / Segundo Label -->
+
+            </mat-tab-group>
+
+        </div>
+
+    </div>

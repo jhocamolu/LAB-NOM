@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="SubPeriodo_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[SubPeriodo] ON 
+GO
+INSERT [dbo].[SubPeriodo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [TipoPeriodoId], [Nombre], [Dias], [DiaInicial]) VALUES (1, 'Activo', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 1, 'Quincena 1', 15, 1)
+GO
+INSERT [dbo].[SubPeriodo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [TipoPeriodoId], [Nombre], [Dias], [DiaInicial]) VALUES (2, 'Activo', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 1, 'Quincena 2', 15, 16)
+GO
+INSERT [dbo].[SubPeriodo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [TipoPeriodoId], [Nombre], [Dias], [DiaInicial]) VALUES (3, 'Activo', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 2, 'Mensual', 30, 1)
+GO
+INSERT [dbo].[SubPeriodo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [TipoPeriodoId], [Nombre], [Dias], [DiaInicial]) VALUES (4, 'Activo', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 3, 'Semestral', 180, 1)
+GO
+INSERT [dbo].[SubPeriodo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [TipoPeriodoId], [Nombre], [Dias], [DiaInicial]) VALUES (5, 'Activo', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 4, 'Anual', 360, 1)
+GO
+SET IDENTITY_INSERT [dbo].[SubPeriodo] OFF
+
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[SubPeriodo] WHERE Id BETWEEN 1 AND 5;
+</rollback>
+</changeSet>
+</databaseChangeLog>

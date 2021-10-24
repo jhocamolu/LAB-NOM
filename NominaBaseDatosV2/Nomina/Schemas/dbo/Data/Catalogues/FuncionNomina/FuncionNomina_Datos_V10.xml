@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="FuncionNomina_Datos_V10">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM dbo.FuncionNomina WHERE Id='70';
+DELETE FROM dbo.FuncionNomina WHERE Id='71';
+DELETE FROM dbo.FuncionNomina WHERE Id='72';
+DELETE FROM dbo.FuncionNomina WHERE Id='73';
+DELETE FROM dbo.FuncionNomina WHERE Id='74';
+DELETE FROM dbo.FuncionNomina WHERE Id='75';
+DELETE FROM dbo.FuncionNomina WHERE Id='76';
+
+SET IDENTITY_INSERT [dbo].[FuncionNomina] ON;
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('70', 'Determinar pago prima legal', 'PAGO_PRIMA_LEGAL', 'Establece si se debe realizar la liquidación de los conceptos de pago de prima legal y extralegal', '0', '[dbo].[USP_DeterminarLiquidacionPrimaLegal]', 'USP', '[dbo].[USP_DeterminarLiquidacionPrimaLegal] @FuncionarioId = {{FuncionarioId}},@FechaInicio ={{NominaFechaInicio}},@FechaFin = {{NominaFechaFinal}},@Booleano ={{Booleano}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('71', 'Salario promedio liquidacion prima legal', 'SALARIO_LIQUIDACION_PRIMA', 'Devuelve el valor promedio utilizado para calcular la liquidación de un funcionario', '0', '[dbo].[USP_ObtenerValorPrestacion]', 'USP', '[dbo].[USP_ObtenerValorPrestacion] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@TipoProceso = {{Constante}} ,@Valor ={{Valor}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('72', 'Salario Base promedio bono semestral', 'SALARIO_PROMEDIO_BONO', 'Obtiene el valor del salario promedio de un funcionario para utilizar su valor en la liquidación del bono semestral', '0', '[dbo].[USP_ObtenerValorPrestacion]', 'USP', '[dbo].[USP_ObtenerValorPrestacion] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@TipoProceso = {{Constante}} ,@Valor ={{Valor}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('73', 'Dias a liquidar prima legal', 'DIAS_LIQUIDAR_PRIMA_LEGAL', 'Obtiene la cantidad de días que se debe pagar a un funcionario de liquidación de prima legal', '0', '[dbo].[USP_ObtenerDiasALiquidarPrimaLegal]', 'USP', '[dbo].[USP_ObtenerDiasALiquidarPrimaLegal] @FuncionarioId = {{FuncionarioId}} ,@Cantidad ={{Cantidad}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('74', 'Novedades base vacaciones', 'NOVEDAD_BASE_VACACIONES', 'Obtiene el valor d promedio de las novedades que hacen base para vacaciones', '0', '[dbo].[USP_ObtenerValorNovedadesVacaciones]', 'USP', '[dbo].[USP_ObtenerValorNovedadesVacaciones] @FuncionarioId = {{FuncionarioId}},@NominaFuncionarioId = {{NominaFuncionarioId}},@NominaDetalleId = {{NominaDetalleId}},@ConceptoAlias = {{ConceptoAlias}},@Valor ={{Valor}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('75', 'Dias a liquidar cesantias', 'DIAS_LIQUIDAR_CESANTIAS', 'Obtiene la cantidad de días que se debe pagar a un funcionario de liquidación de cesantias', '0', '[dbo].[USP_ObtenerDiasALiquidarCesantias]', 'USP', '[dbo].[USP_ObtenerDiasALiquidarCesantias] @FuncionarioId = {{FuncionarioId}} ,@Cantidad ={{Cantidad}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('76', 'Base liquidación de primas y cesantias', 'BASE_LIQ_PRIMAS_CESANTIAS', 'Obtiene el valor base para realizar la liquidación de prima legal o vacaciones del funcionario.', '0', '[dbo].[USP_ObtenerValorPrestacion]', 'USP', '[dbo].[USP_ObtenerValorPrestacion] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@TipoProceso = {{Constante}} ,@Valor ={{Valor}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[FuncionNomina] OFF;
+
+UPDATE dbo.FuncionNomina SET ParaCantidad='1' WHERE Id='2';
+UPDATE dbo.FuncionNomina SET ParaCantidad='1' WHERE Id='8';
+UPDATE dbo.FuncionNomina SET ParaCantidad='1' WHERE Id='13';
+UPDATE dbo.FuncionNomina SET ParaCantidad='1' WHERE Id='29';
+
+]]>
+</sql>
+<rollback>
+<![CDATA[
+DELETE FROM FuncionNomina WHERE Id=70;
+DELETE FROM FuncionNomina WHERE Id=71;
+DELETE FROM FuncionNomina WHERE Id=72;
+DELETE FROM FuncionNomina WHERE Id=73;
+DELETE FROM FuncionNomina WHERE Id=74;
+DELETE FROM FuncionNomina WHERE Id=75;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

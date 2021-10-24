@@ -1,0 +1,37 @@
+{
+	"info": {
+		"_postman_id": "22f3065c-54e7-4a32-b331-2b53edbf1012",
+		"name": "HU091-ReporteArchivoTipo1Pila",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte ArchivoTipo1Pila",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"TipoAccionId\": 1,\r\n    \"FechaInicial\": null,\r\n    \"FechaFinal\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/ArchivoTipo1Pila",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"ArchivoTipo1Pila"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

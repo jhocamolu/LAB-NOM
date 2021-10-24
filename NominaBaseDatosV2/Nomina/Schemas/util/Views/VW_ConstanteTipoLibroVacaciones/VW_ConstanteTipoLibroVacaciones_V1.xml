@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="VW_ConstanteTipoLibroVacaciones_V1">
+<comment>HU054</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteTipoLibroVacaciones]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteTipoLibroVacaciones]
+END
+GO
+
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 09-04-2020
+-- Description: Vista que permite la simulación de constantes para los estados dentro de SQL Server
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [util].[VW_ConstanteTipoLibroVacaciones]
+AS
+SELECT 
+		CAST('Anticipado' AS VARCHAR(255)) AS [ANTICIPADO],
+		CAST('Causado' AS VARCHAR(255)) AS [CAUSADO]
+GO
+
+-- Descripción de la vista asociados a la vista
+EXEC sys.sp_addextendedproperty 
+		@name=N'MS_Description', 
+		@value=N'Vista que permite la simulación de constantes para los tipos del libro de vacaciones.' , 
+		@level0type=N'SCHEMA', @level0name=N'util', 
+		@level1type=N'VIEW', @level1name=N'VW_ConstanteTipoLibroVacaciones'
+GO
+
+
+-- Descripción 
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Tipo anticipado, es decir aún no se ha completado el tiempo legal para el disfrute de las vacaciones.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteTipoLibroVacaciones',  
+@level2type = N'Column', @level2name = 'ANTICIPADO';  
+GO
+
+-- Descripción 
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Tipo causado, es decir ya se ha completado el tiempo legal para el disfrute de las vacaciones.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteTipoLibroVacaciones',  
+@level2type = N'Column', @level2name = 'CAUSADO';  
+GO
+
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteTipoLibroVacaciones]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteTipoLibroVacaciones]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

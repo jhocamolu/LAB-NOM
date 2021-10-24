@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="AplicacionExternaCargo_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+CREATE TABLE [AplicacionExternaCargo] (
+    [Id] int NOT NULL IDENTITY,
+    [EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    [AplicacionExternaId] int NOT NULL,
+    [Tipo] varchar(255) NOT NULL,
+    [CargoDependienteId] int NOT NULL,
+    [CentroOperativoDependienteId] int NOT NULL,
+    [CargoIndependienteId] int NOT NULL,
+    [CentroOperativoIndependienteId] int NOT NULL,
+    CONSTRAINT [PK_AplicacionExternaCargo] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_AplicacionExternaCargo_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [CK_AplicacionExternaCargo_Tipo] CHECK (([Tipo]='Aprobacion' OR [Tipo]='Autorizacion')),
+    CONSTRAINT [FK_AplicacionExternaCargo_AplicacionExterna_AplicacionExternaId] FOREIGN KEY ([AplicacionExternaId]) REFERENCES [AplicacionExterna] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_AplicacionExternaCargo_Cargo_CargoDependienteId] FOREIGN KEY ([CargoDependienteId]) REFERENCES [Cargo] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_AplicacionExternaCargo_Cargo_CargoIndependienteId] FOREIGN KEY ([CargoIndependienteId]) REFERENCES [Cargo] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_AplicacionExternaCargo_CentroOperativo_CentroOperativoDependienteId] FOREIGN KEY ([CentroOperativoDependienteId]) REFERENCES [CentroOperativo] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_AplicacionExternaCargo_CentroOperativo_CentroOperativoIndependienteId] FOREIGN KEY ([CentroOperativoIndependienteId]) REFERENCES [CentroOperativo] ([Id]) ON DELETE NO ACTION
+);
+
+GO
+
+CREATE INDEX [IX_AplicacionExternaCargo_AplicacionExternaId] ON [AplicacionExternaCargo] ([AplicacionExternaId]);
+
+GO
+
+CREATE INDEX [IX_AplicacionExternaCargo_CargoDependienteId] ON [AplicacionExternaCargo] ([CargoDependienteId]);
+
+GO
+
+CREATE INDEX [IX_AplicacionExternaCargo_CargoIndependienteId] ON [AplicacionExternaCargo] ([CargoIndependienteId]);
+
+GO
+
+CREATE INDEX [IX_AplicacionExternaCargo_CentroOperativoDependienteId] ON [AplicacionExternaCargo] ([CentroOperativoDependienteId]);
+
+GO
+
+CREATE INDEX [IX_AplicacionExternaCargo_CentroOperativoIndependienteId] ON [AplicacionExternaCargo] ([CentroOperativoIndependienteId]);
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [AplicacionExternaCargo];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

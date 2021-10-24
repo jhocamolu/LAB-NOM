@@ -1,0 +1,45 @@
+hora-extras-listar {
+    @import "src/@alcanos/scss/alcanos-v2";
+
+    table {
+        width: 100%;
+        
+        .mat-column-fecha {
+            max-width: 80px;
+        }
+        .mat-column-cantidad {
+            max-width: 75px;
+        }
+        .mat-column-tipoHoraExtra {
+            max-width: 120px;
+        }
+        .mat-column-estado {
+            max-width: 70px;
+        }
+
+        .dr {
+            text-align: right;
+            padding-right: 19px;
+        }
+    }
+
+     .text-success{
+        color: green;
+    }
+
+    .text-danger{
+        color: red;
+    }
+
+    .secundaria {
+        background-color: #028696 !important;
+        color: white !important;
+    }
+
+    .spiner {
+        top: 30%;
+        position: absolute;
+        width: 100%;
+        z-index: 1500;
+    }
+}

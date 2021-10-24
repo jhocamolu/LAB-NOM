@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="ArticuloClave_V1">
+<comment>Migración Inicial</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+CREATE TABLE [ArticuloClave] (
+    [ArticuloId] int NOT NULL,
+    [ClaveId] int NOT NULL,
+    CONSTRAINT [PK_ArticuloClave] PRIMARY KEY ([ClaveId], [ArticuloId]),
+    CONSTRAINT [FK_ArticuloClave_Articulo_ArticuloId] FOREIGN KEY ([ArticuloId]) REFERENCES [Articulo] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_ArticuloClave_Clave_ClaveId] FOREIGN KEY ([ClaveId]) REFERENCES [Clave] ([Id]) ON DELETE CASCADE
+);
+GO
+CREATE INDEX [IX_ArticuloClave_ArticuloId] ON [ArticuloClave] ([ArticuloId]);
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [ArticuloClave]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

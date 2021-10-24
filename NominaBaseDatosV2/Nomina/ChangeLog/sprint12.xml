@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+   
+	<!-- Se debe incluir un archivo por cada objeto de base de datos -->
+	<include file="Schemas/dbo/Tables/NivelEducativo/NivelEducativo_V2.xml" />
+	<include file="Schemas/dbo/Tables/SolicitudCesantia/SolicitudCesantia_V3.xml" />
+	<include file="Schemas/dbo/Tables/AplicacionExternaCargo/AplicacionExternaCargo_V3.xml" />
+	<include file="Schemas/dbo/Tables/AplicacionExternaCargoDependiente/AplicacionExternaCargoDependiente_V1.xml" />
+	<include file="Schemas/dbo/Tables/SolicitudCesantia/SolicitudCesantia_V4.xml" />
+	<include file="Schemas/dbo/Tables/TipoLiquidacion/TipoLiquidacion_V2.xml" />
+	<include file="Schemas/dbo/Tables/Tercero/Tercero_V1.xml" />
+	<include file="Schemas/dbo/Tables/Tercero/Tercero_V2.xml" />
+	<include file="Schemas/dbo/Triggers/Funcionario/TR_ActualizarCriterioBusqueda_V5.xml"/>
+	<include file="Schemas/dbo/Tables/Beneficio/Beneficio_V2.xml" />
+	<include file="Schemas/dbo/Tables/TipoHoraExtra/TipoHoraExtra_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoHoraExtra/TipoHoraExtra_V2.xml" />
+	<include file="Schemas/dbo/Tables/CategoriaNovedad/CategoriaNovedad_V1.xml" />
+	<include file="Schemas/dbo/Tables/CategoriaNovedad/CategoriaNovedad_V2.xml" />
+	<include file="Schemas/dbo/Tables/TipoInconsistencia/TipoInconsistencia_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasACotizar/USP_ObtenerDiasACotizar_V1.xml" />
+	<include file="Schemas/dbo/Tables/CategoriaNovedad/CategoriaNovedad_V3.xml" />
+	<include file="Schemas/dbo/Tables/ContratoOtroSi/ContratoOtroSi_V2.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_CalcularConceptoNomina/USP_CalcularConceptoNomina_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_GuardarNominaDetalle/USP_GuardarNominaDetalle_V1.xml" />
+	<include file="Schemas/dbo/Tables/NominaFuncionario/NominaFuncionario_V2.xml" />
+
+	<!--Data -->
+	<include file="Schemas/dbo/Data/Catalogues/NivelEducativo/NivelEducativo_Datos_V2.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V21.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V22.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V23.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V24.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V25.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V26.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V27.xml"/>
+	<include file="Schemas/util/Views/VW_ConstanteTipoAdministradora/VW_ConstanteTipoAdministradora_V1.xml"/>
+	<include file="Schemas/reporte/Functions/UFT_MaestroFuncionario/UFT_MaestroFuncionario_V1.xml"/>
+	<!--<include file="Schemas/dbo/Data/Catalogues/ConceptoNomina/ConceptoNomina_Datos_V3.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/ConceptoBase/ConceptoBase_Datos_V2.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/SubPeriodo/SubPeriodo_Datos_V2.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacion/TipoLiquidacion_Datos_V2.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionConcepto/TipoLiquidacionConcepto_Datos_V2.xml"/>-->
+	<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V2.xml"/>	
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V28.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V29.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V3.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V30.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V31.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/TipoInconsistencia/TipoInconsistencia_Datos_V1.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V32.xml"/>
+	
+
+
+
+</databaseChangeLog>

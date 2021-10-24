@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="EntidadFinanciera_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+    UPDATE dbo.EntidadFinanciera
+        SET EntidadPorDefecto = 1
+        WHERE Id = 10; 
+
+
+    UPDATE dbo.EntidadFinanciera
+        SET EntidadPorDefecto = 0
+        WHERE Id != 10; 
+
+]]> 
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+    UPDATE dbo.EntidadFinanciera
+        SET EntidadPorDefecto = NULL
+        WHERE Id > 0; 
+
+
+]]> 
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

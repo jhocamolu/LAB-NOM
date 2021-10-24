@@ -1,0 +1,37 @@
+{
+	"info": {
+		"_postman_id": "cbe966c3-563e-45c4-9483-2603b99c8375",
+		"name": "HU088_ReporteRegresoVacacionesAusentismos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte Regreso vacaciones y ausentismos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"EstadoFuncionario\":\"Activo,EnVacaciones,Incapacitado\",\r\n    \"CentroOperativo\":null,\r\n    \"Dependencia\":null,\r\n    \"Cargo\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/RegresoVacacacionesAusentismos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"RegresoVacacacionesAusentismos"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

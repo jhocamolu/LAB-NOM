@@ -1,0 +1,123 @@
+<!-- CONTENIDO -->
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Vacaciones</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/vacaciones/libro">Libro de vacaciones</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span> {{contrato?.funcionario?.primerNombre | titlecase }} {{contrato?.funcionario?.primerApellido | titlecase }}</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2> <span style="text-transform: capitalize;"> {{contrato?.funcionario?.primerNombre | titlecase }} 
+                    {{contrato?.funcionario?.primerApellido | titlecase }} </span>
+                    fecha de ingreso  {{contrato?.iniciacion | date:'dd / LL / yyyy'}}
+                </h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button color="accent" mat-raised-button [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a routerLink="/vacaciones/libro" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+            <div>
+
+                <alcanos-empty-list labelH1="¡Uy! Aún no has registrado vacaciones." labelBtn="Agregar vacaciones"
+                    [visible]="!dataLength && !dataRequest">
+                </alcanos-empty-list>
+
+                <div [hidden]="!dataLength" class="box-shadow">
+                    <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear
+                        matSortDirection="desc" [@animateStagger]="{value:'50'}">
+
+                        <!-- Columna Inicio de causación -->
+                        <ng-container matColumnDef="inicioCausacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Inicio de causación</th>
+                            <td mat-cell *matCellDef="let element"> {{ element.inicioCausacion | date:'dd / LL / yyyy' }} </td>
+                        </ng-container>
+
+                        <!-- Columna fin de causación -->
+                        <ng-container matColumnDef="finCausacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fin de causación</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.finCausacion | date:'dd / LL / yyyy' }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna Tipo de periodo -->
+                        <ng-container matColumnDef="tipo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de periodo</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.tipo }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna Días trabajados -->
+                        <ng-container matColumnDef="diasTrabajados">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Días trabajados</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.diasTrabajados }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna Días causados -->
+                        <ng-container matColumnDef="diasCausados">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Días causados</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.diasCausados }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna Días disponibles -->
+                        <ng-container matColumnDef="diasDisponibles">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Días disponibles</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.diasDisponibles }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="acciones">
+                            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div *ngIf="1">
+                                    <button mat-icon-button (click)="mostrarHandle($event, element)">
+                                        <mat-icon matTooltip="Visualizar">visibility</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                        <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+                    <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                        showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+            <!-- / CONTENIDO -->
+
+
+        <!-- / CONTENIDO -->
+    </div>
+    <!-- / CONTENT -->
+</div>

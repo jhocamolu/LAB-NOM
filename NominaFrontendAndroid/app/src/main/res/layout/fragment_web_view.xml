@@ -1,0 +1,61 @@
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.alcanosesp.appalcanos.utils.WebViewFragment">
+
+        <!-- TODO: Update blank fragment layout -->
+        <!--PROGRESS BAR -->
+
+        <WebView
+            android:id="@+id/wv_principal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+
+        <include
+            android:id="@+id/pb_web_view"
+            layout="@layout/progress_bar"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/ivWebView"
+            style="@style/modalIcon"
+            android:src="@drawable/ic_warning"
+            android:layout_alignBottom="@+id/tvErrorWebView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="30dp"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/tvErrorWebView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="20dp"
+            tools:hint="Se muestra el mensaje de error."
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/certificados_mensaje_error_cargar_webview"
+            android:visibility="gone" />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_web_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="80dp"
+            android:backgroundTint="@color/verde_pera"
+            android:tint="@color/blanco"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+</layout>

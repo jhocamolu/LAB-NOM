@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoLiquidacion_V5">
+<comment>crear nuevos campos</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    ALTER TABLE [TipoLiquidacion] ADD CONSTRAINT [CK_TipoLiquidacion_OperacionTotal] CHECK (([OperacionTotal]='TotalDevengosMenosTotalDeducciones' or [OperacionTotal]='TotalCalculos' or [OperacionTotal]='SoloCalculosSinAgrupar' or [OperacionTotal]='TotalDeducciones'));
+    GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    ALTER TABLE [TipoLiquidacion] DROP CONSTRAINT
+    GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

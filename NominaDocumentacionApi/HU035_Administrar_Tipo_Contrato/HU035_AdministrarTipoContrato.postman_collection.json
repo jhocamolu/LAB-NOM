@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "cf1108c3-266f-4227-a631-db197790fa9c",
+		"name": "HU035_AdministrarTipoContrato",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtiene Listado de Tipo de Contrato",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/TipoContratos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"TipoContratos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtiene DocumentoFuncionario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/TipoContratos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"TipoContratos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Tipo de Contrato",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Contrato de Obra\",\r\n    \"cantidadProrrogas\": \"1\",\r\n    \"duracionMaxima\": \"12\",\r\n    \"clase\":\"Integral\" ,\r\n    \"terminoIndefinido\":false,\r\n    \"documentoSlug\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/TipoContratos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"TipoContratos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Tipo de Contrato",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"nombre\": \"Término indefinido\",\r\n    \"cantidadProrrogas\": 0,\r\n    \"duracionMaxima\": 10000,\r\n    \"terminoIndefinido\": true,\r\n    \"clase\": \"NoIntegral\",\r\n    \"documentoSlug\": \"contrato-termino-indefinido\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/TipoContratos/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"TipoContratos",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualización Parcial Tipo de Contrato",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 5,\r\n    \"activo\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/TipoContratos/5",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"TipoContratos",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "odata documentos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://nomintegra.alcanosesp.com:9004/odata/documentos",
+					"protocol": "http",
+					"host": [
+						"nomintegra",
+						"alcanosesp",
+						"com"
+					],
+					"port": "9004",
+					"path": [
+						"odata",
+						"documentos"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

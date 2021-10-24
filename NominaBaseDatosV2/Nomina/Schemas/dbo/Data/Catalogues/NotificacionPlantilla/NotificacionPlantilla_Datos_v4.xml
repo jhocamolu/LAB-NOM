@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="NotificacionPlantilla_Datos_v4">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[NotificacionPlantilla] ON
+GO
+
+    INSERT INTO dbo.NotificacionPlantilla
+    (Id, Alias, Descripcion, Plantilla, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion)
+    VALUES(7, 'NotificacionRegistroRequisicion', 'Notificación de registro de requisición de personal', '<div><p>Hola</p><p>Queremos informarte que se acaba de registrar una requisición de personal para el cargo de |&|CargoSolicitado|&|. Por favor revisala.</p></div>', 'Activo    ', NULL, NULL, NULL, NULL, NULL, NULL);
+    INSERT INTO dbo.NotificacionPlantilla
+    (Id, Alias, Descripcion, Plantilla, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion)
+    VALUES(8, 'NotificacionRevisadaRequisicion', 'Notificación de requisiciones de personal revisadas', '<div><p>Hola |&|PrimerNombreEncargado|&|!</p><p>Queremos informarte que las siguientes requisiciones de personal han sido revisadas por los funcionarios responsables. Por favor revísalas para continuar con el flujo de aprobación.</p><table>    <thead>        <tr>            <th>Cargo solicitado</th>            <th>Número de vacantes</th>            <th>Ciudad</th>        </tr>    </thead>    <tbody>|&|TABLA|&| </tbody></table></div>', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    INSERT INTO dbo.NotificacionPlantilla
+    (Id, Alias, Descripcion, Plantilla, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion)
+    VALUES(9, 'NotificacionaAprobadaRequisiciones', 'Notificación de requisiciones de personal aprobadas', '<div><p>Hola |&|PRIMERNOMBREENCARGADO|&|!</p><p>Queremos informarte que las siguientes requisiciones de personal han sido aprobadas por los funcionarios responsables. Por favor revísalas para continuar con el flujo de aprobación.</p><table>    <thead>        <tr>            <th>Cargo solicitado</th>            <th>Número de vacantes</th>            <th>Ciudad</th>        </tr>    </thead>    <tbody>|&|TABLA|&|   </tbody></table></div>', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    INSERT INTO dbo.NotificacionPlantilla
+    (Id, Alias, Descripcion, Plantilla, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion)
+    VALUES(10, 'NotificacionVencimientoCubrirVacantes', 'Notificación de vencimiento de plazo para cubrir vacantes', '<div><p>Hola</p><p>Queremos informarte del vencimiento del plazo para cubrir las vacantes de los siguientes cargos:</p><table><thead><tr><th>Cargo solicitado</th><th>Número de vacantes</th><th>Ciudad</th><th>Días restantes para cubrir la vacante</th></tr></thead><tbody>|&|TABLA|&| </tbody></table></div>', 'Activo    ', NULL, NULL, NULL, NULL, NULL, NULL);
+
+
+SET IDENTITY_INSERT [dbo].[NotificacionPlantilla] OFF
+GO
+
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+    DELETE FROM [dbo].[NotificacionPlantilla] WHERE Id >= 7 and Id <=10;
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

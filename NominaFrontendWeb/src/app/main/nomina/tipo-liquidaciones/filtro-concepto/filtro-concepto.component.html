@@ -1,0 +1,91 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content>
+        <mat-form-field appearance="outline">
+            <mat-label>Código</mat-label>
+            <input matInput formControlName="codigo">
+            <mat-error *ngFor="let error of objToArray(codigo.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Código que identifica el concepto.">info</mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre">
+            <mat-error *ngFor="let error of objToArray(nombre.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Nombre que identifique el concepto de nómina.">info
+            </mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Subperíodo</mat-label>
+            <mat-select formControlName="subperiodo">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of subperiodoOptions" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(subperiodo.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Clasificación de acuerdo al tipo de período seleccionado.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo de contrato</mat-label>
+            <mat-select formControlName="tipoContrato">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of tipoContratoOptions" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(tipoContrato.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Tipo de contrato laboral al que se va a asociar el concepto de nómina.">info
+            </mat-icon>
+        </mat-form-field>
+
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+            <mat-icon>cancel</mat-icon>
+            <span>Borrar filtros</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+            <mat-icon>search</mat-icon>
+            <span>Buscar</span>
+        </button>
+    </div>
+</form>

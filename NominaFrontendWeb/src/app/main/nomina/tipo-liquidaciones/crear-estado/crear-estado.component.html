@@ -1,0 +1,65 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Agregar estado del funcionario que liquida</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Estado del funcionario</mat-label>
+            <mat-select formControlName="estadofuncionario" required>
+                <mat-option></mat-option>
+                <mat-option value="Activo">Activo</mat-option>
+                <mat-option value="EnVacaciones">En vacaciones</mat-option>
+                <mat-option value="Incapacitado">Incapacitado </mat-option>
+                <mat-option value="Retirado">Retirado </mat-option>
+                <mat-option value="Seleccionado">Seleccionado</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(estadofuncionario.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Estado del funcionario.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Estado del contrato</mat-label>
+            <mat-select formControlName="estadoContrato" required>
+                <mat-option></mat-option>
+                <mat-option value="Cancelado">Cancelado</mat-option>
+                <mat-option value="PendientePorLiquidar">Pendiente por liquidar</mat-option>
+                <mat-option value="SinIniciar">Sin iniciar</mat-option>
+                <mat-option value="Terminado">Terminado</mat-option>
+                <mat-option value="Vigente">Vigente</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(estadoContrato.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Estado del contrato laboral.">info
+            </mat-icon>
+        </mat-form-field>
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+
+</form>

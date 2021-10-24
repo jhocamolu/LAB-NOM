@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="HT012_v3-1">
+<sql endDelimiter="GO" splitStatements="true">
+UPDATE [dbo].[ParametroGeneral]SET [Alias] = 'salarioMinimoActual'  WHERE Id = 1;
+GO
+UPDATE [dbo].[ParametroGeneral]SET [Alias] = 'auxilioTransporteActual'  WHERE Id = 2;
+GO
+UPDATE [dbo].[ParametroGeneral]SET [Alias] = 'uvtAnual'  WHERE Id = 3;
+GO
+UPDATE [dbo].[ParametroGeneral]SET [Alias] = 'rentaExenta'  WHERE Id = 4;
+GO
+</sql>
+<rollback>
+UPDATE [dbo].[ParametroGeneral]SET [Alias] = 'SalarioMinimoActual'  WHERE Id = 1;
+GO
+UPDATE [dbo].[ParametroGeneral]SET [Alias] = 'AuxilioTransporteActual'  WHERE Id = 2;
+GO
+UPDATE [dbo].[ParametroGeneral]SET [Alias] = 'UvtAnual'  WHERE Id = 3;
+GO
+UPDATE [dbo].[ParametroGeneral]SET [Alias] = 'RentaExenta'  WHERE Id = 4;
+GO
+</rollback>
+</changeSet>
+
+<changeSet author="lestrada" id="HT012_v3-2">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+GO
+/****** Object:  StoredProcedure [dbo].[USP_ObtenerSueldoBasico]    Script Date: 18/03/2020 9:06:40 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- ==========================================================================================
+-- Author:      Laura Estrada
+-- Create date: 17/03/2020
+-- Description: Permite obtener el sueldo básico del funcionario para la nómina
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @NominaId:					Identificador de la nómina
+--
+-- Returns:						
+--	 Sueldo:					Sueldo Básico del funcionario.
+-- ==========================================================================================
+IF OBJECT_ID('dbo.[USP_ObtenerSueldoBasico]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.[USP_ObtenerSueldoBasico] as SELECT 1');
+END;
+GO
+
+ALTER PROCEDURE [dbo].[USP_ObtenerSueldoBasico] (@FuncionarioId int, @NominaId int)  
+AS
+BEGIN
+
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+
+	DECLARE @SueldoBasico DECIMAL(16,6)  = 0;	
+	DECLARE @FechaInicioNomina DATE;
+	DECLARE @FechaFinalNomina DATE;
+	DECLARE @IdContrato INT;
+	DECLARE @Sueldo DECIMAL(16,6);
+	DECLARE @FechaInicioContrato DATE;
+	DECLARE @FechaFinContato DATE;
+	DECLARE @DiasTrabajados INT;
+	DECLARE @FechaInferior DATE;
+	DECLARE @FechaSuperior DATE;	
+	DECLARE @DiasMesLaboral INT  = 30;
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	-- Obtener período de liquidación de la nómina 
+	IF NOT EXISTS(SELECT * FROM [dbo].[Nomina] WHERE Id = @NominaId) 
+		RETURN 
+
+	--Asigna valor a variable
+	SELECT @FechaInicioNomina = FechaInicio, @FechaFinalNomina = FechaFinal FROM [dbo].[Nomina] WHERE Id = @NominaId;
+
+	-- Obtiene los contratos / otros sis activos en el período
+	DECLARE CUR_Contratos CURSOR LOCAL FOR 
+
+		   SELECT con.Id, con.sueldo, con.FechaInicio, con.FechaFinalizacion FROM Contrato con WHERE  con.FuncionarioId = @FuncionarioId
+          		UNION
+           SELECT otrosi.Id,otrosi.sueldo, otrosi.FechaAplicacion, otrosi.FechaFinalizacion FROM ContratoOtroSi otrosi
+           INNER JOIN  Contrato c ON c.Id =  otrosi.ContratoId
+           WHERE c.FuncionarioId = @FuncionarioId
+
+	OPEN CUR_Contratos
+
+	FETCH NEXT FROM CUR_Contratos INTO @IdContrato, @Sueldo, @FechaInicioContrato, @FechaFinContato
+
+	WHILE @@fetch_status = 0
+	BEGIN
+		SET @FechaInferior = @FechaInicioContrato;
+		SET @FechaSuperior = @FechaFinContato;
+
+		IF @FechaInicioContrato < @FechaInicioNomina
+		BEGIN
+			SET @FechaInferior = @FechaInicioNomina;
+		END
+
+		IF @FechaFinContato > @FechaFinalNomina
+		BEGIN
+			SET @FechaSuperior = @FechaFinalNomina;
+		END
+
+		-- Obtiene Dias a pagar 
+		EXEC @DiasTrabajados = [dbo].[USP_ObtenerDiasApagar]
+				@FuncionarioId = @FuncionarioId,
+				@FechaInicial = @FechaInferior,
+				@FechaFinal = @FechaSuperior 
+
+		SET @SueldoBasico = @SueldoBasico + (@Sueldo *  @DiasTrabajados  / @DiasMesLaboral)
+		PRINT @SueldoBasico
+	
+		FETCH NEXT FROM CUR_Contratos INTO @IdContrato, @Sueldo, @FechaInicioContrato, @FechaFinContato
+	END
+
+	CLOSE CUR_Contratos
+	DEALLOCATE CUR_Contratos
+
+	SELECT @SueldoBasico;
+	
+END
+]]>
+</sql>
+<rollback>
+DROP PROCEDURE [dbo].[USP_ObtenerSueldoBasico];
+</rollback>
+</changeSet>
+</databaseChangeLog>

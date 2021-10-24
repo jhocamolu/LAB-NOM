@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "b26a0c31-b264-4cd2-9ab0-4adaf9af1a58",
+		"name": "HU012-Administrar Entidad Financiera",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtener Listado Entidades Financieras",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/EntidadFinancieras",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"EntidadFinancieras"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Entidad Financiera",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/TipoMonedas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"TipoMonedas"
+					]
+				},
+				"description": "Obtener Entidad Financiera"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Entidad Financiera",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0ODc0NzIiLCJDb3JyZW8iOiJhbGJlaXJvMTk4OUBnbWFpbC5jb20iLCJOb21icmUiOiJKRVNVUyBBTEJFSVJPIEdBVklSSUEgUlVCSU8iLCJVc3VhcmlvIjoiIiwiVGlwb0F1dCI6IklEIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNTk4OTAzMjc1LCJleHAiOjE1OTg5MTc2NzUsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0.Qp-YViHQGkvKSODeHA6tBCTEHNSGvIFSEqN3iprsD6Y",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"codigo\": \"0011\",\r\n    \"nit\": \"0012343\",\r\n    \"dv\": \"3\",\r\n    \"nombre\": \"Este es el nombre\",\r\n    \"divisionPoliticaNivel2Id\": 12,\r\n    \"telefono\": \"12345678\",\r\n    \"direccion\": \"1\",\r\n    \"representanteLegal\": \"Maria Juana Contreras Rojas\",\r\n    \"entidadPorDefecto\": false\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/EntidadFinancieras",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"EntidadFinancieras"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Entidad Financiera",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{host}}/api/DiagnosticoCies/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"DiagnosticoCies",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizacion parcial de  Entidad Financiera",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 1,\r\n    \"codigo\": \"009\",\r\n    \"nit\": \"59632145\",\r\n    \"dv\": \"6\",\r\n    \"nombre\": \"BBVA\"\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/EntidadFinancieras/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"EntidadFinancieras",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Entidad Financiera",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0ODc0NzIiLCJDb3JyZW8iOiJhbGJlaXJvMTk4OUBnbWFpbC5jb20iLCJOb21icmUiOiJKRVNVUyBBTEJFSVJPIEdBVklSSUEgUlVCSU8iLCJVc3VhcmlvIjoiIiwiVGlwb0F1dCI6IklEIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNTk4OTAzMjc1LCJleHAiOjE1OTg5MTc2NzUsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0.Qp-YViHQGkvKSODeHA6tBCTEHNSGvIFSEqN3iprsD6Y",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 1028,\r\n    \"codigo\": \"0011\",\r\n    \"nit\": \"0012343\",\r\n    \"dv\": \"3\",\r\n    \"nombre\": \"Este es el nombre\",\r\n    \"divisionPoliticaNivel2Id\": 12,\r\n    \"telefono\": \"12345678\",\r\n    \"direccion\": \"1\",\r\n    \"representanteLegal\": \"Maria Juana Contreras Rojas\",\r\n    \"entidadPorDefecto\": false\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/EntidadFinancieras/1028",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"EntidadFinancieras",
+						"1028"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

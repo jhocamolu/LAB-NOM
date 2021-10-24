@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "efb03ed6-adf7-4a49-a2ea-ab654bfeaccc",
+		"name": "HU017_Administrar_CIE10",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ConsultarDiagnosticocies(Todos)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Diagnosticocies",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Diagnosticocies"
+					]
+				},
+				"description": "{{host}}/odata/Diagnosticocies"
+			},
+			"response": []
+		},
+		{
+			"name": "ConsultarDiagnosticocies/n",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Diagnosticocies/7",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Diagnosticocies",
+						"7"
+					]
+				},
+				"description": "{{host}}/odata/Diagnosticocies/1"
+			},
+			"response": []
+		},
+		{
+			"name": "CrearDiagnosticocies/1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"codigo\":\"999\",\n\t\"nombre\":\"CO(,LERA DEBIDO A VIBRIO CHOLERAE O1 BIOTIPO CHOLERAE. d;\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Diagnosticocies",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Diagnosticocies"
+					]
+				},
+				"description": "{{host}}/api/Diagnosticocies/1"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarDiagnosticocies/17296",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":17296,\n\t\"codigo\":\"9S9\",\n\t\"nombre\":\"CO(,LERA DEBIDO A VIBRIO CHOLERAE O1 BIOTIPO CHOLERAE. d);\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Diagnosticocies/17296",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Diagnosticocies",
+						"17296"
+					]
+				},
+				"description": "{{host}}/api/Diagnosticocies/17296"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialDiagnosticocies/17296",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":17296,\n\t\"activo\":\"true\"\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Diagnosticocies/17296",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Diagnosticocies",
+						"17296"
+					]
+				},
+				"description": "{{host}}/api/Diagnosticocies/17296"
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarDiagnosticocies/17296",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Diagnosticocies/17296",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Diagnosticocies",
+						"17296"
+					]
+				},
+				"description": "{{host}}/api/Diagnosticocies/17296"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

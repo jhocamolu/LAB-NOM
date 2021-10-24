@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "4772b1b4-7142-4f76-8baa-02df035e01ed",
+		"name": "HU104_Experiencia_Laboral_Hoja_Vida",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "{{host}}/odata/HojaDeVidaExperienciaLaborales",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/HojaDeVidaExperienciaLaborales",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"HojaDeVidaExperienciaLaborales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cear HojaDeVidaExperienciaLaborales",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"hojaDeVidaId\": 2,\r\n    \"nombreCargo\": \"Ayudante obra\",\r\n    \"nombreEmpresa\": \"Contructora xyz\",\r\n    \"telefono\": \"2659865\",\r\n    \"salario\": \"900000\",\r\n    \"nombreJefeInmediato\": \"Maria del Carmen\",\r\n    \"fechaInicio\": \"2014-01-12T00:00:00-05:00\",\r\n    \"fechaFin\": \"2018-01-15T00:00:00-05:00\",\r\n    \"funcionesCargo\": \"Ayudante\",\r\n    \"trabajaActualmente\": 1,\r\n    \"motivoRetiro\": \"\",\r\n    \"Observacion\": \"pelea\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/HojaDeVidaExperienciaLaborales",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojaDeVidaExperienciaLaborales"
+					]
+				},
+				"description": "{{host}}/api/HojaDeVidaExperienciaLaborales"
+			},
+			"response": []
+		},
+		{
+			"name": "Actulizar HojaDeVidaExperienciaLaborales/1",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":1,\r\n    \"hojaDeVidaId\": 2,\r\n    \"nombreCargo\": \"Ayudante obra\",\r\n    \"nombreEmpresa\": \"Contructora xyz\",\r\n    \"telefono\": \"2659865\",\r\n    \"salario\": \"900000\",\r\n    \"nombreJefeInmediato\": \"Maria del Carmen\",\r\n    \"fechaInicio\": \"2014-01-12T00:00:00-05:00\",\r\n    \"fechaFin\": \"2018-01-15T00:00:00-05:00\",\r\n    \"funcionesCargo\": \"Ayudante\",\r\n    \"trabajaActualmente\": 1,\r\n    \"motivoRetiro\": \"pelea\",\r\n    \"Observacion\": \"pelea\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/HojaDeVidaExperienciaLaborales/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojaDeVidaExperienciaLaborales",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/HojaDeVidaExperienciaLaborales/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial HojaDeVidaExperienciaLaborales/1",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"id\": 1,\r\n     \"Activo\":false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/HojaDeVidaExperienciaLaborales/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojaDeVidaExperienciaLaborales",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/HojaDeVidaExperienciaLaborales/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete HojaDeVidaExperienciaLaborales/1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/HojaDeVidaExperienciaLaborales/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojaDeVidaExperienciaLaborales",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/HojaDeVidaExperienciaLaborales/1"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "eb7688c4-2dac-429d-8295-95174c9b506b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "06c55ec9-2842-47ba-ba5c-ef122cbcd555",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

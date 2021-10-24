@@ -1,0 +1,113 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <div class="spiner" *ngIf="espera">
+        <mat-spinner></mat-spinner>
+    </div>
+    <h1 mat-dialog-title>Generar reporte libro de vacaciones</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Estados del contrato</mat-label>
+            <mat-select formControlName="estadoContrato" multiple required>
+                <mat-option disabled></mat-option>
+                <mat-option [value]="estadocontrato.pendientePorLiquidar">Pendiente por liquidar</mat-option>
+                <mat-option [value]="estadocontrato.terminado">Terminado</mat-option>
+                <mat-option [value]="estadocontrato.vigente">Vigente</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('estadoContrato').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Estados del contrato de los funcionarios.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Períodos</mat-label>
+            <mat-select formControlName="periodo" multiple required>
+                <mat-option disabled></mat-option>
+                <mat-option [value]="periodos.anticiposTomados">Anticipos tomados</mat-option>
+                <mat-option [value]="periodos.causadosPendientes">Causados pendientes</mat-option>
+                <mat-option [value]="periodos.causadosTomados">Causados tomados</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('periodo').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Períodos sobre el cual se desea generar el reporte.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Centro operativo</mat-label>
+            <mat-select formControlName="centroOperativoId" multiple>
+                <mat-option disabled></mat-option>
+                <mat-option *ngFor="let item of centroOperativos" [value]="item.id">
+                    {{item.nombre}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('centroOperativoId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Centro operativo sobre el cual se desea generar el reporte.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Dependencia</mat-label>
+            <mat-select formControlName="dependenciaId" multiple>
+                <mat-option disabled></mat-option>
+                <mat-option *ngFor="let item of dependencias" [value]="item.id">
+                    {{item.nombre}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('dependenciaId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Dependencia sobre la cual se desea generar el reporte.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+            <mat-icon>save_alt</mat-icon>
+            <span>Generar</span>
+        </button>
+    </div>
+
+</form>

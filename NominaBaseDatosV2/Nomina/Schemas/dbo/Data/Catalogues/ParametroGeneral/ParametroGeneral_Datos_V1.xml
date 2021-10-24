@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="ParametroGeneral_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON 
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('1', '1', 'SalarioMinimoActual', 'Number', 'min="828000" max="10000000"', 'Salario Mínimo', 'Es el salario mínimo establecido para el año en curso.', '1', '', '1', '877803', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('2', '1', 'AuxilioTransporteActual', 'Number', 'min="90000" max="110000"', 'Auxilio de transporte', 'Es el valor del auxilio de transporte establecido para el año en curso.', '2', '', '1', '102853', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('3', '1', 'UvtAnual', 'Number', 'min="34270"', 'Valor del UVT', 'El valor del UVT establecido para el año en curso.', '3', '', '1', '34270', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('4', '1', 'RentaExenta', 'Number', 'min="1" max="100"', 'Porcentaje de renta exenta', 'Es el valor de la renta exenta', '4', '', '1', '25', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('5', '1', 'DecimalesMostrar', 'Number', 'min="0" max="7"', 'Cantidad de decimales a mostrar', 'Cantidad de números decimales que se pueden mostrar en la nómina', '5', '', '1', '6', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('6', '1', 'ConceptoDescuentoLibranza', 'Select', NULL, 'Concepto descuento de libranza', 'Concepto que se usará para descuento de libranza', '6', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'Libranzas', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('7', '1', 'ConceptoSeguridadSocial', 'Select', NULL, 'Concepto neto de pago de seguridad social', 'Concepto que se usará para consolidar el valor neto a pagar de parafiscales en la nómina', '7', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'NetoSeguridadSocial', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('8', '1', 'ConceptoARL', 'Select', NULL, 'Concepto neto de pago de ARL', 'Concepto que se usará para mostrar el valor neto a pagar a la ARL en la nómina', '8', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'NetoARL', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('9', '1', 'ConceptoParafiscales', 'Select', NULL, 'Concepto neto de pago de parafiscales', 'Concepto que se usará para mostrar el valor neto a pagar a parafiscales en la nómina', '9', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'NetoParafiscales', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('10', '1', 'ConceptoProvisiones', 'Select', NULL, 'Concepto neto de pago de provisiones', 'Concepto que se usará para mostrar el valor neto a pagar de provisiones en la nómina', '10', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'NetoProvisiones', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('11', '2', 'DiasLey', 'Number', 'min="1" max="15"', 'Días de ley de vacaciones', 'Corresponde al número de días de descanso remunerado al que se tiene derecho, por cada 360 días trabajados.', '11', '', '1', '15', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('12', '2', 'DiasDisfrute', 'Number', 'min="6" max="15"', 'Días disfrute de vacaciones', 'Corresponde al número mínimo de días a disfrutar de las vacaciones, por cada 360 días trabajados.', '12', '', '1', '6', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('13', '2', 'DiasDinero', 'Percent', 'min="1" max="50"', 'Días en dinero de vacaciones', 'Corresponde al número máximo de días que se pueden pagar, por los días causados del período de vacaciones.', '13', '', '1', '1', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('14', '2', 'DiasTrabajados', 'Number', 'min="1" max="360"', 'Días trabajados del funcionario', 'Corresponde al número de días trabajados.', '14', '', '1', '360', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('15', '1', 'DiasVencimientoContrato', 'Number', 'min="1" max="360"', 'Cantidad de días de vencimiento de contrato', 'Se utiliza para determinar la cantidad de días de vencimiento que se deben consultar para obtener los contratos próximos a finalizar.', '15', '', '1', '45', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('16', '1', 'ConceptoTotalDevengo', 'Select', NULL, 'Concepto de total devengado del funcionario', 'Concepto que se usará para mostrar el valor total devengado en la nómina', '16', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'Base_ingresos', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('17', '1', 'ConceptoTotalHorasExtras', 'Select', NULL, 'Concepto de total de horas extras del funcionario', 'Concepto que se usará para mostrar el valor total de las horas extras en la nómina', '17', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'TotalHorasExtras', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('18', '1', 'ConceptoTotalAusentismos', 'Select', NULL, 'Concepto de total de ausentismos del funcionario', 'Concepto que se usará para mostrar el valor total de ausentismos en la nómina', '18', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'TotalAusentismos', 'Activo', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)VALUES('19', '2', 'DiasCalendario', 'Number', NULL, 'Dias calendario', 'Corresponde al número de días de un año calendario', '19', '', '1', '365', 'Activo', 'sistema', GETDATE());
+GO
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF
+GO
+
+</sql>
+
+<rollback>
+
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM [dbo].[ParametroGeneral] WHERE Id BETWEEN 1 AND 19;
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

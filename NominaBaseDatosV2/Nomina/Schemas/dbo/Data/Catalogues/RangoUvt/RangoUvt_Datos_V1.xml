@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="RangoUvt_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[RangoUvt] ON 
+GO
+
+INSERT INTO dbo.RangoUvt (Id, EstadoRegistro, CreadoPor, FechaCreacion, Desde, Hasta, Porcentaje, Adiciona, Sustrae, ValidoDesde) VALUES(1, 'Activo', 'sistema', GETDATE(), 0, 95, 0.000000, 0, 0, '2020-01-01 12:00:00.000');
+INSERT INTO dbo.RangoUvt (Id, EstadoRegistro, CreadoPor, FechaCreacion, Desde, Hasta, Porcentaje, Adiciona, Sustrae, ValidoDesde) VALUES(2, 'Activo', 'sistema', GETDATE(), 95, 150, 19, 0, 95, '2020-01-01 12:00:00.000');
+INSERT INTO dbo.RangoUvt (Id, EstadoRegistro, CreadoPor, FechaCreacion, Desde, Hasta, Porcentaje, Adiciona, Sustrae, ValidoDesde) VALUES(3, 'Activo', 'sistema', GETDATE(), 151, 360, 28.000000, 10, 150, '2020-01-01 12:00:00.000');
+INSERT INTO dbo.RangoUvt (Id, EstadoRegistro, CreadoPor, FechaCreacion, Desde, Hasta, Porcentaje, Adiciona, Sustrae, ValidoDesde) VALUES(4, 'Activo', 'sistema', GETDATE(), 361, 640, 33, 69, 360, '2020-01-01 12:00:00.000');
+INSERT INTO dbo.RangoUvt (Id, EstadoRegistro, CreadoPor, FechaCreacion, Desde, Hasta, Porcentaje, Adiciona, Sustrae, ValidoDesde) VALUES(5, 'Activo', 'sistema', GETDATE(), 641, 945, 35, 162, 640, '2020-01-01 12:00:00.000');
+INSERT INTO dbo.RangoUvt (Id, EstadoRegistro, CreadoPor, FechaCreacion, Desde, Hasta, Porcentaje, Adiciona, Sustrae, ValidoDesde) VALUES(6, 'Activo', 'sistema', GETDATE(), 946, 2300, 37, 268, 945, '2020-01-01 12:00:00.000');
+INSERT INTO dbo.RangoUvt (Id, EstadoRegistro, CreadoPor, FechaCreacion, Desde, Hasta, Porcentaje, Adiciona, Sustrae, ValidoDesde) VALUES(7, 'Activo', 'sistema', GETDATE(), 2301, NULL, 39, 770, 2300, '2020-01-01 12:00:00.000');
+
+SET IDENTITY_INSERT [dbo].[RangoUvt] OFF
+GO
+
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+DELETE FROM [dbo].[RangoUvt] WHERE Id BETWEEN 1 AND 7;
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

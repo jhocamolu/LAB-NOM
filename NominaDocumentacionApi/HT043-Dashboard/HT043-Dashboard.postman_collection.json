@@ -1,0 +1,45 @@
+{
+	"info": {
+		"_postman_id": "926bb055-5a69-4478-a429-d5a614c1eafe",
+		"name": "HT043-Dashboard",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GraficasWeb",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTc0NDciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yMUBhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkpIT05BVEFOIE1PUkVOTyIsIlVzdWFyaW8iOiJqaG1vcmVubyIsIlRpcG9BdXQiOiJJRCIsIlRpcG9Ub2tlbiI6IkFVVCIsIm5iZiI6MTU5OTg1MzM4NCwiZXhwIjoxNTk5ODY3Nzg0LCJpc3MiOiJTaWNvbVNlcnZlciIsImF1ZCI6IlZlbnRhc0FwcCJ9.tSgsDDHSG9r1apDOlC_2lLs6E6NYTIVKU_-bZCcCbKc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"aplicacion\": \"GHESTIC\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/dashboards/GraficasWeb/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"dashboards",
+						"GraficasWeb",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_ObtenerDashboard_V1">
+<comment>HT041</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('util.USP_ObtenerDashboard', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE util.USP_ObtenerDashboard as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 08/09/2020
+-- Description: Permite obtener los widgets según el funcionario y los permisos
+--
+-- Parameters:
+--   @FuncionarioId:	   Identificador del funcionario para el que se quiere obtener la info
+--   @Permisos:		   Listado de permisos separados por coma
+--		
+-- Returns:						
+--   @Resultado:		   Estado resultado del proceso. = 0 Todo bien; > 0 Error
+-- ==========================================================================================
+
+ALTER PROCEDURE [util].[USP_ObtenerDashboard]
+(@FuncionarioId INT,
+ @Permisos      NVARCHAR(MAX),
+ @Resultado     INT OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '@Permisos=', CONVERT(VARCHAR, @Permisos));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    -- Variables de apoyo
+    DECLARE @MensajeExcepcion VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255)=
+    (
+        SELECT vce.AUDITORIA_ACTIVO
+        FROM util.VW_ConstanteEstado AS vce
+    );
+
+    -- Datos para la tabla
+    DECLARE @WidgetId INT;
+    DECLARE @Ubicacion VARCHAR(255);
+    DECLARE @Tipo VARCHAR(255);
+    DECLARE @Subtipo VARCHAR(255);
+    DECLARE @Nombre VARCHAR(255);
+    DECLARE @Cantidad INT;
+    DECLARE @Extra VARCHAR(255);
+    DECLARE @Datos NVARCHAR(MAX);
+    DECLARE @Interaccion VARCHAR(255);
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        SET @Resultado = 1;
+
+        IF @FuncionarioId IS NULL
+           OR @Permisos IS NULL
+        BEGIN
+            SET @MensajeExcepcion = 'No se han pasado los parámetros apropiados para ejecutar el procedimiento.';
+            EXEC util.USP_GenerarExcepcion
+                 50000,
+                 @MensajeExcepcion;
+        END;
+
+        -- Se crea tabla con la información del dashboard para el funcionario
+        CREATE TABLE #Dashboard
+        (Ubicacion   VARCHAR(255),
+         Tipo        VARCHAR(255),
+         Subtipo     VARCHAR(255) NULL,
+         Nombre      VARCHAR(255),
+         Cantidad    INT NULL,
+         Extra       VARCHAR(255) NULL,
+         Datos       TEXT NULL,
+         Interaccion VARCHAR(255)
+        );
+
+        -- Se consultan los widgets para los cuales se tiene permiso
+        DECLARE CUR_DashboardWidgets CURSOR LOCAL
+        FOR SELECT wid.Id,
+                   wid.Ubicacion,
+                   wid.Tipo,
+                   wid.Subtipo,
+                   wid.Nombre,
+                   wid.Interaccion
+            FROM util._Widget AS wid
+            WHERE wid.Permiso IN
+            (
+                SELECT CAST(Value AS VARCHAR(255)) AS valor
+                FROM util.UFT_Split(@Permisos, ',')
+            )
+            AND wid.EstadoRegistro = @AuditoriaActivo;
+
+        OPEN CUR_DashboardWidgets;
+
+        FETCH NEXT FROM CUR_DashboardWidgets INTO @WidgetId, @Ubicacion, @Tipo, @Subtipo, @Nombre, @Interaccion;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+            -- Se obtienen los datos particulares según el widget respectivo
+            EXEC [util].[USP_CalcularDatosWidget]
+                 @FuncionarioId = @FuncionarioId,
+                 @WidgetId = @WidgetId,
+                 @Cantidad = @Cantidad OUTPUT,
+                 @Extra = @Extra OUTPUT,
+                 @Datos = @Datos OUTPUT,
+                 @Interaccion = @Interaccion OUTPUT;
+
+		  -- Se registra la información del widget
+            INSERT INTO #Dashboard
+            (Ubicacion,
+             Tipo,
+             Subtipo,
+             Nombre,
+             Cantidad,
+             Extra,
+             Datos,
+             Interaccion
+            )
+            VALUES
+            (@Ubicacion,
+             @Tipo,
+             @Subtipo,
+             @Nombre,
+             @Cantidad,
+             @Extra,
+             @Datos,
+             @Interaccion
+            );
+
+            FETCH NEXT FROM CUR_DashboardWidgets INTO @WidgetId, @Ubicacion, @Tipo, @Subtipo, @Nombre, @Interaccion;
+
+        END;
+
+        CLOSE CUR_DashboardWidgets;
+
+        DEALLOCATE CUR_DashboardWidgets;
+
+        -- Se muestran los resultados
+        SELECT *
+        FROM #Dashboard;
+
+        -- No se presento ningún problema se retorna código de estado exitoso
+        SET @Resultado = 0;
+
+        RETURN @Resultado;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [util].[USP_ObtenerDashboard];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

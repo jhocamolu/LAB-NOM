@@ -1,0 +1,82 @@
+// Material theming tools
+@import "~@angular/material/theming";
+// Breakpoint mixins
+@import "partials/breakpoints";
+.modal-dialog,
+.mostrar-dialog,
+.crear-dialog,
+.editar-dialog {
+    @include media-breakpoint("xs") {
+        width: 100%;
+    }
+    @include media-breakpoint("gt-xs") {
+        width: 600px;
+    }
+    .mat-dialog-container {
+        padding: 30px;
+    }
+}
+
+// se encuentra en dia editar Jornada laboral
+.modal-dialog450 {
+    @include media-breakpoint("xs") {
+        width: 100%;
+    }
+    @include media-breakpoint("gt-xs") {
+        width: 450px;
+    }
+    .mat-dialog-container {
+        padding: 30px;
+    }
+}
+
+// se encuentra en dia editar Jornada laboral
+.modal-dialog700 {
+    @include media-breakpoint("xs") {
+        width: 100%;
+    }
+    @include media-breakpoint("gt-xs") {
+        width: 700px;
+    }
+    .mat-dialog-container {
+        padding: 30px;
+    }
+}
+
+.modal-dialog900 {
+    @include media-breakpoint("xs") {
+        width: 100%;
+    }
+    @include media-breakpoint("gt-xs") {
+        width: 900px;
+    }
+    .mat-dialog-container {
+        padding: 30px;
+    }
+}
+
+// se utiliza en prenomina mostrar
+.modal-dialogAnchoTotal {
+    @include media-breakpoint("xs") {
+        width: 120%;
+    }
+    @include media-breakpoint("gt-xs") {
+        width: 120% !important;
+    }
+    .mat-dialog-container {
+        padding: 30px;
+    }
+}
+
+.filtro-dialog {
+    @include media-breakpoint("xs") {
+        width: 100%;
+    }
+    @include media-breakpoint("gt-xs") {
+        width: 400px;
+        min-height: 1000px;
+    }
+    .mat-dialog-container {
+        padding: 30px;
+    }
+}

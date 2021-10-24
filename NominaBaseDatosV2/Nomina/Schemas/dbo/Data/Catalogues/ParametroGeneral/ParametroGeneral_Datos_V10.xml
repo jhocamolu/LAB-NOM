@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="ParametroGeneral_Datos_V10">
+<comment>ReclutamientoYSeleccion</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON 
+GO
+
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(33, 'RevisorRequisicionIbague', 'Select', '', 'Funcionario de ibagué encargado de revisar las requisiciones', 'Funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas y autorizadas para los cargos de clase Nacional y Centro operativo de rionegro y la dorada.', 33, '{administraciondepersonall}/odata/Funcionarios?$select=primernombre,orderby=primernombre asc', 1, null, 5, 'Activo', 'sistema', GETDATE(), 1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(34, 'RevisorRequisicionRionegro', 'Select', '', 'Funcionario de rionegro encargado de revisar las requisiciones', 'Primer funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas y autorizadas para los cargos de clase Nacional y Centro operativo de pasto y popaayán.', 34, '{administraciondepersonall}/odata/Funcionarios?$select=primernombre,orderby=primernombre asc', 1, null, 5, 'Activo', 'sistema', GETDATE(), 1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(35, 'RevisorRequisicionPasto1', 'Select', '', 'Primer funcionario de pasto encargado de revisar las requisiciones', 'Segundo funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas y autorizadas para los cargos de clase Nacional y Centro operativo de pasto y popaayán.', 35, '{administraciondepersonall}/odata/Funcionarios?$select=primernombre,orderby=primernombre asc', 1, null, 5, 'Activo', 'sistema', GETDATE(), 1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(36, 'RevisorRequisicionPasto2', 'Select', '', 'Segundo funcionario de pasto encargado de revisar las requisiciones', 'Funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas, revisada, aprobadas y autorizadas, independientemente de la clase del cargo.', 36, '{administraciondepersonall}/odata/Funcionarios?$select=primernombre,orderby=primernombre asc', 1, null, 5, 'Activo', 'sistema', GETDATE(), 1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(37, 'RevisorRequisicionNacional', 'Select', '', 'Funcionario responsabe de las requisiciones a nivel nacional', 'Funcionario que recibirá las notificaciones por correo electrónico de las requisiciones de personal solicitadas, revisada, aprobadas y autorizadas, independientemente de la clase del cargo.', 37, '{administraciondepersonall}/odata/Funcionarios?$select=primernombre,orderby=primernombre asc', 1, null, 5, 'Activo', 'sistema', GETDATE(), 1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(38, 'AprobadorRequsicion', 'Select', '', 'Funcionario encargado de aprobar las requisiciones', 'Funcionario que recibirá las requisiciones de personal en estado "Revisada".', 38, '{administraciondepersonall}/odata/Funcionarios?$select=primernombre,orderby=primernombre asc', 1, null, 5, 'Activo', 'sistema', GETDATE(), 1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(39, 'AutorizadorRequisicion', 'Select', '', 'Funcionario encargado de autorizar las requisiciones.', 'Funcionario que recibirá las requisiciones de personal en estado "Aprobada".', 39, '{administraciondepersonall}/odata/Funcionarios?$select=primernombre,orderby=primernombre asc', 1, null, 5, 'Activo', 'sistema', GETDATE(), 1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(40, 'UrlAutorizacionTratamientoDatos', 'Url', '', 'Autorización de tratamiento de datos', 'Permite al usuario dirigirse a una nueva ventana del navegador, donde podrá leer los términos y condiciones asociados al tratamiento de datos.', 40, '', 1, null, 5, 'Activo', 'sistema', GETDATE(), 1)
+GO
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF 
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM dbo.ParametroGeneral WHERE Id >= 33 AND Id <= 40;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="VW_ConstanteProcesoTipoLiquidacion_V1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteProcesoTipoLiquidacion]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteProcesoTipoLiquidacion]
+END
+GO
+-- =============================================
+-- Author:		Diego Fernando Villegas Flórez
+-- Create date: 01/09/2020
+-- Description:	Vista que permite la simulación de constantes para los 
+--                  operacions de los tipos de liquidación dentro de SQL Server.
+-- =============================================
+
+CREATE VIEW [util].[VW_ConstanteProcesoTipoLiquidacion]
+AS
+SELECT
+		CAST('AnticipoCesantias' AS VARCHAR) AS [ANTICIPOCESANTIAS]
+		,CAST('Cesantias' AS VARCHAR) AS [CESANTIAS]
+		,CAST('Definitivo' AS VARCHAR) AS [DEFINITIVO]
+		,CAST('Normal' AS VARCHAR) AS [NORMAL]
+		,CAST('Vacaciones' AS VARCHAR) AS [VACACIONES]
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP VIEW [util].[VW_ConstanteProcesoTipoLiquidacion]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

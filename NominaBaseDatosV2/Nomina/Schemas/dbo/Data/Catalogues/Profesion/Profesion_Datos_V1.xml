@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="Profesion_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[Profesion] ON 
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, 'ABOGADO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR TURISTICO Y HOTELERO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR AMBIENTAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 5, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR DE EMPRESAS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 6, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR DE MERCADEO Y LOGISTICA INTERNACIONALES')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 7, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR DE NEGOCIOS INTERNACIONALES')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 8, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR FINANCIERO ')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 9, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR DE EMPRESAS AGROPECUARIAS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 10, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR EN SEGURIDAD Y SALUD EN EL TRABAJO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 11, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR AERONAUTICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 12, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR AGROINDUSTRIAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 13, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR AGROPECUARIO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 14, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR AMBIENTAL Y DE LOS RECURSOS NATURALES')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 15, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR AMBIENTAL Y SANITARIO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 16, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR BANCARIO Y FINANCIERO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 17, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR COMERCIAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 18, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR COMERCIAL Y DE MERCADEO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 19, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR COMERCIAL Y FINANCIERO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 20, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR DE AGRONEGOCIOS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 21, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR DE COMERCIO EXTERIOR')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 22, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR DE EMPRESAS EN TELECOMUNICACIONES')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 23, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR DE EMPRESAS Y FINANZAS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 24, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR DE EMPRESAS Y GESTOR AMBIENTAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 25, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR DE MERCADEO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 26, 'Activo', GETDATE(), NULL, NULL, 'ADMINISTRADOR DE SISTEMAS INFORMATICOS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 27, 'Activo', GETDATE(), NULL, NULL, 'ADMNISTRADOR PUBLICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 28, 'Activo', GETDATE(), NULL, NULL, 'AGRONOMO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 29, 'Activo', GETDATE(), NULL, NULL, 'AGROECÓLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 30, 'Activo', GETDATE(), NULL, NULL, 'ANTROPOLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 31, 'Activo', GETDATE(), NULL, NULL, 'ARQUEOLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 32, 'Activo', GETDATE(), NULL, NULL, 'ARQUITECTO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 33, 'Activo', GETDATE(), NULL, NULL, 'ASTRÓNOMO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 34, 'Activo', GETDATE(), NULL, NULL, 'BACTERIOLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 35, 'Activo', GETDATE(), NULL, NULL, 'BIOINGENIERO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 36, 'Activo', GETDATE(), NULL, NULL, 'BIÓLOGO AMBIENTAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 37, 'Activo', GETDATE(), NULL, NULL, 'BIOLOGO MARINO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 38, 'Activo', GETDATE(), NULL, NULL, 'BIOQUIMICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 39, 'Activo', GETDATE(), NULL, NULL, 'BIOTECNÓLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 40, 'Activo', GETDATE(), NULL, NULL, 'CIENTÍFICO DE LA COMPUTACIÓN')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 41, 'Activo', GETDATE(), NULL, NULL, 'COMERCIO INTERNACIONAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 42, 'Activo', GETDATE(), NULL, NULL, 'COMUNICADOR SOCIAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 43, 'Activo', GETDATE(), NULL, NULL, 'PERIODISTA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 44, 'Activo', GETDATE(), NULL, NULL, 'COMUNICADOR AUDIOVISUAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 45, 'Activo', GETDATE(), NULL, NULL, 'COMUNICADOR CORPORATIVO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 46, 'Activo', GETDATE(), NULL, NULL, 'COMUNICADOR EN ENTRETENIMIENTO DIGITAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 47, 'Activo', GETDATE(), NULL, NULL, 'CONSTRUCTOR CIVIL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 48, 'Activo', GETDATE(), NULL, NULL, 'CONTADOR PUBLICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 49, 'Activo', GETDATE(), NULL, NULL, 'CRIMINALISTA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 50, 'Activo', GETDATE(), NULL, NULL, 'DISENADOR INDUSTRIAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 51, 'Activo', GETDATE(), NULL, NULL, 'DISENADOR GRAFICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 52, 'Activo', GETDATE(), NULL, NULL, 'DISEÑADOR DIGITAL Y DE MULTIMEDIA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 53, 'Activo', GETDATE(), NULL, NULL, 'DISEÑADOR INTERACTIVO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 54, 'Activo', GETDATE(), NULL, NULL, 'ECOLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 55, 'Activo', GETDATE(), NULL, NULL, 'ECONOMISTA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 56, 'Activo', GETDATE(), NULL, NULL, 'ENFERMERA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 57, 'Activo', GETDATE(), NULL, NULL, 'ESTADÍSTICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 58, 'Activo', GETDATE(), NULL, NULL, 'FILOSOFO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 59, 'Activo', GETDATE(), NULL, NULL, 'FISIOTERAPÉUTA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 60, 'Activo', GETDATE(), NULL, NULL, 'FONOAUDIÓLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 61, 'Activo', GETDATE(), NULL, NULL, 'GASTRÓNOMO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 62, 'Activo', GETDATE(), NULL, NULL, 'GEOGRAFO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 63, 'Activo', GETDATE(), NULL, NULL, 'GEOCIENTIFICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 64, 'Activo', GETDATE(), NULL, NULL, 'GEOLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 65, 'Activo', GETDATE(), NULL, NULL, 'GERONTOLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 66, 'Activo', GETDATE(), NULL, NULL, 'GEOPOLITÓLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 67, 'Activo', GETDATE(), NULL, NULL, 'GERENTE DE LA SEGURIDAD Y ANALISIS SOCIOPOLITICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 68, 'Activo', GETDATE(), NULL, NULL, 'HISTORIADOR')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 69, 'Activo', GETDATE(), NULL, NULL, 'INGENIERIO CIVIL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 70, 'Activo', GETDATE(), NULL, NULL, 'INGENIERIO DE SISTEMAS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 71, 'Activo', GETDATE(), NULL, NULL, 'INGENIERIO ELECTRONICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 72, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO AGROINDUSTRIAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 73, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO AGROPECUARIO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 74, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO AMBIENTAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 75, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO ELECTROMECÁNICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 76, 'Activo', GETDATE(), NULL, NULL, 'INGENIEROEN AUTOMATIZACIÓN')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 77, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO MULTIMEDIA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 78, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO MECANICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 79, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO ELECTRICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 80, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE PRODUCCIÓN')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 81, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO  AGRONOMO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 82, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE ALIMENTOS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 83, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE LA CALIDAD')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 84, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE SOFTWARE')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 85, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE DISEÑO DE PRODUCTO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 86, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE GAS Y PETRÓLEO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 87, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE MANTENIMIENTO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 88, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE MANUFACTURA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 89, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE MATERIALES')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 90, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE MERCADOS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 91, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE MINAS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 92, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE PLASTICOS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 93, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE PROCESOS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 94, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE TELECOMUNICACIONES')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 95, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO FINANCIERO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 96, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO TOPOGRAFICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 97, 'Activo', GETDATE(), NULL, NULL, 'INGENIERO DE DISEÑO DE PRODUCTO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 98, 'Activo', GETDATE(), NULL, NULL, 'INSTRUMENTADOR QUIRÚRGICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 99, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO(A) EN FILOLOGIA E IDIOMAS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 100, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN ESPAÑOL Y FILOLOGIA CLASICA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 101, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN MUSICA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 102, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN DISEÑO TECNOLOGICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 103, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN EDUCACION FISICA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 104, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN ELECTRONICA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 105, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN MATEMATICAS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 106, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN QUIMICA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 107, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN BIOLOGIA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 108, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN EDUCACION INFANTIL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 109, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN FILOSOFÍA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 110, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN EDUCACIÖN ESPECIAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 111, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN RECREACIÓN')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 112, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN ESPAÑOL E INGLES')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 113, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN CIENCIAS SOCIALES')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 114, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN ESPAÑOL Y LENGUAS EXTRANJERAS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 115, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN EDUCACIÓN BÁSICA PRIMARIA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 116, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN CIENCIAS NATURALES Y EDUCACIÓN AMBIENTAL')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 117, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN TECNOLOGÍA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 118, 'Activo', GETDATE(), NULL, NULL, 'LICENCIADO EN MATEMATICAS')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 119, 'Activo', GETDATE(), NULL, NULL, 'MEDICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 120, 'Activo', GETDATE(), NULL, NULL, 'MICROBIOLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 121, 'Activo', GETDATE(), NULL, NULL, 'PSICOLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 122, 'Activo', GETDATE(), NULL, NULL, 'PUBLICISTA')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 123, 'Activo', GETDATE(), NULL, NULL, 'QUIMICO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 124, 'Activo', GETDATE(), NULL, NULL, 'SOCIOLOGO')
+GO
+INSERT [dbo].[Profesion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 125, 'Activo', GETDATE(), NULL, NULL, 'TERAPEUTA')
+GO
+
+SET IDENTITY_INSERT [dbo].[Profesion] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[profesion] WHERE Id BETWEEN 1 AND 125;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "99f7f8d5-aa0c-4245-977d-8dc9b2d983d0",
+		"name": "HU052_registrar_informacion_básica_liquidación_nomina",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PeríodoContable",
+			"item": [
+				{
+					"name": "Listado Período Contable",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/PeriodoContables",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"PeriodoContables"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PeriodoContableActivo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/Nominas/PeriodoContableActivo/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Nominas",
+								"PeriodoContableActivo",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Listado Nomina",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Nominas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Nominas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Nomina",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Nominas/8",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Nominas",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crea Nomina",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tipoLiquidacionId\": 9,\r\n    \"subperiodoId\": 5,\r\n    \"fechaInicio\":\"2019-01-01\",\r\n    \"fechaFinal\":\"2019-12-31\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Nominas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Nominas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Nomina",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\":29, \r\n    \"tipoLiquidacionId\":9,\r\n    \"subperiodoId\": 8,\r\n    \"fechaInicio\":\"2019-01-01\",\r\n    \"fechaFinal\":\"2019-12-31\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Nominas/29",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Nominas",
+						"29"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

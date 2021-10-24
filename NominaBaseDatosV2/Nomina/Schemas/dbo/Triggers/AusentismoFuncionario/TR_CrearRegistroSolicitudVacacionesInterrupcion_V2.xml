@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TR_CrearRegistroSolicitudVacacionesInterrupcion_V2">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[TR_CrearRegistroSolicitudVacacionesInterrupcion]', 'TR') IS NULL
+BEGIN
+	EXECUTE ('CREATE TRIGGER dbo.TR_CrearRegistroSolicitudVacacionesInterrupcion ON dbo.AusentismoFuncionario AFTER INSERT,UPDATE as SELECT 1');
+END
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 29/04/2020
+-- Description:	Disparador utiliza para cargar el registro de interrupcion, 
+--				si el funcionario está en período de vacaciones
+-- =============================================
+ALTER TRIGGER [dbo].[TR_CrearRegistroSolicitudVacacionesInterrupcion] ON [dbo].[AusentismoFuncionario]
+AFTER INSERT, UPDATE
+AS
+     BEGIN
+         IF EXISTS
+         (
+             SELECT ins.Id, 
+                    ins.FechaInicio, 
+                    ins.FechaFin, 
+                    sva.Id, 
+                    sva.FechaInicioDisfrute, 
+                    sva.FechaFinDisfrute
+             FROM inserted ins
+                  INNER JOIN TipoAusentismo tau ON ins.TipoAusentismoId = tau.Id
+                  INNER JOIN SolicitudVacaciones sva ON ins.FuncionarioId = sva.FuncionarioId
+                  INNER JOIN ClaseAusentismo cla ON tau.ClaseAusentismoId = cla.Id
+             WHERE(tau.Codigo =
+             (
+                 SELECT cca.CODIGO_LICENCIA_LUTO
+                 FROM util.VW_ConstanteCodigoAusentismo cca
+             )
+                   OR cla.Codigo =
+             (
+                 SELECT CODIGO_INCAPACIDAD
+                 FROM [util].[VW_ConstanteCodigoClaseAusentismo]
+             ))
+                  AND ins.Estado =
+             (
+                 SELECT coe.AUSENTISMO_APROBADO
+                 FROM util.VW_ConstanteEstado coe
+             )
+                  AND sva.Estado =
+             (
+                 SELECT coe.SOLICITUDVACACIONES_ENCURSO
+                 FROM util.VW_ConstanteEstado coe
+             )
+                  AND Ins.Id NOT IN
+             (
+                 SELECT svi.FuncionarioAusentismoId
+                 FROM dbo.SolicitudVacacionesInterrupcion svi
+                 WHERE svi.FuncionarioAusentismoId = ins.Id
+             )
+         )
+             BEGIN
+                 --------------------------------------------------------------------------
+                 -- Instrucciones de configuración y manejo de errores
+                 --------------------------------------------------------------------------
+                 SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+                 DECLARE @Parametros VARCHAR(MAX);
+                 DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+                 --------------------------------------------------------------------------
+                 -- Declaraciones
+                 --------------------------------------------------------------------------
+                 DECLARE @AusentismoId AS INT;
+                 DECLARE @FechaInicioAusentismo AS DATE;
+                 DECLARE @FechaFinAusentismo AS DATE;
+                 DECLARE @FechaInicioSolicitudVacaciones AS DATE;
+                 DECLARE @FechaFinSolicitudVacaciones AS DATE;
+                 DECLARE @SolicitudVacacionesId AS INT;
+                 DECLARE @BanderaActualizar BIT;
+                 DECLARE @DiasAusentismo INT;
+                 DECLARE @FechaFin DATE;
+                
+                 --------------------------------------------------------------------------
+                 -- Proceso
+                 --------------------------------------------------------------------------
+
+                 BEGIN TRY
+                     SET NOCOUNT ON;
+                     BEGIN TRAN AusentismoVacaciones;
+                     -- Obtienen los registros de tipo ausentismo= licencia por luto, Estado ausentismo = Aprobado, estado Solicitud vacaciones = Encurso
+                     DECLARE CUR_AusentismoVacaciones CURSOR LOCAL
+                     FOR SELECT ins.Id, 
+                                ins.FechaInicio, 
+                                ins.FechaFin, 
+                                sva.Id, 
+                                sva.FechaInicioDisfrute, 
+                                sva.FechaFinDisfrute
+                         FROM inserted ins
+                              INNER JOIN TipoAusentismo tau ON ins.TipoAusentismoId = tau.Id
+                              INNER JOIN SolicitudVacaciones sva ON ins.FuncionarioId = sva.FuncionarioId
+                              INNER JOIN ClaseAusentismo cla ON tau.ClaseAusentismoId = cla.Id
+                         WHERE(tau.Codigo =
+                         (
+                             SELECT cca.CODIGO_LICENCIA_LUTO
+                             FROM util.VW_ConstanteCodigoAusentismo cca
+                         )
+                               OR cla.Codigo =
+                         (
+                             SELECT CODIGO_INCAPACIDAD
+                             FROM [util].[VW_ConstanteCodigoClaseAusentismo]
+                         ))
+                              AND ins.Estado =
+                         (
+                             SELECT coe.AUSENTISMO_APROBADO
+                             FROM util.VW_ConstanteEstado coe
+                         )
+                              AND sva.Estado =
+                         (
+                             SELECT coe.SOLICITUDVACACIONES_ENCURSO
+                             FROM util.VW_ConstanteEstado coe
+                         )
+                              AND Ins.Id NOT IN
+                         (
+                             SELECT svi.FuncionarioAusentismoId
+                             FROM dbo.SolicitudVacacionesInterrupcion svi
+                             WHERE svi.FuncionarioAusentismoId = ins.Id
+                         );
+                     OPEN CUR_AusentismoVacaciones;
+                     FETCH NEXT FROM CUR_AusentismoVacaciones INTO @AusentismoId, @FechaInicioAusentismo, @FechaFinAusentismo, @SolicitudVacacionesId, @FechaInicioSolicitudVacaciones, @FechaFinSolicitudVacaciones;
+                     WHILE @@fetch_status = 0
+                         BEGIN
+                             SET @BanderaActualizar = 0;
+                             IF((@FechaInicioSolicitudVacaciones <= @FechaInicioAusentismo
+                                 AND @FechaFinAusentismo <= @FechaInicioSolicitudVacaciones)
+                                AND (@FechaFinSolicitudVacaciones <= @FechaInicioAusentismo
+                                     AND @FechaFinAusentismo <= @FechaFinSolicitudVacaciones))
+                                 BEGIN
+                                     SET @BanderaActualizar = 1;
+                             END;
+                             IF((@FechaInicioSolicitudVacaciones < @FechaInicioAusentismo
+                                 AND @FechaInicioAusentismo < @FechaFinSolicitudVacaciones)
+                                AND (@FechaInicioSolicitudVacaciones < @FechaFinAusentismo
+                                     AND @FechaFinAusentismo < @FechaFinSolicitudVacaciones))
+                                 BEGIN
+                                     SET @BanderaActualizar = 1;
+                             END;
+                             IF((@FechaInicioSolicitudVacaciones = @FechaInicioAusentismo
+                                 AND @FechaFinSolicitudVacaciones != @FechaFinAusentismo)
+                                OR (@FechaInicioSolicitudVacaciones <> @FechaInicioAusentismo
+                                    AND @FechaFinSolicitudVacaciones = @FechaFinAusentismo))
+                                 BEGIN
+                                     SET @BanderaActualizar = 1;
+                             END;
+                             IF(@BanderaActualizar = 1)
+                                 BEGIN
+                                     --Inserta registro en la tabla de SolicituVacacionesInterrupción.
+                                     INSERT INTO SolicitudVacacionesInterrupcion
+                                     (EstadoRegistro, 
+                                      CreadoPor, 
+                                      FechaCreacion, 
+                                      SolicitudVacacionesId, 
+                                      FuncionarioAusentismoId
+                                     )
+                                     VALUES
+                                     (
+                                     (
+                                         SELECT coe.AUDITORIA_ACTIVO
+                                         FROM util.VW_ConstanteEstado coe
+                                     ), 
+                                     'sistema', 
+                                     GETDATE(), 
+                                     @SolicitudVacacionesId, 
+                                     @AusentismoId
+                                     );
+
+                                     -- Cálcular el los días de ausentismo
+                                     SET @DiasAusentismo = (DATEDIFF(DAY, @FechaInicioAusentismo, @FechaFinAusentismo) + 1);
+                                     SET @FechaFin = DATEADD(DAY, @DiasAusentismo, @FechaFinSolicitudVacaciones);
+
+                                     --Cambia estado a la solicitud de vacaciones
+                                     UPDATE SolicitudVacaciones
+                                       SET 
+                                           Estado =
+                                     (
+                                         SELECT coe.SOLICITUDVACACIONES_INTERRUMPIDA
+                                         FROM util.VW_ConstanteEstado coe
+                                     ), 
+                                           SolicitudVacaciones.FechaFinDisfrute = @FechaFin
+                                     WHERE Id = @SolicitudVacacionesId;
+                             END;
+                             FETCH NEXT FROM CUR_AusentismoVacaciones INTO @AusentismoId, @FechaInicioAusentismo, @FechaFinAusentismo, @SolicitudVacacionesId, @FechaInicioSolicitudVacaciones, @FechaFinSolicitudVacaciones;
+         END;
+                     CLOSE CUR_AusentismoVacaciones;
+                     DEALLOCATE CUR_AusentismoVacaciones;
+
+                     -- Cierre de la transacción
+
+                     IF @@TRANCOUNT > 0
+                         BEGIN
+                             IF XACT_STATE() = 1
+                                 BEGIN
+                                     COMMIT TRAN AusentismoVacaciones;
+                             END;
+                                 ELSE
+                                 BEGIN
+                                     EXEC util.USP_GenerarExcepcion 
+                                          50000, 
+                                          'No se puede confirmar la transacción.  Error desconocido.';
+                             END;
+                     END;
+                     SET NOCOUNT OFF;
+         END TRY
+                 BEGIN CATCH
+                     -- Rollback de la transacción
+                     IF XACT_STATE() <> 0
+                        AND @@TRANCOUNT > 0
+                         BEGIN
+                             ROLLBACK;
+                     END;
+
+                     -- Se almacena la información del error
+                     EXEC util.USP_Registrarerror 
+                          @NombreObjeto, 
+                          @Parametros;
+
+                     -- Se lanza la excepción
+                     EXEC util.USP_LanzarExcepcion;
+         END CATCH;
+         END;
+     END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[TR_CrearRegistroSolicitudVacacionesInterrupcion]') IS NOT NULL
+BEGIN
+    DROP TRIGGER [dbo].[TR_CrearRegistroSolicitudVacacionesInterrupcion]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

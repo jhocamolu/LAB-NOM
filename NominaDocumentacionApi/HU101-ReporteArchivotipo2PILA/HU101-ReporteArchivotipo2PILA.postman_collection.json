@@ -1,0 +1,37 @@
+{
+	"info": {
+		"_postman_id": "a8df77aa-bb0a-4a64-91de-5f1aff4f7b72",
+		"name": "HU101-ReporteArchivotipo2PILA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte Archivo Tipo 2 Pila",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"PeriodoPagoId\": \"163\",\r\n    \"TipoPlanillaId\": \"1\",\r\n    \"NumeroPlanilla\": \"\",\r\n    \"FechaPagoPlanilla\": \"\",\r\n    \"TipoCotizanteId\": \"1\",\r\n    \"SubtipoCotizante\": \"\",\r\n    \"Funcionario\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/ArchivoTipo2Pila",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"ArchivoTipo2Pila"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

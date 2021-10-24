@@ -1,0 +1,94 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/tipo-periodos">Tipos de período</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Crear tipo de período</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Crear tipo de período</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <mat-tab-group animationDuration="0ms">
+                <!-- Información -->
+                <mat-tab label="Información">
+
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput placeholder="" formControlName="nombre" required>
+                            <mat-error *ngFor="let error of nombre.errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Nombre del tipo de período de liquidación.">info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Período de pago por defecto</mat-label>
+                            <mat-select formControlName="pagoPorDefecto" required>
+                                <mat-option></mat-option>
+                                <mat-option value="true">Si</mat-option>
+                                <mat-option value="false">No</mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of pagoPorDefecto.errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Indica el tipo de período de pago por defecto.">
+                                info</mat-icon>
+                        </mat-form-field>
+
+
+                        <div mat-dialog-actions >
+                            <a mat-raised-button [routerLink]="'/configuracion/tipo-periodos'">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+                    </form>
+
+                </mat-tab>
+                <!-- /Informacion-->
+
+
+                <mat-tab label="Subperíodos del tipo de período" [disabled]="!item"></mat-tab>
+
+            </mat-tab-group>
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

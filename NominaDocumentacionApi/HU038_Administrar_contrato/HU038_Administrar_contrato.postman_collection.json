@@ -1,0 +1,293 @@
+{
+	"info": {
+		"_postman_id": "3d291383-4a48-4f45-a6a8-b77bace8c433",
+		"name": "HU038_Administrar_contrato",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ContratoAdministradora",
+			"item": [
+				{
+					"name": "ConsultarContratoAdministradora",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/contratoadministradoras",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"contratoadministradoras"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ConsultarContratos?$expand=divisionPoliticaNivel2Contrato($expand=divisionPoliticaNivel1($expand=pais))",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Contratos?$expand=divisionPoliticaNivel2Contrato($expand=divisionPoliticaNivel1($expand=pais))",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Contratos"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "divisionPoliticaNivel2Contrato($expand=divisionPoliticaNivel1($expand=pais))"
+						}
+					]
+				},
+				"description": "{{host}}/odata/Contratos?$expand=divisionPoliticaNivel2Contrato($expand=divisionPoliticaNivel1($expand=pais))"
+			},
+			"response": []
+		},
+		{
+			"name": "ConsultarContratos/n",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Contratos/74?$expand=tipoContrato,funcionario($expand=tipoDocumento),cargodependencia($expand=dependencia),divisionPoliticaNivel2Contrato($expand=divisionPoliticaNivel1),centroOperativo,centroCosto,formaPago,tipoMoneda,tipoCuenta,entidadFinanciera,jornadaLaboral,contratoadministradoras($expand=administradora($expand=tipoAdministradora))",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Contratos",
+						"74"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "tipoContrato,funcionario($expand=tipoDocumento),cargodependencia($expand=dependencia),divisionPoliticaNivel2Contrato($expand=divisionPoliticaNivel1),centroOperativo,centroCosto,formaPago,tipoMoneda,tipoCuenta,entidadFinanciera,jornadaLaboral,contratoadministradoras($expand=administradora($expand=tipoAdministradora))"
+						}
+					]
+				},
+				"description": "{{host}}/odata/Contratos/5?$expand=divisionPoliticaNivel2Contrato($expand=divisionPoliticaNivel1($expand=pais))"
+			},
+			"response": []
+		},
+		{
+			"name": "{{host}}/api/Contratos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDgxMzQzODksImV4cCI6MTYwODE0ODc4OSwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.Q0Cwy9nRVXPkyxKKIhxr3lSWz2SWK2FjYdNengY8I-c",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"periodoPrueba\":10,\n\t\"GrupoNominaId\":1,\n    \"funcionarioId\": 3,\n    \"tipoContratoId\": 2,\n    \"cargoDependenciaId\": 1,\n    \"fechaInicio\": \"2020-12-16T00:00:00-05:00\",\n    \"fechaFinalizacion\": \"2020-12-27T00:00:00-05:00\",\n    \"sueldo\": 5896243.0,\n    \"centroOperativoId\": 1,\n    \"divisionPoliticaNivel2ContratoId\": 24,\n    \"centroCostoId\": 1,\n    \"formaPagoId\": 5,\n    \"tipoMonedaId\": 8,\n    \"entidadFinancieraId\": null,\n    \"tipoCuentaId\": null,\n    \"numeroCuenta\": null,\n    \"recibeDotacion\": false,\n    \"jornadaLaboralId\": 1,\n    \"empleadoConfianza\": true,\n    \"procedimientoRetencio\": \"Procedimiento1\",\n    \"centroTrabajoId\": 3,\n    \"divisionPoliticaNivel2Contrato\":\"73\",\n    \"AdministradoraContrato\": [\n    \t{\n\t    \t\"administradoraId\": 2,\n\t   \t\t\"fechaInicio\": \"2019-01-01T00:00:00-05:00\",\n\t    \t\"fechaFin\": \"2019-06-01T00:00:00-05:00\"\n        },\n        {\n\t    \t\"administradoraId\": 4,\n\t   \t\t\"fechaInicio\": \"2019-01-01T00:00:00-05:00\",\n\t    \t\"fechaFin\": \"2019-06-01T00:00:00-05:00\"\n        },\n        {\n\t    \t\"administradoraId\": 5,\n\t   \t\t\"fechaInicio\": \"2019-01-01T00:00:00-05:00\",\n\t    \t\"fechaFin\": \"2019-06-01T00:00:00-05:00\"\n        },\n        {\n\t    \t\"administradoraId\": 6,\n\t   \t\t\"fechaInicio\": \"2019-01-01T00:00:00-05:00\",\n\t    \t\"fechaFin\": \"2019-06-01T00:00:00-05:00\"\n        },\n        {\n\t    \t\"administradoraId\": 11,\n\t   \t\t\"fechaInicio\": \"2019-01-01T00:00:00-05:00\",\n\t    \t\"fechaFin\": \"2019-06-01T00:00:00-05:00\"\n        }\n    ],\n    \"afp\": 57,\n    \"eps\": 1,    \n    \"cargoGrupoId\":530,\n    \"tipoPeriodoId\": 1,\n    \"afPFechaInicio\": \"2020-12-31\",\n    \"epsFechaInicio\": \"2020-12-31\",\n    \"fondoCesantias\":122,\n    \"cajaCompensacion\": 105,\n    \"colombianoEnElExterior\": 1,\n    \"procedimientoRetencion\": 1,\n    \"divisionPoliticaNivel2Id\": 1,\n    \"fondoCesantiasFechaInicio\": \"2020-12-31\",\n    \"cajaCompensacionFechaInicio\": \"2020-12-31\",\n    \"tipoCotizanteSubtipoCotizanteId\": 1,\n    \"extranjeroNoObligadoACotizarAPension\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Contratos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Contratos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{host}}/api/Contratos/10",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 77,\r\n    \"funcionarioId\": 6905,\r\n    \"tipoContratoId\": 3,\r\n    \"estadoContrato\": \"Vigente\",\r\n    \"numeroContrato\": \"11104874721-1\",\r\n    \"cargoDependenciaId\": 1,\r\n    \"periodoPrueba\": 0,\r\n    \"fechaInicio\": \"2020-01-24T00:00:00-05:00\",\r\n    \"fechaFinalizacion\": \"2020-01-27T00:00:00-05:00\",\r\n    \"fechaTerminacion\": \"0001-01-01T00:00:00-05:00\",\r\n    \"sueldo\": 5896243.0,\r\n    \"centroOperativoId\": 1,\r\n    \"divisionPoliticaNivel2ContratoId\": 24,\r\n    \"centroCostoId\": 1,\r\n    \"formaPagoId\": 5,\r\n    \"tipoMonedaId\": 8,\r\n    \"entidadFinancieraId\": null,\r\n    \"tipoCuentaId\": null,\r\n    \"numeroCuenta\": null,\r\n    \"recibeDotacion\": false,\r\n    \"jornadaLaboralId\": 3,\r\n    \"empleadoConfianza\": true,\r\n    \"procedimientoRetencio\": \"Procedimiento1\",\r\n    \"centroTrabajoId\": 3,\r\n    \"grupoNominaId\": 1,\r\n    \"estadoRegistro\": \"Activo\",\r\n    \"fechaCreacion\": \"2020-01-24T14:59:47.4200258-05:00\",\r\n    \"fechaModificacion\": \"2020-01-24T14:59:47.4199905-05:00\",\r\n    \"fechaEliminacion\": \"2020-01-24T14:59:47.4199905-05:00\",\r\n    \"observaciones\":\"kdjfaklsfjsñafkjasñfkjñlkajsfañsdfjkñakllsdf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Contratos/ 77",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Contratos",
+						" 77"
+					]
+				},
+				"description": "FondoCesantias\nAfp\nCajaCompensacion\nEps"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialContratos",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":75,\n\t\"activo\":false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Contratos/75",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Contratos",
+						"75"
+					]
+				},
+				"description": "{{host}}/api/Contratos/45"
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarContratos",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Contratos/45",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Contratos",
+						"45"
+					]
+				},
+				"description": "{{host}}/api/Contratos/45"
+			},
+			"response": []
+		},
+		{
+			"name": "{{host}}/api/contratos/20/DatosActuales",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/contratos/74/DatosActuales",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"contratos",
+						"74",
+						"DatosActuales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Finalizar contrato",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":13817,\r\n    \"CausalTerminacionId\":2,\r\n    \"FechaTerminacion\":\"2021-02-02\",\r\n    \"ObservacionFinalizacionContrato\":\"Observacion de finalizacion\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Contratos/finalizar/12961",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Contratos",
+						"finalizar",
+						"12961"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TareaProgramadaFinalizar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fecha\":\"2020-07-28\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Contratos/TareaProgramadaFinalizar",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Contratos",
+						"TareaProgramadaFinalizar"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

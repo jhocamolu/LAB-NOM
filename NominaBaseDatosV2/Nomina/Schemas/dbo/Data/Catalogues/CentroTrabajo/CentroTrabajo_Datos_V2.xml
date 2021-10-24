@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="CentroTrabajo_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.CentroTrabajo SET Nombre='Clase I - 0,522%' WHERE Id='1';
+UPDATE dbo.CentroTrabajo SET Nombre='Clase II - 1,044%' WHERE Id='2';
+UPDATE dbo.CentroTrabajo SET Nombre='Clase III - 2,436%' WHERE Id='3';
+UPDATE dbo.CentroTrabajo SET Nombre='Clase IV - 4,35%' WHERE Id='4';
+UPDATE dbo.CentroTrabajo SET Nombre='Clase V - 6,96%' WHERE Id='5';
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE dbo.CentroTrabajo SET Nombre='Clase I ' WHERE Id='1';
+UPDATE dbo.CentroTrabajo SET Nombre='Clase II' WHERE Id='2';
+UPDATE dbo.CentroTrabajo SET Nombre='Clase III' WHERE Id='3';
+UPDATE dbo.CentroTrabajo SET Nombre='Clase IV ' WHERE Id='4';
+UPDATE dbo.CentroTrabajo SET Nombre='Clase V ' WHERE Id='5';
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

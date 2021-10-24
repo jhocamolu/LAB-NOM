@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "13427d25-ad15-4fcb-94e8-1763bced8160",
+		"name": "HU087-ReporteBeneficiosCorporativos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte Beneficio Corporativo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fechaInicial\": \"2020-01-01\",\r\n    \"fechaFinal\": \"2020-06-30\",\r\n    \"tipoBeneficio\":null,\r\n    \"estadoFuncionario\":\"Activo\",\r\n    \"CentroOperativo\":null,\r\n    \"Dependencia\":null,\r\n    \"Cargo\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44366/reporte/BeneficioCorporativo",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44366",
+					"path": [
+						"reporte",
+						"BeneficioCorporativo"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

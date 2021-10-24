@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="FuncionNomina_Datos_V4">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+UPDATE dbo.FuncionNomina SET FuncionParametro='[dbo].[USP_ObtenerDiasACotizar] @FuncionarioId = {{FuncionarioId}}, @FechaInicial = {{FechaInicioMes}}, @FechaFinal={{FechaFinalMes}}, @Cantidad = {{Cantidad}} OUTPUT' WHERE Id=29;	
+UPDATE dbo.FuncionNomina SET FuncionParametro='[dbo].[USP_ObtenerDiasApagar] @FuncionarioId = {{FuncionarioId}}, @FechaInicial = {{FechaInicioMes}}, @FechaFinal={{FechaFinalMes}}, @Cantidad = {{Cantidad}} OUTPUT' WHERE Id=13;
+
+UPDATE dbo.FuncionNomina
+	SET FuncionParametro='[dbo].[USP_ObtenerBaseRetefuente] @FuncionarioId = {{FuncionarioId}}, @FechaInicio ={{FechaInicioRecalculo}}, @FechaFin = {{FechaFinRecalculo}}, @Tipo = {{Constante}}, @Valor ={{Valor}} OUTPUT'
+	WHERE Id=32;
+	
+UPDATE dbo.FuncionNomina
+	SET FuncionParametro='[dbo].[USP_ObtenerBaseRetefuente] @FuncionarioId = {{FuncionarioId}}, @FechaInicio ={{FechaInicioRecalculo}}, @FechaFin = {{FechaFinRecalculo}}, @Tipo = {{Constante}}, @Valor ={{Valor}} OUTPUT'
+	WHERE Id=31;
+	
+UPDATE dbo.FuncionNomina
+	SET FuncionParametro='[dbo].[USP_RecalculoPorcentajeRetefuente] @NominaId={{NominaId}}, @FuncionarioId = {{FuncionarioId}}, @FechaFin = {{FechaFinalMes}}, @Valor ={{Valor}} OUTPUT'
+	WHERE Id=34;
+	
+	
+SET IDENTITY_INSERT [dbo].[FuncionNomina] ON 
+GO
+
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('37', 'Constante clase contrato variable', 'CLASE_CONTRATO_VARIABLE', 'Indica el parámetro establecido para que el tipo de contrato sea variable', '0', '[dbo].[UFS_ObtenerClaseContrato]', 'UFS', '[dbo].[UFS_ObtenerClaseContrato]({{Constante}})', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('38', 'Valor Base IBC mes', 'BASE_IBC_MES', 'Obtiene el valor el concepto IBC mes calculado en la liquidación de nómina para utilizarse en las liquidaciones de prestaciones sociales y provisiones', '0', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado]', 'USP', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@FechaInicio ={{FechaInicioMes}},@FechaFin = {{FechaFinalMes}},@Valor ={{Valor}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('39', 'Valor Base Parafiscales y cesantias mes', 'PARAFISCALES_BASE_MES', 'Obtiene el valor el concepto Base parafiscales mes calculado en la liquidación de nómina para utilizarse en las liquidaciones de prestaciones sociales y provisiones.', '0', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado]', 'USP', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@FechaInicio ={{FechaInicioMes}},@FechaFin = {{FechaFinalMes}},@Valor ={{Valor}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('40', 'Valor Base prima cesantías mes', 'BASE_PRIMA_CESANTIAS_MES', 'Obtiene el valor el concepto Base primas y cesantías mes calculado en la liquidación de nómina para utilizarse en las liquidaciones de prestaciones sociales y provisiones.', '0', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado]', 'USP', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@FechaInicio ={{FechaInicioMes}},@FechaFin = {{FechaFinalMes}},@Valor ={{Valor}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('41', 'Valor base bono semestral mes', 'BASE_BONO_SEMESTRAL_MES', 'Obtiene el valor el concepto Base bono semestral mes mes calculado en la liquidación de nómina para utilizarse en las liquidaciones de prestaciones sociales y provisiones.', '0', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado]', 'USP', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@FechaInicio ={{FechaInicioMes}},@FechaFin = {{FechaFinalMes}},@Valor ={{Valor}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('42', 'Valor base vacaciones mes', 'BASE_VACACIONES_MES', 'Obtiene el valor el concepto Base vacaciones mes calculado en la liquidación de nómina para utilizarse en las liquidaciones de prestaciones sociales y provisiones.', '0', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado]', 'USP', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@FechaInicio ={{FechaInicioMes}},@FechaFin = {{FechaFinalMes}},@Valor ={{Valor}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+
+GO
+SET IDENTITY_INSERT [dbo].[FuncionNomina] OFF	
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[FuncionNomina] WHERE Id BETWEEN 37 AND 42;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

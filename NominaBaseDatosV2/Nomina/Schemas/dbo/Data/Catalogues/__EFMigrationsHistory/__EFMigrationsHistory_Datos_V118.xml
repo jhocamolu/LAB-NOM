@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestratra" id="__EFMigrationsHistory_Datos_V118">
+<comment></comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20201219000850_sprint14042', N'3.1.9');
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    DELETE FROM [__EFMigrationsHistory] WHERE [MigrationId] = '20201219000850_sprint14042' AND [ProductVersion] = '3.1.9';
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>    

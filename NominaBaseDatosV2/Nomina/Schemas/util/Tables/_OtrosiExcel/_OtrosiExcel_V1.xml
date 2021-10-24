@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="_OtrosiExcel-V1">
+<comment>Traslado de información desde softland</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+CREATE TABLE util._OtrosiExcel (
+  Id                int IDENTITY NOT NULL, 
+  NumeroDocumento   varchar(255) NOT NULL, 
+  Prorroga1         date NOT NULL, 
+  Prorroga2         date NULL, 
+  Prorroga3         date NULL, 
+  Prorroga4         date NULL, 
+  Prorroga5         date NULL, 
+  Prorroga6         date NULL, 
+  EstadoRegistro    varchar(255) DEFAULT 'EstadoRegistro' NOT NULL, 
+  CreadoPor         varchar(255) NOT NULL, 
+  FechaCreacion     smalldatetime NOT NULL, 
+  ModificadoPor     varchar(255) NULL, 
+  FechaModificacion smalldatetime NULL, 
+  EliminadoPor      varchar(255) NULL, 
+  FechaEliminacion  smalldatetime NULL, 
+  CONSTRAINT PK_OtrosiExcel 
+    PRIMARY KEY (Id), 
+  CONSTRAINT CK_OtrosiExcel_EstadoRegistro 
+    CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado')));
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Almacena las equivalencias entre Softland y Ghestic para diferentes entidades', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Identificador único del registro en la tabla', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Id';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Número documento del funcionario', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'NumeroDocumento';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha fin prorroga 1', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Prorroga1';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha fin prorroga 2', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Prorroga2';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha fin prorroga 3', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Prorroga3';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha fin prorroga 4', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Prorroga4';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha fin prorroga 5', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Prorroga5';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha fin prorroga 6', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Prorroga6';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Indica si el registro se encuentra Activo, Inactivo y Eliminado', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'EstadoRegistro';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Usuario que creá el registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'CreadoPor';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha y hora de creación del registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'FechaCreacion';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Ãšltimo usuario que modificá el registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'ModificadoPor';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha y hora de modificación del registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'FechaModificacion';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Usuario que eliminá el registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'EliminadoPor';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha y hora de eliminación del registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_OtrosiExcel', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'FechaEliminacion';
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [util].[_OtrosiExcel];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

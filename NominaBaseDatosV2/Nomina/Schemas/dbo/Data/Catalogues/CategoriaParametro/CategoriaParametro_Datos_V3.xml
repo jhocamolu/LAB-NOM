@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="CategoriaParametro_Datos_V3">
+<comment>ReclutamientoYSeleccion</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[CategoriaParametro] ON 
+GO
+
+INSERT INTO dbo.CategoriaParametro (Id, Nombre, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) 
+VALUES(4, 'Pila', 'Parametros asociados a la generación de la PILA.', 'Activo    ', 'sistema', GETDATE()),
+(5, 'ReclutamientoYSeleccion', 'Parámetros asociados a los temas correspondientes al reclutamiento y selección de personal.', 'Activo    ', 'sistema', GETDATE());
+
+SET IDENTITY_INSERT [dbo].[CategoriaParametro] OFF 
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM [dbo].[CategoriaParametro] WHERE Id = 4 or Id = 5;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

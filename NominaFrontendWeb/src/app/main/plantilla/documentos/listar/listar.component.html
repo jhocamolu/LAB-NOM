@@ -1,0 +1,118 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Plantilla</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Formatos</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Formatos</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+
+            <mat-menu #appMenu="matMenu">
+                <a mat-menu-item *ngFor="let item of grupos" routerLink="/plantilla/documentos/crear/{{item.id}}">
+                    <span>{{item.nombre}}</span>
+                </a>
+            </mat-menu>
+
+            <button *ngIf="arrayPermisos.crear" mat-raised-button color="accent" [matMenuTriggerFor]="appMenu">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+                <span> Crear formato para </span>
+            </button>
+
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+            <alcanos-empty-list [visibleBtnCreate]="arrayPermisos.crear" (fnCreate)="triggerLink()" [iconBtn]="true"
+                labelH1="¡Uy! Aún no has registrado formatos." labelBtn="Crear formato para"
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna nombre -->
+                    <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Nombre</th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                    </ng-container>
+
+                    <!-- Columna tipo -->
+                    <ng-container matColumnDef="fechaVigencia">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Fecha de vigencia</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.fechaVigencia | date:'dd / LL / yyyy'}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna grupo -->
+                    <ng-container matColumnDef="grupoDocumentoId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Grupo de documento</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.grupoDocumento?.nombre}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna activo -->
+                    <ng-container matColumnDef="estadoRegistro">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-left: 40px;">Activo</th>
+                        <td mat-cell *matCellDef="let element" style="width: 150px">
+                            <button mat-icon-button
+                                [matTooltip]="arrayPermisos.estadoRegistro && element.estado !== 'Activo' ? ( element.estadoRegistro == 'Activo' ? 'Inactivar': 'Activar' ) : null "
+                                (click)="arrayPermisos.estadoRegistro && element.estado !== 'Activo' ? activarHandle($event, element) : null">
+                                <mat-icon *ngIf="element.estadoRegistro == 'Activo'" class="s-20"
+                                    [ngStyle]="{'color':'green'}">check</mat-icon>
+                                <mat-icon *ngIf="element.estadoRegistro != 'Activo'" class="s-20"
+                                    [ngStyle]="{'color':'red'}">close</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display':!( arrayPermisos.actualizar ) ? 'none' : ''}"> Acciones </th>
+                        <td mat-cell *matCellDef="let element" [ngStyle]="{'display':!( arrayPermisos.actualizar ) ? 'none' : ''}">
+                            <a *ngIf="arrayPermisos.actualizar" mat-icon-button routerLink="/plantilla/documentos/{{element.id}}/editar">
+                                <mat-icon matTooltip="Editar">edit</mat-icon>
+                            </a>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+</div>

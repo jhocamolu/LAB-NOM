@@ -1,0 +1,37 @@
+{
+	"info": {
+		"_postman_id": "6748f827-dd94-4765-a0fa-ad9d573180fa",
+		"name": "HU083-AusentismoLaboral",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte Ausentismo Laboral",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fechaInicial\": \"2020-01-01\",\r\n    \"fechaFinal\": \"2020-06-30\",\r\n    \"claseAusentismoId\": 1,\r\n    \"tipoAusentismo\":null,\r\n    \"EstadoFuncionario\": null,\r\n    \"CentroOperativo\":null,\r\n    \"Dependencia\":null,\r\n    \"Cargo\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/AusentismoLaboral",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"AusentismoLaboral"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

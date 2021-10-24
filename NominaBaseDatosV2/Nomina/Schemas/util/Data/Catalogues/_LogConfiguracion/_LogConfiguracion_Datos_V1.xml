@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="_LogConfiguracion_Datos_V1">
+<sql endDelimiter="GO" splitStatements="true">
+
+SET IDENTITY_INSERT [util].[_LogConfiguracion] ON 
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (1, N'AusentismoFuncionario', N'AusentismoFuncionario', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (2, N'Beneficio', N'Beneficio', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (3, N'BeneficioAdjunto', N'BeneficioAdjunto', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (4, N'BeneficioSubperiodo', N'BeneficioSubperiodo', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (5, N'Cargo', N'Cargo', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (6, N'CargoReporta', N'CargoReporta', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (7, N'ConceptoBase', N'ConceptoBase', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (8, N'ConceptoNomina', N'ConceptoNomina', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (9, N'ConceptoNominaCuentaContable', N'ConceptoNominaCuentaContable', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (10, N'Contrato', N'Contrato', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (11, N'ContratoAdministradora', N'ContratoAdministradora', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (12, N'ContratoOtroSi', N'ContratoOtroSi', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (13, N'DocumentoFuncionario', N'DocumentoFuncionario', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (14, N'Embargo', N'Embargo', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (15, N'EmbargoConceptoNomina', N'EmbargoConceptoNomina', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (16, N'EmbargoSubperiodo', N'EmbargoSubperiodo', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (17, N'ExperienciaLaboral', N'ExperienciaLaboral', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (18, N'Funcionario', N'Funcionario', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (19, N'FuncionarioEstudio', N'FuncionarioEstudio', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (20, N'FuncionNomina', N'FuncionNomina', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (21, N'FuncionVariable', N'FuncionVariable', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (22, N'InformacionFamiliar', N'InformacionFamiliar', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (23, N'JornadaLaboral', N'JornadaLaboral', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (24, N'JornadaLaboralDia', N'JornadaLaboralDia', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (25, N'Libranza', N'Libranza', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (26, N'LibranzaSubperiodo', N'LibranzaSubperiodo', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (27, N'LibroVacacion', N'LibroVacacion', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (28, N'Nomina', N'Nomina', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (29, N'NominaDetalle', N'NominaDetalle', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (30, N'NominaFuenteNovedad', N'NominaFuenteNovedad', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (31, N'NominaFuncionario', N'NominaFuncionario', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (32, N'NotificacionPlantilla', N'NotificacionPlantilla', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (33, N'ParametroGeneral', N'ParametroGeneral', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (34, N'ProrrogaAusentismo', N'ProrrogaAusentismo', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (35, N'RepresentanteEmpresa', N'RepresentanteEmpresa', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (36, N'SolicitudPermiso', N'SolicitudPermiso', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (37, N'SolicitudVacacion', N'SolicitudVacacion', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (38, N'SoporteSolicitudPermiso', N'SoporteSolicitudPermiso', 1, GETDATE())
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (39, N'TareaProgramada', N'TareaProgramada', 1, GETDATE())
+GO
+SET IDENTITY_INSERT [util].[_LogConfiguracion] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [util].[_LogConfiguracion] WHERE Id BETWEEN 1 AND 39;
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="CategoriaParametro_Datos_V2">
+<comment>Retefuente</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[CategoriaParametro] ON 
+GO
+
+INSERT INTO dbo.CategoriaParametro (Id, Nombre, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) 
+VALUES(3, 'Retefuente', 'Parámetros asociados a cálculo de retención en la fuente.', 'Activo    ', 'sistema', GETDATE());
+
+SET IDENTITY_INSERT [dbo].[CategoriaParametro] OFF 
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM [dbo].[CategoriaParametro] WHERE Id = 3;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="ParametroGeneral_Datos_V10">
+<comment>ReclutamientoYSeleccion parametros vencieminto notificacion</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON 
+GO
+
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(41, 'DiasCubrirRequisicion', 'Number', '', 'Numero de dias, para llear la vacante', 'AyudaPendiente.', 41, '', 1, 21, 5, 'Activo', 'sistema', GETDATE(), 1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(42, 'DiasNotificarRequisicion', 'Number', '', 'Numero de dias, apartir de los cuales se empieza a notificar del vencieminto de la requicicion', 'AyudaPendiente.', 42, '', 1, 15, 5, 'Activo', 'sistema', GETDATE(), 1)
+GO
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF 
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM dbo.ParametroGeneral WHERE Id >= 41 AND Id <= 42;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

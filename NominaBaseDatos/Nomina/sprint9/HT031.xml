@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="HT031">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+-- ==========================================================================================
+-- Author:      Laura Estrada
+-- Create date: 14/04/2020
+-- Description: Permite obtener los días a pagar de un funcionario para la nómina ingresada.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @NominaId:					Identificador de la nómina.
+--
+-- Returns:						
+--	 Dias:						Número de días
+-- ==========================================================================================
+
+
+CREATE PROCEDURE [dbo].[USP_ObtenerDiasFuncionarioNomina] 
+(
+	@FuncionarioId INT, 
+	@NominaId INT
+)  
+AS
+BEGIN
+
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	DECLARE @FechaInicial 			DATE = NULL;
+	DECLARE @FechaFinal 			DATE = NULL;
+	DECLARE @ErrorMessage  			NVARCHAR(4000); 
+   	DECLARE @ErrorSeverity 			INT;
+   	DECLARE @ErrorState    			INT;
+    DECLARE @Dias 					INT = 0;
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	--Consulta la nómina ingresada
+	
+	SELECT @FechaInicial = FechaInicio , @FechaFinal =  FechaFinal FROM Nomina WHERE Id = @NominaId;
+	IF @FechaInicial IS NULL OR @FechaFinal IS NULL 
+	BEGIN
+		RAISERROR ( 'No existe nómina.',16,1);
+	END 	
+	
+	-- Ejecuta el procedimiento para obtener los días a pagar del funcionario.
+	
+	EXEC @Dias = [dbo].[USP_ObtenerDiasApagar]
+				@FuncionarioId = @FuncionarioId,
+				@FechaInicial = @FechaInicial,
+				@FechaFinal = @FechaFinal 
+
+	RETURN @Dias;
+	
+END 
+]]>
+</sql>
+<rollback>
+DROP PROCEDURE [dbo].[USP_ObtenerDiasFuncionarioNomina];
+</rollback>
+</changeSet>
+</databaseChangeLog>

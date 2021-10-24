@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_NotificarVencimientoCubrirVacante_V3">
+<comment>HT094</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[USP_NotificarVencimientoCubrirVacante]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE [dbo].[USP_NotificarVencimientoCubrirVacante] as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Jesus Albeiro GAviria
+-- Create date: 12-08-2020
+-- Update date: 07-09-2020
+-- Description: Crear notificacion de las requisiciones proximas a vencer, es decir, 
+--              la diferencia entre la fechaActual - (FechaAutorizacion + @PlazoCubrirRequisicion ) 
+--              es menor o igual  @LimiteDiasNotificar.
+--
+-- Parameters:
+--  @UsuarioOperacion : Usuario que ejecuta la tarea, se registra en base de datos
+--  @Alias  : Alias para buscar Notificacionplantilla.
+-- ==========================================================================================
+ALTER  PROCEDURE dbo.USP_NotificarVencimientoCubrirVacante @UsuarioOperacion VARCHAR(255), 
+                                                     @Alias            VARCHAR(255)
+AS
+    BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion), '&', '@Alias=', CONVERT(VARCHAR, @Alias));
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        DECLARE @HtmlString NVARCHAR(MAX);
+        DECLARE @Plantilla NVARCHAR(MAX);
+        DECLARE @tabla TABLE
+        (CargoSolicitado VARCHAR(255), 
+         Cantidad   INT, 
+         MunicipioLabores VARCHAR(255), 
+		 DiasRestantes VARCHAR(255)
+        );
+		
+
+        ---------------------------------------------------------------------------
+        -- Variables para envio procedimiento [util].[USP_RegistrarNotificacion] --
+        ---------------------------------------------------------------------------
+        DECLARE @Tipo VARCHAR(255)= 'Email';
+        DECLARE @Fecha DATE= GETDATE();
+        DECLARE @Titulo VARCHAR(255);
+        DECLARE @Mensaje VARCHAR(MAX);
+        DECLARE @DestinatariosXml XML;
+       DECLARE @Resultado NVARCHAR(255)= '';
+        ---------------------------------------------------------------------------
+        ---------------------------------------------------------------------------
+        DECLARE @RequisicionAutorizada VARCHAR(255);
+        DECLARE @EstadoRegistroActivo VARCHAR(255);
+       	DECLARE @PlazoCubrirRequisicion AS INT = 21;
+		DECLARE @LimiteDiasNotificar AS INT = 15;
+	DECLARE @AliasPlazoCubrirRequisicion AS VARCHAR(255);
+		DECLARE @AliasLimiteDiasNotificar AS VARCHAR(255);
+        DECLARE @TareaProgramadaLogExitoso VARCHAR(255);
+        DECLARE @TareaProgramadaLogFallido VARCHAR(255);
+        DECLARE @AliasFuncionarioVencimiento VARCHAR(255);
+		DECLARE @AliasNotificacionVencimientoCubrirVacantes VARCHAR(255);
+
+        DECLARE @FuncionarioNotificacionVencimientoId INT;
+		DECLARE @ErrorFuncion INT;
+        DECLARE @NombreFuncionarioNotificacionVencimiento VARCHAR(255);
+        DECLARE @RegistrosAfectados INT;
+
+
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+
+			SET @ErrorFuncion = (	SELECT vcg.ERRORFUNCION
+             FROM util.VW_ConstanteGenerica AS vcg)
+
+            -- Obtener constante estado
+            SELECT @TareaProgramadaLogExitoso = estado.TAREAPROGRAMADALOG_EXITOSO, 
+                   @TareaProgramadaLogFallido = estado.TAREAPROGRAMADALOG_FALLIDO, 
+                   @EstadoRegistroActivo = estado.AUDITORIA_ACTIVO, 
+                   @RequisicionAutorizada = estado.REQUISICIONPERSONA_AUTORIZADA
+          FROM util.VW_ConstanteEstado AS estado;
+
+            -- Obtener alias diasVencimientoContrato , funcionarioVencimiento
+            -- Obtener alias diasVencimientoContrato , funcionarioVencimiento
+            SELECT @AliasFuncionarioVencimiento = vcpg.FUNCIONARIOVENCIMIENTO, 
+                   @AliasLimiteDiasNotificar = vcpg.DIASNOTIFICARREQUISICION, 
+                   @AliasPlazoCubrirRequisicion = vcpg.DIASCUBRIRREQUISICION
+            FROM util.VW_ConstanteParametroGeneral vcpg;
+            
+           
+            SET @FuncionarioNotificacionVencimientoId =
+            (
+                SELECT util.UFS_ObtenerParametro(UPPER(@AliasFuncionarioVencimiento), NULL)
+            );
+           SET @LimiteDiasNotificar =
+            (
+                SELECT util.UFS_ObtenerParametro(UPPER(@AliasLimiteDiasNotificar), NULL)
+            );
+           SET @PlazoCubrirRequisicion =
+            (
+                SELECT util.UFS_ObtenerParametro(UPPER(@AliasPlazoCubrirRequisicion), NULL)
+            );
+
+            -- Obtener valor de funcionario vencimiento en la tabla parámetro general
+            SET @NombreFuncionarioNotificacionVencimiento =
+            (
+                SELECT fun.PrimerNombre
+                FROM Funcionario fun
+                WHERE  fun.Id  = @FuncionarioNotificacionVencimientoId
+            );
+
+            
+			 
+			-- Obtener alias para buscar plantillas
+			SELECT 
+				@AliasNotificacionVencimientoCubrirVacantes = cnp.ALIAS_NOTIFICACIONVENCIMIENTOCUBRIRVACANTES
+			FROM 
+				util.VW_ConstanteAliasNotificacionPlantilla cnp;
+
+            SELECT @Plantilla = Plantilla, 
+                   @Titulo = Descripcion
+            FROM NotificacionPlantilla
+            WHERE Alias = @AliasNotificacionVencimientoCubrirVacantes;
+
+            IF(
+            (
+                SELECT EnEjecucion
+                FROM dbo.TareaProgramada
+                WHERE Alias = @Alias
+            ) = 1)
+                BEGIN
+                    EXECUTE [dbo].[USP_RegistrarTareaProgramadaLog] 
+                            @UsuarioOperacion = @UsuarioOperacion, 
+                            @Estado = @TareaProgramadaLogFallido, 
+                            @Resultado = @Resultado, 
+                            @Alias = @Alias;
+            END;
+                ELSE
+                BEGIN
+                    SET @RegistrosAfectados = 0;
+                    SET @Resultado = '';
+                    IF @Plantilla IS NOT NULL
+                        BEGIN
+
+                            -- Inicio de la transacción
+                            BEGIN TRAN VencimientoRequisicion;
+
+                            -- Inserta datos en la variable tabla
+                            INSERT INTO @tabla
+                            SELECT
+								[util].[UFS_LetraCapital](cargo.Nombre) Cargo,
+								requisicion.Cantidad,
+								[util].[UFS_LetraCapital](municipio.Nombre)Municipio,
+								@PlazoCubrirRequisicion - DATEDIFF(DAY,
+									FechaAutorizacion,
+									GETDATE() ) as DiasRestantes
+							FROM
+								dbo.RequisicionPersonal requisicion
+							INNER JOIN dbo.CargoDependencia cargoDependencia ON
+								requisicion.CargoDependenciaSolicitadoId = cargoDependencia.Id
+								AND cargoDependencia.EstadoRegistro = @EstadoRegistroActivo
+							INNER JOIN dbo.Cargo cargo ON
+								cargodependencia.CargoId = cargo.id
+								AND cargo.EstadoRegistro = @EstadoRegistroActivo
+							INNER JOIN DivisionPoliticaNivel2 municipio ON
+								requisicion.DivisionPoliticaNivel2Id = municipio.Id
+								AND municipio.EstadoRegistro = @EstadoRegistroActivo
+							WHERE
+								requisicion.EstadoRegistro = @EstadoRegistroActivo
+								AND requisicion.Estado = @RequisicionAutorizada
+								AND @PlazoCubrirRequisicion - DATEDIFF(DAY, FechaAutorizacion, GETDATE() ) <= @LimiteDiasNotificar
+                                   
+								
+								
+                            IF EXISTS
+                            (
+SELECT *
+                                FROM @tabla
+                            )
+                                BEGIN
+                                    SET @RegistrosAfectados =
+                                    (
+                                        SELECT COUNT(*)
+                                        FROM @Tabla
+                                    );
+
+                                    -- Se instancia @HtmlString con los datos xml de la variable tabla
+          SET @HtmlString =
+                                    (
+                                        SELECT CargoSolicitado, 
+                                               Cantidad, 
+                                               MunicipioLabores, 
+                                               DiasRestantes
+        FROM @tabla FOR XML PATH
+                                    );
+
+                                    -- Se Tranforma los datos XML en HTML
+
+                                    SET @HtmlString = REPLACE(@HtmlString, 'row', 'tr  style="background: #e6e6e67a;"');
+                                    SET @HtmlString = REPLACE(@HtmlString, '/row', '/tr');
+                                    SET @HtmlString = REPLACE(@HtmlString, 'CargoSolicitado', 'td style="max-width: 130px; width: 130px; text-align: justify;border: 3px solid white;"');
+                                    SET @HtmlString = REPLACE(@HtmlString, '/CargoSolicitado', '/td');
+                                    SET @HtmlString = REPLACE(@HtmlString, 'Cantidad', 'td style="width: 130px;text-align: right;max-width: 130px;border: 3px solid white;"');
+                                    SET @HtmlString = REPLACE(@HtmlString, '/Cantidad', '/td');
+                                    SET @HtmlString = REPLACE(@HtmlString, 'MunicipioLabores', 'td style="width: 130px;text-align: justify;max-width: 130px;border: 3px solid white;"');
+                                    SET @HtmlString = REPLACE(@HtmlString, '/MunicipioLabores', '/td');
+                                    SET @HtmlString = REPLACE(@HtmlString, 'DiasRestantes', 'td style="width: 130px;text-align: right;max-width: 130px;border: 3px solid white;"');
+                                    SET @HtmlString = REPLACE(@HtmlString, '/DiasRestantes', '/td');
+
+
+                                    -- Reemplazo de |&|CONTENIDO|&|
+                                    SET @Plantilla = REPLACE(@Plantilla, '|&|TABLA|&|', @HtmlString);
+                                    SET @Mensaje = @Plantilla;
+                                    SET @DestinatariosXml =
+                                    (
+                                        SELECT Id AS [@Id]
+                                        FROM dbo.Funcionario
+                                        WHERE Id = @FuncionarioNotificacionVencimientoId FOR XML PATH('Funcionario'), ROOT('Funcionarios')
+                                    );
+                                   
+                                   
+                                    EXECUTE [util].[USP_RegistrarNotificacion] 
+                                            @Tipo, 
+                                            @Fecha, 
+                                            @Titulo, 
+                                            @Mensaje, 
+                                            @DestinatariosXml, 
+                                            @UsuarioOperacion;
+
+                                    
+
+                                    ---------------------------------------------------------------
+                                    SET @Resultado = 'Contratos próximos a vencer: ' + CONVERT(NVARCHAR(MAX), @RegistrosAfectados);
+                                    EXECUTE [dbo].[USP_RegistrarTareaProgramadaLog] 
+                                            @UsuarioOperacion = @UsuarioOperacion, 
+                                            @Estado = @TareaProgramadaLogExitoso, 
+                                            @Resultado = @Resultado, 
+   @Alias = @Alias;
+
+                      -- Actualiza el registro de la tarea programada
+                                    UPDATE dbo.TareaProgramada
+                                      SET 
+                                          dbo.TareaProgramada.EnEjecucion = 0
+                                    WHERE Alias = @Alias;
+                            END;
+
+                            -- Cierre de la transacción
+                            IF @@TRANCOUNT > 0
+                                BEGIN
+                         IF XACT_STATE() = 1
+                                        BEGIN
+                                            COMMIT TRAN GenerarNotificacion;
+                                    END;
+                                        ELSE
+                                        BEGIN
+                                            EXEC util.USP_GenerarExcepcion 
+                                                 50000, 
+                                                 'No se puede confirmar la transacción.  Error desconocido.';
+                                    END;
+                            END;
+                    END;
+                    -- Cierre de la transacción
+                    IF @@TRANCOUNT > 0
+                        BEGIN
+                            IF XACT_STATE() = 1
+                                BEGIN
+                                    COMMIT TRAN FinalizarContratos;
+                            END;
+                                ELSE
+                                BEGIN
+                                    EXEC util.USP_GenerarExcepcion 
+                                         50000, 
+                                         'No se puede confirmar la transacción.  Error desconocido.';
+                            END;
+                    END;
+            END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[USP_NotificarVencimientoCubrirVacante]') IS NOT NULL
+BEGIN
+    DROP PROCEDURE [dbo].[USP_NotificarVencimientoCubrirVacante];
+END
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

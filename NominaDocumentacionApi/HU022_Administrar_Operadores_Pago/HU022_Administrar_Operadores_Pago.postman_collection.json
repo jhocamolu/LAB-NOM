@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "f266a70d-eab0-4334-b388-fb07e34e18a8",
+		"name": "HU022_Administrar_Operadores_Pago",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CosultarOperadorPago(Todas)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/OperadorPagos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"OperadorPagos"
+					]
+				},
+				"description": "{{host}}/odata/OperadorPagos"
+			},
+			"response": []
+		},
+		{
+			"name": "ConsultarOperadorPagos/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/OperadorPagos/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"OperadorPagos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CrearOperadorPagos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"nombre\": \"Nuevo operador\",\r\n    \"paginaWeb\": \"https://www.nuevo.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/OperadorPagos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"OperadorPagos"
+					]
+				},
+				"description": "{{host}}/api/OperadorPagos"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarOperadorPagos/2",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 2,\r\n    \"nombre\": \"Nuevo operado3r\",\r\n    \"paginaWeb\": \"https://www.nuevo.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/OperadorPagos/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"OperadorPagos",
+						"2"
+					]
+				},
+				"description": "{{host}}/api/OperadorPagos/2"
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarOperadorPagos",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/OperadorPagos/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"OperadorPagos",
+						"2"
+					]
+				},
+				"description": "{{host}}/api/OperadorPagos/2"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialOperadorPagos/2",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 2,\r\n    \"activo\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/OperadorPagos/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"OperadorPagos",
+						"2"
+					]
+				},
+				"description": "{{host}}/api/OperadorPagos/2"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

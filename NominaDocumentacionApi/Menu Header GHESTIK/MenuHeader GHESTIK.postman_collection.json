@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "fd78a83a-6b60-4ebe-b79d-21db4a51a9b3",
+		"name": "MenuHeader GHESTIK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Menu Favoritos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTc0NDciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yMUBhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkpIT05BVEFOIE1PUkVOTyIsIlVzdWFyaW8iOiJqaG1vcmVubyIsIlRpcG9BdXQiOiJJRCIsIlRpcG9Ub2tlbiI6IkFVVCIsIm5iZiI6MTU5ODkwODI3NiwiZXhwIjoxNTk4OTIyNjc2LCJpc3MiOiJTaWNvbVNlcnZlciIsImF1ZCI6IlZlbnRhc0FwcCJ9.6dPHC92GcCU4vEq6KwImsq8su5GXwY5RQNEuju8bWcI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itemMenu\":\"P2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/_MenuFavoritos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"_MenuFavoritos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Menu Favoritos ",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/_MenuFavoritos/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"_MenuFavoritos",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar menu Favoritos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/_MenuFavoritos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"_MenuFavoritos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "obtener un favorito",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/_MenuFavoritos/5",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"_MenuFavoritos",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar EnlaceExternos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/_EnlaceExternos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"_EnlaceExternos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un  Enlace Externo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/_EnlaceExternos/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"_EnlaceExternos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

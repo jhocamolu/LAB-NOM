@@ -1,0 +1,155 @@
+<div class="page-layout simple fullwidth">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Nómina</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/nomina/distribucion-costos">Distribución de costos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar distribución de costos</span>
+                <span *ngIf="!item">Crear distribución de costos</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title" *ngIf="item">Editar distribución de costos</h2>
+                <h2 class="title" *ngIf="!item">Crear distribución de costos</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu" *ngIf="item">
+				<mat-icon>edit</mat-icon>
+				<span>Acciones</span>
+			</button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngIf="arrayPermisosCostos.crear" (click)="cuentaHandle($event)">
+					<span>Registrar costo asociado</span>
+				</button>
+                <a routerLink="/nomina/distribucion-costos/" mat-menu-item>Volver</a>
+
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab" (selectedTabChange)="tabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+                    <!-- Formulario -->
+
+                    <form (ngSubmit)="guardarHandle($event)" name="form" [formGroup]="form">
+
+
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre" required>
+                            <mat-error *ngFor="let error of form.get('nombre').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Nombre que identifique el concepto de nómina.">info
+                            </mat-icon>
+                        </mat-form-field>
+
+
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Código</mat-label>
+                                <input matInput formControlName="codigo" required>
+                                <mat-error *ngFor="let error of form.get('codigo').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Código que identifica el concepto.">
+                                    info</mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Promedio de actividad diario</mat-label>
+                                <input matInput formControlName="promedioProductividad" required>
+                                <mat-error *ngFor="let error of form.get('promedioProductividad').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'max'">
+											El valor máximo permido es:
+											{{ form.get('promedioProductividad').errors.max.max }}.
+										</ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Nombre identificador en la fórmula para este concepto.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Descripción</mat-label>
+                            <textarea matInput formControlName="descripcion"></textarea>
+                            <mat-error *ngFor="let error of form.get('descripcion').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Ingrese una descripción del concepto de nómina.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <div class="actions">
+                            <a mat-raised-button class="navegacion" [routerLink]="['/nomina/distribucion-costos']">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>					
+                            <button mat-raised-button [disabled]="form.invalid || submit" color="accent" class="navegacion">
+								<mat-icon>save</mat-icon>
+								<span>Guardar</span>
+							</button>
+                        </div>
+                    </form>
+                    <!-- / Formulario -->
+                </mat-tab>
+                <!-- / Primer Label -->
+
+                <!-- Segundo Label -->
+                <a name="initial"></a>
+                <mat-tab label="Costos asociados" [disabled]="!item">
+                    <distribucion-costos-conceptos-listar [actividadId]="id" *ngIf="item"> </distribucion-costos-conceptos-listar>
+                </mat-tab>
+                <!-- / Segundo Label -->
+            </mat-tab-group>
+
+        </div>
+    </div>
+
+</div>

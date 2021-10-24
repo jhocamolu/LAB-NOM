@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_clases_libreta_militar_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[ClaseLibretaMilitar] ON 
+GO
+
+INSERT [dbo].[ClaseLibretaMilitar] ([Id], [Nombre], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (1, 'Primera', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[ClaseLibretaMilitar] ([Id], [Nombre], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (2, 'Segunda', 'Activo', 'sistema', GETDATE())
+GO
+SET IDENTITY_INSERT [dbo].[ClaseLibretaMilitar] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[ClaseLibretaMilitar] WHERE Id IN(1, 2);
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,285 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/administracion-personal/permisos/">Solicitud de permisos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar solicitud de permiso</span>
+                <span *ngIf="!item">Registrar solicitud de permiso</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar solicitud de permiso </h2>
+                <h2 *ngIf="!item">Registrar solicitud de permiso</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button color="accent" mat-raised-button [matMenuTriggerFor]="menu">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button *ngIf="id != null && arrayPermisosSoporte.crear" (click)="soporteHandle($event, item)" mat-menu-item>
+                    <span>Cargar soporte</span>
+                </button>
+                <a routerLink="/administracion-personal/permisos/" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="box-shadow">
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="tabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Funcionario</mat-label>
+                            <input matInput formControlName="funcionario" [matAutocomplete]="autoFn"
+                                (focusout)="focusData($event)" required />
+                            <mat-autocomplete [displayWith]="displayFn" #autoFn="matAutocomplete">
+                                <mat-option *ngFor="
+                                        let item of filteredFuncionarios | async
+                                    " [value]="item">
+                                    {{ item.criterioBusqueda }}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngFor="
+                                    let error of form.get('funcionario').errors
+                                        | keyvalue
+                                ">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{ error.key }}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Nombre y número de identificación del funcionario.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Clase de permiso</mat-label>
+                                <mat-select formControlName="tipoAusentismoClase" required>
+                                    <mat-option [value]='null'></mat-option>
+                                    <mat-option *ngFor="let item of claseAusentismo" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('tipoAusentismoClase').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Clasificación de los permisos a los que puede acceder el funcionario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tipo de permiso</mat-label>
+                                <mat-select formControlName="tipoAusentismoTipo" required>
+                                    <mat-option [value]='null'></mat-option>
+                                    <mat-option *ngFor="let item of tipoAusentismos" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('tipoAusentismoTipo').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Tipos de permisos a los que puede acceder el funcionario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fecha de inicio</mat-label>
+                                <input matInput [matDatepicker]="fechaInicio" (click)="fechaInicio.open()"
+                                    formControlName="fechaInicio" required>
+                                <mat-datepicker-toggle matPrefix [for]="fechaInicio">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+                                <mat-error *ngFor="let error of form.get('fechaInicio').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                            No es un formato de fecha válido.
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Fecha de inicio del permiso.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fecha fin</mat-label>
+                                <input matInput [matDatepicker]="fechaFin" (click)="fechaFin.open()"
+                                    formControlName="fechaFin" required>
+                                <mat-datepicker-toggle matPrefix [for]="fechaFin">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker startView="year" #fechaFin></mat-datepicker>
+                                <mat-error *ngFor="let error of form.get('fechaFin').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                            No es un formato de fecha válido.
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Fecha de finalización del permiso.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="dos-bloque" *ngIf="timeHoras == true">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Hora de salida</mat-label>
+                                <input type="time" matInput formControlName="horaSalida">
+                                <mat-error *ngFor="let error of form.get('horaSalida').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Hora en la que inicia el permiso.">info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Hora de llegada</mat-label>
+                                <input type="time" matInput formControlName="horaLlegada">
+                                <mat-error *ngFor="let error of form.get('horaLlegada').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Hora en la que finaliza el permiso.">info</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Observaciones</mat-label>
+                            <textarea matInput formControlName="observaciones"></textarea>
+                            <mat-error *ngFor="let error of form.get('observaciones').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Comentario relevante respecto a la solicitud de permiso.">
+                                info</mat-icon>
+                        </mat-form-field>
+
+
+                        <div class="actions">
+                            <a *ngIf="!item" mat-raised-button [routerLink]="'/administracion-personal/permisos/'">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <a *ngIf="item" mat-raised-button routerLink="/administracion-personal/permisos/">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+
+                            <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+                    </form>
+                </mat-tab>
+
+                <!-- Segundo Label -->
+                <mat-tab label="Soportes" [disabled]="!item" *ngIf="arrayPermisosSoporte.obtener">
+
+                    <alcanos-empty-list (fnCreate)="soporteHandle($event, item)"
+                        labelH1="¡Uy! Aún no has cargado soportes." labelBtn="Cargar soporte" [visible]="count == 0">
+                    </alcanos-empty-list>
+
+                    <table class="simple" *ngIf="count > 0">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen">Tipo</th>
+                                <th class="mat-header-cell">Comentario</th>
+                                <th class="mat-header-cell" style="text-align: center;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of soportes" class="mat-row">
+                                <td class="margen">{{item.tipoSoporte?.nombre}}</td>
+                                <td>{{item.comentario != null ? item.comentario : 'N/A'}}</td>
+                                <td class="text-center">
+                                    <a mat-icon-button target="_blank" matTooltip="Descargar"
+                                        href="{{enviroments + '/bucket/download?document_id=' + item.adjunto}}">
+                                        <mat-icon>save_alt</mat-icon>
+                                    </a>
+                                    <button *ngIf="arrayPermisosSoporte.eliminar" matTooltip="Eliminar" mat-icon-button
+                                        (click)="deleteSoporteHandle($event, item.id)"
+                                        aria-label="Boton de icono generado">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </mat-tab>
+                <!-- / Segundo Label -->
+            </mat-tab-group>
+
+        </div>
+        <!-- / CONTENT -->
+    </div>

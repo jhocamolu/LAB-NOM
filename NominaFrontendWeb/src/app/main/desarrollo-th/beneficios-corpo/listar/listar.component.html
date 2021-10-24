@@ -1,0 +1,123 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Desarrollo talento humano</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Beneficios corporativos</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Beneficios corporativos</h2>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+            <button mat-raised-button *ngIf="arrayPermisos.crear" color="accent" (click)="crearHandle($event)">
+                <mat-icon>add</mat-icon>
+                <span>Registrar solicitud</span>
+            </button>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <alcanos-empty-list [visibleBtnCreate]="arrayPermisos.crear" (fnCreate)="crearHandle($event)"
+                labelH1="¡Uy! Aún no has registrado beneficios corporativos." labelBtn="Registrar solicitud"
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna N° documento -->
+                    <ng-container matColumnDef="funcionario/numeroDocumento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> N° documento</th>
+                        <td mat-cell *matCellDef="let element">{{element.funcionario?.numeroDocumento}} </td>
+                    </ng-container>
+
+                    <!-- Columna N° criterio de busqueda -->
+                    <ng-container matColumnDef="funcionario/criterioBusqueda">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Funcionario</th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate">{{element.funcionario?.primerNombre}}
+                                {{element.funcionario?.segundoNombre}} {{element.funcionario?.primerApellido}}
+                                {{element.funcionario?.segundoApellido}} </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna N° tipo beneficio -->
+                    <ng-container matColumnDef="tipoBeneficioId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de beneficio </th>
+                        <td mat-cell *matCellDef="let element">{{element.tipoBeneficio?.nombre }}</td>
+                    </ng-container>
+
+                    <!-- Columna N° fecha -->
+                    <ng-container matColumnDef="fechaSolicitud">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de solicitud </th>
+                        <td mat-cell *matCellDef="let element">{{ element.fechaSolicitud | date:'dd / LL / yyyy'}}</td>
+                    </ng-container>
+
+                    <!-- Columna N° estado -->
+                    <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span
+                                *ngIf="element.estado == estadosBeneficios.tramite">{{ element.estado == estadosBeneficios.tramite ? 'En trámite' :  element.estado }}</span>
+                            <span
+                                *ngIf="element.estado == estadosBeneficios.reembolso">{{ element.estado == estadosBeneficios.reembolso ? 'En reembolso' :  element.estado }}</span>
+                            <span
+                                *ngIf="element.estado == estadosBeneficios.condonacion">{{ element.estado == estadosBeneficios.condonacion ? 'En condonación' :  element.estado }}</span>
+                            <span
+                                *ngIf="element.estado != estadosBeneficios.condonacion && element.estado != estadosBeneficios.reembolso && element.estado != estadosBeneficios.tramite">{{ element.estado }}</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef
+                            [ngStyle]="{'display': !( arrayPermisos.actualizar || arrayPermisos.obtener ) ? 'none' : ''}">
+                            Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <a *ngIf="arrayPermisos.obtener" mat-icon-button matTooltip="Visualizar"
+                                routerLink="/desarrollo-th/beneficios/{{element.id}}/mostrar">
+                                <mat-icon class="s-20">remove_red_eye</mat-icon>
+                            </a>
+
+                            <a *ngIf="arrayPermisos.actualizar && (element.estado == estadosBeneficios.tramite)"
+                                mat-icon-button matTooltip="Editar"
+                                routerLink="/desarrollo-th/beneficios/{{element.id}}/editar">
+                                <mat-icon class="s-20">edit</mat-icon>
+                            </a>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

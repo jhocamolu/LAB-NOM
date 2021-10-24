@@ -1,0 +1,163 @@
+{
+	"info": {
+		"_postman_id": "e0d4f12d-4470-485d-8dd5-d03c73ddc8e7",
+		"name": "HU044_Grupo_Nomina",
+		"description": "Administra recursos del Grupo de Nomina\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Lista de grupo de Nomina",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtiene un grupo de nomina",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/GrupoNominas/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"GrupoNominas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear  Grupo Nomina",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"EMPLEADOS DE PLANTA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/GrupoNominas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"GrupoNominas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizacion de Grupo de Nomina",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 4,\r\n    \"nombre\": \"EMPLEADOS De camabio \"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/GrupoNominas/4",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"GrupoNominas",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizacion Parcial de Grupo de Nomina",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 4,\r\n    \"nombre\": \"EMPLEADOS De camabio \"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/GrupoNominas/4",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"GrupoNominas",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lista de grupo de Nomina",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/GrupoNominas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"GrupoNominas"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="USP_AprobarNomina_V3">
+<comment>HU057 se agrega llamado al procedimeinto USP_ProcesarContabilizacionNomina</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[USP_AprobarNomina]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE [dbo].[USP_AprobarNomina] as SELECT 1');
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[USP_AprobarNomina]    Script Date: 9/01/2021 10:14:55 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 01/07/2020
+-- Description: Permite realizar las acciones asociadas a aplicar la nómina a nivel de base
+--			 de datos
+--
+-- Parameters:
+--  @NominaId:				  Identificador de la nómina que se va a calcular
+--  @UsuarioOperacion:		  Usuario que realiza la operación
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_AprobarNomina] @NominaId         INT, 
+                                          @UsuarioOperacion VARCHAR(255)
+AS
+    BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+        DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+        DECLARE @MensajeExcepcion VARCHAR(255);
+        DECLARE @ResultadoBloqueo INT= 0;
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        -- Variables genericas que se comparten a los procedimientos dinámicos para el cálculo de los conceptos
+        DECLARE @NominaFechaInicio DATE;
+        DECLARE @NominaFechaFinal DATE;
+        DECLARE @NominaLiquidada VARCHAR(255);
+        DECLARE @NominaAprobada VARCHAR(255);
+        DECLARE @NominaEstado VARCHAR(255);
+        DECLARE @TipoLiquidacionId VARCHAR(255);
+        DECLARE @ModuloLibranzas VARCHAR(255);
+        DECLARE @ModuloEmbargos VARCHAR(255);
+        DECLARE @ModuloAusentismos VARCHAR(255);
+        DECLARE @ModuloBeneficios VARCHAR(255);
+        DECLARE @ModuloHorasExtra VARCHAR(255);
+        DECLARE @ModuloGastosViaje VARCHAR(255);
+        DECLARE @ModuloOtrasNovedades VARCHAR(255);
+        DECLARE @ModuloVacaciones VARCHAR(255);
+        DECLARE @ModuloAnticipoCesantias VARCHAR(255);
+        DECLARE @AuditoriaActivo VARCHAR(255);
+        DECLARE @FechaInicio DATE; 
+        DECLARE @FechaFinal DATE;
+
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+
+            -- Se consultan constantes para los estados
+            SELECT @NominaLiquidada = vce.NOMINA_LIQUIDADA, 
+                   @NominaAprobada = vce.NOMINA_APROBADA
+            FROM util.VW_ConstanteEstado AS vce;
+
+            -- Se consulta la información de la nómina
+            SELECT @NominaFechaFinal = nom.FechaFinal, 
+                   @NominaEstado = nom.Estado, 
+                   @TipoLiquidacionId = nom.TipoLiquidacionId,
+                   @FechaInicio = nom.FechaInicio,
+                   @FechaFinal = nom.FechaFinal
+            FROM dbo.Nomina AS nom
+            WHERE nom.Id = @NominaId;
+
+            -- Se consultan las constantes para los estadode de los módulos
+            SELECT @ModuloLibranzas = vcms.LIBRANZAS, 
+                   @ModuloEmbargos = vcms.EMBARGOS, 
+                   @ModuloAusentismos = vcms.AUSENTISMOS, 
+                   @ModuloBeneficios = vcms.BENEFICIOS, 
+                   @ModuloHorasExtra = vcms.HORASEXTRA, 
+                   @ModuloGastosViaje = vcms.GASTOSVIAJE, 
+                   @ModuloOtrasNovedades = vcms.OTRASNOVEDADES, 
+                   @ModuloVacaciones = vcms.VACACIONES, 
+                   @ModuloAnticipoCesantias = vcms.ANTICIPOCESANTIAS
+            FROM util.VW_ConstanteModuloSistema AS vcms;
+
+            -- Se consulta si la nómina se puede calcular
+            IF @NominaEstado != @NominaLiquidada
+                BEGIN
+                    SET @MensajeExcepcion = 'La aprobación de la nómina no se puede realizar ya que no se encuentra en el estado apropiado.';
+                    EXEC util.USP_GenerarExcepcion 
+                         50000, 
+                         @MensajeExcepcion;
+                END;
+
+            -- Inicio de la transacción
+            BEGIN TRAN CalcularNomina;
+
+            -- Se bloquea el procedimiento para que solo pueda existir una instancia de el ejecutandose de forma simultanea
+            EXEC @ResultadoBloqueo = sp_getapplock 
+                 @Resource = 'USP_AprobarNomina', 
+                 @LockMode = 'Exclusive', 
+                 @LockOwner = 'Transaction', 
+                 @LockTimeout = 15000;
+
+            -- Si se logra bloquear el procedimiento se realiza toda la lógica del procedimiento
+            IF @ResultadoBloqueo >= 0
+                BEGIN
+
+                    -- Se procesan cada uno de los tipos de novedades
+                    --
+                    -- Procesar novedades de ausentismos
+                   /* IF EXISTS
+                    (
+                        SELECT tlm.Id
+                        FROM dbo.TipoLiquidacionModulo AS tlm
+                        WHERE tlm.TipoLiquidacionId = @TipoLiquidacionId
+                              AND tlm.Modulo = @ModuloAusentismos
+                              AND tlm.EstadoRegistro = @AuditoriaActivo
+                    )
+                        BEGIN*/
+                            PRINT 'Ausentismo';
+                            EXEC dbo.USP_ProcesarNovedadesAusentismos 
+                                 @NominaId, 
+                                 @UsuarioOperacion;
+                      --  END;
+
+                    -- Procesar de novedades de horas extras
+                   /* IF EXISTS
+                    (
+                        SELECT tlm.Id
+                        FROM dbo.TipoLiquidacionModulo AS tlm
+                        WHERE tlm.TipoLiquidacionId = @TipoLiquidacionId
+                              AND tlm.Modulo = @ModuloHorasExtra
+                              AND tlm.EstadoRegistro = @AuditoriaActivo
+                    )
+                        BEGIN*/
+						PRINT 'horas extras';
+                            EXEC [dbo].[USP_ProcesarNovedadesHorasExtras] 
+                                 @NominaId = @NominaId, 
+                                 @UsuarioOperacion = @UsuarioOperacion;
+                       -- END;
+
+                    -- Procesar gastos de viaje
+                   /* IF EXISTS
+                    (
+                        SELECT tlm.Id
+                        FROM dbo.TipoLiquidacionModulo AS tlm
+                        WHERE tlm.TipoLiquidacionId = @TipoLiquidacionId
+                              AND tlm.Modulo = @ModuloGastosViaje
+                              AND tlm.EstadoRegistro = @AuditoriaActivo
+                    )
+                        BEGIN*/
+						PRINT 'gastos de viaje';
+                            EXEC [dbo].[USP_ProcesarNovedadesGastosViaje] 
+                                 @NominaId = @NominaId, 
+                                 @UsuarioOperacion = @UsuarioOperacion;
+                       -- END;
+
+                    -- Procesar de novedades de embargos
+                  /*  IF EXISTS
+                    (
+                        SELECT tlm.Id
+                        FROM dbo.TipoLiquidacionModulo AS tlm
+                        WHERE tlm.TipoLiquidacionId = @TipoLiquidacionId
+                              AND tlm.Modulo = @ModuloEmbargos
+                              AND tlm.EstadoRegistro = @AuditoriaActivo
+                    )
+                        BEGIN*/
+						PRINT 'embargos';
+                            EXEC [dbo].USP_ProcesarNovedadesEmbargos 
+                                 @NominaId, 
+                                 @UsuarioOperacion;
+                        --END;
+
+                    -- Procesar de novedades de libranzas
+                   /* IF EXISTS
+                    (
+                        SELECT tlm.Id
+                        FROM dbo.TipoLiquidacionModulo AS tlm
+                        WHERE tlm.TipoLiquidacionId = @TipoLiquidacionId
+                              AND tlm.Modulo = @ModuloLibranzas
+                              AND tlm.EstadoRegistro = @AuditoriaActivo
+                    )
+                        BEGIN*/
+						PRINT 'libranzas';
+                            EXEC [dbo].USP_ProcesarNovedadesLibranzas 
+                                 @NominaId, 
+                                 @UsuarioOperacion;
+                        --END;
+
+                    -- Procesar de novedades de beneficios
+                    /*IF EXISTS
+                    (
+                        SELECT tlm.Id
+                        FROM dbo.TipoLiquidacionModulo AS tlm
+                        WHERE tlm.TipoLiquidacionId = @TipoLiquidacionId
+                              AND tlm.Modulo = @ModuloBeneficios
+                              AND tlm.EstadoRegistro = @AuditoriaActivo
+                    )
+                        BEGIN*/
+						PRINT 'beneficios';
+                            EXEC [dbo].USP_ProcesarNovedadesBeneficios 
+                                 @NominaId, 
+                                 @UsuarioOperacion;
+                       -- END;
+
+                    -- Procesar otras novedades
+                   /* IF EXISTS
+                    (
+                        SELECT tlm.Id
+                        FROM dbo.TipoLiquidacionModulo AS tlm
+                        WHERE tlm.TipoLiquidacionId = @TipoLiquidacionId
+                              AND tlm.Modulo = @ModuloOtrasNovedades
+                              AND tlm.EstadoRegistro = @AuditoriaActivo
+                    )
+                        BEGIN*/
+						PRINT 'otras novedades';
+                            EXEC [dbo].[USP_ProcesarNovedadesOtras] 
+                                 @NominaId = @NominaId, 
+                                 @NominaFechaFinal = @NominaFechaFinal, 
+                                 @UsuarioOperacion = @UsuarioOperacion;
+                       -- END;
+                       
+                      --Se procese con la contabilizacion de la nomina
+                      	PRINT 'Contabilizar';
+                            EXEC [dbo].[USP_ProcesarContabilizacionNomina] 
+                                 @NominaId = @NominaId, 
+                                 @FechaInicio = @FechaInicio,
+        						 @FechaFinal = @FechaFinal,
+                                 @UsuarioOperacion = @UsuarioOperacion
+
+                    -- Se actualiza el estado de la nómina a modificada
+                    UPDATE dbo.Nomina
+                      SET 
+                          Estado = @NominaAprobada, 
+                          ModificadoPor = @UsuarioOperacion, 
+                          FechaModificacion = GETDATE()
+                    WHERE Id = @NominaId;
+                END;
+                ELSE
+                BEGIN
+                    SET @MensajeExcepcion = 'Ya existe un proceso de cálculo de nómina en curso. Por favor espere a que finalice.';
+                    EXEC util.USP_GenerarExcepcion 
+                         50000, 
+                         @MensajeExcepcion;
+                END;
+
+            -- Cierre de la transacción
+            IF @@TRANCOUNT > 0
+                BEGIN
+                    IF XACT_STATE() = 1
+                        BEGIN
+                            COMMIT TRAN CalcularNomina;
+                        END;
+                        ELSE
+                        BEGIN
+                            EXEC util.USP_GenerarExcepcion 
+                                 50000, 
+                                 'No se puede confirmar la transacción.  Error desconocido.';
+                        END;
+                END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+                END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_AprobarNomina];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

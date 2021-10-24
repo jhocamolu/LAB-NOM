@@ -1,0 +1,239 @@
+{
+	"info": {
+		"_postman_id": "c9d67cdb-d991-4be1-85df-824b97902471",
+		"name": "HU060_Administrar_Embargos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "obtenerEmbargos(Todos)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Embargos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Embargos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "obtenerEmbargos/n",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/embargos/10?$expand=EmbargosUbperiodos($expand=subPeriodo($expand=tipoPeriodo))",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"embargos",
+						"10"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "EmbargosUbperiodos($expand=subPeriodo($expand=tipoPeriodo))"
+						}
+					]
+				},
+				"description": "{{host}}/odata/Embargos/6\n{{host}}/odata/Embargos?$top=1&$orderby=prioridad desc&$select=prioridad"
+			},
+			"response": []
+		},
+		{
+			"name": "Crea Embargo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"juzgadoId\":1,\n\t\"prioridad\":8,\n\t\"demandante\":\"Jose Mauricio\",\n\t\"valorCuota\":100000,\n\t\"numeroCuenta\":\"500210260\",\n\t\"valorEmbargo\":1000000,\n\t\"funcionarioId\":693,\n\t\"numeroProceso\":\"012\",\n\t\"tipoEmbargoId\":3,\n\t\"entidadFinancieraId\":12,\n\t\"numeroDocumentoDemandante\":\"221\",\n\t\"DigitoVerificacionDemandante\":\"1\",\n\t\"actualizaPrioridad\":false,\n\t\"FechaFin\":\"2020-02-20\",\n\t\"FechaInicio\":\"2020-02-19\",\n\t\"PorcentajeCuota\": null,\n\t\"EmbargosSubperiodo\":[\n\t\t{\n\t\t\t\"subPeriodoId\":1\n\t\t},\n\t\t{\n\t\t\t\"subPeriodoId\":2\n\t\t}\n\t],\n\t\"EmbargosConceptoNomina\":[\n\t\t{\n\t\t\t\"conceptoNominaId\":17\n\t\t},\n\t\t{\n\t\t\t\"conceptoNominaId\":18\n\t\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/embargos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"embargos"
+					]
+				},
+				"description": "{{host}}/api/embargos"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarEmbargos/31",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 11,\n    \"funcionarioId\": 693,\n    \"juzgadoId\": 1,\n    \"tipoEmbargoId\": 1,\n    \"numeroProceso\": \"002\",\n    \"valorEmbargo\": 1500000.0,\n    \"valorCuota\": 50000.0,\n    \"prioridad\": 1,\n    \"entidadFinancieraId\": 12,\n    \"numeroCuenta\": \"500210260\",\n    \"numeroDocumentoDemandante\": \"221\",\n    \"digitoVerificacionDemandante\": 1,\n    \"demandante\": \"Aura sofia capera\",\n    \"fechaInicio\": \"2020-02-19\",\n    \"fechaFin\": \"2020-02-20\",\n    \"actualizaPrioridad\": false,\n    \"porcentajeCuota\":15.5,\n\t\"EmbargosSubperiodo\":[\n\t\t{\n\t\t\t\"subPeriodoId\":3\n\t\t},\n\t\t{\n\t\t\t\"subPeriodoId\":4\n\t\t}\n\t],\n\t\"EmbargosConceptoNomina\":[\n\t\t{\n\t\t\t\"conceptoNominaId\":18\n\t\t},\n\t\t{\n\t\t\t\"conceptoNominaId\":19\n\t\t}\n\t]\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/embargos/11",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"embargos",
+						"11"
+					]
+				},
+				"description": "{{host}}/api/embargos/31"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialEmbargos/31",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":20,\n    \"funcionarioId\": 963,\n    \"juzgadoId\": 1,\n    \"numeroProceso\": \"009\",\n    \"valorEmbargo\": 4545454.0,\n    \"subPeriodoId\": 2,\n    \"valorCuota\": 55.0,\n    \"prioridad\": 5,\n    \"entidadFinancieraId\": 4,\n    \"numeroCuenta\": \"8\",\n    \"numeroDocumentoDemandante\": \"1110487473\",\n    \"demandante\": \"nombre del demandante\",\n    \"porcentajeCuota\":10,\n    \"fechaInicio\": null,\n    \"fechaFin\": null,\n    \"activo\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/embargos/20",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"embargos",
+						"20"
+					]
+				},
+				"description": "{{host}}/api/embargos/31"
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarEmbargos/53",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/embargos/53",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"embargos",
+						"53"
+					]
+				},
+				"description": "{{host}}/api/embargos/53"
+			},
+			"response": []
+		},
+		{
+			"name": "Cambio Estado Embargo",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Id\":12,\n\t\"Estado\": \"Anulado\",\n\t\"Justificacion\": \"El embargo ha sido anulado.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Embargos/estado/12",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Embargos",
+						"estado",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Embargo Concepto Nómina",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/EmbargoConceptoNominas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"EmbargoConceptoNominas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Embargo Sub Periodos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

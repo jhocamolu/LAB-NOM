@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="UFS_RedondearConDireccion_V1">
+<comment>HU101</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_RedondearConDireccion]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_RedondearConDireccion];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 25/07/2020
+-- Description: Permite redondear una valor númerico hacía una dirección determinada y para el
+-- multiplo específicado. Ej: 0, 10, 100, 1000
+--
+-- Parameters:
+--   @Numero:			   Número a redondear
+--   @MultiploRedondeo	   Multiplo al cual e va a redondear @Numero
+--   @Direccion 		   Dirección del redondeo 0 => Abajo; 1=> Arriba
+--
+-- Returns:		Scalar
+--	@Valor:		Valor del Parametro 
+-- ==========================================================================================
+
+CREATE FUNCTION [util].[UFS_RedondearConDireccion]
+(@Numero           MONEY,
+ @MultiploRedondeo INT,
+ @Direccion        BIT
+)
+RETURNS MONEY
+AS
+     BEGIN
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         DECLARE @valor MONEY;
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+         -- Se aplica el redondeo
+
+	    IF @MultiploRedondeo <= 0
+	    BEGIN
+		  SET @MultiploRedondeo = 1;
+	    END
+
+         IF @Direccion = 1
+         BEGIN
+		  SELECT @valor = CEILING(@Numero/@MultiploRedondeo)*@MultiploRedondeo;
+         END;
+         ELSE
+         BEGIN
+		  SET @valor = FLOOR(@Numero/@MultiploRedondeo)*@MultiploRedondeo;
+         END;
+
+         RETURN @valor;
+     END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_RedondearConDireccionAnioPasado]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_RedondearConDireccionAnioPasado];
+END;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

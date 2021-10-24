@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "a4e3616e-6fb0-4f70-a3c5-6b4ebfda65f4",
+		"name": "HU106_Administrar_cambios_administradora",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ObtenerContratoAdministradoraCambios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostCon}}/odata/ContratoAdministradoraCambios?$filter=funcionarioId eq 691 &$expand=funcionario($select=primerNombre),tipoAdministradora($select=codigo)",
+					"host": [
+						"{{hostCon}}"
+					],
+					"path": [
+						"odata",
+						"ContratoAdministradoraCambios"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "funcionarioId eq 691 "
+						},
+						{
+							"key": "$expand",
+							"value": "funcionario($select=primerNombre),tipoAdministradora($select=codigo)"
+						}
+					]
+				},
+				"description": "{{hostCon}}/odata/ContratoAdministradoraCambios?$filter=funcionarioId eq 691 &$expand=funcionario($select=primerNombre),tipoAdministradora($select=codigo)"
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerContratoAdministradoras",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/contratoadministradoras",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"contratoadministradoras"
+					]
+				},
+				"description": "{{host}}/odata/contratoadministradoras"
+			},
+			"response": []
+		},
+		{
+			"name": "CrearContratoadministradoras",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"funcionarioId\":691,\r\n    \"fechaInicio\":\"2020-09-24\",\r\n    \"administradoraId\": 4,\r\n    \"tipoAdministradoraId\":3,\r\n    \"Observacion\":\"Prueba\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{hostCon}}/api/contratoadministradoras",
+					"host": [
+						"{{hostCon}}"
+					],
+					"path": [
+						"api",
+						"contratoadministradoras"
+					]
+				},
+				"description": "{{hostCon}}/api/contratoadministradoras"
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizarcontratoadministradoras/9515",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":9516,\r\n    \"funcionarioId\":691,\r\n    \"fechaInicio\":\"2020-09-24\",\r\n    \"administradoraId\": 4,\r\n    \"tipoAdministradoraId\":3,\r\n    \"Observacion\":\"Actualizar\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{hostCon}}/api/contratoadministradoras/9516",
+					"host": [
+						"{{hostCon}}"
+					],
+					"path": [
+						"api",
+						"contratoadministradoras",
+						"9516"
+					]
+				},
+				"description": "{{hostCon}}/api/contratoadministradoras/9515"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

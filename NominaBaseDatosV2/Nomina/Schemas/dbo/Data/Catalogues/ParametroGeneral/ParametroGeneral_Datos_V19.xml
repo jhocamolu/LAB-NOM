@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="ParametroGeneral_Datos_V19">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+DELETE FROM dbo.ParametroGeneral WHERE Id=5;
+DELETE FROM dbo.ParametroGeneral WHERE Id=7;
+DELETE FROM dbo.ParametroGeneral WHERE Id=8;
+DELETE FROM dbo.ParametroGeneral WHERE Id=9;
+DELETE FROM dbo.ParametroGeneral WHERE Id=10;
+DELETE FROM dbo.ParametroGeneral WHERE Id=16;
+DELETE FROM dbo.ParametroGeneral WHERE Id=17;
+DELETE FROM dbo.ParametroGeneral WHERE Id=18;
+DELETE FROM dbo.ParametroGeneral WHERE Id=60;
+DELETE FROM dbo.ParametroGeneral WHERE Id=61;
+GO
+]]>
+
+</sql>
+
+<rollback>
+
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON;
+INSERT INTO dbo.ParametroGeneral
+(Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('5', '1', 'DecimalesMostrar', 'Number', 'min="0" max="7"', 'Cantidad de decimales a mostrar', 'Cantidad de números decimales que se pueden mostrar en la nómina', '5', '', '1', '6', 'Activo    ', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral
+(Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('6', '1', 'ConceptoDescuentoLibranza', 'Select', NULL, 'Concepto descuento de libranza', 'Concepto que se usará para descuento de libranza', '6', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'Libranzas', 'Activo    ', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral
+(Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('7', '1', 'ConceptoSeguridadSocial', 'Select', NULL, 'Concepto neto de pago de seguridad social', 'Concepto que se usará para consolidar el valor neto a pagar de parafiscales en la nómina', '7', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'NetoSeguridadSocial', 'Activo    ', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral
+(Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('8', '1', 'ConceptoARL', 'Select', NULL, 'Concepto neto de pago de ARL', 'Concepto que se usará para mostrar el valor neto a pagar a la ARL en la nómina', '8', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'NetoARL', 'Activo    ', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral
+(Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('9', '1', 'ConceptoParafiscales', 'Select', NULL, 'Concepto neto de pago de parafiscales', 'Concepto que se usará para mostrar el valor neto a pagar a parafiscales en la nómina', '9', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'NetoParafiscales', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ParametroGeneral
+(Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('10', '1', 'ConceptoProvisiones', 'Select', NULL, 'Concepto neto de pago de provisiones', 'Concepto que se usará para mostrar el valor neto a pagar de provisiones en la nómina', '10', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'NetoProvisiones', 'Activo    ', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral
+(Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('16', '1', 'ConceptoTotalDevengo', 'Select', NULL, 'Concepto de total devengado del funcionario', 'Concepto que se usará para mostrar el valor total devengado en la nómina', '16', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'Base_ingresos', 'Activo    ', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral
+(Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('17', '1', 'ConceptoTotalHorasExtras', 'Select', NULL, 'Concepto de total de horas extras del funcionario', 'Concepto que se usará para mostrar el valor total de las horas extras en la nómina', '17', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'TotalHorasExtras', 'Activo    ', 'sistema', GETDATE());
+GO
+INSERT INTO dbo.ParametroGeneral
+(Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('18', '1', 'ConceptoTotalAusentismos', 'Select', NULL, 'Concepto de total de ausentismos del funcionario', 'Concepto que se usará para mostrar el valor total de ausentismos en la nómina', '18', '{{host}}/odata/ConceptoNominas?$select=alias,nombre', '1', 'TotalAusentismos', 'Activo    ', 'sistema', GETDATE());
+GO
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="maestro_Etiqueta_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[Etiqueta] ON 
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (1, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Municipio de domicilio de la empresa', N'Municipio-de-domicilio-de-la-empresa', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (2, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Día de la emisión', N'dia-fechaActual', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (3, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Mes de la emisión en letras', N'mes-fechaActual-mesletras', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (4, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Año de la emisión', N'año-fechaActual', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (5, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Nombre del empleador', N'Nombre-del-empleador', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (6, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Nit del empleador', N'Nit-Empleador', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (7, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Direccion del empleador', N'Direccion-del-empleador', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (8, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Departamento de domicilio de la empresa', N'Departamento-de-domicilio-de-la-empresa', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (9, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Pais de domicilio de la empresa', N'Pais-de-domicilio-de-la-empresa', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (10, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Primer nombre trabajador', N'Primer-nombre-trabajador', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (11, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Segundo nombre trabajador', N'Segundo-nombre-trabajador', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (12, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Primer apellido del trabajador', N'Primer-apellido-del-trabajador', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (13, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Segundo apellido del trabajador', N'Segundo-apellido-del-trabajador', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (14, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Identificación del trabajador', N'Identificación-del-trabajador-conformato', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (15, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Tipo de contrato', N'Tipo-contrato', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (16, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Fecha inicial del contrato', N'Fecha-inicial-del-contrato-fechaletras', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (17, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Oficio que desempañará el trabajador', N'Oficio-que-desempeñará-el-trabajador', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (18, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Sede de trabajo del trabajador', N'Sede-de-trabajo-del-trabajador', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (19, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Salario mensual en letras', N'Salario-mensual-numeroletras', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (20, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Salario mensual en número', N'Salario-mensual-moneda', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (21, N'Activo', CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), CAST(N'2020-03-18T09:32:41.4500000' AS DateTime2), NULL, N'Firma Representante Primer Nombre', N'Firma-Representante-PrimerNombre', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (22, N'Activo', CAST(N'2020-03-30T17:49:38.3870000' AS DateTime2), CAST(N'2020-03-30T17:49:38.3870000' AS DateTime2), NULL, N'Firma Representante Segundo Nombre', N'Firma-Representante-SegundoNombre', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (23, N'Activo', CAST(N'2020-03-30T17:49:38.3870000' AS DateTime2), CAST(N'2020-03-30T17:49:38.3870000' AS DateTime2), NULL, N'Firma Representante Primer Apellido', N'Firma-Representante-PrimerApellido', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (24, N'Activo', CAST(N'2020-03-30T17:49:38.3870000' AS DateTime2), CAST(N'2020-03-30T17:49:38.3870000' AS DateTime2), NULL, N'Firma Representante Segundo Apellido', N'Firma-Representante-SegundoApellido', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (25, N'Activo', CAST(N'2020-03-30T18:03:05.9500000' AS DateTime2), CAST(N'2020-03-30T18:03:05.9500000' AS DateTime2), NULL, N'Firma Representante Cargo', N'Firma-Representante-Cargo', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (26, N'Activo', CAST(N'2020-03-30T18:03:05.9500000' AS DateTime2), CAST(N'2020-03-30T18:03:05.9500000' AS DateTime2), NULL, N'Firma Representante Identificacion', N'Firma-Representante-Identificacion', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (27, N'Activo', CAST(N'2020-03-30T18:03:05.9500000' AS DateTime2), CAST(N'2020-03-30T18:03:05.9500000' AS DateTime2), NULL, N'Firma Representante Lugar Expedicion', N'Firma-Representante-Lugar-Expedicion', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (28, N'Activo', CAST(N'2020-04-01T10:05:24.9600000' AS DateTime2), CAST(N'2020-04-01T10:05:24.9600000' AS DateTime2), NULL, N'NIT del empleador', N'NIT-del-empleador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (29, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Digito de verificacion', N'Digito-verificacion', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (30, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Domicilio del empleador', N'Domicilio-del-empleador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (31, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Lugar de expedición del documento de identidad', N'Lugar-de-expedición-del-documento-de-identidad', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (32, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Departamento de nacimiento trabajador', N'Departamento-de-nacimiento-trabajador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (33, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Municipio de nacimiento del trabajdor', N'Municipio-de-nacimiento-del-trabajdor', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (34, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Fecha de nacimiento de empleador', N'Fecha-de-nacimiento-de-empleador-fechaletras', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (35, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Periodo de pago', N'Periodo-de-pago', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (36, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Lugar donde ha sido contratado el trabajador', N'Lugar-donde-ha-sido-contratado-el-trabajador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (37, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Duración del contrato en números', N'Duración-del-contrato', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (38, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Duración del contrato en letras', N'Duración-del-contrato-numeroletras', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (39, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Fecha de finalización del contrato', N'Fecha-de-finalización-del-contrato-fechaletras', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (40, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Periodo de Prueba', N'Periodo-de-prueba', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (41, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Municipio donde se firma el contrato', N'Municipio-donde-se-firma-el-contrato', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (42, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Dia actual del contrato en letras', N'Dia-fechaActual-del-contrato-numeroletras', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (43, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Dia actual del contrato en número', N'Dia-fechaActual-del-contrato', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (44, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Mes actual del contrato en letras', N'Mes-fechaActual-del-contrato-mesletras', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (45, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Año actual del contrato en letras', N'Año-fechaActual-del-contrato-numeroletras', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (46, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Año actual del contrato en número', N'Año-de-la-firma-del-contrato', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (47, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Dirección dell trabajador', N'Dirección-del-trabajador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (48, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Representante empleador', N'Representante-empleador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (49, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Lugar de expedición del documento de identidad trabajador', N'Lugar-expedicion-documento-trabajador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (50, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Lugar de expedición del documento de identidad empleador', N'Lugar-expedicion-documento-representante-empleador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (51, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Identificación del representante del empleador', N'Identificación-representante-empleador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (52, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Nacionalidad del trabajador', N'Nacionalidad-trabajador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (53, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Domicilio del trabajador', N'Domicilio-del-trabajador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (54, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Período de prueba en número', N'Período-de-prueba-en-número', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (55, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Período de prueba en letras', N'Período-de-prueba-Período-de-prueba-en-número
+', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (56, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Correo electrónico trabajador', N'Correo-electrónico-trabajador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (57, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Mes de la emisión en letras', N'Mes-de-la-emision-en-letras', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (58, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Año de la emisión en número', N'Año-de-la-emision-de-la-carta', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (59, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Primer nombre del representante del empleador', N'Primer-nombre-del-representante-del-empleador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (60, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Segundo nombre del representante del empleador', N'Segundo-nombre-del-representante-del empleador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (61, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Primer apellido del representante del empleador', N'Primer-apellido-del-representante-del-empleador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (62, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Segundo apellido del representante del empleador', N'Segundo-apellido-del-representante-del empleador', N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[Etiqueta] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (63, N'Activo', CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), CAST(N'2020-04-01T10:05:37.6500000' AS DateTime2), NULL, N'Cargo del representante del empleador', N'Cargo-del-representante-del-empleador', N'Sistema', NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Etiqueta] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[Etiqueta] WHERE Id BETWEEN 1 AND 126;
+</rollback>
+</changeSet>
+</databaseChangeLog>

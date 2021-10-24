@@ -1,0 +1,46 @@
+    <mat-card class="card-funcionarios" [ngStyle]="{'border-top': color(i) + ' 10px solid'}">
+        <mat-card-header>
+            <a *ngIf="permisos.actualizar" routerLink="/reclutamiento-seleccion/hojas-vida/{{item.id}}/datos-basicos" class="editar-icon">
+                <mat-icon matTooltip="Editar">edit</mat-icon>
+            </a>
+            <a *ngIf="permisos.obtener" routerLink="/reclutamiento-seleccion/hojas-vida/{{item.id}}/mostrar" class="visualizar-icon">
+                <mat-icon matTooltip="Visualizar">remove_red_eye</mat-icon>
+            </a>
+        </mat-card-header>
+        <div class="bloque-image">
+            <div *ngIf="item.adjunto" class="funcionario-image"
+                [ngStyle]="{'background-image': 'url(' + enviroments + '/bucket/download?document_id=' + item.adjunto + ')'}">
+            </div>
+        </div>
+        <img *ngIf="!item.adjunto" src="assets/alcanos/nofuncionario.jpg" class="card-circe"
+            alt="{{item.primerNombre}}{{item.primerApellido}}">
+        <mat-card-content>
+            <h2>{{item.primerNombre}}</h2>
+            <h2>{{item.primerApellido}}</h2>
+            <br>
+            <p>
+                <mat-icon matTooltip="Número del documento">payment</mat-icon>
+                <span style="top:1px;">{{item.numeroDocumento}}</span><br>
+
+                <mat-icon matTooltip="Sexo">face</mat-icon>
+                <span style="top:1px;">{{item.sexo.nombre}}</span><br>
+
+                <mat-icon matTooltip="Ocupación">account_box</mat-icon>
+                <span *ngIf="item.ocupacion != null">
+                    <p matTooltip="{{item.ocupacion?.nombre}}">
+                       {{item.ocupacion?.nombre}}</p>
+                </span><br>
+
+                <mat-icon matTooltip="Lugar de residencia">home</mat-icon>
+                 <span *ngIf="item.direccion != null">
+                     <p matTooltip="{{item.direccion}}">
+                        {{item.direccion}}</p>
+                 </span>
+
+            </p>
+
+        </mat-card-content>
+        <mat-card-actions>
+
+        </mat-card-actions>
+    </mat-card>

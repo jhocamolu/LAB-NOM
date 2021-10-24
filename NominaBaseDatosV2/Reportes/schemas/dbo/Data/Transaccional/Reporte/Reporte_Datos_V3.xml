@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="Reporte_V3">
+<comment>Reporte planta Personal</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Reporte] ON 
+GO
+INSERT [dbo].[Reporte] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias], [Nombre], [Descripcion], [SubcategoriaId], [Link], [Path], [Formato], [Extension], [Alto], [Ancho], [EsModal], [VistaGeneracion]) VALUES (2, N'Activo    ', N'sistema', CAST(N'2020-06-04T17:45:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'PlantaPersonal', N'Planta Personal', N'Facilita la información contractual de los funcionarios, con el objetivo de analizar y tomar decisiones respecto a cada una de las variables que inciden en el desempeño de la compañía.', 2, N'/ReportServer/Pages/ReportViewer.aspx?%2fDesarrollo%2fGHestic%2fReportes%2fAdmPer_PlantaPersonal&rs:Command=Render', N'GHESTIC/Reportes/AdmPer_PlantaPersonal', N'EXCELOPENXML', N'XLSX', N'11in', N'8.5in', 0, N'planta-personal')
+GO
+SET IDENTITY_INSERT [dbo].[Reporte] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[Reporte] WHERE Id IN (2)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

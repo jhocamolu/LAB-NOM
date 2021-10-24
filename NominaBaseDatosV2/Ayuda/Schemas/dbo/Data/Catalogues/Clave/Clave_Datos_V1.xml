@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="Clave_Datos_V1">
+<comment>Migración Inicial</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Clave] ON 
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (1, N'festivos')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (2, N'calendario')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (3, N'Ayuda Artículo')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (4, N'Crear')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (5, N'Cargo')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (6, N'Plantilla')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (7, N'Complemento')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (8, N'Estado')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (9, N'Civil')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (10, N'Formato')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (11, N'Idioma')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (12, N'Nivel')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (13, N'Educativo')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (14, N'Pais')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (15, N'Como')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (16, N'Tipo')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (17, N'Ausentismo')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (18, N'Contrato')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (19, N'Documento')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (20, N'Moneda')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (21, N'Vivienda')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (22, N'Categoria')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (23, N'Centro de Ayuda')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (24, N'Firma')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (25, N'Grupo')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (26, N'Forma')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (27, N'Pago')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (28, N'Ayuda')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (29, N'Artículo')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (30, N'jornada')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (31, N'laboral')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (32, N'ocupación')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (33, N'profesión')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (34, N'dependencia')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (35, N'periodo')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (36, N'Funcionario')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (37, N'Datos básicos')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (38, N'Información')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (39, N'Familiares')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (40, N'Parentesco')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (41, N'QA')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (42, N'cargo, funcionario, actividad laboral, administración, personal')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (43, N'funcionario, editar, editar funcionario')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (44, N'familiar, funcionario, familiar funcionario')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (45, N'familiar funcionario, editar')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (46, N'Embargo a funcionario, anular embargo, anular')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (47, N'Embargo, Embargo al funcionario, demandas, ejecutivo, alimentos, cooperativa.')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (48, N'anular, libranza, anular libranza')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (49, N'familiar funcionario, editar.')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (50, N'Libranza, descuento, descuentos por libranza.')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (51, N'funcionario, visualizar, información, corregir.')
+GO
+INSERT [dbo].[Clave] ([Id], [Palabra]) VALUES (52, N'Embargo a funcionario, editar embargo, editar embargo a funcionario.')
+GO
+SET IDENTITY_INSERT [dbo].[Clave] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [Clave]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

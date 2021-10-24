@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ObtenerDiasFuncionario_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerDiasFuncionario', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerDiasFuncionario as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Laura Estrada, Diego Villegas
+-- Create date: 12/03/2020
+-- Description: Permite obtener los días a trabajados o a pagar de un funcionario en un 
+--				período de tiempo.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @FechaInicial:				Fecha inicial del período
+--   @FechaFinal:				Fecha final del período
+--   @TipoDias:				Tipo de días a obtener TRABAJADOS o APAGAR o ACOTIZAR
+--
+-- Returns:						
+--	 @Cantidad:						Número de días
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerDiasFuncionario]
+(@FuncionarioId INT,
+ @FechaInicial  DATE,
+ @FechaFinal    DATE,
+ @TipoDias      VARCHAR(24),
+ @Cantidad      INT OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@FechaInicial=', CONVERT(VARCHAR, @FechaInicial), '&', '@FechaFinal=', CONVERT(VARCHAR, @FechaFinal), '&', '@TipoDias=', CONVERT(VARCHAR, @TipoDias));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @FechaLimiteInferior DATE;
+    DECLARE @FechaLimiteSuperior DATE;
+    DECLARE @AusentismoFechaInicio DATE;
+    DECLARE @AusentismoFechaFin DATE;
+    DECLARE @AusentismoHoraInicio TIME;
+    DECLARE @AusentismoHoraFin TIME;
+    DECLARE @AusentismoUnidadTiempo VARCHAR(MAX);
+    DECLARE @FechaAusentismoInferior DATE;
+    DECLARE @FechaAusentismoSuperior DATE;
+    DECLARE @DiasAusentismos INT= 0;
+    DECLARE @DiasFuncionario INT= 0;
+    DECLARE @FechaIteracion DATE= NULL;
+    DECLARE @AcumuladorHoras INT= 0;
+    DECLARE @AusentismoId INT= 0;
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        -- 2. Obtener fecha inicio del funcionario
+        SELECT TOP 1 @FechaLimiteInferior = con.FechaInicio
+        FROM dbo.Contrato AS con
+        WHERE con.FuncionarioId = @FuncionarioId
+              AND con.EstadoRegistro =
+        (
+            SELECT AUDITORIA_ACTIVO
+            FROM util.VW_ConstanteEstado
+        )
+	   AND con.Estado != (
+	   SELECT vce.CONTRATO_CANCELADO
+             FROM util.VW_ConstanteEstado AS vce
+	   )
+              AND con.FechaInicio <= @FechaFinal
+        ORDER BY con.FechaInicio DESC;
+
+        IF @FechaLimiteInferior < @FechaInicial
+        BEGIN
+            SET @FechaLimiteInferior = @FechaInicial;
+        END;
+
+        -- 3. Obtener fecha terminación del funcionario
+        SELECT @FechaLimiteSuperior = con.FechaTerminacion
+        FROM dbo.Contrato AS con
+        WHERE con.FuncionarioId = @FuncionarioId
+              AND con.EstadoRegistro =
+        (
+            SELECT AUDITORIA_ACTIVO
+            FROM util.VW_ConstanteEstado
+        )
+              AND con.FechaTerminacion >= @FechaInicial
+        ORDER BY con.FechaTerminacion DESC;
+
+        IF @FechaLimiteSuperior > @FechaFinal
+           OR @FechaLimiteSuperior IS NULL
+        BEGIN
+            SET @FechaLimiteSuperior = @FechaFinal;
+        END;
+
+        -- Se valida que las fechas sean correctas para calcular los días, en otro caso los diás se retornan en 0
+        IF @FechaLimiteInferior IS NOT NULL
+           AND @FechaLimiteSuperior IS NOT NULL
+           AND @FechaLimiteInferior <= @FechaLimiteSuperior
+        BEGIN
+
+            -- 4. Obtener dias de ausentismos del funcionario dentro del periodo (Según tipo)
+            SET @DiasAusentismos = 0;
+            DECLARE CUR_Ausentismos CURSOR LOCAL
+            FOR SELECT auf.FechaInicio,
+                       auf.FechaFin,
+                       auf.HoraInicio,
+                       auf.HoraFin,
+                       tia.UnidadTiempo,
+                       auf.Id
+                FROM dbo.AusentismoFuncionario AS auf
+                     INNER JOIN dbo.TipoAusentismo AS tia ON(auf.TipoAusentismoId = tia.Id)
+                     INNER JOIN dbo.ClaseAusentismo AS cla ON(tia.ClaseAusentismoId = cla.Id)
+                WHERE auf.FuncionarioId = @FuncionarioId
+                      AND ((@TipoDias =
+                (
+                    SELECT TRABAJADOS
+                    FROM util.VW_ConstanteTipoDias
+                )
+                            AND cla.AfectaDiaTrabajado = 1)
+                           OR (@TipoDias =
+                (
+                    SELECT APAGAR
+                    FROM util.VW_ConstanteTipoDias
+                )
+                               AND cla.AfectaDiaPagar = 1))
+                      AND auf.EstadoRegistro =
+                (
+                    SELECT [AUDITORIA_ACTIVO]
+                    FROM util.VW_ConstanteEstado
+                )
+                      AND (auf.Estado =
+                (
+                    SELECT AUSENTISMO_APROBADO
+                    FROM util.VW_ConstanteEstado
+                )
+                           OR auf.Estado =
+                (
+                    SELECT AUSENTISMO_PROCESADO
+                    FROM util.VW_ConstanteEstado
+                ))
+                      AND ((auf.FechaInicio BETWEEN @FechaLimiteInferior AND @FechaLimiteSuperior)
+                           OR (auf.FechaFin BETWEEN @FechaLimiteInferior AND @FechaLimiteSuperior)
+                           OR (auf.FechaInicio < @FechaLimiteInferior
+                               AND auf.FechaFin > @FechaLimiteSuperior))
+                ORDER BY auf.FechaInicio ASC;
+
+            OPEN CUR_Ausentismos;
+
+            FETCH NEXT FROM CUR_Ausentismos INTO @AusentismoFechaInicio, @AusentismoFechaFin, @AusentismoHoraInicio, @AusentismoHoraFin, @AusentismoUnidadTiempo, @AusentismoId;
+
+            WHILE @@fetch_status = 0
+            BEGIN
+
+                IF @AusentismoFechaInicio > @AusentismoFechaFin
+                BEGIN
+                    SET @MensajeExcepcion = 'La fecha de inicio del ausentismo es posterior a la fecha fin del ausentismo.';
+                    EXEC util.USP_GenerarExcepcion
+                         50000,
+                         @MensajeExcepcion;
+                END;
+
+                -- 5. Calcular días
+                -- Se establecen los límites superior e inferior del ausentismo para el cálculo de los días de trabajo
+                SET @FechaAusentismoInferior = @AusentismoFechaInicio;
+                SET @FechaAusentismoSuperior = @AusentismoFechaFin;
+
+                IF @AusentismoFechaInicio < @FechaLimiteInferior
+                BEGIN
+                    SET @FechaAusentismoInferior = @FechaLimiteInferior;
+                END;
+
+                IF @AusentismoFechaFin > @FechaLimiteSuperior
+                BEGIN
+                    SET @FechaAusentismoSuperior = @FechaLimiteSuperior;
+                END;
+
+                -- Inicializar la fecha de iteración para el cálculo de horas de ausentismo en una misma fecha
+                IF @FechaIteracion IS NULL
+                BEGIN
+                    SET @FechaIteracion = @FechaAusentismoInferior;
+                END;
+
+                -- Si la fecha del ausenstimo inferior es diferente de la superior o el ausentismo no 
+                -- requiere horas, se calcula la diferencia de días
+                IF @FechaAusentismoInferior <> @FechaAusentismoSuperior
+                   OR @AusentismoUnidadTiempo = 'Días'
+                BEGIN
+                    SET @DiasAusentismos = @DiasAusentismos + (DATEDIFF(day, @FechaAusentismoInferior, @FechaAusentismoSuperior) + 1);
+                END
+
+                    -- Si la fecha del ausenstimo inferior es igual a la superior se calcula las horas
+                    -- de ausentismo para la fecha;
+                ELSE
+                BEGIN
+
+                    IF @FechaIteracion = @FechaAusentismoInferior
+                    BEGIN
+                        SET @AcumuladorHoras = @AcumuladorHoras + (DATEDIFF(hour, @AusentismoHoraInicio, @AusentismoHoraFin));
+                    END;
+                    ELSE
+                    BEGIN
+                        -- Si se acumularon 8 o más horas debe sumarse como un día de ausentismo 
+                        IF @AcumuladorHoras >= 8
+                        BEGIN
+                            SET @DiasAusentismos = @DiasAusentismos + 1;
+                        END;
+                        SET @AcumuladorHoras = 0;
+                    END;
+
+                END;
+
+                SET @FechaIteracion = @FechaAusentismoInferior;
+
+                FETCH NEXT FROM CUR_Ausentismos INTO @AusentismoFechaInicio, @AusentismoFechaFin, @AusentismoHoraInicio, @AusentismoHoraFin, @AusentismoUnidadTiempo, @AusentismoId;
+            END;
+
+            IF @DiasAusentismos IS NULL
+            BEGIN
+                SET @DiasAusentismos = 0;
+            END;
+
+            -- Caso Especial, si el la ultima iteracion se acumularon 8 o más horas debe sumarse como un día de ausentismo.
+            -- Esto se calcular fuera del cursor, ya que dentro de este no se cumple la condición para su calculo.
+            IF @AcumuladorHoras >= 8
+            BEGIN
+                SET @DiasAusentismos = @DiasAusentismos + 1;
+            END;
+
+            CLOSE CUR_Ausentismos;
+            DEALLOCATE CUR_Ausentismos;
+
+            -- Días totales 
+            EXEC @DiasFuncionario = [dbo].[USP_ObtenerDiasLaborales]
+                 @FechaInicial = @FechaLimiteInferior,
+                 @FechaFinal = @FechaLimiteSuperior;
+
+            IF @TipoDias !=
+            (
+                SELECT ACOTIZAR
+                FROM util.VW_ConstanteTipoDias
+            )
+            BEGIN
+                SET @DiasFuncionario = @DiasFuncionario - @DiasAusentismos;
+            END;
+        END;
+
+        SET @Cantidad = @DiasFuncionario;
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerDiasFuncionario];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

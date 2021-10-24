@@ -1,0 +1,330 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/administracion-personal/funcionarios">Funcionarios</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="itemExperiencia">Editar experiencia laboral</span>
+                <span *ngIf="!itemExperiencia">Registrar experiencia laboral</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title" *ngIf="itemExperiencia">Editar experiencia laboral</h2>
+                <h2 class="title" *ngIf="!itemExperiencia">Registrar experiencia laboral</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button *ngIf="itemExperiencia" mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+               <button *ngIf="arraySoloPermiso.actualizar" mat-menu-item (click)="editarDatosBasicosHandle($event)">
+                   <span>Editar hoja de vida</span>
+               </button>
+               <button *ngIf="arrayPermisos.op2" mat-menu-item (click)="crearEstudioHandle($event)">
+                   <span>Registrar estudio realizado</span>
+               </button>
+               <button *ngIf="arrayPermisos.op1" mat-menu-item (click)="crearExperienciaHandle($event)">
+                   <span>Registrar experiencia laboral</span>
+               </button>
+               <button *ngIf="arrayPermisos.op3" mat-menu-item (click)="crearDocumentoHandle($event)">
+                   <span>Cargar documento</span>
+               </button>
+               <a routerLink="/reclutamiento-seleccion/hojas-vida/" mat-menu-item>Volver</a>
+            </mat-menu>
+
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+            <hojas-vida-header [aspirante]="itemFuncionario"></hojas-vida-header>
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="2" (selectedTabChange)="tabChangeHandle($event)">
+
+                <mat-tab label="Datos básicos">
+                </mat-tab>
+
+                <mat-tab label="Estudios realizados"></mat-tab>
+
+                <!-- EXPERIENCIA LABORAL -->
+                <mat-tab label="Experiencia laboral">
+
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nombre del cargo</mat-label>
+                                <input matInput formControlName="nombreCargo" required>
+                                <mat-error *ngFor="let error of objToArray(form.get('nombreCargo').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Digite el nombre del cargo que realizó o realiza.">info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nombre de la empresa</mat-label>
+                                <input matInput formControlName="nombreEmpresa" required>
+                                <mat-error *ngFor="let error of objToArray(form.get('nombreEmpresa').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Digite el nombre de la empresa donde laboraba.">info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Teléfono</mat-label>
+                                <input matInput formControlName="telefono" required>
+                                <mat-error *ngFor="let error of objToArray(form.get('telefono').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'max'">
+                                            Valor máximo 9999999999.
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'min'">
+                                            Valor mínimo 1000000.
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Número telefónico de la empresa donde laboraba.">info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Salario</mat-label>
+                                <input matInput formControlName="salario" mask="separator.2"
+                                    separatorLimit="9999999999" thousandSeparator=".">
+                                <mat-error *ngFor="let error of objToArray(form.get('salario').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'max'">
+                                            Valor máximo 9999999999.
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Digite el sueldo que tenía en su trabajo.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Último jefe inmediato</mat-label>
+                                <input matInput formControlName="nombreJefeInmediato">
+                                <mat-error *ngFor="let error of objToArray(form.get('nombreJefeInmediato').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Nombre de su último jefe inmediato con el que laboró.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Trabaja actualmente en la empresa</mat-label>
+                                <mat-select [compareWith]="compareBooleanWith" formControlName="trabajaActualmente"
+                                    required>
+                                    <mat-option></mat-option>
+                                    <mat-option value="true"> Si</mat-option>
+                                    <mat-option value="false"> No</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of objToArray(form.get('trabajaActualmente').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Seleccione si trabaja actualmente en la empresa.">info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fecha de inicio</mat-label>
+                                <input matInput [matDatepicker]="fechaInicio" (focus)="fechaInicio.open()"
+                                    (click)="fechaInicio.open()" formControlName="fechaInicio" required>
+                                <mat-datepicker-toggle matPrefix [for]="fechaInicio">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+                                <mat-error *ngFor="let error of objToArray(form.get('fechaInicio').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                            No es un formato de fecha válido.
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Fecha en la que inició labores en la empresa anterior.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fecha de finalización</mat-label>
+                                <input matInput [matDatepicker]="fechaFin" (focus)="fechaFin.open()"
+                                    (click)="fechaFin.open()" formControlName="fechaFin" required>
+                                <mat-datepicker-toggle matPrefix [for]="fechaFin"> </mat-datepicker-toggle>
+                                <mat-datepicker startView="year" #fechaFin></mat-datepicker>
+                                <mat-error *ngFor="let error of objToArray(form.get('fechaFin').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                            No es un formato de fecha válido.
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Fecha en la que terminó labores en la empresa anterior.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Funciones del cargo</mat-label>
+                                <textarea matInput formControlName="funcionesCargo"></textarea>
+                                <mat-error *ngFor="let error of objToArray(form.get('funcionesCargo').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Describa las funciones que desempeñaba en la empresa donde laboraba.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Motivo de retiro</mat-label>
+                                <textarea matInput formControlName="motivoRetiro"></textarea>
+                                <mat-error *ngFor="let error of objToArray(form.get('motivoRetiro').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Describa las razones por las cuales se produjo el retiro.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Observaciones</mat-label>
+                                <textarea matInput formControlName="observaciones"></textarea>
+                                <mat-error *ngFor="let error of objToArray(form.get('observaciones').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Escriba alguna observación si lo requiere.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="actions">
+                            <a mat-raised-button
+                                routerLink="/reclutamiento-seleccion/hojas-vida/{{itemFuncionario.id}}/mostrar"
+                                [queryParams]="{tab: 2}">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+                    </form>
+                </mat-tab>
+                <!-- / EXPERIENCIA LABORAL -->
+
+                <mat-tab label="Documentos"></mat-tab>
+
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

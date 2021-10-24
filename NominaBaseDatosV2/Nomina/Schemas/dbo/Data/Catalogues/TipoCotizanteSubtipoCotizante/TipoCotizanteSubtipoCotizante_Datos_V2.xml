@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoCotizanteSubtipoCotizante_Datos_V2">
+<comment>Update campos boleanos</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=1,AportaASalud=1,AportaASena=1,AportaACcf=1,AportaAArl=1,AportaAIcbf=1
+        WHERE Id=1; 
+
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=0,AportaASalud=1,AportaASena=1,AportaACcf=1,AportaAArl=1,AportaAIcbf=1
+        WHERE Id=2; 
+
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=0,AportaASalud=1,AportaASena=1,AportaACcf=1,AportaAArl=1,AportaAIcbf=1
+        WHERE Id=3; 
+
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=0,AportaASalud=1,AportaASena=1,AportaACcf=1,AportaAArl=1,AportaAIcbf=1
+        WHERE Id=4; 
+
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=0,AportaASalud=1,AportaASena=1,AportaACcf=1,AportaAArl=1,AportaAIcbf=1
+        WHERE Id=6; 
+
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=0,AportaASalud=0,AportaASena=1,AportaACcf=1,AportaAArl=1,AportaAIcbf=1
+        WHERE Id=7; 
+
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=0,AportaASalud=1,AportaASena=0,AportaACcf=0,AportaAArl=0,AportaAIcbf=0
+        WHERE Id=23; 
+
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=0,AportaASalud=1,AportaASena=0,AportaACcf=0,AportaAArl=1,AportaAIcbf=0
+        WHERE Id=36; 
+
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=1,AportaASalud=1,AportaASena=1,AportaACcf=1,AportaAArl=1,AportaAIcbf=1
+        WHERE Id=95; 
+
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=0,AportaASalud=1,AportaASena=1,AportaACcf=1,AportaAArl=1,AportaAIcbf=1
+        WHERE Id=96; 
+
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=0,AportaASalud=1,AportaASena=1,AportaACcf=1,AportaAArl=1,AportaAIcbf=1
+        WHERE Id=97; 
+
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=0,AportaASalud=1,AportaASena=1,AportaACcf=1,AportaAArl=1,AportaAIcbf=1
+        WHERE Id=98; 
+
+
+
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=1; 
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=2; 
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=3; 
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=4; 
+
+    UPDATE .dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=6; 
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=7; 
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=23; 
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=36; 
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=95; 
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=96; 
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=97; 
+
+    UPDATE dbo.TipoCotizanteSubtipoCotizante
+        SET AportaAPension=null,AportaASalud=null,AportaASena=null,AportaACcf=null,AportaAArl=null,AportaAIcbf=null
+        WHERE Id=98; 
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

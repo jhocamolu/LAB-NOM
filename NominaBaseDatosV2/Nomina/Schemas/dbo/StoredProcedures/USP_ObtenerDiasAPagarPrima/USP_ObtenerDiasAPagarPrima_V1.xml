@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="USP_ObtenerDiasAPagarPrima_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerDiasAPagarPrima', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerDiasAPagarPrima as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Reynaldo Andrés Sabogal
+-- Create date: 11/01/2021
+-- Description: Pemite obtener los días a pagar de prima legal
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @Cantidad:				    Parámetro de salida con la cantidad de días a pagar	 
+--
+-- Returns:						
+--	 Dias:						Días a pagar
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerDiasAPagarPrima]
+(@FuncionarioId INT,
+ @Cantidad      INT OUTPUT
+)
+AS
+BEGIN
+	
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+    
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @ContratoVigente VARCHAR(255);
+    DECLARE @ContratoPendienteLiquidar VARCHAR(255);
+    DECLARE @NominaAplicada VARCHAR(255);
+    DECLARE @NominaFuncionarioLiquidado VARCHAR(255);
+	DECLARE @FechaInicio DATE;
+	DECLARE @FechaFin DATE;
+	DECLARE @FechaInicioContrato DATE;
+    DECLARE @NominaId INT= NULL;
+    DECLARE @FuncionarioExiste INT= NULL;
+    DECLARE @NominaFechaFinal DATE;
+    DECLARE @FechaTerminacionContrato DATE;
+	DECLARE @AliasParametroPrimaLegal VARCHAR(255);
+	DECLARE @AnioVigente VARCHAR(255);
+	DECLARE @AnioVigenteId INT;
+	DECLARE @ConceptoPrimaLegal INT;
+	DECLARE @AliasInicioPrimaLegal VARCHAR(255);
+	DECLARE @AliasFinPrimaLegal VARCHAR(255);
+	DECLARE @FechaInicioPrimaLegal DATE;
+	DECLARE @FechaFinPrimaLegal DATE;
+	DECLARE @DiasPrima INT;
+	
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+		-- constantes de estados
+		SELECT @ContratoVigente = vce.CONTRATO_VIGENTE,
+			   @ContratoPendienteLiquidar = vce.CONTRATO_PENDIENTEPORLIQUIDAR,
+			   @NominaAplicada = vce.NOMINA_APLICADA,
+			   @NominaFuncionarioLiquidado = vce.NOMINAFUNCIONARIO_LIQUIDADO,
+			   @AnioVigente = vce.ANIO_VIGENTE,
+			   @AuditoriaActivo = vce.AUDITORIA_ACTIVO
+		FROM util.VW_ConstanteEstado AS vce;
+        
+		-- Se obtienen constantes asociadas a alias de parámetros del sistema
+		SELECT @AliasParametroPrimaLegal = vcpg.[CONCEPTOPRIMALEGAL],
+		@AliasInicioPrimaLegal = vcpg.[INICIOPRIMALEGAL],
+		@AliasFinPrimaLegal = vcpg.[FINPRIMALEGAL]
+		FROM util.VW_ConstanteParametroGeneral AS vcpg;
+
+		-- Se obtiene el año de trabajo vigente
+		SET @AnioVigenteId = [dbo].[UFS_ObtenerAnioTrabajo](@AnioVigente);
+
+		-- Cconsultar las fechas de inicio y fin definidas de prima legal
+		
+		SET @FechaInicioPrimaLegal = CAST([util].[UFS_ObtenerParametro](@AliasInicioPrimaLegal, @AnioVigenteId) AS DATE);
+		SET @FechaFinPrimaLegal = CAST([util].[UFS_ObtenerParametro](@AliasFinPrimaLegal, @AnioVigenteId) AS DATE);
+
+		SET @FechaFin = @FechaFinPrimaLegal;
+
+		-- Consulta fecha inicio contrato vigente 
+		SELECT @FechaInicioContrato = FechaInicio
+		FROM dbo.Contrato AS c
+		WHERE FuncionarioId = @FuncionarioId
+				AND Estado = @ContratoVigente
+				AND EstadoRegistro = @AuditoriaActivo;
+
+		IF @FechaInicioContrato > @FechaInicioPrimaLegal
+		BEGIN
+			SET @FechaInicio = @FechaInicioContrato;
+		END;
+		ELSE
+		BEGIN
+			SET @FechaInicio = @FechaInicioPrimaLegal;
+		END;		
+	
+		PRINT CONCAT('@FechaInicio= ',@FechaInicio);
+		PRINT CONCAT('@FechaFin= ',@FechaFin);
+		-- se calculan la cantidad de días
+		
+		SET @DiasPrima = DATEDIFF(DAY, @FechaInicio, @FechaFin); 
+
+		IF @DiasPrima > 180
+		BEGIN
+			SET @DiasPrima = 180;
+		END;
+
+		SET @Cantidad = @DiasPrima;
+
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerDiasAPagarPrima];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

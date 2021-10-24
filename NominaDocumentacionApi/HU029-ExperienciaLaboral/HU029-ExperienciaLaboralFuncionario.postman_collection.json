@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "c842c311-5f0d-4efb-b12b-b8733a0bc180",
+		"name": "HU029-ExperienciaLaboralFuncionario",
+		"description": "Experiencia Laboral Funcionario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtiene Listado Experiencia Laboral",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/ExperienciaLaborales",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"ExperienciaLaborales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtiene Experiencia Laboral",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/ExperienciaLaborales",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"ExperienciaLaborales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Experiencia Laboral",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Cliente",
+						"value": "Tm9taW5hTW92aWxBbGNhbm9zQ29sb21iaWFFc3A=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"funcionarioId\": 7,\r\n    \"nombreCargo\": \"Ayudante obra\",\r\n    \"nombreEmpresa\": \"Contructora xyz\",\r\n    \"telefono\": \"2659865\",\r\n    \"salario\": \"900000\",\r\n    \"nombreJefeInmediato\": \"Maria del Carmen\",\r\n    \"fechaInicio\": \"2014-01-12T00:00:00-05:00\",\r\n    \"fechaFin\": \"2018-01-15T00:00:00-05:00\",\r\n    \"funcionesCargo\": \"Ayudante\",\r\n    \"trabajaActualmente\": 1,\r\n    \"motivoRetiro\": \"\",\r\n    \"observaciones\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/ExperienciaLaborales/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ExperienciaLaborales",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizacion Experiencia Funcionario",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cliente",
+						"value": "Tm9taW5hTW92aWxBbGNhbm9zQ29sb21iaWFFc3A=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 4,\r\n\t\"funcionarioId\": 7,\r\n    \"nombreCargo\": \"Ayudante obra\",\r\n    \"nombreEmpresa\": \"Contructora xyz\",\r\n    \"telefono\": \"2659865\",\r\n    \"salario\": \"900000\",\r\n    \"nombreJefeInmediato\": \"Maria del Carmen\",\r\n    \"fechaInicio\": \"2014-01-12T00:00:00-05:00\",\r\n    \"fechaFin\": \"2018-01-15T00:00:00-05:00\",\r\n    \"funcionesCargo\": \"Ayudante\",\r\n    \"trabajaActualmente\": 1,\r\n    \"motivoRetiro\": \"\",\r\n    \"observaciones\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/ExperienciaLaborales/4",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ExperienciaLaborales",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Experiencia Laboral",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44352/api/ExperienciaLaborales/5",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"api",
+						"ExperienciaLaborales",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizacion Parcial Experiencia Funcionario",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 4,\r\n    \"funcionarioId\": 7,\r\n    \"Estado\":\"Rechazado\",\r\n    \"justificacion\":\"No trabajo\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/ExperienciaLaborales/4",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ExperienciaLaborales",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

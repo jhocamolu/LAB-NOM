@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_ObtenerParametro_V2">
+<comment>Retefuente</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_ObtenerParametroAnioPasado]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_ObtenerParametroAnioPasado];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 25/07/2020
+-- Description: Pemite obtener el valor del parametro que para el año inmediatamente anterior
+--			 al vigente
+--
+-- Parameters:
+--   @Alias:		Alias del parámetro
+--
+-- Returns:		Scalar
+--	@Valor:		Valor del Parametro 
+-- ==========================================================================================
+CREATE FUNCTION [util].[UFS_ObtenerParametroAnioPasado]
+(@Alias VARCHAR(100)
+)
+RETURNS VARCHAR(100)
+AS
+     BEGIN
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         DECLARE @valor VARCHAR(100);
+         DECLARE @AnioPasado VARCHAR(255);
+         DECLARE @AnioTrabajo INT;
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+         SELECT @AnioPasado = vce.ANIO_PASADO
+         FROM [util].[VW_ConstanteEstado] AS vce;
+
+         -- Se consulta el año de trabajo inmediatamente anterior al vigente
+         SET @AnioTrabajo = dbo.UFS_ObtenerAnioTrabajo(@AnioPasado);
+
+         -- Se consulta el valor del parámetro para el año de trabajo
+         SELECT @valor = [util].[UFS_ObtenerParametro](@Alias, @AnioTrabajo);
+
+         RETURN @valor;
+     END;
+GO	 
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_ObtenerParametroAnioPasado]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_ObtenerParametroAnioPasado];
+END;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

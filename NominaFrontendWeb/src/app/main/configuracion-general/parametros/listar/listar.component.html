@@ -1,0 +1,79 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Parámetros</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Parámetros del sistema</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <form name="form" [formGroup]="form">
+                <mat-form-field appearance="outline">
+                    <mat-label>Año vigente</mat-label>
+                    <mat-select formControlName="annoVigente" step="any" required>
+                        <mat-option></mat-option>
+                        <mat-option *ngFor="let item of annovigentes" [value]="item.id">
+                            {{ item.anno }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngFor="let error of form.get('annoVigente').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Listado de años de trabajo.">
+                        info</mat-icon>
+                </mat-form-field>
+            </form>
+
+            <alcanos-empty-list labelBtn="" labelH1="¡Uy! Aún no has registrado parámetros del sistema."
+                [visibleBtnCreate]="false" [visible]="! items?.length">
+            </alcanos-empty-list>
+            <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="15px">
+                <ng-container *ngFor="let item of items; let i = index">
+                    <div fxFlex="0 1 calc(25% - 15px)">
+                        <a (click)="navigate($event, item.id)">
+                            <mat-card class="mat-elevation-z4" [ngStyle]="{'border-top': color(i) + ' 8px solid'}">
+                                <mat-card-header>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="card-circe" [ngStyle]="{'background':color(i)}"
+                                        matTooltip="{{item.descripcion}}">
+                                        {{ abrevia(item.nombre)}}
+                                    </div>
+                                    <p>
+                                        {{item.nombre}}
+                                    </p>
+                                </mat-card-content>
+                                <mat-card-actions>
+
+                                </mat-card-actions>
+                            </mat-card>
+                        </a>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

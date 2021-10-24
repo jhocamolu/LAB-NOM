@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="_LogConfiguracion_Datos_V3">
+<sql endDelimiter="\n" splitStatements="true">
+<![CDATA[
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ApiV3.Models.AusentismoFuncionario' WHERE Id = 1; 
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ApiV3.Models.Beneficio' WHERE Id = 2;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ApiV3.Models.BeneficioAdjunto' WHERE Id = 3;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ApiV3.Models.BeneficioSubperiodo' WHERE Id = 4;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ApiV3.Models.Car' WHERE Id = 5;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ApiV3.Models.CarReporta' WHERE Id = 6;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ApiV3.Models.ConceptoBase' WHERE Id = 7;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ApiV3.Models.ConceptoNomina' WHERE Id = 8;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ApiV3.Models.ConceptoNominaCuentaContable' WHERE Id = 9;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.Contrato' WHERE Id = 10;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.ContratoAdministradora' WHERE Id = 11;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.ContratoOtroSi' WHERE Id = 12;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.DocumentoFuncionario' WHERE Id = 13;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.Embar' WHERE Id = 14;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.EmbarConceptoNomina' WHERE Id = 15;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.EmbarSubperiodo' WHERE Id = 16;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.ExperienciaLaboral' WHERE Id = 17;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.Funcionario' WHERE Id = 18;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.FuncionarioEstudio' WHERE Id = 19;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.FuncionNomina' WHERE Id = 20;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.FuncionVariable' WHERE Id = 21;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.InformacionFamiliar' WHERE Id = 22;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.JornadaLaboral' WHERE Id = 23;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.JornadaLaboralDia' WHERE Id = 24;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.Libranza' WHERE Id = 25;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.LibranzaSubperiodo' WHERE Id = 26;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.LibroVacacion' WHERE Id = 27;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.Nomina' WHERE Id = 28;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.NominaDetalle' WHERE Id = 29;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.NominaFuenteNovedad' WHERE Id = 30;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.NominaFuncionario' WHERE Id = 31;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.NotificacionPlantilla' WHERE Id = 32;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.ParametroGeneral' WHERE Id = 33;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.ProrrogaAusentismo' WHERE Id = 34;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.RepresentanteEmpresa' WHERE Id = 35;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.SolicitudPermiso' WHERE Id = 36;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.SolicitudVacacion' WHERE Id = 37;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.SoporteSolicitudPermiso' WHERE Id = 38;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.TareaProgramada' WHERE Id = 39;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ApiV3.Models.Actividad' WHERE Id = 40;
+]]> 
+</sql>
+
+<rollback>
+<sql endDelimiter="\n" splitStatements="true">
+<![CDATA[
+    UPDATE [util].[_LogConfiguracion] SET Model = N'AusentismoFuncionario' WHERE Id = 1; 
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'Beneficio' WHERE Id = 2;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'BeneficioAdjunto' WHERE Id = 3;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'BeneficioSubperiodo' WHERE Id = 4;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'Car' WHERE Id = 5;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'CarReporta' WHERE Id = 6;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ConceptoBase' WHERE Id = 7;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ConceptoNomina' WHERE Id = 8;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model = N'ConceptoNominaCuentaContable' WHERE Id = 9;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'Contrato' WHERE Id = 10;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ContratoAdministradora' WHERE Id = 11;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ContratoOtroSi' WHERE Id = 12;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'DocumentoFuncionario' WHERE Id = 13;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'Embar' WHERE Id = 14;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'EmbarConceptoNomina' WHERE Id = 15;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'EmbarSubperiodo' WHERE Id = 16;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ExperienciaLaboral' WHERE Id = 17;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'Funcionario' WHERE Id = 18;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'FuncionarioEstudio' WHERE Id = 19;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'FuncionNomina' WHERE Id = 20;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'FuncionVariable' WHERE Id = 21;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'InformacionFamiliar' WHERE Id = 22;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'JornadaLaboral' WHERE Id = 23;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'JornadaLaboralDia' WHERE Id = 24;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'Libranza' WHERE Id = 25;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'LibranzaSubperiodo' WHERE Id = 26;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'LibroVacacion' WHERE Id = 27;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'Nomina' WHERE Id = 28;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'NominaDetalle' WHERE Id = 29;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'NominaFuenteNovedad' WHERE Id = 30;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'NominaFuncionario' WHERE Id = 31;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'NotificacionPlantilla' WHERE Id = 32;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ParametroGeneral' WHERE Id = 33;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'ProrrogaAusentismo' WHERE Id = 34;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'RepresentanteEmpresa' WHERE Id = 35;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'SolicitudPermiso' WHERE Id = 36;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'SolicitudVacacion' WHERE Id = 37;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'SoporteSolicitudPermiso' WHERE Id = 38;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'TareaProgramada' WHERE Id = 39;
+    
+    UPDATE [util].[_LogConfiguracion] SET Model =  N'Actividad' WHERE Id = 40;
+]]> 
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

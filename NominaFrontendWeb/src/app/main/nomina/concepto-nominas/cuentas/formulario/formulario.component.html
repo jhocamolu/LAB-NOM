@@ -1,0 +1,66 @@
+<h1 mat-dialog-title>
+    <div *ngIf="!data?.id">Crear cuenta contable</div>
+    <div *ngIf="data?.id">Editar cuenta contable</div>
+</h1>
+<div mat-dialog-content fusePerfectScrollbar>
+    <div class="spiner" *ngIf="espera">
+        <mat-spinner></mat-spinner>
+    </div>
+    <form [formGroup]="form" *ngIf="form">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cuenta contable</mat-label>
+            <input matInput formControlName="cuentaContable" [matAutocomplete]="auto" required>
+            <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+                <mat-option *ngFor="let item of filteredCuentaContables | async" [value]="item">
+                    {{item.cuenta}} - {{item.nombre}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngFor="let error of form.get('cuentaContable').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="N° de cuenta donde se registran las transacciones de la compañía.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Código centro de costo</mat-label>
+            <input matInput formControlName="centroCosto" [matAutocomplete]="autoFn">
+            <mat-autocomplete [displayWith]="displayFnCentroCostos" #autoFn="matAutocomplete">
+                <mat-option *ngFor="let item of filteredCentroCostos | async" [value]="item">
+                    {{item.codigo}} - {{item.nombre}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngFor="let error of form.get('centroCosto').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Código de clasificación del costo y gasto de la compañía.">info
+            </mat-icon>
+        </mat-form-field>
+
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="dialogRef.close() ">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancelar</span>
+    </button>
+    <button mat-raised-button [disabled]="form.invalid || submit" (click)="guardarHandle($event)" color="accent">
+        <mat-icon>save</mat-icon>
+        <span>Guardar</span>
+    </button>
+</div>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="Categoria_Datos_V2">
+<comment>HT037 informacion categoria</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.Categoria
+  SET 
+      dbo.Categoria.Alias = 'administracion-personal', 
+      dbo.Categoria.Codigo = 'AdmPer'
+WHERE Id = 1;
+ GO
+
+UPDATE dbo.Categoria
+  SET 
+      dbo.Categoria.Alias = 'desarrollo-talento-humano', 
+      dbo.Categoria.Codigo = 'DesTaHu'
+WHERE Id = 2;
+GO
+
+UPDATE dbo.Categoria
+  SET 
+      dbo.Categoria.Alias = 'nomina', 
+      dbo.Categoria.Codigo = 'Nomina'
+WHERE Id = 3;
+GO
+
+UPDATE dbo.Categoria
+  SET 
+      dbo.Categoria.Alias = 'seguridad-salud', 
+      dbo.Categoria.Codigo = 'SeSaTra'
+WHERE Id = 4;
+GO
+
+UPDATE dbo.Categoria
+  SET 
+      dbo.Categoria.Alias = 'seleccion-personal', 
+      dbo.Categoria.Codigo = 'SelPer'
+WHERE Id = 5;
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.Categoria
+  SET 
+      dbo.Categoria.Alias = '', 
+      dbo.Categoria.Codigo = ''
+ WHERE Id IN (1,2,3,4,5)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

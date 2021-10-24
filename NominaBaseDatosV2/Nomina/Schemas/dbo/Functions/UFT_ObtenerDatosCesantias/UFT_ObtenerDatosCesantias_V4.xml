@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="UFT_ObtenerDatosCesantias_V4">
+<comment>Funcion devuelve la información de las cesantias en la liquidaciones de nomina</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerDatosCesantias]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerDatosCesantias]
+END
+GO
+
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 06-06-2020
+-- Description: Obtiene la base calculo de censantia
+-- Parametros:
+-- @FuncionarioId INT: Id del funcionario.
+-- Retorna: 
+-- @Tabla TABLE: Retorna el valor de la base de cesantias
+-- =============================================
+CREATE FUNCTION [dbo].[UFT_ObtenerDatosCesantias](@FuncionarioId INT)
+RETURNS @Table TABLE
+(BaseCesantias                    FLOAT, 
+ ValorCesantiasAcumuladas         FLOAT, 
+ ValorIntresesCesantiasAcumuladas FLOAT, 
+ DiasAcumulados                   INT
+)
+AS
+     BEGIN
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+		 DECLARE @TipoCalculo VARCHAR(10) = '';
+         DECLARE @BanderaNominaConsolidada BIT= 0;
+         DECLARE @PrimerDiaAno DATE=
+         (
+             SELECT CONVERT(DATE, DATEADD(yy, DATEDIFF(yy, 0, GETDATE()), 0))
+         );
+         DECLARE @AnioPrimerDiaAnoMenosUno VARCHAR(255)=
+         (
+         (
+             SELECT YEAR(DATEADD(YEAR, -1, @PrimerDiaAno))
+         )
+         );
+         DECLARE @FechaActual DATE=
+         (
+             SELECT CONVERT(DATE, GETDATE())
+         );
+         DECLARE @AnioMenosUno VARCHAR(255)=
+         (
+             SELECT YEAR(DATEADD(YEAR, -1, @FechaActual))
+         );
+         DECLARE @BASEPRIMACESANTIASMES VARCHAR(255);
+         DECLARE @NominaDetalleProcesado VARCHAR(255);
+         DECLARE @NominaAplicada VARCHAR(255);
+         DECLARE @PeriodoContableCerrado VARCHAR(255);
+         DECLARE @FechaCorte DATE;
+         DECLARE @NominaCesaFondId INT;
+         DECLARE @NominaCesaFondFecha DATE;
+         DECLARE @NominaCesaId INT;
+         DECLARE @NominaCesaFecha DATE;
+         DECLARE @CodigoCESAFOND VARCHAR(255);
+         DECLARE @CodigoCESA VARCHAR(255);
+         DECLARE @CodigoPROVI VARCHAR(255);
+         DECLARE @AnioCesaFondFecha VARCHAR(255);
+         DECLARE @FechaInicioContrato DATE;
+         DECLARE @AnioCesa VARCHAR(255);
+         DECLARE @BaseCesantias FLOAT = 0;
+         DECLARE @ValorCesantias FLOAT = 0;
+         DECLARE @CantidadCesantias INT = 0;
+         DECLARE @ValorInteresesCesantias FLOAT = 0;
+        
+         -- Parámetros alias concepto nomina
+         DECLARE @PROVCESANTIAS VARCHAR(255);
+         DECLARE @PROVINTCESANTIAS VARCHAR(255);
+		 DECLARE @CESANTIASCONSOLIDADAS VARCHAR(255);
+         DECLARE @INTERESESCESANTIASCONSOLIDADAS VARCHAR(255);
+
+         -- Parametros de consulta
+         DECLARE @AliasCesantias VARCHAR(255);
+         DECLARE @AliasIntereses VARCHAR(255);
+         DECLARE @NominaTipoCodigo VARCHAR(255);
+         DECLARE @FechaInicial DATE;
+         DECLARE @FechaFinal DATE;
+
+		 -- Asignacion alias conceptos nomina en parametro general
+         SELECT 
+				@BASEPRIMACESANTIASMES = cpg.BASEPRIMACESANTIASMES,
+				@PROVCESANTIAS = cpg.PROVCESANTIAS, 
+                @PROVINTCESANTIAS = cpg.PROVINTCESANTIAS, 
+                @CESANTIASCONSOLIDADAS = cpg.CESANTIASCONSOLIDADAS, 
+                @INTERESESCESANTIASCONSOLIDADAS = cpg.INTERESESCESANTIASCONSOLIDADAS
+         FROM util.VW_ConstanteParametroGeneral AS cpg;
+
+         -- Asignacion de estados 
+         SELECT @NominaAplicada = vce.NOMINA_APLICADA, 
+                @NominaDetalleProcesado = vce.NOMINADETALLE_PROCESADO, 
+                @PeriodoContableCerrado = vce.PERIODOCONTABLE_CERRADO
+         FROM util.VW_ConstanteEstado vce;
+
+         -- Asignacion de estados del tipo de liquidacion 
+         SELECT @CodigoCESAFOND = vcc.CODIGO_CESANTIASAFONDOS, 
+                @CodigoCESA = vcc.CODIGO_CONSOLIDACIONCESANTIAS, 
+                @CodigoPROVI = vcc.CODIGO_PROVISION
+         FROM [util].[VW_ConstanteCodigoTipoLiquidacion] AS vcc;
+
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+         -- Obtiene fecha corte
+         SET @FechaCorte =
+         (
+             SELECT TOP 1 pc.Fecha
+             FROM dbo.PeriodoContable pc
+             WHERE pc.Estado = @PeriodoContableCerrado
+             ORDER BY pc.Fecha DESC
+         );
+
+         --Consultar la última liquidación de cesantías a fondos realizada.
+         SELECT @NominaCesaFondId = nm.Id, 
+                @NominaCesaFondFecha = nm.FechaFinal
+         FROM dbo.Nomina nm
+              INNER JOIN dbo.TipoLiquidacion tl ON nm.TipoLiquidacionId = tl.Id
+         WHERE tl.Codigo = @CodigoCESAFOND
+               AND nm.FechaFinal <= @FechaCorte
+               AND nm.Estado = @NominaAplicada
+         ORDER BY nm.FechaFinal DESC;
+         IF @NominaCesaFondId IS NOT NULL
+             BEGIN
+                 --¿Existe funcionario en la liquidación?
+                 IF EXISTS
+                 (
+                     SELECT nf.Id
+                     FROM dbo.NominaFuncionario nf
+                     WHERE nf.FuncionarioId = @FuncionarioId
+                           AND nf.NominaId = @NominaCesaFondId
+                 )
+                     BEGIN
+                         SET @AnioCesaFondFecha =
+                         (
+                             SELECT YEAR(@NominaCesaFondFecha)
+                         );
+
+                         --¿Año fecha final de liquidacion = Año de fecha solicitud - 1 año?
+                         IF @AnioCesaFondFecha = @AnioMenosUno
+                             BEGIN
+                                 
+                                 -- Calcula Valores cesantias A
+                                 SET @TipoCalculo = 'A';
+                                 SET @AliasCesantias = @PROVCESANTIAS;
+                                 SET @AliasIntereses = @PROVINTCESANTIAS;
+                                 SET @NominaTipoCodigo = @CodigoPROVI;
+                                 SET @FechaInicial = @PrimerDiaAno;
+                                 SET @FechaFinal = @FechaCorte;
+                         END;
+                             ELSE
+                             BEGIN
+                                 -- Consultar cesantias consolidadas
+                                 SET @BanderaNominaConsolidada = 1;
+                         END;
+                 END;
+                     ELSE
+                     BEGIN
+                         -- Consultar cesantias consolidadas
+                         SET @BanderaNominaConsolidada = 1;
+                 END;
+         END;
+		 ELSE
+		 BEGIN
+			SET @BanderaNominaConsolidada = 1;
+		 END
+         IF @BanderaNominaConsolidada = 1
+             BEGIN
+                 SELECT @NominaCesaId = nm.Id, 
+                        @NominaCesaFecha = nm.FechaFinal
+                 FROM dbo.Nomina nm
+                      INNER JOIN dbo.TipoLiquidacion tl ON nm.TipoLiquidacionId = tl.Id
+                 WHERE tl.Codigo = @CodigoCESA
+                       AND nm.FechaFinal <= @FechaCorte
+                       AND nm.Estado = @NominaAplicada
+                 ORDER BY nm.FechaFinal DESC;
+                 IF @NominaCesaId IS NOT NULL
+                     BEGIN
+                         --¿Existe funcionario en la consolidación?
+
+                         IF EXISTS
+                         (
+                             SELECT nf.Id
+                             FROM dbo.NominaFuncionario nf
+                             WHERE nf.FuncionarioId = @FuncionarioId
+                                   AND nf.NominaId = @NominaCesaId
+                         )
+                             BEGIN
+                                 -- ¿Año fecha final de liquidacion = Año de fecha solicitud - 1 año?
+                                 SET @AnioCesa =
+                                 (
+                                     SELECT YEAR(@NominaCesaFecha)
+                                 );
+                                 IF @AnioCesa = @AnioMenosUno
+                                     BEGIN
+                                         
+                                         --Calcular valores cesantías B
+                                         SET @TipoCalculo = 'B';
+                                         SET @AliasCesantias = @CESANTIASCONSOLIDADAS;
+                                         SET @AliasIntereses = @INTERESESCESANTIASCONSOLIDADAS;
+										 SET @NominaTipoCodigo = @CodigoCESA;
+										 SET @FechaFinal = @FechaCorte;
+
+                                 END;
+                                     ELSE
+                                     BEGIN
+                                         
+                                         --Calcular valores cesantías D
+                                         SET @TipoCalculo = 'D';
+                                         SET @AliasCesantias = @PROVCESANTIAS;
+                                         SET @AliasIntereses = @PROVINTCESANTIAS;
+                                         SET @NominaTipoCodigo = @CodigoPROVI;
+                                         SET @FechaInicial = @AnioPrimerDiaAnoMenosUno;
+                                         SET @FechaFinal = @FechaCorte;
+                                 END;
+                         END;
+                             ELSE
+                             BEGIN
+                                 SELECT @FechaInicioContrato = con.FechaInicio
+                                 FROM dbo.Contrato con
+                                 WHERE FuncionarioId = @FuncionarioId
+                                 ORDER BY con.FechaInicio DESC;
+                                 
+                                 -- Calcular valores cesantías C
+                                 SET @TipoCalculo = 'C';
+                                 SET @AliasCesantias = @PROVCESANTIAS;
+                                 SET @AliasIntereses = @PROVINTCESANTIAS;
+                                 SET @NominaTipoCodigo = @CodigoPROVI;
+                                 SET @FechaInicial = @FechaInicioContrato;
+                                 SET @FechaFinal = @FechaCorte;
+                         END;
+                 END;
+         END;
+
+    IF (@TipoCalculo = 'A' OR  @TipoCalculo = 'C' OR @TipoCalculo = 'D' )
+    BEGIN
+        SELECT @ValorCesantias = SUM(nd.Valor), 
+               @CantidadCesantias = SUM(nd.Cantidad)
+        FROM dbo.NominaFuncionario nf
+             INNER JOIN dbo.NominaDetalle nd ON nf.Id = nd.NominaFuncionarioId
+             INNER JOIN dbo.Nomina nm ON nf.NominaId = nm.Id
+             INNER JOIN dbo.ConceptoNomina cn ON nd.ConceptoNominaId = cn.Id
+             INNER JOIN dbo.TipoLiquidacion tl ON nm.TipoLiquidacionId = tl.Id
+        WHERE nf.FuncionarioId = @FuncionarioId
+              AND tl.Codigo = @NominaTipoCodigo
+              AND cn.Alias = @AliasCesantias
+              AND nm.FechaInicio >= @FechaInicial
+              AND nm.FechaFinal <= @FechaFinal
+        GROUP BY nd.ConceptoNominaId;
+
+        SELECT @ValorInteresesCesantias = SUM(nd.Valor)
+        FROM dbo.NominaFuncionario nf
+             INNER JOIN dbo.NominaDetalle nd ON nf.Id = nd.NominaFuncionarioId
+             INNER JOIN dbo.Nomina nm ON nf.NominaId = nm.Id
+             INNER JOIN dbo.ConceptoNomina cn ON nd.ConceptoNominaId = cn.Id
+             INNER JOIN dbo.TipoLiquidacion tl ON nm.TipoLiquidacionId = tl.Id
+        WHERE nf.FuncionarioId = @FuncionarioId
+              AND tl.Codigo = @NominaTipoCodigo
+              AND cn.Alias = @AliasIntereses
+              AND nm.FechaInicio >= @FechaInicial
+              AND nm.FechaFinal <= @FechaFinal
+        GROUP BY nd.ConceptoNominaId;
+    END;
+	IF(@TipoCalculo	 = 'B')
+	BEGIN
+	SELECT @ValorCesantias = SUM(nd.Valor), 
+               @CantidadCesantias = SUM(nd.Cantidad)
+        FROM dbo.NominaFuncionario nf
+             INNER JOIN dbo.NominaDetalle nd ON nf.Id = nd.NominaFuncionarioId
+             INNER JOIN dbo.Nomina nm ON nf.NominaId = nm.Id
+             INNER JOIN dbo.ConceptoNomina cn ON nd.ConceptoNominaId = cn.Id
+             INNER JOIN dbo.TipoLiquidacion tl ON nm.TipoLiquidacionId = tl.Id
+        WHERE nf.FuncionarioId = @FuncionarioId
+              AND tl.Codigo = @NominaTipoCodigo
+              AND cn.Alias = @AliasCesantias
+              AND nm.FechaFinal <= @FechaFinal
+        GROUP BY nd.ConceptoNominaId;
+
+        SELECT @ValorInteresesCesantias = SUM(nd.Valor)
+        FROM dbo.NominaFuncionario nf
+             INNER JOIN dbo.NominaDetalle nd ON nf.Id = nd.NominaFuncionarioId
+             INNER JOIN dbo.Nomina nm ON nf.NominaId = nm.Id
+             INNER JOIN dbo.ConceptoNomina cn ON nd.ConceptoNominaId = cn.Id
+             INNER JOIN dbo.TipoLiquidacion tl ON nm.TipoLiquidacionId = tl.Id
+        WHERE nf.FuncionarioId = @FuncionarioId
+              AND tl.Codigo = @NominaTipoCodigo
+              AND cn.Alias = @AliasIntereses
+              AND nm.FechaFinal <= @FechaFinal
+        GROUP BY nd.ConceptoNominaId;
+	END
+
+	-- Consultar base de cesantias
+         SELECT @BaseCesantias = AVG(nde.Valor)
+         FROM dbo.NominaFuncionario nfu
+              INNER JOIN dbo.NominaDetalle nde ON nfu.Id = nde.NominaFuncionarioId
+              INNER JOIN dbo.ConceptoNomina cno ON cno.Id = nde.ConceptoNominaId
+              INNER JOIN dbo.Nomina nom ON nom.Id = nfu.NominaId
+         WHERE nfu.FuncionarioId = @FuncionarioId
+               AND cno.Alias = @BASEPRIMACESANTIASMES
+               AND nom.FechaInicio >= @PrimerDiaAno
+               AND nom.FechaFinal <= @FechaActual
+               AND nde.Estado = @NominaDetalleProcesado;
+
+        IF	@BaseCesantias IS NULL
+			SET @BaseCesantias = 0;
+
+		-- Inserta los valores de resultado 
+         INSERT INTO @Table
+                SELECT @BaseCesantias, 
+                       @ValorCesantias, 
+                       @ValorInteresesCesantias,
+					   @CantidadCesantias
+               
+         RETURN;
+     END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerDatosCesantias]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerDatosCesantias]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

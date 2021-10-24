@@ -1,0 +1,211 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+    <h1 mat-dialog-title>Visualizar información familiar</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Primer nombre
+                    <mat-icon class="s-16" matSuffix matTooltip="Primer nombre de familiar del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.primerNombre}}
+                </p>
+            </div>
+            <div>
+                <h3>Segundo nombre
+                    <mat-icon class="s-16" matSuffix matTooltip="Segundo nombre de familiar del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.segundoNombre != null ? element.segundoNombre : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Primer apellido
+                    <mat-icon class="s-16" matSuffix matTooltip="Primer apellido de familiar del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.primerApellido}}
+                </p>
+            </div>
+            <div>
+                <h3>Segundo apellido
+                    <mat-icon class="s-16" matSuffix matTooltip="Segundo apellido de familiar del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.segundoApellido != null ? element.segundoApellido : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Sexo
+                    <mat-icon class="s-16" matSuffix matTooltip="Sexo de familiar del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.sexo?.nombre}}
+                </p>
+            </div>
+            <div>
+                <h3>Nombre parentesco
+                    <mat-icon class="s-16" matSuffix matTooltip="Parentesco de familiar del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.parentesco?.nombre}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Dependiente
+                    <mat-icon class="s-16" matSuffix matTooltip="Se determina si el familiar está a cargo del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p *ngIf="element.dependiente == false ">No</p>
+                <p *ngIf="element.dependiente == true ">Si </p>
+            </div>
+            <div>
+                <h3>Tipo de documento
+                    <mat-icon class="s-16" matSuffix matTooltip="Tipo de documento de familiar del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.tipoDocumento?.nombre}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Número de documento
+                    <mat-icon class="s-16" matSuffix matTooltip="Número de identificación de documento de familiar del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.numeroDocumento}}
+                </p>
+            </div>
+            <div>
+                <h3>Nivel educativo
+                    <mat-icon class="s-16" matSuffix matTooltip="Nivel educativo de familiar de funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.nivelEducativo?.nombre ? element.nivelEducativo?.nombre  : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Fecha de nacimiento
+                    <mat-icon class="s-16" matSuffix matTooltip="Fecha de nacimiento de familiar de funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.fechaNacimiento | date:'dd / LL / yyyy'}}
+                </p>
+            </div>
+            <div>
+                <h3>País de residencia
+                    <mat-icon class="s-16" matSuffix matTooltip="País en el que reside familiar de funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.divisionPoliticaNivel2?.divisionPoliticaNivel1?.pais.nombre}}
+
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Departamento de residencia
+                    <mat-icon class="s-16" matSuffix matTooltip="Departamento en el que reside familiar de funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.divisionPoliticaNivel2?.divisionPoliticaNivel1?.nombre}}
+                </p>
+            </div>
+            <div>
+                <h3>Municipio de residencia
+                    <mat-icon class="s-16" matSuffix matTooltip="Municipio en el que reside familiar de funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.divisionPoliticaNivel2?.nombre}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Celular
+                    <mat-icon class="s-16" matSuffix matTooltip="Número de celular de familiar del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.celular}}
+                </p>
+            </div>
+            <div>
+                <h3>Teléfono fijo
+                    <mat-icon class="s-16" matSuffix matTooltip="Teléfono fijo de familiar de funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.telefonoFijo  ? element.telefonoFijo : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h3>Dirección
+                    <mat-icon class="s-16" matSuffix matTooltip="Dirección de la residencia de familiar del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p> {{element.direccion}}</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="Documento_Datos_V1">
+<comment>Migración Inicial</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Documento] ON 
+GO
+INSERT [dbo].[Documento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [GrupoDocumentoId], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (1, N'Activo', CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), NULL, N'Carta terminacion', 2, N'carta-terminacion', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Documento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [GrupoDocumentoId], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (2, N'Activo', CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), NULL, N'Término fijo', 3, N'contrato-termino-fijo', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Documento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [GrupoDocumentoId], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (3, N'Activo', CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), NULL, N'Término indefinido', 3, N'contrato-termino-indefinido', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Documento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [GrupoDocumentoId], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (4, N'Activo', CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), NULL, N'Integral fijo', 3, N'contrato-integral-fijo', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Documento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [GrupoDocumentoId], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (5, N'Activo', CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), NULL, N'Integral indefinido', 3, N'contrato-integral-indefinido', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Documento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [GrupoDocumentoId], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (6, N'Activo', CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), CAST(N'2019-12-26T10:37:48.2700000' AS DateTime2), NULL, N'Otrosí', 4, N'otrosi', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Documento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [GrupoDocumentoId], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (7, N'Activo', CAST(N'2020-03-30T18:27:12.9530000' AS DateTime2), CAST(N'2020-03-30T18:27:12.9530000' AS DateTime2), NULL, N'Certificado con cargo y sueldo', 6, N'certificado-cargo-sueldo', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Documento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [GrupoDocumentoId], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (8, N'Activo', CAST(N'2020-03-30T18:27:12.9530000' AS DateTime2), CAST(N'2020-03-30T18:27:12.9530000' AS DateTime2), NULL, N'Certificado con cargo', 6, N'certificado-cargo', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Documento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [GrupoDocumentoId], [Slug], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (9, N'Activo', CAST(N'2020-03-30T18:27:12.9530000' AS DateTime2), CAST(N'2020-03-30T18:27:12.9530000' AS DateTime2), NULL, N'Certificado con sueldo', 6, N'certificado-sueldo', NULL, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Documento] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [Documento]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

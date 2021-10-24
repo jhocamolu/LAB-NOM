@@ -1,0 +1,60 @@
+<!-- CONTENT -->
+<div>
+
+    <!-- CONTENIDO -->
+    <div class="contenido ">
+
+        <alcanos-empty-list (fnCreate)="diaHandle($event)"
+            labelH1="¡Uy! Aún no has registrado días de la jornada laboral." labelBtn="Agregar día"
+            [visible]="diaLista.length ==  0 && dataRequest == false && mostrarEmpty">
+        </alcanos-empty-list>
+
+
+        <div *ngIf="diaLista.length ==  0 && dataRequest == false && mostrarEmpty == false">
+            No existe información relacionada.
+        </div>
+
+        <div *ngIf="diaLista.length > 0">
+            <table class="simple">
+                <thead>
+                    <tr>
+                        <th class="mat-header-cell margen">Día</th>
+                        <th class="mat-header-cell">Inicio jornada</th>
+                        <th class="mat-header-cell">Inicio descanso</th>
+                        <th class="mat-header-cell">Fin descanso</th>
+                        <th class="mat-header-cell">Fin jornada</th>
+                        <th class="mat-header-cell" style="text-align: center" *ngIf="mostrarAcciones"
+                            [ngStyle]="{'display': !( arrayPermisosDias.actualizar || arrayPermisosDias.eliminar ) ? 'none' : ''}">
+                            Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let item of diaLista" class="mat-row">
+                        <td class="margen">{{item.dia}}</td>
+                        <td>{{item.horaInicioJornada}}</td>
+                        <td>{{item.horaInicioDescanso}}</td>
+                        <td>{{item.horaFinDescanso}}</td>
+                        <td>{{item.horaFinJornada}}</td>
+                        <td *ngIf="mostrarAcciones" class="text-center">
+                            <button *ngIf="arrayPermisosDias.actualizar" (click)="editarDiaHandle($event, item)"
+                                matTooltip="Editar" mat-icon-button aria-label="Editar">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button *ngIf="arrayPermisosDias.eliminar" (click)="eliminarHandle($event, item.id)"
+                                matTooltip="Eliminar" mat-icon-button aria-label="Eliminar">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+        </div>
+    </div>
+    <!-- / CONTENIDO -->
+
+</div>
+<!-- / CONTENT -->

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="VW_ConstanteClaseCategoriaNovedad_V1">
+<comment>HU056</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteClaseCategoriaNovedad]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteClaseCategoriaNovedad]
+END
+GO
+
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 23-04-2020
+-- Description: Vista que permite la simulación de constantes para las clases de cargo
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [util].[VW_ConstanteClaseCategoriaNovedad]
+AS
+SELECT 
+		CAST('Fija' AS VARCHAR) AS [FIJA]
+		,CAST('Eventual' AS VARCHAR) AS [EVENTUAL]
+GO
+
+
+-- Descripción de la vista 
+EXEC sys.sp_addextendedproperty 
+		@name=N'MS_Description', 
+		@value=N'Vista que permite la simulación de constantes para las clases de cargo.' , 
+		@level0type=N'SCHEMA', @level0name=N'util', 
+		@level1type=N'VIEW', @level1name=N'VW_ConstanteClaseCategoriaNovedad'
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Clase fija.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteClaseCategoriaNovedad',  
+@level2type = N'Column', @level2name = 'FIJA';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Clase eventual.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteClaseCategoriaNovedad',  
+@level2type = N'Column', @level2name = 'EVENTUAL';  
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteClaseCategoriaNovedad]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteClaseCategoriaNovedad]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

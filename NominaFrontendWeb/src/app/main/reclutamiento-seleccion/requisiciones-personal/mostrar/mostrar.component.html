@@ -1,0 +1,362 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Selección de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/reclutamiento-seleccion/requisiciones-personal/">Requisiciones</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar requisición </span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar requisición </h2>
+            </div>
+        </div>
+        <div class="Acciones">
+
+            <requisiciones-personal-menu [permiso]="arrayPermisos" [item]="item" [cuenta]="count" *ngIf="item"></requisiciones-personal-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <mat-tab-group *ngIf="item" animationDuration="0ms" [selectedIndex]="indexTab"
+                (selectedTabChange)="onTabChangedHandle($event);">
+
+                <!-- Datos basicos -->
+                <mat-tab label="Requisición">
+                    <mat-list>
+
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Fecha de solicitud <mat-icon class="s-16"
+                                        matTooltip="Fecha de registro de la requisición.">info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.fechaCreacion | date:'dd / LL / yyyy' }}</p>
+                            </div>
+                            <div>
+                                <h3>Estado <mat-icon class="s-16" matTooltip="Estado de la requisición.">info</mat-icon>
+                                </h3>
+                                <p>{{item.estado}}</p>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>person</mat-icon>
+                                <h2>Información del solicitante</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Dependencia <mat-icon class="s-16"
+                                            matTooltip="Dependencia a la cual pertenece el solicitante de la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.cargoDependenciaSolicitante?.dependencia.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Cargo <mat-icon class="s-16"
+                                            matTooltip="Cargo al cual pertenece el solicitante de la requisición.">info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.cargoDependenciaSolicitante?.cargo.nombre}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Centro operativo <mat-icon class="s-16"
+                                            matTooltip="Centro operativo al cual pertenece el solicitante de la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.centroOperativoSolicitante != null ? ( item.centroOperativoSolicitante?.nombre ) : 'N/A' }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Funcionario solicitante <mat-icon class="s-16"
+                                            matTooltip="Número de identificación y nombre completo del funcionario que solicita la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.funcionarioSolicitante?.criterioBusqueda}}</p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                        <mat-divider></mat-divider>
+
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>person_add</mat-icon>
+                                <h2>Información del cargo solicitado</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Cargo <mat-icon class="s-16"
+                                            matTooltip="Nombre del cargo que se solicita en la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.cargoDependenciaSolicitado?.cargo.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Dependencia <mat-icon class="s-16"
+                                            matTooltip="Nombre de la dependencia a la cual pertenece el cargo que se solicita en la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.cargoDependenciaSolicitado?.dependencia.nombre}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Centro operativo <mat-icon class="s-16"
+                                            matTooltip="Nombre del centro operativo en el cual se desea contratar el cargo solicitado en la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.centroOperativoSolicitado != null ? ( item.centroOperativoSolicitado?.nombre ) : 'N/A' }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Ciudad o municipio <mat-icon class="s-16"
+                                            matTooltip="Nombre del municipio en el cual se desea contratar el cargo solicitado en la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.divisionPoliticaNivel2?.nombre}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Cantidad <mat-icon class="s-16"
+                                            matTooltip="Número de funcionarios solicitados por cargo en la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.cantidad}}</p>
+                                </div>
+                                <div>
+                                    <h3>Tipo de contrato <mat-icon class="s-16"
+                                            matTooltip="Nombre del tipo de contrato bajo el cual se desea contratar el cargo solicitado en la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.tipoContrato?.nombre}}</p>
+                                </div>
+                            </div>
+
+                            <div class="medio-bloque">
+                                <div>
+                                    <h3>Centro de costo <mat-icon class="s-16"
+                                            matTooltip="Nombre del centro de costo del cargo solicitado en la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.centroCosto?.nombre}}</p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                        <mat-divider></mat-divider>
+
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>calendar_today</mat-icon>
+                                <h2>Tiempo de contratación</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Fecha de inicio <mat-icon class="s-16"
+                                            matTooltip="Fecha inicial de contratación del cargo solicitado en la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.fechaInicio | date:'dd / LL / yyyy'}}</p>
+                                </div>
+                                <div>
+                                    <h3>Fecha fin <mat-icon class="s-16"
+                                            matTooltip="Fecha final de contratación del cargo solicitado en la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.fechaFin != null ? (item.fechaFin | date:'dd / LL / yyyy' ) : 'N/A' }}</p>
+                                </div>
+                            </div>
+
+                        </mat-list-item>
+
+                        <mat-divider></mat-divider>
+
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>assignment</mat-icon>
+                                <h2>Información de la vacante</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Motivo de la vacante <mat-icon class="s-16"
+                                            matTooltip="Motivo de la vacante por la cual se crea la necesidad .">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.motivoVacante != null ? item.motivoVacante?.nombre : 'N/A'}}</p>
+                                </div>
+                                <div>
+                                    <h3>Funcionario a quién reemplaza <mat-icon class="s-16"
+                                            matTooltip="Número de identificación y nombre completo del funcionario a reemplazar en el cargo solicitado en la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.funcionarioAQuienReemplaza != null ? item.funcionarioAQuienReemplaza?.criterioBusqueda : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                        <mat-divider></mat-divider>
+
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>work</mat-icon>
+                                <h2>Perfil y competencias del cargo</h2>
+                            </div>
+
+                            <div class="medio-bloque">
+                                <div>
+                                    <h3>Perfil <mat-icon class="s-16"
+                                            matTooltip="Descripción del perfil requerido en el cargo solicitado.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.perfilCargo != null ? item.perfilCargo : 'N/A'}}</p>
+                                </div>
+                            </div>
+
+                            <div class="medio-bloque">
+                                <div>
+                                    <h3>Competencias y habilidades <mat-icon class="s-16"
+                                            matTooltip="Descripción de las competencias y habilidades requeridas en el cargo solicitado.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.competenciaCargo != null ? item.competenciaCargo : 'N/A'}}</p>
+                                </div>
+                            </div>
+
+                        </mat-list-item>
+
+                        <mat-divider></mat-divider>
+
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>add_circle</mat-icon>
+                                <h2>Uso exclusivo de gestión humana</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Tipo de reclutamiento <mat-icon class="s-16"
+                                            matTooltip="Tipo de reclutamiento a aplicar en el proceso de reclutamiento.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.tipoReclutamiento != null ? item.tipoReclutamiento : 'N/A'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Salario <mat-icon class="s-16"
+                                            matTooltip="Salario dispuesto por gestión humana para la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.salario != null ? ( item.salario | currency:'COP':'symbol-narrow':'4.2-2': 'co') : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="medio-bloque">
+                                <div>
+                                    <h3>¿Desea que el salario del cargo aparezca en el portal de reclutamiento?
+                                        <mat-icon class="s-16"
+                                            matTooltip="Indica si el salario del cargo debe mostrarse en el portal de reclutamiento.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.salarioPortalReclutamiento != null ? (item.salarioPortalReclutamiento ? 'Sí': 'No') : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="medio-bloque">
+                                <div>
+                                    <h3>¿Desea que el perfil del cargo aparezca en el portal de reclutamiento? <mat-icon
+                                            class="s-16"
+                                            matTooltip="Indica si el perfil del cargo debe mostrarse en el portal de reclutamiento.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.perfilPortalReclutamiento != null ? (item.perfilPortalReclutamiento ? 'Sí': 'No') : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="medio-bloque">
+                                <div>
+                                    <h3>¿Desea que las competencias del cargo aparezca en el portal de reclutamiento?
+                                        <mat-icon class="s-16"
+                                            matTooltip="Indica si las competencias del cargo deben mostrarse en el portal de reclutamiento.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.competenciaPortalReclutamiento != null ? (item.competenciaPortalReclutamiento ? 'Sí': 'No') : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="medio-bloque">
+                                <div>
+                                    <h3>Observaciones<mat-icon class="s-16"
+                                            matTooltip="Observaciones de la requisición.">
+                                            info</mat-icon>
+                                    </h3>
+                                    <p>{{item.observacion != null ? item.observacion : 'N/A'}}</p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+
+
+                    </mat-list>
+
+                </mat-tab>
+                <!-- / Datos basicos -->
+
+                <!-- candidatos-->
+                <mat-tab label="Candidatos" [disabled]="desabilitar">
+                    <candidatos-listar [permiso]="arrayPermisoCandidatos" [requisicionId]="item"></candidatos-listar>
+                </mat-tab>
+                <!-- candidatos-->
+
+                <!-- Primer filtro-->
+                <mat-tab label="Primer filtro" [disabled]="desabilitar">
+                    <primer-filtro-listar [requisicionId]="item"> </primer-filtro-listar>
+                </mat-tab>
+
+                <!-- Segundo filtro-->
+                <mat-tab label="Segundo filtro" [disabled]="desabilitar">
+                    <segundo-filtro-listar [requisicionId]="item" (seleccionEvent)="refreshCount($event)">
+                    </segundo-filtro-listar>
+                </mat-tab>
+
+                <!-- Seleccionados-->
+                <mat-tab label="Seleccionados" [disabled]="desabilitar">
+                    <seleccionados-listar [requisicionId]="item" (seleccionEvent)="refreshCount($event)">
+                    </seleccionados-listar>
+                </mat-tab>
+
+
+            </mat-tab-group>
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

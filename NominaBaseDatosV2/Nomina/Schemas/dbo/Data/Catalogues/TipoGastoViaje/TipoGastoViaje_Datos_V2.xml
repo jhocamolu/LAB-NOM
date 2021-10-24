@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TipoGastoViaje_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoGastoViaje] ON 
+GO
+INSERT INTO [dbo].[TipoGastoViaje]
+           ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[ConceptoNominaId],[Tipo])
+     VALUES
+           (5,'Activo', 'sistema', GETDATE(),164,'BaseViaticosAlimentacion')
+GO
+INSERT INTO [dbo].[TipoGastoViaje]
+           ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[ConceptoNominaId],[Tipo])
+     VALUES
+           (6,'Activo', 'sistema', GETDATE(),165,'BaseViaticosRetefuente')
+GO
+INSERT INTO [dbo].[TipoGastoViaje]
+           ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[ConceptoNominaId],[Tipo])
+     VALUES
+           (7,'Activo', 'sistema', GETDATE(),166,'BaseRetefuenteGV')
+GO
+INSERT INTO [dbo].[TipoGastoViaje]
+           ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[ConceptoNominaId],[Tipo])
+     VALUES
+           (8,'Activo', 'sistema', GETDATE(),167,'BaseViaticosHospedaje')
+GO
+
+SET IDENTITY_INSERT [dbo].[TipoGastoViaje] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[TipoGastoViaje] WHERE Id >= 5;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

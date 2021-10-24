@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "8b02ed55-573f-4c5b-9a35-61ba543005e5",
+		"name": "HT036 Iniciar vigencia libranza",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TareaProgramada Iniciar vigencia de libranza",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fecha\":\"2020-03-02\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Libranzas/TareaProgramadaIniciar",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Libranzas",
+						"TareaProgramadaIniciar"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

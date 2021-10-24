@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+   
+   
+	<!-- Antes de ejecutar se deben crear los esquemas util y reporte -->
+	<!-- 
+	CREATE SCHEMA util;
+	GO
+	
+	CREATE SCHEMA reporte;
+	GO
+	-->
+   
+	<!-- Se debe incluir un archivo por cada sprint -->
+	<include file="ChangeLog/sprint8.xml" />
+	<include file="ChangeLog/sprint10.xml" />
+	<include file="ChangeLog/sprint11.xml" />
+	<include file="ChangeLog/sprint12.xml" />
+	<include file="ChangeLog/sprint13.xml" />
+	<include file="ChangeLog/sprint14.xml" />
+	
+	
+</databaseChangeLog>

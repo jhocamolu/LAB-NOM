@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_tipo_embargo_v2">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+UPDATE [dbo].[TipoEmbargo] SET Prioridad = '1', SalarioMinimoEmbargable = '1' WHERE Id=1
+GO
+UPDATE [dbo].[TipoEmbargo] SET Nombre= 'Coactivo', Prioridad = '2', SalarioMinimoEmbargable = '0' WHERE Id=2
+GO
+UPDATE [dbo].[TipoEmbargo] SET Nombre= 'Cooperativa', Prioridad = '3', SalarioMinimoEmbargable = '1' WHERE Id=3
+GO
+UPDATE [dbo].[TipoEmbargo] SET Nombre= 'Ejecutivo', Prioridad = '4', SalarioMinimoEmbargable = '0' WHERE Id=4
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoEmbargo] WHERE Id BETWEEN 1 AND 4;
+</rollback>
+</changeSet>
+</databaseChangeLog>
+
+
+
+
+
+

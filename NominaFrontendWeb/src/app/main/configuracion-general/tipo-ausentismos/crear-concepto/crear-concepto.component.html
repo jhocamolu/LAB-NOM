@@ -1,0 +1,79 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+   <h1 mat-dialog-title *ngIf="accion == 'editar'">Editar concepto de nómina</h1>
+   <h1 mat-dialog-title *ngIf="accion == 'crear'">Agregar concepto de nómina</h1>
+   <div mat-dialog-content fusePerfectScrollbar>
+
+      <mat-form-field appearance="outline">
+         <mat-label>Nombre</mat-label>
+         <mat-select formControlName="conceptoNominaId" required>
+            <mat-option></mat-option>
+            <mat-option *ngFor="let item of conceptoNominaOptions" [value]="item.id">
+               {{ item.nombre }}
+            </mat-option>
+         </mat-select>
+         <mat-error *ngFor="let error of objToArray(form.get('conceptoNominaId').errors)">
+            <div [ngSwitch]="error">
+               <ng-template [ngSwitchCase]="'required'">
+                  Requerido
+               </ng-template>
+               <ng-template ngSwitchDefault>
+                  {{error}}
+               </ng-template>
+            </div>
+         </mat-error>
+         <mat-icon matSuffix matTooltip="Concepto relacionado al tipo de ausentismo.">
+            info</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+         <mat-label>Cobertura desde</mat-label>
+         <input matInput formControlName="coberturaDesde" required>
+         <mat-error *ngFor="let error of objToArray(form.get('coberturaDesde').errors)">
+            <div [ngSwitch]="error">
+               <ng-template [ngSwitchCase]="'required'">
+                  Requerido
+               </ng-template>
+               <ng-template [ngSwitchCase]="'max'">
+                  Valor máximo {{ coberturaDesde.errors.max.max }}
+               </ng-template>
+               <ng-template ngSwitchDefault>
+                  {{error}}
+               </ng-template>
+            </div>
+         </mat-error>
+         <mat-icon matSuffix matTooltip="Indica desde que días aplica el concepto para un tipo de ausentismo.">
+            info</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+         <mat-label>Cobertura hasta</mat-label>
+         <input matInput formControlName="coberturaHasta" required>
+         <mat-error *ngFor="let error of objToArray(form.get('coberturaHasta').errors)">
+            <div [ngSwitch]="error">
+               <ng-template [ngSwitchCase]="'required'">
+                  Requerido
+               </ng-template>
+               <ng-template [ngSwitchCase]="'max'">
+                  Valor máximo {{ coberturaHasta.errors.max.max }}
+               </ng-template>
+               <ng-template ngSwitchDefault>
+                  {{error}}
+               </ng-template>
+            </div>
+         </mat-error>
+         <mat-icon matSuffix matTooltip="Indica hasta que días aplica el concepto para un tipo de ausentismo.">
+            info</mat-icon>
+      </mat-form-field>
+
+   </div>
+   <div mat-dialog-actions>
+      <button mat-raised-button type="button" (click)="dialogRef.close() ">
+         <mat-icon>cancel</mat-icon>
+         <span>Cancelar</span>
+      </button>
+      <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+         <mat-icon>save</mat-icon>
+         <span>Guardar</span>
+      </button>
+   </div>
+</form>

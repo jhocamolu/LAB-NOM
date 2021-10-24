@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="GrupoDocumentoEtiqueta_V1">
+<comment>Migración Inicial</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+CREATE TABLE [GrupoDocumentoEtiqueta] (
+    [Id] int NOT NULL IDENTITY,
+    [GrupoDocumentoId] int NOT NULL,
+    [EtiquetaId] int NOT NULL,
+    [ServicioFijoId] int NULL,
+    [Campo] nvarchar(255) NOT NULL,
+    [EstadoRegistro] varchar(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] datetime2 NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] datetime2 NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] datetime2 NULL,
+    CONSTRAINT [PK_GrupoDocumentoEtiqueta] PRIMARY KEY ([Id]),
+    CONSTRAINT [FK_GrupoDocumentoEtiqueta_Etiqueta_EtiquetaId] FOREIGN KEY ([EtiquetaId]) REFERENCES [Etiqueta] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_GrupoDocumentoEtiqueta_GrupoDocumento_GrupoDocumentoId] FOREIGN KEY ([GrupoDocumentoId]) REFERENCES [GrupoDocumento] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_GrupoDocumentoEtiqueta_ServicioFijo_ServicioFijoId] FOREIGN KEY ([ServicioFijoId]) REFERENCES [ServicioFijo] ([Id]) ON DELETE NO ACTION
+);
+GO
+CREATE INDEX [IX_GrupoDocumentoEtiqueta_GrupoDocumentoId] ON [GrupoDocumentoEtiqueta] ([GrupoDocumentoId]);
+GO
+CREATE INDEX [IX_GrupoDocumentoEtiqueta_ServicioFijoId] ON [GrupoDocumentoEtiqueta] ([ServicioFijoId]);
+GO
+CREATE UNIQUE INDEX [IX_GrupoDocumentoEtiqueta_EtiquetaId_GrupoDocumentoId] ON [GrupoDocumentoEtiqueta] ([EtiquetaId], [GrupoDocumentoId]);
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [GrupoDocumentoEtiqueta]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

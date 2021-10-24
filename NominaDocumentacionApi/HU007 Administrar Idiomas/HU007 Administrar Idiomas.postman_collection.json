@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "ee2221bf-1e3f-40af-87fb-0d155855ebfc",
+		"name": "HU007 Administrar Idiomas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtiene Listado DocumentoFuncionario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Idiomas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Idiomas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtiene  DocumentoFuncionario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Idiomas/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Idiomas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Idiomas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"codigo\": \"45\",\r\n    \"nombre\": \"AFFdf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Idiomas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Idiomas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Idiomas",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 190,\r\n    \"codigo\": \"er\",\r\n    \"nombre\": \"AFFdf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Idiomas/190",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Idiomas",
+						"190"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial Idiomas",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 190,\r\n    \"codigo\": \"er\",\r\n    \"nombre\": \"AFFdf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Idiomas/190",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Idiomas",
+						"190"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

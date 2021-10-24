@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="_LogConfiguracion_Datos_V2">
+<sql endDelimiter="GO" splitStatements="true">
+
+SET IDENTITY_INSERT [util].[_LogConfiguracion] ON 
+GO
+INSERT [util].[_LogConfiguracion] ([Id], [Model], [Tabla], [Activo], [Fecha]) VALUES (40, N'Actividad', N'Actividad', 1, GETDATE())
+GO
+SET IDENTITY_INSERT [util].[_LogConfiguracion] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [util].[_LogConfiguracion] WHERE Id = 40;
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

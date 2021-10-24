@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_subperiodo_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[SubPeriodo] ON 
+GO
+INSERT [dbo].[SubPeriodo] ([CreadoPor], [Id],  [TipoPeriodoId], [Nombre], [Dias], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 1, 1, 'Quincena 1', 15, 'Activo', GETDATE(), NULL, NULL)
+GO
+INSERT [dbo].[SubPeriodo] ([CreadoPor], [Id],  [TipoPeriodoId], [Nombre], [Dias], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 2, 1, 'Quincena 2', 15, 'Activo', GETDATE(), NULL, NULL)
+GO
+INSERT [dbo].[SubPeriodo] ([CreadoPor], [Id],  [TipoPeriodoId], [Nombre], [Dias], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 3, 2, 'Mensual', 30, 'Activo', GETDATE(), NULL, NULL)
+GO
+INSERT [dbo].[SubPeriodo] ([CreadoPor], [Id],  [TipoPeriodoId], [Nombre], [Dias], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 4, 3, 'Semana 1', '7', 'Activo', GETDATE(), NULL, NULL)
+GO
+INSERT [dbo].[SubPeriodo] ([CreadoPor], [Id],  [TipoPeriodoId], [Nombre], [Dias], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 5, 3, 'Semana 2', '7', 'Activo', GETDATE(), NULL, NULL)
+GO
+INSERT [dbo].[SubPeriodo] ([CreadoPor], [Id],  [TipoPeriodoId], [Nombre], [Dias], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 6, 3, 'Semana 3', '7', 'Activo', GETDATE(), NULL, NULL)
+GO
+INSERT [dbo].[SubPeriodo] ([CreadoPor], [Id],  [TipoPeriodoId], [Nombre], [Dias], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 7, 3, 'Semana 4', '7', 'Activo', GETDATE(), NULL, NULL)
+GO
+INSERT [dbo].[SubPeriodo] ([CreadoPor], [Id],  [TipoPeriodoId], [Nombre], [Dias], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 8, 4, 'Vigencia', 360, 'Activo', GETDATE(), NULL, NULL)
+GO
+INSERT [dbo].[SubPeriodo] ([CreadoPor], [Id],  [TipoPeriodoId], [Nombre], [Dias], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 9, 5, 'Semestre 1', 180, 'Activo', GETDATE(), NULL, NULL)
+GO
+INSERT [dbo].[SubPeriodo] ([CreadoPor], [Id],  [TipoPeriodoId], [Nombre], [Dias], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion]) VALUES ('sistema', 10, 5, 'Semestre 2', 180, 'Activo', GETDATE(), NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[SubPeriodo] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[SubPeriodo] WHERE Id BETWEEN 1 AND 10;
+</rollback>
+</changeSet>
+</databaseChangeLog>

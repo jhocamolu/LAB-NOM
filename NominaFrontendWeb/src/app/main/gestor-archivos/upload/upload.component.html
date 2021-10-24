@@ -1,0 +1,33 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="onSubmitHandle($event)">
+    <div class="">
+        <h1 mat-dialog-title class="p-32 pt-40 pb-0"></h1>
+        <div mat-dialog-content class="p-32 pt-4 pb-16 m-0">
+            <div class="text-center pb-16">
+                <img class="previewImg" *ngIf="previewSignsrc" src="{{previewSignsrc}}" alt="Sign Thumbnail">
+            </div>
+            <input type="file" formControlName="file" (change)="fileInputHandle($event)" [accept]="accept" style="padding: 0 0px !important; ">
+            <mat-error *ngFor="let error of this.form.get('file').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{ error.key }}
+                    </ng-template>
+                </div>
+            </mat-error>
+        </div>
+
+        <div mat-dialog-actions class="m-0 p-32 pt-16 " fxLayout="row " fxLayoutAlign="end center ">
+            <button type="button" mat-raised-button (click)="dialogRef.close() ">
+                <mat-icon>cancel</mat-icon>
+                <span>Cancelar</span>
+            </button>
+            <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                <mat-icon>save</mat-icon>
+                <span>Guardar</span>
+            </button>
+        </div>
+    </div>
+
+</form>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestratra" id="__EFMigrationsHistory_Initial_V107">
+<comment>Se quita requerido en campo comentario en tabla DocumentoFuncionario</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20201110214330_sprint14031', N'3.1.9');
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    DELETE FROM [__EFMigrationsHistory] WHERE [MigrationId] = '20201110214330_sprint14031' AND [ProductVersion] = '3.1.9';
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

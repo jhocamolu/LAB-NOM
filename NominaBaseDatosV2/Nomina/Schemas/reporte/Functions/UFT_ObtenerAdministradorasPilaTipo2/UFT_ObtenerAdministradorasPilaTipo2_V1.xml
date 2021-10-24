@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="UFT_ObtenerAdministradorasPilaTipo2_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[reporte].[UFT_ObtenerAdministradorasPilaTipo2]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [reporte].[UFT_ObtenerAdministradorasPilaTipo2]
+END
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Jhonatan Camilo Moreno Luna
+-- Create date: 13-08-2020
+-- Description: Permite obtener los cambios efectuados en su contrato respecto a las administradoras y liquidados para la generacion del registro tipo 2 de la PILA.
+-- Parametros:
+-- @PeriodoPagoId INT= Id del periodo contable que se debe seleccionar para la PILA;
+-- @funcionarios NVARCHAR = Id de los funcionarios que se desean registar para generar la PILA, si es NULL son todos los funcionarios.;
+-- @TipoCotizanteId   INT = Id del tipo cotizante seleccionado
+-- @SubtiposCotizante NVARCHAR(MAX) = Id de los subtipos cotizantes
+-- Retorna: 
+-- @Tabla TABLE: Retorna todos los valores para lista los funcionarios seleccionados.
+-- =============================================
+CREATE FUNCTION [reporte].[UFT_ObtenerAdministradorasPilaTipo2](@PeriodoPagoId     INT, 
+                                                               @funcionarios      NVARCHAR(MAX) = NULL, 
+                                                               @TipoCotizanteId   INT           = NULL, 
+                                                               @SubtiposCotizante NVARCHAR(MAX) = NULL)
+RETURNS @table TABLE
+(
+-- Add the column definitions for the TABLE variable here
+FuncionarioId              INT, 
+CodigoCentroTrabajo        CHAR(1), 
+FechaInicioCentroTrabajo   CHAR(10), 
+FechaFinCentroTrabajo      CHAR(10), 
+Ingreso                    CHAR(1), 
+FechaIngreso               CHAR(10), 
+Retiro                     CHAR(1), 
+FechaRetiro                CHAR(10), 
+AdminsitradoraEPS          CHAR(6), 
+TarifaAporteFuncionarioEPS CHAR(7), 
+TarifaAporteTotalEPS       CHAR(7), 
+FechaInicioEPS             CHAR(10), 
+FechaFinEPS                CHAR(10), 
+AdminsitradoraAFP          CHAR(6), 
+TarifaAporteFuncionarioAFP CHAR(7), 
+TarifaAporteTotalAFP       CHAR(7), 
+FechaInicioAFP             CHAR(10), 
+FechaFinAFP                CHAR(10), 
+AdminsitradoraCCF          CHAR(6), 
+TarifaAporteFuncionarioCCF CHAR(7), 
+TarifaAporteTotalCCF       CHAR(7), 
+FechaInicioCCF             CHAR(10), 
+FechaFinCCF                CHAR(10)
+)
+AS
+     BEGIN
+         DECLARE @FechaInicio DATE=
+         (
+             SELECT DATEADD(mm, DATEDIFF(mm, 0, pc.Fecha), 0)
+             FROM dbo.PeriodoContable pc
+             WHERE pc.Id = @PeriodoPagoId
+         );
+         DECLARE @FechaFin DATE=
+         (
+             SELECT pc.Fecha
+             FROM dbo.PeriodoContable pc
+             WHERE pc.Id = @PeriodoPagoId
+         );
+         INSERT INTO @table
+         (FuncionarioId, 
+          CodigoCentroTrabajo, 
+          FechaInicioCentroTrabajo, 
+          FechaFinCentroTrabajo, 
+          Ingreso, 
+          FechaIngreso, 
+          Retiro, 
+          FechaRetiro, 
+          AdminsitradoraEPS, 
+          TarifaAporteFuncionarioEPS, 
+          TarifaAporteTotalEPS, 
+          FechaInicioEPS, 
+          FechaFinEPS, 
+          AdminsitradoraAFP, 
+          TarifaAporteFuncionarioAFP, 
+          TarifaAporteTotalAFP, 
+          FechaInicioAFP, 
+          FechaFinAFP, 
+          AdminsitradoraCCF, 
+          TarifaAporteFuncionarioCCF, 
+          TarifaAporteTotalCCF, 
+          FechaInicioCCF, 
+          FechaFinCCF
+         )
+                SELECT t.Id, 
+                       ct.Codigo, 
+                       cct.FechaInicio, 
+                       cct.FechaFin,
+                       CASE
+                           WHEN c.FechaInicio BETWEEN @FechaInicio AND @FechaFin
+                           THEN 'X'
+                           ELSE SPACE(1)
+                       END 'Ingreso',
+                       CASE
+                           WHEN c.FechaInicio BETWEEN @FechaInicio AND @FechaFin
+                           THEN CAST(c.FechaInicio AS CHAR(10))
+                           ELSE SPACE(10)
+                       END 'FechaIngreso',
+                       CASE
+                           WHEN(c.Estado =
+                (
+                    SELECT vce.CONTRATO_PENDIENTEPORLIQUIDAR
+                    FROM util.VW_ConstanteEstado vce
+                )
+                                OR c.Estado =
+                (
+                    SELECT vce.CONTRATO_TERMINADO
+                    FROM util.VW_ConstanteEstado vce
+                ))
+                               AND c.FechaTerminacion BETWEEN @FechaInicio AND @FechaFin
+                           THEN 'X'
+                           ELSE ' '
+                       END 'Retiro',
+                       CASE
+                           WHEN(c.Estado =
+                (
+                    SELECT vce.CONTRATO_PENDIENTEPORLIQUIDAR
+                    FROM util.VW_ConstanteEstado vce
+                )
+                                OR c.Estado =
+                (
+                    SELECT vce.CONTRATO_TERMINADO
+                    FROM util.VW_ConstanteEstado vce
+                ))
+                               AND c.FechaTerminacion BETWEEN @FechaInicio AND @FechaFin
+                           THEN CAST(c.FechaTerminacion AS CHAR(10))
+                           ELSE SPACE(10)
+                       END 'FechaRetiro', 
+                       eps.Adminsitradora, 
+                       eps.TarifaAporteFuncionario, 
+                       eps.TarifaAporteTotal, 
+                       eps.FechaInicio, 
+                       eps.FechaFin, 
+                       afp.Adminsitradora, 
+                       afp.TarifaAporteFuncionario, 
+                       afp.TarifaAporteTotal, 
+                       afp.FechaInicio, 
+                       afp.FechaFin, 
+                       ccf.Adminsitradora, 
+                       ccf.TarifaAporteFuncionario, 
+                       ccf.TarifaAporteTotal, 
+                       ccf.FechaInicio, 
+                       ccf.FechaFin
+                FROM reporte.UFT_ObtenerFuncionarioPilaTipo2(@PeriodoPagoId, @funcionarios, @TipoCotizanteId, @SubtiposCotizante) t
+                     LEFT JOIN dbo.Contrato c ON c.FuncionarioId = t.Id
+                                                 AND (c.FechaTerminacion IS NULL
+                                                      OR (c.FechaTerminacion IS NOT NULL
+                                                          AND (c.FechaTerminacion BETWEEN @FechaInicio AND @FechaFin)))
+                     LEFT JOIN dbo.ContratoOtroSi cots ON cots.ContratoId = c.Id
+                                                          AND (cots.FechaFinalizacion IS NULL
+                                                               OR (cots.FechaFinalizacion IS NOT NULL
+                                                                   AND (cots.FechaAplicacion BETWEEN @FechaInicio AND @FechaFin)))
+                                                          AND cots.EstadoRegistro =
+                (
+                    SELECT vce.AUDITORIA_ACTIVO
+                    FROM util.VW_ConstanteEstado vce
+                )
+                     LEFT JOIN dbo.ContratoCentroTrabajo cct ON c.Id = cct.ContratoId
+                                                                AND (cct.FechaFin IS NULL
+                                                                     OR (cct.FechaFin IS NOT NULL
+                                                                         AND (cct.FechaFin BETWEEN @FechaInicio AND @FechaFin)))
+                     LEFT JOIN dbo.CentroTrabajo ct ON cct.CentroTrabajoId = ct.Id
+                     LEFT JOIN
+                (
+                    SELECT ca.Id, 
+                           ca.ContratoId, 
+                           ca.FechaInicio, 
+                           ca.FechaFin, 
+                           a.Codigo AS 'Adminsitradora', 
+                           ta.Codigo AS 'TipoAdministradora', 
+                           ta.TarifaAporteTotal, 
+                           ta.TarifaAporteFuncionario
+                    FROM dbo.ContratoAdministradora ca
+                         INNER JOIN dbo.Administradora a ON ca.AdministradoraId = a.Id
+                                                            AND ca.EstadoRegistro =
+                    (
+                        SELECT vce.AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado vce
+                    )
+                                                            AND a.EstadoRegistro =
+                    (
+                        SELECT vce.AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado vce
+                    )
+                         INNER JOIN dbo.TipoAdministradora ta ON A.TipoAdministradoraId = ta.Id
+                                                                 AND ta.EstadoRegistro =
+                    (
+                        SELECT vce.AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado vce
+                    )
+                                                                 AND ta.Codigo =
+                    (
+                        SELECT vcta.CODIGO_ENTIDAD_PROMOTORA_SALUD
+                        FROM util.VW_ConstanteTipoAdministradora vcta
+                    )
+                ) AS eps ON c.Id = eps.ContratoId
+                            AND (eps.FechaFin IS NULL
+                                 OR (eps.FechaFin IS NOT NULL
+                                     AND (eps.FechaFin BETWEEN @FechaInicio AND @FechaFin)))
+                     LEFT JOIN
+                (
+                    SELECT ca.Id, 
+                           ca.ContratoId, 
+                           ca.FechaInicio, 
+                           ca.FechaFin, 
+                           a.Codigo AS 'Adminsitradora', 
+                           ta.Codigo AS 'TipoAdministradora', 
+                           ta.TarifaAporteTotal, 
+                           ta.TarifaAporteFuncionario
+                    FROM dbo.ContratoAdministradora ca
+                         INNER JOIN dbo.Administradora a ON ca.AdministradoraId = a.Id
+                                                            AND ca.EstadoRegistro =
+                    (
+                        SELECT vce.AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado vce
+                    )
+                                                            AND a.EstadoRegistro =
+                    (
+                        SELECT vce.AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado vce
+                    )
+                         INNER JOIN dbo.TipoAdministradora ta ON A.TipoAdministradoraId = ta.Id
+                                                                 AND ta.EstadoRegistro =
+                    (
+                        SELECT vce.AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado vce
+                    )
+                                                                 AND ta.Codigo =
+                    (
+                        SELECT vcta.CODIGO_FONDO_PENSIONES
+                        FROM util.VW_ConstanteTipoAdministradora vcta
+                    )
+                ) AS afp ON c.Id = afp.ContratoId
+                            AND (afp.FechaFin IS NULL
+                                 OR (afp.FechaFin IS NOT NULL
+                                     AND (afp.FechaFin BETWEEN @FechaInicio AND @FechaFin)))
+                     LEFT JOIN
+                (
+                    SELECT ca.Id, 
+                           ca.ContratoId, 
+                           ca.FechaInicio, 
+                           ca.FechaFin, 
+                           a.Codigo AS 'Adminsitradora', 
+                           ta.Codigo AS 'TipoAdministradora', 
+                           ta.TarifaAporteTotal, 
+                           ta.TarifaAporteFuncionario
+                    FROM dbo.ContratoAdministradora ca
+                         INNER JOIN dbo.Administradora a ON ca.AdministradoraId = a.Id
+                                                            AND ca.EstadoRegistro =
+                    (
+                        SELECT vce.AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado vce
+                    )
+                                                            AND a.EstadoRegistro =
+                    (
+                        SELECT vce.AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado vce
+                    )
+                         INNER JOIN dbo.TipoAdministradora ta ON A.TipoAdministradoraId = ta.Id
+                                                                 AND ta.EstadoRegistro =
+                    (
+                        SELECT vce.AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado vce
+                    )
+                                                                 AND ta.Codigo =
+                    (
+                        SELECT vcta.CODIGO_CAJA_COMPENSACION_FAMILIAR
+                        FROM util.VW_ConstanteTipoAdministradora vcta
+                    )
+                ) AS ccf ON c.Id = ccf.ContratoId
+                            AND (ccf.FechaFin IS NULL
+                                 OR (ccf.FechaFin IS NOT NULL
+                                     AND (ccf.FechaFin BETWEEN @FechaInicio AND @FechaFin)))
+                ORDER BY t.Id;
+         RETURN;
+     END;
+     GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[reporte].[UFT_ObtenerAdministradorasPilaTipo2]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [reporte].[UFT_ObtenerAdministradorasPilaTipo2]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

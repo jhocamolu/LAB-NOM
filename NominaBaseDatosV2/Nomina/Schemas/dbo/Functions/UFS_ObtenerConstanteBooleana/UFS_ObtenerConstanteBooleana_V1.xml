@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_ObtenerConstanteBooleana_V1">
+<comment>HT038</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerConstanteBooleana]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerConstanteBooleana];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 01/06/2020
+-- Description: Permite obtener la constante asociada a valores booleanos para verdadero y falso
+--
+-- Parameters:
+--   Tipo:	Tipo de constante a obtener
+--
+-- Return:
+--	   Booleano:	Valor booleano: 0 -> Falso y 1 -> Verdadero
+-- ==========================================================================================
+CREATE FUNCTION [dbo].[UFS_ObtenerConstanteBooleana]
+(
+@Tipo BIT
+)
+RETURNS BIT
+AS
+     BEGIN
+
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         -- Declare the return variable here
+         DECLARE @Booleano BIT;
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+	    SET @Booleano = 0;
+
+	    IF @Tipo = 1
+	    BEGIN
+		  SET @Booleano = 1;
+	    END
+
+         RETURN @Booleano;
+     END;
+GO 
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerConstanteBooleana]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerConstanteBooleana]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

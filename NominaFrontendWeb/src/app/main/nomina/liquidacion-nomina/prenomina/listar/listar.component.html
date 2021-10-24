@@ -1,0 +1,186 @@
+<div class="btn-lateral-filtro">
+    <button class="mat-icon-button" (click)="filtroPrenominaHandle($event)">
+        <span class="mat-button-wrapper">
+            <mat-icon class="mat-icon" matTooltip="Filtrar">
+                filter_list</mat-icon>
+        </span>
+    </button>
+</div>
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Nómina</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/nomina/liquidacion-nomina">Liquidaciones</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Generar </span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Generar liquidación</h2>
+            </div>
+        </div>
+        <div class="Acciones">
+            <liquidacion-nomina-menu [item]="item" [prenominaListar]="this" *ngIf="item"></liquidacion-nomina-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <div class="content">
+        
+
+        <div>
+            <!-- CONTENIDO -->
+            <liquidacion-nomina-header [item]="item" [nuevoEstado]="newEstado"></liquidacion-nomina-header>
+            <liquidacion-nomina-navegacion [paso]="4" [item]="item" [nuevoEstado]="newEstado"></liquidacion-nomina-navegacion>
+
+            <alcanos-empty-list labelH1="¡Uy! Aún no hay prenomina en esta liquidación." labelBtn="Generar prenomina"
+                [visible]="!hasFilter && !dataOriginalLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroPrenominaHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+            <div *ngIf="loadTable">
+                <mat-spinner class="spiner"></mat-spinner>
+            </div>
+            <div [hidden]="loadTable">
+                <div [hidden]="!dataLength" class="box-shadow">
+                    <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                        [@animateStagger]="{value:'50'}">
+    
+                        <!-- Columna seleccion -->
+                        <ng-container matColumnDef="seleccion">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                    [aria-label]="checkboxLabel()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
+                                    [aria-label]="checkboxLabel(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+    
+                        <!-- Columna documento -->
+                        <ng-container matColumnDef="numeroDocumento">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° documento</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.numeroDocumento}} </td>
+                        </ng-container>
+    
+                        <!-- Columna nombre-->
+                        <ng-container matColumnDef="nombre">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Funcionario</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="text-truncate">
+                                    {{ element.primerNombre }} {{ element.segundoNombre }} {{ element.primerApellido }}
+                                    {{ element.segundoApellido }} </span>
+                            </td>
+                        </ng-container>
+    
+                        <!-- Columna cargo -->
+                        <ng-container matColumnDef="cargoNombre">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cargo</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="text-truncate"> {{element.cargoNombre}}</span>
+                            </td>
+                        </ng-container>
+    
+                        <!-- Columna neto a pagar -->
+                        <ng-container matColumnDef="netoPagar">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="centrar">Total</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.netoPagar | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</td>
+                        </ng-container>
+    
+                        <!-- Columna estado -->
+                        <ng-container matColumnDef="estadoNominaFuncionario">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                            <td mat-cell *matCellDef="let element">
+                                <div [ngSwitch]="element.estadoNominaFuncionario">
+                                    <ng-template [ngSwitchCase]="estadoNominaFuncionario.enLiquidacion">
+                                        En liquidacíon
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="estadoNominaFuncionario.conErrores">
+                                        Con errores
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{element.estadoNominaFuncionario}}
+                                    </ng-template>
+                                </div>
+    
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="acciones">
+                           <th mat-header-cell *matHeaderCellDef
+                               [ngStyle]="{'display': !( arrayPermisosDetalle.obtener ) ? 'none'
+                               : ''}">
+                               Acciones </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div *ngIf="1">
+                                    <button mat-icon-button *ngIf="arrayPermisosDetalle.obtener" matTooltip=" Visualizar"
+                                        (click)="mostrarHandle($event, element)">
+                                        <mat-icon>visibility</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                        <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+    
+                    <mat-paginator [length]="dataOriginalLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                        showFirstLastButtons>
+                    </mat-paginator>
+    
+                </div>
+            </div>
+
+            <div class="actions">
+                <a mat-raised-button routerLink="/nomina/liquidacion-nomina/{{item.id}}/novedades">
+                    <mat-icon>arrow_back</mat-icon>
+                    <span>Anterior</span>
+                </a>
+                <button *ngIf="newEstado.estado == estadoNomina.enLiquidacion" mat-raised-button
+                    [disabled]="newEstado.estado != estadoNomina.enLiquidacion" type="button" class="terciaria"
+                    (click)="refreshHandle($event)">
+                    <mat-icon>refresh</mat-icon>
+                    <span>Actualizar</span>
+                </button>
+                <button *ngIf="newEstado.estado == estadoNomina.modificada" mat-raised-button
+                    [disabled]="newEstado.estado != estadoNomina.modificada || submit" type="button"
+                    class="secundaria" (click)="calcularHandle($event)">
+                    <mat-icon>keyboard</mat-icon>
+                    <span>Calcular</span>
+                </button>
+                <button *ngIf="arrayPermisosFuncionarios.op3 && (newEstado.estado == estadoNomina.modificada)"
+                    mat-raised-button
+                    [disabled]="newEstado.estado != estadoNomina.modificada" color="accent"
+                    (click)="finalizarHandle($event)">
+                    <mat-icon>arrow_forward</mat-icon>
+                    <span>Finalizar registro</span>
+                </button>
+                <a *ngIf="newEstado.estado == estadoNomina.liquidada || newEstado.estado == estadoNomina.aprobada"
+                    mat-raised-button color="accent" routerLink="/nomina/liquidacion-nomina/{{item.id}}/aprobar">
+                    <mat-icon>arrow_forward</mat-icon>
+                    <span>Siguiente</span>
+                </a>
+            </div>
+            <!-- / CONTENIDO -->
+
+        </div>
+
+    </div>
+
+</div>

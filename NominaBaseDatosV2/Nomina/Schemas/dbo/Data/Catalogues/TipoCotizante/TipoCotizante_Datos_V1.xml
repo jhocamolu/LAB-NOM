@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestada" id="TipoCotizante_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[TipoCotizante] ON
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (1,'01','Dependiente','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (2,'02','Servicio doméstico','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (3,'03','Independiente','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (4,'04','Madre sustituta','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (5,'12','Aprendices en etapa lectiva','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (6,'16','Independiente agremiado o asociado','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (7,'18','Funcionarios públicos sin tope máximo de IBC','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (8,'19','Aprendices en etapa productiva','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (9,'20','Estudiantes (Régimen especial Ley 789 de 2002)','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (10,'21','Estudiante de posgrado en salud y residente','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (11,'22','Profesor de establecimiento particular','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (12,'23','Estudiantes aporte solo Sistema de Riesgos Laborales','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (13,'30','Dependiente entidades o universidades públicas de los regímenes Especial
+y de Excepción','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (14,'31','Cooperados o precooperativas de trabajo asociado','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (15,'32','Cotizante miembro de la carrera diplomática o consular de un país extranjero
+o funcionario de organismo multilateral','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (16,'33','Beneficiario del Fondo de Solidaridad Pensional','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (17,'34','Concejal o edil de Junta Administradora Local del Distrito Capital de Bogotá
+amparado por póliza de salud','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (18,'35','Concejal municipal o distrital no amparado con póliza de salud','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (19,'36','Concejal municipal o distrital no amparado con póliza de salud beneficiario
+del Fondo de Solidaridad Pensional','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (20,'40','Beneficiario UPC adicional','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (21,'42','Cotizante independiente pago solo salud','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (22,'43','Cotizante a pensiones con pago por tercero','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (23,'44','Cotizante dependiente de empleo de emergencia con duración mayor o igual
+a un mes','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (24,'45','Cotizante dependiente de empleo de emergencia con duración menor a un
+mes','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (25,'47','Trabajador dependiente de entidad beneficiaria del sistema general de
+participaciones – Aportes patronales','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (26,'51','Trabajador de tiempo parcial','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (27,'52','Beneficiario del Mecanismo de Protección al Cesante','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (28,'53','Afiliado partícipe','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (29,'54','Prepensionado de entidad en liquidación','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (30,'55','Afiliado partícipe dependiente','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (31,'56','Prepensionado con aporte voluntario a salud','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (32,'57','Independiente voluntario al Sistema de Riesgos Laborales','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (33,'58','Estudiantes de prácticas laborales en el sector público','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (34,'59','Independiente con contrato de prestación de servicios superior a 1 mes','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (35,'60','Edil Junta Administradora Local no beneficiario del Fondo de Solidaridad
+Pensional','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (36,'61','Beneficiario programa de reincorporación','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (37,'62','Personal del magisterio','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (38,'63','Beneficiario de prestación humanitaria','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (39,'64','Trabajador penitenciario','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+
+
+SET IDENTITY_INSERT [dbo].[TipoCotizante] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoCotizante] WHERE Id BETWEEN 1 AND 39;
+</rollback>
+</changeSet>
+</databaseChangeLog>

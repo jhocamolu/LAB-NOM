@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="Tercero_V3">
+<comment>check constraint EstadoRegistro</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    ALTER TABLE [Tercero] ADD CONSTRAINT [CK_Tercero_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo'));
+
+    GO
+    
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    ALTER TABLE [Tercero] DROP CONSTRAINT [CK_Tercero_EstadoRegistro];
+
+    GO
+       
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

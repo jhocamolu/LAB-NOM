@@ -1,0 +1,256 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/cargos/">Cargos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar cargo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar cargo</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a mat-menu-item *ngIf="arrayPermisos.actualizar"
+                    routerLink="/configuracion/cargos/{{element.id}}/editar">
+                    <span>Editar cargo</span>
+                </a>
+                <button mat-menu-item *ngIf="arrayPermisosDependencias.crear" (click)="segundo()"
+                    (click)="dependenciaHandle($event)">
+                    <span>Agregar dependencias</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisosReporta.crear" (click)="tercero()"
+                    (click)="reportaHandle($event, cargoId)">
+                    <span>Agregar cargo al que reporta</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisosGrados.crear" (click)="cuarto()"
+                    (click)="gradoHandle($event)">
+                    <span>Agregar grado de los cargos</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisosGrupos.crear" (click)="quinto()"
+                    (click)="grupoHandle($event)">
+                    <span>Agregar grupo</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisosPresupuesto.crear" (click)="sexto()"
+                    (click)="presupuestoCrearHandle($event, cargoId)">
+                    <span>Agregar presupuesto</span>
+                </button>
+                <a routerLink="/configuracion/cargos/" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="box-shadow">
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="selectedTabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+                    <div *ngIf="element">
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Código <mat-icon class="s-16" matSuffix
+                                        matTooltip="Número o nombre que identifica el cargo.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{element.codigo}} </p>
+                            </div>
+                            <div>
+                                <h3>Nivel del cargo <mat-icon class="s-16" matSuffix
+                                        matTooltip="Nivel que ocupa este cargo en la compañía.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{element.nivelCargo?.nombre}} </p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>Nombre <mat-icon class="s-16" matSuffix matTooltip="Nombre del cargo.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p> {{element.nombre}} </p>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Clase <mat-icon class="s-16" matSuffix matTooltip="Clasificación del cargo.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{element.clase != 0 ? element.clase : 'N/A'}} </p>
+                            </div>
+                            <div>
+                                <h3>¿Obtener costos desde SICOM? <mat-icon class="s-16" matSuffix
+                                        matTooltip="Especifica si el cargo debe tener más de un centro de costo o solamente se utiliza un solo centro de costo.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{element.costoSicom == true ? 'Si': 'No'}} </p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>Objetivo del cargo <mat-icon class="s-16" matSuffix
+                                    matTooltip="Breve descripción del propósito de este cargo.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p> {{element.objetivoCargo != null && element.objetivoCargo != "" ? element.objetivoCargo : 'N/A'}}
+                            </p>
+                        </div>
+                    </div>
+
+                </mat-tab>
+                <!-- / Primer Label -->
+                <!-- Segundo Label -->
+                <mat-tab label="Dependencias">
+                    <alcanos-empty-list labelH1="¡Uy! Aún no has agregado ninguna dependencia."
+                        [visible]="dependenciasCount" [visibleBtnCreate]="false">
+                    </alcanos-empty-list>
+
+                    <table class="simple" *ngIf="!dependenciasCount">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen tamanio">Dependencias</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="mat-row" *ngFor="let item of cargoDependencias">
+                                <td class="margen">{{item.dependencia?.nombre}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </mat-tab>
+
+                <!-- / Segundo Label -->
+
+                <!-- Tercero Label -->
+                <mat-tab label="Reporta a">
+                    <alcanos-empty-list (fnCreate)="reportaHandle($event, cargoId)"
+                        labelH1="¡Uy! Aún no has agregado ningún cargo al que reporta." [visibleBtnCreate]="false"
+                        labelBtn="Agregar cargo al que reporta" [visible]="estoyReportandoAList.length == 0">
+                    </alcanos-empty-list>
+
+                    <div *ngIf="estoyReportandoAList.length > 0">
+                        <div fxLayout="row">
+                            <table class="simple">
+                                <thead>
+                                    <tr>
+                                        <th class="mat-header-cell margen">Dependencia del cargo</th>
+                                        <th class="mat-header-cell">Dependencia superior</th>
+                                        <th class="mat-header-cell">Cargo superior</th>
+                                        <th class="mat-header-cell">Jefe inmediato</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="mat-row" *ngFor="let item of estoyReportandoAList">
+                                        <td class="margen tamanio">{{item.cargoDependencia?.dependencia.nombre}}</td>
+                                        <td>{{item.cargoDependenciaReporta.dependencia?.nombre}}</td>
+                                        <td>{{item.cargoDependenciaReporta.cargo?.nombre}}</td>
+                                        <td>{{item.jefeInmediato == true ? 'Si' : 'No'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </mat-tab>
+                <!-- / Tercero Label -->
+
+
+                <!-- Cuarto Label -->
+                <mat-tab label="Grados">
+                    <alcanos-empty-list labelH1="¡Uy! Aún no has agregado ningún grado." [visible]="gradosCount"
+                        [visibleBtnCreate]="false">
+                    </alcanos-empty-list>
+
+                    <table class="simple" *ngIf="!gradosCount">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen tamanio">Nombre</th>
+                                <th class="mat-header-cell">Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="mat-row" *ngFor="let item of cargoGrados">
+                                <td class="margen">{{item.nombre}}</td>
+                                <td>{{item.descripcion}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </mat-tab>
+                <!-- / Cuarto Label -->
+
+                <!-- Quinto Label -->
+                <mat-tab label="Grupos">
+                    <alcanos-empty-list labelH1="¡Uy! Aún no has  ningún presupuesto." [visible]="gruposCount"
+                        [visibleBtnCreate]="false">
+                    </alcanos-empty-list>
+
+                    <table class="simple" *ngIf="!gruposCount">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen tamanio">Nombre</th>
+                                <th class="mat-header-cell">Grupo por defecto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="mat-row" *ngFor="let item of cargoGrupos">
+                                <td class="margen tamanio">{{item.grupo?.nombre}}</td>
+                                <td>{{item.defecto == true ?'Si': 'No'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-tab>
+                <!-- / Quinto Label -->
+
+                <mat-tab label="Presupuesto">
+
+                    <alcanos-empty-list labelH1="¡Uy! Aún no has agregado ningún presupueto."
+                        [visible]="!presupuestoCount" [visibleBtnCreate]="false">
+                    </alcanos-empty-list>
+
+                    <table class="simple" *ngIf="presupuestoCount">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen tamanio">Año</th>
+                                <th class="mat-header-cell margen" style="text-align: right; padding-right: 32px;">
+                                    Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of cargoPresupuetosList.value" class="mat-row">
+                                <td class="margen tamaño">{{item.annoVigencia?.anno}}</td>
+                                <td class="margen" style="text-align: right; padding-right: 32px;">{{item.cantidad}}
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-tab>
+
+            </mat-tab-group>
+        </div>
+    </div>
+    <!--/ CONTENIDO-->
+
+</div>

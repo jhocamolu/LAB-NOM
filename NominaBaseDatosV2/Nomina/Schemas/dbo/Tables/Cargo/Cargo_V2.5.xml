@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="Cargo_V2.5">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DECLARE @ConstraintName NVARCHAR(255);
+SELECT @ConstraintName = name
+FROM dbo.sysobjects 
+WHERE type = 'D' AND name like '%DF__Cargo__ClaseCarg__%';
+
+IF @ConstraintName IS NOT NULL
+BEGIN
+EXEC(N'ALTER TABLE [cargo] DROP CONSTRAINT [' + @ConstraintName + '];');
+END
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+select 1
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

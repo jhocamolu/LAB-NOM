@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+   
+	<!-- Se debe incluir un archivo por cada objeto de base de datos -->
+	<include file="Schemas/util/Tables/_LogConfiguracion/_LogConfiguracion_V1.xml" />
+	<include file="Schemas/util/Tables/_LogError/_LogError_V1.xml" />
+	<include file="Schemas/dbo/Tables/__EFMigrationsHistory/__EFMigrationsHistory_V1" />
+	<include file="Schemas/dbo/Tables/ActividadEconomica/ActividadEconomica_V1.xml" />
+	<include file="Schemas/dbo/Tables/Calendario/Calendario_V1.xml" />
+	<include file="Schemas/dbo/Tables/CategoriaParametro/CategoriaParametro_V1.xml" />
+	<include file="Schemas/dbo/Tables/CentroCosto/CentroCosto_V1.xml" />
+	<include file="Schemas/dbo/Tables/CentroOperativo/CentroOperativo_V1.xml" />
+	<include file="Schemas/dbo/Tables/CentroTrabajo/CentroTrabajo_V1.xml" />
+	<include file="Schemas/dbo/Tables/ClaseAusentismo/ClaseAusentismo_V1.xml" />
+	<include file="Schemas/dbo/Tables/ClaseLibretaMilitar/ClaseLibretaMilitar_V1.xml" />
+	<include file="Schemas/dbo/Tables/CuentaContable/CuentaContable_V1.xml" />
+	<include file="Schemas/dbo/Tables/Dependencia/Dependencia_V1.xml" />
+	<include file="Schemas/dbo/Tables/DiagnosticoCie/DiagnosticoCie_V1.xml" />
+	<include file="Schemas/dbo/Tables/EstadoCivil/EstadoCivil_V1.xml" />
+	<include file="Schemas/dbo/Tables/FormaPago/FormaPago_V1.xml" />
+	<include file="Schemas/dbo/Tables/FuncionNomina/FuncionNomina_V1.xml" />
+	<include file="Schemas/dbo/Tables/GrupoNomina/GrupoNomina_V1.xml" />
+	<include file="Schemas/dbo/Tables/Idioma/Idioma_V1.xml" />
+	<include file="Schemas/dbo/Tables/JornadaLaboral/JornadaLaboral_V1.xml" />
+	<include file="Schemas/dbo/Tables/LicenciaConduccion/LicenciaConduccion_V1.xml" />
+	<include file="Schemas/dbo/Tables/NivelCargo/NivelCargo_V1.xml" />
+	<include file="Schemas/dbo/Tables/NivelEducativo/NivelEducativo_V1.xml" />
+	<include file="Schemas/dbo/Tables/NomenclaturaDian/NomenclaturaDian_V1.xml" />
+	<include file="Schemas/dbo/Tables/NominaFuenteNovedad/NominaFuenteNovedad_V1.xml" />
+	<include file="Schemas/dbo/Tables/Notificacion/Notificacion_V1.xml" />
+	<include file="Schemas/dbo/Tables/Ocupacion/Ocupacion_V1.xml" />
+	<include file="Schemas/dbo/Tables/OperadorPago/OperadorPago_V1.xml" />
+	<include file="Schemas/dbo/Tables/Pais/Pais_V1.xml" />
+	<include file="Schemas/dbo/Tables/Parentesco/Parentesco_V1.xml" />
+	<include file="Schemas/dbo/Tables/PeriodoContable/PeriodoContable_V1.xml" />
+	<include file="Schemas/dbo/Tables/Profesion/Profesion_V1.xml" />
+	<include file="Schemas/dbo/Tables/Sexo/Sexo_V1.xml" />
+	<include file="Schemas/dbo/Tables/TareaProgramada/TareaProgramada_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoAdministradora/TipoAdministradora_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoContrato/TipoContrato_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoContribuyente/TipoContribuyente_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoCuenta/TipoCuenta_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoDocumento/TipoDocumento_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoEmbargo/TipoEmbargo_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoMoneda/TipoMoneda_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoPeriodo/TipoPeriodo_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoSangre/TipoSangre_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoSoporte/TipoSoporte_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoVivienda/TipoVivienda_V1.xml" />
+	<include file="Schemas/dbo/Tables/VariableNomina/VariableNomina_V1.xml" />
+	<include file="Schemas/dbo/Tables/ParametroGeneral/ParametroGeneral_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoAusentismo/TipoAusentismo_V1.xml" />
+	<include file="Schemas/dbo/Tables/DependenciaJerarquia/DependenciaJerarquia_V1.xml" />
+	<include file="Schemas/dbo/Tables/ConceptoNomina/ConceptoNomina_V1.xml" />
+	<include file="Schemas/dbo/Tables/JornadaLaboralDia/JornadaLaboralDia_V1.xml" />
+	<include file="Schemas/dbo/Tables/Cargo/Cargo_V1.xml" />
+	<include file="Schemas/dbo/Tables/DivisionPoliticaNivel1/DivisionPoliticaNivel1_V1.xml" />
+	<include file="Schemas/dbo/Tables/TareaProgramadaLog/TareaProgramadaLog_V1.xml" />
+	<include file="Schemas/dbo/Tables/Administradora/Administradora_V1.xml" />
+	<include file="Schemas/dbo/Tables/SubPeriodo/SubPeriodo_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoLiquidacion/TipoLiquidacion_V1.xml" />
+	<include file="Schemas/dbo/Tables/FuncionVariable/FuncionVariable_V1.xml" />
+	<include file="Schemas/dbo/Tables/ConceptoBase/ConceptoBase_V1.xml" />
+	<include file="Schemas/dbo/Tables/ConceptoNominaCuentaContable/ConceptoNominaCuentaContable_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoAusentismoConceptoNomina/TipoAusentismoConceptoNomina_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoBeneficio/TipoBeneficio_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoEmbargoConceptoNomina/TipoEmbargoConceptoNomina_V1.xml" />
+	<include file="Schemas/dbo/Tables/CargoDependencia/CargoDependencia_V1.xml" />
+	<include file="Schemas/dbo/Tables/CargoGrado/CargoGrado_V1.xml" />
+	<include file="Schemas/dbo/Tables/CargoReporta/CargoReporta_V1.xml" />
+	<include file="Schemas/dbo/Tables/DivisionPoliticaNivel2/DivisionPoliticaNivel2_V1.xml" />
+	<include file="Schemas/dbo/Tables/Nomina/Nomina_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoLiquidacionConcepto/TipoLiquidacionConcepto_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoLiquidacionEstado/TipoLiquidacionEstado_V1.xml" />
+	<include file="Schemas/dbo/Tables/TipoBeneficioRequisito/TipoBeneficioRequisito_V1.xml" />
+	<include file="Schemas/dbo/Tables/EntidadFinanciera/EntidadFinanciera_V1.xml" />
+	<include file="Schemas/dbo/Tables/Funcionario/Funcionario_V1.xml" />
+	<include file="Schemas/dbo/Tables/InformacionBasica/InformacionBasica_V1.xml" />
+	<include file="Schemas/dbo/Tables/Juzgado/Juzgado_V1.xml" />
+	<include file="Schemas/dbo/Tables/AusentismoFuncionario/AusentismoFuncionario_V1.xml" />
+	<include file="Schemas/dbo/Tables/Beneficio/Beneficio_V1.xml" />
+	<include file="Schemas/dbo/Tables/Contrato/Contrato_V1.xml" />
+	<include file="Schemas/dbo/Tables/DocumentoFuncionario/DocumentoFuncionario_V1.xml" />
+	<include file="Schemas/dbo/Tables/ExperienciaLaboral/ExperienciaLaboral_V1.xml" />
+	<include file="Schemas/dbo/Tables/FuncionarioEstudio/FuncionarioEstudio_V1.xml" />
+	<include file="Schemas/dbo/Tables/InformacionFamiliar/InformacionFamiliar_V1.xml" />
+	<include file="Schemas/dbo/Tables/Libranza/Libranza_V1.xml" />
+	<include file="Schemas/dbo/Tables/NominaFuncionario/NominaFuncionario_V1.xml" />
+	<include file="Schemas/dbo/Tables/NotificacionDestinatario/NotificacionDestinatario_V1.xml" />
+	<include file="Schemas/dbo/Tables/NotificacionDestinatarioLog/NotificacionDestinatarioLog_V1.xml" />
+	<include file="Schemas/dbo/Tables/RepresentanteEmpresa/RepresentanteEmpresa_V1.xml" />
+	<include file="Schemas/dbo/Tables/SolicitudPermiso/SolicitudPermiso_V1.xml" />
+	<include file="Schemas/dbo/Tables/Embargo/Embargo_V1.xml" />
+	<include file="Schemas/dbo/Tables/ProrrogaAusentismo/ProrrogaAusentismo_V1.xml" />
+	<include file="Schemas/dbo/Tables/BeneficioAdjunto/BeneficioAdjunto_V1.xml" />
+	<include file="Schemas/dbo/Tables/BeneficioSubperiodo/BeneficioSubperiodo_V1.xml" />
+	<include file="Schemas/dbo/Tables/ContratoAdministradora/ContratoAdministradora_V1.xml" />
+	<include file="Schemas/dbo/Tables/ContratoOtroSi/ContratoOtroSi_V1.xml" />
+	<include file="Schemas/dbo/Tables/LibranzaSubperiodo/LibranzaSubperiodo_V1.xml" />
+	<include file="Schemas/dbo/Tables/NominaDetalle/NominaDetalle_V1.xml" />
+	<include file="Schemas/dbo/Tables/SoporteSolicitudPermiso/SoporteSolicitudPermiso_V1.xml" />
+	<include file="Schemas/dbo/Tables/EmbargoConceptoNomina/EmbargoConceptoNomina_V1.xml" />
+	<include file="Schemas/dbo/Tables/EmbargoSubperiodo/EmbargoSubperiodo_V1.xml" />
+	<include file="Schemas/dbo/Tables/LibroVacaciones/LibroVacaciones_V1.xml" />
+	<include file="Schemas/dbo/Tables/SolicitudVacaciones/SolicitudVacaciones_V1.xml" />
+	<include file="Schemas/dbo/Tables/NotificacionPlantilla/NotificacionPlantilla_V1.xml" />
+	<!--<include file='Schemas/dbo/Data/Catalogues/TareaProgramada/TareaProgramada_Datos_V1.xml' />-->
+	<include file='Schemas/dbo/Data/Catalogues/ConceptoNomina/ConceptoNomina_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoAdministradora/TipoAdministradora_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/ClaseAusentismo/ClaseAusentismo_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoAusentismo/TipoAusentismo_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoAusentismoConceptoNomina/TipoAusentismoConceptoNomina_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoSoporte/TipoSoporte_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoBeneficio/TipoBeneficio_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoBeneficioRequisito/TipoBeneficioRequisito_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoContrato/TipoContrato_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoContribuyente/TipoContribuyente_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoCuenta/TipoCuenta_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoDocumento/TipoDocumento_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoPeriodo/TipoPeriodo_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoEmbargo/TipoEmbargo_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoEmbargoConceptoNomina/TipoEmbargoConceptoNomina_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoLiquidacion/TipoLiquidacion_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/SubPeriodo/SubPeriodo_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoLiquidacionEstado/TipoLiquidacionEstado_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoMoneda/TipoMoneda_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoSangre/TipoSangre_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TipoVivienda/TipoVivienda_Datos_V1.xml' />
+	<include file='Schemas/util/Data/Catalogues/_LogConfiguracion/_LogConfiguracion_Datos_V1.xml' />
+	
+	<!-- Datos iniciales -->
+	<include file='Schemas/dbo/Data/Catalogues/Sexo/Sexo_Datos_V1.xml' />	
+	<include file='Schemas/dbo/Data/Catalogues/ActividadEconomica/ActividadEconomica_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/Administradora/Administradora_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/Calendario/Calendario_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/Dependencia/Dependencia_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/DependenciaJerarquia/DependenciaJerarquia_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/NivelCargo/NivelCargo_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/Cargo/Cargo_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/CargoDependencia/CargoDependencia_Datos_V1.xml' />
+	<!--<include file='Schemas/dbo/Data/Catalogues/CargoGrado/CargoGrado_Datos_V1.xml' />-->
+	<include file='Schemas/dbo/Data/Catalogues/CategoriaParametro/CategoriaParametro_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/CentroCosto/CentroCosto_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/Pais/Pais_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/DivisionPoliticaNivel1/DivisionPoliticaNivel1_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/DivisionPoliticaNivel2/DivisionPoliticaNivel2_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/CentroOperativo/CentroOperativo_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/CentroTrabajo/CentroTrabajo_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/ClaseLibretaMilitar/ClaseLibretaMilitar_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/CuentaContable/CuentaContable_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/DiagnosticoCie/DiagnosticoCie_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/EntidadFinanciera/EntidadFinanciera_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/EstadoCivil/EstadoCivil_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/FormaPago/FormaPago_Datos_V1.xml' />
+
+	<include file='Schemas/dbo/Data/Catalogues/GrupoNomina/GrupoNomina_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/Idioma/Idioma_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/JornadaLaboral/JornadaLaboral_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/JornadaLaboralDia/JornadaLaboralDia_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/Juzgado/Juzgado_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/LicenciaConduccion/LicenciaConduccion_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/NivelEducativo/NivelEducativo_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/NomenclaturaDian/NomenclaturaDian_Datos_V1.xml' />
+	<!--<include file='Schemas/dbo/Data/Catalogues/NotificacionPlantilla/NotificacionPlantilla_Datos_V1.xml' />-->
+	<include file='Schemas/dbo/Data/Catalogues/Ocupacion/Ocupacion_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/OperadorPago/OperadorPago_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/Parentesco/Parentesco_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/PeriodoContable/PeriodoContable_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/Profesion/Profesion_Datos_V1.xml' />
+	<include file="Schemas/dbo/Tables/__EFMigrationsHistory/__EFMigrationsHistory_V1.xml"/>
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V1.xml'/>
+	
+	
+	<!-- dbo  -->
+	<!-- Functions  -->
+	<include file="Schemas/dbo/Functions/UFS_ConsultaLiquidacionConcepto/UFS_ConsultaLiquidacionConcepto_V1.xml" />
+	<include file="Schemas/dbo/Functions/UFS_ObtenerSueldo/UFS_ObtenerSueldo_V1.xml" />
+	<include file="Schemas/dbo/Functions/UFT_DevuelveFuncionarioNomina/UFT_DevuelveFuncionarioNomina_V1.xml" />
+	<include file="Schemas/dbo/Functions/UFT_ObtenerInformacionContractual/UFT_ObtenerInformacionContractual_V1.xml" />
+	<include file="Schemas/dbo/Functions/UFS_ObtenerDiasAusentismo/UFS_ObtenerDiasAusentismo_V1.xml" />
+	<include file="Schemas/dbo/Functions/UFS_ObtenerDiasCausadosAusentismo/UFS_ObtenerDiasCausadosAusentismo_V1.xml" />
+	
+	<!-- Stored Procedures  -->
+	<include file="Schemas/util/Views/VW_ConstanteTipoDias/VW_ConstanteTipoDias_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ActualizarLibroVacaciones/USP_ActualizarLibroVacaciones_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ActualizarSolicitudVacacionesInterrupcion/USP_ActualizarSolicitudVacacionesInterrupcion_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ActualizarSolicitudVacaciones/USP_ActualizarSolicitudVacaciones_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_CrearRegistroLibroVacaciones/USP_CrearRegistroLibroVacaciones_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasApagar/USP_ObtenerDiasApagar_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasFuncionario/USP_ObtenerDiasFuncionario_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasInterrupcion/USP_ObtenerDiasInterrupcion_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasLaborales/USP_ObtenerDiasLaborales_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasTrabajados/USP_ObtenerDiasTrabajados_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerCantidadConceptoNomina/USP_ObtenerCantidadConceptoNomina_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerValorConceptoNomina/USP_ObtenerValorConceptoNomina_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerSueldoBasico/USP_ObtenerSueldoBasico_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerValorConceptoAgrupador/USP_ObtenerValorConceptoAgrupador_V1.xml" />
+	
+	
+	<!-- Triggers  -->
+	<include file="Schemas/dbo/Triggers/AusentismoFuncionario/TR_CrearRegistroSolicitudVacacionesInterrupcion_V1.xml" />
+	<include file="Schemas/dbo/Triggers/Contrato/TR_CrearRegistroLibroVacaciones_V1.xml" />
+	<!--<include file="Schemas/dbo/Triggers/Funcionario/TR_ActualizarCriterioBusqueda_V1.xml" />-->
+	<include file="Schemas/dbo/Triggers/Nomina/TR_RecalculaNumero_V1.xml" />
+	<include file="Schemas/dbo/Triggers/ParametroGeneral/TR_ActualizarAlias_V1.xml" />
+
+	<!-- Views  -->
+	<include file="Schemas/dbo/Views/VW_FuncionarioDatoActual/VW_FuncionarioDatoActual_V1.xml" />
+	
+	
+	<!-- util  -->
+	<!-- Functions  -->
+	<include file="Schemas/util/Functions/UFS_CamelCase/UFS_CamelCase_V1.xml" />
+	<include file="Schemas/util/Functions/UFS_ExisteObjetoBaseDatos/UFS_ExisteObjetoBaseDatos_V1.xml" />
+	<include file="Schemas/util/Functions/UFS_ObtenerParametro/UFS_ObtenerParametro_V1.xml" />
+	
+	<!-- Stored Procedures  -->
+	<include file="Schemas/util/StoredProcedures/USP_GenerarExcepcion/USP_GenerarExcepcion_V1.xml" />
+	<include file="Schemas/util/StoredProcedures/USP_ImprimirError/USP_ImprimirError_V1.xml" />
+	<include file="Schemas/util/StoredProcedures/USP_LanzarExcepcion/USP_LanzarExcepcion_V1.xml" />
+	<include file="Schemas/util/StoredProcedures/USP_RegistrarError/USP_RegistrarError_V1.xml" />
+	<include file="Schemas/util/StoredProcedures/USP_RegistrarNotificacion/USP_RegistrarNotificacion_V1.xml" />
+	
+	<!-- Views  -->
+	<include file="Schemas/util/Views/VW_ConstanteClaseConcepto/VW_ConstanteClaseConcepto_V1.xml" />
+	<include file="Schemas/util/Views/VW_ConstanteEstado/VW_ConstanteEstado_V1.xml" />
+	<include file="Schemas/util/Views/VW_ConstanteModuloSistema/VW_ConstanteModuloSistema_V1.xml" />
+	<include file="Schemas/util/Views/VW_ConstanteParametroGeneral/VW_ConstanteParametroGeneral_V1.xml" />
+	<include file="Schemas/util/Views/VW_ConstanteTipoNotificacion/VW_ConstanteTipoNotificacion_V1.xml" />
+	<include file="Schemas/util/Views/VW_ConstanteUnidadMedida/VW_ConstanteUnidadMedida_V1.xml" />
+	<include file="Schemas/util/Views/VW_ConstanteCodigoAusentismo/VW_ConstanteCodigoAusentismo_V1.xml" />
+	<include file="Schemas/util/Views/VW_ConstanteGenerica/VW_ConstanteGenerica_V1.xml" />
+
+</databaseChangeLog>

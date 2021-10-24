@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_ImprimirError_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+/****** Object:  StoredProcedure [dbo].[USP_ImprimirError]    Script Date: 25/02/2020 2:19:53 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 13/02/2020
+-- Description: Imprime información sobre el error que causó
+-- 				el salto a un bloque CATCH de un bloque TRY ... CATCH.
+
+-- ==========================================================================================
+
+CREATE PROCEDURE [dbo].[USP_ImprimirError] 
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Imprime información. 
+    PRINT 'Error ' + CONVERT(varchar(50), ERROR_NUMBER()) +
+          ', Severidad ' + CONVERT(varchar(5), ERROR_SEVERITY()) +
+          ', Estado ' + CONVERT(varchar(5), ERROR_STATE()) + 
+          ', Procedimiento/Disparador ' + ISNULL(ERROR_PROCEDURE(), '-') + 
+          ', Línea ' + CONVERT(varchar(5), ERROR_LINE());
+    PRINT ERROR_MESSAGE();
+END;
+</sql>
+
+<rollback>
+DROP PROCEDURE [dbo].[USP_ImprimirError] ;  
+</rollback>
+</changeSet>
+</databaseChangeLog>

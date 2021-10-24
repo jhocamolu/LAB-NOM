@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TipoGastoViaje_V2">
+<comment></comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [TipoGastoViaje] DROP CONSTRAINT [CK_TipoGastoViaje_Estado];
+
+GO
+
+ALTER TABLE [TipoGastoViaje] ADD CONSTRAINT [CK_TipoGastoViaje_Estado] CHECK (([Tipo]='ViaticosHospedaje' OR [Tipo]='ViaticosAlimentacion' OR [Tipo]='FaltanteViaticos' OR [Tipo]='PagoAnticipoGV' OR [Tipo]='BaseViaticosAlimentacion' OR [Tipo]='BaseViaticosRetefuente' OR [Tipo]='BaseRetefuenteGV' OR [Tipo]='BaseViaticosHospedaje'));
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [TipoGastoViaje] DROP CONSTRAINT [CK_TipoGastoViaje_Estado];
+
+GO
+
+ALTER TABLE [TipoGastoViaje] ADD CONSTRAINT [CK_TipoGastoViaje_Estado] CHECK (([Tipo]='ViaticosHospedaje' OR [Tipo]='ViaticosAlimentacion' OR [Tipo]='FaltanteViaticos' OR [Tipo]='PagoAnticipoGV'));
+
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

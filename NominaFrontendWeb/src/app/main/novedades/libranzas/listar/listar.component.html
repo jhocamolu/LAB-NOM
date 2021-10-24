@@ -1,0 +1,112 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Novedades</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/novedades/libranzas">Libranzas</a>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Libranzas</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+            <button *ngIf="arrayPermisos.crear" mat-raised-button color="accent" (click)="crearHandle($event)">
+                <mat-icon>add</mat-icon>
+                <span>Registrar libranza</span>
+            </button>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <alcanos-empty-list [visibleBtnCreate]="arrayPermisos.crear" (fnCreate)="crearHandle($event)"
+                labelH1="¡Uy! Aún no has registrado libranzas." labelBtn="Registrar libranza"
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna N° documento -->
+                    <ng-container matColumnDef="funcionario/numeroDocumento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> N° documento</th>
+                        <td mat-cell *matCellDef="let element"> {{element.funcionario?.numeroDocumento}} </td>
+                    </ng-container>
+
+                    <!-- Columna N° criterio de busqueda -->
+                    <ng-container matColumnDef="funcionario/criterioBusqueda">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Funcionario</th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate">{{element.funcionario?.primerNombre}}
+                                {{element.funcionario?.segundoNombre}} {{element.funcionario?.primerApellido}}
+                                {{element.funcionario?.segundoApellido}} </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna Fecha inicio -->
+                    <ng-container matColumnDef="fechaInicio">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha inicio </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div>{{element.fechaInicio | date:'dd / LL / yyyy'}} </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna estado -->
+                    <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                        <td mat-cell *matCellDef="let element">{{element.estado}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef
+                            [ngStyle]="{'display':!( arrayPermisos.actualizar || arrayPermisos.obtener ||  arrayPermisos.cambiarEstado) ? 'none' : ''}">
+                            Acciones </th>
+                        <td mat-cell *matCellDef="let element"
+                            [ngStyle]="{'display':!( arrayPermisos.actualizar || arrayPermisos.obtener ||  arrayPermisos.cambiarEstado) ? 'none' : ''}">
+                            <a *ngIf="arrayPermisos.obtener" mat-icon-button
+                                routerLink="/novedades/libranzas/{{element.id}}/mostrar">
+                                <mat-icon matTooltip="Visualizar">visibility</mat-icon>
+                            </a>
+                            <a mat-icon-button
+                                *ngIf="arrayPermisos.actualizar && (!(element.estado == estadoLibranzasAlcanosVar.anulada || element.estado == estadoLibranzasAlcanosVar.terminada ))"
+                                routerLink="/novedades/libranzas/{{element.id}}/editar">
+                                <mat-icon matTooltip="Editar">edit</mat-icon>
+                            </a>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

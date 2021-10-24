@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoLiquidacionModulo_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    SET IDENTITY_INSERT [dbo].[TipoLiquidacionModulo] ON 
+   
+
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (1,1,'Libranzas'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (2,1,'Embargos'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (3,1,'Ausentismos'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (4,1,'Beneficios'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (5,1,'HorasExtra'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (6,1,'GastosViaje'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (7,1,'OtrasNovedades'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (8,2,'Libranzas'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (9,2,'Embargos'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (10,2,'Ausentismos'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (11,2,'Beneficios'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (12,2,'HorasExtra'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (13,2,'GastosViaje'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (14,2,'OtrasNovedades'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (15,3,'Vacaciones'); 
+   
+    INSERT INTO dbo.TipoLiquidacionModulo (Id,TipoLiquidacionId,Modulo)VALUES (16,7,'AnticipoCesantia'); 
+   
+
+    SET IDENTITY_INSERT [dbo].[TipoLiquidacionModulo] OFF
+     
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+    DELETE dbo.TipoLiquidacionModulo WHERE ID <17
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,263 @@
+<div class="inner-scroll fullwidth" fxLayout="row" fxLayoutAlign="start">
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="title" *ngIf="!registrado">
+            Regístrate aquí
+        </div>
+        <div class="box-shadow" *ngIf="!registrado" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
+
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <mat-list-item>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" *ngIf="!item">
+                                <mat-label>Primer nombre</mat-label>
+                                <input matInput formControlName="primerNombre" required>
+                                <mat-error *ngFor="let error of form.get('primerNombre').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Primer nombre del usuario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" *ngIf="!item">
+                                <mat-label>Segundo nombre</mat-label>
+                                <input matInput formControlName="segundoNombre">
+                                <mat-error *ngFor="let error of form.get('segundoNombre').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Segundo nombre del usuario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" *ngIf="!item">
+                                <mat-label>Primer apellido</mat-label>
+                                <input matInput formControlName="primerApellido" required>
+                                <mat-error *ngFor="let error of form.get('primerApellido').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Primer apellido del usuario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" *ngIf="!item">
+                                <mat-label>Segundo apellido</mat-label>
+                                <input matInput formControlName="segundoApellido">
+                                <mat-error *ngFor="let error of form.get('segundoApellido').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Segundo apellido del usuario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Sexo</mat-label>
+                                <mat-select formControlName="sexoId" required>
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let item of generos" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of objToArray(form.get('sexoId').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Sexo del usuario.">info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Celular</mat-label>
+                                <input matInput formControlName="celular" required>
+                                <mat-error *ngFor="let error of objToArray(form.get('celular').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Número del celular del usuario.">info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tipo de documento</mat-label>
+                                <mat-select formControlName="tipoDocumentoId" required>
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let item of tipoDocumentos" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of objToArray(form.get('tipoDocumentoId').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Tipo de documento del usuario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Número de identificación</mat-label>
+                                <input matInput formControlName="numeroDocumento" required>
+                                <mat-error *ngFor="let error of objToArray(form.get('numeroDocumento').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Número de identificación del usuario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-12">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Correo electrónico personal</mat-label>
+                                <input type="email" matInput formControlName="correoElectronicoPersonal" required>
+                                <mat-error
+                                    *ngFor="let error of objToArray(form.get('correoElectronicoPersonal').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Correo electrónico personal del usuario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-list-item>
+
+                <mat-list-item>
+                    <div>
+                        <mat-checkbox (change)="toogleCheckbox($event)" formControlName="checkBox"></mat-checkbox>
+                        <label class="text_checkbox_icon">
+                            Acepto <a href="#">términos y condiciones</a>
+                            <mat-icon class="text_checkbox_icon s-16" matSuffix
+                                matTooltip="Indica la autorización al tratamiento de los datos.">
+                                info
+                            </mat-icon>
+                        </label>
+                    </div>
+                    <div class="center_content">
+                        <re-captcha formControlName="recaptchaReactive"></re-captcha>
+                    </div>
+
+                </mat-list-item>
+                <div class="register_button text-center">
+                    <a mat-raised-button class="m-2"
+                        routerLink="/login">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+                    <button class="m-2" type="submit" [disabled]="form.invalid || submit" mat-raised-button color="accent">
+                        <mat-icon>save</mat-icon>
+                        <span>Registrate</span>
+                    </button>
+                </div>
+
+            </form>
+
+
+        </div>
+
+        <div class="box-shadow registrado" *ngIf="registrado" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
+            <div class="m-auto">
+                <div class="text-center">
+                    <mat-icon class="x-large">account_circle</mat-icon>
+                    <p class="text_margin">El proceso de registro se ha realizado exitosamente. <br> Por favor revisa tu
+                        correo electrónico para obtener la contraseña y poder iniciar sesión.</p>
+                    <button mat-raised-button [routerLink]="'/login'" color="accent" class="submit-button"
+                        aria-label="LOGIN">
+                        <mat-icon matPrefix>
+                            account_circle
+                        </mat-icon>
+                        INICIAR SESIÓN
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- / CONTENT -->
+    
+</div>
+<div class="div_spinner" *ngIf="loading">
+    <mat-spinner class="spinner" color="#066f77"></mat-spinner>
+</div>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="CausalTerminacion_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[CausalTerminacion] ON 
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(1,'Activo', 'sistema', GETDATE(), 'CNI', 'Cambio de salario normal a integral');
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(2,'Activo', 'sistema', GETDATE(), 'MAD', 'Mutuo acuerdo');
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(3,'Activo', 'sistema', GETDATE(), 'ADC', 'Abandono de cargo');
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(4,'Activo', 'sistema', GETDATE(), 'DCJ', 'Despido con justa causa');
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(5,'Activo', 'sistema', GETDATE(), 'DSJ', 'Despido sin justa causa');
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(6,'Activo', 'sistema', GETDATE(), 'PDP', 'Período de prueba');
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(7,'Activo', 'sistema', GETDATE(), 'FLT', 'Fallecimiento');
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(8,'Activo', 'sistema', GETDATE(), 'PSD', 'Pensionado');
+GO
+
+SET IDENTITY_INSERT [dbo].[CausalTerminacion] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[CausalTerminacion] WHERE Id BETWEEN 1 AND 8;
+</rollback>
+</changeSet>
+</databaseChangeLog>

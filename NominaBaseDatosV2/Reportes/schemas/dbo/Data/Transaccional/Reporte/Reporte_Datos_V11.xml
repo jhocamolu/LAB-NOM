@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Reporte_V11">
+<comment>Reporte novedad embargo</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Reporte] ON 
+GO
+INSERT [dbo].[Reporte] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias], [Nombre], [Descripcion], [SubcategoriaId], [Link], [Path], [Formato], [Extension], [Alto], [Ancho], [EsModal], [VistaGeneracion]) VALUES (10, N'Activo    ', N'sistema', CAST(N'2020-07-02T08:30:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'FamiliaresFuncionario', N'Familiares de los funcionario', N'Permite obtener la información de los familiares de los funcionarios, para vincularlos en actividades que realice la empresa como: celebraciones del día del niño, navidad, campañas internas de la compañía que involucre a las familias, entre otras.',1, N'/ReportServer/Pages/ReportViewer.aspx?%2fDesarrollo%2fGHestic%2fReportes%2fAdmPer_FamiliaresFuncionario&rs:Command=Render', N'GHESTIC/Reportes/AdmPer_FamiliaresFuncionario', N'EXCELOPENXML', N'XLSX', N'11in', N'8.5in',1, N'familiaresfuncionario')
+GO
+SET IDENTITY_INSERT [dbo].[Reporte] OFF
+GO
+
+
+UPDATE [dbo].[Reporte] SET [Link]=  N'/ReportServer/Pages/ReportViewer.aspx?%2fDesarrollo%2fGHestic%2fReportes%2fNomina_NovedadesEmbargo&rs:Command=Render' , [Path] = N'GHESTIC/Reportes/Nomina_NovedadesEmbargo' WHERE Id =  5 
+GO
+
+UPDATE [dbo].[Reporte] SET [Link]=  N'/ReportServer/Pages/ReportViewer.aspx?%2fDesarrollo%2fGHestic%2fReportes%2fNomina_NovedadesLibranza&rs:Command=Render' , [Path] = N'GHESTIC/Reportes/Nomina_NovedadesLibranza' WHERE Id =  6 
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[Reporte] WHERE Id IN (10)
+GO
+
+UPDATE [dbo].[Reporte] SET [Nombre] =  N'/ReportServer/Pages/ReportViewer.aspx?%2fDesarrollo%2fGHestic%2fReportes%2fAdmPer_NovedadesEmbargo&rs:Command=Render' , [Path] = N'GHESTIC/Reportes/AdmPer_NovedadesEmbargo'  WHERE Id =  5 
+GO
+
+UPDATE [dbo].[Reporte] SET [Nombre] =  N'/ReportServer/Pages/ReportViewer.aspx?%2fDesarrollo%2fGHestic%2fReportes%2fAdmPer_NovedadesEmbargo&rs:Command=Render' , [Path] = N'GHESTIC/Reportes/AdmPer_NovedadesEmbargo' WHERE Id =  6 
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

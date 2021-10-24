@@ -1,0 +1,774 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Selección de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/reclutamiento-seleccion/hojas-vida">Hojas de vida</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Aspirante {{ item.primerNombre }} {{ item.primerApellido }}</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar aspirante</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+
+                <button *ngIf="arraySoloPermiso.actualizar" mat-menu-item (click)="editarDatosBasicosHandle($event)">
+                    <span>Editar datos básicos</span>
+                </button>
+                
+                <button *ngIf="arraySoloPermiso.actualizar" mat-menu-item (click)="seleccionarHandle($event, item)">
+                    <span>Seleccionar requisición</span>
+                </button>
+
+                <button *ngIf="arrayHVEstudiosPermiso.crear" mat-menu-item (click)="crearEstudioHandle($event)">
+                    <span>Registrar estudio realizado</span>
+                </button>
+                <button *ngIf="arrayHVExperienciaLaboralesPermiso.crear" mat-menu-item
+                    (click)="crearExperienciaHandle($event)">
+                    <span>Registrar experiencia laboral</span>
+                </button>
+                <button *ngIf="arrayHVDocumentosPermiso.crear" mat-menu-item (click)="crearDocumentoHandle($event)">
+                    <span>Cargar documento</span>
+                </button>
+                <button mat-menu-item (click)="volverHandle($event)">
+                    <span>Volver</span>
+                </button>
+            </mat-menu>
+
+        </div>
+
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+
+            <hojas-vida-header [aspirante]="item" [editar-img]="false"> </hojas-vida-header>
+
+            <mat-tab-group *ngIf="item" animationDuration="0ms" [selectedIndex]="indexTab"
+                (selectedTabChange)="onTabChangedHandle($event);">
+
+                <!-- Datos basicos -->
+                <mat-tab label="Datos básicos">
+                    <mat-list>
+                        <mat-list-item>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Primer nombre <mat-icon class="s-16" matSuffix
+                                            matTooltip="Primer nombre del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.primerNombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Segundo nombre <mat-icon class="s-16" matSuffix
+                                            matTooltip="Segundo nombre del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.segundoNombre != null ? item.segundoNombre : 'N/A'}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Primer apellido <mat-icon class="s-16" matSuffix
+                                            matTooltip="Primer apellido del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.primerApellido }}</p>
+                                </div>
+                                <div>
+                                    <h3>Segundo apellido <mat-icon class="s-16" matSuffix
+                                            matTooltip="Segundo apellido del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.segundoApellido  != null ? item.segundoApellido : 'N/A'}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Sexo <mat-icon class="s-16" matSuffix matTooltip="Sexo del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.sexo?.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Estado civil <mat-icon class="s-16" matSuffix
+                                            matTooltip="Estado civil del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.estadoCivil?.nombre}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Ocupación <mat-icon class="s-16" matSuffix
+                                            matTooltip="Ocupación que desempeña el aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.ocupacion?.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Pensionado <mat-icon class="s-16" matSuffix
+                                            matTooltip="Se define si el aspirante. es pensionado.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p *ngIf="item.pensionado == false ">No </p>
+                                    <p *ngIf="item.pensionado == true ">Si </p>
+                                </div>
+                            </div>
+
+
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+
+                        <!-- Datos de nacimiento -->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>face</mat-icon>
+                                <h2>Nacimiento</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Fecha <mat-icon class="s-16" matSuffix
+                                            matTooltip="Fecha de nacimiento del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.fechaNacimiento | date:'dd / LL / yyyy'}}</p>
+                                </div>
+                                <div>
+                                    <h3>País <mat-icon class="s-16" matSuffix
+                                            matTooltip="País de origen del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2Origen?.divisionPoliticaNivel1?.pais?.nombre}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Departamento <mat-icon class="s-16" matSuffix
+                                            matTooltip="Departamento de origen del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2Origen?.divisionPoliticaNivel1?.nombre}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Municipio <mat-icon class="s-16" matSuffix
+                                            matTooltip="Municipio de origen del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.divisionPoliticaNivel2Origen?.nombre}}
+                                    </p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+                        <!-- /Datos de nacimiento -->
+
+                        <mat-divider></mat-divider>
+
+                        <!-- Datos de identificacion-->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>credit_card</mat-icon>
+                                <h2>Identificación</h2>
+                            </div>
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Tipo <mat-icon class="s-16" matSuffix
+                                            matTooltip="Tipo del documento de identificación del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tipoDocumento?.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Número <mat-icon class="s-16" matSuffix
+                                            matTooltip="Número del documento de identificación del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.numeroDocumento}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Fecha de expedición <mat-icon class="s-16" matSuffix
+                                            matTooltip="Fecha de expedición del documento de identidad del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.fechaExpedicionDocumento | date:'dd / LL / yyyy'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>País <mat-icon class="s-16" matSuffix
+                                            matTooltip="País de expedición del documento de identidad del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2ExpedicionDocumento?.divisionPoliticaNivel1?.pais?.nombre}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Departamento <mat-icon class="s-16" matSuffix matTooltip="Departamento de expedición del documento de identidad del
+                                            aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2ExpedicionDocumento?.divisionPoliticaNivel1?.nombre}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Municipio <mat-icon class="s-16" matSuffix
+                                            matTooltip="Municipio de expedición del documento de identidad del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2ExpedicionDocumento?.nombre}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>NIT <mat-icon class="s-16" matSuffix
+                                            matTooltip="Número de identificación Tributaria que le asigna la DIAN cuando el aspirante se inscribe en el RUT (Registro Único Tributario).">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.nit}}</p>
+                                </div>
+                                <div>
+                                    <h3>DV <mat-icon class="s-16" matSuffix
+                                            matTooltip="Dígito de verificación del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.digitoVerificacion}}</p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                        <!-- /Datos de identificacion-->
+                        <mat-divider></mat-divider>
+
+                        <!-- Residencia-->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>home</mat-icon>
+                                <h2>Residencia</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>País <mat-icon class="s-16" matSuffix
+                                            matTooltip="País de residencia del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2Residencia?.divisionPoliticaNivel1?.pais?.nombre}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Departamento <mat-icon class="s-16" matSuffix
+                                            matTooltip="Departamento de residencia del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2Residencia?.divisionPoliticaNivel1?.nombre}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Municipio <mat-icon class="s-16" matSuffix
+                                            matTooltip="Municipio de residencia del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2Residencia?.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Celular <mat-icon class="s-16" matSuffix
+                                            matTooltip="Número del celular del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.celular}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Teléfono fijo <mat-icon class="s-16" matSuffix
+                                            matTooltip="Número del teléfono fijo del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.telefonoFijo}}</p>
+                                </div>
+                                <div>
+                                    <h3>Tipo de vivienda <mat-icon class="s-16" matSuffix
+                                            matTooltip="Tipo de vivienda en la que reside el aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tipoVivienda?.nombre}}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <h3>Dirección <mat-icon class="s-16" matSuffix
+                                            matTooltip="Dirección de la vivienda en la que reside el aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.direccion}}</p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                        <!--/Residencia -->
+                        <mat-divider></mat-divider>
+
+                        <!--Libreta militar -->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>credit_card</mat-icon>
+                                <h2>Libreta militar</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Clase <mat-icon class="s-16" matSuffix
+                                            matTooltip="Clase de la libreta militar del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.claseLibretaMilitar?.nombre  != null ? item.claseLibretaMilitar?.nombre : 'N/A'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Número <mat-icon class="s-16" matSuffix
+                                            matTooltip="Número de la libreta militar del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.numeroLibreta  != null ? item.numeroLibreta : 'N/A'}}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <h3>Distrito <mat-icon class="s-16" matSuffix
+                                            matTooltip="Distrito donde prestó el servicio militar el aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.distrito  != null ? item.distrito : 'N/A'}}</p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                        <!--/Libreta militar -->
+                        <mat-divider></mat-divider>
+
+                        <!--Licencia de conducción -->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>credit_card</mat-icon>
+                                <h2>Licencia de conducción</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Categoría A <mat-icon class="s-16" matSuffix
+                                            matTooltip="Categoría de la licencia de conducción del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.licenciaConduccionA?.nombre  != null ? item.licenciaConduccionA?.nombre : 'N/A'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Fecha de vencimiento <mat-icon class="s-16" matSuffix matTooltip="Fecha de vencimiento de la licencia de conducción del
+                                            aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.licenciaConduccionAFechaVencimiento  != null ? (item.licenciaConduccionAFechaVencimiento | date:'dd / LL / yyyy') : 'N/A'}}
+
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Categoría B <mat-icon class="s-16" matSuffix
+                                            matTooltip="Categoría de la licencia de conducción del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.licenciaConduccionB?.nombre  != null ? item.licenciaConduccionB?.nombre : 'N/A'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Fecha de vencimiento <mat-icon class="s-16" matSuffix matTooltip="Fecha de vencimiento de la licencia de conducción del
+                                            aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.licenciaConduccionBFechaVencimiento  != null ? (item.licenciaConduccionBFechaVencimiento | date:'dd / LL / yyyy') : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Categoría C <mat-icon class="s-16" matSuffix
+                                            matTooltip="Categoría de la licencia de conducción del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.licenciaConduccionC?.nombre  != null ? item.licenciaConduccionC?.nombre : 'N/A'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Fecha de vencimiento <mat-icon class="s-16" matSuffix matTooltip="Fecha de vencimiento de la licencia de conducción del
+                                            aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.licenciaConduccionCFechaVencimiento  != null ? (item.licenciaConduccionCFechaVencimiento | date:'dd / LL / yyyy') : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                        <!--/Licencia de conducción -->
+                        <mat-divider></mat-divider>
+
+                        <!--Otros -->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>add_circle</mat-icon>
+                                <h2>Otros</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Talla de camisa <mat-icon class="s-16" matSuffix
+                                            matTooltip="Talla de camisa del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tallaCamisa  ? item.tallaCamisa : 'N/A'}}</p>
+                                </div>
+
+                                <div>
+                                    <h3>Talla de pantalón <mat-icon class="s-16" matSuffix
+                                            matTooltip="Talla de pantalón del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tallaPantalon ? item.tallaPantalon : 'N/A'}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Número de calzado <mat-icon class="s-16" matSuffix
+                                            matTooltip="Número de calzado del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.numeroCalzado != null ? item.numeroCalzado : 'N/A'}}</p>
+                                </div>
+                                <div>
+                                    <h3>¿Usa lentes? <mat-icon class="s-16" matSuffix
+                                            matTooltip="Se define si el aspirante usa lentes.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p *ngIf="item.usaLentes == false ">No </p>
+                                    <p *ngIf="item.usaLentes == true ">Si </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <h3>Tipo de sangre <mat-icon class="s-16" matSuffix
+                                            matTooltip="Tipo de sangre del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tipoSangre?.nombre}}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <h3>Correo electrónico personal <mat-icon class="s-16" matSuffix
+                                            matTooltip="Correo electrónico personal del aspirante.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.correoElectronicoPersonal  != null ? item.correoElectronicoPersonal : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </mat-list-item>
+                        <!--/Otros -->
+
+                    </mat-list>
+
+
+                </mat-tab>
+                <!-- / Datos basicos -->
+
+
+                <!-- Estudios realizados -->
+                <mat-tab label="Estudios realizados" [disabled]="!arrayHVEstudiosPermiso.listar">
+
+                    <div class="p-24" *ngIf="estudiosDataRequest" fxLayoutAlign="center center" fxLayout="column">
+                        <mat-spinner></mat-spinner>
+                    </div>
+
+                    <alcanos-empty-list (fnCreate)="crearEstudioHandle($event)"
+                        labelH1="¡Uy! Aún no has registrado estudios realizados." labelBtn="Registrar estudio realizado"
+                        [visibleBtnCreate]="arrayHVEstudiosPermiso.crear"
+                        [visible]="!hasEstudiosDataSource && !estudiosDataRequest">
+                    </alcanos-empty-list>
+
+                    <table mat-table *ngIf="hasEstudiosDataSource  && !estudiosDataRequest"
+                        [dataSource]="estudiosDataSource" class="mat-elevation-z8 ">
+
+                        <ng-container matColumnDef="nivelEducativo">
+                            <th mat-header-cell *matHeaderCellDef>Nivel educativo</th>
+                            <td mat-cell *matCellDef="let item">
+                                <div class="text-truncate"> {{item.nivelEducativo?.nombre}}</div>
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="titulo">
+                            <th mat-header-cell *matHeaderCellDef>Título</th>
+                            <td mat-cell *matCellDef="let item">
+                                <div class="text-truncate"> {{item.titulo}}</div>
+                            </td>
+                        </ng-container>
+                        
+                        <!-- Columna acciones -->
+                        <ng-container matColumnDef="acciones" class="tcenter">
+                            <th class="tcenter" mat-header-cell *matHeaderCellDef [ngStyle]="{'display':!( arrayHVEstudiosPermiso.actualizar && arrayHVEstudiosPermiso.obtener && arrayHVEstudiosPermiso.eliminar ) ? 'none' : ''}">Acciones</th>
+                            <td mat-cell *matCellDef="let element" class="tcenter" [ngStyle]="{'display':!( arrayHVEstudiosPermiso.actualizar && arrayHVEstudiosPermiso.obtener && arrayHVEstudiosPermiso.eliminar ) ? 'none' : ''}">
+                                <button *ngIf="arrayHVEstudiosPermiso.obtener" mat-icon-button matTooltip="Visualizar"
+                                    (click)="mostrarEstudiosHandle($event, element)">
+                                    <mat-icon class="s-20">visibility</mat-icon>
+                                </button>
+                                <a *ngIf="arrayHVEstudiosPermiso.actualizar" mat-icon-button matTooltip="Editar"
+                                    routerLink="/reclutamiento-seleccion/hojas-vida/{{item.id}}/estudio/{{element.id}}">
+                                    <mat-icon class="s-20">edit</mat-icon>
+                                </a>
+                                <button *ngIf="arrayHVEstudiosPermiso.eliminar" mat-icon-button matTooltip="Eliminar"
+                                    (click)="eliminarEstudios($event, element)">
+                                    <mat-icon class="s-20">delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsEstudios"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumnsEstudios;">
+                        </tr>
+
+                    </table>
+                </mat-tab>
+                <!-- / Estudios realizados -->
+
+                <!-- Experiencia laboral -->
+                <mat-tab label="Experiencia laboral" [disabled]="!arrayHVExperienciaLaboralesPermiso.listar">
+
+                    <div class="p-24" *ngIf="experienciasDataRequest" fxLayoutAlign="center center" fxLayout="column">
+                        <mat-spinner></mat-spinner>
+                    </div>
+
+                    <alcanos-empty-list (fnCreate)="crearExperienciaHandle($event)"
+                        labelH1="¡Uy! Aún no has registrado experiencias laborales."
+                        labelBtn="Registrar experiencia laboral"
+                        [visibleBtnCreate]="arrayHVExperienciaLaboralesPermiso.crear"
+                        [visible]="!hasExperienciasDataSource && !experienciasDataRequest">
+                    </alcanos-empty-list>
+
+                    <table mat-table *ngIf="hasExperienciasDataSource && !experienciasDataRequest"
+                        [dataSource]="experienciasDataSource" class="mat-elevation-z8 ">
+
+                        <ng-container matColumnDef="nombreCargo">
+                            <th mat-header-cell *matHeaderCellDef>Nombre del cargo</th>
+                            <td mat-cell *matCellDef="let item">
+                                <div class="text-truncate">{{item.nombreCargo}}</div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="empresa">
+                            <th mat-header-cell *matHeaderCellDef>Empresa</th>
+                            <td mat-cell *matCellDef="let item">
+                                <div class="text-truncate">{{item.nombreEmpresa}}</div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="telefono">
+                            <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+                            <td mat-cell *matCellDef="let item"> {{item.telefono}} </td>
+                        </ng-container>
+
+                        <!-- Columna acciones -->
+                        <ng-container matColumnDef="acciones" class="tcenter">
+                            <th class="tcenter" mat-header-cell *matHeaderCellDef
+                                [ngStyle]="{'display':!( arrayHVExperienciaLaboralesPermiso.actualizar && arrayHVExperienciaLaboralesPermiso.obtener && arrayHVExperienciaLaboralesPermiso.eliminar ) ? 'none' : ''}">
+                                Acciones</th>
+                            <td mat-cell *matCellDef="let element" class="tcenter"
+                                [ngStyle]="{'display':!( arrayHVExperienciaLaboralesPermiso.actualizar && arrayHVExperienciaLaboralesPermiso.obtener && arrayHVExperienciaLaboralesPermiso.eliminar ) ? 'none' : ''}">
+                                <button *ngIf="arrayHVExperienciaLaboralesPermiso.obtener" mat-icon-button
+                                    matTooltip="Visualizar" (click)="mostrarExperienciasHandle($event, element)">
+                                    <mat-icon class="s-20">visibility</mat-icon>
+                                </button>
+                                <a *ngIf="arrayHVExperienciaLaboralesPermiso.actualizar" mat-icon-button
+                                    matTooltip="Editar"
+                                    routerLink="/reclutamiento-seleccion/hojas-vida/{{item.id}}/experiencia-laboral/{{element.id}}">
+                                    <mat-icon class="s-20">edit</mat-icon>
+                                </a>
+                                <button *ngIf="arrayHVExperienciaLaboralesPermiso.eliminar" mat-icon-button
+                                    matTooltip="Eliminar" (click)="eliminarExperiencia($event, element)">
+                                    <mat-icon class="s-20">delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsExperiencias"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumnsExperiencias;"></tr>
+
+                    </table>
+
+                </mat-tab>
+                <!-- / Experiencia laboral -->
+
+                <!-- Documentos soporte -->
+                <mat-tab label="Documentos" [disabled]="!arrayHVDocumentosPermiso.listar">
+
+                    <div class="p-24" *ngIf="documentosDataRequest" fxLayoutAlign="center center" fxLayout="column">
+                        <mat-spinner></mat-spinner>
+                    </div>
+
+                    <alcanos-empty-list (fnCreate)="crearDocumentoHandle($event)"
+                        labelH1="¡Uy! Aún no has cargado documentos." labelBtn="Cargar documento"
+                        [visibleBtnCreate]="arrayHVDocumentosPermiso.crear"
+                        [visible]="!hasDocumentosDataSource && !documentosDataRequest">
+                    </alcanos-empty-list>
+
+                    <table mat-table *ngIf="hasDocumentosDataSource && !documentosDataRequest"
+                        [dataSource]="documentosDataSource" class="mat-elevation-z8 ">
+
+                        <ng-container matColumnDef="tipo">
+                            <th mat-header-cell *matHeaderCellDef>Tipo</th>
+                            <td mat-cell *matCellDef="let item">
+                                <div class="text-truncate"> {{item.tipoSoporte?.nombre}}</div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="comentario">
+                            <th mat-header-cell *matHeaderCellDef>Comentario</th>
+                            <td mat-cell *matCellDef="let item">
+                                <div class="text-truncate">
+                                    {{item.comentario != null ? item.comentario : 'N/A'}}</div>
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna acciones -->
+                        <ng-container matColumnDef="acciones" class="tcenter">
+                            <th class="tcenter" mat-header-cell *matHeaderCellDef>Acciones</th>
+                            <td mat-cell *matCellDef="let element" class="tcenter">
+                                <div *ngIf="1">
+                                    <button mat-icon-button matTooltip="Descargar"
+                                        (click)="descargarHandle($event, element)">
+                                        <mat-icon class="s-20">save_alt</mat-icon>
+                                    </button>
+                                    <button *ngIf="arrayHVDocumentosPermiso.eliminar" mat-icon-button
+                                        matTooltip="Eliminar" (click)="eliminarDocumento($event, element)">
+                                        <mat-icon class="s-20">delete</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsDocumentos"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumnsDocumentos;"></tr>
+
+                    </table>
+
+                </mat-tab>
+                <!-- / Documentos soporte -->
+
+            </mat-tab-group>
+
+        </div>
+
+
+    </div>
+    <!-- / CONTENIDO -->
+
+</div>

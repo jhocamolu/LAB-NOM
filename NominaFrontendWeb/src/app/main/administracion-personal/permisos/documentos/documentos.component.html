@@ -1,0 +1,80 @@
+<h1 mat-dialog-title>Cargar soporte</h1>
+<div mat-dialog-content fusePerfectScrollbar>
+
+    <form [formGroup]="form" *ngIf="form">
+
+            <div class="text-center">
+                <label>Archivo o documento</label>
+                <input type="file" formControlName="file" (change)="fileInputHandle($event)" accept=".pdf" required>
+                <mat-icon matSuffix matTooltip="El formato del archivo debe ser PDF.">
+                    info
+                </mat-icon>
+                <div *ngIf="form.get('file').invalid && (form.get('file').dirty || form.get('file').touched)">
+                    <mat-error *ngFor="let error of form.get('file').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                </div>
+            </div>
+
+        <div class="pt-12">
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo de soporte</mat-label>
+                <mat-select formControlName="tipoSoporteId" required>
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let item of tipoSoportes" [value]="item.id">
+                        {{item.nombre}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngFor="let error of form.get('tipoSoporteId').errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Tipo de soporte de la solicitud de permiso.">info
+                </mat-icon>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field appearance="outline">
+                <mat-label>Comentario</mat-label>
+                <textarea matInput formControlName="comentario"></textarea>
+                <mat-error *ngFor="let error of form.get('comentario').errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Descripción del tipo de soporte seleccionado.">info
+                </mat-icon>
+            </mat-form-field>
+        </div>
+    </form>
+
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="dialogRef.close() ">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancelar</span>
+    </button>
+    <button mat-raised-button [disabled]="form.invalid" (click)="guardarHandle($event)" color="accent">
+        <mat-icon>save</mat-icon>
+        <span>Guardar</span>
+    </button>
+</div>

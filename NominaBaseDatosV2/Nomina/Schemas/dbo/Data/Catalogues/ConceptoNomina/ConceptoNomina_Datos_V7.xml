@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="ConceptoNomina_Datos_V7">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.ConceptoNomina SET Nombre='Apoyo sostenimiento etapa productiva'	WHERE Id=128;
+UPDATE dbo.ConceptoNomina SET Nombre='Apoyo sostenimiento etapa lectiva'	WHERE Id=129;
+
+UPDATE dbo.ConceptoNomina SET Alias='NetoLiqDefinitiva', Nombre='Valor total de los conceptos de liquidación definitiva', Orden='140',Descripcion='Concepto utilizado para mostrar el valor total de los conceptos utilizados en la liquidación definitiva'  WHERE Id='49';
+
+UPDATE dbo.ConceptoNomina SET Orden=129 WHERE Id=101;
+
+UPDATE dbo.ConceptoNomina SET FuncionNominaId=8,TipoConceptoNomina='Novedad',RequiereCantidad=1,UnidadMedida='Dias' WHERE Id=78;
+UPDATE dbo.ConceptoNomina SET FuncionNominaId=8,TipoConceptoNomina='Novedad',RequiereCantidad=1,UnidadMedida='Dias' WHERE Id=79;
+UPDATE dbo.ConceptoNomina SET FuncionNominaId=8,TipoConceptoNomina='Novedad',RequiereCantidad=1,UnidadMedida='Dias' WHERE Id=80;
+
+UPDATE dbo.ConceptoNomina SET TipoConceptoNomina='Novedad' WHERE Id=83;
+
+UPDATE dbo.ConceptoNomina SET Nombre='Base para calcular primas y cesantías acumualdo mes.' WHERE Id=36;
+
+UPDATE dbo.ConceptoNomina SET Orden='119' WHERE Id='132';
+UPDATE dbo.ConceptoNomina SET Orden='120' WHERE Id='154';
+UPDATE dbo.ConceptoNomina SET Orden='132' WHERE Id='133';
+UPDATE dbo.ConceptoNomina SET Orden='133' WHERE Id='155';
+UPDATE dbo.ConceptoNomina SET Orden='134' WHERE Id='45';
+UPDATE dbo.ConceptoNomina SET Orden='135' WHERE Id='152';
+UPDATE dbo.ConceptoNomina SET Orden='147' WHERE Id='46';
+UPDATE dbo.ConceptoNomina SET Orden='148' WHERE Id='153';
+UPDATE dbo.ConceptoNomina SET Orden='149' WHERE Id='134';
+UPDATE dbo.ConceptoNomina SET Orden='150' WHERE Id='156';
+UPDATE dbo.ConceptoNomina SET Orden='151' WHERE Id='135';
+UPDATE dbo.ConceptoNomina SET Orden='152' WHERE Id='157';
+UPDATE dbo.ConceptoNomina SET Orden='153' WHERE Id='148';
+UPDATE dbo.ConceptoNomina SET Orden='154' WHERE Id='158';
+UPDATE dbo.ConceptoNomina SET Orden='155' WHERE Id='149';
+UPDATE dbo.ConceptoNomina SET Orden='156' WHERE Id='159';
+UPDATE dbo.ConceptoNomina SET Orden='157' WHERE Id='150';
+UPDATE dbo.ConceptoNomina SET Orden='158' WHERE Id='160';
+UPDATE dbo.ConceptoNomina SET Orden='159' WHERE Id='151';
+UPDATE dbo.ConceptoNomina SET Orden='160' WHERE Id='161';
+UPDATE dbo.ConceptoNomina SET Orden='162' WHERE Id='146';
+
+SET IDENTITY_INSERT [dbo].[ConceptoNomina] ON
+GO
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('136', NULL, 'Fijo', 'Devengo', 'DEV162', 'LiqVacaciones', 'Valor liquidación de vacaciones', '37', '1', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Corresponde al valor a pagar de vacaciones a un funcionario en la liquidación definitiva.', 'SI(CLASE_CONTRATO_FUNCIONARIO<>CONSTANTE_CONTRATO_APRENDIZAJE Y CLASE_CONTRATO_FUNCIONARIO<>CONSTANTE_CONTRATO_PRACTICANTE; (BASE_VACACIONES_DINERO_MES*CANTIDAD_CONCEPTO)/720;0)', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('137', NULL, 'Fijo', 'Devengo', 'DEV163', 'LiqCesantias', 'Valor liquidación de cesantías', '137', '1', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Corresponde al valor a pagar de cesantías a un funcionario en la liquidación definitiva', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('138', NULL, 'Fijo', 'Devengo', 'DEV164', 'LiqIntCesantias', 'Valor liquidación de intereses a las cesantías', '138', '1', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Corresponde al valor a pagar de intereses a las cesantías a un funcionario en la liquidación definitiva.', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('139', NULL, 'Fijo', 'Calculo', 'CAL337', 'NetoVacaciones', 'Valor neto de vacaciones', '139', '0', 'NoAplica', 'DelFuncionario', '1', '0', 'Unidad', '', '', 'Concepto utilizado para mostrar el valor total de vacaciones calculado en la aprobación/aplicación de la nómina', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('140', NULL, 'Fijo', 'Calculo', 'CAL338', 'BasePagosBrutosRetiro', 'Base pagos brutos retiro', '108', '0', 'NoAplica', 'DelFuncionario', '1', '0', 'Unidad', '', '', 'Valor base para calcular la retención en la fuente por indemización', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('141', NULL, 'Fijo', 'Calculo', 'CAL339', 'BasePagosBrutosPrima', 'Base pagos brutos prima', '141', '0', 'NoAplica', 'DelFuncionario', '1', '0', 'Unidad', '', '', 'Valor base para calcular la retención en la fuente sobre Prima legal.', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('142', NULL, 'Fijo', 'Calculo', 'CAL340', 'NetoPrimaLegal', 'Valor de los conceptos de prima legal', '142', '0', 'NoAplica', 'DelFuncionario', '1', '0', 'Unidad', '', '', 'Concepto utilizado para mostrar el valor total de prima legal calculado en la aprobación/aplicación de la nómina', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('143', NULL, 'Fijo', 'Calculo', 'CAL341', 'NetoCesantias', 'Valor de los conceptos de cesantías', '143', '0', 'NoAplica', 'DelFuncionario', '1', '0', 'Unidad', '', '', 'Concepto utilizado para mostrar el valor total de cesantias calculado en la aprobación/aplicación de la nómina', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('144', NULL, 'Fijo', 'Calculo', 'CAL342', 'NetoAnticipoCesantias', 'Valor de los conceptos de anticipo a las cesantías', '144', '0', 'NoAplica', 'DelFuncionario', '1', '0', 'Unidad', '', '', 'Concepto utilizado para mostrar el valor total de anticipos a las cesantias calculado en la aprobación/aplicación de la nómina', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('145', NULL, 'Fijo', 'Calculo', 'CAL343', 'NetoCesantiasFondo', 'Valor de los conceptos de cesantias a fondo', '145', '0', 'NoAplica', 'DelFuncionario', '1', '0', 'Unidad', '', '', 'Concepto utilizado para mostrar el valor total de cesantias a fondo calculado en la aprobación/aplicación de la nómina', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('146', NULL, 'Fijo', 'Calculo', 'CAL344', 'NetoPila', 'Valor total de los conceptos de Pila', '162', '0', 'NoAplica', 'DelFuncionario', '1', '0', 'Unidad', '', '', 'Concepto utilizado para mostrar el valor total de Pila calculado en la aprobación/aplicación de la nómina', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('147', NULL, 'Fijo', 'Calculo', 'CAL345', 'NetoRetefuente', 'Valor de los conceptos de retencion en la fuente.', '146', '0', 'NoAplica', 'DelFuncionario', '1', '0', 'Unidad', '', '', 'Concepto utilizado para mostrar el valor total de retefuente calculado en la aprobación/aplicación de la nómina', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('148', NULL, 'Fijo', 'Deduccion', 'DED238', 'ValorAVPPila', 'Valor aporte voluntario a pensiones obligatorias', '147', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor del aporte voluntario del funcionario a un fondo de pensiones obligatorias. Utilizado en la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('149', NULL, 'Fijo', 'Deduccion', 'DED239', 'ValorAVPEmpresaPila', 'Valor aporte voluntario del aportante a pensiones obligatorias', '148', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor del aporte voluntario que realiza la empresa a un funcionario al fondo de pensiones obligatorias. Utilizado en la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('150', NULL, 'Fijo', 'Deduccion', 'DED240', 'ValorAporteFondoSolidaridadPila', 'Valor aporte fondo de solidaridad', '149', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor del aporte a fondo de solidaridad utilizado en la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('151', NULL, 'Fijo', 'Deduccion', 'DED241', 'ValorAporteFondoSubsistenciaPila', 'Valor aporte fondo de subsistencia', '150', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor del aporte a fondo de subsistencia utilizado en la Pila.', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('152', NULL, 'Fijo', 'Deduccion', 'DED242', 'ValorRedondeoARLPila', 'Redondeo aporte ARL', '151', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor utilizado para completar el pago de aporte a Arl para la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('153', NULL, 'Fijo', 'Deduccion', 'DED243', 'ValorRedondeoCCFPila', 'Redondeo aporte CCF', '152', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor utilizado para completar el pago de aporte a CCF para la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('154', NULL, 'Fijo', 'Deduccion', 'DED244', 'ValorRedondeoSaludPila', 'Redondeo cotización a salud', '153', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor utilizado para completar el pago de aporte a salud para la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('155', NULL, 'Fijo', 'Deduccion', 'DED245', 'ValorRedondeoPensionPila', 'Redondeo cotización a pensiones', '154', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor utilizado para completar el pago de aporte a pensión para la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('156', NULL, 'Fijo', 'Deduccion', 'DED246', 'ValorRedondeoSENAPila', 'Redondeo aporte SENA', '155', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor utilizado para completar el pago de aporte a SENA para la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('157', NULL, 'Fijo', 'Deduccion', 'DED247', 'ValorRedondeoICBFPila', 'Redondeo aporte ICBF', '156', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor utilizado para completar el pago de aporte a ICBF para la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('158', NULL, 'Fijo', 'Deduccion', 'DED248', 'ValorRedondeoAVPPila', 'Redondeo aporte voluntario a pensiones obligatorias', '157', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor utilizado para completar el pago de aporte voluntario a pensiones obligatorias del funcionario para la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('159', NULL, 'Fijo', 'Deduccion', 'DED249', 'ValorRedondeoAVPEmpresaPila', 'Redondeo aporte voluntario del aportante a pensiones obligatorias', '158', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor utilizado para completar el pago de aporte voluntario de la empresa a pensiones obligatorias al funcionario para la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('160', NULL, 'Fijo', 'Deduccion', 'DED250', 'ValorRedondeoFondoSolidaridadPila', 'Redondeo aporte fondo de solidaridad', '159', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor utilizado para completar el pago de aporte a fondo de solidaridad para la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('161', NULL, 'Fijo', 'Deduccion', 'DED251', 'ValorRedondeoFondoSubsistenciaPila', 'Redondeo aporte fondo de subsistencia', '160', '0', 'Delfuncionario', 'DelFuncionario', '0', '0', 'Unidad', '', '', 'Valor utilizado para completar el pago de aporte a fondo de subsistencia para la Pila', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, FuncionNominaId, TipoConceptoNomina, ClaseConceptoNomina, Codigo, Alias, Nombre, Orden, VisibleImpresion, OrigenCentroCosto, OrigenTercero, ConceptoAgrupador, RequiereCantidad, UnidadMedida, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('162', NULL, 'Fijo', 'Calculo', 'CAL346', 'ValorVacacionesPila', 'Valor vacaciones Pila', '161', '0', 'NoAplica', 'DelFuncionario', '0', '1', 'Dias', '', '', 'Valor utilizado para calcular el valor de las vacaciones del funcionario con corte a un mes para mostrar su valor en la generación de la Pila.', '', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoNomina (Id, Codigo, Alias, Nombre, TipoConceptoNomina, ClaseConceptoNomina, Orden, ConceptoAgrupador, OrigenCentroCosto, OrigenTercero, VisibleImpresion, UnidadMedida, RequiereCantidad, FuncionNominaId, NitTercero, DigitoVerificacion, Descripcion, Formula, ProcedimientoSql, ProcedimientoNombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(163, 'DED252', 'Polizaseguro', 'Poliza de seguro', 'Novedad', 'Deduccion', 163, 0, 'Especifico', 'DeLaNovedad', 1, 'Unidad', 0, NULL, NULL, NULL, 'Concepto que registra la deducción por pólizas de seguros que se le realiza a un funcionario.', NULL, NULL, NULL, 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[ConceptoNomina] OFF;
+GO 
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.ConceptoNomina SET Nombre='Apoyo sostenimiento etapa productiva'	WHERE Id=129;
+UPDATE dbo.ConceptoNomina SET Nombre='Apoyo sostenimiento etapa lectiva'	WHERE Id=128;
+
+UPDATE dbo.ConceptoNomina SET Orden=108 WHERE Id=101;
+
+UPDATE ConceptoNomina SET Alias='TotalAusentismos', Nombre='Agrupador de ausentismos', Descripcion='Concepto utilizado para mostrar el valor total de ausentismos del funcionario',Orden='129' WHERE Id=49;
+
+UPDATE dbo.ConceptoNomina SET FuncionNominaId=NULL,TipoConceptoNomina='Fijo',RequiereCantidad=0,UnidadMedida='Unidad' WHERE Id=78;
+UPDATE dbo.ConceptoNomina SET FuncionNominaId=NULL,TipoConceptoNomina='Fijo',RequiereCantidad=0,UnidadMedida='Unidad' WHERE Id=79;
+UPDATE dbo.ConceptoNomina SET FuncionNominaId=NULL,TipoConceptoNomina='Fijo',RequiereCantidad=0,UnidadMedida='Unidad' WHERE Id=80;
+
+UPDATE dbo.ConceptoNomina SET TipoConceptoNomina='Fijo' WHERE Id=83;
+
+UPDATE dbo.ConceptoNomina SET Nombre='Base para calcular primas y cesantías acumualdo mes.' WHERE Id=36;
+
+UPDATE dbo.ConceptoNomina SET Orden='132' WHERE Id='132';
+UPDATE dbo.ConceptoNomina SET Orden='153' WHERE Id='154';
+UPDATE dbo.ConceptoNomina SET Orden='133' WHERE Id='133';
+UPDATE dbo.ConceptoNomina SET Orden='154' WHERE Id='155';
+UPDATE dbo.ConceptoNomina SET Orden='119' WHERE Id='45';
+UPDATE dbo.ConceptoNomina SET Orden='151' WHERE Id='152';
+UPDATE dbo.ConceptoNomina SET Orden='120' WHERE Id='46';
+UPDATE dbo.ConceptoNomina SET Orden='152' WHERE Id='153';
+UPDATE dbo.ConceptoNomina SET Orden='134' WHERE Id='134';
+UPDATE dbo.ConceptoNomina SET Orden='155' WHERE Id='156';
+UPDATE dbo.ConceptoNomina SET Orden='135' WHERE Id='135';
+UPDATE dbo.ConceptoNomina SET Orden='156' WHERE Id='157';
+UPDATE dbo.ConceptoNomina SET Orden='147' WHERE Id='148';
+UPDATE dbo.ConceptoNomina SET Orden='157' WHERE Id='158';
+UPDATE dbo.ConceptoNomina SET Orden='148' WHERE Id='149';
+UPDATE dbo.ConceptoNomina SET Orden='158' WHERE Id='159';
+UPDATE dbo.ConceptoNomina SET Orden='149' WHERE Id='150';
+UPDATE dbo.ConceptoNomina SET Orden='159' WHERE Id='160';
+UPDATE dbo.ConceptoNomina SET Orden='150' WHERE Id='151';
+UPDATE dbo.ConceptoNomina SET Orden='160' WHERE Id='161';
+UPDATE dbo.ConceptoNomina SET Orden='162' WHERE Id='146';
+
+DELETE FROM dbo.ConceptoNomina WHERE Id BETWEEN 136 AND 163;
+]]>
+</sql>
+</rollback>
+
+</changeSet>
+</databaseChangeLog>

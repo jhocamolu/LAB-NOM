@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="GrupoDocumento_Datos_V1">
+<comment>Migración Inicial</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[GrupoDocumento] ON 
+GO
+INSERT [dbo].[GrupoDocumento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [Servicio], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (2, N'Activo', CAST(N'2019-12-26T10:37:15.5700000' AS DateTime2), CAST(N'2019-12-26T10:37:15.5700000' AS DateTime2), NULL, N'Carta terminacion', N'carta-terminacion', N'/odata/contratos/{id}?$expand=funcionario($expand=estadocivil,ocupacion,sexo,divisionPoliticaNivel2Origen($expand=divisionPoliticaNivel1($expand=pais)),tipoDocumento,divisionPoliticaNivel2ExpedicionDocumento($expand=divisionPoliticaNivel1($expand=pais)),divisionPoliticaNivel2Residencia($expand=divisionPoliticaNivel1($expand=pais)),tipoVivienda,claseLibretaMilitar,licenciaConducciona,licenciaConduccionb,licenciaConduccionc,tipoSangre,),jornadalaboral,entidadfinanciera,centrooperativo,tipocontrato,formapago,tipomoneda,divisionPoliticaNivel2,centrotrabajo,tipocuenta,centrocosto,gruponomina,cargodependencia($expand=cargo,dependencia)', NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [Servicio], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (3, N'Activo', CAST(N'2019-12-26T10:37:15.5700000' AS DateTime2), CAST(N'2019-12-26T10:37:15.5700000' AS DateTime2), NULL, N'Contrato', N'contrato', N'/odata/contratos/{id}?$expand=funcionario($expand=estadocivil,ocupacion,sexo,divisionPoliticaNivel2Origen($expand=divisionPoliticaNivel1($expand=pais)),tipoDocumento,divisionPoliticaNivel2ExpedicionDocumento($expand=divisionPoliticaNivel1($expand=pais)),divisionPoliticaNivel2Residencia($expand=divisionPoliticaNivel1($expand=pais)),tipoVivienda,claseLibretaMilitar,licenciaConducciona,licenciaConduccionb,licenciaConduccionc,tipoSangre,),jornadalaboral,entidadfinanciera,centrooperativo,tipocontrato,formapago,tipomoneda,divisionPoliticaNivel2,centrotrabajo,tipocuenta,centrocosto,gruponomina,cargodependencia($expand=cargo,dependencia)', NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [Servicio], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (4, N'Activo', CAST(N'2019-12-26T10:37:15.5700000' AS DateTime2), CAST(N'2019-12-26T10:37:15.5700000' AS DateTime2), NULL, N'Otrosí', N'otrosi', N'/odata/contratootrosis/{id}?$expand=contrato($expand=funcionario($expand=estadocivil,ocupacion,sexo,divisionPoliticaNivel2Origen($expand=divisionPoliticaNivel1($expand=pais)),tipoDocumento,divisionPoliticaNivel2ExpedicionDocumento($expand=divisionPoliticaNivel1($expand=pais)),divisionPoliticaNivel2Residencia($expand=divisionPoliticaNivel1($expand=pais)),tipoVivienda,claseLibretaMilitar,licenciaConducciona,licenciaConduccionb,licenciaConduccionc,tipoSangre)),centrooperativo,tipocontrato,divisionPoliticaNivel2,cargodependencia($expand=cargo,dependencia)', NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumento] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Slug], [Servicio], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (6, N'Activo', CAST(N'2020-03-12T00:00:00.0000000' AS DateTime2), CAST(N'2019-03-12T00:00:00.0000000' AS DateTime2), NULL, N'Certificado Laboral', N'certificado-laboral', N'/odata/funcionariodatoactuales/{id}?$expand=contrato($expand=tipocontrato),cargo,centrooperativo', NULL, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[GrupoDocumento] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [GrupoDocumento_V1]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

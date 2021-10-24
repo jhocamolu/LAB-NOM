@@ -1,0 +1,43 @@
+{
+	"info": {
+		"_postman_id": "6f4258a6-801f-47c1-a394-a3fc8cbff257",
+		"name": "HU109-ReporteMediosMagnéticos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte Medios Magneticos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTc0NDciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yMUBhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkpIT05BVEFOIE1PUkVOTyIsIlVzdWFyaW8iOiJqaG1vcmVubyIsIlRpcG9BdXQiOiJJRCIsIlRpcG9Ub2tlbiI6IkFVVCIsIm5iZiI6MTYwMDIwNzA4MywiZXhwIjoxNjAwMjIxNDgzLCJpc3MiOiJTaWNvbVNlcnZlciIsImF1ZCI6IlZlbnRhc0FwcCJ9.VHPOMbQMUIZXobwQvTDoJ8oWcxeUhqAET_V5slZQ2i0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"annio\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/MediosMagneticos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"MediosMagneticos"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

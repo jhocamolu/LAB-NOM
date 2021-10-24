@@ -1,0 +1,51 @@
+<div class="contenido">
+    <h1 mat-dialog-title>Ayuda</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+        <p>Las fórmulas utilizadas en el cálculo de los valores de los conceptos de nómina se encuentran compuestas de una serie de elementos.</p>
+        <p>Los elementos que se pueden utilizar en una fórmula son los siguientes:</p>
+        <ul style="list-style: none; padding: 0;">
+            <li>
+                <h2>Agrupador </h2>
+                <p>Sirven para agrupar cantidades y notar operaciones entre ellas.</p>
+                <p>Agrupadores permitidos: ( )</p>
+            </li>
+            <li style="color: #a1e0ff;">
+                <h2>Concepto</h2> 
+                <p>Hace referencia a un ítem de la nómina. Son todos aquellos criterios que constituyen ingresos o deducciones al empleado.</p>
+            </li>
+            <li style=" color: #ffb0cd;">
+                <h2>Condición</h2>
+                <p>Es una proposición que se usa para discernir entre una opción u otra de acuerdo a un enunciado.</p> 
+                <p>
+                    Los operadores lógicos permitidos son los siguientes:
+                    <,>,<=,>=, =,<>,Y,O
+                </p>
+            </li>
+            <li style="color: #fad773;">
+                <h2>Función</h2>
+                <p>Procedimiento que se usa para obtener del sistema de información algún valor que se requiere para realizar un cálculo en alguna fórmula.</p> 
+            </li>
+            <li style=" color: #a4e899;">
+                <h2>Números</h2>
+                <p>Es permitido diligenciar números enteros como también números decimales indicando como separador decimal el punto (.)</p> 
+            </li>
+            <li>
+                <h2>Operadores </h2>
+                <p>Símbolos que indican cómo se deben manipular los operandos de la fórmula.</p>
+                <p>
+                    Los operadores permitidos son los siguientes: +, -, *, /
+                </p>
+            </li>
+        </ul>
+
+
+    </div>
+
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center ">
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+        <mat-icon>check_circle</mat-icon>
+        <span>Aceptar</span>
+    </button>
+
+    </div>
+</div>

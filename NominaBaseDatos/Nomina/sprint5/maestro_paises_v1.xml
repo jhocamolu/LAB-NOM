@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_paises_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[Pais] ON 
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (1, 'Activo', GETDATE(), NULL, NULL, '013', 'AFGANISTA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (2, 'Activo', GETDATE(), NULL, NULL, '017', 'ALBANIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (3, 'Activo', GETDATE(), NULL, NULL, '023', 'ALEMANIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (4, 'Activo', GETDATE(), NULL, NULL, '026', 'ARMENIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (5, 'Activo', GETDATE(), NULL, NULL, '027', 'ARUBA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (6, 'Activo', GETDATE(), NULL, NULL, '029', 'BOSNIA-HERZEGOVINA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (7, 'Activo', GETDATE(), NULL, NULL, '031', 'BURKINA FASSO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (8, 'Activo', GETDATE(), NULL, NULL, '037', 'ANDORRA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (9, 'Activo', GETDATE(), NULL, NULL, '040', 'ANGOLA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (11, 'Activo', GETDATE(), NULL, NULL, '043', 'ANTIGUA Y BARBUDA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (12, 'Activo', GETDATE(), NULL, NULL, '047', 'ANTILLAS HOLANDESAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (13, 'Activo', GETDATE(), NULL, NULL, '053', 'ARABIA SAUDITA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (14, 'Activo', GETDATE(), NULL, NULL, '059', 'ARGELIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (15, 'Activo', GETDATE(), NULL, NULL, '063', 'ARGENTINA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (16, 'Activo', GETDATE(), NULL, NULL, '069', 'AUSTRALIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (17, 'Activo', GETDATE(), NULL, NULL, '072', 'AUSTRIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (18, 'Activo', GETDATE(), NULL, NULL, '074', 'AZERBAIJA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (19, 'Activo', GETDATE(), NULL, NULL, '077', 'BAHAMAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (20, 'Activo', GETDATE(), NULL, NULL, '080', 'BAHREI', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (21, 'Activo', GETDATE(), NULL, NULL, '081', 'BANGLADESH', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (22, 'Activo', GETDATE(), NULL, NULL, '083', 'BARBADOS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (23, 'Activo', GETDATE(), NULL, NULL, '087', 'BELGICA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (24, 'Activo', GETDATE(), NULL, NULL, '088', 'BELICE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (25, 'Activo', GETDATE(), NULL, NULL, '090', 'BERMUDAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (26, 'Activo', GETDATE(), NULL, NULL, '091', 'BELARUS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (27, 'Activo', GETDATE(), NULL, NULL, '093', 'BIRMANIA (MYANMAR)', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (28, 'Activo', GETDATE(), NULL, NULL, '097', 'BOLIVIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (29, 'Activo', GETDATE(), NULL, NULL, '101', 'BOTSWANA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (30, 'Activo', GETDATE(), NULL, NULL, '105', 'BRASIL', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (31, 'Activo', GETDATE(), NULL, NULL, '108', 'BRUNEI DARUSSALAM', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (32, 'Activo', GETDATE(), NULL, NULL, '111', 'BULGARIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (33, 'Activo', GETDATE(), NULL, NULL, '115', 'BURUNDI', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (34, 'Activo', GETDATE(), NULL, NULL, '119', 'BUTA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (35, 'Activo', GETDATE(), NULL, NULL, '127', 'CABO VERDE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (36, 'Activo', GETDATE(), NULL, NULL, '137', 'CAIMAN, ISLAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (37, 'Activo', GETDATE(), NULL, NULL, '141', 'CAMBOYA (KAMPUCHEA)', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (38, 'Activo', GETDATE(), NULL, NULL, '145', 'CAMERUN, REPUBLICA UNIDA DEL', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (39, 'Activo', GETDATE(), NULL, NULL, '149', 'CANADA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (40, 'Activo', GETDATE(), NULL, NULL, '159', 'SANTA SEDE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (41, 'Activo', GETDATE(), NULL, NULL, '165', 'COCOS (KEELING), ISLAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (42, 'Activo', GETDATE(), NULL, NULL, '169', 'COLOMBIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (43, 'Activo', GETDATE(), NULL, NULL, '173', 'COMORAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (44, 'Activo', GETDATE(), NULL, NULL, '177', 'CONGO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (45, 'Activo', GETDATE(), NULL, NULL, '183', 'COOK, ISLAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (46, 'Activo', GETDATE(), NULL, NULL, '187', 'COREA (NORTE), REPUBLICA POPULAR DEMOCRATICA DE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (47, 'Activo', GETDATE(), NULL, NULL, '190', 'COREA (SUR), REPUBLICA DE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (48, 'Activo', GETDATE(), NULL, NULL, '193', 'COSTA DE MARFIL', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (49, 'Activo', GETDATE(), NULL, NULL, '196', 'COSTA RICA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (50, 'Activo', GETDATE(), NULL, NULL, '198', 'CROACIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (51, 'Activo', GETDATE(), NULL, NULL, '199', 'CUBA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (52, 'Activo', GETDATE(), NULL, NULL, '203', 'CHAD', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (53, 'Activo', GETDATE(), NULL, NULL, '211', 'CHILE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (54, 'Activo', GETDATE(), NULL, NULL, '215', 'CHINA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (55, 'Activo', GETDATE(), NULL, NULL, '218', 'TAIWAN (FORMOSA)', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (56, 'Activo', GETDATE(), NULL, NULL, '221', 'CHIPRE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (57, 'Activo', GETDATE(), NULL, NULL, '229', 'BENI', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (58, 'Activo', GETDATE(), NULL, NULL, '232', 'DINAMARCA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (59, 'Activo', GETDATE(), NULL, NULL, '235', 'DOMINICA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (60, 'Activo', GETDATE(), NULL, NULL, '239', 'ECUADOR', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (61, 'Activo', GETDATE(), NULL, NULL, '240', 'EGIPTO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (62, 'Activo', GETDATE(), NULL, NULL, '242', 'EL SALVADOR', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (63, 'Activo', GETDATE(), NULL, NULL, '243', 'ERITREA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (64, 'Activo', GETDATE(), NULL, NULL, '244', 'EMIRATOS ARABES UNIDOS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (65, 'Activo', GETDATE(), NULL, NULL, '245', 'ESPAÑA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (66, 'Activo', GETDATE(), NULL, NULL, '246', 'ESLOVAQUIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (67, 'Activo', GETDATE(), NULL, NULL, '247', 'ESLOVENIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (68, 'Activo', GETDATE(), NULL, NULL, '249', 'ESTADOS UNIDOS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (69, 'Activo', GETDATE(), NULL, NULL, '251', 'ESTONIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (70, 'Activo', GETDATE(), NULL, NULL, '253', 'ETIOPIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (71, 'Activo', GETDATE(), NULL, NULL, '259', 'FEROE, ISLAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (72, 'Activo', GETDATE(), NULL, NULL, '267', 'FILIPINAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (73, 'Activo', GETDATE(), NULL, NULL, '271', 'FINLANDIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (74, 'Activo', GETDATE(), NULL, NULL, '275', 'FRANCIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (75, 'Activo', GETDATE(), NULL, NULL, '281', 'GABO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (76, 'Activo', GETDATE(), NULL, NULL, '285', 'GAMBIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (77, 'Activo', GETDATE(), NULL, NULL, '287', 'GEORGIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (78, 'Activo', GETDATE(), NULL, NULL, '289', 'GHANA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (79, 'Activo', GETDATE(), NULL, NULL, '293', 'GIBRALTAR', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (80, 'Activo', GETDATE(), NULL, NULL, '297', 'GRANADA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (81, 'Activo', GETDATE(), NULL, NULL, '301', 'GRECIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (82, 'Activo', GETDATE(), NULL, NULL, '305', 'GROENLANDIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (83, 'Activo', GETDATE(), NULL, NULL, '309', 'GUADALUPE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (84, 'Activo', GETDATE(), NULL, NULL, '313', 'GUAM', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (85, 'Activo', GETDATE(), NULL, NULL, '317', 'GUATEMALA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (86, 'Activo', GETDATE(), NULL, NULL, '325', 'GUAYANA FRANCESA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (87, 'Activo', GETDATE(), NULL, NULL, '329', 'GUINEA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (88, 'Activo', GETDATE(), NULL, NULL, '331', 'GUINEA ECUATORIAL', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (89, 'Activo', GETDATE(), NULL, NULL, '334', 'GUINEA-BISSAU', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (90, 'Activo', GETDATE(), NULL, NULL, '337', 'GUYANA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (91, 'Activo', GETDATE(), NULL, NULL, '341', 'HAITI', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (92, 'Activo', GETDATE(), NULL, NULL, '345', 'HONDURAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (93, 'Activo', GETDATE(), NULL, NULL, '351', 'HONG KONG', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (94, 'Activo', GETDATE(), NULL, NULL, '355', 'HUNGRIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (95, 'Activo', GETDATE(), NULL, NULL, '361', 'INDIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (96, 'Activo', GETDATE(), NULL, NULL, '365', 'INDONESIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (97, 'Activo', GETDATE(), NULL, NULL, '369', 'IRAK', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (98, 'Activo', GETDATE(), NULL, NULL, '372', 'IRAN, REPUBLICA ISLAMICA DEL', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (99, 'Activo', GETDATE(), NULL, NULL, '375', 'IRLANDA (EIRE)', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (100, 'Activo', GETDATE(), NULL, NULL, '379', 'ISLANDIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (101, 'Activo', GETDATE(), NULL, NULL, '383', 'ISRAEL', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (102, 'Activo', GETDATE(), NULL, NULL, '386', 'ITALIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (103, 'Activo', GETDATE(), NULL, NULL, '391', 'JAMAICA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (104, 'Activo', GETDATE(), NULL, NULL, '399', 'JAPO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (105, 'Activo', GETDATE(), NULL, NULL, '403', 'JORDANIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (106, 'Activo', GETDATE(), NULL, NULL, '406', 'KAZAJSTA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (107, 'Activo', GETDATE(), NULL, NULL, '410', 'KENIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (108, 'Activo', GETDATE(), NULL, NULL, '411', 'KIRIBATI', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (109, 'Activo', GETDATE(), NULL, NULL, '412', 'KIRGUIZISTA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (110, 'Activo', GETDATE(), NULL, NULL, '413', 'KUWAIT', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (111, 'Activo', GETDATE(), NULL, NULL, '420', 'LAOS, REPUBLICA POPULAR DEMOCRATICA DE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (112, 'Activo', GETDATE(), NULL, NULL, '426', 'LESOTHO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (113, 'Activo', GETDATE(), NULL, NULL, '429', 'LETONIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (114, 'Activo', GETDATE(), NULL, NULL, '431', 'LIBANO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (115, 'Activo', GETDATE(), NULL, NULL, '434', 'LIBERIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (116, 'Activo', GETDATE(), NULL, NULL, '438', 'LIBIA (INCLUYE FEZZAN)', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (117, 'Activo', GETDATE(), NULL, NULL, '440', 'LIECHTENSTEI', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (118, 'Activo', GETDATE(), NULL, NULL, '443', 'LITUANIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (119, 'Activo', GETDATE(), NULL, NULL, '445', 'LUXEMBURGO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (120, 'Activo', GETDATE(), NULL, NULL, '447', 'MACAO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (121, 'Activo', GETDATE(), NULL, NULL, '448', 'MACEDONIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (122, 'Activo', GETDATE(), NULL, NULL, '450', 'MADAGASCAR', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (123, 'Activo', GETDATE(), NULL, NULL, '455', 'MALAYSIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (124, 'Activo', GETDATE(), NULL, NULL, '458', 'MALAWI', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (125, 'Activo', GETDATE(), NULL, NULL, '461', 'MALDIVAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (126, 'Activo', GETDATE(), NULL, NULL, '464', 'MALI', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (127, 'Activo', GETDATE(), NULL, NULL, '467', 'MALTA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (128, 'Activo', GETDATE(), NULL, NULL, '469', 'MARIANAS DEL NORTE, ISLAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (129, 'Activo', GETDATE(), NULL, NULL, '472', 'MARSHALL, ISLAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (130, 'Activo', GETDATE(), NULL, NULL, '474', 'MARRUECOS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (131, 'Activo', GETDATE(), NULL, NULL, '477', 'MARTINICA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (132, 'Activo', GETDATE(), NULL, NULL, '485', 'MAURICIO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (133, 'Activo', GETDATE(), NULL, NULL, '488', 'MAURITANIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (134, 'Activo', GETDATE(), NULL, NULL, '493', 'MEXICO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (135, 'Activo', GETDATE(), NULL, NULL, '494', 'MICRONESIA, ESTADOS FEDERADOS DE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (136, 'Activo', GETDATE(), NULL, NULL, '496', 'MOLDAVIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (137, 'Activo', GETDATE(), NULL, NULL, '497', 'MONGOLIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (138, 'Activo', GETDATE(), NULL, NULL, '498', 'MONACO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (139, 'Activo', GETDATE(), NULL, NULL, '501', 'MONSERRAT, ISLA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (140, 'Activo', GETDATE(), NULL, NULL, '505', 'MOZAMBIQUE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (141, 'Activo', GETDATE(), NULL, NULL, '507', 'NAMIBIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (142, 'Activo', GETDATE(), NULL, NULL, '508', 'NAURU', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (143, 'Activo', GETDATE(), NULL, NULL, '511', 'NAVIDAD (CHRISTMAS), ISLAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (144, 'Activo', GETDATE(), NULL, NULL, '517', 'NEPAL', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (145, 'Activo', GETDATE(), NULL, NULL, '521', 'NICARAGUA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (146, 'Activo', GETDATE(), NULL, NULL, '525', 'NIGER', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (147, 'Activo', GETDATE(), NULL, NULL, '528', 'NIGERIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (148, 'Activo', GETDATE(), NULL, NULL, '531', 'NIUE, ISLA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (149, 'Activo', GETDATE(), NULL, NULL, '535', 'NORFOLK, ISLA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (150, 'Activo', GETDATE(), NULL, NULL, '538', 'NORUEGA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (151, 'Activo', GETDATE(), NULL, NULL, '542', 'NUEVA CALEDONIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (152, 'Activo', GETDATE(), NULL, NULL, '545', 'PAPUASIA NUEVA GUINEA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (153, 'Activo', GETDATE(), NULL, NULL, '548', 'NUEVA ZELANDIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (154, 'Activo', GETDATE(), NULL, NULL, '551', 'VANUATU', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (155, 'Activo', GETDATE(), NULL, NULL, '556', 'OMA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (156, 'Activo', GETDATE(), NULL, NULL, '566', 'PACIFICO, ISLAS (USA)', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (157, 'Activo', GETDATE(), NULL, NULL, '573', 'PAISES BAJOS (HOLANDA)', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (158, 'Activo', GETDATE(), NULL, NULL, '576', 'PAKISTA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (159, 'Activo', GETDATE(), NULL, NULL, '578', 'PALAU, ISLAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (160, 'Activo', GETDATE(), NULL, NULL, '580', 'PANAMA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (161, 'Activo', GETDATE(), NULL, NULL, '586', 'PARAGUAY', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (162, 'Activo', GETDATE(), NULL, NULL, '589', 'PERU', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (163, 'Activo', GETDATE(), NULL, NULL, '593', 'PITCAIRN, ISLA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (164, 'Activo', GETDATE(), NULL, NULL, '599', 'POLINESIA FRANCESA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (165, 'Activo', GETDATE(), NULL, NULL, '603', 'POLONIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (166, 'Activo', GETDATE(), NULL, NULL, '607', 'PORTUGAL', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (167, 'Activo', GETDATE(), NULL, NULL, '611', 'PUERTO RICO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (168, 'Activo', GETDATE(), NULL, NULL, '618', 'QATAR', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (169, 'Activo', GETDATE(), NULL, NULL, '628', 'REINO UNIDO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (170, 'Activo', GETDATE(), NULL, NULL, '640', 'REPUBLICA CENTROAFRICANA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (171, 'Activo', GETDATE(), NULL, NULL, '644', 'REPUBLICA CHECA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (172, 'Activo', GETDATE(), NULL, NULL, '647', 'REPUBLICA DOMINICANA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (173, 'Activo', GETDATE(), NULL, NULL, '660', 'REUNIO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (174, 'Activo', GETDATE(), NULL, NULL, '665', 'ZIMBABWE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (175, 'Activo', GETDATE(), NULL, NULL, '670', 'RUMANIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (176, 'Activo', GETDATE(), NULL, NULL, '675', 'RUANDA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (177, 'Activo', GETDATE(), NULL, NULL, '676', 'RUSIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (178, 'Activo', GETDATE(), NULL, NULL, '677', 'SALOMON, ISLAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (179, 'Activo', GETDATE(), NULL, NULL, '685', 'SAHARA OCCIDENTAL', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (180, 'Activo', GETDATE(), NULL, NULL, '687', 'SAMOA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (181, 'Activo', GETDATE(), NULL, NULL, '690', 'SAMOA NORTEAMERICANA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (182, 'Activo', GETDATE(), NULL, NULL, '695', 'SAN CRISTOBAL Y NIEVES', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (183, 'Activo', GETDATE(), NULL, NULL, '697', 'SAN MARINO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (184, 'Activo', GETDATE(), NULL, NULL, '700', 'SAN PEDRO Y MIGUELO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (185, 'Activo', GETDATE(), NULL, NULL, '705', 'SAN VICENTE Y LAS GRANADINAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (186, 'Activo', GETDATE(), NULL, NULL, '710', 'SANTA ELENA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (187, 'Activo', GETDATE(), NULL, NULL, '715', 'SANTA LUCIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (188, 'Activo', GETDATE(), NULL, NULL, '720', 'SANTO TOME Y PRINCIPE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (189, 'Activo', GETDATE(), NULL, NULL, '728', 'SENEGAL', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (190, 'Activo', GETDATE(), NULL, NULL, '731', 'SEYCHELLES', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (191, 'Activo', GETDATE(), NULL, NULL, '735', 'SIERRA LEONA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (192, 'Activo', GETDATE(), NULL, NULL, '741', 'SINGAPUR', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (193, 'Activo', GETDATE(), NULL, NULL, '744', 'SIRIA, REPUBLICA ARABE DE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (194, 'Activo', GETDATE(), NULL, NULL, '748', 'SOMALIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (195, 'Activo', GETDATE(), NULL, NULL, '750', 'SRI LANKA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (196, 'Activo', GETDATE(), NULL, NULL, '756', 'SUDAFRICA, REPUBLICA DE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (197, 'Activo', GETDATE(), NULL, NULL, '759', 'SUDA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (198, 'Activo', GETDATE(), NULL, NULL, '764', 'SUECIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (199, 'Activo', GETDATE(), NULL, NULL, '767', 'SUIZA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (200, 'Activo', GETDATE(), NULL, NULL, '770', 'SURINAM', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (201, 'Activo', GETDATE(), NULL, NULL, '773', 'SWAZILANDIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (202, 'Activo', GETDATE(), NULL, NULL, '774', 'TADJIKISTA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (203, 'Activo', GETDATE(), NULL, NULL, '776', 'TAILANDIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (204, 'Activo', GETDATE(), NULL, NULL, '780', 'TANZANIA, REPUBLICA UNIDA DE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (206, 'Activo', GETDATE(), NULL, NULL, '787', 'TERRITORIO BRITANICO DEL OCEANO INDICO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (207, 'Activo', GETDATE(), NULL, NULL, '788', 'TIMOR DEL ESTE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (208, 'Activo', GETDATE(), NULL, NULL, '800', 'TOGO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (209, 'Activo', GETDATE(), NULL, NULL, '805', 'TOKELAU', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (210, 'Activo', GETDATE(), NULL, NULL, '810', 'TONGA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (211, 'Activo', GETDATE(), NULL, NULL, '815', 'TRINIDAD Y TOBAGO', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (212, 'Activo', GETDATE(), NULL, NULL, '820', 'TUNICIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (213, 'Activo', GETDATE(), NULL, NULL, '823', 'TURCAS Y CAICOS, ISLAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (214, 'Activo', GETDATE(), NULL, NULL, '825', 'TURKMENISTA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (215, 'Activo', GETDATE(), NULL, NULL, '827', 'TURQUIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (216, 'Activo', GETDATE(), NULL, NULL, '828', 'TUVALU', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (217, 'Activo', GETDATE(), NULL, NULL, '830', 'UCRANIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (218, 'Activo', GETDATE(), NULL, NULL, '833', 'UGANDA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (219, 'Activo', GETDATE(), NULL, NULL, '845', 'URUGUAY', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (220, 'Activo', GETDATE(), NULL, NULL, '847', 'UZBEKISTA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (221, 'Activo', GETDATE(), NULL, NULL, '850', 'VENEZUELA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (222, 'Activo', GETDATE(), NULL, NULL, '855', 'VIET NAM', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (223, 'Activo', GETDATE(), NULL, NULL, '863', 'VIRGENES, ISLAS (BRITANICAS)', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (224, 'Activo', GETDATE(), NULL, NULL, '866', 'VIRGENES, ISLAS (NORTEAMERICANAS)', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (225, 'Activo', GETDATE(), NULL, NULL, '870', 'FIJI', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (226, 'Activo', GETDATE(), NULL, NULL, '875', 'WALLIS Y FORTUNA, ISLAS', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (227, 'Activo', GETDATE(), NULL, NULL, '880', 'YEME', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (228, 'Activo', GETDATE(), NULL, NULL, '885', 'YUGOSLAVIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (229, 'Activo', GETDATE(), NULL, NULL, '888', 'ZAIRE', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (230, 'Activo', GETDATE(), NULL, NULL, '890', 'ZAMBIA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (231, 'Activo', GETDATE(), NULL, NULL, '897', 'ZONA NEUTRAL PALESTINA', '', 'sistema')
+GO
+INSERT [dbo].[Pais] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Nacionalidad], [CreadoPor]) VALUES (233, 'Activo', GETDATE(), NULL, NULL, '999', 'OTRO', '', 'sistema')
+GO
+SET IDENTITY_INSERT [dbo].[Pais] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[Pais] WHERE Id BETWEEN 1 AND 233;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="TipoInconsistencia_V1">
+<comment>HU046</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+CREATE TABLE dbo.TipoInconsistencia (
+  Id                int IDENTITY NOT NULL, 
+  Codigo            varchar(255) NOT NULL UNIQUE, 
+  Valor             money NOT NULL UNIQUE, 
+  Mensaje           varchar(255) NOT NULL, 
+  EstadoRegistro    varchar(255) DEFAULT 'Activo' NOT NULL, 
+  CreadoPor         varchar(255) NOT NULL, 
+  FechaCreacion     smalldatetime NOT NULL, 
+  ModificadoPor     varchar(255) NULL, 
+  FechaModificacion smalldatetime NULL, 
+  EliminadoPor      varchar(255) NULL, 
+  FechaEliminacion  smalldatetime NULL, 
+  CONSTRAINT PK_TipoInconsistencia 
+    PRIMARY KEY (Id), 
+  CONSTRAINT CK_TipoInconsistencia_EstadoRegistro 
+    CHECK (EstadoRegistro IN('Activo','Inactivo','Eliminado')));
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Tipo de inconsistencias que se pueden presentar duranta la liquidación de la nómina', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Identificador único del registro en la tabla', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Id';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Código único que identifica la inconsistencia', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Codigo';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Valor que representa el error asociado a la inconsistencia', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Valor';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Mensaje que explica la inconsistencia', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Mensaje';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Indica si el registro se encuentra Activo, Inactivo y Eliminado', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'EstadoRegistro';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Usuario que crea el registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'CreadoPor';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha y hora de creaciÃ³n del registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'FechaCreacion';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Último usuario que modifica el registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'ModificadoPor';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha y hora de modificación del registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'FechaModificacion';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Usuario que elimina el registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'EliminadoPor';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha y hora de eliminación del registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'dbo', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'TipoInconsistencia', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'FechaEliminacion';
+
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [TipoInconsistencia];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

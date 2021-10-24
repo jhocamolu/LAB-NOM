@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="Funcionario_V2">
+<comment>Crear constraint estado</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    ALTER TABLE [Funcionario] 
+    ADD CONSTRAINT [CK_Funcionario_Estado] CHECK ((
+        [Estado]='Activo' OR 
+        [Estado]='EnVacaciones' OR 
+        [Estado]='Retirado' OR 
+        [Estado]='Seleccionado' OR 
+        [Estado]='Incapacitado'));
+    GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    ALTER TABLE [Funcionario] DROP CONSTRAINT CK_Funcionario_Estado;
+    GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

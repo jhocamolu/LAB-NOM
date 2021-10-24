@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="ActualizarConstraintCheck">
+<sql endDelimiter="\nGO" splitStatements="true">
+ALTER TABLE [dbo].[CargoDependencia] ADD CONSTRAINT CK_CargoDependencia_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Libranza] ADD CONSTRAINT CK_Libranza_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[CargoGrado] ADD CONSTRAINT CK_CargoGrado_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoAusentismoConceptoNomina] ADD CONSTRAINT CK_TipoAusentismoConceptoNomina_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[CargoReporta] ADD CONSTRAINT CK_CargoReporta_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Nomina] ADD CONSTRAINT CK_Nomina_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[DivisionPoliticaNivel2] ADD CONSTRAINT CK_DivisionPoliticaNivel2_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[PeriodoContable] ADD CONSTRAINT CK_PeriodoContable_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoBeneficio] ADD CONSTRAINT CK_TipoBeneficio_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[ActividadEconomica] ADD CONSTRAINT CK_ActividadEconomica_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoAusentismo] ADD CONSTRAINT CK_TipoAusentismo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Calendario] ADD CONSTRAINT CK_Calendario_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoBeneficioRequisito] ADD CONSTRAINT CK_TipoBeneficioRequisito_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[CategoriaParametro] ADD CONSTRAINT CK_CategoriaParametro_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoEmbargo] ADD CONSTRAINT CK_TipoEmbargo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[CentroCosto] ADD CONSTRAINT CK_CentroCosto_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoLiquidacionConcepto] ADD CONSTRAINT CK_TipoLiquidacionConcepto_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[CentroOperativo] ADD CONSTRAINT CK_CentroOperativo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[CentroTrabajo] ADD CONSTRAINT CK_CentroTrabajo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[ClaseAusentismo] ADD CONSTRAINT CK_ClaseAusentismo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[EntidadFinanciera] ADD CONSTRAINT CK_EntidadFinanciera_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[ClaseLibretaMilitar] ADD CONSTRAINT CK_ClaseLibretaMilitar_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Funcionario] ADD CONSTRAINT CK_Funcionario_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[CuentaContable] ADD CONSTRAINT CK_CuentaContable_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Dependencia] ADD CONSTRAINT CK_Dependencia_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[DiagnosticoCie] ADD CONSTRAINT CK_DiagnosticoCie_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[EstadoCivil] ADD CONSTRAINT CK_EstadoCivil_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[FormaPago] ADD CONSTRAINT CK_FormaPago_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[FuncionNomina] ADD CONSTRAINT CK_FuncionNomina_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[GrupoNomina] ADD CONSTRAINT CK_GrupoNomina_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[InformacionBasica] ADD CONSTRAINT CK_InformacionBasica_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Idioma] ADD CONSTRAINT CK_Idioma_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[JornadaLaboral] ADD CONSTRAINT CK_JornadaLaboral_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[LicenciaConduccion] ADD CONSTRAINT CK_LicenciaConduccion_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[NivelCargo] ADD CONSTRAINT CK_NivelCargo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[NominaFuncionario] ADD CONSTRAINT CK_NominaFuncionario_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Juzgado] ADD CONSTRAINT CK_Juzgado_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[NivelEducativo] ADD CONSTRAINT CK_NivelEducativo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[AusentismoFuncionario] ADD CONSTRAINT CK_AusentismoFuncionario_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[NomenclaturaDian] ADD CONSTRAINT CK_NomenclaturaDian_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Ocupacion] ADD CONSTRAINT CK_Ocupacion_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[OperadorPago] ADD CONSTRAINT CK_OperadorPago_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Contrato] ADD CONSTRAINT CK_Contrato_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Pais] ADD CONSTRAINT CK_Pais_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Parentesco] ADD CONSTRAINT CK_Parentesco_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Profesion] ADD CONSTRAINT CK_Profesion_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Sexo] ADD CONSTRAINT CK_Sexo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoAdministradora] ADD CONSTRAINT CK_TipoAdministradora_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoContrato] ADD CONSTRAINT CK_TipoContrato_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[DocumentoFuncionario] ADD CONSTRAINT CK_DocumentoFuncionario_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoContribuyente] ADD CONSTRAINT CK_TipoContribuyente_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoCuenta] ADD CONSTRAINT CK_TipoCuenta_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[ExperienciaLaboral] ADD CONSTRAINT CK_ExperienciaLaboral_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoDocumento] ADD CONSTRAINT CK_TipoDocumento_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[FuncionarioEstudio] ADD CONSTRAINT CK_FuncionarioEstudio_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoMoneda] ADD CONSTRAINT CK_TipoMoneda_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoPeriodo] ADD CONSTRAINT CK_TipoPeriodo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoSangre] ADD CONSTRAINT CK_TipoSangre_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[InformacionFamiliar] ADD CONSTRAINT CK_InformacionFamiliar_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoSoporte] ADD CONSTRAINT CK_TipoSoporte_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoVivienda] ADD CONSTRAINT CK_TipoVivienda_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[VariableNomina] ADD CONSTRAINT CK_VariableNomina_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[ParametroGeneral] ADD CONSTRAINT CK_ParametroGeneral_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[RepresentanteEmpresa] ADD CONSTRAINT CK_RepresentanteEmpresa_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[DependenciaJerarquia] ADD CONSTRAINT CK_DependenciaJerarquia_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Embargo] ADD CONSTRAINT CK_Embargo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[JornadaLaboralDia] ADD CONSTRAINT CK_JornadaLaboralDia_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Cargo] ADD CONSTRAINT CK_Cargo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[ProrrogaAusentismo] ADD CONSTRAINT CK_ProrrogaAusentismo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[DivisionPoliticaNivel1] ADD CONSTRAINT CK_DivisionPoliticaNivel1_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[ContratoAdministradora] ADD CONSTRAINT CK_ContratoAdministradora_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[Administradora] ADD CONSTRAINT CK_Administradora_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[ContratoOtroSi] ADD CONSTRAINT CK_ContratoOtroSi_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[ConceptoNomina] ADD CONSTRAINT CK_ConceptoNomina_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[SubPeriodo] ADD CONSTRAINT CK_SubPeriodo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoLiquidacion] ADD CONSTRAINT CK_TipoLiquidacion_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[EmbargoSubperiodo] ADD CONSTRAINT CK_EmbargoSubperiodo_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[FuncionVariable] ADD CONSTRAINT CK_FuncionVariable_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+ALTER TABLE [dbo].[TipoLiquidacionEstado] ADD CONSTRAINT CK_TipoLiquidacionEstado_EstadoRegistro CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado'))
+GO
+</sql>
+<rollback>
+ALTER TABLE [dbo].[CargoDependencia] DROP CONSTRAINT CK_CargoDependencia_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Libranza] DROP CONSTRAINT CK_Libranza_EstadoRegistro 
+GO
+ALTER TABLE [dbo].[CargoGrado] DROP CONSTRAINT CK_CargoGrado_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoAusentismoConceptoNomina] DROP CONSTRAINT CK_TipoAusentismoConceptoNomina_EstadoRegistro
+GO
+ALTER TABLE [dbo].[CargoReporta] DROP CONSTRAINT CK_CargoReporta_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Nomina] DROP CONSTRAINT CK_Nomina_EstadoRegistro
+GO
+ALTER TABLE [dbo].[DivisionPoliticaNivel2] DROP CONSTRAINT CK_DivisionPoliticaNivel2_EstadoRegistro
+GO
+ALTER TABLE [dbo].[PeriodoContable] DROP CONSTRAINT CK_PeriodoContable_EstadoRegistro
+GO
+ALTER TABLE [dbo].[ConceptoNominaCuentaDebito] DROP CONSTRAINT CK_ConceptoNominaCuentaDebito_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoBeneficio] DROP CONSTRAINT CK_TipoBeneficio_EstadoRegistro
+GO
+ALTER TABLE [dbo].[ActividadEconomica] DROP CONSTRAINT CK_ActividadEconomica_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoAusentismo] DROP CONSTRAINT CK_TipoAusentismo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Calendario] DROP CONSTRAINT CK_Calendario_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoBeneficioRequisito] DROP CONSTRAINT CK_TipoBeneficioRequisito_EstadoRegistro
+GO
+ALTER TABLE [dbo].[CategoriaParametro] DROP CONSTRAINT CK_CategoriaParametro_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoEmbargo] DROP CONSTRAINT CK_TipoEmbargo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[CentroCosto] DROP CONSTRAINT CK_CentroCosto_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoLiquidacionConcepto] DROP CONSTRAINT CK_TipoLiquidacionConcepto_EstadoRegistro
+GO
+ALTER TABLE [dbo].[CentroOperativo] DROP CONSTRAINT CK_CentroOperativo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[CentroTrabajo] DROP CONSTRAINT CK_CentroTrabajo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[ClaseAusentismo] DROP CONSTRAINT CK_ClaseAusentismo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[EntidadFinanciera] DROP CONSTRAINT CK_EntidadFinanciera_EstadoRegistro
+GO
+ALTER TABLE [dbo].[ClaseConceptoNomina] DROP CONSTRAINT CK_ClaseConceptoNomina_EstadoRegistro
+GO
+ALTER TABLE [dbo].[ClaseLibretaMilitar] DROP CONSTRAINT CK_ClaseLibretaMilitar_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Funcionario] DROP CONSTRAINT CK_Funcionario_EstadoRegistro
+GO
+ALTER TABLE [dbo].[CuentaContable] DROP CONSTRAINT CK_CuentaContable_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Dependencia] DROP CONSTRAINT CK_Dependencia_EstadoRegistro
+GO
+ALTER TABLE [dbo].[DiagnosticoCie] DROP CONSTRAINT CK_DiagnosticoCie_EstadoRegistro
+GO
+ALTER TABLE [dbo].[EstadoCivil] DROP CONSTRAINT CK_EstadoCivil_EstadoRegistro
+GO
+ALTER TABLE [dbo].[FormaPago] DROP CONSTRAINT CK_FormaPago_EstadoRegistro
+GO
+ALTER TABLE [dbo].[FuncionNomina] DROP CONSTRAINT CK_FuncionNomina_EstadoRegistro
+GO
+ALTER TABLE [dbo].[GrupoNomina] DROP CONSTRAINT CK_GrupoNomina_EstadoRegistro
+GO
+ALTER TABLE [dbo].[InformacionBasica] DROP CONSTRAINT CK_InformacionBasica_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Idioma] DROP CONSTRAINT CK_Idioma_EstadoRegistro
+GO
+ALTER TABLE [dbo].[JornadaLaboral] DROP CONSTRAINT CK_JornadaLaboral_EstadoRegistro
+GO
+ALTER TABLE [dbo].[LicenciaConduccion] DROP CONSTRAINT CK_LicenciaConduccion_EstadoRegistro
+GO
+ALTER TABLE [dbo].[NivelCargo] DROP CONSTRAINT CK_NivelCargo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[NominaFuncionario] DROP CONSTRAINT CK_NominaFuncionario_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Juzgado] DROP CONSTRAINT CK_Juzgado_EstadoRegistro
+GO
+ALTER TABLE [dbo].[NivelEducativo] DROP CONSTRAINT CK_NivelEducativo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[AusentismoFuncionario] DROP CONSTRAINT CK_AusentismoFuncionario_EstadoRegistro
+GO
+ALTER TABLE [dbo].[NomenclaturaDian] DROP CONSTRAINT CK_NomenclaturaDian_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Ocupacion] DROP CONSTRAINT CK_Ocupacion_EstadoRegistro
+GO
+ALTER TABLE [dbo].[OperadorPago] DROP CONSTRAINT CK_OperadorPago_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Contrato] DROP CONSTRAINT CK_Contrato_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Pais] DROP CONSTRAINT CK_Pais_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Parentesco] DROP CONSTRAINT CK_Parentesco_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Profesion] DROP CONSTRAINT CK_Profesion_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Sexo] DROP CONSTRAINT CK_Sexo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoAdministradora] DROP CONSTRAINT CK_TipoAdministradora_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoContrato] DROP CONSTRAINT CK_TipoContrato_EstadoRegistro
+GO
+ALTER TABLE [dbo].[DocumentoFuncionario] DROP CONSTRAINT CK_DocumentoFuncionario_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoContribuyente] DROP CONSTRAINT CK_TipoContribuyente_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoCuenta] DROP CONSTRAINT CK_TipoCuenta_EstadoRegistro
+GO
+ALTER TABLE [dbo].[ExperienciaLaboral] DROP CONSTRAINT CK_ExperienciaLaboral_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoDocumento] DROP CONSTRAINT CK_TipoDocumento_EstadoRegistro
+GO
+ALTER TABLE [dbo].[FuncionarioEstudio] DROP CONSTRAINT CK_FuncionarioEstudio_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoMoneda] DROP CONSTRAINT CK_TipoMoneda_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoPeriodo] DROP CONSTRAINT CK_TipoPeriodo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoSangre] DROP CONSTRAINT CK_TipoSangre_EstadoRegistro
+GO
+ALTER TABLE [dbo].[InformacionFamiliar] DROP CONSTRAINT CK_InformacionFamiliar_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoSoporte] DROP CONSTRAINT CK_TipoSoporte_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoVivienda] DROP CONSTRAINT CK_TipoVivienda_EstadoRegistro
+GO
+ALTER TABLE [dbo].[VariableNomina] DROP CONSTRAINT CK_VariableNomina_EstadoRegistro
+GO
+ALTER TABLE [dbo].[ParametroGeneral] DROP CONSTRAINT CK_ParametroGeneral_EstadoRegistro
+GO
+ALTER TABLE [dbo].[RepresentanteEmpresa] DROP CONSTRAINT CK_RepresentanteEmpresa_EstadoRegistro
+GO
+ALTER TABLE [dbo].[DependenciaJerarquia] DROP CONSTRAINT CK_DependenciaJerarquia_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Embargo] DROP CONSTRAINT CK_Embargo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[JornadaLaboralDia] DROP CONSTRAINT CK_JornadaLaboralDia_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Cargo] DROP CONSTRAINT CK_Cargo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[ProrrogaAusentismo] DROP CONSTRAINT CK_ProrrogaAusentismo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[DivisionPoliticaNivel1] DROP CONSTRAINT CK_DivisionPoliticaNivel1_EstadoRegistro
+GO
+ALTER TABLE [dbo].[ContratoAdministradora] DROP CONSTRAINT CK_ContratoAdministradora_EstadoRegistro
+GO
+ALTER TABLE [dbo].[Administradora] DROP CONSTRAINT CK_Administradora_EstadoRegistro
+GO
+ALTER TABLE [dbo].[ContratoOtroSi] DROP CONSTRAINT CK_ContratoOtroSi_EstadoRegistro
+GO
+ALTER TABLE [dbo].[ConceptoNomina] DROP CONSTRAINT CK_ConceptoNomina_EstadoRegistro
+GO
+ALTER TABLE [dbo].[SubPeriodo] DROP CONSTRAINT CK_SubPeriodo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoLiquidacion] DROP CONSTRAINT CK_TipoLiquidacion_EstadoRegistro
+GO
+ALTER TABLE [dbo].[EmbargoSubperiodo] DROP CONSTRAINT CK_EmbargoSubperiodo_EstadoRegistro
+GO
+ALTER TABLE [dbo].[FuncionVariable] DROP CONSTRAINT CK_FuncionVariable_EstadoRegistro
+GO
+ALTER TABLE [dbo].[TipoLiquidacionEstado] DROP CONSTRAINT CK_TipoLiquidacionEstado_EstadoRegistro
+GO
+
+</rollback>
+</changeSet>
+
+
+
+</databaseChangeLog>

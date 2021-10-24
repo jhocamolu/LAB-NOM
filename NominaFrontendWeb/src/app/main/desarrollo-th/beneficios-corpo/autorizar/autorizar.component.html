@@ -1,0 +1,71 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Autorizar beneficio corporativo</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>¿Desea autorizar esta solicitud?</mat-label>
+            <mat-select formControlName="autorizacion">
+                <mat-option [value]='null'></mat-option>
+                <mat-option [value]="true">Si</mat-option>
+                <mat-option [value]="false">No</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('autorizacion').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Selecciona si autorizas o no esta solicitud.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="permiteValorAutorizado">
+            <mat-label>Valor autorizado *</mat-label>
+            <input matInput formControlName="valorAutorizado" mask="separator.2"
+                separatorLimit="100000000" thousandSeparator=".">
+            <mat-error *ngFor="let error of form.get('valorAutorizado').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Monto de dinero autorizado.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Observaciones</mat-label>
+            <textarea matInput formControlName="observacionAutorizacion"></textarea>
+            <mat-error *ngFor="let error of form.get('observacionAutorizacion').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Ingrese una descripción.">info</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions fxLayout="row " fxLayoutAlign="end center ">
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

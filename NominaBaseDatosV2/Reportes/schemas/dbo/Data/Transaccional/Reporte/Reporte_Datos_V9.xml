@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Reporte_V6">
+<comment>Reporte novedad embargo</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Reporte] ON 
+GO
+INSERT [dbo].[Reporte] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias], [Nombre], [Descripcion], [SubcategoriaId], [Link], [Path], [Formato], [Extension], [Alto], [Ancho], [EsModal], [VistaGeneracion]) VALUES (8, N'Activo    ', N'sistema', CAST(N'2020-06-30T18:16:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'ConsolidadoConceptosNomina', N'Consolidado conceptos de nómina', N'Permite conocer por cada uno de los conceptos de nómina, cuales son esos valores totales en un periodo de tiempo determinado.', 3, N'/ReportServer/Pages/ReportViewer.aspx?%2fDesarrollo%2fGHestic%2fReportes%2fNomina_ConsolidadoConceptosNomina&rs:Command=Render', N'GHESTIC/Reportes/Nomina_ConsolidadoConceptosNomina', N'EXCELOPENXML', N'XLSX', N'11in', N'8.5in', 0, N'consolidado-conceptosnomina')
+GO
+SET IDENTITY_INSERT [dbo].[Reporte] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[Reporte] WHERE Id IN (8)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

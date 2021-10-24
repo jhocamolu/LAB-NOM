@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="Candidato_V1">
+<comment>Crear constraint IX_Candidato_RequisicionPersonalId_HojaDeVidaId</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    DROP INDEX [IX_Candidato_RequisicionPersonalId] ON [Candidato];
+    GO
+
+    CREATE UNIQUE INDEX [IX_Candidato_RequisicionPersonalId_HojaDeVidaId] ON [Candidato] ([RequisicionPersonalId], [HojaDeVidaId]);
+    GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    DROP INDEX [IX_Candidato_RequisicionPersonalId_HojaDeVidaId] ON [Candidato];
+    GO
+
+    CREATE INDEX [IX_Candidato_RequisicionPersonalId] ON [Candidato] ([RequisicionPersonalId]);
+    GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

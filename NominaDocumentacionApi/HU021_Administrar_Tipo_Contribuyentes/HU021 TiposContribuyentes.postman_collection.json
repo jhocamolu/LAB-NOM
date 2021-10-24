@@ -1,0 +1,144 @@
+{
+	"info": {
+		"_postman_id": "645d9f22-9689-4d5f-90e5-4dc36889572e",
+		"name": "HU021 TiposContribuyentes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtener Listado Tipo Contribuyentes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Tipo Contribuyente",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/tipoContribuyentes/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"tipoContribuyentes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Tipo Contribuyente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"codigo\": \"0019\",\r\n    \"nombre\": \"Natural\",\r\n    \"persona\": \"Jurídica\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/TipoContribuyentes",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"TipoContribuyentes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Tipo Contribuyente",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 6,\r\n    \"codigo\": \"10\",\r\n\t\"nombre\": \"ACTUALIZADA\",\r\n    \"persona\": \"NaturalNoAsalariada\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/TipoContribuyentes/6",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"TipoContribuyentes",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizacion Parcial de Contribuyente",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 6,\r\n\t\"Activo\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/TipoContribuyentes/6",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"TipoContribuyentes",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

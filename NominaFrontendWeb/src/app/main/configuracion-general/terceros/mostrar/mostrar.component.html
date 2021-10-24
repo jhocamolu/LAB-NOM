@@ -1,0 +1,118 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+    <h1 mat-dialog-title>Visualizar otros terceros</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+
+        <div>
+            <h3>Nombre
+                <mat-icon class="s-16" matSuffix matTooltip="Nombre del tercero.">info
+                </mat-icon>
+            </h3>
+            <p> {{element.nombre}}</p>
+        </div>
+
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Nit <mat-icon class="s-16" matSuffix matTooltip="Número de identificación tributario del tercero.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.nit}}
+                </p>
+            </div>
+            <div>
+                <h3>DV <mat-icon class="s-16" matSuffix matTooltip="Dígito de verificación del tercero.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.digitoVerificacion}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Departamento <mat-icon class="s-16" matSuffix
+                        matTooltip="Departamento del país donde trabajará el tercero.">info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{elemento?.divisionPoliticaNivel2?.divisionPoliticaNivel1?.nombre }}
+                </p>
+            </div>
+            <div>
+                <h3>Municipio
+                    <mat-icon class="s-16" matSuffix matTooltip="Municipio donde trabajará el tercero.">info
+                    </mat-icon>
+                </h3>
+                <p> {{elemento?.divisionPoliticaNivel2?.nombre}}</p>
+            </div>
+        </div>
+        <div class="dos-bloque">
+        <div>
+            <h3>Dirección
+                <mat-icon class="s-16" matSuffix matTooltip="Dirección de trabajo del tercero.">info
+                </mat-icon>
+            </h3>
+            <p> {{element.direccion}}</p>
+        </div>
+        <div>
+            <h3>Teléfono
+                <mat-icon class="s-16" matSuffix matTooltip="Número telefónico de contacto del tercero.">info
+                </mat-icon>
+            </h3>
+            <p> {{element.telefono}}</p>
+        </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Entidad financiera
+                    <mat-icon class="s-16" matSuffix matTooltip="Entidad financiera que recibirá el pago del tercero.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p> {{elemento?.entidadFinanciera?.nombre}}</p>
+            </div>
+            <div>
+                <h3>Tipo de cuenta
+                    <mat-icon class="s-16" matSuffix matTooltip="Tipo de cuenta bancaria del tercero.">info
+                    </mat-icon>
+                </h3>
+                <p> {{(elemento?.tipoCuenta?.nombre == null || elemento?.tipoCuenta?.nombre == "")? 'N/A': elemento?.tipoCuenta?.nombre}}</p>
+
+            </div>
+        </div>
+
+        <div>
+            <h3>N° de cuenta
+                <mat-icon class="s-16" matSuffix matTooltip="Número de la cuenta bancaria del tercero.">info
+                </mat-icon>
+            </h3>
+            <p> {{element.numeroCuenta}}</p>
+        </div>
+
+        <div>
+            <h3>Descripción
+                <mat-icon class="s-16" matSuffix matTooltip="Breve reseña acerca del tercero.">info
+                </mat-icon>
+            </h3>
+
+            <p> {{ ( element.descripcion == null || element.descripcion == "")? 'N/A': element.descripcion}}</p>
+        </div>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

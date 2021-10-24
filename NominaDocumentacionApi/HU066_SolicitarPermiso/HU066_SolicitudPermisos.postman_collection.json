@@ -1,0 +1,427 @@
+{
+	"info": {
+		"_postman_id": "ecec1715-702b-483c-a10c-83ea30e7149c",
+		"name": "HU066_SolicitudPermisos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Soporte solicitud permiso",
+			"item": [
+				{
+					"name": "Listado Soporte solicitud permisos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/SoporteSolicitudPermisos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"SoporteSolicitudPermisos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener soporte solicitud permisos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/SoporteSolicitudPermisos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"SoporteSolicitudPermisos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear soporte solicitud permiso",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"solicitudPermisoId\": 4,\r\n    \"tipoSoporteId\": 3,\r\n    \"comentario\": \"Ninguno\",\r\n    \"adjunto\": \"1234fsasaf\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/SoporteSolicitudPermisos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"SoporteSolicitudPermisos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Soporte solicitud permiso",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":3,\r\n    \"solicitudPermisoId\": 4,\r\n    \"tipoSoporteId\": 5,\r\n    \"comentario\": \"sdfg\",\r\n    \"adjunto\": \"asdf\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/SoporteSolicitudPermisos/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"SoporteSolicitudPermisos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar soporte solicitud permiso",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/SoporteSolicitudPermisos/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"SoporteSolicitudPermisos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "PermisosMovil",
+			"item": [
+				{
+					"name": "PermisosMovil",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostPr}}/odata/SolicitudPermisos?$filter=funcionarioId eq 10687 and estadoRegistro eq 'Activo'  &$orderby=fechaInicio &$Select=id,fechaInicio,fechaFin,horaSalida,horaLlegada,estado,justificacion,observaciones& $expand=tipoAusentismo($select=id,codigo,nombre; $expand=claseAusentismo ($select=id,codigo,nombre))",
+							"host": [
+								"{{hostPr}}"
+							],
+							"path": [
+								"odata",
+								"SolicitudPermisos"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "funcionarioId eq 10687 and estadoRegistro eq 'Activo'  "
+								},
+								{
+									"key": "$orderby",
+									"value": "fechaInicio "
+								},
+								{
+									"key": "$Select",
+									"value": "id,fechaInicio,fechaFin,horaSalida,horaLlegada,estado,justificacion,observaciones"
+								},
+								{
+									"key": " $expand",
+									"value": "tipoAusentismo($select=id,codigo,nombre; $expand=claseAusentismo ($select=id,codigo,nombre))"
+								}
+							]
+						},
+						"description": "{{hostIn}}/odata/SolicitudPermisos?$Select=id,fechaInicio,fechaFin,horaSalida,horaLlegada,estado,justificacion,observaciones,SoporteSolicitudPermiso  & $expand=tipoAusentismo($expand=claseAusentismo)"
+					},
+					"response": []
+				},
+				{
+					"name": "Soportes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://nompruebas.alcanosesp.com:8081/odata/SoporteSolicitudPermisos?$filter=solicitudPermiso/funcionarioId eq 10687 and estadoRegistro eq 'Activo' &$orderby=id &$Select=id,solicitudPermisoId,comentario,adjunto &$expand=tipoSoporte($select=id,nombre),solicitudPermiso($select=funcionarioId)",
+							"protocol": "http",
+							"host": [
+								"nompruebas",
+								"alcanosesp",
+								"com"
+							],
+							"port": "8081",
+							"path": [
+								"odata",
+								"SoporteSolicitudPermisos"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "solicitudPermiso/funcionarioId eq 10687 and estadoRegistro eq 'Activo' "
+								},
+								{
+									"key": "$orderby",
+									"value": "id "
+								},
+								{
+									"key": "$Select",
+									"value": "id,solicitudPermisoId,comentario,adjunto "
+								},
+								{
+									"key": "$expand",
+									"value": "tipoSoporte($select=id,nombre),solicitudPermiso($select=funcionarioId)"
+								}
+							]
+						},
+						"description": "{{hostIn}}/odata/SoporteSolicitudPermisos?$Select=id,solicitudPermisoId,comentario,adjunto,estadoRegistro &$expand=tipoSoporte($select=id,nombre,)"
+					},
+					"response": []
+				},
+				{
+					"name": "TipoPermiso",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostIn}}/odata/tipoAusentismos?$filter=claseAusentismoId eq 3 and estadoRegistro eq 'Activo'  &$orderby=nombre  &$select=id, codigo,nombre,claseAusentismoId, unidadTiempo",
+							"host": [
+								"{{hostIn}}"
+							],
+							"path": [
+								"odata",
+								"tipoAusentismos"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "claseAusentismoId eq 3 and estadoRegistro eq 'Activo'  "
+								},
+								{
+									"key": "$orderby",
+									"value": "nombre  "
+								},
+								{
+									"key": "$select",
+									"value": "id, codigo,nombre,claseAusentismoId, unidadTiempo"
+								}
+							]
+						},
+						"description": "{{hostIn}}/odata/tipoAusentismos"
+					},
+					"response": []
+				},
+				{
+					"name": "ClasePermiso",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostIn}}/odata/claseAusentismos?$filter=codigo ne 'i' and estadoRegistro eq 'Activo' &$orderby=nombre &$select=id, codigo,nombre",
+							"host": [
+								"{{hostIn}}"
+							],
+							"path": [
+								"odata",
+								"claseAusentismos"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "codigo ne 'i' and estadoRegistro eq 'Activo' "
+								},
+								{
+									"key": "$orderby",
+									"value": "nombre "
+								},
+								{
+									"key": "$select",
+									"value": "id, codigo,nombre"
+								}
+							]
+						},
+						"description": "{{hostIn}}/odata/claseAusentismos?$orderby=nombre &$filter=codigo ne 'i' and estadoRegistro eq 'Activo' &$select=id, codigo,nombre\r\n\r\nne 'i' no sea igual a 'i' de incaoacidad"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ListadoSolicitudPermisos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/SolicitudPermisos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"SolicitudPermisos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerSolicitudPermiso",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/SolicitudPermisos/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"SolicitudPermisos",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Solicitud Permiso",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"funcionarioId\": 4,\r\n    \"tipoAusentismoId\": 1,\r\n    \"fechaInicio\": \"2020-04-25\",\r\n    \"fechaFin\": \"2020-04-25\",\r\n    \"horaSalida\": \"\",\r\n    \"horaLlegada\": \"\",\r\n    \"observaciones\": \"Ninguna\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudPermisos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudPermisos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Solicitud de permiso",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 3,\r\n    \"funcionarioId\": 4,\r\n    \"tipoAusentismoId\": 1,\r\n    \"fechaInicio\": \"2020-04-17\",\r\n    \"fechaFin\": \"2020-04-18\",\r\n    \"horaSalida\": null,\r\n    \"horaLlegada\": null,\r\n    \"observaciones\": \"Ninguna\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudPermisos/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudPermisos",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial solicitud permiso",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 6,\r\n    \"funcionarioId\": 4,\r\n    \"fechaInicio\": \"2020-04-24\",\r\n    \"fechaFin\": \"2020-04-24\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudPermisos/6",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudPermisos",
+						"6"
+					]
+				},
+				"description": "\t\t"
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar estado",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"id\":6,\r\n\t\"estado\": \"Autorizada\",\r\n    \"justificacion\": \"ninguna\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudPermisos/Estado/6",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudPermisos",
+						"Estado",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

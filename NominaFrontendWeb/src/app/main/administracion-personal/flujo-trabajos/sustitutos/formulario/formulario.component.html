@@ -1,0 +1,224 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Flujos de trabajo</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/flujo-trabajos/sustitutos">Reemplazos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar reemplazo</span>
+                <span *ngIf="!item">Registrar reemplazo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar reemplazo</h2>
+                <h2 *ngIf="!item">Registrar reemplazo</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Cargo a sustituir *</mat-label>
+                        <input matInput formControlName="cargoASustituir" [matAutocomplete]="auto">
+                        <mat-autocomplete [displayWith]="displayFnCargoASustituir" #auto="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredCargoASustituir | async" [value]="item">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngFor="let error of form.get('cargoASustituir').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Cargo que va a ser sustituido.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Centro operativo</mat-label>
+                        <mat-select formControlName="centroOperativoASutituirId">
+                            <mat-option [value]="null"></mat-option>
+                            <mat-option *ngFor="let item of getCentroOperativoOptions" [value]="item.id">
+                                {{ item.nombre }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('centroOperativoASutituirId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Centro operativo del cargo que va a ser sustituido.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Cargo sustituto *</mat-label>
+                        <input matInput formControlName="cargoSustituto" [matAutocomplete]="autoFn">
+                        <mat-autocomplete [displayWith]="displayFnCargoSustituto" #autoFn="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredCargoSustituto | async" [value]="item">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngFor="let error of form.get('cargoSustituto').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Cargo temporal que se responsabilizará de las aprobaciones y/o autorizaciones.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Centro operativo</mat-label>
+                        <mat-select formControlName="centroOperativoSustitutoId">
+                            <mat-option [value]="null"></mat-option>
+                            <mat-option *ngFor="let item of getCentroOperativoOptions" [value]="item.id">
+                                {{ item.nombre }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('centroOperativoSustitutoId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Centro operativo del cargo que se responsabilizará de las aprobaciones y/o autorizaciones.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha de inicio</mat-label>
+                        <input matInput [matDatepicker]="fechaInicio" (click)="fechaInicio.open()"
+                            formControlName="fechaInicio" required>
+                        <mat-datepicker-toggle matPrefix [for]="fechaInicio">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+                        <mat-error *ngFor="let error of form.get('fechaInicio').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                    No es un formato de fecha válido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Fecha de inicio de la sustitución.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha final</mat-label>
+                        <input matInput [matDatepicker]="fechaFinal" (click)="fechaFinal.open()"
+                            formControlName="fechaFinal" required>
+                        <mat-datepicker-toggle matPrefix [for]="fechaFinal">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker startView="year" #fechaFinal></mat-datepicker>
+                        <mat-error *ngFor="let error of form.get('fechaFinal').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                    No es un formato de fecha válido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Fecha final de la sustitución.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Observaciones</mat-label>
+                    <textarea matInput formControlName="observacion">
+                                        </textarea>
+                    <mat-error *ngFor="let error of form.get('observacion').errors  | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip=" Breve descripción del reemplazo.">
+                        info</mat-icon>
+                </mat-form-field>
+
+
+
+                <div class="actions">
+                    <a mat-raised-button routerLink="/flujo-trabajos/sustitutos">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+                    <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                        <mat-icon>save</mat-icon>
+                        <span>Guardar</span>
+                    </button>
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

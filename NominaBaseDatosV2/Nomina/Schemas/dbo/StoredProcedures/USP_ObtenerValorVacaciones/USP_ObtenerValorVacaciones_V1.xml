@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_ObtenerValorVacaciones_V1">
+<comment>HT045</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerValorVacaciones', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerValorVacaciones as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 23/09/2020
+-- Description: Permite obtener el número de diás de vacaciones de un funcionario
+--			 en un periodo de tiempo
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario en la nómina
+--   @FechaInicio:				Fecha inicio
+--   @FechaFin:				Fecha fin
+--		
+--	 Returns:						
+--	 Cantidad:				Días de vacaciones
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ObtenerValorVacaciones]
+(@FuncionarioId INT,
+ @FechaInicio   DATE,
+ @FechaFin      DATE,
+ @Cantidad      INT OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@FechaInicio=', CONVERT(VARCHAR, @FechaInicio), '&', '@FechaFin=', CONVERT(VARCHAR, @FechaFin));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @MensajeError VARCHAR(250);
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @SolicitudVacionesAutorizada VARCHAR(255);
+    DECLARE @SolicitudVacionesEnCurso VARCHAR(255);
+    DECLARE @FechaInicioDisfrute DATE;
+    DECLARE @FechaFinDisfrute DATE;
+    DECLARE @FechaInicioCalculo DATE;
+    DECLARE @FechaFinCalculo DATE;
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        -- Se consulta estado
+        SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+               @SolicitudVacionesAutorizada = vce.SOLICITUDVACACIONES_AUTORIZADA,
+               @SolicitudVacionesEnCurso = vce.SOLICITUDVACACIONES_ENCURSO
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Se consulta si existe una solicitud de vacaciones en el period de liquidación
+        SELECT @FechaInicioDisfrute = sva.FechaInicioDisfrute,
+               @FechaFinDisfrute = sva.FechaFinDisfrute
+        FROM dbo.SolicitudVacaciones AS sva
+        WHERE sva.FuncionarioId = @FuncionarioId
+              AND sva.Estado IN(@SolicitudVacionesAutorizada, @SolicitudVacionesEnCurso)
+        AND (sva.FechaInicioDisfrute BETWEEN @FechaInicio AND @FechaFin
+             OR sva.FechaFinDisfrute BETWEEN @FechaInicio AND @FechaFin)
+        AND sva.NominaFuncionarioId IS NOT NULL
+        AND sva.EstadoRegistro = @AuditoriaActivo;
+
+        -- Si existe una solicitud de vacaciones
+        IF @FechaInicioDisfrute IS NOT NULL
+           OR @FechaFinDisfrute IS NOT NULL
+        BEGIN
+
+            SET @FechaInicioCalculo = @FechaInicioDisfrute;
+            IF @FechaInicioDisfrute < @FechaInicio
+            BEGIN
+                SET @FechaInicioCalculo = @FechaInicio;
+            END;
+
+            SET @FechaFinCalculo = @FechaFinDisfrute;
+            IF @FechaFinDisfrute > @FechaFin
+            BEGIN
+                SET @FechaFinCalculo = @FechaFin;
+            END;
+
+            EXEC @Cantidad = [dbo].[USP_ObtenerDiasLaborales]
+                 @FechaInicial = @FechaInicioCalculo,
+                 @FechaFinal = @FechaFinCalculo;
+
+        END;
+        ELSE
+        BEGIN
+            SET @Cantidad = 0;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerValorVacaciones];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

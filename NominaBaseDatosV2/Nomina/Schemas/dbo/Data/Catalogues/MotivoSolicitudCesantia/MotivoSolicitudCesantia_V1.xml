@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="MotivoSolicitudCesantia_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[MotivoSolicitudCesantia] ON 
+GO
+INSERT INTO [dbo].[MotivoSolicitudCesantia] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre]) VALUES (1,'Activo','sistema', GETDATE(),'Adquisición de vivienda con su terreno o lote')
+GO
+INSERT INTO [dbo].[MotivoSolicitudCesantia] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre]) VALUES (2,'Activo','sistema', GETDATE(),'Adquisición de terreno o lote solamente')
+GO
+INSERT INTO [dbo].[MotivoSolicitudCesantia] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre]) VALUES (3,'Activo','sistema', GETDATE(),'Reparaciones locativas Y/O Construcción')
+GO
+INSERT INTO [dbo].[MotivoSolicitudCesantia] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre]) VALUES (4,'Activo','sistema', GETDATE(),'Compra de vivienda nueva')
+GO
+INSERT INTO [dbo].[MotivoSolicitudCesantia] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre]) VALUES (5,'Activo','sistema', GETDATE(),'Abono a deuda hipotecaria')
+GO
+INSERT INTO [dbo].[MotivoSolicitudCesantia] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre]) VALUES (6,'Activo','sistema', GETDATE(),'Cancelación de hipoteca')
+GO
+INSERT INTO [dbo].[MotivoSolicitudCesantia] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre]) VALUES (7,'Activo','sistema', GETDATE(),'Liberación de gravámenes hipotecarios')
+GO
+INSERT INTO [dbo].[MotivoSolicitudCesantia] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre]) VALUES (8,'Activo','sistema', GETDATE(),'Pago de valorización y predial')
+GO
+INSERT INTO [dbo].[MotivoSolicitudCesantia] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre]) VALUES (9,'Activo','sistema', GETDATE(),'Financiar estudios superiores')
+GO
+INSERT INTO [dbo].[MotivoSolicitudCesantia] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre]) VALUES (10,'Activo','sistema', GETDATE(),'Disminución de ingresos')
+GO
+SET IDENTITY_INSERT [dbo].MotivoSolicitudCesantia OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[MotivoSolicitudCesantia] WHERE Id BETWEEN 1 AND 10;
+</rollback>
+</changeSet>
+</databaseChangeLog>

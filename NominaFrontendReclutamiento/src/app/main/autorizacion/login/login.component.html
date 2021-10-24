@@ -1,0 +1,99 @@
+<div id="login" class="inner-scroll" fxLayout="row" fxLayoutAlign="start">
+
+    <div id="login-intro" fxFlex fxHide fxShow.gt-xs>
+
+        <div class="logo">
+            <img width="80%" src="{{alcanosConfig?.alcanos.logoInicio}}">
+        </div>
+        <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
+            Registra tu hoja de vida y aplica en la mejor empresa de Colombia
+        </div>
+
+        <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
+            <mat-list role="list">
+                <mat-list-item role="listitem">
+                    <mat-icon class="green_icon">check_circle</mat-icon>
+                    Vincúlate a la mejor empresa de la industria energética de Colombia.
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                    <mat-icon class="green_icon">check_circle</mat-icon>
+                    haz parte de un clima organizacional excepcional.
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                    <mat-icon class="green_icon">check_circle</mat-icon>
+                    Con nosotros podrás tener un plan de carrera.
+                </mat-list-item>
+                <mat-list-item role="listitem">
+                    <mat-icon class="green_icon">check_circle</mat-icon>
+                    Disfruta de nuestros beneficios como lo hacen actualmuente nuestros funcionarios.
+                </mat-list-item>
+              </mat-list>
+        </div>
+        <div class="title last_title" [@animate]="{value:'*',params:{delay:'150ms',y:'25px'}}">
+            !ALCANÍZATE Y DI CON ORGULLO YO <br> SOY ALCANOS¡
+        </div>
+
+    </div>
+
+    <div id="login-form-wrapper"  [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
+
+        <div class="texto-centro registrate_aqui">
+            Si no estás registrado, <a [routerLink]="'/registro'">Regístrate aquí</a>
+        </div>
+
+        <div class="center_form">
+            <div id="login-form">
+                <!-- <div class="logo">
+                    <img src="{{alcanosConfig?.alcanos.svg}}">
+                </div> -->
+    
+                <div class="title">Ingresar</div>
+    
+                <form name="loginForm" [formGroup]="loginForm" novalidate (ngSubmit)="loginHandle($event)"> 
+    
+                    <mat-form-field appearance="outline">
+                        <input matInput formControlName="correoElectronicoPersonal" placeholder="Correo electrónico" required>
+                        <mat-icon matSuffix class="secondary-text">person</mat-icon>
+                        <mat-error *ngFor="let error of objToArray(correoElectronicoPersonal.errors)">
+                                <div [ngSwitch]="error">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <input matInput type="password" formControlName="password" placeholder="Contraseña" name="password" required>
+                        <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                        <mat-error>
+                            Requerido
+                        </mat-error>
+                    </mat-form-field>
+    
+                    <button mat-raised-button color="accent" class="submit-button" aria-label="LOGIN" [disabled]="loginForm.invalid || submit">
+                        <mat-spinner *ngIf="loading" diameter="20" class="spinner" color="#066f77"></mat-spinner>
+                        INICIAR SESIÓN
+                    </button>
+                    <div class="texto-centro">
+                        <a [routerLink]="'/recuperar-contrasena'" class="cursor-pointer">¿No recuerdas tu contraseña?</a>
+                    </div>
+    
+                </form>
+    
+                <div class="separator">
+    
+                </div>
+    
+                <div fxLayout="column" fxLayoutAlign="start center">
+                </div>
+    
+                <div class="register" fxLayout="column" fxLayoutAlign="center center">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "1b5b8353-c7f9-4527-af27-949a1132398f",
+		"name": "HU049_Parametro_Generales",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listado de parametros Generales",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "toje",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/odata/ParametroGenerales",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"ParametroGenerales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener parametro General",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "toje",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/odata/ParametroGenerales/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"ParametroGenerales",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizacion grupal de parametros generales",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Valores\": [\n\t{\t\n\t\t\"Alias\": \"SalarioMinimoActual\",\n\t\t\"valor\": \"200\",\n\t\t\"AnnoVigenciaId\":1 \n    },\n\t{\t\n\t\t\"Alias\": \"AuxilioTransporteActual\",\n\t\t\"valor\": \"500\",\n\t\t\"AnnoVigenciaId\":1 \n    }\n]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/ParametroGenerales/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ParametroGenerales",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizacion parcial Parametos Generales",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Alias\": \"SalarioMinimoActual\",\n\t\"valor\": \"200\",\n\t\"AnnoVigenciaId\":1 \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/ParametroGenerales/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ParametroGenerales",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

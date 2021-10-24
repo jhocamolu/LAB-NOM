@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="NotificacionPlantilla_Datos_v1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[NotificacionPlantilla] ON
+GO
+INSERT INTO dbo.NotificacionPlantilla (Id,Alias,Descripcion,Plantilla,EstadoRegistro,CreadoPor,FechaCreacion,ModificadoPor,FechaModificacion,EliminadoPor,FechaEliminacion) VALUES 
+(1,'NotificacionVencimientoContrato','Notificación vencimiento de contrato','<div><p>Hola |&|NOMBREENCARGADO|&|!</p><p>Queremos informarte que los siguientes funcionarios finalizan su contrato laboral dentro de los próximos (|&|DIASVENCIMIENTOCONTRATO|&|) días:</p><table><thead><tr><th>N° de documento</th><th>Funcionario</th><th>Cargo</th><th>Fecha de finalización</th></tr></thead><tbody>|&|CONTENIDO|&|</tbody></table></div>','Activo    ','sistema',NULL,NULL,NULL,NULL,NULL);
+
+INSERT INTO dbo.NotificacionPlantilla (Id,Alias,Descripcion,Plantilla,EstadoRegistro,CreadoPor,FechaCreacion,ModificadoPor,FechaModificacion,EliminadoPor,FechaEliminacion) VALUES 
+(2,'NotificacionVencimientoContratoJefeInmediato','Notificación vencimiento de contrato','<div><p>Hola |&|JEFEINMEDIATO|&|!</p><p>Queremos informarte que el funcionario |&|FUNCIONARIONOMBRECOMPLETO|&| finaliza su contrato el día |&|FECHAFINALIZACION|&|. En caso de que se requiera renovar el contrato por favor comunícate con gestión humana.</p></div>','Activo    ','sistema',NULL,NULL,NULL,NULL,NULL);
+
+SET IDENTITY_INSERT [dbo].[NotificacionPlantilla] OFF
+GO
+
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[NotificacionPlantilla] WHERE Id IN (1,2);
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

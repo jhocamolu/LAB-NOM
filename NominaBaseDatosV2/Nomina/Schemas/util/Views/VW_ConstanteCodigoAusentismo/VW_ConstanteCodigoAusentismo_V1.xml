@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="VW_ConstanteCodigoAusentismo_V1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteCodigoAusentismo]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteCodigoAusentismo]
+END
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 30/04/2020
+-- Description:	: Vista que permite la simulación de constantes para los 
+--                  códigos del tipo de ausentismo dentro de SQL Server.
+-- =============================================
+
+CREATE VIEW util.VW_ConstanteCodigoAusentismo 
+AS
+SELECT 
+		-- Estados asociados al campo de código, de la tabla de Ausentismos.
+		CAST('EG' AS VARCHAR) AS [CODIGO_ENFERMEDAD_GENERAL]
+		,CAST('EP' AS VARCHAR) AS [CODIGO_ENFERMEDAD_PROFESIONAL]
+		,CAST('AL' AS VARCHAR) AS [CODIGO_ACCIDENTE_LABORAL]
+		,CAST('LM' AS VARCHAR) AS [CODIGO_LICENCIA_MATERNIDAD]
+		,CAST('LP' AS VARCHAR) AS [CODIGO_LICENCIA_PATERNIDAD]
+		,CAST('CD' AS VARCHAR) AS [CODIGO_CALAMIDAD_DOMESTICA]
+		,CAST('CS' AS VARCHAR) AS [CODIGO_COMISION_SINDICAL]
+		,CAST('DCO' AS VARCHAR) AS [CODIGO_DESEMPEÑO_CARGO_OFICIAL]
+		,CAST('DS' AS VARCHAR) AS [CODIGO_DERECHO_SUFRAGIO]
+		,CAST('JV' AS VARCHAR) AS [CODIGO_JURADO_VOTACION]
+		,CAST('LPL' AS VARCHAR) AS [CODIGO_LICENCIA_LUTO]
+		,CAST('SM' AS VARCHAR) AS [CODIGO_SERVICIO_MEDICO]
+		,CAST('DC' AS VARCHAR) AS [CODIGO_DETECCION_CORRECCION]
+		,CAST('S' AS VARCHAR) AS [CODIGO_SUSPENCION]
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP VIEW [util].[VW_ConstanteCodigoAusentismo]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

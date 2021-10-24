@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TR_ActualizarCriterioBusqueda_v2_1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+GO
+IF OBJECT_ID ('dbo.TR_ActualizarCriterioBusqueda', 'TR') IS NOT NULL  
+   DROP TRIGGER dbo.TR_ActualizarCriterioBusqueda;  
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 2020-02-13
+-- Description:	Trigger que desencadena la actualizacion del campo CriterioBusqueda.
+-- =============================================
+CREATE TRIGGER [dbo].[TR_ActualizarCriterioBusqueda]
+   ON  [dbo].[Funcionario]
+   AFTER INSERT,UPDATE
+AS 
+BEGIN
+	IF EXISTS(  SELECT PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,NumeroDocumento 
+            FROM inserted)
+	DECLARE @Id as int                      = ( SELECT ins.Id             FROM inserted ins)
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Id=', CONVERT(VARCHAR, @Id));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+	BEGIN TRY	
+			UPDATE 
+            Funcionario
+        SET
+            [CriterioBusqueda] =  REPLACE(CONCAT(NumeroDocumento,' - ',PrimerNombre,' ',SegundoNombre,' ',PrimerApellido,' ',SegundoApellido),'  ',' ')
+        WHERE 
+            Id = @Id
+			END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 2020-02-13
+-- Description:	Trigger que desencadena la actualizacion del campo CriterioBusqueda.
+-- =============================================
+ALTER TRIGGER [dbo].[TR_ActualizarCriterioBusqueda]
+   ON  [dbo].[Funcionario]
+   AFTER INSERT,UPDATE
+AS 
+BEGIN
+
+	IF EXISTS(  SELECT PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,NumeroDocumento 
+            FROM inserted)
+	DECLARE @id as int                      = ( SELECT i.Id             FROM inserted i)
+	
+	BEGIN TRY	
+			UPDATE 
+            Funcionario
+        SET
+            [CriterioBusqueda] =  REPLACE(CONCAT(NumeroDocumento,' - ',PrimerNombre,' ',SegundoNombre,' ',PrimerApellido,' ',SegundoApellido),'  ',' ')
+        WHERE 
+            Id = @Id
+			END TRY
+	BEGIN CATCH 
+		EXECUTE [dbo].[USP_RegistrarError];
+	END CATCH
+END
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

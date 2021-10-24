@@ -1,0 +1,182 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Novedades</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/novedades/otra-novedades">Otras novedades</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar novedad</span>
+            </div>
+            <div>
+                <h2>Visualizar novedad</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button color="accent" mat-raised-button [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngIf="arrayPermisos.estadoRegistro && element.estado == estadoNovedad.pendiente"
+                    (click)="anularHandle($event, element)">
+                    <span>Anular</span>
+                </button>
+                <button mat-menu-item
+                    *ngIf="arrayPermisos.estadoRegistro && (element.estado == estadoNovedad.pendiente || element.estado == estadoNovedad.enCurso)"
+                    (click)="cancelarHandle($event, element)">
+                    <span>Cancelar</span>
+                </button>
+                <a routerLink="/novedades/otra-novedades" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <div>
+                <div>
+                    <h3>Funcionario <mat-icon class="s-16" matSuffix
+                            matTooltip="Documento de identificación y nombre del funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.funcionario?.criterioBusqueda}}
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <h3>Novedad <mat-icon class="s-16" matSuffix
+                            matTooltip="Ítem de la nómina por medio del cual se realiza un pago o un descuento al funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.categoriaNovedad?.nombre}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Fecha de aplicación <mat-icon class="s-16" matSuffix
+                            matTooltip="Fecha en la que ocurrió la novedad.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.fechaAplicacion | date:'dd / LL / yyyy'}}
+                    </p>
+                </div>
+
+                <div>
+                    <h3>Fecha de finalización <mat-icon class="s-16" matSuffix
+                            matTooltip="Fecha en la que termina la novedad fija.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.fechaFinalizacion != null ? (element.fechaFinalizacion | date:'dd / LL / yyyy') : 'N/A'}}
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Período de pago <mat-icon class="s-16" matSuffix
+                            matTooltip="Indica en qué período de pago se debe descontar el valor del beneficio.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{tipoPeriodo != null ? tipoPeriodo.nombre : 'N/A'}}</p>
+                </div>
+                <div>
+                    <h3>Periodicidad <mat-icon class="s-16" matSuffix
+                            matTooltip="Periodicidad en la que desea que sea cobrada o descontada la novedad.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p *ngIf="subperiodosCount == 0">
+                        <span> N/A. </span>
+                    </p>
+                    <p *ngIf="subperiodosCount > 0">
+                        <span class="subperiodo" *ngFor="let item of subperiodos">
+                            {{item.nombre}}<i></i>
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Unidad <mat-icon class="s-16" matSuffix matTooltip="Unidad de medida que tiene la novedad.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.unidad }}</p>
+                </div>
+                <div>
+                    <h3>Cantidad <mat-icon class="s-16" matSuffix matTooltip="Número que se registra en la novedad.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.cantidad != null ? element.cantidad : 'N/A'}}</p>
+                </div>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Valor <mat-icon class="s-16" matSuffix
+                            matTooltip="Monto de dinero que se registra para la novedad.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.valor != null ? (element.valor | currency:'COP':'symbol-narrow':'4.2-2': 'co') : 'N/A'}}
+                    </p>
+                </div>
+
+                <div>
+                    <h3>Estado <mat-icon class="s-16" matSuffix matTooltip="Estado en el que se ecuentra la novedad.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p> {{element.estado == 'EnCurso'? 'En curso': element.estado}}</p>
+                </div>
+            </div>
+
+
+            <div>
+                <h3>Tercero <mat-icon class="s-16" matSuffix
+                        matTooltip="Intermediario que se debe registrar en la novedad.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p *ngIf="element.terceroId == null">
+                    N/A
+                </p>
+                <p *ngIf="element.terceroId != null"> {{nitTercero}} - {{nombreTercero}}
+                </p>
+            </div>
+
+            <div>
+                <h3>Observación <mat-icon class="s-16" matSuffix matTooltip="Breve descripción de la novedad.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.observacion != null ? element.observacion : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--/ CONTENIDO-->
+

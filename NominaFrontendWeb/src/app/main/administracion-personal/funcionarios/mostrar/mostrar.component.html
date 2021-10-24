@@ -1,0 +1,1107 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/administracion-personal/funcionarios">Funcionarios</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Funcionario {{ item.primerNombre }} {{ item.primerApellido }}</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar funcionario</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <!-- <a routerLink="/administracion-personal/funcionarios/{{item.id}}/datos-basicos" mat-menu-item>Editar
+                    datos básicos</a>
+                <a routerLink="/administracion-personal/funcionarios/{{item.id}}/familiar" mat-menu-item>Registrar
+                    información familiar</a>
+                <a routerLink="/administracion-personal/funcionarios/{{item.id}}/estudio" mat-menu-item>Registrar
+                    estudio realizado</a>
+                <a routerLink="/administracion-personal/funcionarios/{{item.id}}/experiencia-laboral"
+                    mat-menu-item>Registrar experiencia laboral
+                </a>
+                <a routerLink="/administracion-personal/contratos/crear" mat-menu-item>Registrar
+                    contrato</a>
+                <a routerLink="/administracion-personal/funcionarios/{{item.id}}/documentos" mat-menu-item>Cargar
+                    documento</a> -->
+                <button *ngIf="arrayPermisos.actualizar" mat-menu-item (click)="editarDatosBasicosHandle($event)">
+                    <span>Editar datos básicos</span>
+                </button>
+                <button *ngIf="arrayPermisosInformacionFamiliares.crear" mat-menu-item
+                    (click)="crearFamiliarHandle($event)">
+                    <span>Registrar información familiar</span>
+                </button>
+                <button *ngIf="arrayPermisosFuncionarioEstudios.crear" mat-menu-item
+                    (click)="crearEstudioHandle($event)">
+                    <span>Registrar estudio realizado</span>
+                </button>
+                <button *ngIf="arrayPermisosExperienciaLaborales.crear" mat-menu-item
+                    (click)="crearExperienciaHandle($event)">
+                    <span>Registrar experiencia laboral</span>
+                </button>
+                <button mat-menu-item (click)="crearContratoBasicosHandle($event)">
+                    <span>Registrar contrato</span>
+                </button>
+                <button *ngIf="arrayPermisosDocumentoFuncionarios.crear" mat-menu-item
+                    (click)="crearDocumentoHandle($event)">
+                    <span>Cargar documento</span>
+                </button>
+                <button *ngIf="arrayPermisosDeduccionRetefuentes.crear" mat-menu-item
+                    (click)="crearRetefuenteHandle($event)">
+                    <span>Registrar deducción</span>
+                </button>
+            </mat-menu>
+
+        </div>
+
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <funcionarios-header [funcionario]="item" [editar-img]="false"></funcionarios-header>
+
+            <mat-tab-group *ngIf="item" animationDuration="0ms" [selectedIndex]="indexTab"
+                (selectedTabChange)="onTabChangedHandle($event);">
+
+                <!-- Datos basicos genrales-->
+                <mat-tab label="Datos básicos">
+                    <mat-list>
+                        <mat-list-item>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Primer nombre
+                                        <mat-icon class="s-16" matSuffix matTooltip="Primer nombre del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.primerNombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Segundo nombre
+                                        <mat-icon class="s-16" matSuffix matTooltip="Segundo nombre del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.segundoNombre != null ? item.segundoNombre : 'N/A'}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Primer apellido
+                                        <mat-icon class="s-16" matSuffix matTooltip="Primer apellido del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.primerApellido }}</p>
+                                </div>
+                                <div>
+                                    <h3>Segundo apellido
+                                        <mat-icon class="s-16" matSuffix matTooltip="Segundo apellido del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.segundoApellido  != null ? item.segundoApellido : 'N/A'}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Sexo
+                                        <mat-icon class="s-16" matSuffix matTooltip="Sexo del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.sexo?.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Estado civil
+                                        <mat-icon class="s-16" matSuffix matTooltip="Estado civil del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.estadoCivil?.nombre}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Ocupación
+                                        <mat-icon class="s-16" matSuffix matTooltip="Ocupación que desempeña el funcionario en la compañía.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.ocupacion?.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Pensionado
+                                        <mat-icon class="s-16" matSuffix matTooltip="Se define si el funcionario es pensionado.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p *ngIf="item.pensionado == false ">No </p>
+                                    <p *ngIf="item.pensionado == true ">Si </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <h3>Estado
+                                        <mat-icon class="s-16" matSuffix matTooltip="Estado del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.estado  != null ? item.estado : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+
+                        <!-- Datos de nacimiento -->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>face</mat-icon>
+                                <h2>Nacimiento</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Fecha
+                                        <mat-icon class="s-16" matSuffix matTooltip="Fecha de nacimiento del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.fechaNacimiento | date:'dd / LL / yyyy'}}</p>
+                                </div>
+                                <div>
+                                    <h3>País
+                                        <mat-icon class="s-16" matSuffix matTooltip="País de origen del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2Origen?.divisionPoliticaNivel1?.pais?.nombre}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Departamento
+                                        <mat-icon class="s-16" matSuffix matTooltip="Departamento de origen del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2Origen?.divisionPoliticaNivel1?.nombre}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Municipio
+                                        <mat-icon class="s-16" matSuffix matTooltip="Municipio de origen del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.divisionPoliticaNivel2Origen?.nombre}}
+                                    </p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+                        <!-- /Datos de nacimiento -->
+
+                        <mat-divider></mat-divider>
+
+                        <!-- Datos de identificacion-->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>credit_card</mat-icon>
+                                <h2>Identificación</h2>
+                            </div>
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Tipo
+                                        <mat-icon class="s-16" matSuffix matTooltip="Tipo del documento de identificación del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tipoDocumento?.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Número
+                                        <mat-icon class="s-16" matSuffix matTooltip="Número del documento de identificación del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.numeroDocumento}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Fecha de expedición
+                                        <mat-icon class="s-16" matSuffix matTooltip="Fecha de expedición del documento de identidad del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.fechaExpedicionDocumento | date:'dd / LL / yyyy'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>País
+                                        <mat-icon class="s-16" matSuffix matTooltip="País de expedición del documento de identidad del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2ExpedicionDocumento?.divisionPoliticaNivel1?.pais?.nombre}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Departamento
+                                        <mat-icon class="s-16" matSuffix matTooltip="Departamento de expedición del documento de identidad del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2ExpedicionDocumento?.divisionPoliticaNivel1?.nombre}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Municipio
+                                        <mat-icon class="s-16" matSuffix matTooltip="Municipio de expedición del documento de identidad.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2ExpedicionDocumento?.nombre}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Nit
+                                        <mat-icon class="s-16" matSuffix matTooltip="Número de identificación Tributaria que le asigna la DIAN cuando el funcionario se inscribe en el RUT (Registro Único Tributario).">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.nit}}</p>
+                                </div>
+                                <div>
+                                    <h3>DV
+                                        <mat-icon class="s-16" matSuffix matTooltip="Dígito de verificación del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.digitoVerificacion}}</p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                        <!-- /Datos de identificacion-->
+                        <mat-divider></mat-divider>
+
+                        <!-- Residencia-->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>home</mat-icon>
+                                <h2>Residencia</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>País
+                                        <mat-icon class="s-16" matSuffix matTooltip="País de residencia del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2Residencia?.divisionPoliticaNivel1?.pais?.nombre}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Departamento
+                                        <mat-icon class="s-16" matSuffix matTooltip="Departamento de residencia del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2Residencia?.divisionPoliticaNivel1?.nombre}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Municipio
+                                        <mat-icon class="s-16" matSuffix matTooltip="Municipio de residencia del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2Residencia?.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>Celular
+                                        <mat-icon class="s-16" matSuffix matTooltip="Número del celular del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.celular}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Teléfono fijo
+                                        <mat-icon class="s-16" matSuffix matTooltip="Número del teléfono fijo del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.telefonoFijo != 0 ? item.telefonoFijo : 'N/A'}}</p>
+                                    <p *ngIf="item.telefonoFijo == null">{{ item.telefonoFijo != null ? item.telefonoFijo : 'N/A'}}</p>
+
+                                    
+                                </div>
+                                <div>
+                                    <h3>Tipo de vivienda
+                                        <mat-icon class="s-16" matSuffix matTooltip="Tipo de vivienda en la que reside el funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tipoVivienda?.nombre}}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <h3>Dirección
+                                        <mat-icon class="s-16" matSuffix matTooltip="Dirección de la vivienda en la que reside el funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.direccion}}</p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                        <!--/Residencia -->
+                        <mat-divider></mat-divider>
+
+                        <!--Libreta militar -->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>credit_card</mat-icon>
+                                <h2>Libreta militar</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Clase
+                                        <mat-icon class="s-16" matSuffix matTooltip="Clase de la libreta militar del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.claseLibretaMilitar?.nombre  != null ? item.claseLibretaMilitar?.nombre : 'N/A'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Número
+                                        <mat-icon class="s-16" matSuffix matTooltip="Número de la libreta militar del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.numeroLibreta  != null ? item.numeroLibreta : 'N/A'}}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <h3>Distrito
+                                        <mat-icon class="s-16" matSuffix matTooltip="Distrito donde  prestó el servicio militar el funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.distrito  != null ? item.distrito : 'N/A'}}</p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                        <!--/Libreta militar -->
+                        <mat-divider></mat-divider>
+
+                        <!--Licencia de conducción -->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>credit_card</mat-icon>
+                                <h2>Licencia de conducción</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Categoría A
+                                        <mat-icon class="s-16" matSuffix matTooltip="Categoría de la licencia de conducción del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.licenciaConduccionA?.nombre  != null ? item.licenciaConduccionA?.nombre : 'N/A'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Fecha de vencimiento
+                                        <mat-icon class="s-16" matSuffix matTooltip="Fecha de vencimiento de la licencia de conducción del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.licenciaConduccionAFechaVencimiento  != null ? (item.licenciaConduccionAFechaVencimiento | date:'dd / LL / yyyy') : 'N/A'}}
+
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Categoría B
+                                        <mat-icon class="s-16" matSuffix matTooltip="Categoría de la licencia de conducción del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.licenciaConduccionB?.nombre  != null ? item.licenciaConduccionB?.nombre : 'N/A'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Fecha de vencimiento
+                                        <mat-icon class="s-16" matSuffix matTooltip="Fecha de vencimiento de la licencia de conducción del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.licenciaConduccionBFechaVencimiento  != null ? (item.licenciaConduccionBFechaVencimiento | date:'dd / LL / yyyy') : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Categoría C
+                                        <mat-icon class="s-16" matSuffix matTooltip="Categoría de la licencia de conducción del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.licenciaConduccionC?.nombre  != null ? item.licenciaConduccionC?.nombre : 'N/A'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>Fecha de vencimiento
+                                        <mat-icon class="s-16" matSuffix matTooltip="Fecha de vencimiento de la licencia de conducción del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.licenciaConduccionCFechaVencimiento  != null ? (item.licenciaConduccionCFechaVencimiento | date:'dd / LL / yyyy') : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+
+                        <!--/Licencia de conducción -->
+                        <mat-divider></mat-divider>
+
+                        <!--Otros -->
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>add_circle</mat-icon>
+                                <h2>Otros</h2>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Talla de camisa
+                                        <mat-icon class="s-16" matSuffix matTooltip="Talla de camisa del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tallaCamisa  ? item.tallaCamisa : 'N/A'}}</p>
+                                </div>
+
+                                <div>
+                                    <h3>Talla de pantalón
+                                        <mat-icon class="s-16" matSuffix matTooltip="Talla de pantalón del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tallaPantalon ? item.tallaPantalon : 'N/A'}}</p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Número de calzado
+                                        <mat-icon class="s-16" matSuffix matTooltip="Número de calzado del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.numeroCalzado != null ? item.numeroCalzado : 'N/A'}}</p>
+                                </div>
+                                <div>
+                                    <h3>¿Usa lentes?
+                                        <mat-icon class="s-16" matSuffix matTooltip="El funcionario usa lentes.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p *ngIf="item.usaLentes == false ">No </p>
+                                    <p *ngIf="item.usaLentes == true ">Si </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <h3>Tipo de sangre
+                                        <mat-icon class="s-16" matSuffix matTooltip="Tipo de sangre del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tipoSangre?.nombre}}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <h3>Correo electrónico personal
+                                        <mat-icon class="s-16" matSuffix matTooltip="Correo electrónico personal del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.correoElectronicoPersonal  != null ? item.correoElectronicoPersonal : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <h3>Correo electrónico corporativo
+                                        <mat-icon class="s-16" matSuffix matTooltip="Correo electrónico corporativo del funcionario asignado por la compañía.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.correoElectronicoCorporativo  != null ? item.correoElectronicoCorporativo : 'N/A'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </mat-list-item>
+                        <!--/Otros -->
+
+                    </mat-list>
+
+
+                </mat-tab>
+                <!-- / Datos basicos -->
+
+                <!-- informacion familiar -->
+                <mat-tab label="Información familiar" *ngIf="arrayPermisosInformacionFamiliares.listar">
+
+                    <div class="p-24" fxLayoutAlign="center center" fxLayout="column" *ngIf="familiaresDataRequest">
+                        <mat-spinner></mat-spinner>
+                    </div>
+
+                    <alcanos-empty-list (fnCreate)="crearFamiliarHandle($event)"
+                        labelH1="¡Uy! Aún no has registrado información familiar."
+                        labelBtn="Registrar información familiar"
+                        [visibleBtnCreate]="arrayPermisosInformacionFamiliares.crear"
+                        [visible]="!hasFilter && !hasFamiliaresDataSource && !familiaresDataRequest">
+                    </alcanos-empty-list>
+
+                    <!-- <div class="empty p-24" *ngIf="!hasFamiliaresDataSource && !familiaresDataRequest"
+                        fxLayoutAlign="center center" fxLayout="column">
+                        <img src="/assets/alcanos/empty_state_crear.svg" />
+                        <div fxLayout="row">
+                            <h1>¡Uy! Aún no has registrado información familiar.</h1>
+                        </div>
+                        <div fxLayout="row">
+                            <h2>¡Vamos a cambiar esto!</h2>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="10px">
+                            <a mat-raised-button color="accent"
+                                routerLink="/administracion-personal/funcionarios/{{item.id}}/familiar">
+                                <mat-icon>add</mat-icon>
+                                <span>Registrar información familiar</span>
+                            </a>
+                        </div>
+                    </div> -->
+
+
+                    <table mat-table #table *ngIf="hasFamiliaresDataSource && !familiaresDataRequest"
+                        [dataSource]="familiaresDataSource" class="mat-elevation-z8 ">
+
+                        <ng-container matColumnDef="nombre">
+                            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                            <td mat-cell *matCellDef="let item"> {{item.primerNombre}}
+                                {{item.segundoNombre}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="apellido">
+                            <th mat-header-cell *matHeaderCellDef>Apellido</th>
+                            <td mat-cell *matCellDef="let item"> {{item.primerApellido}}
+                                {{item.segundoApellido}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="parentesco">
+                            <th mat-header-cell *matHeaderCellDef>Parentesco</th>
+                            <td mat-cell *matCellDef="let item"> {{item.parentesco?.nombre}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="celular">
+                            <th mat-header-cell *matHeaderCellDef>Celular</th>
+                            <td mat-cell *matCellDef="let item"> {{item.celular}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="estado">
+                            <th mat-header-cell *matHeaderCellDef>Estado</th>
+                            <td mat-cell *matCellDef="let item"> {{item.estado}} </td>
+                        </ng-container>
+
+                        <!-- Columna acciones -->
+                        <ng-container matColumnDef="acciones" class="tcenter">
+                            <th class="tcenter" mat-header-cell *matHeaderCellDef
+                                [ngStyle]="{'display': !( arrayPermisosInformacionFamiliares.actualizar && arrayPermisosInformacionFamiliares.obtener && arrayPermisosInformacionFamiliares.eliminar) ? 'none' : ''}">
+                                Acciones</th>
+                            <td mat-cell *matCellDef="let element" class="tcenter">
+                                <div *ngIf="1">
+                                    <button *ngIf="arrayPermisosInformacionFamiliares.obtener" mat-icon-button
+                                        matTooltip="Visualizar" (click)="mostrarFamiliaresHandle($event, element)">
+                                        <mat-icon class="s-20">visibility</mat-icon>
+                                    </button>
+                                    <button mat-icon-button matTooltip="Validar"
+                                        *ngIf="arrayPermisosInformacionFamiliares.estadoRegistro && estadoFamiliar.pendiente == element.estado"
+                                        (click)="aprobarFamiliarHandle($event, element)">
+                                        <mat-icon class="s-20">thumb_up</mat-icon>
+                                    </button>
+                                    <a *ngIf="arrayPermisosInformacionFamiliares.actualizar" mat-icon-button
+                                        matTooltip="Editar"
+                                        routerLink="/administracion-personal/funcionarios/{{item.id}}/familiar/{{element.id}}">
+                                        <mat-icon class="s-20">edit</mat-icon>
+                                    </a>
+                                    <button *ngIf="arrayPermisosInformacionFamiliares.eliminar" mat-icon-button
+                                        matTooltip="Eliminar" (click)="eliminarFamiliares($event, element)">
+                                        <mat-icon class="s-20">delete</mat-icon>
+                                    </button>
+                                </div>
+
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumns;"></tr>
+                    </table>
+
+
+                </mat-tab>
+                <!-- / información familiar -->
+
+                <!-- Estudios realizados -->
+                <mat-tab label="Estudios realizados" *ngIf="arrayPermisosFuncionarioEstudios.listar">
+
+                    <div class="p-24" *ngIf="estudiosDataRequest" fxLayoutAlign="center center" fxLayout="column">
+                        <mat-spinner></mat-spinner>
+                    </div>
+
+                    <alcanos-empty-list (fnCreate)="crearEstudioHandle($event)"
+                        labelH1="¡Uy! Aún no has registrado estudios realizados." labelBtn="Registrar estudio realizado"
+                        [visibleBtnCreate]="arrayPermisosFuncionarioEstudios.crear"
+                        [visible]="!hasFilter && !hasEstudiosDataSource && !estudiosDataRequest">
+                    </alcanos-empty-list>
+
+                    <!-- <div class="empty p-24" *ngIf="!hasEstudiosDataSource && !estudiosDataRequest"
+                        fxLayoutAlign="center center" fxLayout="column">
+                        <img src="/assets/alcanos/empty_state_crear.svg" />
+                        <div fxLayout="row">
+                            <h1>¡Uy! Aún no has registrado estudios realizados.</h1>
+                        </div>
+                        <div fxLayout="row">
+                            <h2>¡Vamos a cambiar esto!</h2>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="10px">
+                            <a mat-raised-button color="accent"
+                                routerLink="/administracion-personal/funcionarios/{{item.id}}/estudio">
+                                <mat-icon>add</mat-icon>
+                                <span>Registrar estudio realizado</span>
+                            </a>
+                        </div>
+                    </div> -->
+
+                    <table mat-table *ngIf="hasEstudiosDataSource  && !estudiosDataRequest"
+                        [dataSource]="estudiosDataSource" class="mat-elevation-z8 ">
+
+                        <ng-container matColumnDef="nivelEducativo">
+                            <th mat-header-cell *matHeaderCellDef>Nivel educativo</th>
+                            <td mat-cell *matCellDef="let item"> {{item.nivelEducativo?.nombre}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="titulo">
+                            <th mat-header-cell *matHeaderCellDef>Título</th>
+                            <td mat-cell *matCellDef="let item"> {{item.titulo}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="estado">
+                            <th mat-header-cell *matHeaderCellDef>Estado</th>
+                            <td mat-cell *matCellDef="let item"> {{item.estado}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna acciones -->
+                        <ng-container matColumnDef="acciones" class="tcenter">
+                            <th class="tcenter" mat-header-cell *matHeaderCellDef
+                                [ngStyle]="{'display': !( arrayPermisosFuncionarioEstudios.actualizar && arrayPermisosFuncionarioEstudios.obtener && arrayPermisosFuncionarioEstudios.estadoRegistro && arrayPermisosFuncionarioEstudios.eliminar) ? 'none' : ''}">
+                                Acciones</th>
+                            <td mat-cell *matCellDef="let element" class="tcenter">
+                                <div *ngIf="1">
+                                    <button *ngIf="arrayPermisosFuncionarioEstudios.obtener" mat-icon-button
+                                        matTooltip="Visualizar" (click)="mostrarEstudiosHandle($event, element)">
+                                        <mat-icon class="s-20">visibility</mat-icon>
+                                    </button>
+                                    <button mat-icon-button matTooltip="Validar"
+                                        *ngIf="arrayPermisosFuncionarioEstudios.estadoRegistro && estadoEstudio.pendiente == element.estado"
+                                        (click)="aprobarEstudioHandle($event, element)">
+                                        <mat-icon class="s-20">thumb_up</mat-icon>
+                                    </button>
+                                    <a *ngIf="arrayPermisosFuncionarioEstudios.actualizar" mat-icon-button
+                                        matTooltip="Editar"
+                                        routerLink="/administracion-personal/funcionarios/{{item.id}}/estudio/{{element.id}}">
+                                        <mat-icon class="s-20">edit</mat-icon>
+                                    </a>
+                                    <button *ngIf="arrayPermisosFuncionarioEstudios.eliminar" mat-icon-button
+                                        matTooltip="Eliminar" (click)="eliminarEstudios($event, element)">
+                                        <mat-icon class="s-20">delete</mat-icon>
+                                    </button>
+                                </div>
+
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsEstudios"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumnsEstudios;">
+                        </tr>
+
+                    </table>
+                </mat-tab>
+                <!-- / Estudios realizados -->
+
+                <!-- Experiencia laboral -->
+                <mat-tab label="Experiencia laboral" *ngIf="arrayPermisosExperienciaLaborales.listar">
+
+                    <div class="p-24" *ngIf="experienciasDataRequest" fxLayoutAlign="center center" fxLayout="column">
+                        <mat-spinner></mat-spinner>
+                    </div>
+
+                    <alcanos-empty-list (fnCreate)="crearExperienciaHandle($event)"
+                        labelH1="¡Uy! Aún no has registrado experiencias laborales."
+                        labelBtn="Registrar experiencia laboral"
+                        [visibleBtnCreate]="arrayPermisosExperienciaLaborales.crear"
+                        [visible]="!hasFilter && !hasExperienciasDataSource && !experienciasDataRequest">
+                    </alcanos-empty-list>
+
+                    <!-- <div class="empty p-24" *ngIf="!hasExperienciasDataSource && !experienciasDataRequest"
+                        fxLayoutAlign="center center" fxLayout="column">
+                        <img src="/assets/alcanos/empty_state_crear.svg" />
+                        <div fxLayout="row">
+                            <h1>¡Uy! Aún no has registrado experiencias laborales.</h1>
+                        </div>
+                        <div fxLayout="row">
+                            <h2>¡Vamos a cambiar esto!</h2>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="10px">
+                            <a mat-raised-button color="accent"
+                                routerLink="/administracion-personal/funcionarios/{{item.id}}/experiencia-laboral">
+                                <mat-icon>add</mat-icon>
+                                <span>Registrar experiencia laboral</span>
+                            </a>
+                        </div>
+                    </div> -->
+                    <table mat-table *ngIf="hasExperienciasDataSource && !experienciasDataRequest"
+                        [dataSource]="experienciasDataSource" class="mat-elevation-z8 ">
+
+                        <ng-container matColumnDef="nombreCargo">
+                            <th mat-header-cell *matHeaderCellDef>Nombre del cargo</th>
+                            <td mat-cell *matCellDef="let item">
+                                <div class="text-truncate">{{item.nombreCargo}}</div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="empresa">
+                            <th mat-header-cell *matHeaderCellDef>Empresa</th>
+                            <td mat-cell *matCellDef="let item">
+                                <div class="text-truncate">{{item.nombreEmpresa}}</div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="telefono">
+                            <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+                            <td mat-cell *matCellDef="let item"> {{item.telefono}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="estado">
+                            <th mat-header-cell *matHeaderCellDef>Estado</th>
+                            <td mat-cell *matCellDef="let item"> {{item.estado}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna acciones -->
+                        <ng-container matColumnDef="acciones" class="tcenter">
+                            <th class="tcenter" mat-header-cell *matHeaderCellDef
+                                [ngStyle]="{'display': !( arrayPermisosExperienciaLaborales.actualizar && arrayPermisosExperienciaLaborales.obtener && arrayPermisosExperienciaLaborales.estadoRegistro && arrayPermisosExperienciaLaborales.eliminar) ? 'none' : ''}">
+                                Acciones</th>
+                            <td mat-cell *matCellDef="let element" class="tcenter">
+                                <div *ngIf="1">
+                                    <button *ngIf="arrayPermisosExperienciaLaborales.obtener" mat-icon-button
+                                        matTooltip="Visualizar" (click)="mostrarExperienciasHandle($event, element)">
+                                        <mat-icon class="s-20">visibility</mat-icon>
+                                    </button>
+                                    <button mat-icon-button matTooltip="Validar"
+                                        *ngIf="arrayPermisosExperienciaLaborales.estadoRegistro && estadoExperiencia.pendiente == element.estado"
+                                        (click)="aprobarExperienciaHandle($event, element)">
+                                        <mat-icon class="s-20">thumb_up</mat-icon>
+                                    </button>
+                                    <a *ngIf="arrayPermisosExperienciaLaborales.actualizar" mat-icon-button
+                                        matTooltip="Editar"
+                                        routerLink="/administracion-personal/funcionarios/{{item.id}}/experiencia-laboral/{{element.id}}">
+                                        <mat-icon class="s-20">edit</mat-icon>
+                                    </a>
+                                    <button *ngIf="arrayPermisosExperienciaLaborales.eliminar" mat-icon-button
+                                        matTooltip="Eliminar" (click)="eliminarExperiencia($event, element)">
+                                        <mat-icon class="s-20">delete</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsExperiencias"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumnsExperiencias;"></tr>
+
+                    </table>
+
+                </mat-tab>
+                <!-- / Experiencia laboral -->
+
+                <!-- contratos -->
+                <mat-tab label="Contratos">
+
+                    <div class="p-24" *ngIf="contratosDataRequest" fxLayoutAlign="center center" fxLayout="column">
+                        <mat-spinner></mat-spinner>
+                    </div>
+
+                    <alcanos-empty-list [visibleBtnCreate]="false" labelH1="¡Uy! Aún no has cargado contratos."
+                        [visible]="!hasContratosDataSource && !contratosDataRequest">
+                    </alcanos-empty-list>
+
+
+                    <table mat-table *ngIf="hasContratosDataSource && !contratosDataRequest"
+                        [dataSource]="contratosDataSource" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="numeroContrato">
+                            <th mat-header-cell *matHeaderCellDef>N° contrato</th>
+                            <td mat-cell *matCellDef="let item"> {{item.numeroContrato}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="tipoContrato">
+                            <th mat-header-cell *matHeaderCellDef>Tipo contrato</th>
+                            <td mat-cell *matCellDef="let item">
+                                <p class="text-truncate"> {{item.tipoContrato?.nombre}} </p>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="fechaInicio">
+                            <th mat-header-cell *matHeaderCellDef>Fecha de inicio</th>
+                            <td mat-cell *matCellDef="let item">
+                                {{item.fechaInicio | date:'dd / LL / yyyy' }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="fechaFinalizacion">
+                            <th mat-header-cell *matHeaderCellDef>Fecha de finalización</th>
+                            <td mat-cell *matCellDef="let item">
+                                {{item.fechaFinalizacion | date:'dd / LL / yyyy'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="estado">
+                            <th mat-header-cell *matHeaderCellDef>Estado</th>
+                            <td mat-cell *matCellDef="let item"> {{item.estado }}</td>
+                        </ng-container>
+
+                        <!-- Columna acciones -->
+                        <ng-container matColumnDef="acciones" class="tcenter">
+                            <th class="tcenter" mat-header-cell *matHeaderCellDef>Acciones</th>
+                            <td mat-cell *matCellDef="let element" class="tcenter">
+                                <div *ngIf="1">
+                                    <button mat-icon-button matTooltip="Visualizar"
+                                        (click)="mostrarContratoHandle($event, element)">
+                                        <mat-icon class="s-20">visibility</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsContratos"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumnsContratos;"></tr>
+
+                    </table>
+
+
+                </mat-tab>
+                <!-- / contratos -->
+
+                <!-- Documentos soporte -->
+                <mat-tab label="Documentos" *ngIf="arrayPermisosDocumentoFuncionarios.listar">
+
+                    <div class="p-24" *ngIf="documentosDataRequest" fxLayoutAlign="center center" fxLayout="column">
+                        <mat-spinner></mat-spinner>
+                    </div>
+
+                    <alcanos-empty-list (fnCreate)="crearDocumentoHandle($event)"
+                        labelH1="¡Uy! Aún no has cargado documentos." labelBtn="Cargar documento"
+                        [visibleBtnCreate]="arrayPermisosDocumentoFuncionarios.crear"
+                        [visible]="!hasDocumentosDataSource && !documentosDataRequest">
+
+                    </alcanos-empty-list>
+
+
+                    <table mat-table *ngIf="hasDocumentosDataSource && !documentosDataRequest"
+                        [dataSource]="documentosDataSource" class="mat-elevation-z8 ">
+
+                        <ng-container matColumnDef="tipo">
+                            <th mat-header-cell *matHeaderCellDef>Tipo</th>
+                            <td mat-cell *matCellDef="let item"> {{item.tipoSoporte?.nombre}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="comentario">
+                            <th mat-header-cell *matHeaderCellDef>Comentario</th>
+                            <td mat-cell *matCellDef="let item"> {{item.comentario}}</td>
+                        </ng-container>
+
+                        <!-- Columna acciones -->
+                        <ng-container matColumnDef="acciones" class="tcenter">
+                            <th class="tcenter" mat-header-cell *matHeaderCellDef>Acciones</th>
+                            <td mat-cell *matCellDef="let element" class="tcenter">
+                                <div *ngIf="1">
+                                    <button mat-icon-button matTooltip="Descargar"
+                                        (click)="descargarHandle($event, element)">
+                                        <mat-icon class="s-20">save_alt</mat-icon>
+                                    </button>
+                                    <button *ngIf="arrayPermisosDocumentoFuncionarios.eliminar" mat-icon-button
+                                        matTooltip="Eliminar" (click)="eliminarDocumento($event, element)">
+                                        <mat-icon class="s-20">delete</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsDocumentos"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumnsDocumentos;"></tr>
+
+                    </table>
+
+                </mat-tab>
+                <!-- / Documentos soporte -->
+
+                <!-- Retefuente -->
+                <mat-tab label="Retefuente" *ngIf="arrayPermisosDeduccionRetefuentes.listar">
+
+                    <div class="p-24" *ngIf="retefuenteDataRequest" fxLayoutAlign="center center" fxLayout="column">
+                        <mat-spinner></mat-spinner>
+                    </div>
+
+                    <alcanos-empty-list (fnCreate)="crearRetefuenteHandle($event)"
+                        labelH1="¡Uy! Aún no has registrado deducciones de retefuente." labelBtn="Registrar deducción"
+                        [visibleBtnCreate]="arrayPermisosDeduccionRetefuentes.crear"
+                        [visible]="!hasFilter && !hasRetefuenteDataSource && !retefuenteDataRequest">
+                    </alcanos-empty-list>
+
+
+                    <table mat-table *ngIf="hasRetefuenteDataSource && !retefuenteDataRequest"
+                        [dataSource]="retefuenteDataSource" class="mat-elevation-z8 ">
+
+                        <ng-container matColumnDef="annoVigencia">
+                            <th mat-header-cell *matHeaderCellDef>Año</th>
+                            <td mat-cell *matCellDef="let item"> {{item.annoVigencia?.anno}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="interesVivienda">
+                            <th mat-header-cell *matHeaderCellDef>Intereses vivienda</th>
+                            <td mat-cell *matCellDef="let item">
+                                {{item.interesVivienda | currency:'COP':'symbol-narrow':'4.2-2': 'co' }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="medicinaPrepagada">
+                            <th mat-header-cell *matHeaderCellDef>Medicina prepagada</th>
+                            <td mat-cell *matCellDef="let item">
+                                {{item.medicinaPrepagada | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna acciones -->
+                        <ng-container matColumnDef="acciones" class="tcenter">
+                            <th class="tcenter" mat-header-cell *matHeaderCellDef
+                                [ngStyle]="{'display': !(arrayPermisosDeduccionRetefuentes.estadoRegistro && arrayPermisosDeduccionRetefuentes.eliminar) ? 'none' : ''}">
+                                Acciones</th>
+                            <td mat-cell *matCellDef="let element" class="tcenter">
+                                <div *ngIf="1">
+                                    <button
+                                        *ngIf="arrayPermisosDeduccionRetefuentes.estadoRegistro && element.annoVigencia?.estado == 'Vigente'"
+                                        mat-icon-button matTooltip="Editar"
+                                        (click)="editarRetefuenteHandle($event, element)">
+                                        <mat-icon class="s-20">edit</mat-icon>
+                                    </button>
+                                    <button
+                                        *ngIf="arrayPermisosDeduccionRetefuentes.estadoRegistro && element.annoVigencia?.estado == 'Vigente'"
+                                        mat-icon-button matTooltip="Eliminar"
+                                        (click)="eliminarRetefuente($event, element)">
+                                        <mat-icon class="s-20">delete</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsRetefuente"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumnsRetefuente;"></tr>
+
+                    </table>
+
+                </mat-tab>
+                <!-- / Retefuente -->
+
+
+            </mat-tab-group>
+
+        </div>
+
+
+    </div>
+    <!-- / CONTENIDO -->
+
+</div>

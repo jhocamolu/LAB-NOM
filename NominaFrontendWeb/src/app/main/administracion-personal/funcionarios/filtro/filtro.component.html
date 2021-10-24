@@ -1,0 +1,129 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Primer nombre</mat-label>
+            <input matInput placeholder="" formControlName="primerNombre">
+            <mat-error *ngFor="let error of objToArray(primerNombre.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Primer nombre del funcionario.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Primer apellido </mat-label>
+            <input matInput placeholder="" formControlName="primerApellido">
+            <mat-error *ngFor="let error of objToArray(primerApellido.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Primer apellido del funcionario.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Número documento </mat-label>
+            <input matInput placeholder="" formControlName="numeroDocumento">
+            <mat-error *ngFor="let error of objToArray(numeroDocumento.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Documento de identificación del funcionario.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Centro operativo</mat-label>
+            <mat-select formControlName="centroOperativo" step="any">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of centroOperativosOptions" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(centroOperativo.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Centro operativo al que pertenece el funcionario.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cargo</mat-label>
+            <mat-select formControlName="cargo" step="any">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of cargoOptions" [value]="item.id">
+                    {{ item.cargo?.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(cargo.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Cargo del funcionario.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estado" step="any">
+                <mat-option [value]="null"></mat-option>
+                <mat-option value="Activo">Activo</mat-option>
+                <mat-option value="EnVacaciones">En vacaciones</mat-option>
+                <mat-option value="Retirado">Retirado</mat-option>
+                <mat-option value="Seleccionado">Seleccionado</mat-option>
+                <mat-option value="Incapacitado">Incapacitado</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(estado.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Estado del funcionario respecto a la compañía.">info</mat-icon>
+        </mat-form-field>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button type="button" mat-raised-button (click)="limpiarHandle($event)">
+            <mat-icon>cancel</mat-icon>
+            <span>Borrar filtros</span>
+        </button>
+        <button mat-raised-button [disabled]="form.invalid" type="submit" color="accent">
+            <mat-icon>search</mat-icon>
+            <span>Buscar</span>
+        </button>
+    </div>
+</form>

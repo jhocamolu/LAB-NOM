@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TR_CrearRegistroLibroVacaciones_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.TR_CrearRegistroLibroVacaciones', 'TR') IS NULL
+    BEGIN
+        EXECUTE ('CREATE TRIGGER dbo.TR_CrearRegistroLibroVacaciones ON dbo.Contrato AFTER INSERT,UPDATE as SELECT 1');
+END;
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 23/04/2020
+-- Description:	Disparador utiliza para verificar si el funcionario tiene registro 
+--				en el libro de vacaciones, si no tiene registro se crea uno nuevo.
+-- =============================================
+ALTER TRIGGER [dbo].[TR_CrearRegistroLibroVacaciones] ON [dbo].[Contrato]
+AFTER INSERT, UPDATE
+AS
+     BEGIN
+		 --------------------------------------------------------------------------
+		 -- Instrucciones de configuración y manejo de errores
+		 --------------------------------------------------------------------------
+		 SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+		 DECLARE @Parametros VARCHAR(MAX);
+		 DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+	     --------------------------------------------------------------------------
+         -- Declaraciones
+         --------------------------------------------------------------------------
+         DECLARE @ContratoId		AS INT;
+	     DECLARE @Estado			AS VARCHAR(255);
+	     DECLARE @EstadoAnterior	AS VARCHAR(255);
+		 DECLARE @FechaInicio   	AS DATE;
+		 DECLARE @DiasAPagar    	AS INT;
+		 DECLARE @FuncionarioId		AS INT;
+		 DECLARE @FechaActual		AS DATE			= CONVERT(date, getdate());
+		 DECLARE @TipoAnticipado 	AS VARCHAR(255) = (SELECT LIBROVACACIONES_ANTICIPADO FROM util.VW_ConstanteEstado) ;
+
+		 --------------------------------------------------------------------------
+		 -- Proceso
+		 --------------------------------------------------------------------------
+		 BEGIN TRY	
+		 	SET NOCOUNT ON 
+            BEGIN TRAN LibroVacaciones;
+				 DECLARE CUR_LibroVacaciones CURSOR LOCAL
+		            FOR SELECT 
+						ins.Id, 
+						ins.Estado
+					FROM inserted ins
+					OPEN CUR_LibroVacaciones;
+		            FETCH NEXT FROM CUR_LibroVacaciones INTO @ContratoId, @Estado
+		            WHILE @@fetch_status = 0
+		                BEGIN
+							SET @Parametros = CONCAT('@ContratoId=', CONVERT(VARCHAR, @ContratoId));
+			                IF @Estado = (SELECT CONTRATO_VIGENTE FROM util.VW_ConstanteEstado)
+							BEGIN
+								-- Consulta libro de vacaciones para el contrato
+				                IF NOT EXISTS (SELECT * FROM LibroVacaciones WHERE ContratoId = @ContratoId )
+				                BEGIN
+									-- Procedimiento que crea los registros para el libro de vacaciones.
+									EXEC [dbo].[USP_CrearRegistroLibroVacaciones] @ContratoId = @ContratoId
+				                END;
+							END
+			                FETCH NEXT FROM CUR_LibroVacaciones INTO @ContratoId, @Estado
+		                END
+                        CLOSE CUR_LibroVacaciones;
+            			DEALLOCATE CUR_LibroVacaciones;
+				
+                -- Cierre de la transacción
+
+            IF @@TRANCOUNT > 0
+                BEGIN
+                    IF XACT_STATE() = 1
+                        BEGIN
+                            COMMIT TRAN LibroVacaciones;
+                    END;
+                        ELSE
+                        BEGIN
+                            EXEC util.USP_GenerarExcepcion 
+                                50000, 
+                                'No se puede confirmar la transacción.  Error desconocido.';
+                    END;
+            END;
+           SET NOCOUNT OFF
+		 END TRY
+		 BEGIN CATCH
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+            AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+			 -- Se almacena la información del error
+			 EXEC util.USP_Registrarerror 
+				  @NombreObjeto, 
+				  @Parametros;
+
+			 -- Se lanza la excepción
+			 EXEC util.USP_LanzarExcepcion;
+		 END CATCH;
+	 END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TRIGGER [dbo].[TR_CrearRegistroLibroVacaciones];
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

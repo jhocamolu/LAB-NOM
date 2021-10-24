@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="UFS_ObtenerParametro_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 21/02/2020
+-- Description: Pemite obtener el valor del parametro que concuerde con el alias administrado.
+--
+-- Parameters:
+--   @Alias:        			Identificador del funcionario
+
+--
+-- Returns:						Scalar
+--	 Valor:					    Valor del Parametro 
+-- ==========================================================================================
+
+CREATE FUNCTION [dbo].[UFS_ObtenerParametro] (@PAlias VARCHAR(100))  
+RETURNS VARCHAR(100)
+AS  
+BEGIN  
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	DECLARE @valor VARCHAR(100);
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+    SELECT 
+	@valor = Valor
+	FROM 
+		[dbo].[ParametroGeneral]
+    WHERE 
+        Alias = @PAlias
+	RETURN @valor
+END;  
+</sql>
+
+<rollback>
+    DROP FUNCTION [dbo].[UFS_ObtenerParametro];
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

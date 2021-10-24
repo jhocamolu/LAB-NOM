@@ -1,0 +1,41 @@
+{
+	"info": {
+		"_postman_id": "04dfbd13-1fd3-464c-8f51-c675e940fdf3",
+		"name": "HU073-ReportePersonalPlanta",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PlantaPersonal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"estadoFuncionario\":\"Activo\",\r\n    \"CentroOperativo\":\"\",\r\n    \"Dependencia\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://nomintegra.alcanosesp.com:9001/reporte/PlantaPersonal",
+					"protocol": "http",
+					"host": [
+						"nomintegra",
+						"alcanosesp",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"reporte",
+						"PlantaPersonal"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

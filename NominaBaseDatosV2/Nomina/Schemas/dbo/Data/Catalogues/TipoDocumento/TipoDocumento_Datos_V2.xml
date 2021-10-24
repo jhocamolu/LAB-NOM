@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoDocumento_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoDocumento] ON 
+GO
+    INSERT INTO dbo.TipoDocumento (Id,CodigoPila,CodigoDian,Nombre,Formato,Validacion,EstadoRegistro,CreadoPor,EquivalenteBancario)
+    VALUES (8,'','','Tarjeta seguro social','Alfanumerico','^[A-Za-z0-9]*$','Activo    ','sistema','06');
+
+    INSERT INTO dbo.TipoDocumento (Id,CodigoPila,CodigoDian,Nombre,Formato,Validacion,EstadoRegistro,CreadoPor,EquivalenteBancario)
+    VALUES (9,'','','Nit menores','Alfanumerico','^[A-Za-z0-9]*$','Activo    ','sistema','07');
+
+SET IDENTITY_INSERT [dbo].[TipoDocumento] OFF
+GO
+
+]]> 
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+    DELETE FROM [dbo].[TipoDocumento] WHERE Id BETWEEN 8 AND 9;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="TipoCuenta_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+<![CDATA[
+    UPDATE dbo.TipoCuenta
+        SET Codigo = 'CA'
+        WHERE Id = 1; 
+    
+
+    UPDATE dbo.TipoCuenta
+        SET Codigo = 'CC'
+        WHERE Id = 2 ;
+    
+]]> 
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+    UPDATE dbo.TipoCuenta
+        SET Codigo = NULL
+        WHERE Id=1 ;
+    
+
+    UPDATE dbo.TipoCuenta
+        SET Codigo = NULL
+        WHERE Id = 2; 
+    
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

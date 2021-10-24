@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "75301583-f027-4b9b-855d-eb0f70a6d997",
+		"name": "HU056-PrecalculoNomina",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Nomina detalle por funcionario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44366/odata/GetNominaFuncionarioDatoActuales(NominaId=98)",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44366",
+					"path": [
+						"odata",
+						"GetNominaFuncionarioDatoActuales(NominaId=98)"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar uno",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/nominadetalles/4",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"nominadetalles",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Finalizar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nominaId\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/nominafuncionarios/finalizar",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"nominafuncionarios",
+						"finalizar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Iniciar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nominaId\": 98,\n  \"NominaFuncionario\": [\n    2875,\n    2876,\n    2877,\n    2878,\n    2879,\n    2880,\n    2881,\n    2882,\n    2883,\n    2884,\n    2885,\n    2886,\n    2887,\n    2888\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44366/api/nominafuncionarios/iniciar",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44366",
+					"path": [
+						"api",
+						"nominafuncionarios",
+						"iniciar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Nomina Detalle Conceptos Individual",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/nominadetalles?$Filter=nominaFuncionarioId eq 2051 &$expand=ConceptoNomina",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"nominadetalles"
+					],
+					"query": [
+						{
+							"key": "$Filter",
+							"value": "nominaFuncionarioId eq 2051 "
+						},
+						{
+							"key": "$expand",
+							"value": "ConceptoNomina"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cabecera Nomina",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Nominas/NominaCabecera/98",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Nominas",
+						"NominaCabecera",
+						"98"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

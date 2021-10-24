@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "670c2aaf-a6b9-4a18-bdae-216ca6441dd7",
+		"name": "HU036-ComplementoPlantillas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear complementoplantillas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n\t\"nombre\": \"qwertsyuiop\",\r\n\t\"alto\": 4,\r\n\t\"grupoDocumentoId\": 2,\r\n\t\"tipo\": 1,\r\n\t\"cuerpoDocumento\": \"<p>fhgfdgghkjdsfhkjfshgikbnglkdxf bbfdsg0ds godfgodfigdfoig ofdhgdfhg ofdgodfuodfihjoifhjxddfd\r\n\tfffd oigjfdpgujfdpojgfdgdh\r\n\tdfhg\r\n\tfdg jdfgojdfgkjfdphjfdphj'gfhiugfhfhfihjf9 hjgflkhjnñgflkjhgfpoiuhj0gfhjgfhf ghpjfhlfgnhfhj gfphjgfhk </p>\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/complementoplantillas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"complementoplantillas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar complementoplantillas",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"id\": 5,\r\n   \"alto\":99,\r\n    \"nombre\": \"sdfsa\",\r\n    \"tipo\": \"Encabezado\",\r\n    \"grupoDocumentoId\": 2,\r\n    \"cuerpoDocumento\": \"<p>fhgfdgghkjdsfhkjfshgikbnglkdxf bbfdsg0ds godfgodfigdfoig ofdhgdfhg ofdgodfuodfihjoifhjxddfd\\r\\nfffd oigjfdpgujfdpojgfhgkjdgdh\\r\\ndfhg\\r\\nfdg jdfgojdfgkjfdphjfdphj'gfhiugfhfhfihjf9 hjgflkhjnñgflkjhgfpoiuhj0gfhjgfhf ghpjfhlfgnhfhj gfphjgfhk </p>\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/complementoplantillas/5",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"complementoplantillas",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial complementoplantillas",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"id\": 1,\r\n    \"nombre\": \"alto e\",\r\n    \"alto\": null,\r\n    \"tipo\": \"Encabezado\",\r\n    \"grupoDocumentoId\": 2,\r\n    \"cuerpoDocumento\": \"<p>fhgfdgghkjdsfhkjfshgikbnglkdxf bbfdsg0ds godfgodfigdfoig ofdhgdfhg ofdgodfuodfihjoifhjxddfd\\r\\nfffd oigjfdpgujfdpojgfhgkjdgdh\\r\\ndfhg\\r\\nfdg jdfgojdfgkjfdphjfdphj'gfhiugfhfhfihjf9 hjgflkhjnñgflkjhgfpoiuhj0gfhjgfhf ghpjfhlfgnhfhj gfphjgfhk </p>\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/complementoplantillas/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"complementoplantillas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar todas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/complementoplantillas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"complementoplantillas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar una",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44343/odata/complementoplantillas/11",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44343",
+					"path": [
+						"odata",
+						"complementoplantillas",
+						"11"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

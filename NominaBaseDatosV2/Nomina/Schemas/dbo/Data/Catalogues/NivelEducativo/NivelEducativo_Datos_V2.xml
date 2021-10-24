@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="NivelEducativo_Datos_V2">
+<comment>Cargar data Orden en Nivel Educativo</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+UPDATE NivelEducativo SET Orden = 1 WHERE Id = 1
+GO
+UPDATE NivelEducativo SET Orden = 2 WHERE Id = 2
+GO
+UPDATE NivelEducativo SET Orden = 3 WHERE Id = 3
+GO
+UPDATE NivelEducativo SET Orden = 4 WHERE Id = 4
+GO
+UPDATE NivelEducativo SET Orden = 5 WHERE Id = 5
+GO
+UPDATE NivelEducativo SET Orden = 6 WHERE Id = 6
+GO
+UPDATE NivelEducativo SET Orden = 7 WHERE Id = 7
+GO
+UPDATE NivelEducativo SET Orden = 8 WHERE Id = 8
+GO
+UPDATE NivelEducativo SET Orden = 9 WHERE Id = 9
+GO
+UPDATE NivelEducativo SET Orden = 10 WHERE Id = 10
+GO
+UPDATE NivelEducativo SET Orden = 11 WHERE Id = 11
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+UPDATE NivelEducativo SET Orden = 0 WHERE Id BETWEEN 1 AND 11;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

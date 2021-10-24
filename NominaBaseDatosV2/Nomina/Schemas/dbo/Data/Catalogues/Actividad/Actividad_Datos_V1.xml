@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Actividad_Datos_V1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Actividad] ON 
+GO
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(1,'Activo', 'Sistema',GETDATE(), 'ADM01', 'Administrativos', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(2,'Activo', 'Sistema',GETDATE(), 'ADM02', 'Administrativos Nivel Central (solo aplica a Neiva e Ibagué)', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(3,'Activo', 'Sistema',GETDATE(), 'OPE01', 'Operativos', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(4,'Activo', 'Sistema',GETDATE(), 'OPE02', 'Operativos Nivel Central (solo aplica a Neiva e Ibagué)', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(5,'Activo', 'Sistema',GETDATE(), 'INS01', 'Instalador Derechos de Conexión Domiciliario', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(6,'Activo', 'Sistema',GETDATE(), 'INS02', 'Instalador Derechos de Conexión Comercial-Oficial', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(7,'Activo', 'Sistema',GETDATE(), 'INS03', 'Instalador Derechos de Conexión Industrial-GNV', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(8,'Activo', 'Sistema',GETDATE(), 'INS04', 'Instalador Derechos de Conexión Proyectos Constructora', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(9,'Activo', 'Sistema',GETDATE(), 'ASE01', 'Asesor Derechos de Conexión Domiciliario', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(10,'Activo', 'Sistema',GETDATE(), 'ASE02', 'Asesor Derechos de Conexión Comercial-Oficial', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(11,'Activo', 'Sistema',GETDATE(), 'ASE03', 'Asesor Derechos de Conexión Industrial-GNV', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(12,'Activo', 'Sistema',GETDATE(), 'ASE04', 'Asesor Derechos de Conexión Proyectos Constructora', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(13,'Activo', 'Sistema',GETDATE(), 'INS05', 'Instalador Internas Domiciliarias', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(14,'Activo', 'Sistema',GETDATE(), 'INS06', 'Instalador Internas Comercial-Oficial', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(15,'Activo', 'Sistema',GETDATE(), 'INS07', 'Instalador Internas Industrial-GNV', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(16,'Activo', 'Sistema',GETDATE(), 'INS08', 'Instalador Internas Proyectos Constructora', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(17,'Activo', 'Sistema',GETDATE(), 'ASE05', 'Asesor Internas Domiciliarias', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(18,'Activo', 'Sistema',GETDATE(), 'ASE06', 'Asesor Internas Comercial-Oficial', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(19,'Activo', 'Sistema',GETDATE(), 'ASE07', 'Asesor Internas Industrial-GNV', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(20,'Activo', 'Sistema',GETDATE(), 'ASE08', 'Asesor Internas Proyectos Constructora', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(21,'Activo', 'Sistema',GETDATE(), 'OTI01', 'OTI - Nuevas Domiciliarias', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(22,'Activo', 'Sistema',GETDATE(), 'OTI02', 'OTI - Nuevas Comercial-Oficial', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(23,'Activo', 'Sistema',GETDATE(), 'OTI03', 'OTI - Nuevas Industrial-GNV', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(24,'Activo', 'Sistema',GETDATE(), 'OTI04', 'OTI - Nuevas Proyectos Constructora', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(25,'Activo', 'Sistema',GETDATE(), 'OTI05', 'OTI - Periódicas', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(26,'Activo', 'Sistema',GETDATE(), 'SER01', 'Servicio Técnico (Presupuestos)', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(27,'Activo', 'Sistema',GETDATE(), 'GNC01', 'GNC', 1,1, '');
+INSERT INTO dbo.Actividad (Id, EstadoRegistro, CreadoPor, FechaCreacion, Codigo, Nombre, PromedioProductividad, ValorComplejidad, Descripcion) VALUES(28,'Activo', 'Sistema',GETDATE(), 'PRO01', 'Proyecto Inversión Redes', 1,1, '');
+
+SET IDENTITY_INSERT [dbo].[Actividad] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[Actividad] WHERE Id BETWEEN 1 AND 28;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

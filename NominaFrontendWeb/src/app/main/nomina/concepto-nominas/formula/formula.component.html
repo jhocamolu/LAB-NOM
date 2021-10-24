@@ -1,0 +1,52 @@
+<div>
+    <mat-toolbar>
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayoutGap="5px">
+
+                <button mat-raised-button (click)="probarHandle($event)">
+                    <mat-icon>code</mat-icon>
+                    <span>Probar</span>
+                </button>
+
+                <button mat-raised-button [matMenuTriggerFor]="insertarMenu">
+                    <mat-icon>add</mat-icon>
+                    <span>Insertar</span>
+                    <mat-icon class="s-16 mat-icon pl-4">keyboard_arrow_down</mat-icon>
+                </button>
+                <mat-menu #insertarMenu="matMenu">
+                    <button mat-menu-item (click)="conceptoHandle($event)">
+                        Concepto
+                    </button>
+                    <button mat-menu-item (click)="condicionHandle($event)">
+                        Condición
+                    </button>
+                    <button mat-menu-item (click)="funcionHandle($event)">
+                        Función
+                    </button>
+                </mat-menu>
+            </div>
+            <div fxLayoutGap="5px">
+                <button mat-icon-button (click)="ayudaHandle($event)">
+                    <mat-icon>info</mat-icon>
+                </button>
+            </div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div (keydown)="keydownHandle($event)" class="area" #editor contenteditable="true">
+    </div>
+
+    <div class="p-16 pr-0" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+
+        <a mat-raised-button routerLink="/nomina/concepto-nominas">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </a>
+        <button mat-raised-button [disabled]="submit" type="submit" color="accent" (click)="guardarHandle($event)">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+        
+    </div>
+
+</div>

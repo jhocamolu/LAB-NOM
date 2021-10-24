@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoLiquidacion_Datos_V4">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.TipoLiquidacion SET FechaManual='0', Proceso='Normal', Contabiliza='1', ConceptoNominaAgrupadorId='117', AplicaPila='1' WHERE Id='1';
+UPDATE dbo.TipoLiquidacion SET FechaManual='0', Proceso='Definitivo', Contabiliza='1', ConceptoNominaAgrupadorId='49', AplicaPila='1' WHERE Id='2';
+UPDATE dbo.TipoLiquidacion SET FechaManual='0', Proceso='Vacaciones', Contabiliza='1', ConceptoNominaAgrupadorId='139', AplicaPila='1' WHERE Id='3';
+UPDATE dbo.TipoLiquidacion SET FechaManual='1', Proceso='Normal', Contabiliza='1', ConceptoNominaAgrupadorId='142', AplicaPila='0' WHERE Id='4';
+UPDATE dbo.TipoLiquidacion SET FechaManual='1', Proceso='Normal', Contabiliza='1', ConceptoNominaAgrupadorId='143', AplicaPila='0' WHERE Id='5';
+UPDATE dbo.TipoLiquidacion SET FechaManual='1', Proceso='Cesantias', Contabiliza='1', ConceptoNominaAgrupadorId='145', AplicaPila='0' WHERE Id='6';
+UPDATE dbo.TipoLiquidacion SET FechaManual='0', Proceso='AnticipoCesantias', Contabiliza='1', ConceptoNominaAgrupadorId='144', AplicaPila='0' WHERE Id='7';
+UPDATE dbo.TipoLiquidacion SET FechaManual='0', Proceso='Normal', Contabiliza='1', ConceptoNominaAgrupadorId='48', AplicaPila='1' WHERE Id='8';
+UPDATE dbo.TipoLiquidacion SET FechaManual='0', Proceso='Normal', Contabiliza='0', ConceptoNominaAgrupadorId='44', AplicaPila='1' WHERE Id='9';
+UPDATE dbo.TipoLiquidacion SET FechaManual='0', Proceso='Normal', Contabiliza='1', ConceptoNominaAgrupadorId='117', AplicaPila='1' WHERE Id='10';
+UPDATE dbo.TipoLiquidacion SET FechaManual='0', Proceso='Normal', Contabiliza='1', ConceptoNominaAgrupadorId='146', AplicaPila='0' WHERE Id='11';
+UPDATE dbo.TipoLiquidacion SET FechaManual='0', Proceso='Normal', Contabiliza='1', ConceptoNominaAgrupadorId='47', AplicaPila='0' WHERE Id='12';
+UPDATE dbo.TipoLiquidacion SET FechaManual='1', Proceso='Normal', Contabiliza='0', ConceptoNominaAgrupadorId='117', AplicaPila='0' WHERE Id='13';
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE dbo.TipoLiquidacion SET FechaManual='0', Proceso='Normal', Contabiliza= 0, ConceptoNominaAgrupadorId = 1, AplicaPila=0 WHERE Id BETWEEN 1 AND 13; 
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

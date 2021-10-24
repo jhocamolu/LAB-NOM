@@ -1,0 +1,109 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/administracion-personal/cambio-administradora/">Cambios de administradoras</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar cambio de administradora</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar cambio de administradora</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a mat-menu-item *ngIf="arrayPermisos.actualizar"
+                    routerLink="/administracion-personal/cambio-administradora/{{item.id}}/editar">
+                    <span>Editar</span>
+                </a>
+                <a routerLink="/administracion-personal/cambio-administradora" mat-menu-item>Volver</a>
+
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="box-shadow">
+            <div *ngIf="item">
+                <div>
+                    <div>
+                        <h3>Funcionario <mat-icon class="s-16" matSuffix
+                                matTooltip="Trabajador que labora en la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.funcionario?.numeroDocumento}} - {{item.funcionario?.primerNombre}} {{item.funcionario?.segundoNombre}}
+                            {{item.funcionario?.primerApellido}} {{item.funcionario?.segundoApellido}}</p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Tipo de administradora <mat-icon class="s-16" matSuffix
+                                matTooltip="Administradora de tipo EPS, Caja de Compensación, Fondo de Pensiones o ARL.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.tipoAdministradora?.codigo}} - {{item.tipoAdministradora?.nombre}}</p>
+                    </div>
+
+                    <div>
+                        <h3>Fecha de aplicación <mat-icon class="s-16" matSuffix
+                                matTooltip="Fecha en la que tiene efecto el cambio.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.fechaInicio | date:'dd / LL / yyyy'}}</p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Administradora anterior <mat-icon class="s-16" matSuffix
+                                matTooltip="Entidad que se encarga de manejar los planes de beneficios.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.anterior != null ? item.anterior : 'N/A'}}</p>
+                    </div>
+                    <div>
+                        <h3>Administradora actual <mat-icon class="s-16" matSuffix
+                                matTooltip="Entidad que se encarga de manejar los planes de beneficios asignada actualmente al funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.actual != null ? item.actual : 'N/A'}}</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <h3>Observación <mat-icon class="s-16" matSuffix
+                                matTooltip="Breve descripción del cambio.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{item.observaciones != null ? item.observaciones : 'N/A'}}</p>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- / CONTENIDO -->
+    </div>
+    <!-- / CONTENT -->
+</div>

@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "e285575a-a9a2-4255-b828-e4370e7f03ef",
+		"name": "HU046-FormulasConceptosNominas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Guardar formula",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\tid:125,\t\n\tformula:\"<div><span id=\\\"1581447838892\\\" class=\\\"condicional\\\" contenteditable=\\\"false\\\" data=\\\"condicional\\\">SI[<span data=\\\"condicion\\\"><span id=\\\"1581447802788\\\" class=\\\"concepto\\\" contenteditable=\\\"false\\\" data=\\\"concepto\\\" valor=\\\"119\\\">Salario básico</span><span id=\\\"1581447809580\\\" class=\\\"operador\\\" contenteditable=\\\"false\\\" data=\\\"operador\\\" valor=\\\">=\\\">&gt;=</span><span id=\\\"1581447818350\\\" class=\\\"numero\\\" contenteditable=\\\"false\\\" data=\\\"numero\\\" valor=\\\"8500.000\\\">8500.000</span></span>;<span data=\\\"verdadero\\\"><span id=\\\"1581447830377\\\" class=\\\"concepto\\\" contenteditable=\\\"false\\\" data=\\\"concepto\\\" valor=\\\"119\\\">Salario básico</span></span>;<span data=\\\"falso\\\"><span id=\\\"1581447834531\\\" class=\\\"funcion\\\" contenteditable=\\\"false\\\" data=\\\"funcion\\\" valor=\\\"2\\\">Sueldo básico</span></span>]</span></div>\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44356/api/formulas/125",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44356",
+					"path": [
+						"api",
+						"formulas",
+						"125"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verificar formula",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\tid:125,\t\n\tformula:\"<div><span id=\\\"1581447838892\\\" class=\\\"condicional\\\" contenteditable=\\\"false\\\" data=\\\"condicional\\\">SI[<span data=\\\"condicion\\\"><span id=\\\"1581447802788\\\" class=\\\"concepto\\\" contenteditable=\\\"false\\\" data=\\\"concepto\\\" valor=\\\"119\\\">Salario básico</span><span id=\\\"1581447809580\\\" class=\\\"operador\\\" contenteditable=\\\"false\\\" data=\\\"operador\\\" valor=\\\">=\\\">&gt;=</span><span id=\\\"1581447818350\\\" class=\\\"numero\\\" contenteditable=\\\"false\\\" data=\\\"numero\\\" valor=\\\"8500.000\\\">8500.000</span></span>;<span data=\\\"verdadero\\\"><span id=\\\"1581447830377\\\" class=\\\"concepto\\\" contenteditable=\\\"false\\\" data=\\\"concepto\\\" valor=\\\"119\\\">Salario básico</span></span>;<span data=\\\"falso\\\"><span id=\\\"1581447834531\\\" class=\\\"funcion\\\" contenteditable=\\\"false\\\" data=\\\"funcion\\\" valor=\\\"2\\\">Sueldo básico</span></span>]</span></div>\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44356/api/formulas/125",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44356",
+					"path": [
+						"api",
+						"formulas",
+						"125"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

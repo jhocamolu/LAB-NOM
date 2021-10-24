@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="UFT_ObtenerPorcentajeActualizacionDatosFuncionario_V1">
+<comment>HUM003</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerPorcentajeActualizacionDatosFuncionario]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerPorcentajeActualizacionDatosFuncionario]
+END
+GO
+	
+	-- =============================================
+	-- Author:	Jesus Albeiro Gaviria
+	-- Create date: 01-06-2020
+	-- Description: Obtener el procetaje de actualizacion de datos funcionario
+	-- Parametros:
+	--	@FuncionarioId INT: Identificador del funcionario
+	-- Retorna: 
+	-- @Tabla TABLE: Retorna porcentaje de actualizacion de datos
+	-- =============================================
+	CREATE FUNCTION UFT_ObtenerPorcentajeActualizacionDatosFuncionario
+	(
+		-- Add the parameters for the function here
+		@FuncionarioId INT
+	)
+	RETURNS 
+	@Table TABLE 
+	(
+		-- Add the column definitions for the TABLE variable here
+		Valor INT, 
+		Descripcion VARCHAR(255)
+	)
+	AS
+	BEGIN
+		-- Fill the table variable with the rows for your result set
+		INSERT INTO @Table
+		SELECT  TOP 1 
+			ISNUMERIC(funcionario.id)*25 + 
+			ISNUMERIC(familiar.FuncionarioId)*25 +
+			ISNUMERIC(estudios.FuncionarioId)*25 +
+			ISNUMERIC(experiencia.FuncionarioId)*25 valor,  
+			'ActualizacionDatos' AS 'Descripcion'
+		FROM dbo.Funcionario funcionario
+		LEFT JOIN dbo.InformacionFamiliar familiar ON funcionario.id =  familiar.FuncionarioId
+		LEFT JOIN dbo.FuncionarioEstudio estudios ON funcionario.Id = estudios.FuncionarioId
+		LEFT JOIN dbo.ExperienciaLaboral experiencia ON funcionario.Id = experiencia.FuncionarioId
+		WHERE funcionario.Id = @FuncionarioId 
+		
+		RETURN 
+	END
+
+
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerPorcentajeActualizacionDatosFuncionario]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerPorcentajeActualizacionDatosFuncionario]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

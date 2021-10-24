@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="Administradora_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.Administradora SET EstadoRegistro='Inactivo' WHERE Id='78';
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE dbo.Administradora SET EstadoRegistro='Activo' WHERE Id='78';
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

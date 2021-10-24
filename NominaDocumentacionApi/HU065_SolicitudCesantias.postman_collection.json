@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "7f5c39fe-837b-4840-bd53-c0fb5ff959fd",
+		"name": "HU065_SolicitudCesantias",
+		"description": "[Key]\r\n        [Required]\r\n        [Display(Description = \"llave\")]\r\n        public int Id { get; set; }\r\n\r\n        [Required]\r\n        [Display(Description = \"Código que identifica el funcionario.\")]\r\n        public int FuncionarioId { get; set; }\r\n        public virtual Funcionario Funcionario { get; set; }\r\n\r\n        [Required]\r\n        [Display(Description = \"Código que identifica el funcionario.\")]\r\n        public int MotivoSolicitudCesantiaId { get; set; }\r\n        public virtual MotivoSolicitudCesantia MotivoSolicitudCesantia { get; set; }\r\n\r\n        [Required]\r\n        [Display(Description = \"Fecha en la que se realiza la solicitud de cesantías.\")]\r\n        public DateTime FechaSolicitud { get; set; }\r\n\r\n        [Required]\r\n        [Display(Description = \"Base con la que se realiza el cálculo del anticipo de cesantías.\")]\r\n        [Column(TypeName = \"money\")]\r\n        public double BaseCalculoCesantia { get; set; }\r\n\r\n        [Required]\r\n        [Display(Description = \"Valor que solicita el funcionario para pago de cesantías.\")]\r\n        [Column(TypeName = \"money\")]\r\n        public double ValorSolicitado { get; set; }\r\n\r\n        [Required]\r\n        [Display(Description = \"Identificador del documento adjunto.\")]\r\n        [Column(TypeName = \"varchar(255)\")]\r\n        public string Soporte { get; set; }\r\n\r\n        [Display(Description = \"Descripción de la solicitud.\")]\r\n        [Column(TypeName = \"varchar(255)\")]\r\n        public string Observacion { get; set; }\r\n\r\n        [Required]\r\n        [Display(Description = \"Estado de la solicitud de cesantías.\")]\r\n        [Column(TypeName = \"varchar(255)\")]\r\n        public EstadoCesantia Estado { get; set; }",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Movil",
+			"item": [
+				{
+					"name": "Solicitud filter exoand select",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostPr}}/odata/SolicitudCesantias?$filter=funcionarioId eq 10687and estadoRegistro eq 'Activo' & $select=id,funcionarioId,fechaSolicitud,baseCalculoCesantia,valorSolicitado,soporte,observacion,estado& $expand=MotivoSolicitudCesantia($select=id, nombre)",
+							"host": [
+								"{{hostPr}}"
+							],
+							"path": [
+								"odata",
+								"SolicitudCesantias"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "funcionarioId eq 10687and estadoRegistro eq 'Activo' "
+								},
+								{
+									"key": " $select",
+									"value": "id,funcionarioId,fechaSolicitud,baseCalculoCesantia,valorSolicitado,soporte,observacion,estado"
+								},
+								{
+									"key": " $expand",
+									"value": "MotivoSolicitudCesantia($select=id, nombre)"
+								}
+							]
+						},
+						"description": "{{hostIn}}/odata/SolicitudCesantias?$filter=funcionarioId eq 5669  and estadoRegistro eq 'Activo' & $select=id,funcionarioId,fechaSolicitud,baseCalculoCesantia,valorSolicitado,soporte,observacion,estado& $expand=MotivoSolicitudCesantia($select=id, nombre)"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Listar Solicitud Cesantias",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/SolicitudCesantias",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"SolicitudCesantias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear solicitud cesantias",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"funcionarioId\": 5669,\r\n    \"motivoSolicitudCesantiaId\": 1,\r\n    \"valorSolicitado\": 900.0,\r\n    \"soporte\": \"45sdfa5\",\r\n    \"observacion\": \"ninguna\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudCesantias",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudCesantias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar solicitu cesantias",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 8,\r\n    \"funcionarioId\": 5669,\r\n    \"motivoSolicitudCesantiaId\": 1,\r\n    \"valorSolicitado\": 900.0,\r\n    \"soporte\": \"45sdfa5\",\r\n    \"observacion\": \"ninguna\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudCesantias/8",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudCesantias",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Estado solicitud cesantias",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 8,\r\n    \"Estado\": \"Aprobada\",\r\n    \"Observacion\": \"poihut tr\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudCesantias/estado/8",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudCesantias",
+						"estado",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta DatosCesantias",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/SolicitudCesantias/DatosCesantias/5669",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudCesantias",
+						"DatosCesantias",
+						"5669"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

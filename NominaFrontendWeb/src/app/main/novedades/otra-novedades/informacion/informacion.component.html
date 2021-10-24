@@ -1,0 +1,57 @@
+
+<div>
+
+    <h1 mat-dialog-title>Resumen de información</h1>
+    <div mat-dialog-content fusePerfectScrollbar style="margin-bottom: 20px;">
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Novedad</h3>
+            </div>
+            <div>
+                <p>{{element.enviados.categoriaNovedadGet.nombre}}</p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Cantidad de registros</h3>
+            </div>
+            <div>
+                <p>{{element.recibidos.cantidadFilas}}</p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Fecha de aplicación</h3>
+            </div>
+            <div>
+                <p>{{element.enviados.fechaAplicacionGet | date:'dd / LL / yyyy'}}</p>
+            </div>
+        </div>
+        
+        <div class="dos-bloque">
+            <div>
+                <h3>Periodicidad</h3>
+            </div>
+            <div>
+                <span class="subperiodo" *ngFor="let item of element.enviados.periodicidadCompleto">
+                    {{item.nombre}}<i></i>
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <a mat-raised-button (click)="dialogRef.close(false)">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </a>
+        <button mat-raised-button type="button" (click)="dialogRef.close(true)" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+<!-- CONTENT -->
+
+<div class="btn-filter">
+    <button class="mat-icon-button" (click)="filtroHandle($event)">
+        <span class="mat-button-wrapper">
+            <mat-icon matTooltip="Filtrar" aria-hidden="true">
+                filter_list
+            </mat-icon>
+        </span>
+    </button>
+</div>
+
+<div>
+
+    <div>
+
+        <alcanos-empty-list [visibleBtnCreate]="arrayPermisosCostos.crear" (fnCreate)="cuentaHandle($event)"
+            labelH1="¡Uy! Aún no has registrado costos asociados para esta distribución."
+            labelBtn="Registrar costo asociado" [visibleBtnCreate]="mostrarBtnCrear"
+            [visible]="!hasFilter && !dataLength && !dataRequest">
+        </alcanos-empty-list>
+
+        <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+            [visible]="hasFilter && !dataLength && !dataRequest">
+        </alcanos-empty-filter>
+
+
+
+        <div [hidden]="!dataLength" class="box-shadow">
+            <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                [@animateStagger]="{value:'50'}">
+
+                <!-- Columna Departamento -->
+                <ng-container matColumnDef="municipio/divisionPoliticaNivel1Id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Departamento</th>
+                    <td mat-cell *matCellDef="let element">{{element.municipio?.divisionPoliticaNivel1?.nombre}} </td>
+                </ng-container>
+
+                <!-- Columna N° documento -->
+                <ng-container matColumnDef="municipio/nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Municipio</th>
+                    <td mat-cell *matCellDef="let element">{{element.municipio?.nombre}} </td>
+                </ng-container>
+
+                <!-- Columna naturaleza -->
+                <ng-container matColumnDef="centroCosto/nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre de centro de costo</th>
+                    <td mat-cell *matCellDef="let element"> {{element.centroCosto?.nombre}} </td>
+                </ng-container>
+
+                <!-- Columna funcionario -->
+                <ng-container matColumnDef="centroCosto/codigo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Centro de costo</th>
+                    <td mat-cell *matCellDef="let element"> {{element.centroCosto?.codigo}} </td>
+                </ng-container>
+
+
+                <!-- Columna activo -->
+                <ng-container matColumnDef="estadoRegistro">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Activo</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button
+                            [matTooltip]="arrayPermisosCostos.estadoRegistro && element.estado !== 'Activo' ? ( element.estadoRegistro == 'Activo' ? 'Inactivar': 'Activar' ) : null "
+                            (click)="arrayPermisosCostos.estadoRegistro && element.estado !== 'Activo' ? activarHandle($event, element) : null">
+                            <mat-icon *ngIf="element.estadoRegistro == 'Activo'" class="s-20"
+                                [ngStyle]="{'color':'green'}">check</mat-icon>
+                            <mat-icon *ngIf="element.estadoRegistro != 'Activo'" class="s-20"
+                                [ngStyle]="{'color':'red'}">close</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="acciones" class="text-center">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"
+                        [ngStyle]="{'display': !( arrayPermisosCostos.actualizar && mostrarBtnCrear) ? 'none' : ''}">
+                        Acciones </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        <button *ngIf="arrayPermisosCostos.actualizar && mostrarBtnCrear" mat-icon-button
+                            matTooltip="Editar" (click)="cuentaEditarHandle($event, element)">
+                            <mat-icon class="s-20">edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+
+
+    </div>
+
+</div>
+<!-- / CONTENT -->

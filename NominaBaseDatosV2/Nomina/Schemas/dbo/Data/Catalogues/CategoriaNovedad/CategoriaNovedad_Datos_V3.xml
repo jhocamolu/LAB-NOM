@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="CategoriaNovedad_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[CategoriaNovedad] ON;
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('64', 'Base de viáticos de alimentación', '164', 'GastosViaje', 'Eventual', '0', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('65', 'Base viáticos retención en la fuente', '165', 'GastosViaje', 'Eventual', '0', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('66', 'Base viáticos retefuente gv', '166', 'GastosViaje', 'Eventual', '0', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('67', 'Base de viáticos de hospedaje', '167', 'GastosViaje', 'Eventual', '0', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('68', 'Descuento legalización gastos de viaje', '108', 'GastosViaje', 'Eventual', '0', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[CategoriaNovedad] OFF;
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM dbo.CategoriaNovedad WHERE Id BETWEEN 64 AND 68;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

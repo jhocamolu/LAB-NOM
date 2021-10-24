@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Parametro_V8">
+<comment>Parametros reportes</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Parametro] ON 
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (30, N'Activo    ', N'sistema', CAST(N'2020-07-02T18:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'TipoParentescoId', N'String')
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (31, N'Activo    ', N'sistema', CAST(N'2020-07-02T18:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'FuncionarioId', N'Integer')
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (32, N'Activo    ', N'sistema', CAST(N'2020-07-02T18:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'CentroOperativoId', N'String')
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (33, N'Activo    ', N'sistema', CAST(N'2020-07-02T18:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'DependenciaId', N'String')
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (34, N'Activo    ', N'sistema', CAST(N'2020-07-02T18:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'CargoId', N'String')
+GO
+SET IDENTITY_INSERT [dbo].[Parametro] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[Parametro] WHERE Id IN (30,31,32,33,34)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

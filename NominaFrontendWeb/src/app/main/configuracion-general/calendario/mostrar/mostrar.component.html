@@ -1,0 +1,68 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER PRIMARY -->
+    <div class="header-primary pl-24 pr-24 pt-24 h-100" fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center start">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon routerLink="/"  class="secondary-text s-24 cursor-pointer" color="accent">home</mat-icon>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Configuración general</span>
+                <mat-icon class="secondary-text s-16">chevron_right</mat-icon>
+                <span class="secondary-text">Calendario</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Calendario</h2>
+            </div>
+        </div>
+        <div class="" fxLayout="row" fxLayoutGap="10px">
+
+            <button mat-raised-button *ngIf="arrayPermisos.crear" color="accent" (click)="addEvent()" aria-label="Add event">
+                <mat-icon>add</mat-icon>
+                <span>Añadir festivo </span>
+            </button>
+        </div>
+    </div>
+    <!-- / HEADER PRIMARY -->
+
+
+
+    <div id="calendar">
+
+        <!-- HEADER -->
+        <div class="header p-16 p-sm-24" [ngClass]="viewDate | date:'MMM'">
+
+            <div class="header-content" fxLayout="column" fxLayoutAlign="space-between">
+
+                <!-- HEADER BOTTON -->
+                <div class="header-bottom" fxLayout="row" fxLayoutAlign="center center" [@animate]="{value:'*',params:{delay:'150ms'}}">
+
+                    <button mat-icon-button class="arrow" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="selectedDay = {date:$event}" aria-label="Previous">
+                        <mat-icon>chevron_left</mat-icon>
+                    </button>
+
+                    <div class="title" style="text-transform: capitalize">
+                        {{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}
+                    </div>
+
+                    <button mat-icon-button class="arrow" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="selectedDay = {date:$event}" aria-label="Next">
+                        <mat-icon>chevron_right</mat-icon>
+                    </button>
+                </div>
+                <!-- / HEADER BOTTON -->
+            </div>
+
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'200ms',y:'50px'}}">
+            <div [ngSwitch]="view">
+                <mwl-calendar-month-view [locale]="locale" 
+                *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="arrayPermisos.actualizar ? editEvent('edit', $event.event) : snackSinPermiso()" (eventTimesChanged)="eventTimesChanged($event)"
+                    (beforeViewRender)="beforeMonthViewRender($event)">
+                </mwl-calendar-month-view>
+            </div>
+        </div>
+        <!-- / CONTENT -->
+    </div>
+</div>

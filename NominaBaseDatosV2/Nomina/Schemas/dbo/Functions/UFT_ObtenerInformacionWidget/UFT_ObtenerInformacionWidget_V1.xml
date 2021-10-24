@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="UFT_ObtenerInformacionWidget_V1">
+<comment>HU057</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerInformacionWidget]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerInformacionWidget]
+END
+GO
+
+-- =============================================
+-- Author:		Jhonatan Camilo Moreno Luna
+-- Create date: 22-05-2020
+-- Description:Obtener la cantidad y el valor segun concepto de nomina relacionado en parametros 
+-- para la visualizacion de widget
+-- Parametros:
+-- @ConceptoAlias VARCHAR(255): Alias del parametro que se desea buscar.
+-- Retorna: 
+-- @Tabla TABLE: Retorna el nombre y las sumatoria de Cantidad y Valor de NominaDetalle
+-- =============================================
+
+CREATE FUNCTION [dbo].[UFT_ObtenerInformacionWidget]
+(
+	@NominaId INT,
+	@ParametroAlias VARCHAR(255)
+)
+RETURNS 
+@Tabla TABLE 
+(
+	Nombre VARCHAR(255),
+	Conteo INT,
+	Total MONEY
+)
+AS
+BEGIN
+	DECLARE @Parametro VARCHAR(255) = (SELECT util.UFS_ObtenerParametro(@ParametroAlias));
+
+	DECLARE @NominaLiquidada VARCHAR(255)=(
+											SELECT vce.NOMINA_LIQUIDADA
+											FROM util.VW_ConstanteEstado AS vce
+										 );
+	DECLARE @NominaAprobada VARCHAR(255)=(
+										SELECT vce.NOMINA_APROBADA
+										FROM util.VW_ConstanteEstado AS vce
+										);
+	DECLARE @NominaAplicada VARCHAR(255)=(
+											SELECT vce.NOMINA_APLICADA
+											FROM util.VW_ConstanteEstado AS vce
+											);
+
+	DECLARE @NominaFuncionarioLiquidado VARCHAR(255)=(
+											SELECT vce.NOMINAFUNCIONARIO_LIQUIDADO
+											FROM util.VW_ConstanteEstado AS vce
+										 );
+	DECLARE @NominaProcesado VARCHAR(255)=(
+											SELECT vce.NOMINADETALLE_PROCESADO
+											FROM util.VW_ConstanteEstado AS vce
+										 );
+	DECLARE @AuditoriaActivo VARCHAR(255)=(
+											SELECT vce.AUDITORIA_ACTIVO
+											FROM util.VW_ConstanteEstado AS vce
+										);
+	INSERT INTO @Tabla
+	SELECT cn.Nombre, Sum(nd.Cantidad) 'Conteo', SUM(nd.Valor)'total' FROM NominaFuncionario nf 
+		INNER JOIN Nomina n ON nf.NominaId = n.Id
+		INNER JOIN NominaDetalle nd ON nf.id = nd.NominaFuncionarioId
+		INNER JOIN ConceptoNomina cn ON nd.ConceptoNominaId = cn.Id
+		WHERE 
+		nf.NominaId = @NominaId 
+		AND cn.Alias = @Parametro
+		AND (n.Estado = @NominaAprobada
+			OR n.Estado = @NominaLiquidada 
+			OR n.Estado =@NominaAplicada
+			)
+		AND nf.Estado = @NominaFuncionarioLiquidado
+		AND nd.Estado = @NominaProcesado
+		AND nd.EstadoRegistro = @AuditoriaActivo
+		AND cn.EstadoRegistro = @AuditoriaActivo
+		GROUP BY cn.Nombre
+RETURN 
+END
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerInformacionWidget]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerInformacionWidget]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

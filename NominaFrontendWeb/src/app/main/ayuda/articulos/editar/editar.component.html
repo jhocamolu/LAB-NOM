@@ -1,0 +1,164 @@
+<div class="page-layout simple fullwidth cargos-listar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Ayuda</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/ayuda/articulos'">Artículos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Editar artículo de ayuda</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Editar artículo de ayuda</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <form (ngSubmit)="guardarHandle($event)" name="form" [formGroup]="form">
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Título</mat-label>
+                        <input matInput placeholder="" formControlName="titulo" required>
+                        <mat-error *ngFor="let error of titulo.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Título del artículo de ayuda.">info
+                        </mat-icon>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Orden</mat-label>
+                        <input matInput placeholder="" formControlName="orden" required type="number" step="any">
+                        <mat-error *ngFor="let error of orden.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Orden en que se mostrará el artículo cuando se liste.">
+                            info</mat-icon>
+                    </mat-form-field>
+
+                </div>
+
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Categoría</mat-label>
+                        <mat-select formControlName="categoriaId" step="any" required>
+                            <mat-option [value]="null"></mat-option>
+                            <div *ngFor="let item of articuloOptions">
+                                <mat-option [value]="item.id">
+                                    <strong>{{ item.nombre }}</strong>
+                                </mat-option>
+                                <div *ngFor="let subitem of item.categorias">
+                                    <mat-option [value]="subitem.id">
+                                        <span style="padding-left: 10px; font-style: italic;">
+                                            {{ subitem.nombre }}
+                                        </span>
+                                    </mat-option>
+                                </div>
+                            </div>
+                        </mat-select>
+                        <mat-error *ngFor="let error of categoriaId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Categoría a la que pertenece el artículo de ayuda.">
+                            info</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <div  appearance="outline">
+                        <label>
+                            Descripción
+                            <mat-icon matTooltip="Contenido del artículo de ayuda. ">
+                                info</mat-icon>
+                        </label>
+                        <ckeditor [editor]="Editor" data="Escribe tu contenido!" formControlName="descripcion" required
+                            class="ayuda-ckeditor">
+                        </ckeditor>
+                        <div *ngIf="descripcion.invalid && ( descripcion.dirty || descripcion.touched )">
+                            <mat-error *ngFor="let error of descripcion.errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                        </div>
+                    </div>
+                </div>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Palabras claves</mat-label>
+                    <mat-chip-list #chipList aria-label="Palabra selection" required>
+                        <mat-chip *ngFor="let item of palabra" [selectable]="selectable" [removable]="removable"
+                            (removed)="remove(item)">
+                            {{item.name}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <input type="hidden" formControlName="palabras" required>
+                    <mat-error *ngFor="let error of palabras.errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Palabras que sirven para la búsqueda del artículo de ayuda.">
+                        info</mat-icon>
+                </mat-form-field>
+
+
+                <div class="actions">
+                    <a mat-raised-button routerLink="/ayuda/articulos/">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+                    <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+                        <mat-icon>save</mat-icon>
+                        <span>Guardar</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,247 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/categoria-novedades/">Categorías de novedades</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar categoría de novedad</span>
+                <span *ngIf="!item">Crear categoría de novedad</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar categoría de novedad </h2>
+                <h2 *ngIf="!item">Crear categoría de novedad</h2>
+            </div>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <div fxFlex="1 0 auto">
+
+                    <div class="dos-bloque">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre" required>
+                            <mat-error *ngFor="let error of form.get('nombre').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Nombre de la categoría de la novedad.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Usa parametrización</mat-label>
+                            <mat-select formControlName="usaParametrizacion" required>
+                                <mat-option></mat-option>
+                                <mat-option [value]="true">Si</mat-option>
+                                <mat-option [value]="false">No</mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of objToArray(form.get('usaParametrizacion').errors)">
+                                <div [ngSwitch]="error">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix
+                                matTooltip="Especifica si se debe utilizar la parametrización descrita en la categoría.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Concepto asociado</mat-label>
+                            <input matInput formControlName="conceptoNominaId" [matAutocomplete]="auto" required>
+                            <mat-autocomplete [displayWith]="displayFnConceptos" #auto="matAutocomplete">
+                                <mat-option *ngFor="let item of conceptoNominaOptions | async" [value]="item">
+                                    {{item.codigo}} - {{item.nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngFor="let error of objToArray(form.get('conceptoNominaId').errors)">
+                                <div [ngSwitch]="error">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix
+                                matTooltip="Ítem de la nómina que se utilizará en la categoría de la novedad.">
+                                info</mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="dos-bloque">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Módulo</mat-label>
+                            <mat-select formControlName="modulo" required>
+                                <mat-option [value]="null"></mat-option>
+                                <mat-option [value]="modulos.ausentismos">Ausentismos</mat-option>
+                                <mat-option [value]="modulos.beneficios">Beneficios</mat-option>
+                                <mat-option [value]="modulos.embargos">Embargos</mat-option>
+                                <mat-option [value]="modulos.gastosViaje">Gastos de viaje</mat-option>
+                                <mat-option [value]="modulos.horasExtra">Horas extras</mat-option>
+                                <mat-option [value]="modulos.libranzas">Libranzas</mat-option>
+                                <mat-option [value]="modulos.otrasNovedades">Otras novedades</mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of objToArray(form.get('modulo').errors)">
+                                <div [ngSwitch]="error">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Sección del aplicativo a la que pertenece esta categoría.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Clase</mat-label>
+                           <mat-select formControlName="clase" required>
+                               <mat-option></mat-option>
+                               <mat-option [value]="'Eventual'">Eventual</mat-option>
+                               <mat-option [value]="'Fija'">Fija</mat-option>
+                           </mat-select>
+                            <mat-error *ngFor="let error of objToArray(form.get('clase').errors)">
+                                <div [ngSwitch]="error">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Clasificación que puede tener la categoría de la novedad. ">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="dos-bloque">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Requiere tercero</mat-label>
+                            <mat-select formControlName="requiereTercero" required>
+                                <mat-option></mat-option>
+                                <mat-option [value]="true">Si</mat-option>
+                                <mat-option [value]="false">No</mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of objToArray(form.get('requiereTercero').errors)">
+                                <div [ngSwitch]="error">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Especifica si la categoría de novedad debe obtener información de una
+                                entidad.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Ubicación tercero</mat-label>
+                            <mat-select formControlName="ubicacionTercero" required>
+                                <mat-option [value]="null"></mat-option>
+                                <mat-option [value]="ubicacionTercero.administradora">Administradoras</mat-option>
+                                <mat-option [value]="ubicacionTercero.entidadFinanciera">Entidad financiera</mat-option>
+                                <mat-option [value]="ubicacionTercero.otrosTerceros">Otros terceros</mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of objToArray(form.get('ubicacionTercero').errors)">
+                                <div [ngSwitch]="error">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix
+                                matTooltip="Sección del aplicativo o módulo en el que se puede consultar el tercero.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Valor editable</mat-label>
+                            <mat-select formControlName="valorEditable" required>
+                                <mat-option></mat-option>
+                                <mat-option [value]="true">Si</mat-option>
+                                <mat-option [value]="false">No</mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of objToArray(form.get('valorEditable').errors)">
+                                <div [ngSwitch]="error">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Especifica si el valor descrito en la novedad, puede ser modificado en el
+                                proceso de liquidación de nómina.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="actions">
+                        <a mat-raised-button routerLink="/configuracion/categoria-novedades">
+                            <mat-icon>cancel</mat-icon>
+                            <span>Cancelar</span>
+                        </a>
+                        <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                            <mat-icon>save</mat-icon>
+                            <span>Guardar</span>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- / CONTENT -->
+    </div>
+</div>

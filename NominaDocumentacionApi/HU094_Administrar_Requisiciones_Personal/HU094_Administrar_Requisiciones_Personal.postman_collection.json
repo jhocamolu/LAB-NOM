@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "2003abf5-93e4-4dc1-8df4-f5adcf6ba2db",
+		"name": "HU094_Administrar_Requisiciones_Personal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtener Requisicionpersonales",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Requisicionpersonales?$expand=cargoDependenciaSolicitante($select=id,cargoId,dependenciaId,estadoRegistro; $expand=cargo($select=id,codigo,nombre,estadoRegistro) ,dependencia($select=id,codigo,nombre,estadoRegistro)), centroOperativoSolicitante($select=id,codigo,nombre,estadoRegistro), funcionarioSolicitante($select=id,primerNombre,segundoNombre,primerApellido,segundoApellido) ,cargoDependenciaSolicitado($select=id,cargoId,dependenciaId,estadoRegistro; $expand=cargo($select=id,codigo,nombre,estadoRegistro) ,dependencia($select=id,codigo,nombre,estadoRegistro)), centroOperativoSolicitado($select=id,codigo,nombre,estadoRegistro), divisionPoliticaNivel2($select=id,codigo,nombre,estadoRegistro,divisionPoliticaNivel1Id; $expand=divisionPoliticaNivel1($select=id,codigo,nombre,estadoRegistro)), tipoContrato($select=id,nombre), centroCosto($select=id,nombre), motivoVacante ($select=id,codigo,nombre,requiereNombreAQuienReemplaza), funcionarioAQuienReemplaza($select=id,primerNombre,segundoNombre,primerApellido,segundoApellido) ",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Requisicionpersonales"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "cargoDependenciaSolicitante($select=id,cargoId,dependenciaId,estadoRegistro; $expand=cargo($select=id,codigo,nombre,estadoRegistro) ,dependencia($select=id,codigo,nombre,estadoRegistro)), centroOperativoSolicitante($select=id,codigo,nombre,estadoRegistro), funcionarioSolicitante($select=id,primerNombre,segundoNombre,primerApellido,segundoApellido) ,cargoDependenciaSolicitado($select=id,cargoId,dependenciaId,estadoRegistro; $expand=cargo($select=id,codigo,nombre,estadoRegistro) ,dependencia($select=id,codigo,nombre,estadoRegistro)), centroOperativoSolicitado($select=id,codigo,nombre,estadoRegistro), divisionPoliticaNivel2($select=id,codigo,nombre,estadoRegistro,divisionPoliticaNivel1Id; $expand=divisionPoliticaNivel1($select=id,codigo,nombre,estadoRegistro)), tipoContrato($select=id,nombre), centroCosto($select=id,nombre), motivoVacante ($select=id,codigo,nombre,requiereNombreAQuienReemplaza), funcionarioAQuienReemplaza($select=id,primerNombre,segundoNombre,primerApellido,segundoApellido) "
+						}
+					]
+				},
+				"description": "{{host}}/odata/Requisicionpersonales"
+			},
+			"response": []
+		},
+		{
+			"name": "Cear Usuario Requisicionpersonales",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cargoDependenciaSolicitanteId\": 1,\r\n    \"centroOperativoSolicitanteId\": 1,\r\n    \"funcionarioSolicitanteId\": 5087,\r\n    \"cargoDependenciaSolicitadoId\": 1,\r\n    \"centroOperativoSolicitadoID\": 1,\r\n    \"divisionPoliticaNivel2Id\": 1,\r\n    \"cantidad\": 1,\r\n    \"tipoContratoID\": 1,\r\n    \"centroCostoId\": 1,\r\n    \"fechaInicio\": \"2020-07-20\",\r\n    \"motivoVacanteId\": 4,\r\n    \"funcionarioAQuienReemplazaId\": 5087,\r\n    \"perfilCargo\": \"ss\",\r\n    \"competenciaCargo\": \"dd\",\r\n    \r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Requisicionpersonales",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Requisicionpersonales"
+					]
+				},
+				"description": "{{host}}/api/Requisicionpersonales"
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Requisicionpersonales",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":5,\r\n    \"cargoDependenciaSolicitanteId\": 1,\r\n    \"centroOperativoSolicitanteId\": 2,\r\n    \"funcionarioSolicitanteId\": 5088,\r\n    \"cargoDependenciaSolicitadoId\": 1,\r\n    \"centroOperativoSolicitadoID\": 2,\r\n    \"divisionPoliticaNivel2Id\": 2,\r\n    \"cantidad\": 2,\r\n    \"tipoContratoID\": 2,\r\n    \"centroCostoId\": 2,\r\n    \"fechaInicio\": \"2020-07-20\",\r\n    \"fechaFin\": \"2020-08-17\",\r\n    \"motivoVacanteId\": 1,\r\n    \"funcionarioAQuienReemplazaId\": 5088,\r\n    \"perfilCargo\": \"ss\",\r\n    \"competenciaCargo\": \"dd\",\r\n    \"salario\":45,\r\n    \"salarioPortalReclutamiento\": true,\r\n    \"perfilPortalReclutamiento\": true,\r\n    \"competenciaPortalReclutamiento\": true,\r\n    \"observacion\": \"que bine\"    \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Requisicionpersonales/5",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Requisicionpersonales",
+						"5"
+					]
+				},
+				"description": "{{host}}/api/Requisicionpersonales/5"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear GH Requisicionpersonales",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cargoDependenciaSolicitanteId\": 1,\r\n    \"centroOperativoSolicitanteId\": 1,\r\n    \"funcionarioSolicitanteId\": 5087,\r\n    \"cargoDependenciaSolicitadoId\": 1,\r\n    \"centroOperativoSolicitadoID\": 1,\r\n    \"divisionPoliticaNivel2Id\": 1,\r\n    \"cantidad\": 1,\r\n    \"tipoContratoID\": 2,\r\n    \"centroCostoId\": 1,\r\n    \"fechaInicio\": \"2020-08-20\",\r\n    \"fechaFin\": \"2021-08-17\",\r\n    \"motivoVacanteId\": 9,\r\n    \"tipoReclutamiento\": \"Mixta\",\r\n    \"funcionarioAQuienReemplazaId\": 5087,\r\n    \"perfilCargo\": \"ss\",\r\n    \"competenciaCargo\": \"dd\",\r\n    \"salario\":45,\r\n    \"salarioPortalReclutamiento\": true,\r\n    \"perfilPortalReclutamiento\": true,\r\n    \"competenciaPortalReclutamiento\": true,\r\n    \"observacion\": \"que bines\"    \r\n    \r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Requisicionpersonales",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Requisicionpersonales"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Estado",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":6,\r\n    \"estado\":\"Anulada\",\r\n    \"Justificacion\":\"nulls\"\r\n}\r\n/*\r\nAnulada = 0,  =>Justificacion\r\nAprobada = 1,\r\nAutorizada = 2,\r\nCancelada = 3, =>Justificacion\r\nCubierta = 4,\r\nRechazada = 5,\r\nRevisada = 6,\r\nSolicitada = 7\r\n*/",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Requisicionpersonales/6/estado",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Requisicionpersonales",
+						"6",
+						"estado"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EstadoRegistro",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":6,\r\n    \"Activo\":true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Requisicionpersonales/6",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Requisicionpersonales",
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

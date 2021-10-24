@@ -1,0 +1,83 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+	<h1 mat-dialog-title>Agregar concepto de nómina</h1>
+	<div mat-dialog-content fusePerfectScrollbar>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Concepto de nómina</mat-label>
+			<mat-select formControlName="conceptoNominaId" required>
+				<mat-option></mat-option>
+				<mat-option *ngFor="let item of conceptoNominaOptions" [value]="item.id">
+					{{ item.codigo }} - {{ item.nombre }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngFor="let error of objToArray(conceptoNominaId.errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Item de nómina que utilizará el tipo de liquidación.">
+				info</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Tipo de contrato</mat-label>
+			<mat-select formControlName="tipoContratoId" required>
+				<mat-option></mat-option>
+				<mat-option value= 0 >Todos</mat-option>
+				<mat-option *ngFor="let item of tipoContratoOptions" [value]="item.id">
+					{{ item.nombre }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngFor="let error of objToArray(tipoContratoId.errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Tipo de contrato laboral al que se va a asociar el concepto de nómina.">
+				info</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Subperíodo de liquidación</mat-label>
+			<mat-select formControlName="subperiodoId" required>
+				<mat-option></mat-option>
+				<mat-option *ngFor="let item of subperiodoOptions" [value]="item.id">
+					{{ item.nombre }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngFor="let error of objToArray(subperiodoId.errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Clasificación de acuerdo al tipo de período seleccionado.">
+				info</mat-icon>
+		</mat-form-field>
+
+	</div>
+	<div mat-dialog-actions>
+		<button mat-raised-button type="button" (click)="dialogRef.close() ">
+			<mat-icon>cancel</mat-icon>
+			<span>Cancelar</span>
+		</button>
+		<button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+			<mat-icon>save</mat-icon>
+			<span>Guardar</span>
+		</button>
+	</div>
+</form>

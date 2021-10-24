@@ -1,0 +1,211 @@
+<div class="page-layout simple fullwidth cargos-listar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/administracion-personal/permisos">Solicitud de permisos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar solicitud de permiso</span>
+            </div>
+            <div>
+                <h2>Visualizar solicitud de permiso</h2>
+            </div>
+        </div>
+
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button *ngIf="arrayPermisos.cambiarEstado && ( element.estado == estadoPermisosAlcanos.solicitada )"
+                    mat-menu-item (click)="respuestaHanlde($event, element, 'aprobada')">
+                    <span>Aprobar</span>
+                </button>
+
+                <button mat-menu-item
+                    *ngIf="arrayPermisos.cambiarEstado && (element.estado == estadoPermisosAlcanos.aprobada )"
+                    (click)="respuestaHanlde($event, element, 'autorizada')">
+                    <span>Autorizar</span>
+                </button>
+
+                <a *ngIf="arrayPermisos.actualizar && (element.estado == estadoPermisosAlcanos.solicitada || element.estado == estadoPermisosAlcanos.aprobada )"
+                    routerLink="/administracion-personal/permisos/{{element.id}}/editar" mat-menu-item>
+                    <span>Editar</span>
+                </a>
+
+                <button
+                    *ngIf="arrayPermisosSoporte.crear && (element.estado == estadoPermisosAlcanos.solicitada || element.estado == estadoPermisosAlcanos.aprobada )"
+                    mat-menu-item (click)="soporteHandle($event, element)">
+                    <span>Cargar soporte</span>
+                </button>
+
+                <a *ngIf="arrayPermisos.cambiarEstado" routerLink="/administracion-personal/permisos/"
+                    mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="box-shadow">
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="selectedTabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+                    <div>
+                        <h3>Funcionario
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Nombre y número de identificación del funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{element.funcionario?.primerNombre}}
+                            {{element.funcionario?.segundoNombre}} {{element.funcionario?.primerApellido}}
+                            {{element.funcionario?.segundoApellido}}</p>
+                    </div>
+
+                    <div class="dos-bloque">
+                        <div>
+                            <h3>Clase de permiso
+                                <mat-icon class="s-16" matSuffix
+                                    matTooltip="Clasificación de los permisos a los que puede acceder el funcionario.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{ element.tipoAusentismo?.claseAusentismo?.nombre }}</p>
+                        </div>
+                        <div>
+                            <h3>Tipo de permiso
+                                <mat-icon class="s-16" matSuffix
+                                    matTooltip="Tipos de permisos a los que puede acceder el funcionario.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.tipoAusentismo?.nombre}}</p>
+                        </div>
+                    </div>
+
+
+                    <div class="dos-bloque">
+                        <div>
+                            <h3>Fecha de inicio
+                                <mat-icon class="s-16" matSuffix matTooltip="Fecha de inicio del permiso.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.fechaInicio | date:'dd / LL / yyyy'}}</p>
+                        </div>
+                        <div>
+                            <h3>Fecha fin
+                                <mat-icon class="s-16" matSuffix matTooltip="Fecha de finalización del permiso.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.fechaFin | date:'dd / LL / yyyy'}}
+                        </div>
+                    </div>
+
+                    <div class="dos-bloque">
+                        <div>
+                            <h3>Hora de salida
+                                <mat-icon class="s-16" matSuffix matTooltip="Hora en la que inicia el permiso.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.horaSalida != null ?  ('2001-01-01' + ' ' + element.horaSalida  | date: 'shortTime') : 'N/A'}}
+                            </p>
+                        </div>
+                        <div>
+                            <h3>Hora de llegada
+                                <mat-icon class="s-16" matSuffix matTooltip="Hora en la que finaliza el permiso.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.horaLlegada != null ? ('2001-01-01' + ' ' + element.horaLlegada  | date: 'shortTime') : 'N/A' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3>Observaciones
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Comentario relevante respecto a la solicitud de permiso.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.observaciones  != null && element.observaciones != "" ? element.observaciones : 'N/A' }} </p>
+                    </div>
+
+                    <div>
+                        <h3>Estado
+                            <mat-icon class="s-16" matSuffix matTooltip="Estado de la solicitud.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.estado }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3>Justificación
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Descripción del cambio de estado de la solicitud de permiso.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{element.justificacion  != null ? element.justificacion : 'N/A' }}</p>
+                    </div>
+
+                </mat-tab>
+                <!-- / Primer Label -->
+
+                <!-- Segundo Label -->
+                <mat-tab label="Soportes" *ngIf="arrayPermisosSoporte.obtener">
+
+
+                    <alcanos-empty-list (fnCreate)="soporteHandle($event, item)"
+                        labelH1="¡Uy! Aún no has agregado ningún soporte." labelBtn="Cargar soporte"
+                        [visible]="count == 0">
+                    </alcanos-empty-list>
+
+                    <table class="simple" *ngIf="count > 0">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen">Tipo</th>
+                                <th class="mat-header-cell">Comentario</th>
+                                <th class="mat-header-cell" style="text-align: center;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of soportes" class="mat-row">
+                                <td class="margen">{{item.tipoSoporte?.nombre}}</td>
+                                <td>{{item.comentario != null ? item.comentario : 'N/A'}}</td>
+                                <td class="text-center">
+                                    <a matTooltip="Descargar" mat-icon-button target="_blank"
+                                        href="{{enviroments + '/bucket/download?document_id=' + item.adjunto}}">
+                                        <mat-icon>save_alt</mat-icon>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </mat-tab>
+                <!-- / Segundo Label -->
+
+            </mat-tab-group>
+        </div>
+    </div>
+    <!--/ CONTENIDO-->
+
+</div>

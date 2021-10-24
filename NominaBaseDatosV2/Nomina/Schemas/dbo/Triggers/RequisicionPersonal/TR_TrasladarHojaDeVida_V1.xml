@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TR_TrasladarHojaDeVida_V1">
+<comment>Crear trigger TR_TrasladarHojaDeVida en  RequisicionPersonal</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.TR_TrasladarHojaDeVida', 'TR') IS NULL
+    BEGIN
+        EXECUTE ('CREATE TRIGGER dbo.TR_TrasladarHojaDeVida ON dbo.RequisicionPersonal AFTER UPDATE as SELECT 1');
+END;
+GO
+-- =============================================
+-- Author:		Jesus Albeiro Gaviria Rubio
+-- Create date: 14/08/2020
+-- Description:	Cuando una requisición pasa a cubierta, se activa el disparador para insertar 
+--				las hojas de vida en funcionarios en estado Seleccionado, si ya existe el 
+--				documento en funcioanrios y se encuentra en estado retirado se actualiza a estado Seleccionado	
+-- =============================================
+ALTER TRIGGER [dbo].[TR_TrasladarHojaDeVida] ON  [dbo].[RequisicionPersonal]
+   AFTER UPDATE
+AS 
+BEGIN
+
+	IF EXISTS
+        (
+            SELECT ins.Id, 
+                   ins.Estado
+            FROM inserted ins
+            WHERE ins.Estado =(SELECT CASt(estado.REQUISICIONPERSONA_CUBIERTA as varchar(255)) FROM util.VW_ConstanteEstado estado)
+        )
+		BEGIN
+
+            --------------------------------------------------------------------------
+            -- Instrucciones de configuración y manejo de errores
+            --------------------------------------------------------------------------
+            SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+            DECLARE @Parametros VARCHAR(MAX)= '';
+            DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+
+            --------------------------------------------------------------------------
+            -- Variables
+            --------------------------------------------------------------------------
+            DECLARE @HojaDeVidaId as INT;
+            DECLARE @funcionarioId as INT;
+            DECLARE @funcionarioEstado as varchar(255);
+            DECLARE @CreadoPor as varchar = 'Sistema';
+            DECLARE @CorreoElectronicoCorporativo as varchar = null;
+            DECLARE @EstadoRegistro as char(10) = (SELECT estado.AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado estado);
+            DECLARE @FechaCreacion as dateTime = GETDATE();
+            DECLARE @RequisicionCubiertaId as INT = (SELECT ins.Id FROM inserted ins/* WHERE ins.Estado = 'Cubierta'*/)
+			DECLARE @FuncionarioRetirado as char(30) = (SELECT estado.FUNCIONARIO_RETIRADO FROM util.VW_ConstanteEstado estado)
+			DECLARE @FuncionarioSeleccionado as char(30) = (SELECT estado.FUNCIONARIO_SELECCIONADO FROM util.VW_ConstanteEstado estado)
+			DECLARE @CandidatoSeleccionado as varchar(255) = (SELECT estado.CANDIDATO_SELECCIONADO FROM util.VW_ConstanteEstado estado)
+
+			
+            --------------------------------------------------------------------------
+            -- Proceso
+            --------------------------------------------------------------------------
+            BEGIN TRY
+				SET NOCOUNT ON;
+                BEGIN TRAN TrasladarHojaDeVid;
+					DECLARE CUR_TrasladarHojaDeVid CURSOR LOCAL
+						FOR SELECT candidato.HojaDeVidaId, funcionario.Id AS funcionarioId, funcionario.Estado AS funcionarioEstado 
+						FROM dbo.Candidato candidato
+						INNER JOIN dbo.HojaDeVida hojaDeVida ON candidato.HojaDeVidaId = hojaDeVida.Id AND hojaDeVida.EstadoRegistro = @EstadoRegistro
+						LEFT JOIN dbo.Funcionario funcionario ON hojaDeVida.NumeroDocumento = funcionario.NumeroDocumento AND funcionario.EstadoRegistro = @EstadoRegistro
+						WHERE candidato.RequisicionPersonalId = @RequisicionCubiertaId AND
+							candidato.Estado = @CandidatoSeleccionado AND
+							candidato.EstadoRegistro = @EstadoRegistro ;
+							
+
+                               
+					OPEN CUR_TrasladarHojaDeVid;
+					FETCH NEXT FROM CUR_TrasladarHojaDeVid INTO @HojaDeVidaId, @funcionarioId, @funcionarioEstado;
+					WHILE @@fetch_status = 0
+						BEGIN
+							SET @Parametros = CONCAT('@HojaDeVidaId=', CONVERT(VARCHAR, @HojaDeVidaId));
+							
+							--Si es null, Se inserta Hoja de Vida en funcionario.
+							IF @funcionarioEstado IS NULL
+							    BEGIN
+								    INSERT INTO Funcionario 
+											(PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, SexoId, EstadoCivilId, OcupacionId, Pensionado, Estado,                   FechaNacimiento, DivisionPoliticaNivel2OrigenId, TipoDocumentoId, NumeroDocumento, FechaExpedicionDocumento, DivisionPoliticaNivel2ExpedicionDocumentoId, Nit, DigitoVerificacion, DivisionPoliticaNivel2ResidenciaId, Celular, TelefonoFijo, TipoViviendaId, Direccion, ClaseLibretaMilitarId, NumeroLibreta, Distrito, LicenciaConduccionAId, LicenciaConduccionAFechaVencimiento, LicenciaConduccionBId, LicenciaConduccionBFechaVencimiento, LicenciaConduccionCId, LicenciaConduccionCFechaVencimiento, TallaCamisa, TallaPantalon, NumeroCalzado, UsaLentes, TipoSangreId, CorreoElectronicoPersonal, CorreoElectronicoCorporativo,  Adjunto,   EstadoRegistro,  CreadoPor,  FechaCreacion)
+									SELECT   PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, SexoId, EstadoCivilId, OcupacionId, Pensionado, @FuncionarioSeleccionado, FechaNacimiento, DivisionPoliticaNivel2OrigenId, TipoDocumentoId, NumeroDocumento, FechaExpedicionDocumento, DivisionPoliticaNivel2ExpedicionDocumentoId, Nit, DigitoVerificacion, DivisionPoliticaNivel2ResidenciaId, Celular, TelefonoFijo, TipoViviendaId, Direccion, ClaseLibretaMilitarId, NumeroLibreta, Distrito, LicenciaConduccionAId, LicenciaConduccionAFechaVencimiento, LicenciaConduccionBId, LicenciaConduccionBFechaVencimiento, LicenciaConduccionCId, LicenciaConduccionCFechaVencimiento, TallaCamisa, TallaPantalon, NumeroCalzado, UsaLentes, TipoSangreId, CorreoElectronicoPersonal, @CorreoElectronicoCorporativo, Adjunto , @EstadoRegistro, @CreadoPor, @FechaCreacion
+									FROM HojaDeVida
+									WHERE HojaDeVida.Id = @HojaDeVidaId
+							    END;
+
+							--Si esta en estado retirado, actualziamos el funcionario a Seleccionado.
+							ELSE IF @funcionarioEstado = @FuncionarioRetirado
+								BEGIN
+									UPDATE
+										Funcionario 
+									SET
+										Estado = @FuncionarioSeleccionado,
+										FechaModificacion = GETDATE()
+									WHERE Id = @funcionarioId
+							    END;
+
+							--Si esta en estado Activo, EnVacaciones, Seleccionado, Incapacitado, Definir que hacer
+							/*ELSE IF @funcionarioEstado != @FuncionarioRetirado
+								BEGIN
+									--Que hacemos.
+							    END;
+							*/
+							FETCH NEXT FROM CUR_TrasladarHojaDeVid INTO @HojaDeVidaId, @funcionarioId, @funcionarioEstado;
+
+						END;	
+					CLOSE CUR_TrasladarHojaDeVid;
+					DEALLOCATE CUR_TrasladarHojaDeVid;
+
+					-- Cierre de la transacción	
+
+					IF @@TRANCOUNT > 0
+                         BEGIN
+                            IF XACT_STATE() = 1
+                                BEGIN
+                                    COMMIT TRAN TrasladarHojaDeVid;
+                                END;
+                            ELSE
+                                BEGIN
+                                    EXEC util.USP_GenerarExcepcion 
+                                        50000, 
+                                        'No se puede confirmar la transacción.  Error desconocido.';
+                                END;
+                        END;
+                    SET NOCOUNT OFF;
+			END TRY
+			BEGIN CATCH
+                -- Rollback de la transacción
+                IF XACT_STATE() <> 0
+                AND @@TRANCOUNT > 0
+                    BEGIN
+                        ROLLBACK;
+                    END;
+
+                -- Se almacena la información del error
+                EXEC util.USP_Registrarerror 
+                    @NombreObjeto, 
+                    @Parametros;
+
+                -- Se lanza la excepción
+                EXEC util.USP_LanzarExcepcion;
+            END CATCH;
+        END;
+END;
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TRIGGER [dbo].[TR_TrasladarHojaDeVida];
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

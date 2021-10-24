@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="ParametroGeneral_Datos_V17">
+<comment>Portal de reclutamiento</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON 
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId,HtmlOpcion)
+VALUES(60,'notaAcademicaBeneficio','Number','Valor mínimo de nota académica aprobatoria','Corresponde a un valor numérico de calificación que se utiliza para validar si el funcionario se le condona el auxilio educativo siendo este el valor mínimo que debe lograr para que sea condonado.',60,'',1,'4',5,'Activo','Sistemas',GETDATE(),1,'min="0",max="5"')
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId,HtmlOpcion)
+VALUES(61,'tiempoPermanenciaBeneficio','Number','Tiempo de permanencia en días','Corresponde al número de días que el funcionario debe laborar en la compañía para que el auxilio educativo que le fue condonado, sea finalizado.',61,'',1,'730',5,'Activo','Sistemas',GETDATE(),1,'min="0",max="5"')
+GO
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF 
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM dbo.ParametroGeneral WHERE Id  IN (60,61);
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

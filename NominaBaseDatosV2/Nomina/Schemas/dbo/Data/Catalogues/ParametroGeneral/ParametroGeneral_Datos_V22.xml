@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="ParametroGeneral_Datos_V22">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON;
+INSERT INTO ParametroGeneral (Id, CategoriaParametroId, AnnoVigenciaId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('55', '1', '1', 'FechaGeneracionPrimaLegal', 'Date', '', 'Fecha de generación de prima legal', 'Indica la fecha en la que debe generarse la liquidación de prima legal en la liquidación quincenal.', '24', '', '1', '2020-06-13', 'Activo', 'sistema', GETDATE());
+INSERT INTO ParametroGeneral (Id, CategoriaParametroId, AnnoVigenciaId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('62', '1', '1', 'FechaInicialPrimaLegal', 'Date', '', 'Fecha de rango inicial de generación de prima legal', 'Corresponde a la fecha inicial en la que se va a usar para la generación de prima legal', '25', '', '1', '2020-01-01', 'Activo', 'sistema', GETDATE());
+INSERT INTO ParametroGeneral (Id, CategoriaParametroId, AnnoVigenciaId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('63', '1', '1', 'FechaFinalPrimaLegal', 'Date', '', 'Fecha de rango final de generación de prima legal', 'Corresponde a la fecha final que se va a usar para la generación de prima legal', '26', '', '1', '2020-06-30', 'Activo', 'sistema', GETDATE());
+INSERT INTO ParametroGeneral (Id, CategoriaParametroId, AnnoVigenciaId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('64', '3', '1', 'uvtLimiteDeduccionDependientes', 'Number', 'min="1",max="100"', 'UVTs Límite para deduccion de dependientes', 'Número de UVTs límite para deduccion de dependientes', '11', '', '1', '32', 'Activo', 'sistema', GETDATE());
+INSERT INTO ParametroGeneral (Id, CategoriaParametroId, AnnoVigenciaId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('65', '1', '1', 'ConceptoPrimaLegal', 'Select', '', 'Concepto prima legal', 'Concepto utilizado para la liquidación de prima legal', '27', '{nomina}/odata/ConceptoNominas?$select=alias,nombre&$orderby=nombre asc', '1', 'PrimaLegal', 'Activo', 'sistema', GETDATE());
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) VALUES(66, 'horasDiasPila', 'Number', 'min="1",max="24"', 'Cantidad de horas al día que labora un funcionario', 'Corresponde a la cantidad de horas al día que labora un funcionario para reportar a la Pila', 41, NULL, 1, '8', 4, 'Activo    ', 'Sistema', GETDATE(), 1);
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF;
+GO
+]]>
+</sql>
+
+<rollback>
+
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+DELETE FROM dbo.ParametroGeneral WHERE Id IN (55,62,63,64,65,66);
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_CalcularDatosWidget_V1">
+<comment>HT041</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('util.USP_CalcularDatosWidget', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE util.USP_CalcularDatosWidget as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 08/09/2020
+-- Description: Permite calcular los datos de un widget para un funcionario
+--
+-- Parameters:
+--   @FuncionarioId:	   Identificador del funcionario para el que se quiere obtener la info
+--   @WidgetId:		   Identificador del widget
+--		
+-- Returns:						
+--   @Resultado:		   Estado resultado del proceso. = 0 Todo bien; > 0 Error
+-- ==========================================================================================
+
+ALTER PROCEDURE [util].[USP_CalcularDatosWidget]
+(@FuncionarioId INT,
+ @WidgetId      INT,
+ @Cantidad      INT OUTPUT,
+ @Extra         VARCHAR(255) OUTPUT,
+ @Datos         NVARCHAR(MAX) OUTPUT,
+ @Interaccion   VARCHAR(255) OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '@WidgetId=', CONVERT(VARCHAR, @WidgetId));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    -- Variables de apoyo
+    DECLARE @MensajeExcepcion VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255)=
+    (
+        SELECT vce.AUDITORIA_ACTIVO
+        FROM util.VW_ConstanteEstado AS vce
+    );
+    DECLARE @Estado VARCHAR(255);
+    DECLARE @Labels VARCHAR(MAX);
+    DECLARE @Valores VARCHAR(MAX);
+
+    -- Variables para constantes
+    DECLARE @SolicitudDeCesantias INT;
+    DECLARE @SolicitudDePermisos INT;
+    DECLARE @SolicitudDeVacaciones INT;
+    DECLARE @Incapacidades INT;
+    DECLARE @SolicitudDeBeneficios INT;
+    DECLARE @Embargos INT;
+    DECLARE @GastosDeViaje INT;
+    DECLARE @HorasExtras INT;
+    DECLARE @Libranzas INT;
+    DECLARE @OtrasNovedades INT;
+    DECLARE @Requisiciones INT;
+    DECLARE @Convocatorias INT;
+    DECLARE @NotificacionesFallidas INT;
+    DECLARE @TareasProgramadasFallidas INT;
+    DECLARE @FechaYHora INT;
+    DECLARE @ProximosCumpleanios INT;
+    DECLARE @ValidacionFuncionarios INT;
+    DECLARE @ContratosPorTerminar INT;
+    DECLARE @ContratosPorElaborar INT;
+    DECLARE @FuncionariosPorCentroOperativo INT;
+    DECLARE @FuncionariosPorEstado INT;
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        -- Se consultan las constantes asociadas a los widgets
+        SELECT @SolicitudDeCesantias = vww.[SolicitudDeCesantias],
+               @SolicitudDePermisos = vww.[SolicitudDePermisos],
+               @SolicitudDeVacaciones = vww.[SolicitudDeVacaciones],
+               @Incapacidades = vww.[Incapacidades],
+               @SolicitudDeBeneficios = vww.[SolicitudDeBeneficios],
+               @Embargos = vww.[Embargos],
+               @GastosDeViaje = vww.[GastosDeViaje],
+               @HorasExtras = vww.[HorasExtras],
+               @Libranzas = vww.[Libranzas],
+               @OtrasNovedades = vww.[OtrasNovedades],
+               @Requisiciones = vww.[Requisiciones],
+               @Convocatorias = vww.[Convocatorias],
+               @NotificacionesFallidas = vww.[NotificacionesFallidas],
+               @TareasProgramadasFallidas = vww.[TareasProgramadasFallidas],
+               @FechaYHora = vww.[FechaYHora],
+               @ProximosCumpleanios = vww.[ProximosCumpleanios],
+               @ValidacionFuncionarios = vww.[ValidacionFuncionarios],
+               @ContratosPorTerminar = vww.[ContratosPorTerminar],
+               @ContratosPorElaborar = vww.[ContratosPorElaborar],
+               @FuncionariosPorCentroOperativo = vww.[FuncionariosPorCentroOperativo],
+               @FuncionariosPorEstado = vww.[FuncionariosPorEstado]
+        FROM util.VW_ConstanteWidget AS vww;
+
+        SET @Cantidad = NULL;
+        SET @Extra = NULL;
+        SET @Datos = NULL;
+        SET @Interaccion = NULL;
+
+        -- Se obtienen los datos particulares según el widget respectivo
+        -- Solicitud de cesantías
+        IF @WidgetId = @SolicitudDeCesantias
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.SolicitudCesantia AS sce
+            WHERE sce.Estado =
+            (
+                SELECT vce.SOLICITUDCESANTIAS_ENTRAMITE
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  AND sce.EstadoRegistro = @AuditoriaActivo;
+            -- Pendiente que solo retorne las que debe revisar el funcionario
+            SET @Extra = 'POR APROBAR';
+
+        END;
+
+        -- Solicitud de permisos
+        IF @WidgetId = @SolicitudDePermisos
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.SolicitudPermiso AS spe
+            WHERE(spe.Estado =
+            (
+                SELECT vce.SOLICITUDPERMISOS_SOLICITADA
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR spe.Estado =
+            (
+                SELECT vce.SOLICITUDPERMISOS_APROBADA
+                FROM util.VW_ConstanteEstado AS vce
+            ))
+                 AND spe.EstadoRegistro = @AuditoriaActivo;
+            -- Pendiente que solo retorne las que debe revisar el funcionario
+            SET @Extra = 'POR REVISAR';
+        END;
+
+        -- Solicitud de vacaciones
+        IF @WidgetId = @SolicitudDeVacaciones
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.SolicitudVacaciones AS sva
+            WHERE(sva.Estado =
+            (
+                SELECT vce.SOLICITUDVACACIONES_SOLICITADA
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR sva.Estado =
+            (
+                SELECT vce.SOLICITUDVACACIONES_APROBADA
+                FROM util.VW_ConstanteEstado AS vce
+            ))
+                 AND sva.EstadoRegistro = @AuditoriaActivo;
+            -- Pendiente que solo retorne las que debe revisar el funcionario
+            SET @Extra = 'POR REVISAR';
+
+        END;
+
+        -- Incapacidades
+        IF @WidgetId = @Incapacidades
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.AusentismoFuncionario AS afu
+                 INNER JOIN dbo.TipoAusentismo AS tau ON(afu.TipoAusentismoId = tau.Id)
+                 INNER JOIN dbo.ClaseAusentismo AS cau ON(tau.ClaseAusentismoId = cau.Id)
+            WHERE afu.Estado =
+            (
+                SELECT vce.AUSENTISMO_REGISTRADO
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  AND cau.Codigo =
+            (
+                SELECT vccca.CODIGO_INCAPACIDAD
+                FROM util.VW_ConstanteCodigoClaseAusentismo AS vccca
+            )
+                  AND afu.EstadoRegistro = @AuditoriaActivo;
+            -- Pendiente que solo retorne las que debe revisar el funcionario
+            SET @Extra = 'POR REVISAR';
+
+        END;
+
+        -- Solicitud de beneficios
+        IF @WidgetId = @SolicitudDeBeneficios
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.Beneficio AS ben
+            WHERE(ben.Estado =
+            (
+                SELECT vce.BENEFICIO_ENTRAMITE
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR ben.Estado =
+            (
+                SELECT vce.BENEFICIO_APROBADA
+                FROM util.VW_ConstanteEstado AS vce
+            ))
+                 AND ben.EstadoRegistro = @AuditoriaActivo;
+            -- Pendiente que solo retorne las que debe revisar el funcionario
+            SET @Extra = 'POR REVISAR';
+
+        END;
+
+        -- Embargos
+        IF @WidgetId = @Embargos
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.Embargo AS emb
+            WHERE(emb.Estado =
+            (
+                SELECT vce.EMBARGO_PENDIENTE
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR emb.Estado =
+            (
+                SELECT vce.EMBARGO_VIGENTE
+                FROM util.VW_ConstanteEstado AS vce
+            ))
+                 AND emb.EstadoRegistro = @AuditoriaActivo;
+
+            SET @Extra = 'PENDIENTES Y VIGENTES';
+
+        END;
+
+        -- Gastos de viaje
+        IF @WidgetId = @GastosDeViaje
+        BEGIN
+            SET @Cantidad = 0;
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.GastoViaje AS gvi
+            WHERE gvi.Estado =
+            (
+                SELECT vce.GASTOVIAJE_PENDIENTE
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  AND gvi.EstadoRegistro = @AuditoriaActivo;
+
+            SET @Extra = 'PENDIENTES';
+
+        END;
+
+        -- Horas extra
+        IF @WidgetId = @HorasExtras
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.HoraExtra AS hex
+            WHERE hex.Estado =
+            (
+                SELECT vce.HORAEXTRA_PENDIENTE
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  AND hex.EstadoRegistro = @AuditoriaActivo;
+
+            SET @Extra = 'PENDIENTES';
+
+        END;
+
+        -- Libranzas
+        IF @WidgetId = @Libranzas
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.Libranza AS lib
+            WHERE(lib.Estado =
+            (
+                SELECT vce.LIBRANZA_PENDIENTE
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR lib.Estado =
+            (
+                SELECT vce.LIBRANZA_VIGENTE
+                FROM util.VW_ConstanteEstado AS vce
+            ))
+                 AND lib.EstadoRegistro = @AuditoriaActivo;
+
+            SET @Extra = 'PENDIENTES Y VIGENTES';
+        END;
+
+        -- Otras novedades
+        IF @WidgetId = @OtrasNovedades
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.Novedad AS nov
+            WHERE(nov.Estado =
+            (
+                SELECT vce.OTRANOVEDAD_PENDIENTE
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR nov.Estado =
+            (
+                SELECT vce.OTRANOVEDAD_ENCURSO
+                FROM util.VW_ConstanteEstado AS vce
+            ))
+                 AND nov.EstadoRegistro = @AuditoriaActivo;
+
+            SET @Extra = 'PENDIENTES Y EN CURSO';
+        END;
+
+        -- Requisiciones
+        IF @WidgetId = @Requisiciones
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.RequisicionPersonal AS rep
+            WHERE(rep.Estado =
+            (
+                SELECT vce.REQUISICIONPERSONA_SOLICITADA
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR rep.Estado =
+            (
+                SELECT vce.REQUISICIONPERSONA_REVISADA
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR rep.Estado =
+            (
+                SELECT vce.REQUISICIONPERSONA_APROBADA
+                FROM util.VW_ConstanteEstado AS vce
+            ))
+                 AND rep.EstadoRegistro = @AuditoriaActivo;
+            -- Pendiente que solo retorne las que debe revisar el funcionario
+            SET @Extra = 'POR REVISAR';
+        END;
+
+        -- Convocatorias
+        IF @WidgetId = @Convocatorias
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.RequisicionPersonal AS rep
+            WHERE rep.Estado =
+            (
+                SELECT vce.REQUISICIONPERSONA_AUTORIZADA
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  AND rep.EstadoRegistro = @AuditoriaActivo;
+            -- Pendiente que solo retorne las que debe revisar el funcionario
+            SET @Extra = 'AUTORIZADAS';
+
+        END;
+
+        -- Notificaciones Fallidas
+        IF @WidgetId = @NotificacionesFallidas
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.NotificacionDestinatario AS nde
+            WHERE nde.Estado =
+            (
+                SELECT vce.NOTIFICACIONDESTINATARIO_FALLIDO
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  AND nde.FechaModificacion > DATEADD(DAY, -7, GETDATE())
+                  AND nde.EstadoRegistro = @AuditoriaActivo;
+
+            SET @Extra = 'ÚLTIMOS 7 DÍAS';
+
+        END;
+
+        -- Tareas programadas fallidas
+        IF @WidgetId = @TareasProgramadasFallidas
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.TareaProgramadaLog AS tpl
+            WHERE tpl.Estado =
+            (
+                SELECT vce.TAREAPROGRAMADALOG_FALLIDO
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  AND tpl.FechaModificacion > DATEADD(DAY, -7, GETDATE())
+                  AND tpl.EstadoRegistro = @AuditoriaActivo;
+
+            SET @Extra = 'ÚLTIMOS 7 DÍAS';
+
+        END;
+
+        -- Fecha y Hora
+        IF @WidgetId = @FechaYHora
+        BEGIN
+
+            SET LANGUAGE Spanish;
+
+            SET @Datos =
+            (
+                SELECT CONCAT('{Mes: ''',
+                (
+                    SELECT DATENAME(MONTH, GETDATE())
+                ), ''', Dia: ''',
+                (
+                    SELECT DATEPART(DAY, GETDATE())
+                ), ''', Anio: ''',
+                (
+                    SELECT DATEPART(YEAR, GETDATE())
+                ), '''}')
+            );
+
+        END;
+
+        -- Proximos cumpleaños
+        IF @WidgetId = @ProximosCumpleanios
+        BEGIN
+
+            DECLARE @Dia INT= DATEPART(DAY, GETDATE());
+            DECLARE @Mes INT= DATEPART(MONTH, GETDATE());
+            DECLARE @Anio INT= DATEPART(YEAR, GETDATE());
+
+            SELECT TOP 6 @Datos = COALESCE(@Datos + ', ', '') + CONCAT('{Adjunto: ''', fun.Adjunto, ''', Nombre: ''', fun.PrimerNombre, ' ', fun.PrimerApellido, ''', Fecha: ''', RIGHT('00' + CONVERT(VARCHAR(2), DATEPART(DAY, fun.FechaNacimiento)), 2), '/', RIGHT('00' + CONVERT(VARCHAR(2), DATEPART(MONTH, fun.FechaNacimiento)), 2), '''}')
+            FROM dbo.Funcionario AS fun
+            WHERE(fun.Estado =
+            (
+                SELECT vce.FUNCIONARIO_ACTIVO
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR fun.Estado =
+            (
+                SELECT vce.FUNCIONARIO_INCAPACITADO
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR fun.Estado =
+            (
+                SELECT vce.FUNCIONARIO_ENVACACIONES
+                FROM util.VW_ConstanteEstado AS vce
+            ))
+                 AND ((DATEPART(MONTH, fun.FechaNacimiento) > @Mes)
+                      OR (DATEPART(MONTH, fun.FechaNacimiento) = @Mes
+                          AND DATEPART(DAY, fun.FechaNacimiento) >= @Dia))
+                 AND fun.EstadoRegistro = @AuditoriaActivo
+            ORDER BY DATEPART(MONTH, fun.FechaNacimiento) ASC,
+                     DATEPART(DAY, fun.FechaNacimiento) ASC;
+
+            SET @Datos = CONCAT('{Funcionarios: [', @Datos, ']}');
+
+        END;
+
+        -- Validación de actualización de datos de los funcionarios
+        IF @WidgetId = @ValidacionFuncionarios
+        BEGIN
+
+            DECLARE @InformacionPendiente VARCHAR(255)=
+            (
+                SELECT vce.INFORMACION_PENDIENTE
+                FROM util.VW_ConstanteEstado AS vce
+            );
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.Funcionario AS fun
+            WHERE(fun.Estado =
+            (
+                SELECT vce.FUNCIONARIO_ACTIVO
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR fun.Estado =
+            (
+                SELECT vce.FUNCIONARIO_INCAPACITADO
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  OR fun.Estado =
+            (
+                SELECT vce.FUNCIONARIO_ENVACACIONES
+                FROM util.VW_ConstanteEstado AS vce
+            ))
+                 AND (fun.Id IN
+            (
+                SELECT ela.FuncionarioId
+                FROM dbo.ExperienciaLaboral AS ela
+                WHERE ela.Estado = @InformacionPendiente
+                      AND ela.EstadoRegistro = @AuditoriaActivo
+            )
+                      OR fun.Id IN
+            (
+                SELECT fue.FuncionarioId
+                FROM dbo.FuncionarioEstudio AS fue
+                WHERE fue.Estado = @InformacionPendiente
+                      AND fue.EstadoRegistro = @AuditoriaActivo
+            )
+                      OR fun.Id IN
+            (
+                SELECT ifa.FuncionarioId
+                FROM dbo.InformacionFamiliar AS ifa
+                WHERE ifa.Estado = @InformacionPendiente
+                      AND ifa.EstadoRegistro = @AuditoriaActivo
+            ))
+                 AND fun.EstadoRegistro = @AuditoriaActivo;
+
+            SET @Extra = 'CON DATOS POR VALIDAR';
+        END;
+
+        -- Contratos por terminar
+        IF @WidgetId = @ContratosPorTerminar
+        BEGIN
+
+            DECLARE @AliasDiasVencimientoContrato VARCHAR(255);
+            DECLARE @DiasVencimientoContrato VARCHAR(255);
+
+            -- Obtener alias diasVencimientoContrato
+            SELECT @AliasDiasVencimientoContrato = vcpg.DIASVENCIMIENTOCONTRATO
+            FROM util.VW_ConstanteParametroGeneral AS vcpg;
+
+            SELECT @DiasVencimientoContrato =
+            (
+                SELECT util.UFS_ObtenerParametro(UPPER(@AliasDiasVencimientoContrato), NULL)
+            );
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.VW_FuncionarioDatoActual AS vfda
+                 INNER JOIN dbo.Contrato AS con ON(vfda.ContratoId = con.Id)
+                 LEFT JOIN dbo.ContratoOtroSi AS csi ON(vfda.ContratoOtroSiId = csi.Id)
+            WHERE con.Estado =
+            (
+                SELECT vce.CONTRATO_VIGENTE
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  AND ((vfda.ContratoOtroSiId IS NULL
+                        AND con.FechaFinalizacion BETWEEN CONVERT(DATE, GETDATE()) AND CONVERT(DATE, (GETDATE() + CONVERT(INT, @DiasVencimientoContrato))))
+                       OR (vfda.ContratoOtroSiId IS NOT NULL
+                           AND csi.FechaFinalizacion BETWEEN CONVERT(DATE, GETDATE()) AND CONVERT(DATE, (GETDATE() + CONVERT(INT, @DiasVencimientoContrato)))))
+                  AND NOT EXISTS
+            (
+                SELECT sig.Id
+                FROM dbo.ContratoOtroSi AS sig
+                WHERE sig.ContratoId = con.Id
+                      AND ((vfda.ContratoOtroSiId IS NULL
+                            AND sig.FechaAplicacion > con.FechaFinalizacion)
+                           OR (vfda.ContratoOtroSiId IS NOT NULL
+                               AND sig.FechaAplicacion > csi.FechaFinalizacion))
+                      AND sig.EstadoRegistro = @AuditoriaActivo
+            )
+                  AND vfda.EstadoRegistro = @AuditoriaActivo;
+
+            SET @Extra = 'POR TERMINAR';
+
+        END;
+
+        -- Contratos por elaborar
+        IF @WidgetId = @ContratosPorElaborar
+        BEGIN
+
+            SELECT @Cantidad = COUNT(*)
+            FROM dbo.Funcionario AS fun
+            WHERE fun.Estado =
+            (
+                SELECT vce.FUNCIONARIO_SELECCIONADO
+                FROM util.VW_ConstanteEstado AS vce
+            )
+                  AND fun.Id NOT IN
+            (
+                SELECT con.FuncionarioId
+                FROM dbo.Contrato AS con
+                WHERE con.FuncionarioId = fun.Id
+                      AND con.Estado =
+                (
+                    SELECT vce.CONTRATO_SININICIAR
+                    FROM util.VW_ConstanteEstado AS vce
+                )
+                      AND con.EstadoRegistro = @AuditoriaActivo
+            );
+
+            SET @Extra = 'POR ELABORAR';
+
+        END;
+
+        -- Funcionarios por centro operativo
+        IF @WidgetId = @FuncionariosPorCentroOperativo
+        BEGIN
+
+            SET @Labels = '{Label: [';
+            SET @Valores = 'Data: [';
+
+            DECLARE CUR_FuncionariosXCentroOperativo CURSOR LOCAL
+            FOR SELECT cop.Nombre,
+                       COUNT(*)
+                FROM dbo.VW_FuncionarioDatoActual AS vfda
+                     INNER JOIN dbo.CentroOperativo AS cop ON(vfda.CentroOperativoId = cop.Id)
+                WHERE(vfda.Estado =
+                (
+                    SELECT vce.FUNCIONARIO_ACTIVO
+                    FROM util.VW_ConstanteEstado AS vce
+                )
+                      OR vfda.Estado =
+                (
+                    SELECT vce.FUNCIONARIO_INCAPACITADO
+                    FROM util.VW_ConstanteEstado AS vce
+                )
+                      OR vfda.Estado =
+                (
+                    SELECT vce.FUNCIONARIO_ENVACACIONES
+                    FROM util.VW_ConstanteEstado AS vce
+                ))
+                     AND vfda.EstadoRegistro = @AuditoriaActivo
+                GROUP BY cop.Nombre;
+
+            OPEN CUR_FuncionariosXCentroOperativo;
+
+            FETCH NEXT FROM CUR_FuncionariosXCentroOperativo INTO @Estado, @Cantidad;
+
+            WHILE @@FETCH_STATUS = 0
+
+            BEGIN
+
+                SET @Labels = CONCAT(@Labels, '''', REPLACE(RTRIM(@Estado), 'Centro Operativo ', ''), ''',');
+                SET @Valores = CONCAT(@Valores, '', @Cantidad, ',');
+
+                FETCH NEXT FROM CUR_FuncionariosXCentroOperativo INTO @Estado, @Cantidad;
+            END;
+
+            CLOSE CUR_FuncionariosXCentroOperativo;
+
+            DEALLOCATE CUR_FuncionariosXCentroOperativo;
+
+            PRINT CONCAT('@Labels:', @Labels);
+            PRINT CONCAT('@Valores:', @Valores);
+
+            SET @Labels = CONCAT(@Labels, '],');
+            SET @Valores = CONCAT(@Valores, ']}');
+
+            SET @Datos = CONCAT(@Labels, @Valores);
+            SET @Cantidad = NULL;
+
+        END;
+
+        -- Funcionarios por estado
+        IF @WidgetId = @FuncionariosPorEstado
+        BEGIN
+
+            SET @Labels = '{Label: [';
+            SET @Valores = 'Data: [';
+
+            DECLARE CUR_FuncionariosXEstado CURSOR LOCAL
+            FOR SELECT fun.Estado,
+                       COUNT(*)
+                FROM dbo.Funcionario AS fun
+                WHERE(fun.Estado =
+                (
+                    SELECT vce.FUNCIONARIO_ACTIVO
+                    FROM util.VW_ConstanteEstado AS vce
+                )
+                      OR fun.Estado =
+                (
+                    SELECT vce.FUNCIONARIO_INCAPACITADO
+                    FROM util.VW_ConstanteEstado AS vce
+                )
+                      OR fun.Estado =
+                (
+                    SELECT vce.FUNCIONARIO_ENVACACIONES
+                    FROM util.VW_ConstanteEstado AS vce
+                ))
+                     AND fun.EstadoRegistro = @AuditoriaActivo
+                GROUP BY fun.Estado;
+
+            OPEN CUR_FuncionariosXEstado;
+
+            FETCH NEXT FROM CUR_FuncionariosXEstado INTO @Estado, @Cantidad;
+
+            WHILE @@FETCH_STATUS = 0
+
+            BEGIN
+
+                SET @Labels = CONCAT(@Labels, '''', RTRIM(@Estado), ''',');
+                SET @Valores = CONCAT(@Valores, '', @Cantidad, ',');
+
+                FETCH NEXT FROM CUR_FuncionariosXEstado INTO @Estado, @Cantidad;
+            END;
+
+            CLOSE CUR_FuncionariosXEstado;
+
+            DEALLOCATE CUR_FuncionariosXEstado;
+
+            SET @Labels = CONCAT(@Labels, '],');
+            SET @Valores = CONCAT(@Valores, ']}');
+
+            SET @Datos = CONCAT(@Labels, @Valores);
+            SET @Cantidad = NULL;
+
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [util].[USP_CalcularDatosWidget];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

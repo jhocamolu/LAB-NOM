@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "e08baf78-fe21-4adc-a765-108e3321a817",
+		"name": "HU047_TiposAusentismos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tipo Ausentismo",
+			"item": [
+				{
+					"name": "Obtener Tipo Ausentismos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/odata/TipoAusentismos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"TipoAusentismos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener  un Tipo Ausentismo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/odata/TipoAusentismos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"TipoAusentismos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Tipo Ausentismo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Enfermedad General SJKDAS\",\r\n    \"claseAusentismoId\": 1,\r\n\t\"unidadTiempo\":  \"Dias\"\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44356/api/TipoAusentismos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"api",
+								"TipoAusentismos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Tipo Ausentismo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 4,\r\n    \"nombre\": \"Enfermedad Gene\",\r\n    \"claseAusentismoId\": 1,\r\n    \"unidadTiempo\":  \"Dias\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/TipoAusentismos/4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoAusentismos",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizarcion Parcial Tipo Ausentismo",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 4,\r\n    \"Activo\":1\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/TipoAusentismos/4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoAusentismos",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "TipoAusentismoConceptoNomina",
+			"item": [
+				{
+					"name": "Listar Uno ConceptoNominaTipoAusentismos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44356/odata/TipoAusentismoConceptoNominas/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"odata",
+								"TipoAusentismoConceptoNominas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar ConceptoNominaTipoAusentismos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44356/odata/TipoAusentismoConceptoNominas",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"odata",
+								"TipoAusentismoConceptoNominas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear ConceptoNominaTipoAusentismos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"conceptoNominaId\": 121,\n     \"tipoAusentismoId\": 1,\n\t \"coberturaDesde\":21,\n     \"coberturaHasta\": 90\n}\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44356/api/TipoAusentismoConceptoNominas",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"api",
+								"TipoAusentismoConceptoNominas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar ConceptoNominaTipoAusentismos",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"id\":2,\n\t \"conceptoNominaId\": 121,\n     \"tipoAusentismoId\": 1,\n\t \"coberturaDesde\":91,\n     \"coberturaHasta\": 100\n}\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44356/api/TipoAusentismoConceptoNominas/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"api",
+								"TipoAusentismoConceptoNominas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar ConceptoNominaTipoAusentismos",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"id\":2\n}\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44356/api/TipoAusentismoConceptoNominas/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"api",
+								"TipoAusentismoConceptoNominas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

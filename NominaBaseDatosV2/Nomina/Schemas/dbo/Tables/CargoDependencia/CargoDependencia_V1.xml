@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="CargoDependencia_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+CREATE TABLE [CargoDependencia] (
+    [Id] int NOT NULL IDENTITY,
+    [CargoId] int NOT NULL,
+    [DependenciaId] int NOT NULL,
+	[EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    CONSTRAINT [PK_CargoDependencia] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_CargoDependencia_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [FK_CargoDependencia_Cargo_CargoId] FOREIGN KEY ([CargoId]) REFERENCES [Cargo] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_CargoDependencia_Dependencia_DependenciaId] FOREIGN KEY ([DependenciaId]) REFERENCES [Dependencia] ([Id]) ON DELETE CASCADE
+);
+
+GO
+
+CREATE INDEX [IX_CargoDependencia_CargoId] ON [CargoDependencia] ([CargoId]);
+
+GO
+
+CREATE INDEX [IX_CargoDependencia_DependenciaId] ON [CargoDependencia] ([DependenciaId]);
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [CargoDependencia];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

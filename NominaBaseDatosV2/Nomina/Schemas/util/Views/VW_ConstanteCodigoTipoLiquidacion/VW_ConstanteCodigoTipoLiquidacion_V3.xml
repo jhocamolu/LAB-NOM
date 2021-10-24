@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="VW_ConstanteCodigoTipoLiquidacion_V3">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteCodigoTipoLiquidacion]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteCodigoTipoLiquidacion]
+END
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 08/05/2020
+-- Description:	Vista que permite la simulación de constantes para los 
+--                  códigos de los tipos de liquidación dentro de SQL Server.
+-- =============================================
+
+CREATE VIEW [util].[VW_ConstanteCodigoTipoLiquidacion]
+AS
+SELECT
+		CAST('QUIN' AS VARCHAR) AS [CODIGO_LIQUIDACIONQUINCENAL]
+		,CAST('DEFI' AS VARCHAR) AS [CODIGO_DEFINITIVA]
+		,CAST('VACA' AS VARCHAR) AS [CODIGO_VACACIONES]
+		,CAST('PRIM' AS VARCHAR) AS [CODIGO_PRIMALEGALYEXTRALEGAL]
+		,CAST('CESA' AS VARCHAR) AS [CODIGO_CONSOLIDACIONCESANTIAS]
+		,CAST('CESAFOND' AS VARCHAR) AS [CODIGO_CESANTIASAFONDOS]
+		,CAST('PROVI' AS VARCHAR) AS [CODIGO_PROVISION]
+		,CAST('RETFUENTE' AS VARCHAR) AS [CODIGO_RETENCIONFUENTE]
+		,CAST('ANTCESAN' AS VARCHAR) AS [CODIGO_ANTICIPOCESANTIAS]
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP VIEW [util].[VW_ConstanteCodigoTipoLiquidacion]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

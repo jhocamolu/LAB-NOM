@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="AplicacionExternaCargoDependiente_V2">
+<comment>Se crea tabla AplicacionExternaCargoDependiente</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [AplicacionExternaCargoDependiente] DROP CONSTRAINT [FK_AplicacionExternaCargoDependiente_Cargo_CargoDependienteId];
+
+GO
+
+DROP INDEX [IX_AplicacionExternaCargoDependiente_CargoDependienteId] ON [AplicacionExternaCargoDependiente];
+
+GO
+
+DECLARE @var0 sysname;
+SELECT @var0 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[AplicacionExternaCargoDependiente]') AND [c].[name] = N'CargoDependienteId');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [AplicacionExternaCargoDependiente] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [AplicacionExternaCargoDependiente] DROP COLUMN [CargoDependienteId];
+
+GO
+
+ALTER TABLE [AplicacionExternaCargoDependiente] ADD [CargoDependenciaId] int NOT NULL DEFAULT 0;
+
+GO
+
+CREATE INDEX [IX_AplicacionExternaCargoDependiente_CargoDependenciaId] ON [AplicacionExternaCargoDependiente] ([CargoDependenciaId]);
+
+GO
+
+
+ALTER TABLE [AplicacionExternaCargoDependiente] ADD CONSTRAINT [FK_AplicacionExternaCargoDependiente_CargoDependencia_CargoDependenciaId] FOREIGN KEY ([CargoDependenciaId]) REFERENCES [CargoDependencia] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [AplicacionExternaCargoDependiente] ADD [CargoDependienteId] int NOT NULL DEFAULT 0;
+
+GO
+
+ALTER TABLE [AplicacionExternaCargoDependiente] DROP COLUMN [CargoDependenciaId];
+
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

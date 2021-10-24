@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="TipoInconsistencia_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[TipoInconsistencia] ON 
+GO
+
+INSERT INTO dbo.TipoInconsistencia (Id, Codigo, Valor, Mensaje, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(1, 'INCONSISTENCIA_GENERICA', -999999999.0000, 'Se ha presentado un problema con el cálculo de este concepto..', 'Activo', 'sistema', GETDATE());
+INSERT INTO dbo.TipoInconsistencia (Id, Codigo, Valor, Mensaje, EstadoRegistro, CreadoPor, FechaCreacion) VALUES(2, 'SAL_INTEGRAL_MENOR_13_SAL_MIN', -1000000000.0000, 'El valor del salario es inferior a 13 SMMLV.', 'Activo', 'sistema', GETDATE());
+
+
+SET IDENTITY_INSERT [dbo].[TipoInconsistencia] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoInconsistencia] WHERE Id BETWEEN 1 AND 2;
+</rollback>
+</changeSet>
+</databaseChangeLog>

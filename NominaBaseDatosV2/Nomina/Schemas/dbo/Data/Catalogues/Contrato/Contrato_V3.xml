@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="Contrato_V2">
+<comment></comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    DECLARE @TipoCotizanteSubtipoCotizanteId as int = (SELECT TOP 1 dbo.TipoCotizanteSubtipoCotizante.Id FROM dbo.TipoCotizanteSubtipoCotizante WHERE dbo.TipoCotizanteSubtipoCotizante.EstadoRegistro='Activo')
+    
+    UPDATE dbo.Contrato
+    SET dbo.Contrato.TipoCotizanteSubtipoCotizanteId = @TipoCotizanteSubtipoCotizanteId
+    WHERE dbo.Contrato.TipoCotizanteSubtipoCotizanteId IS NULL;
+
+    
+    
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    UPDATE dbo.Contrato
+    SET dbo.Contrato.TipoCotizanteSubtipoCotizanteId = NULL
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,134 @@
+{
+	"info": {
+		"_postman_id": "c245f3d0-89ba-4663-93e9-e23416a675c3",
+		"name": "HU099_Hoja_de_vida_datos_basicos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "obtener informacionBasicaHojaDeVidas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/HojaDeVidas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"HojaDeVidas"
+					]
+				},
+				"description": "{{host}}/odata/InformacionBasicaHojaDeVidas"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear InformacionBasicaHojaDeVidas",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"nit\": \"80\",\r\n\t\"celular\": \"3569854\",\r\n\t\"sexoId\": 1,\r\n\t\"direccion\": \"Calle 25 \",\r\n\t\"usaLentes\": true,\r\n\t\"pensionado\":false,\r\n\t\"ocupacionId\":1,\r\n\t\"primerNombre\":\"Pedro\",\r\n\t\"segundoNombre\": \"osa\",\r\n\t\"tipoSangreId\":1,\r\n\t\"estadoCivilId\":1,\r\n\t\"primerApellido\":\"Perez\",\r\n\t\"segundoApellido\": null,\r\n\t\"tipoViviendaId\":1,\r\n\t\"fechaNacimiento\":\"1989-10-28\",\r\n\t\"numeroDocumento\": \"80\",\r\n\t\"digitoVerificacion\": 1,\r\n\t\"tipoDocumentoId\": 1,\r\n\t\"divisionPoliticaNivel2OrigenId\": 35,\r\n\t\"divisionPoliticaNivel2ResidenciaId\": 35,\r\n\t\"fechaExpedicionDocumento\": \"2007-11-21\",\r\n\t\"divisionPoliticaNivel2ExpedicionDocumentoId\": 35,\r\n\t\"telefonoFijo\": \"2365987\",\r\n\t\"claseLibretaMilitarId\":2,\r\n    \"numeroLibreta\": 1110487472,\r\n    \"distrito\": null,\r\n    \"tallaCamisa\": null,\r\n    \"tallaPantalon\": null,\r\n    \"numeroCalzado\": null,\r\n    \"correoElectronicoPersonal\":\"albeiro1989@gmail.com\",    \r\n    \"LicenciaConduccionAId\":null,\r\n    \"LicenciaConduccionAFechaVencimiento\":null,\r\n    \"LicenciaConduccionBId\":null,\r\n    \"LicenciaConduccionBFechaVencimiento\":null,\r\n    \"LicenciaConduccionCId\":null,\r\n    \"LicenciaConduccionCFechaVencimiento\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/HojaDeVidas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojaDeVidas"
+					]
+				},
+				"description": "{{host}}/api/InformacionBasicaHojaDeVidas"
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar InformacionBasicaHojaDeVidas/4",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n\t\"nit\": \"79\",\r\n\t\"celular\": \"3569854\",\r\n\t\"sexoId\": 1,\r\n\t\"direccion\": \"Calle 25 \",\r\n\t\"usaLentes\": true,\r\n\t\"pensionado\":false,\r\n\t\"ocupacionId\":1,\r\n\t\"primerNombre\":\"Pedro\",\r\n    \"segundoNombre\": \"osa\",\r\n\t\"tipoSangreId\":1,\r\n\t\"estadoCivilId\":1,\r\n\t\"primerApellido\":\"Perez\",\r\n    \"segundoApellido\": null,\r\n\t\"tipoViviendaId\":1,\r\n\t\"fechaNacimiento\":\"2000-10-28\",\r\n\t\"numeroDocumento\": \"79\",\r\n\t\"digitoVerificacion\": 1,\r\n\t\"tipoDocumentoId\": 1,\r\n\t\"divisionPoliticaNivel2OrigenId\": 35,\r\n\t\"divisionPoliticaNivel2ResidenciaId\": 35,\r\n\t\"fechaExpedicionDocumento\": \"2019-11-21\",\r\n\t\"divisionPoliticaNivel2ExpedicionDocumentoId\": 35,\r\n\t\"telefonoFijo\": \"2365987\",\r\n\t\"claseLibretaMilitarId\":2,\r\n    \"numeroLibreta\": 1110487472,\r\n    \"distrito\": 11,\r\n    \"tallaCamisa\": \"S\",\r\n    \"tallaPantalon\": 34,\r\n    \"numeroCalzado\": 40,\r\n    \"correoElectronicoPersonal\": \"albeiro1989@gmail.com\",    \r\n    \"LicenciaConduccionAId\":1,\r\n    \"LicenciaConduccionAFechaVencimiento\":\"2025-01-01\",\r\n    \"LicenciaConduccionBId\":2,\r\n    \"LicenciaConduccionBFechaVencimiento\":\"2025-01-01\",\r\n    \"LicenciaConduccionCId\":3,\r\n    \"LicenciaConduccionCFechaVencimiento\":\"2025-01-01\",\r\n    \"adjunto\":\"validarobjectid\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/HojaDeVidas/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojaDeVidas",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/InformacionBasicaHojaDeVidas/4"
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial InformacionBasicaHojaDeVidas",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"Activo\":false\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/HojaDeVidas/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojaDeVidas",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/InformacionBasicaHojaDeVidas/4"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete InformacionBasicaHojaDeVidas/4",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/HojaDeVidas/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"HojaDeVidas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,47 @@
+<mat-menu #requisicionesMenu="matMenu">
+    <!-- accion seleccion funcionario es los estados inicializada y modificada -->
+    <button *ngIf="permisos.actualizar && (item.estado == estadoRequisicion.solicitada || item.estado == estadoRequisicion.revisada 
+                || item.estado == estadoRequisicion.aprobada || item.estado == estadoRequisicion.autorizada)"
+        mat-menu-item routerLink="/reclutamiento-seleccion/requisiciones-personal/{{item.id}}/editar">
+        <span>Editar</span>
+    </button>
+    <!-- accion Anular -->
+    <div *ngIf="permisos.cambiarEstado && (item.estado == estadoRequisicion.revisada || item.estado == estadoRequisicion.aprobada || 
+                item.estado == estadoRequisicion.autorizada)">
+        <button mat-menu-item (click)="estadoHandle($event, estadoRequisicion.anulada)">
+            <span>Anular</span>
+        </button>
+    </div>
+    <!-- accion  Aprobar -->
+    <button *ngIf="permisos.cambiarEstado && (item.estado == estadoRequisicion.revisada)" mat-menu-item
+        (click)="estadoHandle($event, estadoRequisicion.aprobada)">
+        <span>Aprobar</span>
+    </button>
+    <!-- accion Autorizar -->
+    <button *ngIf="permisos.cambiarEstado && (item.estado == estadoRequisicion.aprobada)" mat-menu-item
+        (click)="estadoHandle($event, estadoRequisicion.autorizada)">
+        <span>Autorizar</span>
+    </button>
+    <!-- accion Cancelar -->
+    <button *ngIf="permisos.cambiarEstado && (item.estado == estadoRequisicion.solicitada)" mat-menu-item
+        (click)="estadoHandle($event, estadoRequisicion.cancelada)">
+        <span>Cancelar</span>
+    </button>
+    <!-- accion Revisar -->
+    <button *ngIf="permisos.cambiarEstado && (item.estado == estadoRequisicion.solicitada)" mat-menu-item
+        (click)="estadoHandle($event, estadoRequisicion.revisada)">
+        <span>Revisar</span>
+    </button>
+    <!-- accion Cerrar requisición -->
+    <button *ngIf="permisos.cambiarEstado && (count > 0 && item.estado == estadoRequisicion.autorizada)" mat-menu-item
+        (click)="cerrarHandle($event, item)">
+        <span>Cerrar requisición</span>
+    </button>
+   
+    <a routerLink="/reclutamiento-seleccion/requisiciones-personal/" mat-menu-item>Volver</a>
+</mat-menu>
+
+<button color="accent" mat-raised-button [matMenuTriggerFor]="requisicionesMenu" *ngIf="item">
+    <mat-icon class="s-20">add</mat-icon>
+    <span>Acciones</span>
+</button>

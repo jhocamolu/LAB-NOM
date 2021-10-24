@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="ClaseAusentismo_Datos_V1">
+<sql endDelimiter="GO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[ClaseAusentismo] ON 
+GO
+INSERT [dbo].[ClaseAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [AfectaDiaPagar], [AfectaDiaTrabajado], [RequiereHora], [Codigo]) VALUES (1, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 'Licencia remunerada horas', 0, 1, 1, 'LRH')
+GO
+INSERT [dbo].[ClaseAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [AfectaDiaPagar], [AfectaDiaTrabajado], [RequiereHora], [Codigo]) VALUES (2, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 'Licencia remunerada días', 1, 1, 0, 'LRD')
+GO
+INSERT [dbo].[ClaseAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [AfectaDiaPagar], [AfectaDiaTrabajado], [RequiereHora], [Codigo]) VALUES (3, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 'Licencia no remunerada', 1, 1, 0, 'LNR')
+GO
+INSERT [dbo].[ClaseAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [AfectaDiaPagar], [AfectaDiaTrabajado], [RequiereHora], [Codigo]) VALUES (4, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 'Incapacidad', 1, 1, 0, 'I')
+GO
+SET IDENTITY_INSERT [dbo].[ClaseAusentismo] OFF
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[ClaseAusentismo] WHERE Id BETWEEN 1 AND 4;
+</rollback>
+</changeSet>
+</databaseChangeLog>

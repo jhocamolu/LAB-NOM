@@ -1,0 +1,35 @@
+costos-cargo-listar {
+    @import "src/@alcanos/scss/alcanos-v2";
+    .text-success {
+        color: green;
+    }
+
+    .text-danger {
+        color: red;
+    }
+
+    .percent{
+        text-align: right;
+        padding-right: 3% !important;
+    }
+
+       
+    .btn-filter {
+        position: fixed;
+        right: 0px;
+        z-index: 999;
+        top: 45%;
+        .mat-icon-button {
+            background-color: #066f77 !important;
+            color: white;
+            padding: 0;
+            min-width: 0;
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            line-height: 40px;
+            /* border-radius: 50%; */
+            border-radius: 10px 0px 0px 10px;
+        }
+    }
+}

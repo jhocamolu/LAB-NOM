@@ -1,0 +1,325 @@
+<!-- CONTENIDO -->
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Desarrollo talento humano</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/desarrollo-th/beneficios/'">Beneficios corporativos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar beneficio corporativo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar beneficio corporativo</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a mat-menu-item *ngIf="arrayPermisos.actualizar && (item.estado == estadosBeneficios.tramite)"
+                    routerLink="/desarrollo-th/beneficios/{{item.id}}/editar">
+                    <span>Editar beneficio</span>
+                </a>
+
+                <button *ngIf="arrayPermisos.cambiarEstado && (item.tipoBeneficio.requiereAprobacionJefe && item.estado ==
+                    estadosBeneficios.tramite)" mat-menu-item (click)="aprobarHandle($event, item)">
+                    <span>Aprobar</span>
+                </button>
+
+
+                <button
+                    *ngIf="item.estado ==
+                estadosBeneficios.aprobada || (!item.tipoBeneficio.requiereAprobacionJefe && item.estado == estadosBeneficios.tramite)"
+                    mat-menu-item (click)="autorizarHandle($event, item)">
+                    <span>Autorizar</span>
+                </button>
+
+
+                <div *ngIf="item.tipoBeneficio.permiteAuxilioEducativo">
+                    <button *ngIf="item.estado == estadosBeneficios.condonacion" mat-menu-item
+                        (click)="registrarNotaHandle($event, item)">
+                        <span>Registrar nota</span>
+                    </button>
+                </div>
+
+                <button mat-menu-item *ngIf="item.estado == estadosBeneficios.tramite"
+                    (click)="cancelarHandle($event, item)">
+                    <span>Cancelar</span>
+                </button>
+
+                <a routerLink="/desarrollo-th/beneficios/" mat-menu-item>Volver</a>
+
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <div>
+                <h3>Funcionario
+                    <mat-icon class="s-16" matSuffix matTooltip="Documento de identificación y nombre del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{item.funcionario.criterioBusqueda}}</p>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Fecha de solicitud
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Fecha en la que se realiza el trámite de la solicitud.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.fechaSolicitud  | date:'dd / LL / yyyy'}}
+                    </p>
+                </div>
+
+                <div>
+                    <h3>Tipo de beneficio
+                        <mat-icon class="s-16" matSuffix matTooltip="Beneficio al que puede acceder el funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.tipoBeneficio ? item.tipoBeneficio?.nombre : 'No existe información'}}
+                    </p>
+                </div>
+            </div>
+
+            <div
+                [ngClass]="{'medio-bloque': permiteValorSolicitado || permitePlazoMes, 'dos-bloque': permiteValorSolicitado && permitePlazoMes, third: false }">
+                <div *ngIf="permiteValorSolicitado">
+                    <h3>Valor solicitado
+                        <mat-icon class="s-16" matSuffix matTooltip="Monto de dinero solicitado.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.valorSolicitud | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</p>
+                </div>
+                <div *ngIf="permitePlazoMes">
+                    <h3>Plazo máximo en meses
+                        <mat-icon class="s-16" matSuffix matTooltip="Cantidad de cuotas a pagar.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.plazoMaximo}}</p>
+                </div>
+            </div>
+
+            <div class="dos-bloque" *ngIf="permitePeriodoPago">
+                <div>
+                    <h3>Período de pago
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Indica en qué período de pago se debe descontar el valor del beneficio.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.tipoPeriodo?.nombre}}</p>
+                </div>
+                <div>
+                    <h3>Periodicidad
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Periodicidad en la que desea que sea cobrado el préstamo o auxilio educativo.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        <span class="subperiodo" *ngFor="let item of superiodos">
+                            {{item.nombre}}<i></i>
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <div
+                [ngClass]="{'medio-bloque': permiteEstudio || permiteAuxilioEducativo, 'dos-bloque': permiteEstudio && permiteAuxilioEducativo, third: false }">
+                <div *ngIf="permiteEstudio">
+                    <h3>Cantidad de horas por semana
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Cantidad de horas por semana que debe estudiar el funcionario">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.cantidadHoraSemana}}
+                    </p>
+                </div>
+                <div *ngIf="permiteAuxilioEducativo">
+                    <h3>Opción de auxilio educativo
+                        <mat-icon class="s-16" matSuffix matTooltip="La alternativa de condonación del auxilio.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        {{item.opcionAuxilioEducativo == null ? 'No aplica': item.opcionAuxilioEducativo == 'Opcion1Condonacion' ? 'Opción 1: condonación': 'Opción 2: condonación y financiación' }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="dos-bloque" *ngIf="permiteEstudioAuxilioEducativo">
+                <div>
+                    <h3>Fecha de inicio estudios
+                        <mat-icon class="s-16" matSuffix matTooltip="Fecha en la que inicia estudios el funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.fechaInicioEstudio | date:'dd / LL / yyyy'}}</p>
+                </div>
+                <div>
+                    <h3>Fecha de finalización estudios
+                        <mat-icon class="s-16" matSuffix matTooltip="Fecha en la que finaliza estudios el funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.fechaFinalizacionEstudio | date:'dd / LL / yyyy'}}
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <h3>Observaciones
+                    <mat-icon class="s-16" matSuffix matTooltip="Descripción del beneficio corporativo.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{item.observacion == ''  ? 'N/A' : ''}}
+                    {{item.observacion != null ? item.observacion : 'N/A'}}</p>
+            </div>
+
+            <div>
+                <h3>Estado
+                    <mat-icon class="s-16" matSuffix matTooltip="Estado en el que se encuentra el beneficio.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p *ngIf="item.estado == estadosBeneficios.tramite">
+                    {{ item.estado == estadosBeneficios.tramite ? 'En trámite' :  item.estado }}
+                </p>
+                <p *ngIf="item.estado == estadosBeneficios.reembolso">
+                    {{ item.estado == estadosBeneficios.reembolso ? 'En reembolso' :  item.estado }}
+                </p>
+                <p *ngIf="item.estado == estadosBeneficios.condonacion">
+                    {{ item.estado == estadosBeneficios.condonacion ? 'En condonación' :  item.estado }}
+                </p>
+                <p
+                    *ngIf="item.estado != estadosBeneficios.condonacion && item.estado != estadosBeneficios.reembolso && item.estado != estadosBeneficios.tramite">
+                    {{ item.estado }}</p>
+            </div>
+
+            <div>
+                <h3>Observación de la aprobación
+                    <mat-icon class="s-16" matSuffix matTooltip="Descripción de la aprobación.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{item.observacionAprobacion == ''  ? 'N/A' : ''}}
+                    {{item.observacionAprobacion != null ? item.observacionAprobacion : 'N/A'}}
+                </p>
+            </div>
+
+            <div>
+                <h3>Observación de la autorización
+                    <mat-icon class="s-16" matSuffix matTooltip="Descripción de la autorización.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{item.observacionAutorizacion == ''  ? 'N/A' : ''}}
+                    {{item.observacionAutorizacion != null ? item.observacionAutorizacion : 'N/A'}}
+                </p>
+            </div>
+
+            <div
+                [ngClass]="{'medio-bloque': permiteValorAutorizado || permitePlazoMes, 'dos-bloque': permiteValorAutorizado && permitePlazoMes, third: false }">
+                <div *ngIf="permiteValorAutorizado">
+                    <h3>Valor autorizado
+                        <mat-icon class="s-16" matSuffix matTooltip="Monto de dinero autorizado.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.valorAutorizado == 0  ? 'N/A' : ''}}
+                        {{item.valorAutorizado != null ? ( item.valorAutorizado | currency:'COP':'symbol-narrow':'4.2-2': 'co' ) : 'N/A'}}
+                    </p>
+                </div>
+
+                <div *ngIf="permitePlazoMes">
+                    <h3>Valor de la cuota
+                        <mat-icon class="s-16" matSuffix matTooltip="Monto de dinero a cancelar periódicamente.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        {{item.valorCobrar != null || item.valorCobrar == 0  ? ( item.valorCobrar | currency:'COP':'symbol-narrow':'4.2-2': 'co' ) : 'N/A'}}
+                    </p>
+                </div>
+            </div>
+
+            <div
+                [ngClass]="{'medio-bloque': permiteSoloAuxilioEducativo || permitePlazoMes, 'dos-bloque': permiteSoloAuxilioEducativo && permitePlazoMes, third: false }">
+                <div *ngIf="permitePlazoMes">
+                    <h3>Saldo
+                        <mat-icon class="s-16" matSuffix matTooltip="Monto de dinero pendiente por cancelar.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        {{item.saldo != null || item.saldo == 0 ? ( item.saldo | currency:'COP':'symbol-narrow':'4.2-2': 'co' ) : 'N/A'}}
+                    </p>
+                </div>
+
+                <div *ngIf="permiteSoloAuxilioEducativo">
+                    <h3>Nota académica
+                        <mat-icon class="s-16" matSuffix matTooltip="Calificación obtenida en el proceso académico.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{item.notaAcademica == 0  ? 'No ingresada' : ''}}
+                        {{item.notaAcademica != null ? (item.notaAcademica | number:'1.2-2') : 'No ingresada'}}
+                    </p>
+                </div>
+            </div>
+
+            <div *ngIf="permiteSoloAuxilioEducativo">
+                <h3>Observacion de la nota académica
+                    <mat-icon class="s-16" matSuffix matTooltip="Descripción de la nota académica.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{item.observacionNotaAcademica == 0  ? 'No ingresada' : ''}}
+                    {{item.observacionNotaAcademica != null ? item.observacionNotaAcademica : 'No ingresada'}}
+                </p>
+            </div>
+
+
+            <div *ngIf="arrayPermisosAdjunto.obtener">
+                <h3>Documentos de soporte
+                    <mat-icon class="s-16" matSuffix matTooltip="Documento de soporte.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    <span *ngFor="let item of adjuntos"> <a *ngIf="adjuntos.length > 0"
+                            href="{{enviroments + '/bucket/download?document_id=' + item.adjunto}}">
+                            <mat-icon>save_alt</mat-icon>
+                        </a> {{ item.tipoBeneficioRequisito?.tipoSoporte?.nombre }} </span>
+                    <span *ngIf="adjuntos.length == 0">No existen archivos adjuntos</span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</div>

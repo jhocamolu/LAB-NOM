@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="FuncionNomina_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[FuncionNomina] ON 
+GO
+
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, Proceso, TipoFuncion, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, FuncionParametro, ParaCantidad) 
+VALUES(30, 'Inconsistencia mínimo vital', 'INCONSISTENCIA_MIN_VITAL', 'Marca en el detalle de la nómina que el concepto no se pudo liquidar porque el valor excede el mínimo vital.', '[dbo].[USP_NotificarInconsistenciaCalculoConcepto]', 'USP', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, '[dbo].[USP_NotificarInconsistenciaCalculoConcepto] @Codigo = {{Constante}}, @Valor = {{Valor}} OUTPUT, @Inconsistencia = {{Inconsistencia}} OUTPUT', 0);
+
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, Proceso, TipoFuncion, EstadoRegistro, CreadoPor, FechaCreacion, FuncionParametro) 
+VALUES(31, 'Obtener base retefuente', 'OBTENER_BASE_RETEFUENTE', 'Obtener valor base para para el cálculo de retención en la fuente mensual.', '[dbo].[USP_ObtenerBaseRetefuente]', 'USP', 'Activo    ', 'sistema', GETDATE(), '[dbo].[USP_ObtenerBaseRetefuente] @FuncionarioId = {{FuncionarioId}}, @FechaInicio ={{FechaInicioMes}}, @FechaFin = {{FechaFinalMes}}, @Valor ={{Valor}} OUTPUT');
+
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, Proceso, TipoFuncion, EstadoRegistro, CreadoPor, FechaCreacion, FuncionParametro) 
+VALUES(32, 'Obtener base recalculo', 'OBTENER_BASE_RECALCULO', 'Obtener la base del último año para el recalculo del porcentaje de retención en la fuente para el procedimiento 2.', '[dbo].[USP_ObtenerBaseRetefuente]', 'USP', 'Activo    ', 'sistema', GETDATE(), '[dbo].[USP_ObtenerBaseRetefuente] @FuncionarioId = {{FuncionarioId}}, @FechaInicio ={{FechaInicioRecalculo}}, @FechaFin = {{FechaFinRecalculo}}, @Valor ={{Valor}} OUTPUT');
+
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, Proceso, TipoFuncion, EstadoRegistro, CreadoPor, FechaCreacion, FuncionParametro) 
+VALUES(33, 'Calcular retención en la fuente', 'CALCULAR_RETEFUENTE', 'Permite calcular la retención en la fuente mensual de un funcionario según el procedimiento asociado.', '[dbo].[USP_CalcularRetencionFuente]', 'USP', 'Activo    ', 'sistema', GETDATE(), '[dbo].[USP_CalcularRetencionFuente] @FuncionarioId = {{FuncionarioId}}, @FechaInicio = {{FechaInicioMes}}, @FechaFin = {{FechaFinalMes}}, @Valor = {{Valor}} OUTPUT');
+
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, Proceso, TipoFuncion, EstadoRegistro, CreadoPor, FechaCreacion, FuncionParametro) 
+VALUES(34, 'Calcular porcentaje retefuente', 'CALCULAR_PORCENTAJE_RETEFUENTE', 'Permite realizar el recalculo del porcentaje de retención en la fuente para aplicar el procedimiento 2.', '[dbo].[USP_RecalculoPorcentajeRetefuente]', 'USP', 'Activo    ', 'sistema', GETDATE(), '[dbo].[USP_RecalculoPorcentajeRetefuente] @FuncionarioId = {{FuncionarioId}}, @FechaFin = {{FechaFinalMes}}, @Valor = {{Valor}} OUTPUT');
+
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, Proceso, TipoFuncion, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, FuncionParametro, ParaCantidad) 
+VALUES(35, 'Base no salarial', 'BASE_NO_SALARIAL_MES', 'Obtiene la suma de las bases de los conceptos no salariales en el periodo en curso.', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado]', 'USP', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, '[dbo].[USP_ObtenerValorConceptoNominaAcumulado] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@FechaInicio ={{FechaInicioMes}},@FechaFin = {{FechaFinalMes}},@Valor ={{Valor}} OUTPUT', 0);
+
+INSERT INTO FuncionNomina (Id, Nombre, Alias, Ayuda, Proceso, TipoFuncion, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, FuncionParametro, ParaCantidad) 
+VALUES(36, 'Base bono semestral', 'BASE_BONO_SEMESTRAL_MES', 'Obtiene la suma de las bases de bono semestral en el periodo en curso.', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado]', 'USP', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, '[dbo].[USP_ObtenerValorConceptoNominaAcumulado] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@FechaInicio ={{FechaInicioMes}},@FechaFin = {{FechaFinalMes}},@Valor ={{Valor}} OUTPUT', 0);
+
+GO
+SET IDENTITY_INSERT [dbo].[FuncionNomina] OFF
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[FuncionNomina] WHERE Id BETWEEN 31 AND 42;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

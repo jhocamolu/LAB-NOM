@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="UFT_ObtenerCantidadPermisosPorEstadoFuncionario_V2">
+<comment>HUM003 omitir encuenta eliminados</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerCantidadPermisosPorEstadoFuncionario]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerCantidadPermisosPorEstadoFuncionario]
+END
+GO
+	-- =============================================
+	-- Author:	Jesus Albeiro Gaviria
+	-- Create date: 01-06-2020
+	-- Description: Obtener cantidad de permisos por estado para el FuncioanrioId
+	-- Parametros:
+	--	@FuncionarioId INT: Identificador del funcionario
+	-- Retorna: 
+	-- @Tabla TABLE: Retorna cantidad, estado,
+	-- =============================================
+	CREATE FUNCTION UFT_ObtenerCantidadPermisosPorEstadoFuncionario
+	(
+		-- Add the parameters for the function here
+		@FuncionarioId INT
+	)
+	RETURNS 
+	@Table TABLE 
+	(
+		-- Add the column definitions for the TABLE variable here
+		Cantidad INT, 
+		Estado VARCHAR(255)
+	)
+	AS
+	BEGIN
+		-- Fill the table variable with the rows for your result set
+		INSERT INTO @Table
+		SELECT Count(permisos.Id) valor, permisos.Estado
+		FROM dbo.SolicitudPermiso permisos
+		WHERE permisos.FuncionarioId = @FuncionarioId AND
+			permisos.EstadoRegistro = 'Activo'
+		GROUP BY permisos.Estado
+		
+		RETURN 
+	END
+
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerCantidadPermisosPorEstadoFuncionario]') IS NOT NULL
+BEGIN
+    CREATE FUNCTION UFT_ObtenerCantidadPermisosPorEstadoFuncionario
+	(
+		-- Add the parameters for the function here
+		@FuncionarioId INT
+	)
+	RETURNS 
+	@Table TABLE 
+	(
+		-- Add the column definitions for the TABLE variable here
+		Cantidad INT, 
+		Estado VARCHAR(255)
+	)
+	AS
+	BEGIN
+		-- Fill the table variable with the rows for your result set
+		INSERT INTO @Table
+		SELECT Count(permisos.Id) valor, permisos.Estado
+		FROM dbo.SolicitudPermiso permisos
+		WHERE permisos.FuncionarioId = @FuncionarioId
+		GROUP BY permisos.Estado
+		
+		RETURN 
+	END
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

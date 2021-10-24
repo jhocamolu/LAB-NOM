@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="CategoriaNovedad_Datos_V4">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[CategoriaNovedad] ON;
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('69', 'LIBRANZA DAVIVIENDA', '169', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('70', 'LIBRANZA BANCOLOMBIA', '170', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('71', 'LIBRANZA BANCO DE BOGOTA', '171', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('72', 'LIBRANZA AV VILLAS', '172', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('73', 'LIBRANZA BANCO OCCIDENTE', '173', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('74', 'LIBRANZA CITIBANK', '174', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('75', 'LIBRANZA BANCO POPULAR', '175', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('76', 'LIBRANZA DAVIVIENDA PRESTAMO2', '176', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('77', 'LIBRANZA DAVIVIEDA PRESTAMO 3', '177', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('78', 'LIBRANZA COMFAMILIAR', '178', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('79', 'LIBRANZA BANCOLOMBIA PRESTAMO2', '179', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('80', 'LIBRANZA BBVA', '180', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('81', 'LIBRANZA COMFENALCO', '181', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('82', 'LIBRANZA FONDO MUTUO CRECER', '182', 'Libranzas', 'Eventual', '0', '0', NULL, '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('83', 'POLIZA DE SEGUROS BOLIVAR', '183', 'OtrasNovedades', 'Fija', '1', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('84', 'POLIZA SURAMERICANA', '184', 'OtrasNovedades', 'Fija', '1', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('85', 'POLIZA ACE SEGUROS', '185', 'OtrasNovedades', 'Fija', '1', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('86', 'POLIZA GUARIN', '186', 'OtrasNovedades', 'Fija', '1', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('87', 'Cuota sindicato', '103', 'OtrasNovedades', 'Fija', '1', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('88', 'Sindicato SINTRALCANOS', '187', 'OtrasNovedades', 'Fija', '1', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('89', 'SINDICATO USO', '188', 'OtrasNovedades', 'Fija', '1', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.CategoriaNovedad (Id, Nombre, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('90', 'Sindicato ASOTRALCANOS', '189', 'OtrasNovedades', 'Fija', '1', '0', NULL, '0', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[CategoriaNovedad] OFF;
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM dbo.CategoriaNovedad WHERE Id BETWEEN 69 AND 89;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

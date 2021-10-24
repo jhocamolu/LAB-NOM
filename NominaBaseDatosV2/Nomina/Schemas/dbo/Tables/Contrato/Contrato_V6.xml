@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="Contrato_V5">
+<comment>correcion nombre TipoCotizanteSubtipoCotizanteID por TipoCotizanteSubtipoCotizanteId</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    ALTER TABLE [Contrato] DROP CONSTRAINT [FK_Contrato_TipoCotizanteSubtipoCotizante_TipoCotizanteSubtipoCotizanteID];
+
+    GO
+
+    EXEC sp_rename N'[Contrato].[TipoCotizanteSubtipoCotizanteID]', N'TipoCotizanteSubtipoCotizanteId', N'COLUMN';
+
+    GO
+
+    EXEC sp_rename N'[Contrato].[IX_Contrato_TipoCotizanteSubtipoCotizanteID]', N'IX_Contrato_TipoCotizanteSubtipoCotizanteId', N'INDEX';
+
+    GO
+
+    ALTER TABLE [Contrato] ADD CONSTRAINT [FK_Contrato_TipoCotizanteSubtipoCotizante_TipoCotizanteSubtipoCotizanteId] FOREIGN KEY ([TipoCotizanteSubtipoCotizanteId]) REFERENCES [TipoCotizanteSubtipoCotizante] ([Id]) ON DELETE CASCADE;
+
+    GO 
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    ALTER TABLE [Contrato] DROP CONSTRAINT [FK_Contrato_TipoCotizanteSubtipoCotizante_TipoCotizanteSubtipoCotizanteId];
+
+    GO
+
+    EXEC sp_rename N'[Contrato].[TipoCotizanteSubtipoCotizanteId]', N'TipoCotizanteSubtipoCotizanteID', N'COLUMN';
+
+    GO
+
+    EXEC sp_rename N'[Contrato].[IX_Contrato_TipoCotizanteSubtipoCotizanteId]', N'IX_Contrato_TipoCotizanteSubtipoCotizanteID', N'INDEX';
+
+    GO
+
+    ALTER TABLE [Contrato] ADD CONSTRAINT [FK_Contrato_TipoCotizanteSubtipoCotizante_TipoCotizanteSubtipoCotizanteID] FOREIGN KEY ([TipoCotizanteSubtipoCotizanteID]) REFERENCES [TipoCotizanteSubtipoCotizante] ([Id]) ON DELETE CASCADE;
+
+    GO 
+   
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

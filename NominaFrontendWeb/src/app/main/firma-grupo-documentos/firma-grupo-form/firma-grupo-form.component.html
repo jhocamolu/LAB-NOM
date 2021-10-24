@@ -1,0 +1,113 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+	<h1 mat-dialog-title *ngIf="edit">Editar firma</h1>
+	<h1 mat-dialog-title *ngIf="!edit">Crear firma</h1>
+	<div mat-dialog-content>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Funcionario</mat-label>
+			<input matInput formControlName="funcionario" [matAutocomplete]="auto" required>
+			<mat-autocomplete [displayWith]="displayFnFuncionarios" #auto="matAutocomplete">
+				<mat-option *ngFor="let item of filteredFuncionarios | async" [value]="item">
+					 {{item.criterioBusqueda}}
+				</mat-option>
+			</mat-autocomplete>
+
+			<mat-error *ngFor="let error of objToArray(form.get('funcionario').errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Nombre completo del funcionario.">info
+			</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Grupo documento</mat-label>
+			<mat-select formControlName="grupodocumentoSlug" required>
+				<mat-option [value]="null"></mat-option>
+				<mat-option *ngFor="let item of grupodocumentosOptions" [value]="item.slug">
+					{{item.nombre}}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngFor="let error of objToArray(form.get('grupodocumentoSlug').errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Grupo de documento al que el funcionario es designado para firmar.">info
+			</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Fecha inicial</mat-label>
+			<input matInput [matDatepicker]="fechaInicio" (focus)="fechaInicio.open()" (click)="fechaInicio.open()"
+				formControlName="fechaInicio" required>
+			<mat-datepicker-toggle matPrefix [for]="fechaInicio"> </mat-datepicker-toggle>
+			<mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+			<mat-error *ngFor="let error of objToArray(form.get('fechaInicio').errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template [ngSwitchCase]="'matDatepickerParse'">
+						No es un formato de fecha válido.
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix
+				matTooltip="Fecha inicio en la cual el funcionario es designado para firmar un grupo de documento.">info
+			</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Fecha final</mat-label>
+			<input matInput [matDatepicker]="fechaFin" (focus)="fechaFin.open()" (click)="fechaFin.open()"
+				formControlName="fechaFin" required>
+			<mat-datepicker-toggle matPrefix [for]="fechaFin"> </mat-datepicker-toggle>
+			<mat-datepicker startView="year" #fechaFin></mat-datepicker>
+			<mat-error *ngFor="let error of objToArray(form.get('fechaFin').errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template [ngSwitchCase]="'matDatepickerParse'">
+						No es un formato de fecha válido.
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix
+				matTooltip="Fecha fin en la cual el funcionario es designado para firmar un grupo de documento.">info
+			</mat-icon>
+		</mat-form-field>
+
+	</div>
+
+	<div mat-dialog-actions>
+		<button mat-raised-button type="button" (click)="dialogRef.close() ">
+			<mat-icon>cancel</mat-icon>
+			<span>Cancelar</span>
+		</button>
+		<button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+			<mat-icon>save</mat-icon>
+			<span>Guardar</span>
+		</button>
+	</div>
+
+</form>

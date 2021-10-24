@@ -1,0 +1,154 @@
+<div class="page-layout simple fullwidth cargos-listar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Reportes</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/reportes/administracion-personal/dashboard">Administración de personal</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Generar reporte regreso de vacaciones y ausentismos</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Generar reporte regreso de vacaciones y ausentismos</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <div class="spiner" *ngIf="espera">
+        <mat-spinner></mat-spinner>
+    </div>
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <form (ngSubmit)="guardarHandle($event)" name="form" [formGroup]="form">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Estado de los funcionarios *</mat-label>
+                        <mat-select formControlName="estadoFuncionario" multiple>
+                            <mat-option disabled></mat-option>
+                            <mat-option [value]="registraduriaConstant.activo"> Activo </mat-option>
+                            <mat-option [value]="registraduriaConstant.vacaciones"> En vacaciones </mat-option>
+                            <mat-option [value]="registraduriaConstant.incapacitado"> Incapacitado </mat-option>
+                            <!--mat-option [value]="registraduriaConstant.retirado"> Retirado </mat-option-->
+                        </mat-select>
+                        <mat-error *ngFor=" let error of form.get('estadoFuncionario').errors | keyvalue ">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{ error.key }}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Estado de los funcionarios de los cuales se desea generar el reporte.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Centro operativo </mat-label>
+                        <mat-select formControlName="centroOperativo" multiple>
+                            <mat-option disabled></mat-option>
+                            <mat-option *ngFor="let item of getCentroOperativoOptions" [value]="item.id">
+                                {{ item.nombre }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor=" let error of form.get('centroOperativo').errors | keyvalue ">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{ error.key }}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Centro operativo del cual se desea generar el reporte.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Dependencia </mat-label>
+                        <mat-select formControlName="dependencia" multiple>
+                            <mat-option disabled></mat-option>
+                            <mat-option *ngFor="let item of getDependenciaOptions" [value]="item.id">
+                                {{ item.nombre }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor=" let error of form.get('dependencia').errors | keyvalue ">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{ error.key }}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Dependencia de la cual se desea generar el reporte.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Cargo</mat-label>
+                        <mat-chip-list #chipList>
+                            <mat-chip *ngFor="let cargo of cargos;let indx=index;" [selectable]="selectable"
+                                [removable]="removable" (removed)="remove(cargo,indx)">
+                                {{cargo.nombre}}
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="Nuevo cargo..." #CargoInput formControlName="cargo"
+                                [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" 
+                                (matChipInputTokenEnd)="add($event)">
+                        </mat-chip-list>
+                        <!--[matChipInputAddOnBlur]="addOnBlur"-->
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                            <mat-option *ngFor="let cargo of filteredCargos | async" [value]="cargo">
+                                {{cargo.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+
+                        <mat-error *ngFor="let error of form.get('cargo').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Cargo del cual se desea generar el reporte.">info
+                        </mat-icon>
+                    </mat-form-field>
+
+
+                <div class="actions">
+                    <a mat-raised-button routerLink="/reportes/administracion-personal/dashboard">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+
+                    <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+                        <mat-icon>save_alt</mat-icon>
+                        <span>Generar</span>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

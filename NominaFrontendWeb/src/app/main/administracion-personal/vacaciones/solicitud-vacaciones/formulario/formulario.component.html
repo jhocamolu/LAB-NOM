@@ -1,0 +1,296 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Vacaciones</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/vacaciones/solicitudes/">Solicitudes de vacaciones</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar solicitud</span>
+                <span *ngIf="!item">Registrar solicitud</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar solicitud de vacaciones </h2>
+                <h2 *ngIf="!item">Registrar solicitud de vacaciones</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button color="accent" mat-raised-button [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a routerLink="/vacaciones/solicitudes/" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="box-shadow">
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="tabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Funcionario</mat-label>
+                                <input matInput formControlName="funcionario" [matAutocomplete]="autoFn" required>
+                                <mat-autocomplete [displayWith]="displayFn" #autoFn="matAutocomplete">
+                                    <mat-option *ngFor="
+                                       let item of filteredFuncionarios | async " [value]="item">
+                                        {{ item.criterioBusqueda }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error *ngFor="let error of form.get('funcionario').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{ error.key }}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Nombre y número de identificación del funcionario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div *ngIf="seletedFuncionario">
+                            <div>
+                                <h3>Períodos</h3>
+                            </div>
+                            <table class="simple pb" *ngIf="!item">
+                                <thead>
+                                    <tr>
+                                        <th class="mat-header-cell pl">Período</th>
+                                        <th class="mat-header-cell">Inicio de causación</th>
+                                        <th class="mat-header-cell">Fin de causación</th>
+                                        <th class="mat-header-cell">Tipo de período</th>
+                                        <th class="mat-header-cell">Días anticipados</th>
+                                        <th class="mat-header-cell">Días disponibles</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="mat-row" *ngFor="let element of periodosOptions">
+                                        <td class="mat-cell p-radio">
+                                            <input type="radio" checked *ngIf="element.id == libroVacaciones.id">
+                                        </td>
+                                        <td class="mat-cell">{{element?.inicioCausacion | date:'dd / LL / yyyy'}}
+                                        </td>
+                                        <td class="mat-cell">{{element?.finCausacion | date:'dd / LL / yyyy'}}</td>
+                                        <td class="mat-cell">{{element?.tipo }}</td>
+                                        <td class="mat-cell">{{element?.diasDebe}}</td>
+                                        <td class="mat-cell">{{element?.diasDisponibles}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="simple pb" *ngIf="item">
+                                <thead>
+                                    <tr>
+                                        <th class="mat-header-cell pl">Período</th>
+                                        <th class="mat-header-cell">Inicio de causación</th>
+                                        <th class="mat-header-cell">Fin de causación</th>
+                                        <th class="mat-header-cell">Tipo de período</th>
+                                        <th class="mat-header-cell">Días anticipados</th>
+                                        <th class="mat-header-cell">Días disponibles</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="mat-row">
+                                        <td class="mat-cell p-radio">
+                                            <input type="radio" checked>
+                                        </td>
+                                        <td class="mat-cell">
+                                            {{item?.libroVacaciones?.inicioCausacion | date:'dd / LL / yyyy'}}</td>
+                                        <td class="mat-cell">
+                                            {{item?.libroVacaciones?.finCausacion | date:'dd / LL / yyyy'}}</td>
+                                        <td class="mat-cell">{{item?.libroVacaciones?.tipo }}</td>
+                                        <td class="mat-cell">{{item?.libroVacaciones?.diasDebe}}</td>
+                                        <td class="mat-cell">{{item?.libroVacaciones?.diasDisponibles}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div>
+                                <h3>Período a disfrutar</h3>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Fecha de inicio</mat-label>
+                                    <input matInput [matDatepicker]="fechaInicioDisfrute"
+                                        (click)="fechaInicioDisfrute.open()" formControlName="fechaInicioDisfrute"
+                                        required>
+                                    <mat-datepicker-toggle matPrefix [for]="fechaInicioDisfrute">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker startView="year" #fechaInicioDisfrute></mat-datepicker>
+                                    <mat-error *ngFor="let error of form.get('fechaInicioDisfrute').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                                No es un formato de fecha válido.
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Fecha en la que se inicia el disfrute de las vacaciones.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Días en disfrute</mat-label>
+                                    <input matInput formControlName="diasDisfrute" type="number" required>
+                                    <mat-error *ngFor="let error of form.get('diasDisfrute').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'max'">
+                                                Valor máximo 99
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'min'">
+                                                Valor mínimo 1
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Corresponde a los días disfrutados del período de vacaciones.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <div>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Días en dinero</mat-label>
+                                    <input matInput formControlName="diasDinero" type="number" required>
+                                    <mat-error *ngFor="let error of form.get('diasDinero').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'max'">
+                                                Valor máximo 99
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Corresponde a los días no disfrutados de las vacaciones, y en su lugar recibe su equivalente en dinero.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                            </div>
+
+                            <div>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Observaciones</mat-label>
+                                    <textarea matInput formControlName="observacion" required></textarea>
+                                    <mat-error *ngFor="let error of form.get('observacion').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Comentario relevante respecto a la solicitud de vacaciones.">
+                                        info</mat-icon>
+                                </mat-form-field>
+                            </div>
+
+
+                            <div *ngIf="item">
+                                <h3>Estado</h3>
+                                <p>{{item.estado == 'EnCurso' ? 'En curso': null}} {{item.estado != 'EnCurso' ? item.estado : null}}</p>
+                            </div>
+
+                            <div class="actions">
+                                <a *ngIf="!item" mat-raised-button routerLink="/vacaciones/solicitudes/">
+                                    <mat-icon>cancel</mat-icon>
+                                    <span>Cancelar</span>
+                                </a>
+                                <a *ngIf="item" mat-raised-button routerLink="/vacaciones/solicitudes/">
+                                    <mat-icon>cancel</mat-icon>
+                                    <span>Cancelar</span>
+                                </a>
+
+                                <button type="submit" mat-raised-button [disabled]="form.invalid || submit"
+                                    color="accent">
+                                    <mat-icon>save</mat-icon>
+                                    <span>Guardar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-tab>
+
+                <!-- Segundo Label -->
+                <mat-tab label="Interrupciones" [disabled]="!item" *ngIf="arrayPermisos.obtener">
+
+                    <alcanos-empty-list labelH1="¡Uy! Aún no hay interrupciones" [visibleBtnCreate]="false"
+                        [visible]="interrupcionesCount == 0">
+                    </alcanos-empty-list>
+
+                    <table class="simple" *ngIf="interrupcionesCount > 0">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell">Causal de interrupción</th>
+                                <th class="mat-header-cell">Fecha de inicio de la interrupción</th>
+                                <th class="mat-header-cell">Fecha fin de la interrupción</th>
+                                <th class="mat-header-cell">Justificación</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of interrupciones" class="mat-row">
+                                <td>{{item.ausentismoFuncionario?.tipoAusentismo?.nombre}}</td>
+                                <td>{{item.ausentismoFuncionario?.fechaInicio | date:'dd / LL / yyyy'}}</td>
+                                <td>{{item.ausentismoFuncionario?.fechaFin | date:'dd / LL / yyyy'}}</td>
+                                <td>{{item.ausentismoFuncionario?.justificacion != null ? item.ausentismoFuncionario?.justificacion : 'N/A'}}
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </mat-tab>
+                <!-- / Segundo Label -->
+            </mat-tab-group>
+
+        </div>
+        <!-- / CONTENT -->
+    </div>

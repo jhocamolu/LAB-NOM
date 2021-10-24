@@ -1,0 +1,62 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+    <h1 mat-dialog-title>Visualizar cambio</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+        <div>
+            <div>
+                <h3>Funcionario <mat-icon class="s-16" matSuffix matTooltip="Trabajador que labora en la compañía">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.contrato.funcionario?.criterioBusqueda}}  </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Centro de trabajo anterior <mat-icon class="s-16" matSuffix
+                        matTooltip="Unidad productiva de la compañía determinada por la ARL.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.anterior == null ? 'N/A' : element.anterior}}</p>
+            </div>
+            <div>
+                <h3>Centro de trabajo actual <mat-icon class="s-16" matSuffix
+                        matTooltip="Unidad productiva de la compañía determinada por la ARL.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p style="text-transform: uppercase;">{{element.actual == null ? 'N/A' : element.actual}}</p>
+            </div>
+        </div>
+
+        <div>
+            <h3>Fecha de aplicación <mat-icon class="s-16" matSuffix
+                    matTooltip="Fecha en la que tiene efecto el cambio.">
+                    info
+                </mat-icon>
+            </h3>
+            <p>{{element.fechaInicio  | date:'dd / LL / yyyy'}} </p>
+        </div>
+
+        <div>
+            <h3>Observación <mat-icon class="s-16" matSuffix
+                    matTooltip="Breve descripción del cambio.">
+                    info
+                </mat-icon>
+            </h3>
+            <p>{{element.observacion == null || element.observacion == "" ? 'N/A' : element.observacion}} </p>
+        </div>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

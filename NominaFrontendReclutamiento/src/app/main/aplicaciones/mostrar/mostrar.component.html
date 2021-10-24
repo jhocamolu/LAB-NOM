@@ -1,0 +1,98 @@
+<div class="page-layout simple fullwidth cargos-listar">
+    <!-- CONTENT -->
+    <div class="content">
+        <div *ngIf="loading" class="container_spinner">
+            <mat-spinner class="spinner"></mat-spinner>
+        </div>
+        <div *ngIf="item" [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}">
+            <div mat-dialog-content>
+                <div class="row">
+                    <div class="col-12">
+                        <h2>
+                            {{item.requisicionPersonal.cargoDependenciaSolicitado?.cargo?.nombre}}
+                        </h2>
+                    </div>
+                    <div class="col-12">
+                        <h3>
+                            <strong>Perfil</strong>
+                        </h3>
+                        <p>{{item.requisicionPersonal?.perfilCargo}}</p>
+                    </div>
+                    <div class="col-12">
+                        <h3>
+                            <strong>Competencia</strong>
+                        </h3>
+                        <p>
+                            {{item.requisicionPersonal?.competenciaCargo}}
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h3>
+                            <strong>Cargo</strong>
+                        </h3>
+                        <p>
+                            {{item.requisicionPersonal?.cargoDependenciaSolicitado?.cargo?.nombre}}
+                        </p>
+                    </div>
+    
+                    <div class="col-md-6">
+                        <h3>
+                            <strong>Ciudad</strong>
+                        </h3>
+                        <p>
+                            {{item.requisicionPersonal?.divisionPoliticaNivel2?.nombre}}
+                        </p>
+                    </div>
+    
+                    <div class="col-md-6">
+                        <h3>
+                            <strong>Salario</strong>
+                        </h3>
+                        <p>
+                            {{item.requisicionPersonal?.salario | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h3>
+                            <strong>Número de vacantes</strong>
+                        </h3>
+                        <p>
+                            {{item.requisicionPersonal?.cantidad}}
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h3>
+                            <strong>Tipo de contrato</strong>
+                        </h3>
+                        <p>
+                            {{item.requisicionPersonal?.tipoContrato?.nombre}}
+                        </p>
+                    </div>
+
+                    <div class="col-12 pt-2 pb-2">
+                            <div class="col-md-6 offset-md-6 text-center">
+                                    <a mat-raised-button class="m-2" (click)="changeMenu()">
+                                        <mat-icon>cancel</mat-icon>
+                                        <span>Cancelar</span>
+                                    </a>
+                                    <button type="submit" mat-raised-button color="accent" class="m-2" (click)="eliminarAplicacion(item)">
+                                        <mat-icon>delete_forever</mat-icon>
+                                        <span>Eliminar</span>
+                                    </button>
+                                </div>
+                        </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--/ CONTENIDO-->
+
+</div>
+<div class="div_spinner" *ngIf="loadingSave">
+    <mat-spinner class="spinner_save" color="#066f77"></mat-spinner>
+</div>

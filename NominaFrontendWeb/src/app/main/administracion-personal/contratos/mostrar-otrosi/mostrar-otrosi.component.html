@@ -1,0 +1,140 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+    <h1 mat-dialog-title>Visualizar otrosí</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+        <div class="dos-bloque">
+            <div appearance="outline">
+                <h3>
+                    N° Otrosí
+                    <mat-icon class="s-16" matSuffix matTooltip="Número del otrosí.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.numeroOtroSi}}
+                </p>
+            </div>
+            <div appearance="outline">
+                <h3>
+                    Fecha de aplicación
+                    <mat-icon class="s-16" matSuffix matTooltip="Fecha en la que entra en vigencia el otrosí.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.fechaAplicacion  | date:'dd / LL / yyyy'}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div appearance="outline">
+                <h3>
+                    Tipo de contrato
+                    <mat-icon class="s-16" matSuffix matTooltip="Tipo de contrato del otrosí.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.tipoContrato?.nombre}}
+                </p>
+            </div>
+            <div appearance="outline">
+                <h3>
+                    Fecha de finalización
+                    <mat-icon class="s-16" matSuffix matTooltip="Nueva fecha de finalización del contrato.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.fechaFinalizacion | date:'dd / LL / yyyy'}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div appearance="outline">
+                <h3>
+                    Dependencia
+                    <mat-icon class="s-16" matSuffix matTooltip="Dependencia a la que va pertenecer el funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.cargoDependencia?.dependencia?.nombre}}
+                </p>
+            </div>
+            <div appearance="outline">
+                <h3>
+                    Cargo
+                    <mat-icon class="s-16" matSuffix matTooltip="Cargo al que va pertenecer el funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.cargoDependencia?.cargo?.nombre}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div appearance="outline">
+                <h3>
+                    Departamento
+                    <mat-icon class="s-16" matSuffix matTooltip="Departamento donde trabajará el funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.divisionPoliticaNivel2?.divisionPoliticaNivel1.nombre}}
+                </p>
+            </div>
+            <div appearance="outline">
+                <h3>
+                    Municipio
+                    <mat-icon class="s-16" matSuffix matTooltip="Municipio donde trabajará el funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.divisionPoliticaNivel2?.nombre}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div appearance="outline">
+                <h3>
+                    Sueldo
+                    <mat-icon class="s-16" matSuffix matTooltip="Sueldo que devengará el funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.sueldo | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}
+                </p>
+            </div>
+            <div appearance="outline">
+                <h3>
+                    Centro operativo
+                    <mat-icon class="s-16" matSuffix matTooltip="Centro operativo donde trabajará el funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.centroOperativo.nombre}}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div mat-dialog-actions class="actions">
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

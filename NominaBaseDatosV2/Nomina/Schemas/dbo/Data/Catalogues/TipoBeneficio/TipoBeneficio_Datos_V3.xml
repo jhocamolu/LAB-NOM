@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="TipoBeneficio_Datos_V3">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.TipoBeneficio SET Nombre='Auxilio Optico', ConceptoNominaDevengoId=3, ConceptoNominaDeduccionId=NULL, ConceptoNominaCalculoId=NULL, RequiereAprobacionJefe=0, MontoMaximo=200000.0000, ValorSolicitado=0, PlazoMes=0, CuotaPermitida=0, PeriodoPago=0, PermiteAuxilioEducativo=0, PermiteDescuentoNomina=0, ValorAutorizado=1, DiasAntiguedad=0, VecesAnio=1, Descripcion='Auxilio óptico', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL, PermisoEstudio=0 WHERE Id=1;
+UPDATE dbo.TipoBeneficio SET Nombre='Permiso adelantar estudios', ConceptoNominaDevengoId=NULL, ConceptoNominaDeduccionId=NULL, ConceptoNominaCalculoId=NULL, RequiereAprobacionJefe=1, MontoMaximo=0.0000, ValorSolicitado=0, PlazoMes=0, CuotaPermitida=0, PeriodoPago=0, PermiteAuxilioEducativo=0, PermiteDescuentoNomina=0, ValorAutorizado=0, DiasAntiguedad=0, VecesAnio=2, Descripcion='Permiso otorgado por la compañía para adelantar estudios', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL, PermisoEstudio=1 WHERE Id=2;
+UPDATE dbo.TipoBeneficio SET Nombre='Préstamo educativo', ConceptoNominaDevengoId=4, ConceptoNominaDeduccionId=27, ConceptoNominaCalculoId=NULL, RequiereAprobacionJefe=1, MontoMaximo=0.0000, ValorSolicitado=0, PlazoMes=1, CuotaPermitida=6, PeriodoPago=1, PermiteAuxilioEducativo=1, PermiteDescuentoNomina=1, ValorAutorizado=1, DiasAntiguedad=720, VecesAnio=2, Descripcion='Préstamo educativo condonable', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL, PermisoEstudio=0 WHERE Id=3;
+UPDATE dbo.TipoBeneficio SET Nombre='Préstamo por calamidad', ConceptoNominaDevengoId=5, ConceptoNominaDeduccionId=26, ConceptoNominaCalculoId=NULL, RequiereAprobacionJefe=1, MontoMaximo=3512000.0000, ValorSolicitado=1, PlazoMes=1, CuotaPermitida=6, PeriodoPago=1, PermiteAuxilioEducativo=0, PermiteDescuentoNomina=1, ValorAutorizado=1, DiasAntiguedad=0, VecesAnio=0, Descripcion='Préstamo por calamidad', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL, PermisoEstudio=0 WHERE Id=4;
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+SELECT 1
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

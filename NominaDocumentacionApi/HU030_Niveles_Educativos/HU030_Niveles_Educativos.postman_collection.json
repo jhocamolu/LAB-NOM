@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "96e27725-b44c-44c6-a045-0429b152518c",
+		"name": "HU030_Niveles_Educativos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtener Niveles Educativos (Todos)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/nivelEducativos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"nivelEducativos"
+					]
+				},
+				"description": "{{host}}/odata/nivelEducativos\n\nConsulta u obtiene todos los registros de la entoidad NivelEducativo"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Niveles Educativos (n)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/nivelEducativos/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"nivelEducativos",
+						"1"
+					]
+				},
+				"description": "{{host}}/odata/nivelEducativos/n\n\nConsulta u obtiene un registro de la entidad Niveles Educativos.\ndonde n es el id del registro a consultar"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarNivelEducativos/1",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 16,\r\n    \"nombre\": \"MAESTRIA-14 ORDEN 16\",\r\n    \"orden\": 16\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/nivelEducativos/16",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"nivelEducativos",
+						"16"
+					]
+				},
+				"description": "\n{{host}}/api/nivelEducativos/1\n\nActualizar un registro de la entidad NivelEducativo."
+			},
+			"response": []
+		},
+		{
+			"name": "CrearNivelEducativo/1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"MAESTRIA20\",\r\n    \"orden\":20\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/nivelEducativos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"nivelEducativos"
+					]
+				},
+				"description": "{{host}}/api/nivelEducativos\n\nCrear un registro de la entidad NivelEducativo."
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialNivelEducativo/1",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\":16,\r\n    \"nombre\": \"MAESTRIA\",\r\n    \"orden\":16\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/nivelEducativos/16",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"nivelEducativos",
+						"16"
+					]
+				},
+				"description": "{{host}}/api/nivelEducativos/1\n\nHabilitado para actualizaciones parciales, obigatorio el ID, y un campo con su valor a actializar"
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarNivelEducativos/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 1,\r\n    \"nombre\": \"MAESTRIA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/nivelEducativos/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"nivelEducativos",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/nivelEducativos/1\n\nActualizar un registro de la entidad NivelEducativo."
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

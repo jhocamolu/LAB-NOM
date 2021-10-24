@@ -1,0 +1,71 @@
+<div class="btn-lateral-filtro">
+    <button class="mat-icon-button warn mat-elevation-z2" (click)="filtroHandle($event)">
+        <span class="mat-button-wrapper">
+            <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" matTooltip="Filtrar" role="img"
+                aria-hidden="true">
+                filter_list</mat-icon>
+        </span>
+        <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div>
+        <div class="mat-button-focus-overlay"></div>
+    </button>
+</div>
+
+<div class="page-layout simple fullwidth inner-scroll" id="nuevo" [fusePerfectScrollbar]="true"
+    (ps-y-reach-end)="doSomethingOnScroll($event)">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Selección de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Hojas de vida</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Hojas de vida</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+            <a *ngIf="arrayPermisos.crear" mat-raised-button color="accent"
+                routerLink="/reclutamiento-seleccion/hojas-vida/datos-basicos">
+                <mat-icon>add</mat-icon>
+                <span>Registrar hoja de vida</span>
+            </a>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- CONTENIDO -->
+        <div>
+
+            <alcanos-empty-list [visibleBtnCreate]="arrayPermisos.crear" (fnCreate)="crearHandle($event)"
+                labelH1="¡Uy! Aún no has registrado hojas de vida." labelBtn="Registrar hoja de vida"
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+            <div class="lista-Hojas-vida">
+                <ng-container *ngFor="let item of todasHojasVida; let i = index">
+                    <hojas-vida-cards-listar fxFlex="100" fxFlex.gt-md="25"  fxFlex.gt-sm="33" fxFlex.gt-xs="50" [aspirante]="item" [permiso]="arrayPermisos" [colorsInput]="i">
+                    </hojas-vida-cards-listar>
+                    <!-- -->
+                </ng-container>
+            </div>
+            <!-- / CONTENIDO -->
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

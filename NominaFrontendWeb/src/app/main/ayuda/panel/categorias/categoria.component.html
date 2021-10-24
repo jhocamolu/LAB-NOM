@@ -1,0 +1,19 @@
+<div class="breadcrumb">
+    <ul>
+        <li>
+            <mat-icon>arrow_back</mat-icon>
+        </li>
+        <li><a>Home</a>
+            <div></div>
+        </li>
+    </ul>
+</div>
+
+<div class="introduccionHeader-left p-8">
+    <h2>Contratación</h2>
+</div>
+<mat-list role="list" class="articulos--todos">
+    <mat-list-item role="listitem" *ngFor="let item of categoriaOnly">
+        <mat-icon>insert_drive_file</mat-icon> {{item.titulo}}
+    </mat-list-item>
+</mat-list>

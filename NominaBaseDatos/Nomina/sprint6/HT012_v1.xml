@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="UFT_ObtenerInformacionContractual_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+<![CDATA[ 
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 31/01/2020
+-- Description: Pemite obtener la información contractual del funcionario a una fecha determinada
+--
+-- Parameters:
+--   @PFuncionarioId:			Identificador del funcionario
+--   @PFecha:					Fecha para la cual se quiere obtener la información
+--   @PTipoInformacion:         Especifica si la fecha está dentro de las fechas de inicio y fin del 
+--								contrato o mayor igual a la fecha de inicio.
+--
+-- Returns:						Table
+--	 TieneInformación:			Indica si el funcionario tiene información contractual para la fecha indicada
+--	 ContratoId:				Identificador del contrato al que corresponde la información contractual
+--	 OtroSiId:					Identificador del otrosí al que corresponde la información contractual
+--   TipoContratoId:			Identificador del tipo de contrato
+--	 CargoDependenciaId:		Identifcador de la relación cargo dependencia a la que pertenece el funcionario
+--	 Sueldo:					Sueldo del funcionario
+--	 CentroOperativoId:			Identificador del centro operativo
+--	 DivisionPoliticaNivel2Id:	Identificador de la división política de nivel 2
+-- ==========================================================================================
+
+CREATE FUNCTION [dbo].[UFT_ObtenerInformacionContractual] (@PFuncionarioId int, @PFecha date, @PTipoInformacion BIT)  
+RETURNS @InformacionContractual TABLE   
+(  
+    TieneInformacion BIT NOT NULL,
+	ContratoId INT NULL,
+	OtroSiId INT NULL,
+	TipoContratoId INT NULL,
+    CargoDependenciaId INT NULL,  
+    Sueldo FLOAT NOT NULL,  
+    CentroOperativoId INT NULL,  
+    DivisionPoliticaNivel2Id INT
+)  
+AS  
+BEGIN  
+
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+
+	DECLARE @tieneInformacion BIT = 0;
+	DECLARE @otroSiId INT;
+	DECLARE @contratoId INT;
+	DECLARE @estadoRegistro VARCHAR(12) = 'Activo';
+	DECLARE @tipoContratoId INT;
+	DECLARE @cargoDependenciaId INT;
+	DECLARE @sueldo FLOAT = 0;
+	DECLARE @centroOperativoId INT;
+	DECLARE @divisionPoliticaNivel2Id INT;
+
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+
+	-- Si el parámetro @PFecha es nulo se toma la fecha actual
+	IF @PFecha IS NULL
+		SET @PFecha = CONVERT(date, getdate());
+
+	-- Si el parámetro @PFuncionarioId es nulo no se hace ninguna consulta
+	IF @PFuncionarioId IS NOT NULL
+	BEGIN
+		-- Obtener Otrosí asociado a la fecha de consulta
+		IF @PTipoInformacion = 0
+		BEGIN
+			SELECT TOP (1) @otroSiId = csi.Id, @contratoId = con.Id, @tipoContratoId = csi.TipoContratoId, @cargoDependenciaId = csi.CargoDependenciaId,
+			@sueldo = csi.Sueldo, @centroOperativoId = csi.CentroOperativoId, @divisionPoliticaNivel2Id = csi.DivisionPoliticaNivel2Id
+			FROM Contrato con 
+			INNER JOIN ContratoOtroSi csi ON (con.Id = csi.ContratoId)
+			WHERE con.FuncionarioId = @PFuncionarioId
+			AND csi.EstadoRegistro =@estadoRegistro AND 
+			con.EstadoRegistro = @estadoRegistro AND 
+			@PFecha BETWEEN csi.FechaAplicacion AND 
+                ISNULL(csi.FechaFinalizacion,
+                    ISNULL(
+                        (Select top 1 conSi.FechaAplicacion FROM ContratoOtroSi conSi 
+                        WHERE conSi.FechaAplicacion > csi.FechaAplicacion
+                        AND conSi.ContratoId = con.Id
+                        AND conSi.EstadoRegistro = @estadoRegistro
+                        and conSi.Id <> csi.Id), CONVERT(date, getdate())
+                    )
+                )
+            ORDER BY csi.FechaFinalizacion DESC;
+		END 
+		IF @PTipoInformacion = 1
+		BEGIN
+			-- Obtener Otrosí asociado con fecha de aplicación inferior igual a la fecha ingresada
+			SELECT TOP (1) @otroSiId = csi.Id, @contratoId = con.Id, @tipoContratoId = csi.TipoContratoId, @cargoDependenciaId = csi.CargoDependenciaId,
+			@sueldo = csi.Sueldo, @centroOperativoId = csi.CentroOperativoId, @divisionPoliticaNivel2Id = csi.DivisionPoliticaNivel2Id
+			FROM Contrato con 
+			INNER JOIN ContratoOtroSi csi ON (con.Id = csi.ContratoId)
+			WHERE con.FuncionarioId = @PFuncionarioId AND 
+			csi.EstadoRegistro = @estadoRegistro AND 
+			con.EstadoRegistro = @estadoRegistro AND 
+			@PFecha >= csi.FechaAplicacion
+			ORDER BY csi.FechaFinalizacion DESC;
+		END
+
+		IF @otroSiId IS NULL
+		BEGIN
+			IF @PTipoInformacion = 0
+			BEGIN
+				-- Si no existe un otrosí se obtienen los datos del contrato
+				SELECT TOP (1) @contratoId = con.Id, @tipoContratoId = con.TipoContratoId, @cargoDependenciaId = con.CargoDependenciaId,
+				@sueldo = con.Sueldo, @centroOperativoId = con.CentroOperativoId, @divisionPoliticaNivel2Id = con.DivisionPoliticaNivel2Id
+				FROM Contrato con
+				WHERE con.FuncionarioId = @PFuncionarioId AND con.EstadoRegistro = @estadoRegistro
+				AND @PFecha BETWEEN con.FechaInicio AND ISNULL(con.FechaTerminacion,ISNULL(con.FechaFinalizacion,CONVERT(date, getdate())))
+				ORDER BY con.FechaFinalizacion DESC;
+			END
+			IF @PTipoInformacion = 1
+			BEGIN
+				-- Si no existe un otrosí se obtienen los datos del contrato inferior igual a la fecha ingresada
+				SELECT TOP (1) @contratoId = con.Id, @tipoContratoId = con.TipoContratoId, @cargoDependenciaId = con.CargoDependenciaId,
+				@sueldo = con.Sueldo, @centroOperativoId = con.CentroOperativoId, @divisionPoliticaNivel2Id = con.DivisionPoliticaNivel2Id
+				FROM Contrato con
+				WHERE con.FuncionarioId = @PFuncionarioId AND con.EstadoRegistro = @estadoRegistro
+				AND @PFecha >= con.FechaInicio
+				ORDER BY con.FechaFinalizacion DESC;
+			END
+		END
+		IF @otroSiId IS NOT NULL OR @contratoId IS NOT NULL
+		BEGIN
+			SET @tieneInformacion = 1;
+		END	
+	END
+	
+
+	INSERT INTO @InformacionContractual (TieneInformacion, ContratoId, OtroSiId, TipoContratoId, CargoDependenciaId, Sueldo, CentroOperativoId, DivisionPoliticaNivel2Id)
+	VALUES (@tieneInformacion, @contratoId, @otroSiId, @tipoContratoId, @cargoDependenciaId, @sueldo, @centroOperativoId, @divisionPoliticaNivel2Id);
+
+	RETURN  
+END;  
+]]>
+</sql>
+
+
+<rollback>
+DROP FUNCTION [dbo].[UFT_ObtenerInformacionContractual];
+</rollback>
+</changeSet>
+
+<changeSet author="lestrada" id="UFS_ObtenerSueldoBasico_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 31/01/2020
+-- Description: Pemite obtener la información contractual del funcionario a una fecha determinada
+--
+-- Parameters:
+--   @PFuncionarioId:			Identificador del funcionario
+--   @PFecha:					Fecha para la cual se quiere obtener la información
+--   @PTipoInformacion:         Especifica si la fecha está dentro de las fechas de inicio y fin del 
+--								contrato o mayor igual a la fecha de inicio. 
+--
+-- Returns:						Scalar
+--	 Sueldo:					Sueldo del funcionario
+-- ==========================================================================================
+
+CREATE FUNCTION [dbo].[UFS_ObtenerSueldo] (@PFuncionarioId int, @PFecha date, @PTipoInformacion BIT)  
+RETURNS FLOAT
+AS  
+BEGIN  
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	DECLARE @sueldo FLOAT = 0;
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	SELECT 
+		@sueldo = Sueldo
+		FROM 
+			[dbo].[UFT_ObtenerInformacionContractual](@PFuncionarioId,@PFecha,@PTipoInformacion);
+	RETURN @sueldo
+END;  
+
+
+</sql>
+
+<rollback>
+DROP FUNCTION [dbo].[UFS_ObtenerSueldo];
+</rollback>
+
+</changeSet>
+</databaseChangeLog>

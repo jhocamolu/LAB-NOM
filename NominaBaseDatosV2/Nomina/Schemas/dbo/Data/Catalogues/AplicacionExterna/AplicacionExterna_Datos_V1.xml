@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="AplicacionExterna_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[AplicacionExterna] ON;
+INSERT INTO dbo.AplicacionExterna (Id, Codigo, Nombre, Descripcion, Aprueba, Autoriza, Revisa, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('1', 'HE', 'Horas Extras', 'Aplicación encargada de administrar las horas extras que registran los funcionarios de la compañía', 'Otro', 'Otro', 'Otro', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.AplicacionExterna (Id, Codigo, Nombre, Descripcion, Aprueba, Autoriza, Revisa, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('2', 'GV', 'Gastos de viaje', 'Aplicación encargada de realizar un control de los viáticos entregados a los funcionarios.', 'Otro', 'Otro', 'Otro', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.AplicacionExterna (Id, Codigo, Nombre, Descripcion, Aprueba, Autoriza, Revisa, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('3', 'VE', 'Valera emocional', 'Aplicación encargada de administrar los permisos remunerados de los funcionarios.', 'Otro', 'Otro', 'Otro', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[AplicacionExterna] OFF;
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM dbo.AplicacionExterna WHERE Id BETWEEN 1 AND 3;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

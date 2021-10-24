@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="VW_ContratoAdministradoraCambios_V1">
+<comment>Crear </comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[VW_ContratoAdministradoraCambios]') IS NOT NULL
+BEGIN
+    DROP VIEW [dbo].[VW_ContratoAdministradoraCambios]
+END
+GO
+
+--=====================================================================================
+-- Author:      Jesus Albeiro Gaviria Rubio.
+-- Create date: 24-09-2020
+-- Update date: 30-09-2020
+-- Description: Obtiene los datos de ContratoAdministradoraAdministradora, actual y anterior 
+--=====================================================================================
+CREATE VIEW [dbo].[VW_ContratoAdministradoraCambios]
+AS
+	SELECT
+		conAdminActual.Id 
+		,conAdminActual.ContratoId
+		,funcionario.Id as FuncionarioId
+		,tipoAdmin.Id as TipoAdministradoraId
+		,(	SELECT TOP 1 adminAnterior.Nombre 	
+			FROM ContratoAdministradora AS conAdminAnterior
+				INNER JOIN Administradora AS adminAnterior ON conAdminAnterior.AdministradoraId = adminAnterior.Id
+				AND adminAnterior.TipoAdministradoraId = administradora.TipoAdministradoraId
+			WHERE conAdminAnterior.EstadoRegistro = ( SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+			AND conAdminAnterior.FechaFin IS NOT NULL
+			AND conAdminAnterior.ContratoId = conAdminActual.ContratoId
+			ORDER BY  conAdminAnterior.FechaFin DESC
+			) Anterior
+		,administradora.Nombre as Actual
+		,administradora.Id as administradoraId
+		,conAdminActual.FechaInicio
+		,conAdminActual.Observacion
+	FROM
+		dbo.Funcionario funcionario 
+	 INNER JOIN dbo.Contrato AS contrato ON
+		funcionario.Id = contrato.FuncionarioId
+		AND Contrato.EstadoRegistro = (SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+	INNER JOIN dbo.ContratoAdministradora AS conAdminActual ON
+		contrato.Id = conAdminActual.ContratoId
+		AND conAdminActual.EstadoRegistro = (SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+	INNER JOIN dbo.Administradora AS administradora ON
+		conAdminActual.AdministradoraId = administradora.Id
+		AND administradora.EstadoRegistro = (SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+	INNER JOIN dbo.TipoAdministradora AS tipoAdmin ON
+		administradora.TipoAdministradoraId = tipoAdmin.Id
+		AND tipoAdmin.EstadoRegistro = (SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+	WHERE
+		funcionario.EstadoRegistro = (SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+		AND conAdminActual.FechaFin IS NULL;
+	
+	GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[VW_ContratoAdministradoraCambios]') IS NOT NULL
+BEGIN
+    DROP VIEW [dbo].[VW_ContratoAdministradoraCambios]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

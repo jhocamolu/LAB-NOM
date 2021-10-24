@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_ObtenerRentaExenta_V1">
+<comment>HU093</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerRentaExenta', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerRentaExenta as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 18/07/2020
+-- Description: Permite obtener el valor de la renta exenta
+--
+-- Parameters:
+--   @PagosBrutosLaborales:	  Valor de los pagos brutos laborales del periodo.
+--   @IngresosNoGravables:	  Valor de los ingreso no gravables del periodo.
+--   @DeduccionesArticulo387:	  Valor de las deducciones artículo 387 del periodo.
+--		
+-- Returns:						
+--   @Valor:		    Valor base retefuente
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ObtenerRentaExenta]
+(@AcumuladoRentaExenta	   MONEY,
+ @PagosBrutosLaborales	   MONEY,
+ @IngresosNoGravables	   MONEY,
+ @DeduccionesArticulo387	   MONEY,
+ @Valor				   MONEY OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@PagosBrutosLaborales=', CONVERT(VARCHAR, @PagosBrutosLaborales), '@IngresosNoGravables=', CONVERT(VARCHAR, @IngresosNoGravables), '@DeduccionesArticulo387=', CONVERT(VARCHAR, @DeduccionesArticulo387), '@Valor=', CONVERT(VARCHAR, @Valor));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @AnioVigente VARCHAR(255);
+    DECLARE @TipoRetefuenteMensual VARCHAR(255);
+    DECLARE @AnioVigenteId INT;
+    DECLARE @MultiploRedondeo INT= 0;
+    DECLARE @AliasParametroMultiploRedondeo VARCHAR(255);
+    DECLARE @AliasParametroPorcentajeRentaExenta VARCHAR(255);
+    DECLARE @AliasConceptoRentasExentas VARCHAR(255);
+    DECLARE @PorcentajeRentaExenta INT = 0;
+    DECLARE @ValorRentasExentas MONEY= 0;
+    DECLARE @ValorDeduccionesArticulo387 MONEY= 0;
+    DECLARE @TotalRentasExentas MONEY= 0;
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        -- Se obtienen constantes asociadas a estados
+        SELECT @AnioVigente = vce.ANIO_VIGENTE
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Se obtienen constantes asociadas a alias de parámetros del sistema
+        SELECT @AliasParametroMultiploRedondeo = vcpg.[MULTIPLOREDONDEOS],
+               @AliasParametroPorcentajeRentaExenta = vcpg.RENTAEXENTA
+        FROM util.VW_ConstanteParametroGeneral AS vcpg;
+
+        -- Se obtiene el año de trabajo vigente
+        SET @AnioVigenteId = [dbo].[UFS_ObtenerAnioTrabajo](@AnioVigente);
+
+        -- Se obtienen los valores asociados a los parámetros del sistema
+	   SET @MultiploRedondeo = CAST([util].[UFS_ObtenerParametro](@AliasParametroMultiploRedondeo, @AnioVigenteId) AS INT);
+        SET @PorcentajeRentaExenta = CAST([util].[UFS_ObtenerParametro](@AliasParametroPorcentajeRentaExenta, @AnioVigenteId) AS INT);
+
+	   IF @MultiploRedondeo IS NULL
+           OR @PorcentajeRentaExenta IS NULL
+        BEGIN
+            SET @MensajeExcepcion = 'No se ha encontrado valor para alguno de los siguientes parámetros: "Multiplo de redondeo", "Porcentaje de renta exenta".';
+            EXEC util.USP_GenerarExcepcion
+                 50000,
+                 @MensajeExcepcion;
+        END;
+
+        -- Se calcula el valor de la renta exenta de trabajo
+        SET @TotalRentasExentas = (@PagosBrutosLaborales - @IngresosNoGravables - @DeduccionesArticulo387 - @AcumuladoRentaExenta);
+
+        SET @Valor = util.UFS_RedondearAMultiplo((@TotalRentasExentas * @PorcentajeRentaExenta / 100), @MultiploRedondeo);
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerRentaExenta];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

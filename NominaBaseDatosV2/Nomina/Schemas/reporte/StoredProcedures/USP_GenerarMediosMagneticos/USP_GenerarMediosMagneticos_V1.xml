@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="USP_GenerarMediosMagneticos_V1">
+<comment>HU109</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+IF OBJECT_ID('reporte.USP_GenerarMediosMagneticos', 'P') IS NULL
+    BEGIN
+        EXECUTE ('CREATE PROCEDURE reporte.USP_GenerarMediosMagneticos as SELECT 1');
+    END;
+GO
+SET ANSI_NULLS ON;
+GO
+SET QUOTED_IDENTIFIER ON;
+GO
+-- ==========================================================================================
+-- Author:      Jhonatan Camilo Moreno Luna
+-- Create date: 17/09/2020 Nomina_MediosMagneticos
+-- Description: Permite generar la información del archivo de medios magneticos.
+--
+-- Parameters:
+--   @Anio :	   Año que se desea consultar
+--		
+-- Returns:						
+--   @Resultado:		   Estado resultado del proceso. = 0 Todo bien; > 0 Error
+-- ==========================================================================================
+ALTER PROCEDURE reporte.USP_GenerarMediosMagneticos @Anio      INT, 
+                                                    @Resultado INT OUTPUT
+AS
+    BEGIN
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Anio=', CONVERT(VARCHAR, @Anio));
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        ---------------------------------------------
+        -- Declaraciones
+        ---------------------------------------------
+        -- Variables de Error
+        DECLARE @MensajeExcepcion VARCHAR(255);
+
+        -- Variables de apoyo
+        DECLARE @AnioConsulta INT;
+        DECLARE @FechaInicio DATE;
+        DECLARE @FechaFin DATE;
+
+        -- DECLARE ALIAS CONCEPTOS
+        DECLARE @AliasBaseIbcMes VARCHAR(255)= 'BaseIbcMes';
+        DECLARE @AliasPrimaLegal VARCHAR(255)= 'PrimaLegal';
+        DECLARE @AliasVacacionesTiempo VARCHAR(255)= 'VacacionesTiempo';
+        DECLARE @AliasVacacionesDinero VARCHAR(255)= 'VacacionesDinero';
+        DECLARE @AliasLiqVacaciones VARCHAR(255)= 'LiqVacaciones';
+        DECLARE @AliasDotacion VARCHAR(255)= 'Dotacion';
+        DECLARE @AliasCesantiasConsolidadas VARCHAR(255)= 'CesantiasConsolidadas';
+        DECLARE @AliasCesantíasFondo VARCHAR(255)= 'CesantíasFondo';
+        DECLARE @AliasAnticiCesantias VARCHAR(255)= 'AnticiCesantias';
+        DECLARE @AliasLiqCesantias VARCHAR(255)= 'LiqCesantias';
+        DECLARE @AliasInteresCesantiasConsolidadas VARCHAR(255)= 'InteresCesantiasConsolidadas';
+        DECLARE @AliasInteresesAnticipoCesantias VARCHAR(255)= 'InteresesAnticipoCesantias';
+        DECLARE @AliasLiqIntCesantias VARCHAR(255)= 'LiqIntCesantias';
+        DECLARE @AliasSaludEmpresa VARCHAR(255)= 'SaludEmpresa';
+        DECLARE @AliasSaludFuncionario VARCHAR(255)= 'SaludFuncionario';
+        DECLARE @AliasPensionEmpresa VARCHAR(255)= 'PensionEmpresa';
+        DECLARE @AliasPensionFuncionario VARCHAR(255)= 'PensionFuncionario';
+        DECLARE @AliasAporteFondoSolidaridad VARCHAR(255)= 'AporteFondoSolidaridad';
+        DECLARE @AliasARL VARCHAR(255)= 'ARL';
+        DECLARE @AliasAportePensionVoluntario VARCHAR(255)= 'AportePensionVoluntario';
+        DECLARE @AliasCuentasAfc VARCHAR(255)= 'CuentasAfc';
+        DECLARE @AliasRetefuente VARCHAR(255)= 'Retefuente';
+        DECLARE @AliasApoyoSostenimiento VARCHAR(255)= 'ApoyoSostenimiento';
+        DECLARE @AliasApoyoSostenimientoLectiva VARCHAR(255)= 'ApoyoSostenimientoLectiva';
+
+        -- DECLARE Variable Cursor
+        DECLARE @FuncionarioId INT;
+
+        -- DECLARE Variable Valores
+        DECLARE @ValorPagossalario MONEY;
+        DECLARE @ValorPrimaservicios MONEY;
+        DECLARE @ValorVacaciones MONEY;
+        DECLARE @ValorVacacionesdinero MONEY;
+        DECLARE @ValorVacacionesretiro MONEY;
+        DECLARE @ValorDotacion MONEY;
+        DECLARE @ValorPagosviaticos MONEY;
+        DECLARE @ValorOtrospagos MONEY;
+        DECLARE @ValorCesantiasempleados MONEY;
+        DECLARE @ValorCesantiasfondo MONEY;
+        DECLARE @ValorPagoscesantiasanticipo MONEY;
+        DECLARE @ValorPagocesantiasretiro MONEY;
+        DECLARE @ValorInteresescesantias MONEY;
+        DECLARE @ValorInteresesporanticipos MONEY;
+        DECLARE @ValorInteresesporretiro MONEY;
+        DECLARE @ValorInteresesAnioActual MONEY;
+        DECLARE @ValorAporteempresasalud MONEY;
+        DECLARE @ValorAporteempleadosalud MONEY;
+        DECLARE @ValorAporteempresapension MONEY;
+        DECLARE @ValorAporteempleadopension MONEY;
+        DECLARE @ValorAporteFondoDeSolidaridadPensional MONEY;
+        DECLARE @ValorAporteRAIS MONEY;
+        DECLARE @ValorAporteARL MONEY;
+        DECLARE @ValorAporteaFondoVoluntariodePension MONEY;
+        DECLARE @ValorAportesaCuentasAFC MONEY;
+        DECLARE @ValorRetencionenlaFuente MONEY;
+        DECLARE @ValorApoyoSostenimiento MONEY;
+        DECLARE @ValorApoyoSostenimientoLectiva MONEY;
+
+        -- tabla temporal
+        CREATE TABLE #MedioMagnetico
+        (FuncionarioId                     INT NOT NULL, 
+         Tipodocumento                     VARCHAR(50) NOT NULL, 
+         Numeroidentificacion              VARCHAR(50) NOT NULL, 
+         Primerapellido                    VARCHAR(50) NOT NULL, 
+         Segundoapellido                   VARCHAR(50), 
+         Primernombre                      VARCHAR(50) NOT NULL, 
+         Otrosnombres                      VARCHAR(50), 
+         Direccion                         VARCHAR(MAX) NOT NULL, 
+         Codigodepartamento                VARCHAR(50), 
+         Codigomunicipio                   VARCHAR(50), 
+         Fechainicial                      DATE, 
+         Fechafinal                        DATE, 
+         Pagossalario                      MONEY, 
+         Primaservicios                    MONEY, 
+         Vacaciones                        MONEY, 
+         Vacacionesdinero                  MONEY, 
+         Vacacionesretiro                  MONEY, 
+         Dotacion                          MONEY, 
+         Pagosviaticos                     MONEY, 
+         Otrospagos                        MONEY, 
+         Cesantiasempleados                MONEY, 
+         Cesantiasfondo                    MONEY, 
+         Pagoscesantiasanticipo            MONEY, 
+         Pagocesantiasretiro               MONEY, 
+         Interesescesantias                MONEY, 
+         Interesesporanticipos             MONEY, 
+         Interesesporretiro                MONEY, 
+         InteresesAnioActual               MONEY, 
+         Aporteempresasalud                MONEY, 
+         Aporteempleadosalud               MONEY, 
+         Aporteempresapension              MONEY, 
+         Aporteempleadopension             MONEY, 
+         AporteFondoDeSolidaridadPensional MONEY, 
+         AporteRAIS                        MONEY, 
+         AporteARL                         MONEY, 
+         AporteaFondoVoluntariodePension   MONEY, 
+         AportesaCuentasAFC                MONEY, 
+         RetencionenlaFuente               MONEY
+        );
+        BEGIN TRY
+            SET @Resultado = 1;
+            SET @AnioConsulta =
+            (
+                SELECT TOP 1 av.Anno
+                FROM dbo.AnnoVigencia AS av
+                WHERE av.Id = @Anio
+            );
+            IF @AnioConsulta IS NULL
+                BEGIN
+                    SET @MensajeExcepcion = 'No se han pasado los parámetros apropiados para ejecutar el procedimiento.';
+                    EXEC util.USP_GenerarExcepcion 
+                         50000, 
+                         @MensajeExcepcion;
+                END;
+            -- Configuracion de fechas
+            SET @FechaInicio = CONVERT(DATE, CONCAT(@AnioConsulta, '-01-01'));
+            SET @FechaFin = CONVERT(DATE, CONCAT(@AnioConsulta, '-12-31'));
+
+            -- INSERT de los Funcionarios
+            INSERT INTO #MedioMagnetico
+            (FuncionarioId, 
+             Tipodocumento, 
+             Numeroidentificacion, 
+             Primerapellido, 
+             Segundoapellido, 
+             Primernombre, 
+             Otrosnombres, 
+             Direccion, 
+             Codigodepartamento, 
+             Codigomunicipio, 
+             Fechainicial, 
+             Fechafinal
+            )
+                   SELECT Fun.Id, 
+                          Fun.CodigoDian, 
+                          Fun.NumeroDocumento,
+                          Fun.PrimerApellido, 
+                          Fun.SegundoApellido, 
+                          Fun.PrimerNombre, 
+                          Fun.SegundoNombre,
+                          Fun.Direccion, 
+                          Fun.Departamento, 
+                          Fun.Municipio, 
+                          Fun.FechaInicio, 
+                          Fun.FechaTerminacion
+                   FROM
+                   (
+                       SELECT DISTINCT 
+                              f.Id, 
+                              td.CodigoDian, 
+                              f.NumeroDocumento, 
+                              f.PrimerNombre, 
+                              f.SegundoNombre, 
+                              f.PrimerApellido, 
+                              f.SegundoApellido, 
+                              f.Direccion, 
+                              dpn1.Nombre AS 'Departamento', 
+                              dpn2.Nombre AS 'Municipio', 
+                              c.FechaInicio, 
+                              IIF(f.ContratoOtroSiId IS NULL, IIF((c.Estado =
+                       (
+                           SELECT vce.CONTRATO_TERMINADO
+                           FROM util.VW_ConstanteEstado vce
+                       )), c.FechaTerminacion, NULL), IIF((c.Estado =
+                       (
+                           SELECT vce.CONTRATO_TERMINADO
+                           FROM util.VW_ConstanteEstado vce
+                       )), cots.FechaFinalizacion, NULL)) AS 'FechaTerminacion'
+                       FROM dbo.NominaFuncionario nf
+                            INNER JOIN dbo.Nomina n ON nf.NominaId = n.Id
+                                                       AND n.Estado =
+                       (
+                           SELECT vce.NOMINA_APLICADA
+                           FROM util.VW_ConstanteEstado vce
+                       )
+                                                       AND YEAR(n.FechaInicio) = @AnioConsulta
+                            INNER JOIN dbo.VW_FuncionarioDatoActual f ON nf.FuncionarioId = f.Id
+                                                                         AND nf.Estado =
+                       (
+                           SELECT vce.NOMINAFUNCIONARIO_LIQUIDADO
+                           FROM util.VW_ConstanteEstado vce
+                       )
+                            INNER JOIN dbo.TipoDocumento td ON f.TipoDocumentoId = td.Id
+                            INNER JOIN DivisionPoliticaNivel2 dpn2 ON f.DivisionPoliticaNivel2ResidenciaId = dpn2.Id
+                            INNER JOIN DivisionPoliticaNivel1 dpn1 ON dpn2.DivisionPoliticaNivel1Id = dpn1.Id
+                            INNER JOIN Contrato c ON f.ContratoId = c.Id
+                                                     AND c.EstadoRegistro =
+                       (
+                           SELECT util.VW_ConstanteEstado.AUDITORIA_ACTIVO
+                           FROM util.VW_ConstanteEstado
+                       )
+                            LEFT JOIN dbo.ContratoOtroSi cots ON f.ContratoOtroSiId = cots.Id
+                                                                 AND cots.EstadoRegistro =
+                       (
+                           SELECT util.VW_ConstanteEstado.AUDITORIA_ACTIVO
+                           FROM util.VW_ConstanteEstado
+                       )
+                   ) AS Fun;
+            -- CURSOR
+
+            DECLARE CUR_MedioMagnetico CURSOR
+            FOR SELECT #MedioMagnetico.FuncionarioId
+                FROM #MedioMagnetico;
+            OPEN CUR_MedioMagnetico;
+            FETCH NEXT FROM CUR_MedioMagnetico INTO @FuncionarioId;
+            WHILE @@FETCH_STATUS = 0
+                BEGIN
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasBaseIbcMes, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorPagossalario OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasPrimaLegal, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorPrimaservicios OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasVacacionesTiempo, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorVacaciones OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasVacacionesDinero, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorVacacionesdinero OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasLiqVacaciones, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorVacacionesretiro OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasDotacion, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorDotacion OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasCesantiasConsolidadas, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorCesantiasempleados OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasCesantíasFondo, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorCesantiasfondo OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasAnticiCesantias, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorPagoscesantiasanticipo OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasLiqCesantias, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorPagocesantiasretiro OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasInteresCesantiasConsolidadas, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorInteresescesantias OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasInteresesAnticipoCesantias, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorInteresesporanticipos OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasLiqIntCesantias, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorInteresesporretiro OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasSaludEmpresa, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAporteempresasalud OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasSaludFuncionario, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAporteempleadosalud OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasPensionEmpresa, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAporteempresapension OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasPensionFuncionario, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAporteempleadopension OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasAporteFondoSolidaridad, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAporteFondoDeSolidaridadPensional OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasARL, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAporteARL OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasAportePensionVoluntario, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAporteaFondoVoluntariodePension OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasCuentasAfc, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAportesaCuentasAFC OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasRetefuente, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorRetencionenlaFuente OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasApoyoSostenimiento, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorApoyoSostenimiento OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasApoyoSostenimientoLectiva, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorApoyoSostenimientoLectiva OUTPUT;
+                    SELECT @ValorPagosviaticos = ISNULL(SUM(nd.Valor), 0)
+                    FROM dbo.TipoGastoViaje tgv
+                         INNER JOIN dbo.ConceptoNomina cn ON tgv.ConceptoNominaId = cn.Id
+                         INNER JOIN dbo.NominaDetalle nd ON cn.Id = nd.ConceptoNominaId
+                         INNER JOIN dbo.NominaFuncionario nf ON nd.NominaFuncionarioId = nf.Id
+                         INNER JOIN dbo.Nomina n ON nf.NominaId = n.Id
+                                                    AND YEAR(n.FechaInicio) = @AnioConsulta
+                                                    AND n.Estado =
+                    (
+                        SELECT vce.NOMINA_APLICADA
+                        FROM util.VW_ConstanteEstado vce
+                    )
+                    WHERE nf.FuncionarioId = @FuncionarioId
+                          AND tgv.Tipo IN
+                    (
+                    (
+                        SELECT vctgv.CODIGO_VIATICOSHOSPEDAJE
+                        FROM util.VW_ConstanteTipoGastoViaje vctgv
+                    ),
+                    (
+                        SELECT vctgv.CODIGO_VIATICOSALIMENTACION
+                        FROM util.VW_ConstanteTipoGastoViaje vctgv
+                    ),
+                    (
+                        SELECT vctgv.CODIGO_PAGOANTICIPOGV
+                        FROM util.VW_ConstanteTipoGastoViaje vctgv
+                    )
+                    );
+                    SELECT @ValorOtrospagos = ISNULL(SUM(nd.Valor), 0)
+                    FROM dbo.TipoBeneficio tb
+                         INNER JOIN dbo.ConceptoNomina cn ON tb.ConceptoNominaDevengoId = cn.Id
+                                                             OR tb.ConceptoNominaDeduccionId = cn.Id
+                                                             OR tb.ConceptoNominaCalculoId = cn.Id
+                         INNER JOIN dbo.NominaDetalle nd ON cn.Id = nd.ConceptoNominaId
+                         INNER JOIN dbo.NominaFuncionario nf ON nd.NominaFuncionarioId = nf.Id
+                         INNER JOIN dbo.Nomina n ON nf.NominaId = n.Id
+                                                    AND YEAR(n.FechaInicio) = @AnioConsulta
+                                                    AND n.Estado =
+                    (
+                        SELECT vce.NOMINA_APLICADA
+                        FROM util.VW_ConstanteEstado vce
+                    )
+                    WHERE nf.FuncionarioId = @FuncionarioId;
+                    SET @ValorOtrospagos = (@ValorOtrospagos + @ValorApoyoSostenimientoLectiva + @ValorApoyoSostenimiento);
+                    UPDATE #MedioMagnetico
+                      SET 
+                          #MedioMagnetico.Pagossalario = @ValorPagossalario, 
+                          #MedioMagnetico.Primaservicios = @ValorPrimaservicios, 
+                          #MedioMagnetico.Vacaciones = @ValorVacaciones, 
+                          #MedioMagnetico.Vacacionesdinero = @ValorVacacionesdinero, 
+                          #MedioMagnetico.Vacacionesretiro = @ValorVacacionesretiro, 
+                          #MedioMagnetico.Dotacion = @ValorDotacion, 
+                          #MedioMagnetico.Pagosviaticos = @ValorPagosviaticos, 
+                          #MedioMagnetico.Otrospagos = @ValorOtrospagos, 
+                          #MedioMagnetico.Cesantiasempleados = @ValorCesantiasempleados, 
+                          #MedioMagnetico.Cesantiasfondo = @ValorCesantiasfondo, 
+                          #MedioMagnetico.Pagoscesantiasanticipo = @ValorPagoscesantiasanticipo, 
+                          #MedioMagnetico.Pagocesantiasretiro = @ValorPagocesantiasretiro, 
+                          #MedioMagnetico.Interesescesantias = @ValorInteresescesantias, 
+                          #MedioMagnetico.Interesesporanticipos = @ValorInteresesporanticipos, 
+                          #MedioMagnetico.Interesesporretiro = @ValorInteresesporretiro, 
+                          #MedioMagnetico.InteresesAnioActual = 0, 
+                          #MedioMagnetico.Aporteempresasalud = @ValorAporteempresasalud, 
+                          #MedioMagnetico.Aporteempleadosalud = @ValorAporteempleadosalud, 
+                          #MedioMagnetico.Aporteempresapension = @ValorAporteempresapension, 
+                          #MedioMagnetico.Aporteempleadopension = @ValorAporteempleadopension, 
+                          #MedioMagnetico.AporteFondoDeSolidaridadPensional = @ValorAporteFondoDeSolidaridadPensional, 
+                          #MedioMagnetico.AporteRAIS = 0, 
+                          #MedioMagnetico.AporteARL = @ValorAporteARL, 
+                          #MedioMagnetico.AporteaFondoVoluntariodePension = @ValorAporteaFondoVoluntariodePension, 
+                          #MedioMagnetico.AportesaCuentasAFC = @ValorAportesaCuentasAFC, 
+                          #MedioMagnetico.RetencionenlaFuente = @ValorRetencionenlaFuente
+                    WHERE #MedioMagnetico.FuncionarioId = @FuncionarioId;
+                    FETCH NEXT FROM CUR_MedioMagnetico INTO @FuncionarioId;
+                END;
+            CLOSE CUR_MedioMagnetico;
+            DEALLOCATE CUR_MedioMagnetico;
+            -- Se muestran los resultados
+            SELECT *
+            FROM #MedioMagnetico mm;
+            -- No se presento ningún problema se retorna código de estado exitoso
+            SET @Resultado = 0;
+            RETURN @Resultado;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción si existe
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+                END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [reporte].[USP_GenerarMediosMagneticos];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

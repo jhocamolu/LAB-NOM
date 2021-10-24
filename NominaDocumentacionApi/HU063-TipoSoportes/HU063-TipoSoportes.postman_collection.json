@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "ab607b12-b6b0-48da-8034-ff90d3c8013f",
+		"name": "HU063-TipoSoportes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar uno",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://172.16.1.71:8001/odata/tiposoportes/17",
+					"protocol": "http",
+					"host": [
+						"172",
+						"16",
+						"1",
+						"71"
+					],
+					"port": "8001",
+					"path": [
+						"odata",
+						"tiposoportes",
+						"17"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar todos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://172.16.1.71:8001/odata/tiposoportes",
+					"protocol": "http",
+					"host": [
+						"172",
+						"16",
+						"1",
+						"71"
+					],
+					"port": "8001",
+					"path": [
+						"odata",
+						"tiposoportes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t \"nombre\":\"bjhgfjhgjgh54yui547y5oiuy4o5uyo4u54545645656565656565656565456465h45gj\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://172.16.1.71:8001/api/tiposoportes",
+					"protocol": "http",
+					"host": [
+						"172",
+						"16",
+						"1",
+						"71"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"tiposoportes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t \"id\": 29,\n\t \"nombre\":\"Pruebadsfd\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://172.16.1.71:8001/api/tiposoportes/29",
+					"protocol": "http",
+					"host": [
+						"172",
+						"16",
+						"1",
+						"71"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"tiposoportes",
+						"29"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t \"id\": 29,\n\t \"nombre\":\"Prueba\",\n\t \"activo\":false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://172.16.1.71:8001/api/tiposoportes/29",
+					"protocol": "http",
+					"host": [
+						"172",
+						"16",
+						"1",
+						"71"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"tiposoportes",
+						"29"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,81 @@
+<div id="login" class="inner-scroll" fxLayout="row" fxLayoutAlign="start">
+    <div id="login-intro" fxFlex fxHide fxShow.gt-xs>
+
+        <div class="logo">
+            <img width="80%" src="{{alcanosConfig?.alcanos.logoInicio}}">
+        </div>
+        <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
+            Bienvenidos al sistema de Nómina <br> y de gestión humana
+        </div>
+
+        <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
+            Información ágil y oportuna asociada a la administración de personal y gestión del talento humano en Alcanos de Colombia
+        </div>
+
+    </div>
+
+    <div id="login-form-wrapper" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
+
+        <div id="login-form">
+
+            <div class="logo">
+                <img src="{{alcanosConfig?.alcanos.svg}}">
+            </div>
+
+            <div class="title">DATOS DE ACCESO</div>
+
+            <form name="loginForm" [formGroup]="loginForm" novalidate (ngSubmit)="loginHandle($event)"> 
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput formControlName="usuario">
+                    <mat-icon matSuffix class="secondary-text">person</mat-icon>
+                    <mat-error *ngFor="let error of objToArray(usuario.errors)">
+                            <div [ngSwitch]="error">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'max'">
+                                    Valor máximo 9999999999
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input  matInput type="password" formControlName="password">
+                    <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                    <mat-error *ngFor="let error of objToArray(password.errors)">
+                        <div [ngSwitch]="error">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+                <button mat-raised-button color="accent" class="submit-button" aria-label="LOGIN" [disabled]="loginForm.invalid || submit">
+                    <mat-spinner *ngIf="loading" diameter="20" class="spinner" color="#066f77"></mat-spinner>
+                    INICIAR SESIÓN
+                </button>
+
+            </form>
+
+            <div class="separator">
+                
+            </div>
+
+            <div fxLayout="column" fxLayoutAlign="start center">
+            </div>
+
+            <div class="register" fxLayout="column" fxLayoutAlign="center center">
+            </div>
+        </div>
+    </div>
+</div>

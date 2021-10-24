@@ -1,0 +1,50 @@
+ausentismos-listar {
+    @import "src/@alcanos/scss/alcanos-v2";
+
+    table {
+        width: 100%;
+
+        .mat-column-funcionario-numeroDocumento {
+            max-width: 70px;
+        }
+
+        .mat-column-funcionario-primerNombre {
+            max-width: 140px;
+        }
+
+        .mat-column-tipoAusentismo-nombre {
+            max-width: 100px;
+        }
+
+        .mat-column-fechaInicio {
+            max-width: 60px;
+        }
+
+        .mat-column-estado {
+            max-width: 40px;
+        }
+
+        .mat-column-acciones {
+            max-width: 70px;
+            padding-top: 10px !important;
+            mat-icon {
+                line-height: 10px !important;
+            }
+        }
+
+        .mat-column-numeroDeDias {
+            text-align: right !important;
+            width: 100px;
+            padding-right: 20px !important;
+            justify-content: end !important;
+            .mat-sort-header-container {
+                width: 55px;
+            }
+            .mat-sort-header-button {
+                width: 100%;
+                text-align: right !important;
+                justify-content: end !important;
+            }
+        }
+    }
+}

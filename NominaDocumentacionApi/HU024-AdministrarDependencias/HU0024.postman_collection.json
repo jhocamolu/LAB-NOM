@@ -1,0 +1,173 @@
+{
+	"info": {
+		"_postman_id": "23400aaa-811b-4ce9-b96d-799b6396af72",
+		"name": "HU0024",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Dependencia",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"codigo\":\"ASD789\",\n\t\"nombre\":\"JURIDICA\",\n\t\"DependenciaPadreId\":6\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/dependencias",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"dependencias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Dependencia",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":6,\n\t\"DependenciaJerarquiaId\":6,\n\t\"codigo\":\"ASD788\",\n\t\"nombre\":\"JURIDICAS\",\n\t\"DependenciaPadreId\":4\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/dependencias/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"dependencias",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial Dependencia",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":6,\n\t\"DependenciaJerarquiaId\":6,\n\t\"codigo\":\"ASD788\",\n\t\"nombre\":\"JURIDICAS\",\n\t\"DependenciaPadreId\":2,\n\t\"activo\":false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/dependencias/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"dependencias",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Dependencias",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/odata/dependencias?$expand=SoyHijoDe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"odata",
+						"dependencias"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "SoyHijoDe"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Dependencia",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/odata/dependencias/1?$expand=SoyHijoDe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"odata",
+						"dependencias",
+						"1"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "SoyHijoDe"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

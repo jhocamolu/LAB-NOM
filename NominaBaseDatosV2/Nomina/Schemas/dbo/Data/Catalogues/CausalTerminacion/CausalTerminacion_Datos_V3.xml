@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="CausalTerminacion_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+UPDATE CausalTerminacion SET  JustaCausa = 1 WHERE Id = 1
+GO 
+UPDATE CausalTerminacion SET  JustaCausa = 1 WHERE Id = 2
+GO 
+UPDATE CausalTerminacion SET  JustaCausa = 1 WHERE Id = 3
+GO 
+UPDATE CausalTerminacion SET  JustaCausa = 1 WHERE Id = 4
+GO 
+UPDATE CausalTerminacion SET  JustaCausa = 0 WHERE Id = 5
+GO 
+UPDATE CausalTerminacion SET  JustaCausa = 1 WHERE Id = 6
+GO 
+UPDATE CausalTerminacion SET  JustaCausa = 1 WHERE Id = 7
+GO 
+UPDATE CausalTerminacion SET  JustaCausa = 1 WHERE Id = 8
+GO 
+UPDATE CausalTerminacion SET  JustaCausa = 1 WHERE Id = 9
+GO 
+UPDATE CausalTerminacion SET  JustaCausa = 1 WHERE Id = 10
+GO 
+UPDATE CausalTerminacion SET  JustaCausa = 0 WHERE Id = 11
+GO 
+UPDATE CausalTerminacion SET  JustaCausa = 1 WHERE Id = 12
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE CausalTerminacion SET  JustaCausa = 1 WHERE Id between 1 and 12
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

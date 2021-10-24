@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_CargarNovedadesEmbargos_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_CargarNovedadesEmbargos', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_CargarNovedadesEmbargos as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 31/03/2020
+-- Description: Pemite cargar las novedades del funcionario para el módulo de embargos
+--
+-- Parameters:
+--  @NominaFuncionarioId:   Identificador del funcionario asignado a la nómina
+--  @SubperiodoId:		   Subperiodo asociado a la nómina que se esta liquidando
+--  @Id				   Identificador de la novedad a cargar
+--  @UsuarioOperacion:	   Usuario que realiza la operación
+-- ==========================================================================================
+
+ALTER PROCEDURE dbo.USP_CargarNovedadesEmbargos @NominaId         INT,
+                                                @FuncionarioId    INT,
+                                                @SubperiodoId     INT,
+									   @Id			    INT,
+                                                @UsuarioOperacion VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@SubperiodoId=', CONVERT(VARCHAR, @SubperiodoId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @NominaFuncionarioId INT;
+    DECLARE @EmbargoVigente VARCHAR(255)=
+    (
+        SELECT ces.EMBARGO_VIGENTE
+        FROM util.VW_ConstanteEstado AS ces
+    );
+    DECLARE @AuditoriaActivo VARCHAR(255)=
+    (
+        SELECT ces.AUDITORIA_ACTIVO
+        FROM util.VW_ConstanteEstado AS ces
+    );
+    DECLARE @EmbargoId INT= 0;
+    DECLARE @ValorCuota MONEY= 0;
+    DECLARE @Cantidad INT= 1;
+    DECLARE @UnidadMedida VARCHAR(255)=
+    (
+        SELECT cum.[UNIDAD]
+        FROM util.VW_ConstanteUnidadMedida AS cum
+    );
+    DECLARE @NominaFuenteNovedadId INT= 0;
+    DECLARE @ConceptoNominaId INT= 0;
+    DECLARE @ModuloSistema VARCHAR(255)=
+    (
+        SELECT cms.[EMBARGOS]
+        FROM util.VW_ConstanteModuloSistema AS cms
+    );
+    DECLARE @ClaseDeduccion VARCHAR(255)=
+    (
+        SELECT ccc.DEDUCCION
+        FROM util.VW_ConstanteClaseConcepto AS ccc
+    );
+    DECLARE @TipoEmbargoId INT= 0;
+	DECLARE @NominaDetallePendiente VARCHAR(255) = (
+		SELECT vce.NOMINADETALLE_PENDIENTE 
+		FROM util.VW_ConstanteEstado vce
+	);
+	DECLARE @NominaFechaFinal DATE;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+	   -- Se consulta la información de la nómina
+	   SELECT @NominaFechaFinal = nom.FechaFinal
+	   FROM dbo.Nomina nom
+	   WHERE nom.Id = @NominaId;
+	   
+        -- Inicio de la transacción
+        BEGIN TRAN CargarNovedadesEmbargos;
+
+        -- Cursor para obtener los embargos asociados al funcionario
+        DECLARE CUR_Embargos CURSOR LOCAL
+        FOR SELECT nfu.Id,
+                   emb.Id,
+                   0 AS ValorCuota, -- El valor de la cuota debe ser 0,
+                   emb.TipoEmbargoId
+            FROM dbo.NominaFuncionario AS nfu
+                 INNER JOIN dbo.Embargo AS emb ON(emb.FuncionarioId = nfu.FuncionarioId)
+                 INNER JOIN dbo.EmbargoSubperiodo AS esu ON(esu.EmbargoId = emb.Id)
+                 INNER JOIN dbo.TipoEmbargo AS tem ON(tem.Id = emb.TipoEmbargoId)
+            WHERE nfu.NominaId = @NominaId
+                  AND nfu.FuncionarioId = @FuncionarioId
+			   AND ((@Id IS NOT NULL AND emb.Id = @Id) OR (@Id IS NULL))
+                  AND emb.Estado = @EmbargoVigente
+				  AND (emb.FechaInicio IS NULL OR (emb.FechaInicio IS NOT NULL AND emb.FechaInicio <= @NominaFechaFinal))
+                  AND emb.EstadoRegistro = @AuditoriaActivo
+                  AND esu.SubPeriodoId = @SubperiodoId
+                  AND esu.EstadoRegistro = @AuditoriaActivo
+            ORDER BY tem.Prioridad ASC,
+                     emb.Prioridad ASC;
+
+        OPEN CUR_Embargos;
+
+        FETCH NEXT FROM CUR_Embargos INTO @NominaFuncionarioId, @EmbargoId, @ValorCuota, @TipoEmbargoId;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+            -- Se obtiene el concepto de nómina para vincular la novedad
+            SELECT TOP 1 @ConceptoNominaId = tecn.ConceptoNominaId
+            FROM dbo.TipoEmbargoConceptoNomina AS tecn
+                 INNER JOIN dbo.ConceptoNomina AS cno ON(cno.Id = tecn.ConceptoNominaId
+                                                         AND cno.ClaseConceptoNomina = @ClaseDeduccion)
+            WHERE tecn.TipoEmbargoId = @TipoEmbargoId
+                  AND tecn.EstadoRegistro = @AuditoriaActivo;
+
+            IF @ConceptoNominaId IS NULL
+               OR @ConceptoNominaId = 0
+            BEGIN
+                SET @MensajeExcepcion = 'No se encontró el concepto de nómina para el tipo de embargo @TipoEmbargoId=' + CONVERT(VARCHAR, @TipoEmbargoId) + ' @ClaseDeduccion=.' + @ClaseDeduccion;
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     @MensajeExcepcion;
+            END;
+
+            --- Inserta  NominaFuenteNovedad
+            INSERT INTO [dbo].[NominaFuenteNovedad]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [Modulo],
+             [ModuloRegistroId]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @ModuloSistema,
+             @EmbargoId
+            );
+
+            SET @NominaFuenteNovedadId =
+            (
+                SELECT SCOPE_IDENTITY()
+            );
+
+            -- Inserta NominaDetalle
+            INSERT INTO [dbo].[NominaDetalle]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [NominaFuncionarioId],
+             [NominaFuenteNovedadId],
+             [ConceptoNominaId],
+             [UnidadMedida],
+             [Cantidad],
+             [Valor],
+			 [Estado]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @NominaFuncionarioId,
+             @NominaFuenteNovedadId,
+             @ConceptoNominaId,
+             @UnidadMedida,
+             @Cantidad,
+             @ValorCuota,
+			 @NominaDetallePendiente
+            );
+
+            FETCH NEXT FROM CUR_Embargos INTO @NominaFuncionarioId, @EmbargoId, @ValorCuota, @TipoEmbargoId;
+        END;
+
+        CLOSE CUR_Embargos;
+
+        DEALLOCATE CUR_Embargos;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN CargarNovedadesEmbargos;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_CargarNovedadesEmbargos];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

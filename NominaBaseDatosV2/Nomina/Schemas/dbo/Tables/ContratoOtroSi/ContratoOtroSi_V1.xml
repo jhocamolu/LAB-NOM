@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="ContratoOtroSi_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+CREATE TABLE [ContratoOtroSi] (
+    [Id] int NOT NULL IDENTITY,
+    [ContratoId] int NOT NULL,
+    [TipoContratoId] int NOT NULL,
+    [FechaFinalizacion] date NULL,
+    [CargoDependenciaId] int NOT NULL,
+    [NumeroOtroSi] int NOT NULL,
+    [Sueldo] money NOT NULL,
+    [FechaAplicacion] date NOT NULL,
+    [CentroOperativoId] int NOT NULL,
+    [DivisionPoliticaNivel2Id] int NOT NULL,
+    [Observaciones] text NOT NULL,
+    [Prorroga] bit NOT NULL,
+	[EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    CONSTRAINT [PK_ContratoOtroSi] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_ContratoOtroSi_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [FK_ContratoOtroSi_CargoDependencia_CargoDependenciaId] FOREIGN KEY ([CargoDependenciaId]) REFERENCES [CargoDependencia] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_ContratoOtroSi_CentroOperativo_CentroOperativoId] FOREIGN KEY ([CentroOperativoId]) REFERENCES [CentroOperativo] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_ContratoOtroSi_Contrato_ContratoId] FOREIGN KEY ([ContratoId]) REFERENCES [Contrato] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_ContratoOtroSi_DivisionPoliticaNivel2_DivisionPoliticaNivel2Id] FOREIGN KEY ([DivisionPoliticaNivel2Id]) REFERENCES [DivisionPoliticaNivel2] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_ContratoOtroSi_TipoContrato_TipoContratoId] FOREIGN KEY ([TipoContratoId]) REFERENCES [TipoContrato] ([Id]) ON DELETE CASCADE
+);
+
+GO
+
+
+CREATE INDEX [IX_ContratoOtroSi_CargoDependenciaId] ON [ContratoOtroSi] ([CargoDependenciaId]);
+
+GO
+
+CREATE INDEX [IX_ContratoOtroSi_CentroOperativoId] ON [ContratoOtroSi] ([CentroOperativoId]);
+
+GO
+
+CREATE INDEX [IX_ContratoOtroSi_ContratoId] ON [ContratoOtroSi] ([ContratoId]);
+
+GO
+
+CREATE INDEX [IX_ContratoOtroSi_DivisionPoliticaNivel2Id] ON [ContratoOtroSi] ([DivisionPoliticaNivel2Id]);
+
+GO
+
+CREATE INDEX [IX_ContratoOtroSi_TipoContratoId] ON [ContratoOtroSi] ([TipoContratoId]);
+
+GO
+
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [ContratoOtroSi];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

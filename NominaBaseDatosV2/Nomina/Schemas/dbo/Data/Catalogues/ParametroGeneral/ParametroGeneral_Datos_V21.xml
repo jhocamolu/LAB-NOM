@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="ParametroGeneral_Datos_V21">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON; 
+GO
+INSERT INTO [dbo].[ParametroGeneral]
+([Id], 
+ [Alias], 
+ [Tipo], 
+ [HtmlOpcion], 
+ [Etiqueta], 
+ [Ayuda], 
+ [Orden], 
+ [Item], 
+ [Obligatorio], 
+ [Valor], 
+ [CategoriaParametroId], 
+ [EstadoRegistro], 
+ [CreadoPor], 
+ [FechaCreacion], 
+ [AnnoVigenciaId]
+)
+VALUES
+('7', 
+ 'PorcentajeSolidaridadPensional', 
+ 'Number', 
+ '', 
+ 'Porcentaje de aporte fondo de solidaridad pensional', 
+ 'Corresponde al porcentaje que se debe aplicar para el fondo de solidaridad y subsistencia para la subcuenta de Solidaridad', 
+ '7', 
+ '', 
+ '1', 
+ '0.5', 
+ '1', 
+ 'Activo', 
+ 'Sistema', 
+ GETDATE(), 
+ '1'
+);
+GO
+INSERT INTO [dbo].[ParametroGeneral]
+([Id], 
+ [Alias], 
+ [Tipo], 
+ [HtmlOpcion], 
+ [Etiqueta], 
+ [Ayuda], 
+ [Orden], 
+ [Item], 
+ [Obligatorio], 
+ [Valor], 
+ [CategoriaParametroId], 
+ [EstadoRegistro], 
+ [CreadoPor], 
+ [FechaCreacion], 
+ [AnnoVigenciaId]
+)
+VALUES
+('8', 
+ 'PorcentajeSubsistencia', 
+ 'Number', 
+ '', 
+ 'Porcentaje de aporte fondo de subsistencia de 4 SMMLV a 16 SMMLV', 
+ 'Corresponde al porcentaje que se debe aplicar para el fondo de solidaridad y subsistencia para la subcuenta de Subsistencia', 
+ '8', 
+ '', 
+ '1', 
+ '0.5', 
+ '1', 
+ 'Activo', 
+ 'Sistema', 
+ GETDATE(), 
+ '1'
+);
+GO
+INSERT INTO [dbo].[ParametroGeneral]
+([Id], 
+ [Alias], 
+ [Tipo], 
+ [HtmlOpcion], 
+ [Etiqueta], 
+ [Ayuda], 
+ [Orden], 
+ [Item], 
+ [Obligatorio], 
+ [Valor], 
+ [CategoriaParametroId], 
+ [EstadoRegistro], 
+ [CreadoPor], 
+ [FechaCreacion], 
+ [AnnoVigenciaId]
+)
+VALUES
+('9', 
+ 'PorcentajeSubsistencia1', 
+ 'Number', 
+ '', 
+ 'Porcentaje de aporte fondo de subsistencia mayor a 16 SMMLV hasta 17 SMMLV', 
+ 'Corresponde al porcentaje que se debe aplicar para el fondo de solidaridad y subsistencia para la subcuenta de Subsistencia', 
+ '9', 
+ '', 
+ '1', 
+ '0.7', 
+ '1', 
+ 'Activo', 
+ 'Sistema', 
+ GETDATE(), 
+ '1'
+);
+GO
+INSERT INTO [dbo].[ParametroGeneral]
+([Id], 
+ [Alias], 
+ [Tipo], 
+ [HtmlOpcion], 
+ [Etiqueta], 
+ [Ayuda], 
+ [Orden], 
+ [Item], 
+ [Obligatorio], 
+ [Valor], 
+ [CategoriaParametroId], 
+ [EstadoRegistro], 
+ [CreadoPor], 
+ [FechaCreacion], 
+ [AnnoVigenciaId]
+)
+VALUES
+('10', 
+ 'PorcentajeSubsistencia2', 
+ 'Number', 
+ '', 
+ 'Porcentaje de aporte fondo de subsistencia mayor a 17 SMMLV hasta 18 SMMLV', 
+ 'Corresponde al porcentaje que se debe aplicar para el fondo de solidaridad y subsistencia para la subcuenta de Subsistencia', 
+ '10', 
+ '', 
+ '1', 
+ '0.9', 
+ '1', 
+ 'Activo', 
+ 'Sistema', 
+ GETDATE(), 
+ '1'
+);
+GO
+INSERT INTO [dbo].[ParametroGeneral]
+([Id], 
+ [Alias], 
+ [Tipo], 
+ [HtmlOpcion], 
+ [Etiqueta], 
+ [Ayuda], 
+ [Orden], 
+ [Item], 
+ [Obligatorio], 
+ [Valor], 
+ [CategoriaParametroId], 
+ [EstadoRegistro], 
+ [CreadoPor], 
+ [FechaCreacion], 
+ [AnnoVigenciaId]
+)
+VALUES
+('16', 
+ 'PorcentajeSubsistencia3', 
+ 'Number', 
+ '', 
+ 'Porcentaje de aporte fondo de subsistencia mayor a 18 SMMLV hasta 19 SMMLV', 
+ 'Corresponde al porcentaje que se debe aplicar para el fondo de solidaridad y subsistencia para la subcuenta de Subsistencia', 
+ '11', 
+ '', 
+ '', 
+ '1.1', 
+ '1', 
+ 'Activo', 
+ 'Sistema', 
+ GETDATE(), 
+ '1'
+);
+GO
+INSERT INTO [dbo].[ParametroGeneral]
+([Id], 
+ [Alias], 
+ [Tipo], 
+ [HtmlOpcion], 
+ [Etiqueta], 
+ [Ayuda], 
+ [Orden], 
+ [Item], 
+ [Obligatorio], 
+ [Valor], 
+ [CategoriaParametroId], 
+ [EstadoRegistro], 
+ [CreadoPor], 
+ [FechaCreacion], 
+ [AnnoVigenciaId]
+)
+VALUES
+('53', 
+ 'PorcentajeSubsistencia4', 
+ 'Number', 
+ '', 
+ 'Porcentaje de aporte fondo de subsistencia mayor a 19 SMMLV hasta 20 SMMLV', 
+ 'Corresponde al porcentaje que se debe aplicar para el fondo de solidaridad y subsistencia para la subcuenta de Subsistencia', 
+ '12', 
+ '', 
+ '1', 
+ '1.3', 
+ '1', 
+ 'Activo', 
+ 'Sistema', 
+ GETDATE(), 
+ '1'
+);
+GO
+INSERT INTO [dbo].[ParametroGeneral]
+([Id], 
+ [Alias], 
+ [Tipo], 
+ [HtmlOpcion], 
+ [Etiqueta], 
+ [Ayuda], 
+ [Orden], 
+ [Item], 
+ [Obligatorio], 
+ [Valor], 
+ [CategoriaParametroId], 
+ [EstadoRegistro], 
+ [CreadoPor], 
+ [FechaCreacion], 
+ [AnnoVigenciaId]
+)
+VALUES
+('54', 
+ 'PorcentajeSubsistencia5', 
+ 'Number', 
+ '', 
+ 'Porcentaje de aporte fondo de subsistencia mayor a 20 SMMLV', 
+ 'Corresponde al porcentaje que se debe aplicar para el fondo de solidaridad y subsistencia para la subcuenta de Subsistencia', 
+ '13', 
+ '', 
+ '1', 
+ '1.5', 
+ '1', 
+ 'Activo', 
+ 'Sistema', 
+ GETDATE(), 
+ '1'
+);
+GO
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF;
+GO
+
+]]>
+
+</sql>
+
+<rollback>
+
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+DELETE FROM dbo.ParametroGeneral WHERE Id IN (7, 8, 9, 10, 16, 53, 54)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

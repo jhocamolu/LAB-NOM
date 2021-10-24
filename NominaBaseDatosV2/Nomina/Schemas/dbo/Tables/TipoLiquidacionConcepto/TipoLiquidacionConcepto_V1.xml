@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="TipoLiquidacionConcepto_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+CREATE TABLE [TipoLiquidacionConcepto] (
+    [Id] int NOT NULL IDENTITY,
+    [TipoliquidacionId] int NOT NULL,
+    [ConceptoNominaId] int NOT NULL,
+    [TipoContratoId] int NULL,
+    [SubPeriodoId] int NOT NULL,
+	[EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    CONSTRAINT [PK_TipoLiquidacionConcepto] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_TipoLiquidacionConcepto_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [FK_TipoLiquidacionConcepto_ConceptoNomina_ConceptoNominaId] FOREIGN KEY ([ConceptoNominaId]) REFERENCES [ConceptoNomina] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_TipoLiquidacionConcepto_SubPeriodo_SubPeriodoId] FOREIGN KEY ([SubPeriodoId]) REFERENCES [SubPeriodo] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_TipoLiquidacionConcepto_TipoContrato_TipoContratoId] FOREIGN KEY ([TipoContratoId]) REFERENCES [TipoContrato] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_TipoLiquidacionConcepto_TipoLiquidacion_TipoliquidacionId] FOREIGN KEY ([TipoliquidacionId]) REFERENCES [TipoLiquidacion] ([Id]) ON DELETE NO ACTION
+);
+
+GO
+
+CREATE INDEX [IX_TipoLiquidacionConcepto_ConceptoNominaId] ON [TipoLiquidacionConcepto] ([ConceptoNominaId]);
+
+GO
+
+CREATE INDEX [IX_TipoLiquidacionConcepto_SubPeriodoId] ON [TipoLiquidacionConcepto] ([SubPeriodoId]);
+
+GO
+
+CREATE INDEX [IX_TipoLiquidacionConcepto_TipoContratoId] ON [TipoLiquidacionConcepto] ([TipoContratoId]);
+
+GO
+
+CREATE INDEX [IX_TipoLiquidacionConcepto_TipoliquidacionId] ON [TipoLiquidacionConcepto] ([TipoliquidacionId]);
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [TipoLiquidacionConcepto];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

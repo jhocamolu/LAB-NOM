@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="ParametroGeneral_Datos_V16">
+<comment>HU054</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+	SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON 
+    GO
+	
+    INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+	VALUES(56, 'ConceptoAnticipoCesantias', 'Select', '', 'Concepto anticipo cesantías', 'Concepto para la liquidación de anticipo de cesantías.', 23, '{nomina}/odata/ConceptoNominas?$select=alias,nombre&$orderby=nombre asc', 1, 'AnticiCesantias', 1, 'Activo    ', 'sistema', GETDATE(), 1);
+	
+	INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+	VALUES(57, 'ConceptoVacacionesAnticipadas', 'Select', '', 'Concepto vacaciones anticipadas', 'Concepto para la liquidación de vacaciones anticipadas.', 20, '{nomina}/odata/ConceptoNominas?$select=alias,nombre&$orderby=nombre asc', 1, 'VacacionesAnticipadas', 2, 'Activo    ', 'sistema', GETDATE(), 1);
+	
+	INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+	VALUES(58, 'ConceptoVacacionesDinero', 'Select', '', 'Concepto vacaciones en dinero', 'Concepto para la liquidación de vacaciones en dinero.', 24, '{nomina}/odata/ConceptoNominas?$select=alias,nombre&$orderby=nombre asc', 1, 'VacacionesDinero', 2, 'Activo    ', 'sistema', GETDATE(), 1);
+	
+	INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+	VALUES(59, 'ConceptoVacacionesTiempo', 'Select', '', 'Concepto vacaciones en tiempo', 'Concepto para la liquidación de vacacione en tiempo.', 25, '{nomina}/odata/ConceptoNominas?$select=alias,nombre&$orderby=nombre asc', 1, 'VacacionesTiempo', 2, 'Activo    ', 'sistema', GETDATE(), 1);
+
+    SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF 
+    GO
+	
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM dbo.ParametroGeneral WHERE Id IN (56, 57, 58, 59);
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

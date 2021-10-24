@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="VariableNomina_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+CREATE TABLE [VariableNomina] (
+    [Id] int NOT NULL IDENTITY,
+    [Codigo] varchar(255) NOT NULL,
+    [TipoDato] varchar(255) NOT NULL,
+    [Tamanio] varchar(255),
+	[TipoVariable] varchar(255) NOT NULL,
+    [Descripcion] text NOT NULL,
+	[EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    CONSTRAINT [PK_VariableNomina] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_VariableNomina_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+	CONSTRAINT [CK_VariableNomina_TipoVariable] CHECK (([TipoVariable]='Input' OR [TipoVariable]='Output')),
+	CONSTRAINT [CK_VariableNomina_TipoDato] CHECK (([TipoDato] = 'BIGINT' OR [TipoDato] = 'NUMERIC' OR [TipoDato] = 'BIT' OR [TipoDato] = 'SMALLINT' OR [TipoDato] = 'DECIMAL' OR [TipoDato] = 'SMALLMONEY' OR [TipoDato] = 'INT' OR [TipoDato] = 'TINYINT' OR [TipoDato] = 'MONEY' OR [TipoDato] = 'FLOAT' OR [TipoDato] = 'REAL' OR [TipoDato] = 'DATE' OR [TipoDato] = 'DATETIMEOFFSET' OR [TipoDato] = 'DATETIME2' OR [TipoDato] = 'SMALLDATETIME' OR [TipoDato] = 'DATETIME' OR [TipoDato] = 'TIME' OR [TipoDato] = 'CHAR' OR [TipoDato] = 'VARCHAR' OR [TipoDato] = 'TEXT' OR [TipoDato] = 'NCHAR' OR [TipoDato] = 'NVARCHAR' OR [TipoDato] = 'NTEXT' OR [TipoDato] = 'BINARY' OR [TipoDato] = 'VARBINARY' OR [TipoDato] = 'IMAGE' OR [TipoDato] = 'CURSOR' OR [TipoDato] = 'ROWVERSION' OR [TipoDato] = 'HIERARCHYID' OR [TipoDato] = 'UNIQUEIDENTIFIER' OR [TipoDato] = 'SQL_VARIANT' OR [TipoDato] = 'XML' OR [TipoDato] = 'TABLE'))
+);
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [VariableNomina];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

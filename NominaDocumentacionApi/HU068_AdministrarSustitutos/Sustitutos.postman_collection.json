@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "1392fb68-1843-44e3-8cf8-4a00d3d59d48",
+		"name": "HU068_Administrar_Sustitutos",
+		"description": "[Table(\"Sustituto\")]\r\n    public class Sustituto : AuditoriaRegistro\r\n    {\r\n        [Key]\r\n        public int Id { get; set; }\r\n\r\n        [Required]\r\n        public int CargoASustituirId { get; set; }\r\n        public virtual Cargo CargoASustituir { get; set; }\r\n\r\n        public int? CentroOperativoASutituirId { get; set; }\r\n        public virtual CentroOperativo CentroOperativoASutituir { get; set; }\r\n\r\n        [Required]\r\n        public int CargoSustitutoId { get; set; }\r\n        public virtual Cargo CargoSustituto { get; set; }\r\n\r\n        public int? CentroOperativoSustitutoId { get; set; }\r\n        public virtual CentroOperativo CentroOperativoSustituto { get; set; }\r\n\r\n        [Required]\r\n        [Column(TypeName = \"datetime\")]\r\n        public DateTime FechaInicio { get; set; }\r\n\r\n        [Required]\r\n        [Column(TypeName = \"datetime\")]\r\n        public DateTime FechaFinal { get; set; }\r\n\r\n        [Column(TypeName = \"text\")]\r\n        public string Observacion { get; set; }\r\n        \r\n    }",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listado Sustitutos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cargoASustituirId\": 8,\r\n    \"centroOperativoASutituirId\": 1,\r\n    \"cargoSustitutoId\": 9,\r\n    \"centroOperativoSustitutoId\": 1,\r\n    \"fechaInicio\": \"2020-05-19T00:00:00-05:00\",\r\n    \"fechaFinal\": \"2020-05-20T00:00:00-05:00\",\r\n    \"observacion\": \"Ninguna\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/odata/Sustitutos?$expand=cargoASustituir,CargoSustituto",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Sustitutos"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "cargoASustituir,CargoSustituto"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener sustituto individual",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Sustitutos/5?$expand=cargoASustituir,CargoSustituto",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Sustitutos",
+						"5"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "cargoASustituir,CargoSustituto"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cargoASustituirId\": 8,\r\n    \"centroOperativoASutituirId\": 1,\r\n    \"cargoSustitutoId\": 9,\r\n    \"centroOperativoSustitutoId\": 1,\r\n    \"fechaInicio\": \"2020-05-20T00:00:00-05:00\",\r\n    \"fechaFinal\": \"2020-05-21T00:00:00-05:00\",\r\n    \"observacion\": \"Ninguna\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Sustitutos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Sustitutos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"Id\":5,\r\n    \"cargoASustituirId\": 9,\r\n    \"centroOperativoASutituirId\": 1,\r\n    \"cargoSustitutoId\": 9,\r\n    \"centroOperativoSustitutoId\":1,\r\n    \"fechaInicio\": \"2020-05-20T00:00:00-05:00\",\r\n    \"fechaFinal\": \"2020-05-21T00:00:00-05:00\",\r\n    \"observacion\": \"Ninguna\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Sustitutos/5",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Sustitutos",
+						"5"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "e74ef144-de88-4644-97bb-517229005887",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "be36c9d2-d287-444b-bd76-a3fecad1a593",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

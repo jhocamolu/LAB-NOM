@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="USP_ObtenerDiasALiquidarPrimaLegal_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerDiasALiquidarPrimaLegal', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerDiasALiquidarPrimaLegal as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Reynaldo Sabogal
+-- Create date: 14/01/2020
+-- Description: Pemite obtener los días a liquidar de prima legal de un funcionario
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @Cantidad:				    Parámetro de salida con la cantidad de días a pagar	 
+--
+-- Returns:						
+--	 Dias:						Días a pagar
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerDiasALiquidarPrimaLegal]
+(@FuncionarioId INT,
+ @Cantidad      INT OUTPUT
+)
+AS
+BEGIN
+	
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+    
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @DiasApagar INT;
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        EXEC [dbo].[USP_ObtenerDiasAPagarPrima]
+             @FuncionarioId,
+             'Definitivo',
+		   @DiasApagar OUTPUT;
+
+	   SET @Cantidad = @DiasApagar;
+
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerDiasALiquidarPrimaLegal];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

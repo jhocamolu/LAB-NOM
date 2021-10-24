@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="Tercero_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Tercero] ON;
+INSERT INTO dbo.Tercero (Id, Nombre, Nit, DigitoVerificacion, Telefono, Direccion, EntidadFinancieraId, TipoCuentaId, NumeroCuenta, Descripcion, DivisionPoliticaNivel2Id, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('1', 'COMPAÑIA DE SEGUROS BOLIVAR SA', '860002503', '2', '3811122', 'CR 10  16 39', '1', '1', '0', NULL, '1123', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Tercero (Id, Nombre, Nit, DigitoVerificacion, Telefono, Direccion, EntidadFinancieraId, TipoCuentaId, NumeroCuenta, Descripcion, DivisionPoliticaNivel2Id, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('2', 'ORGANIZACION SINDICALDE TRABAJADORES DE ALCANOS ASOTRALCANOS', '900942263', '7', '2659874', 'CR 1 F 12 56', '9', '1', '0', NULL, '657', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Tercero (Id, Nombre, Nit, DigitoVerificacion, Telefono, Direccion, EntidadFinancieraId, TipoCuentaId, NumeroCuenta, Descripcion, DivisionPoliticaNivel2Id, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('3', 'UNION SINDICAL OBRERA', '800217208', '1', '2475631', 'CL 35  7  25 P8 ED CAXDAC', '12', '2', '0', NULL, '1026', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Tercero (Id, Nombre, Nit, DigitoVerificacion, Telefono, Direccion, EntidadFinancieraId, TipoCuentaId, NumeroCuenta, Descripcion, DivisionPoliticaNivel2Id, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('4', 'SINDICATO DE TRABAJADORES DE ALCANOS DE COLOMBIA S A ESP', '900622069', '1', '8603873', 'CL 13A  10 33 BRR CHAPINERO', '9', '1', '0', NULL, '657', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Tercero (Id, Nombre, Nit, DigitoVerificacion, Telefono, Direccion, EntidadFinancieraId, TipoCuentaId, NumeroCuenta, Descripcion, DivisionPoliticaNivel2Id, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('5', 'SEGUROS DE VIDA SURAMERICANA SA', '890903790', '5', '2602100', 'CR 63 49 A 31 P 1 ED CAMACOL', '9', '2', '0', NULL, '1123', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Tercero (Id, Nombre, Nit, DigitoVerificacion, Telefono, Direccion, EntidadFinancieraId, TipoCuentaId, NumeroCuenta, Descripcion, DivisionPoliticaNivel2Id, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('6', 'CHUBB SEGUROS COLOMBIA SA', '860026518', '6', '3190300', 'CL 72 10 51 P 7', '9', '2', '0', NULL, '1123', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Tercero (Id, Nombre, Nit, DigitoVerificacion, Telefono, Direccion, EntidadFinancieraId, TipoCuentaId, NumeroCuenta, Descripcion, DivisionPoliticaNivel2Id, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('7', 'FONDO MUTUO DE INVERSION CONFEDEGAS FONDO CONFEDEGAS', '830018600', '1', '6400176', 'CR 7  76 35 OFF 404', '9', '1', '0', NULL, '1123', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Tercero (Id, Nombre, Nit, DigitoVerificacion, Telefono, Direccion, EntidadFinancieraId, TipoCuentaId, NumeroCuenta, Descripcion, DivisionPoliticaNivel2Id, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('8', 'FONDO VOLUNTARIO DE PENSIONES DAFUTURO', '800224134', '2', '1111111', 'AVENIDA EL DORADO NO 68C 61', '10', '1', '0', NULL, '1123', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Tercero (Id, Nombre, Nit, DigitoVerificacion, Telefono, Direccion, EntidadFinancieraId, TipoCuentaId, NumeroCuenta, Descripcion, DivisionPoliticaNivel2Id, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('9', 'LOGROS FACTORING COLOMBIA SA', '900300965', '4', '7437770', 'CL 123 7 51 OF 1001', '10', '1', '0', NULL, '1123', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Tercero (Id, Nombre, Nit, DigitoVerificacion, Telefono, Direccion, EntidadFinancieraId, TipoCuentaId, NumeroCuenta, Descripcion, DivisionPoliticaNivel2Id, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('10', 'FONDO DE PENSIONES OBLIGATORIAS PROTECCION MODERADO', '800229739', '0', '8713615', 'DETALLE:  CR 5  10 49 OF208 209 ED PLAZA REAL', '10', '1', '0', NULL, '1123', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Tercero (Id, Nombre, Nit, DigitoVerificacion, Telefono, Direccion, EntidadFinancieraId, TipoCuentaId, NumeroCuenta, Descripcion, DivisionPoliticaNivel2Id, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('11', 'FONDO DE PENSIONES VOLUNTARIAS PORVENIR', '830006270', '0', '3393000', 'DETALLE: CR 13 26 A 65', '10', '1', '0', NULL, '1123', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[Tercero] OFF;
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    DELETE FROM dbo.Tercero WHERE Id BETWEEN 1 AND 11;
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

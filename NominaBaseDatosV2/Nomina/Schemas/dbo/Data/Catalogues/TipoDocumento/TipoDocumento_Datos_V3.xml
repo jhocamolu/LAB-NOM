@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoDocumento_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+<![CDATA[
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Numerico'
+        WHERE Id=1; 
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Numerico',EquivalenteBancario='03'
+        WHERE Id=2; 
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Numerico',EquivalenteBancario='02'
+        WHERE Id=3; 
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Numerico',EquivalenteBancario='04'
+        WHERE Id=4; 
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Numerico',EquivalenteBancario='01'
+        WHERE Id=5; 
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Alfanumerico',EquivalenteBancario='05'
+        WHERE Id=6; 
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Alfanumerico'
+        WHERE Id=7; 
+]]> 
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+   
+    UPDATE dbo.TipoDocumento
+    SET Formato='Numerico'
+    WHERE Id=1; 
+
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Numerico',EquivalenteBancario='03'
+        WHERE Id=2; 
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Numerico',EquivalenteBancario='02'
+        WHERE Id=3; 
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Numerico',EquivalenteBancario='04'
+        WHERE Id=4; 
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Numerico',EquivalenteBancario='01'
+        WHERE Id=5; 
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Alfanumerico',EquivalenteBancario='05'
+        WHERE Id=6; 
+
+    UPDATE dbo.TipoDocumento
+        SET Formato='Alfanumerico'
+        WHERE Id=7; 
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

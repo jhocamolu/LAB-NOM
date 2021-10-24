@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="USP_DeterminarLiquidacionPrimaLegal_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_DeterminarLiquidacionPrimaLegal', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_DeterminarLiquidacionPrimaLegal as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Reynaldo Andrés Sabogal
+-- Create date: 11/01/2021
+-- Description: Pemite Determinar de acuerdo al parametro general de fecha de liquidación de prima legal si se debe o no liquidar prima legal.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @FechaInicial:				Fecha inicial del período.
+--   @FechaFinal:				Fecha final del período.
+--   @Cantidad:				    Parámetro de salida con la cantidad de días a pagar	 
+--
+-- Returns:						
+--	 Dias:						Días a pagar
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_DeterminarLiquidacionPrimaLegal]
+(@FuncionarioId INT,
+ @FechaInicio	DATE,
+ @FechaFin		DATE,
+ @Booleano      BIT OUTPUT
+)
+AS
+BEGIN
+	
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+    
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+  
+	DECLARE @AliasGeneracionPrimaLegal VARCHAR(255);
+	DECLARE @AnioVigente VARCHAR(255);
+	DECLARE @AnioVigenteId INT;
+	DECLARE @ConceptoPrimaLegal INT;
+	DECLARE @AliasInicioPrimaLegal VARCHAR(255);
+	DECLARE @AliasFinPrimaLegal VARCHAR(255);
+	DECLARE @FechaGeneracionPrimaLegal DATE;
+	DECLARE @FechaInicioPrimaLegal DATE;
+	DECLARE @FechaFinPrimaLegal DATE;
+	DECLARE @DiasPrima INT;
+	
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+		      
+		-- Se obtienen constantes asociadas a alias de parámetros del sistema
+		SELECT @AliasGeneracionPrimaLegal = vcpg.[GENERACIONPRIMALEGAL]
+		FROM util.VW_ConstanteParametroGeneral AS vcpg;
+
+		-- Se obtiene el año de trabajo vigente
+		SET @AnioVigenteId = [dbo].[UFS_ObtenerAnioTrabajo](@AnioVigente);
+
+		-- Cconsultar la fecha de generacion de prima legal		
+		SET @FechaGeneracionPrimaLegal = CAST([util].[UFS_ObtenerParametro](@AliasGeneracionPrimaLegal, @AnioVigenteId) AS DATE);		
+				
+		SET @Booleano = 0;
+		
+		IF @FechaGeneracionPrimaLegal >= @FechaInicio AND @FechaGeneracionPrimaLegal <= @FechaFin
+		BEGIN
+			SET @Booleano = 1;
+		END;
+				
+		PRINT CONCAT('@FechaGeneracionPrimaLegal= ',@FechaGeneracionPrimaLegal);
+		PRINT CONCAT('@FechaInicio= ',@FechaInicio);
+		PRINT CONCAT('@FechaFin= ',@FechaFin);		
+
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_DeterminarLiquidacionPrimaLegal];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

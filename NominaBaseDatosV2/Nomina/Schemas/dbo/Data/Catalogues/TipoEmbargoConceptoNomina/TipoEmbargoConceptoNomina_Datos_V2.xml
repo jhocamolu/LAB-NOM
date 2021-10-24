@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoEmbargoConceptoNomina_Datos_v2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoEmbargoConceptoNomina] ON 
+GO
+
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='50' WHERE Id='1';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='50' WHERE Id='2';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='20' WHERE Id='3';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='20' WHERE Id='4';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='50' WHERE Id='5';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='50' WHERE Id='6';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='20' WHERE Id='7';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='20' WHERE Id='8';
+
+SET IDENTITY_INSERT [dbo].[TipoEmbargoConceptoNomina] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='0.5' WHERE Id='1';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='0.5' WHERE Id='2';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='0.2' WHERE Id='3';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='0.2' WHERE Id='4';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='0.5' WHERE Id='5';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='0.5' WHERE Id='6';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='0.2' WHERE Id='7';
+UPDATE dbo.TipoEmbargoConceptoNomina SET MaximoEmbargarConcepto='0.2' WHERE Id='8';
+
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

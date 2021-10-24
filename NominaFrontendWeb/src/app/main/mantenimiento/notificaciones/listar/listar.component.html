@@ -1,0 +1,125 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Mantenimiento</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Notificaciones</span>
+            </div>
+            <div>
+                <h2>Notificaciones</h2>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button style="margin-right: 10px;" mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize"
+                matBadgePosition="before" [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+            <a *ngIf="arrayPermisos.crear" mat-raised-button color="accent"
+                routerLink="/mantenimiento/notificaciones/crear" routerLinkActive="router-link-active">
+                <mat-icon>add</mat-icon>
+                <span>Crear notificación</span>
+            </a>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+
+            <alcanos-empty-list [visibleBtnCreate]="arrayPermisos.crear" (fnCreate)="urlLink($event)"
+                labelH1="¡Uy! Aún no has creado notificaciones." labelBtn="Crear notificación"
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+            <div *ngIf="loadTable">
+                <mat-spinner class="spiner"></mat-spinner>
+            </div>
+            <div [hidden]="loadTable">
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna N° contrato -->
+                    <ng-container matColumnDef="tipo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.tipo == 'MobilePush'">
+                                Mobile push
+                            </div>
+                            <div *ngIf="element.tipo == 'Email'">
+                                Email
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="titulo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Título</th>
+                        <td mat-cell class="text-truncate" *matCellDef="let element">{{element.titulo | htmlToPlaintext}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fecha">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha</th>
+                        <td mat-cell *matCellDef="let element"> {{element.fecha | date:'dd / LL / yyyy'}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="pendiente">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Pendientes</th>
+                        <td mat-cell *matCellDef="let element">{{element.pendiente }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="enviado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Enviados </th>
+                        <td mat-cell *matCellDef="let element">{{element.enviado}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fallido">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fallidos </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fallido}} </td>
+                    </ng-container>
+
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display':!( arrayPermisos.actualizar || arrayPermisos.op1 || arrayPermisos.op2 ) ? 'none' : ''}"> Acciones </th>
+                        <td mat-cell *matCellDef="let element" [ngStyle]="{'display': !( arrayPermisos.actualizar || arrayPermisos.op1 || arrayPermisos.op2 ) ? 'none' : ''}">
+                            <button mat-icon-button *ngIf="arrayPermisos.op1" (click)="ejecutarHandle($event, element)">
+                                <mat-icon class="item-enviar" matTooltip="Enviar">play_arrow</mat-icon>
+                            </button>
+                            <button mat-icon-button *ngIf="arrayPermisosLogs.op1">
+                                <mat-icon matTooltip="Log" (click)="logHandle($event, element)">dehaze
+                                </mat-icon>
+                            </button>
+                            <button mat-icon-button *ngIf="arrayPermisos.actualizar"
+                                routerLink="/mantenimiento/notificaciones/{{element.id}}/editar">
+                                <mat-icon matTooltip="Editar">edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <!--  -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

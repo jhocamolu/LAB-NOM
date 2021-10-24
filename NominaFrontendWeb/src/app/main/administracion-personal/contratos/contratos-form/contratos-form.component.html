@@ -1,0 +1,1216 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/administracion-personal/contratos">Contratos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar contrato</span>
+                <span *ngIf="!item">Registrar nuevo contrato</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title" *ngIf="item">Editar contrato </h2>
+                <h2 class="title" *ngIf="!item">Registrar nuevo contrato</h2>
+            </div>
+        </div>
+        <div class="Acciones">
+            <button *ngIf="item" color="accent" mat-raised-button [matMenuTriggerFor]="menu">
+                <mat-icon>edit</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button *ngIf="item" mat-menu-item routerLink="/administracion-personal/contratos/{{item.id}}/mostrar">
+                    <span>Mostrar contrato</span>
+                </button>
+                <button *ngIf="arrayPermisosOtroSi.crear && item && item.estado === 'Vigente'" mat-menu-item (click)="registrarOtrosi(item)">
+                    <span>Registrar otrosí</span>
+                </button>
+                <button mat-menu-item>Descargar carta de vencimiento</button>
+                <button (click)="urlDocument(2)" mat-menu-item>Descargar contrato</button>
+                <button *ngIf="arrayPermisos.op2 && (item && item.estado === 'Vigente')" (click)="finalizarContratoHandle(item)" mat-menu-item>Finalizar contrato</button>
+                <a routerLink="/administracion-personal/contratos" mat-menu-item>Cerrar</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="box-shadow">
+            <contrato-header *ngIf="item" [contratos]="item"></contrato-header>
+
+            <mat-tab-group animationDuration="0ms">
+                <!--CONTRATOS -->
+                <mat-tab label="Contratos">
+
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>assignment</mat-icon>
+                                <h2>Contrato</h2>
+                            </div>
+
+                            <mat-form-field appearance="outline" *ngIf="!item">
+                                <mat-label>Funcionario</mat-label>
+                                <input matInput formControlName="funcionario" [matAutocomplete]="autoFn"
+                                    (focusout)="focusData($event)" required>
+                                <mat-autocomplete [displayWith]="displayFnFuncionarios" #autoFn="matAutocomplete">
+                                    <mat-option *ngFor="let item of filteredFuncionarios | async" [value]="item">
+                                        {{item.criterioBusqueda}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error *ngFor="let error of form.get('funcionario').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Trabajador que labora en la compañía.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline" *ngIf="!item">
+                                    <mat-label>Tipos de contrato</mat-label>
+                                    <mat-select formControlName="tipoContratoId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of tipoContratos" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('tipoContratoId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Clase de contrato que se va a efectuar.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" *ngIf="!item">
+                                    <mat-label>Dependencia</mat-label>
+                                    <input matInput formControlName="dependenciaId" [matAutocomplete]="autoDP"
+                                    (focusout)="focusData($event)" required>
+                                    <mat-autocomplete [displayWith]="displayFnDependencias" #autoDP="matAutocomplete">
+                                        <mat-option *ngFor="let item of dependencias | async" [value]="item">
+                                            {{item.autocomplete}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error *ngFor="let error of form.get('dependenciaId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Área de la compañía a la que pertenece el funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+
+                            <mat-form-field appearance="outline" *ngIf="!item">
+                                <mat-label>Cargo</mat-label>
+                                <input matInput formControlName="cargoId" [matAutocomplete]="autoCG"
+                                    (focusout)="focusData($event)" required>
+                                    <mat-autocomplete [displayWith]="displayFnCargos" #autoCG="matAutocomplete">
+                                        <mat-option *ngFor="let item of cargos | async" [value]="item">
+                                            {{item.autocomplete}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                <input matInput formControlName="cargoId" *ngIf="desabilitar" [readonly]="desabilitar">
+                                <mat-error *ngFor="let error of form.get('cargoId').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Puesto de trabajo al que pertenece el funcionario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Fecha de inicio</mat-label>
+                                    <input matInput [matDatepicker]="fechaInicio" (focus)="fechaInicio.open()"
+                                        [readonly]="desabilitar" (click)="fechaInicio.open()"
+                                        formControlName="fechaInicio" required>
+                                    <mat-datepicker-toggle matPrefix [for]="fechaInicio">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+                                    <mat-error *ngFor="let error of form.get('fechaInicio').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                                No es un formato de fecha válido.
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Fecha en la que se da comienzo al contrato.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Fecha finalización</mat-label>
+                                    <input matInput [matDatepicker]="fechaFinalizacion"
+                                        (focus)="fechaFinalizacion.open()" [readonly]="desabilitar"
+                                        (click)="fechaFinalizacion.open()" formControlName="fechaFinalizacion"
+                                        [readonly]="desabilitar">
+                                    <mat-datepicker-toggle matPrefix [for]="fechaFinalizacion">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker startView="year" #fechaFinalizacion></mat-datepicker>
+                                    <mat-error *ngFor="let error of form.get('fechaFinalizacion').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                                No es un formato de fecha válido.
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Fecha en la que finaliza el contrato.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                        </mat-list-item>
+
+                        <mat-list-item>
+
+                            <div class="list-item-title">
+                                <mat-icon>assignment_ind</mat-icon>
+                                <h2>Datos laborales</h2>
+                            </div>
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Sueldo</mat-label>
+                                    <input matInput formControlName="sueldo" mask="separator.2"
+                                            separatorLimit="1000000000" thousandSeparator="." required>
+                                    <mat-error *ngFor="let error of form.get('sueldo').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'max'">
+                                                Valor máximo 999999999999999
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Salario básico  que devengará el funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Grupo de trabajo</mat-label>
+                                    <mat-select formControlName="cargoGrupoId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of grupos" [value]="item.id">
+                                            {{item.grupo.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('cargoGrupoId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Grupo al que pertenece el cargo asociado al funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Centro operativo</mat-label>
+                                    <mat-select formControlName="centroOperativoId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of centroOperativos" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('centroOperativoId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Ubicación de la compañía en donde trabajará el funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Centro de costo</mat-label>
+                                    <input matInput formControlName="centroCosto" [matAutocomplete]="auto" required>
+                                    <mat-autocomplete [displayWith]="displayFnCostos" #auto="matAutocomplete">
+                                        <mat-option *ngFor="let item of filteredCentroCostos | async" [value]="item">
+                                            {{item.autocomplete}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+
+                                    <mat-error *ngFor="let error of form.get('centroCosto').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Centro de costo que debe llevar el funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Departamento</mat-label>
+                                    <mat-select formControlName="departamentoOrigenId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of departamentosOrigen" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('departamentoOrigenId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Departamento del país  donde trabajará el funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Municipio</mat-label>
+                                    <mat-select formControlName="municipioOrigenId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of municipiosOrigen" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('municipioOrigenId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Municipio donde trabajará el funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Forma de pago</mat-label>
+                                    <mat-select formControlName="formaPagoId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of formaPagos" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('formaPagoId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Medio por el cual se le realizará el pago al funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Moneda</mat-label>
+                                    <mat-select formControlName="tipoMonedaId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of tipoMonedas" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('tipoMonedaId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Tipo de moneda en la que se pagará el sueldo al funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Tipo de cuenta</mat-label>
+                                    <mat-select formControlName="tipoCuentaId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of tipoCuentas" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('tipoCuentaId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Tipo de cuenta bancaria del funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>N° de cuenta</mat-label>
+                                    <input type="number" matInput formControlName="numeroCuenta" required>
+                                    <mat-error *ngFor="let error of form.get('numeroCuenta').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'max'">
+                                                Valor máximo 99999999999999999999
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Número de la cuenta bancaria del funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Entidad financiera</mat-label>
+                                    <mat-select formControlName="entidadFinancieraId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of entidadFinancieras" [value]="item.id">
+                                            {{item.nombre.substr(0,90)}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('entidadFinancieraId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Entidad financiera que recibirá el pago del funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Período de pago</mat-label>
+                                    <mat-select formControlName="tipoPeriodoId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of tipoPeriodo" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('tipoPeriodoId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Indica en qué período de pago se le remunera el sueldo al
+                                      funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Jornada laboral</mat-label>
+                                    <mat-select formControlName="jornadaLaboralId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of jornadaLaborales" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('jornadaLaboralId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Jornada de trabajo del funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Días de periodo de prueba</mat-label>
+                                    <input matInput formControlName="periodoPrueba" required type="number">
+                                    <mat-error *ngFor="let error of form.get('periodoPrueba').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'max'">
+                                                Valor máximo: 100
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'min'">
+                                                Valor minimo: 0
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Cantidad de días que el funcionario tiene de periodo de prueba.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Recibe dotación</mat-label>
+                                    <mat-select formControlName="recibeDotacion" required>
+                                        <mat-option></mat-option>
+                                        <mat-option [value]="true">Si</mat-option>
+                                        <mat-option [value]="false">No</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('recibeDotacion').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'max'">
+                                                Valor máximo 100
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Especifica si el funcionario recibe o no dotación.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Empleado de confianza</mat-label>
+                                    <mat-select formControlName="empleadoConfianza" required>
+                                        <mat-option></mat-option>
+                                        <mat-option [value]="true">Si</mat-option>
+                                        <mat-option [value]="false">No</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('empleadoConfianza').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Especifica si el funcionario es de confianza para la compañía.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <div>
+                                <mat-form-field appearance="outline" *ngIf="desabilitar">
+                                    <mat-label>Centro de trabajo</mat-label>
+                                    <mat-select formControlName="centroTrabajoId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of centroTrabajos" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('centroTrabajoId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Centro de trabajo establecido para el funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" *ngIf="!desabilitar">
+                                    <mat-label>Grupo de nómina</mat-label>
+                                    <mat-select formControlName="grupoNominaId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of grupoNomina" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('grupoNominaId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Grupo al que pertenece el funcionario para ser liquidado en la nómina.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="outline" *ngIf="desabilitar">
+                                    <mat-label>Grupo de nómina</mat-label>
+                                    <mat-select formControlName="grupoNominaId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of grupoNomina" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('grupoNominaId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Grupo al que pertenece el funcionario para ser liquidado en la nómina.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+                        </mat-list-item>
+
+
+
+                        <mat-list-item *ngIf="desabilitar">
+
+                            <div class="list-item-title">
+                                <mat-icon>assignment_turned_in</mat-icon>
+                                <h2>Datos de la seguridad social</h2>
+                            </div>
+
+                            <mat-list-item>
+                                <div *ngIf="item.contratoAdministradoras.length > 0">
+                                    <div>
+                                        <div fxLayout="column" fxLayoutAlign="start">
+                                            <table class="simple">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo</th>
+                                                        <th>Nombre</th>
+                                                        <th>Fecha vinculación</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let element of item.contratoAdministradoras">
+                                                        <ng-container *ngIf="!element?.fechaFin">
+                                                            <td>
+                                                                <span> {{ element?.administradora?.tipoAdministradora?.nombre}}</span>
+                                                            </td>
+                                                            <td> <span class="text-truncate" style="max-width: 25vw;">
+                                                                    {{element.administradora?.nombre}} </span></td>
+                                                            <td>
+                                                                {{element.fechaInicio | date:'dd / LL / yyyy' }}
+                                                            </td>
+                                                        </ng-container>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div *ngIf="item.contratoAdministradoras.length === 0">
+                                    <p>N/A</p>
+                                </div>
+                            </mat-list-item>
+
+                        </mat-list-item>
+
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>face</mat-icon>
+                                <h2>Datos de la seguridad social</h2>
+                            </div>
+                            
+                            <div *ngIf="!desabilitar">
+                                <div class="dos-bloque">
+
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Fondo de cesantias</mat-label>
+                                        <input matInput formControlName="fondoCesantias_val" [matAutocomplete]="autoAFC"
+                                        (focusout)="focusData($event)" required>
+                                        <mat-autocomplete [displayWith]="displayFnFondoCesantias" #autoAFC="matAutocomplete">
+                                            <mat-option *ngFor="let item of filteredFondoCesantias | async" [value]="item">
+                                                {{item.nombre}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-error *ngFor="let error of form.get('fondoCesantias_val').errors | keyvalue">
+                                            <div [ngSwitch]="error.key">
+                                                <ng-template [ngSwitchCase]="'required'">
+                                                    Requerido
+                                                </ng-template>
+                                                <ng-template ngSwitchDefault>
+                                                    {{error.key}}
+                                                </ng-template>
+                                            </div>
+                                        </mat-error>
+                                        <mat-icon matSuffix
+                                            matTooltip="Fondo de cesantías del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </mat-form-field>
+
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Fecha vinculación a fondo de cesantías.</mat-label>
+                                        <input matInput [matDatepicker]="FechaFondoCesantias"
+                                            (focus)="FechaFondoCesantias.open()" (click)="FechaFondoCesantias.open()"
+                                            formControlName="FechaFondoCesantias" required>
+                                        <mat-datepicker-toggle matPrefix [for]="FechaFondoCesantias">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker startView="year" #FechaFondoCesantias></mat-datepicker>
+                                        <mat-error *ngFor="let error of form.get('FechaFondoCesantias').errors | keyvalue">
+                                            <div [ngSwitch]="error.key">
+                                                <ng-template [ngSwitchCase]="'required'">
+                                                    Requerido
+                                                </ng-template>
+                                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                                    No es un formato de fecha válido.
+                                                </ng-template>
+                                                <ng-template ngSwitchDefault>
+                                                    {{error.key}}
+                                                </ng-template>
+                                            </div>
+                                        </mat-error>
+                                        <mat-icon matSuffix
+                                            matTooltip="Fecha de vinculación del funcionario  al fondo de cesantías.">
+                                            info
+                                        </mat-icon>
+                                    </mat-form-field>
+                                </div>
+    
+    
+                                <div class="dos-bloque">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>EPS</mat-label>
+                                        <input matInput formControlName="eps_val" [matAutocomplete]="autoEPS"
+                                        (focusout)="focusData($event)" required>
+                                       
+                                        <mat-autocomplete [displayWith]="displayFnEPS" #autoEPS="matAutocomplete">
+                                            <mat-option *ngFor="let item of filteredEPS | async" [value]="item">
+                                                {{item.nombre}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-error *ngFor="let error of form.get('eps_val').errors | keyvalue">
+                                            <div [ngSwitch]="error.key">
+                                                <ng-template [ngSwitchCase]="'required'">
+                                                    Requerido
+                                                </ng-template>
+                                                <ng-template ngSwitchDefault>
+                                                    {{error.key}}
+                                                </ng-template>
+                                            </div>
+                                        </mat-error>
+                                        <mat-icon matSuffix
+                                            matTooltip="Entidad Promotora de Salud del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </mat-form-field>
+    
+    
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Fecha vinculación EPS</mat-label>
+                                        <input matInput [matDatepicker]="epsFecha" (focus)="epsFecha.open()"
+                                            (click)="epsFecha.open()" formControlName="epsFecha" required>
+                                        <mat-datepicker-toggle matPrefix [for]="epsFecha">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker startView="year" #epsFecha></mat-datepicker>
+                                        <mat-error *ngFor="let error of form.get('epsFecha').errors | keyvalue">
+                                            <div [ngSwitch]="error.key">
+                                                <ng-template [ngSwitchCase]="'required'">
+                                                    Requerido
+                                                </ng-template>
+                                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                                    No es un formato de fecha válido.
+                                                </ng-template>
+                                                <ng-template ngSwitchDefault>
+                                                    {{error.key}}
+                                                </ng-template>
+                                            </div>
+                                        </mat-error>
+                                        <mat-icon matSuffix matTooltip="Fecha de vinculación del funcionario a la EPS.">
+                                            info
+                                        </mat-icon>
+                                    </mat-form-field>
+                                </div>
+    
+    
+                                <div class="dos-bloque">
+
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>AFP</mat-label>
+                                        <input matInput formControlName="afp_val" [matAutocomplete]="autoAFP"
+                                        (focusout)="focusData($event)" required>
+                                       
+                                        <mat-autocomplete [displayWith]="displayFnAFP" #autoAFP="matAutocomplete">
+                                            <mat-option *ngFor="let item of filteredAFP | async" [value]="item">
+                                                {{item.nombre}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-error *ngFor="let error of form.get('afp_val').errors | keyvalue">
+                                            <div [ngSwitch]="error.key">
+                                                <ng-template [ngSwitchCase]="'required'">
+                                                    Requerido
+                                                </ng-template>
+                                                <ng-template ngSwitchDefault>
+                                                    {{error.key}}
+                                                </ng-template>
+                                            </div>
+                                        </mat-error>
+                                        <mat-icon matSuffix
+                                            matTooltip="Administradora de Fondo de Pensiones del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </mat-form-field>
+    
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Fecha de vinculación AFP</mat-label>
+                                        <input matInput [matDatepicker]="afpFecha" (focus)="afpFecha.open()"
+                                            (click)="afpFecha.open()" formControlName="afpFecha" required>
+                                        <mat-datepicker-toggle matPrefix [for]="afpFecha">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker startView="year" #afpFecha></mat-datepicker>
+                                        <mat-error *ngFor="let error of form.get('afpFecha').errors | keyvalue">
+                                            <div [ngSwitch]="error.key">
+                                                <ng-template [ngSwitchCase]="'required'">
+                                                    Requerido
+                                                </ng-template>
+                                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                                    No es un formato de fecha válido.
+                                                </ng-template>
+                                                <ng-template ngSwitchDefault>
+                                                    {{error.key}}
+                                                </ng-template>
+                                            </div>
+                                        </mat-error>
+                                        <mat-icon matSuffix matTooltip="Fecha de vinculación del funcionario a la AFP.">
+                                            info
+                                        </mat-icon>
+                                    </mat-form-field>
+                                </div>
+    
+                                <div class="dos-bloque">
+
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Caja de compensación</mat-label>
+                                        <input matInput formControlName="ccf_val" [matAutocomplete]="autoCCF"
+                                        (focusout)="focusData($event)" required>
+                                       
+                                        <mat-autocomplete [displayWith]="displayFnCCF" #autoCCF="matAutocomplete">
+                                            <mat-option *ngFor="let item of filteredCajaCompensacion | async" [value]="item">
+                                                {{item.nombre}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-error *ngFor="let error of form.get('ccf_val').errors | keyvalue">
+                                            <div [ngSwitch]="error.key">
+                                                <ng-template [ngSwitchCase]="'required'">
+                                                    Requerido
+                                                </ng-template>
+                                                <ng-template ngSwitchDefault>
+                                                    {{error.key}}
+                                                </ng-template>
+                                            </div>
+                                        </mat-error>
+                                        <mat-icon matSuffix
+                                            matTooltip="Caja de Compensación Familiar del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </mat-form-field>
+    
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Centro de trabajo</mat-label>
+                                        <mat-select formControlName="centroTrabajoId" required>
+                                            <mat-option></mat-option>
+                                            <mat-option *ngFor="let item of centroTrabajos" [value]="item.id">
+                                                {{item.nombre}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngFor="let error of form.get('centroTrabajoId').errors | keyvalue">
+                                            <div [ngSwitch]="error.key">
+                                                <ng-template [ngSwitchCase]="'required'">
+                                                    Requerido
+                                                </ng-template>
+                                                <ng-template ngSwitchDefault>
+                                                    {{error.key}}
+                                                </ng-template>
+                                            </div>
+                                        </mat-error>
+                                        <mat-icon matSuffix matTooltip="Centro de trabajo establecido para el funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Tipo de cotizante</mat-label>
+                                    <mat-select formControlName="tipoCotizanteId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of tipoCotizantes" [value]="item.id">
+                                            {{item.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('tipoCotizanteId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix
+                                        matTooltip="Indica el tipo de cotizante del funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Subtipo de cotizante</mat-label>
+                                    <mat-select formControlName="subTipoCotizanteId" required>
+                                        <mat-option></mat-option>
+                                        <mat-option *ngFor="let item of subTipocotizantes" [value]="item.id">
+                                            {{item.subtipoCotizante.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngFor="let error of form.get('subTipoCotizanteId').errors | keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                    <mat-icon matSuffix matTooltip="Indica el subtipo de cotizante del funcionario.">
+                                        info
+                                    </mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>¿Extranjeo no obligado a cotizar pensión?</mat-label>
+                                <mat-select formControlName="extranjeroNoObligadoACotizarAPension" required>
+                                    <mat-option></mat-option>
+                                    <mat-option value="true">
+                                        Si
+                                    </mat-option>
+                                    <mat-option value="false">
+                                        No
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('extranjeroNoObligadoACotizarAPension').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Indica si el funcionario está exento a cotizar pensión.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>¿Colombiano en el exterior?</mat-label>
+                                <mat-select formControlName="colombianoEnElExterior" required>
+                                    <mat-option></mat-option>
+                                    <mat-option value="true">
+                                        Si
+                                    </mat-option>
+                                    <mat-option value="false">
+                                        No
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('colombianoEnElExterior').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Indica si el funcionario es un colombiano en el exterior.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </mat-list-item>
+
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>assessment</mat-icon>
+                                <h2>Impuestos</h2>
+                            </div>
+                            <div>
+                                <h3>
+                                    Procedimiento de retenciones
+                                    <mat-icon class="s-16" matSuffix
+                                        matTooltip="Procedimiento de retención de impuestos del funcionario.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{procedimientoRetencion ? procedimientoRetencion : 'Procedimiento 1'}}</p>
+                            </div>
+
+                        </mat-list-item>
+
+                        <mat-list-item *ngIf="desabilitar">
+
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Observaciones</mat-label>
+                                <textarea matInput #observacionInput maxlength="500" formControlName="observaciones" required></textarea>
+                                <mat-hint align="end">{{observacionInput.value?.length || 0}}/500</mat-hint>
+                                <mat-error *ngFor="let error of form.get('observaciones').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'maxlength'">
+                                           
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Ingrese alguna observación que requiera de la actualización de datos del funcionario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                        </mat-list-item>
+
+                        <div class="actions">
+                            <a *ngIf="!item" mat-raised-button [routerLink]="'/administracion-personal/contratos'">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <a *ngIf="item" mat-raised-button
+                                routerLink="/administracion-personal/contratos/{{item.id}}/mostrar">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <button type="submit" [disabled]="form.invalid || submit" mat-raised-button color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+
+                    </form>
+
+                </mat-tab>
+                <!-- /CONTRATOS-->
+                <mat-tab label="Otrosí" [disabled]="!item" *ngIf="arrayPermisosOtroSi.listar">
+
+                    <table mat-table *ngIf="hasOtrosiDataSource && !otrosiDataRequest" [dataSource]="otrosiDataSource"
+                        class="mat-elevation-z8  p-4">
+
+                        <!-- Columna N° -->
+                        <ng-container matColumnDef="numero">
+                            <th mat-header-cell *matHeaderCellDef style="width:60px;"> N°</th>
+                            <td mat-cell *matCellDef="let element">
+                                <p class="text-truncate">{{element.numeroOtroSi}} </p>
+                            </td>
+                        </ng-container>
+
+                        <!-- Aplicación N° -->
+                        <ng-container matColumnDef="fechaAplicacion">
+                            <th mat-header-cell *matHeaderCellDef style="width:160px">Fecha de aplicación</th>
+                            <td mat-cell *matCellDef="let element">
+                                <p class="text-truncate">{{element.fechaAplicacion | date:'dd / LL / yyyy'}} </p>
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna tipo contrato -->
+                        <ng-container matColumnDef="tipoContrato">
+                            <th mat-header-cell *matHeaderCellDef style="width:200px;"> Tipo contrato </th>
+                            <td mat-cell *matCellDef="let element">
+                                <p class="text-truncate">{{element.tipoContrato?.nombre}} </p>
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna fecha fin -->
+                        <ng-container matColumnDef="fechaFinalizacion">
+                            <th mat-header-cell *matHeaderCellDef> Fecha finalización</th>
+                            <td mat-cell *matCellDef="let element">
+                                <p class="text-truncate">{{element.fechaFinalizacion | date:'dd / LL / yyyy'}}
+                                </p>
+                            </td>
+                        </ng-container>
+
+
+                        <!-- Columna Cargo -->
+                        <ng-container matColumnDef="cargo">
+                            <th mat-header-cell *matHeaderCellDef> Cargo </th>
+                            <td mat-cell *matCellDef="let element">
+                                <p class="text-truncate">{{element.cargoDependencia?.cargo.nombre }}</p>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="acciones" style="text-align:center">
+                            <th mat-header-cell *matHeaderCellDef style="text-align:center"> Acciones </th>
+                            <td mat-cell *matCellDef="let element" style="text-align:center">
+                                <div *ngIf="1" style="text-align:center">
+                                    <button *ngIf="arrayPermisosOtroSi.obtener" mat-icon-button matTooltip="Visualizar"
+                                        (click)="mostrarOtrosiHandle($event, element)">
+                                        <mat-icon class="s-20">visibility</mat-icon>
+                                    </button>
+                                    <button mat-icon-button matTooltip="Descargar" (click)="urlDocument(4)">
+                                        <mat-icon>save_alt</mat-icon>
+                                    </button>
+                                    <button *ngIf="arrayPermisosOtroSi.eliminar" mat-icon-button matTooltip="Eliminar"
+                                        (click)="eliminarHandle($event, element)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsOtrosi"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumnsOtrosi; let i = index">
+                        </tr>
+                    </table>
+
+                    <alcanos-empty-list (fnCreate)="registrarOtrosi(item)"
+                        labelH1="¡Uy! Aún no has registrado un otrosí, para este contrato." labelBtn="Registrar otrosí"
+                        [visibleBtnCreate]="arrayPermisos.crear && item && item?.estado === 'Vigente'"
+                        [visible]="(!hasOtrosiDataSource && !otrosiDataRequest)">
+                    </alcanos-empty-list>
+
+
+                </mat-tab>
+            </mat-tab-group>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

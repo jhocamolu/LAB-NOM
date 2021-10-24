@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoLiquidacionModulo_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    UPDATE dbo.TipoLiquidacionModulo SET EstadoRegistro='Activo',CreadoPor='Sistemas' WHERE ID <17
+     
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+    UPDATE dbo.TipoLiquidacionModulo SET EstadoRegistro=null, CreadoPor=null WHERE ID <17
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_administradora_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[Administradora] ON 
+GO
+
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('1', 'Activo', GETDATE(), 'EAS016', 'Empresas Públicas de Medellín Departamento Médico', '890904996', '1', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('2', 'Activo', GETDATE(), 'EAS027', 'Fondo de Pasivo Social de Ferrocarriles', '800112806', '2', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('3', 'Activo', GETDATE(), 'EPS001', 'Aliansalud EPS', '830113831', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('4', 'Activo', GETDATE(), 'EPS002', 'Salud Total S.A.', '800130907', '4', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('5', 'Activo', GETDATE(), 'EPS003', 'Cafesalud EPS', '800140949', '6', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('6', 'Activo', GETDATE(), 'EPS005', 'E.P.S Sanitas', '800251440', '6', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('7', 'Activo', GETDATE(), 'EPS008', 'Compensar Entidad Promotora de Salud', '860066942', '7', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('8', 'Activo', GETDATE(), 'EPS010', 'EPS Sura', '800088702', '2', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('9', 'Activo', GETDATE(), 'EPS012', 'Comfenalco Valle EPS', '890303093', '5', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('10', 'Activo', GETDATE(), 'EPS016', 'Coomeva EPS', '805000427', '1', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('11', 'Activo', GETDATE(), 'EPS017', 'Famisanar', '830003564', '7', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('12', 'Activo', GETDATE(), 'EPS018', 'Servicio Occidental de Salud S.O.S. S.A.', '805001157', '2', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('13', 'Activo', GETDATE(), 'EPS023', 'Cruz Blanca S.A', '830009783', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('14', 'Activo', GETDATE(), 'EPS033', 'Saludvida S.A EPS', '830074184', '5', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('15', 'Activo', GETDATE(), 'EPS037', 'Nueva EPS', '900156264', '2', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('16', 'Activo', GETDATE(), 'MIN001', 'Fondo de Solidaridad y Garantía Fosyga', '900462447', '5', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('17', 'Activo', GETDATE(), 'MIN002', 'Fondo de Solidaridad y Garantía Fosyga', '900462447', '5', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('18', 'Activo', GETDATE(), 'MIN003', 'Fondo de Solidaridad y Garantía Fosyga', '900462447', '5', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('19', 'Activo', GETDATE(), 'RES005', 'Universidad del Atlántico', '890102257', '3', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('20', 'Activo', GETDATE(), 'RES006', 'Universidad Industrial de Santander', '890203183', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('21', 'Activo', GETDATE(), 'RES007', 'Universidad del Valle', '890399010', '6', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('22', 'Activo', GETDATE(), 'RES008', 'Universidad Nacional de Colombia', '899999063', '3', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('23', 'Activo', GETDATE(), 'RES009', 'Universidad del Cauca', '891500319', '2', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('24', 'Activo', GETDATE(), 'RES011', 'Universidad de Antioquia', '890980040', '8', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('25', 'Activo', GETDATE(), 'RES012', 'Universidad de Córdoba', '891080031', '3', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('26', 'Activo', GETDATE(), 'RES014', 'Universidad Pedagógica y Tecnológica de Colombia - UPTC', '891800330', '1', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('27', 'Activo', GETDATE(), 'EPSC03', 'Cafesalud EntidadPromotora de Salud S.A', '800140949', '6', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('28', 'Activo', GETDATE(), 'EPSC22', 'Entidad Administradora de Régimen Subsidiado Convida', '899999107', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('29', 'Activo', GETDATE(), 'EPSC25', 'Capresoca EPS', '891856000', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('30', 'Activo', GETDATE(), 'EPSC34', 'Capital Salud EPSS S.A.S.', '900298372', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('31', 'Activo', GETDATE(), 'EPSIC1', 'Asociación de Cabildos Indígenas del Cesar “Dusakawi”', '824001398', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('32', 'Activo', GETDATE(), 'EPSIC2', '"Asociación de Cabildos Indígenas del Resguardo Indígena Zenú de San Andrés de Sotavento Córdoba - Sucre ""Manexka"""', '812002376', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('33', 'Activo', GETDATE(), 'EPSIC3', 'Asociación Indígena del Cauca - A.I.C.', '817001773', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('34', 'Activo', GETDATE(), 'EPSIC4', 'Entidad Promotora de Salud Anas Wayuu EPSI', '839000495', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('35', 'Activo', GETDATE(), 'EPSIC5', 'Entidad Promotora de Salud Mallamas EPSI', '837000084', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('36', 'Activo', GETDATE(), 'EPSIC6', 'Entidad Promotora de Salud Pijaosalud EPSI', '809008362', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('37', 'Activo', GETDATE(), 'ESSC02', 'Empresa Mutual para el desarrollo integral de la salud E.S.S. Emdisalud ESS', '811004055', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('38', 'Activo', GETDATE(), 'ESSC07', 'Asociación Mutual Ser Empresa Solidaría de Salud ESS', '806008394', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('39', 'Activo', GETDATE(), 'ESSC18', 'Asociación Mutual Empresa Solidaria de Salud de Nariño E.S.S. Emssanar E.S.S.', '814000337', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('40', 'Activo', GETDATE(), 'ESSC24', 'Cooperativa de Salud y Desarrollo Integral de la Zona Sur Oriental de Cartagenab aLtda.Coosalud E.S.S.', '800249241', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('41', 'Activo', GETDATE(), 'ESSC33', '"Cooperativa de Salud Comunitaria ""Comparta"""', '804002105', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('42', 'Activo', GETDATE(), 'ESSC62', 'Asociación Mutual La Esperanza Asmet Salud', '817000248', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('43', 'Activo', GETDATE(), 'ESSC76', 'Asociación Mutual Barrios Unidos de Quibdó E.S.S. AMBUQ', '818000140', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('44', 'Activo', GETDATE(), 'ESSC91', 'Entidad Cooperativa Solidaria de Salud Ecoopsos', '832000760', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('45', 'Activo', GETDATE(), 'EPS 040', 'Caja de Compensación Familiar de Antioquía - Comfama - Hoy Savia Salud EPS', '900604350', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('46', 'Activo', GETDATE(), 'CCFC09', 'Comfaboy EPS-CCF de Boyacá', '891800213', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('47', 'Activo', GETDATE(), 'CCFC15', 'Comfacor EPS – CCF de Córdoba', '891080005', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('48', 'Activo', GETDATE(), 'CCFC20', 'Comfachoco – CCF del Chocó', '891600091', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('49', 'Activo', GETDATE(), 'CCFC23', 'Caja de Compensación Familiar de La Guajira', '892115006', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('50', 'Activo', GETDATE(), 'CCFC24', 'Comfamiliar Huila EPS – CCF', '891180008', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('51', 'Activo', GETDATE(), 'CCFC27', 'Comfamiliar de Nariño EPS – CCF', '891280008', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('52', 'Activo', GETDATE(), 'CCFC33', 'Comfasucre EPS-CCF de Sucre', '892200015', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('53', 'Activo', GETDATE(), 'CCFC53', 'Comfacundi - CCF de Cundinamarca', '860045904', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('54', 'Activo', GETDATE(), 'CCFC55', 'Cajacopi Atlántico - CCF', '890102044', '0', '3', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('55', 'Activo', GETDATE(), '230201', 'Protección', '800229739', '0', '2', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('56', 'Activo', GETDATE(), '230301', 'Porvenir', '800224808', '8', '2', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('57', 'Activo', GETDATE(), '230901', 'Old Mutual Fondo de Pensiones Obligatorias', '800253055', '2', '2', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('58', 'Activo', GETDATE(), '230904', 'Old Mutual Fondo Alternativo de Pensiones', '830125132', '2', '2', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('59', 'Activo', GETDATE(), '231001', 'Colfondos', '800227940', '6', '2', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('60', 'Activo', GETDATE(), '25-2', 'Caja de Auxilios y de Prestaciones de ACDAC', '860007379', '8', '2', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('61', 'Activo', GETDATE(), '25-3', 'Fondo de Previsión Social del Congreso', '899999734', '7', '2', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('62', 'Activo', GETDATE(), '25-7', 'Pensiones de Antioquia', '800216278', '0', '2', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('63', 'Activo', GETDATE(), '25-14', 'Administradora Colombiana de Pensiones Colpensiones', '900336004', '7', '2', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('64', 'Activo', GETDATE(), '14-4', 'A.R.L. Seguros de Vida Colpatria S.A.', '860002183', '9', '1', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('65', 'Activo', GETDATE(), '14-7', 'Compañía de Seguros Bolívar S.A.', '860002503', '2', '1', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('66', 'Activo', GETDATE(), '14-8', 'Seguros de Vida Aurora', '860022137', '5', '1', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('67', 'Activo', GETDATE(), '14-17', 'ARP Alfa', '860503617', '3', '1', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('68', 'Activo', GETDATE(), '14-18', 'Liberty Seguros de Vida S.A.', '860008645', '7', '1', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('69', 'Activo', GETDATE(), '14-23', 'Positiva Compañía de Seguros', '860011153', '6', '1', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('70', 'Activo', GETDATE(), '14-25', 'Colmena Riesgos Profesionales', '800226175', '3', '1', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('71', 'Activo', GETDATE(), '14-28', 'ARL Sura', '800256161', '9', '1', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('72', 'Activo', GETDATE(), '14-29', 'La Equidad Seguros de Vida', '830008686', '1', '1', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('73', 'Activo', GETDATE(), '14-30', 'Mapfre Colombia Vida Seguros S.A', '830054904', '6', '1', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('74', 'Activo', GETDATE(), 'CCF02', 'Camacol', '890900840', '1', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('75', 'Activo', GETDATE(), 'CCF03', 'Comfenalco Antioquia CCF', '890900842', '6', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('76', 'Activo', GETDATE(), 'CCF04', 'Caja de Compensación Familiar de Antioquia', '890900841', '9', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('77', 'Activo', GETDATE(), 'CCF05', 'Caja de Compensación Familiar Cajacopi Atlántico', '890102044', '1', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('78', 'Activo', GETDATE(), 'CCF06', 'Combarranquilla', '890102002', '2', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('79', 'Activo', GETDATE(), 'CCF07', 'Comfamiliar Atlántico', '890101994', '9', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('80', 'Activo', GETDATE(), 'CCF08', 'Comfenalco Cartagena', '890480023', '7', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('81', 'Activo', GETDATE(), 'CCF09', 'Caja de Compensación Familiar de Cartagena', '890480110', '1', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('82', 'Activo', GETDATE(), 'CCF10', 'Comfaboy', '891800213', '8', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('83', 'Activo', GETDATE(), 'CCF11', 'CCF de Caldas', '890806490', '5', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('84', 'Activo', GETDATE(), 'CCF13', 'Comfaca', '891190047', '2', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('85', 'Activo', GETDATE(), 'CCF14', 'Comfacauca', '891500182', '0', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('86', 'Activo', GETDATE(), 'CCF15', 'Caja de Compensación Familiar Cesar', '892399989', '8', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('87', 'Activo', GETDATE(), 'CCF16', 'Comfacor', '891080005', '1', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('88', 'Activo', GETDATE(), 'CCF21', 'Cafam', '860013570', '3', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('89', 'Activo', GETDATE(), 'CCF22', 'Colsubsidio', '860007336', '1', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('90', 'Activo', GETDATE(), 'CCF24', 'Caja de Compensación Familiar Compensar', '860066942', '7', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('91', 'Activo', GETDATE(), 'CCF26', 'Comfacundi', '860045904', '7', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('92', 'Activo', GETDATE(), 'CCF29', 'CCF del Chocó', '891600091', '8', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('93', 'Activo', GETDATE(), 'CCF30', 'Caja de Compensación Familiar de La Guajira', '892115006', '5', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('94', 'Activo', GETDATE(), 'CCF32', 'Comfamiliar del Huila', '891180008', '2', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('95', 'Activo', GETDATE(), 'CCF33', 'CCF del Magdalena', '891780093', '3', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('96', 'Activo', GETDATE(), 'CCF34', 'Cofrem Meta', '892000146', '3', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('97', 'Activo', GETDATE(), 'CCF35', 'CCF de Nariño', '891280008', '1', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('98', 'Activo', GETDATE(), 'CCF36', 'Caja de Compensación Familiar del Oriente', '890500675', '6', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('99', 'Activo', GETDATE(), 'CCF37', 'Caja de Comp. Familiar Comfanorte', '890500516', '3', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('100', 'Activo', GETDATE(), 'CCF38', 'Caja de Comp. Familiar de Barrancabermeja Cafaba', '890270275', '5', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('101', 'Activo', GETDATE(), 'CCF39', 'Cajasan', '890200106', '1', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('102', 'Activo', GETDATE(), 'CCF40', 'Comfenalco Santander', '890201578', '7', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('103', 'Activo', GETDATE(), 'CCF41', 'Caja de Compensación Familiar del Sucre', '892200015', '5', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('104', 'Activo', GETDATE(), 'CCF43', 'Comfenalco Quindío', '890000381', '0', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('105', 'Activo', GETDATE(), 'CCF44', 'Comfamiliar Risaralda', '891480000', '1', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('106', 'Activo', GETDATE(), 'CCF46', 'CCF del Sur del Tolima Cafasur', '890704737', '0', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('107', 'Activo', GETDATE(), 'CCF48', 'Comfatolima', '800211025', '1', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('108', 'Activo', GETDATE(), 'CCF50', 'Comfenalco –Tolima', '890700148', '4', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('109', 'Activo', GETDATE(), 'CCF56', 'Comfenalco Valle', '890303093', '5', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('110', 'Activo', GETDATE(), 'CCF57', 'Comfandi', '890303208', '5', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('111', 'Activo', GETDATE(), 'CCF63', 'Caja de Compensación Familiar del Putumayo', '891200337', '8', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('112', 'Activo', GETDATE(), 'CCF64', 'Cajasai', '892400320', '5', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('113', 'Activo', GETDATE(), 'CCF65', 'Caja de Comp Familiar del Amazonas Cafamaz', '800003122', '6', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('114', 'Activo', GETDATE(), 'CCF67', 'Comfiar Caja de Compensacion Familiar de Arauca', '800219488', '4', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('115', 'Activo', GETDATE(), 'CCF68', 'Comcaja', '800231969', '4', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('116', 'Activo', GETDATE(), 'CCF69', 'Comfacasanare', '844003392', '8', '5', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('117', 'Activo', GETDATE(), 'PAESAP', 'Escuela Superior de Administración Publica', '899999054', '7', '6', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('118', 'Activo', GETDATE(), 'PAICBF', 'Instituto Colombiano de Bienestar Familiar', '899999239', '2', '6', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('119', 'Activo', GETDATE(), 'PAMIED', 'Ministerio de Educación Nacional', '899999001', '7', '6', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('120', 'Activo', GETDATE(), 'PASENA', 'Servicio Nacional de Aprendizaje Sena', '899999034', '1', '6', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('121', 'Activo', GETDATE(), '230201', 'Protección', '800229739', '0', '4', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('122', 'Activo', GETDATE(), '230301', 'Porvenir', '800224808', '8', '4', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('123', 'Activo', GETDATE(), '230901', 'Old Mutual', '800253055', '2', '4', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('124', 'Activo', GETDATE(), '231001', 'Colfondos', '800227940', '6', '4', 'sistema')
+GO
+INSERT [dbo].[Administradora] ([Id], [EstadoRegistro], [FechaCreacion], [Codigo], [Nombre], [Nit], [Dv],[TipoAdministradoraId], [CreadoPor]) VALUES ('125', 'Activo', GETDATE(), '270000', 'Fondo Nacional del Ahorro', '899999284', '4', '4', 'sistema')
+GO
+SET IDENTITY_INSERT [dbo].[Administradora] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[Administradora] WHERE Id BETWEEN 1 AND 132;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,509 @@
+// Material theming tools
+@import "~@angular/material/theming";
+// Breakpoint mixins
+@import "partials/breakpoints";
+.header {
+    h2 {
+        color: #6e992e;
+    }
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center space-between;
+    align-items: center;
+    padding: 24px;
+    padding-bottom: 0px;
+    height: 100px !important;
+    min-height: 100px !important;
+    max-height: 100px !important;
+    border-bottom: 7px #6e992e solid !important;
+    box-shadow: 0px 2px 4px 0px grey;
+    .breadcrumb {
+        a {
+            color: rgba(0, 0, 0, 0.54);
+            text-decoration: none !important;
+            top: -2px;
+            position: relative;
+        }
+        mat-icon:first-child {
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            min-height: 24px;
+            line-height: 24px;
+        }
+        mat-icon {
+            color: rgba(0, 0, 0, 0.54);
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            min-height: 16px;
+            line-height: 16px;
+        }
+        span {
+            color: rgba(0, 0, 0, 0.54) !important;
+            top: -2px;
+            position: relative;
+        }
+    }
+    
+    .actions button:nth-child(2n + 1),
+    .actions a:nth-child(2n + 1) {
+        margin-right: 10px;
+    }
+    a {
+        text-decoration: none !important;
+    }
+    .menu {
+        color: white;
+        .mat-icon {
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            min-height: 24px;
+            line-height: 24px;
+            color: white !important;
+        }
+        span {
+            color: white !important;
+        }
+        a {
+            text-decoration: none !important;
+        }
+    }
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.mat-badge-content {
+    color: white !important;
+}
+
+.ck-editor__editable {
+    min-height: 500px;
+    i {
+        font-family: Arial, Helvetica, sans-serif !important;
+        font-style: italic;
+        font-size: inherit;
+        width: inherit;
+        height: inherit;
+        min-width: inherit;
+        min-height: inherit;
+        line-height: normal;
+        color: rgba(0, 0, 0, 0.87) !important;
+    }
+}
+
+.ck .ck-widget.ck-widget_selected,
+.ck .ck-widget.ck-widget_selected:hover {
+    outline: #6e992e solid !important;
+}
+
+table.simple {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    border: none;
+    border-spacing: 0;
+    text-align: left !important;
+    th {
+        padding: 0px !important;
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+    }
+    td {
+        padding: 0px !important;
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+    }
+}
+
+.bloque-table--simple {
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center space-between;
+    align-items: center;
+    table.lista {
+        margin-right: 4px;
+        margin-top: 16px;
+        thead tr th {
+            color: #6e992e !important;
+            font-size: 15px;
+            font-weight: bold;
+            height: 56px;
+        }
+        th {
+            padding: 8px;
+        }
+        tbody tr td {
+            height: 48px;
+        }
+        tbody tr:nth-child(2n + 1) {
+            background-color: rgba(104, 135, 44, 0.08) !important;
+        }
+        tr>td:nth-child(2) {
+            width: 10px;
+            text-align: center;
+        }
+        .mat-icon-button {
+            font-size: 22px !important;
+            padding: 0;
+            min-width: 0;
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            line-height: 22px;
+            border-radius: 13%;
+        }
+    }
+    table.simple {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+        border: none;
+        border-spacing: 0;
+        text-align: left !important;
+        th {
+            padding: 0px !important;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+        td {
+            padding: 0px !important;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+    }
+}
+
+.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-prefix .mat-icon-button,
+.mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button {
+    width: 1.5em !important;
+}
+
+mat-form-field mat-label {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    padding-right: 5px;
+}
+
+.mat-form-field-required-marker {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    padding-right: 10px;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: 0.5em 0 !important;
+}
+
+.content {
+    padding: 24px;
+    padding-bottom: 12px;
+    &>div {
+        padding: 24px;
+        background-color: white;
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+        .title {
+            margin-bottom: 4px;
+        }
+        .info {
+            margin-bottom: 24px;
+        }
+    }
+    .mat-card {
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
+    }
+    .listados {
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+        table {
+            width: 100%;
+            .mat-sort-header-arrow {
+                color: #6e992e !important;
+            }
+            .mat-row:nth-child(2n + 1) {
+                background-color: rgba(104, 135, 44, 0.08) !important;
+            }
+            .mat-column-active {
+                flex: 0 1 80px;
+            }
+            .mat-column-acciones {
+                text-align: center;
+                justify-content: center;
+            }
+            .mat-column-estadoRegistro .mat-sort-header-container {
+                text-align: center;
+                margin-left: 5px;
+                //justify-content: center;
+            }
+            .mat-column-estadoContrato .mat-sort-header-container {
+                text-align: center;
+                // justify-content: center;
+            }
+            .mat-column-estadoEmbargo .mat-sort-header-container {
+                text-align: center;
+                //justify-content: center;
+            }
+            th:nth-child(6) .mat-sort-header-container {
+                margin-left: 7px;
+                display: flex;
+                justify-content: center;
+            }
+            .mat-header-cell {
+                color: #6e992e !important;
+                font-size: 15px;
+                font-weight: bold;
+            }
+            mat-icon {
+                font-size: 20px;
+                width: 20px;
+                height: 20px;
+                min-width: 20px;
+                min-height: 20px;
+                line-height: 20px;
+            }
+        }
+    }
+    .medio-bloque {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center flex-start;
+        align-items: center;
+        flex: 1 0 auto;
+        mat-form-field {
+            flex: 1 1 100%;
+            box-sizing: border-box;
+            max-width: 50%;
+        }
+        mat-form-field:first-child {
+            padding-bottom: 12px;
+            padding-right: 12px;
+        }
+    }
+    .bloque {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center flex-start;
+        align-items: center;
+        flex: 1 0 auto;
+        mat-form-field {
+            padding-bottom: 10px;
+            flex: 1 1 100%;
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+    }
+    .dos-bloque {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center flex-start;
+        align-items: center;
+        flex: 1 0 auto;
+        mat-form-field {
+            flex: 1 1 100%;
+            box-sizing: border-box;
+            max-width: 50%;
+        }
+        mat-form-field:first-child {
+            padding-bottom: 12px;
+            padding-right: 12px;
+        }
+        mat-form-field:last-child {
+            padding-bottom: 12px;
+            padding-left: 12px;
+        }
+    }
+    .bloque-textarea {
+        flex-flow: row wrap;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center flex-start;
+        align-items: center;
+        flex: 1 0 auto;
+        mat-form-field {
+            flex: 1 1 100%;
+            box-sizing: border-box;
+            max-width: 100%;
+        }
+    }
+    .action-form {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        place-content: space-between flex-end;
+        align-items: stretch;
+        padding-bottom: 40px;
+        a {
+            margin-right: 10px;
+        }
+        mat-icon {
+            margin-right: 5px;
+        }
+    }
+}
+
+// Se debe incluir la estructura aqui mensionada en los contenidos de tipo Tab con formularios es solo para limpiar los div principales
+.content-tab-form {
+    padding: 24px;
+    margin: 24px;
+    background: white;
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
+    mat-ink-bar {
+        background-color: #6e992e !important;
+    }
+    .contenido {
+        background-color: white;
+    }
+    .bloque,
+    .dos-bloque,
+    .bloque-textarea,
+    .medio-bloque,
+    .action-form {
+        box-shadow: none !important;
+        padding: 0px;
+    }
+}
+
+.content-tab {
+    mat-ink-bar {
+        background-color: #6e992e !important;
+    }
+    .content {
+        .bloque,
+        .dos-bloque {
+            padding-bottom: 24px;
+            .title {
+                padding-bottom: 10px;
+            }
+        }
+    }
+}
+
+.empty {
+    width: 100%;
+    text-align: center;
+    img {
+        align-content: center;
+        max-width: 500px;
+    }
+    h1 {
+        font-weight: bold;
+    }
+}
+
+button mat-icon {
+    margin-right: 5px;
+}
+
+.mat-header-cell {
+    color: #6e992e !important;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.mat-sort-header-arrow {
+    color: #6e992e !important;
+}
+
+.mat-row:nth-child(2n + 1) {
+    background-color: rgba(104, 135, 44, 0.08) !important;
+}
+
+.mat-column-active {
+    flex: 0 1 80px;
+}
+
+.mat-list-item-content {
+    padding-top: 16px;
+    padding-bottom: 0px;
+}
+
+mat-list-item {
+    div div div {
+        .mat-icon {
+            margin-right: 5px !important;
+        }
+    }
+}
+
+body.theme-default .mat-tab-group.mat-primary .mat-ink-bar,
+body.theme-default .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color: #6e992e !important;
+}
+
+.card-header {
+    background: #181f39;
+    background-image: url("/assets/alcanos/background_header.png");
+    background-repeat: repeat;
+    color: white;
+    margin-top: -24px;
+    margin-right: -24px;
+    margin-left: -24px;
+}
+
+.acciones {
+    background-color: #6e992e !important;
+    border-radius: 4px;
+    color: white !important;
+    span {
+        color: white !important;
+    }
+    mat-icon {
+        color: white !important;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        min-height: 20px;
+        line-height: 20px;
+    }
+}
+
+.ck-editor__editable {
+    min-height: 500px;
+    i {
+        font-family: Arial, Helvetica, sans-serif !important;
+        font-style: italic;
+        font-size: inherit;
+        width: inherit;
+        height: inherit;
+        min-width: inherit;
+        min-height: inherit;
+        line-height: normal;
+        color: rgba(0, 0, 0, 0.87) !important;
+    }
+}
+
+.ck .ck-widget.ck-widget_selected,
+.ck .ck-widget.ck-widget_selected:hover {
+    outline: #6e992e solid !important;
+}
+
+.btn-lateral-filtro {
+    position: absolute;
+    right: 0px;
+    z-index: 999;
+    top: 45%;
+    .mat-icon-button {
+        background-color: #066f77 !important;
+        padding: 0;
+        min-width: 0;
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        line-height: 40px;
+        /* border-radius: 50%; */
+        border-radius: 10px 0px 0px 10px;
+    }
+}
+
+.mat-input-element{
+    margin-left: 10px !important;
+}

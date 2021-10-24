@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "44f2bf75-ad6b-4817-b021-30b5470f417c",
+		"name": "HUM005",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "certificado sueldo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://172.16.1.76:3004/v1/crear?grupo=certificado-sueldo&documento=680&membrete=false",
+					"protocol": "http",
+					"host": [
+						"172",
+						"16",
+						"1",
+						"76"
+					],
+					"port": "3004",
+					"path": [
+						"v1",
+						"crear"
+					],
+					"query": [
+						{
+							"key": "grupo",
+							"value": "certificado-sueldo"
+						},
+						{
+							"key": "documento",
+							"value": "680"
+						},
+						{
+							"key": "membrete",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "certificado cargo sueldo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3004/v1/crear?grupo=certificado-cargo-sueldo&documento=680&membrete=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"v1",
+						"crear"
+					],
+					"query": [
+						{
+							"key": "grupo",
+							"value": "certificado-cargo-sueldo"
+						},
+						{
+							"key": "documento",
+							"value": "680"
+						},
+						{
+							"key": "membrete",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "certificado cargo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3004/v1/crear?grupo=certificado-cargo&documento=680&membrete=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3004",
+					"path": [
+						"v1",
+						"crear"
+					],
+					"query": [
+						{
+							"key": "grupo",
+							"value": "certificado-cargo"
+						},
+						{
+							"key": "documento",
+							"value": "680"
+						},
+						{
+							"key": "membrete",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

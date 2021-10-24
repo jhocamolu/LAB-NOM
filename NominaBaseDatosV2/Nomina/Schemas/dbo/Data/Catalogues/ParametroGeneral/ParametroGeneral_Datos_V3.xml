@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="ParametroGeneral_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON 
+GO
+INSERT INTO dbo.ParametroGeneral (Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('22', '1', 'cantidadPeriodoDesprendible', 'Number', 'min="0",max="1000"', 'Cantidad de periodos para Desprendible', 'Corresponde a un valor numérico para determinar la cantidad de periodos liquidados que un funcionario puede consultar desde la aplicación móvil.', '22', '', '1', '6', 'Activo', 'sistema', GETDATE());
+GO
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM [dbo].[ParametroGeneral] WHERE Id = 22;
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

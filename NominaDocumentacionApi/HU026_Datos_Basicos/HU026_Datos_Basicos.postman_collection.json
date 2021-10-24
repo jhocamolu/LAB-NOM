@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "061d14a8-3f8b-4c1e-9b89-dc1373db1b41",
+		"name": "HU026_Datos_Basicos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ConsultarFuncionarios(Todos)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Funcionarios?$expand=DivisionPoliticaNivel2Origen($expand=divisionPoliticaNivel1($expand=pais)),DivisionPoliticaNivel2ExpedicionDocumento,DivisionPoliticaNivel2Residencia",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Funcionarios"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "DivisionPoliticaNivel2Origen($expand=divisionPoliticaNivel1($expand=pais)),DivisionPoliticaNivel2ExpedicionDocumento,DivisionPoliticaNivel2Residencia"
+						}
+					]
+				},
+				"description": "{{host}}/odata/Funcionarios?$expand=cargo"
+			},
+			"response": []
+		},
+		{
+			"name": "ConsultarFuncionarios/n",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/funcionarios/37?$expand=DivisionPoliticaNivel2Origen,divisionPoliticaNivel2ExpedicionDocumento,divisionPoliticaNivel2Residencia",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"funcionarios",
+						"37"
+					],
+					"query": [
+						{
+							"key": "$top",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "$filter",
+							"value": "numeroDocumento eq '1010139158'",
+							"disabled": true
+						},
+						{
+							"key": "$expand",
+							"value": "sexo,EstadoCivil,Ocupacion,EstadoEmpleado,MunicipioOrigen($expand=divisionPoliticaNivel1($expand=pais)),tipoDocumento,MunicipioExpedicionDocumento($expand=divisionPoliticaNivel1($expand=pais)),MunicipioResidencia($expand=divisionPoliticaNivel1($expand=pais)),TipoVivienda,ClaseLibretaMilitar,TipoSangre",
+							"disabled": true
+						},
+						{
+							"key": "$expand",
+							"value": "DivisionPoliticaNivel2Origen,divisionPoliticaNivel2ExpedicionDocumento,divisionPoliticaNivel2Residencia"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CrearFuncionarios",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"nit\": \"16\",\r\n\t\"celular\": \"3569854\",\r\n\t\"sexoId\": 1,\r\n\t\"direccion\": \"Calle 25 \",\r\n\t\"usaLentes\": true,\r\n\t\"pensionado\":false,\r\n\t\"ocupacionId\":1,\r\n\t\"primerNombre\":\"Pedro\",\r\n\t\"tipoSangreId\":1,\r\n\t\"estadoCivilId\":9,\r\n\t\"primerApellido\":\"Perez\",\r\n\t\"tipoViviendaId\":5,\r\n\t\"fechaNacimiento\":\"2000-10-28\",\r\n\t\"numeroDocumento\": \"16\",\r\n\t\"digitoVerificacion\": 8,\r\n\t\"tipoDocumentoId\": 9,\r\n\t\"divisionPoliticaNivel2OrigenId\": 35,\r\n\t\"divisionPoliticaNivel2ResidenciaId\": 35,\r\n\t\"fechaExpedicionDocumento\": \"2019-11-21\",\r\n\t\"divisionPoliticaNivel2ExpedicionDocumentoId\": 35,\r\n\t\"telefonoFijo\": \"2365987\",\r\n\t\"claseLibretaMilitarId\":null,\r\n    \"numeroLibreta\": null,\r\n    \"distrito\": null,\r\n    \"tallaCamisa\": null,\r\n    \"tallaPantalon\": null,\r\n    \"numeroCalzado\": null,\r\n    \"correoElectronicoPersonal\": null,\r\n    \"correoElectronicoCorporativo\": null,\r\n    \"LicenciaConduccionAId\":null,\r\n    \"LicenciaConduccionAFechaVencimiento\":null,\r\n    \"LicenciaConduccionBId\":null,\r\n    \"LicenciaConduccionBFechaVencimiento\":null,\r\n    \"LicenciaConduccionCId\":null,\r\n    \"LicenciaConduccionCFechaVencimiento\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Funcionarios",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Funcionarios"
+					]
+				},
+				"description": "{{host}}/api/Funcionarios"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarFuncionarios",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\":54,\r\n\t\"nit\": \"16\",\r\n\t\"celular\": \"3569854\",\r\n\t\"sexoId\": 1,\r\n\t\"direccion\": \"Calle 25 \",\r\n\t\"usaLentes\": true,\r\n\t\"pensionado\":false,\r\n\t\"ocupacionId\":1,\r\n\t\"primerNombre\":\"Pedro\",\r\n\t\"tipoSangreId\":1,\r\n\t\"estadoCivilId\":9,\r\n\t\"primerApellido\":\"Perez\",\r\n\t\"tipoViviendaId\":5,\r\n\t\"fechaNacimiento\":\"2000-10-28\",\r\n\t\"numeroDocumento\": \"16\",\r\n\t\"digitoVerificacion\": 8,\r\n\t\"tipoDocumentoId\": 9,\r\n\t\"divisionPoliticaNivel2OrigenId\": 35,\r\n\t\"divisionPoliticaNivel2ResidenciaId\": 35,\r\n\t\"fechaExpedicionDocumento\": \"2019-11-21\",\r\n\t\"divisionPoliticaNivel2ExpedicionDocumentoId\": 35,\r\n\t\"telefonoFijo\": \"2365987\",\r\n\t\"claseLibretaMilitarId\":null,\r\n    \"numeroLibreta\": null,\r\n    \"distrito\": null,\r\n    \"tallaCamisa\": null,\r\n    \"tallaPantalon\": null,\r\n    \"numeroCalzado\": null,\r\n    \"correoElectronicoPersonal\": null,\r\n    \"correoElectronicoCorporativo\": null,\r\n    \"LicenciaConduccionAId\":null,\r\n    \"LicenciaConduccionAFechaVencimiento\":null,\r\n    \"LicenciaConduccionBId\":null,\r\n    \"LicenciaConduccionBFechaVencimiento\":null,\r\n    \"LicenciaConduccionCId\":null,\r\n    \"LicenciaConduccionCFechaVencimiento\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Funcionarios/54",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Funcionarios",
+						"54"
+					]
+				},
+				"description": "{{host}}/odata/Funcionarios/3"
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarFuncionarios",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/Funcionarios/6903",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Funcionarios",
+						"6903"
+					]
+				},
+				"description": "{{host}}/api/Funcionarios/6"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialFuncionarios",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 6903,\r\n    \"nit\": \"16\",\r\n    \"digitoVerificacion\": 8,\r\n    \"activo\":true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Funcionarios/6903",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Funcionarios",
+						"6903"
+					]
+				},
+				"description": "{{host}}/api/Funcionarios/7"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

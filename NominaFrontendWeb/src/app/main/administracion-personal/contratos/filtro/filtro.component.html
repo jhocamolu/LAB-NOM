@@ -1,0 +1,112 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content fusePerfectScrollbar>
+        
+        <mat-form-field appearance="outline">
+            <mat-label>N° contrato</mat-label>
+            <input matInput placeholder="" formControlName="numeroContrato">
+            <mat-error *ngFor="let error of numeroContrato.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Digite el número de contrato ó el numéro del documento del funcionario.">info</mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo de documento </mat-label>
+            <mat-select formControlName="tipoDocumento">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of tipoDocumentosObtener" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of tipoDocumento.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Tipo de documento de identificación del funcionario.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Funcionario</mat-label>
+            <input matInput formControlName="criterioBusqueda">
+            <mat-error *ngFor="let error of objToArray(form.get('criterioBusqueda').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Documento de identificación o nombre del funcionario.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo de contrato </mat-label>
+            <mat-select formControlName="tipoContrato" step="any">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of tipoContratosObtener" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of tipoContrato.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Selecciona el tipo de contrato.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estado" step="any">
+                <mat-option [value]="null"></mat-option>
+                <mat-option value="Cancelado">Cancelado</mat-option>
+                <mat-option value="PendientePorLiquidar">Pendiente por liquidar</mat-option>
+                <mat-option value="SinIniciar">Sin Iniciar</mat-option>
+                <mat-option value="Terminado">Terminado</mat-option>
+                <mat-option value="Vigente">Vigente</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of estado.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Estado del contrato.">info</mat-icon>
+        </mat-form-field>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+            <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+                <mat-icon>cancel</mat-icon>
+                <span>Borrar filtros</span>
+            </button>
+            <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+                <mat-icon>search</mat-icon>
+                <span>Buscar</span>
+            </button>
+        </div>
+    </div>
+
+</form>

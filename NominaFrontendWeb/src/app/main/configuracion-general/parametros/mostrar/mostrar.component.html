@@ -1,0 +1,89 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/parametros">Parámetros</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>{{categoria?.nombre }}</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>{{categoria?.nombre}} {{todoAnnio.anno}}</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <a *ngIf="arrayPermisos.actualizar && todoAnnio.estado == 'Vigente'" mat-raised-button color="accent" (click)="navigate($event, categoria?.id)">
+                <mat-icon>edit</mat-icon>
+                <span>Editar parámetros</span>
+            </a>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+
+        <div class="box-shadow" [ngStyle]="! items.length ? {'height': '350px'} : {'height': '100%'} ">
+            <alcanos-empty-list class="empty-state" labelBtn="" labelH1="¡Uy! No se encontraron parámetros."
+                [visibleBtnCreate]="false" [visible]="! items?.length">
+            </alcanos-empty-list>
+            <div>
+                <div *ngFor="let element of items">
+                    <div [ngSwitch]="element.tipo">
+                        <ng-template ngSwitchDefault>
+                            <h3>{{element.etiqueta}}
+                                <mat-icon class="s-16" matSuffix [matTooltip]="element.ayuda">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p class="text-truncate max-width-primario">{{element.valor}}</p>
+                        </ng-template>
+
+                        <ng-template ngSwitchCase="Boolean">
+                            <h3>{{element.etiqueta}}
+                                <mat-icon class="s-16" matSuffix [matTooltip]="element.ayuda">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p *ngIf="element.valor == 'false'">
+                                No
+                            </p>
+                            <p *ngIf="element.valor == 'true'">
+                                Si
+                            </p>
+                        </ng-template>
+
+                        <ng-template ngSwitchCase="Select">
+                            <h3>{{element.etiqueta}}
+                                <mat-icon class="s-16" matSuffix [matTooltip]="element.ayuda">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>
+                                {{ valor(element.valor , element.alias ) }}
+                            </p>
+                        </ng-template>
+
+                        <ng-template ngSwitchCase="Date">
+                            <h3>{{element.etiqueta}}
+                                <mat-icon class="s-16" matSuffix [matTooltip]="element.ayuda">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.valor | date:'dd / LL / yyyy' }}</p>
+                        </ng-template>
+                        <br />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

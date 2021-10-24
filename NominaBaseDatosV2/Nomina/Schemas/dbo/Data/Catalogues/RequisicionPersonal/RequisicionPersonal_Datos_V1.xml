@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="RequisicionPersonal_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[MotivoVacante] ON 
+GO
+INSERT INTO dbo.MotivoVacante (Id, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, Codigo, Nombre, RequiereNombreAQuienReemplaza) VALUES(1, 'Activo', 'Sistemas', GETDATE(), NULL, NULL, NULL, NULL, 'DT', 'Desvinculación del titular', 1);
+GO
+INSERT INTO dbo.MotivoVacante (Id, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, Codigo, Nombre, RequiereNombreAQuienReemplaza) VALUES(2, 'Activo', 'Sistemas', GETDATE(), NULL, NULL, NULL, NULL, 'PT', 'Promoción o traslado', 0);
+GO
+INSERT INTO dbo.MotivoVacante (Id, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, Codigo, Nombre, RequiereNombreAQuienReemplaza) VALUES(3, 'Activo', 'Sistemas', GETDATE(), NULL, NULL, NULL, NULL, 'I', 'Incapacidad', 1);
+GO
+INSERT INTO dbo.MotivoVacante (Id, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, Codigo, Nombre, RequiereNombreAQuienReemplaza) VALUES(4, 'Activo', 'Sistemas', GETDATE(), NULL, NULL, NULL, NULL, 'CC', 'Cancelación del contrato', 0);
+GO
+INSERT INTO dbo.MotivoVacante (Id, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, Codigo, Nombre, RequiereNombreAQuienReemplaza) VALUES(5, 'Activo', 'Sistemas', GETDATE(), NULL, NULL, NULL, NULL, 'L', 'Licencia', 1);
+GO
+INSERT INTO dbo.MotivoVacante (Id, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, Codigo, Nombre, RequiereNombreAQuienReemplaza) VALUES(6, 'Activo', 'Sistemas', GETDATE(), NULL, NULL, NULL, NULL, 'V', 'Vacaciones', 1);
+GO
+INSERT INTO dbo.MotivoVacante (Id, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, Codigo, Nombre, RequiereNombreAQuienReemplaza) VALUES(7, 'Activo', 'Sistemas', GETDATE(), NULL, NULL, NULL, NULL, 'IL', 'Incremento de labores', 0);
+GO
+INSERT INTO dbo.MotivoVacante (Id, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, Codigo, Nombre, RequiereNombreAQuienReemplaza) VALUES(8, 'Activo', 'Sistemas', GETDATE(), NULL, NULL, NULL, NULL, 'LM', 'Licencia de maternidad', 1);
+GO
+SET IDENTITY_INSERT [dbo].[MotivoVacante] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoContrato] WHERE Id BETWEEN 1 AND 8;
+</rollback>
+</changeSet>
+</databaseChangeLog>

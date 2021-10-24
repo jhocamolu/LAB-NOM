@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="TareaProgramadaLog-V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+CREATE TABLE [TareaProgramadaLog] (
+    [Id] int NOT NULL IDENTITY,
+    [TareaProgramadaId] int NOT NULL,
+    [Estado] nvarchar(max) NOT NULL,
+    [Resultado] text NULL,
+	[EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    CONSTRAINT [PK_TareaProgramadaLog] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_TareasProgramadasLogs_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [FK_TareaProgramadaLog_TareaProgramada_TareaProgramadaId] FOREIGN KEY ([TareaProgramadaId]) REFERENCES [TareaProgramada] ([Id]) ON DELETE CASCADE
+);
+
+GO
+
+CREATE INDEX [IX_TareaProgramadaLog_TareaProgramadaId] ON [TareaProgramadaLog] ([TareaProgramadaId]);
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [TareaProgramadaLog];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

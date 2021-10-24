@@ -1,0 +1,73 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Editar centro de trabajo</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Código</mat-label>
+            <input matInput  formControlName="codigo" required type="number" step="any">
+            <mat-error *ngFor="let error of objToArray(codigo.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo {{ codigo.errors.max.max }}
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Código que identifica el centro de trabajo de la ARL.">info</mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput  formControlName="nombre" required>
+            <mat-error *ngFor="let error of objToArray(nombre.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'pattern'">
+                        Alfanumérico
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Nombre que se le asigna al centro de trabajo a diligenciar.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Porcentaje de riesgo</mat-label>
+            <input matInput  formControlName="porcentajeRiesgo" required type="number" step="any">
+            <mat-error *ngFor="let error of objToArray(porcentajeRiesgo.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo {{ porcentajeRiesgo.errors.max.max }}
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Código que identifica el centro de trabajo de la ARL.">info</mat-icon>
+        </mat-form-field>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit " color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+
+</form>

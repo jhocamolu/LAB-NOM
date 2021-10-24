@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="ParametroGeneral_Datos_V14">
+<comment>Portal de reclutamiento</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    DELETE FROM dbo.ParametroGeneral WHERE Id = 52;
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+
+    SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON 
+    GO
+
+    INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId)
+    VALUES(52,'UrlAutorizacionTratamientoDatos','Url','Autorización de tratamiento de datos','Permite al usuario dirigirse a una nueva ventana del navegador, donde podrá leer los términos y condiciones asociados al tratamiento de datos.',52,'',1,'https://www.google.com/',5,'Activo','Sistemas',GETDATE(),1)
+    GO
+
+    SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF 
+    GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

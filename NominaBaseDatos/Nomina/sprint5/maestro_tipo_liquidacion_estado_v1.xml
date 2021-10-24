@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_tipo_liquidacion_estado_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[TipoLiquidacionEstado] ON
+GO
+
+INSERT INTO dbo.TipoLiquidacionEstado (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato) VALUES ('Activo', 'sistema', GETDATE(), '1', '1', 'Activo', 'Vigente');
+GO
+INSERT INTO dbo.TipoLiquidacionEstado (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato) VALUES ('Activo', 'sistema', GETDATE(), '2', '1', 'Activo', 'Suspendido');
+GO
+INSERT INTO dbo.TipoLiquidacionEstado (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato) VALUES ('Activo', 'sistema', GETDATE(), '3', '2', 'Activo', 'Finalizado');
+GO
+INSERT INTO dbo.TipoLiquidacionEstado (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato) VALUES ('Activo', 'sistema', GETDATE(), '4', '3', 'Activo', 'Vigente');
+GO
+INSERT INTO dbo.TipoLiquidacionEstado (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato) VALUES ('Activo', 'sistema', GETDATE(), '5', '4', 'Activo', 'Vigente');
+GO
+INSERT INTO dbo.TipoLiquidacionEstado (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato) VALUES ('Activo', 'sistema', GETDATE(), '6', '4', 'Activo', 'Suspendido');
+GO
+INSERT INTO dbo.TipoLiquidacionEstado (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato) VALUES ('Activo', 'sistema', GETDATE(), '7', '5', 'Activo', 'Vigente');
+GO
+INSERT INTO dbo.TipoLiquidacionEstado (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato) VALUES ('Activo', 'sistema', GETDATE(), '8', '6', 'Activo', 'Vigente');
+GO
+
+SET IDENTITY_INSERT [dbo].[TipoLiquidacionEstado] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoLiquidacionEstado] WHERE Id BETWEEN 1 AND 8;
+</rollback>
+</changeSet>
+</databaseChangeLog>

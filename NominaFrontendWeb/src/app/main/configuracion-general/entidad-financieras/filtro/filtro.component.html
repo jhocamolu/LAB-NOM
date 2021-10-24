@@ -1,0 +1,67 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="" formControlName="nombre">
+            <mat-error *ngFor="let error of objToArray(form.get('nombre').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Nombre de la entidad financiera.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Código</mat-label>
+            <input matInput placeholder="" formControlName="codigo">
+            <mat-error *ngFor="let error of objToArray(form.get('codigo').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix
+                matTooltip="Código de la entidad financiera emitido por por la Superintendencia Financiera de Colombia.">
+                info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nit</mat-label>
+            <input matInput placeholder="" formControlName="nit">
+            <mat-error *ngFor="let error of objToArray(form.get('nit').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix
+                matTooltip="Nit de la entidad financiera emitido por la Superintendencia Financiera de Colombia.">info
+            </mat-icon>
+        </mat-form-field>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+            <mat-icon>cancel</mat-icon>
+            <span>Borrar filtros</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+            <mat-icon>search</mat-icon>
+            <span>Buscar</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="NominaDetalle_V4">
+<comment>Se agraga check constrain  a tabla NominaDetalle</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [NominaDetalle] ADD CONSTRAINT [CK_NominaDetalle_UnidadMedida] CHECK (([UnidadMedida]='Horas' OR [UnidadMedida]='Dias' OR [UnidadMedida]='Unidad' OR [UnidadMedida]='Porcentaje'));
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [NominaDetalle] DROP CONSTRAINT [CK_NominaDetalle_UnidadMedida] ;
+
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

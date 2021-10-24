@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ObtenerDiasFuncionarioNomina_v2_1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+GO
+IF OBJECT_ID('dbo.USP_ObtenerDiasFuncionarioNomina', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerDiasFuncionarioNomina as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Laura Estrada
+-- Create date: 14/04/2020
+-- Description: Permite obtener los días a pagar de un funcionario para la nómina ingresada.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @NominaId:					Identificador de la nómina.
+--
+-- Returns:						
+--	 Dias:						Número de días
+-- ==========================================================================================
+
+
+ALTER PROCEDURE [dbo].[USP_ObtenerDiasFuncionarioNomina] 
+(
+	@FuncionarioId INT, 
+	@NominaId INT
+)  
+AS
+BEGIN
+	--------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaId=', CONVERT(VARCHAR, @NominaId));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	DECLARE @FechaInicial 			DATE = NULL;
+	DECLARE @FechaFinal 			DATE = NULL;
+	DECLARE @ErrorMessage  			NVARCHAR(4000); 
+   	DECLARE @ErrorSeverity 			INT;
+   	DECLARE @ErrorState    			INT;
+    DECLARE @Dias 					INT = 0;
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	BEGIN TRY
+		--Consulta la nómina ingresada
+		
+		SELECT @FechaInicial = FechaInicio , @FechaFinal =  FechaFinal FROM Nomina WHERE Id = @NominaId;
+		IF @FechaInicial IS NULL OR @FechaFinal IS NULL 
+		RETURN
+		
+		-- Ejecuta el procedimiento para obtener los días a pagar del funcionario.
+		
+		EXEC @Dias = [dbo].[USP_ObtenerDiasApagar]
+					@FuncionarioId = @FuncionarioId,
+					@FechaInicial = @FechaInicial,
+					@FechaFinal = @FechaFinal 
+
+		RETURN @Dias;
+	END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+GO
+/****** Objeto: SqlProcedure [dbo].[USP_ObtenerDiasFuncionarioNomina] Fecha del script: 21/04/2020 9:41:22 p. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- ==========================================================================================
+-- Author:      Laura Estrada
+-- Create date: 14/04/2020
+-- Description: Permite obtener los días a pagar de un funcionario para la nómina ingresada.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @NominaId:					Identificador de la nómina.
+--
+-- Returns:						
+--	 Dias:						Número de días
+-- ==========================================================================================
+
+
+ALTER PROCEDURE [dbo].[USP_ObtenerDiasFuncionarioNomina] 
+(
+	@FuncionarioId INT, 
+	@NominaId INT
+)  
+AS
+BEGIN
+
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	DECLARE @FechaInicial 			DATE = NULL;
+	DECLARE @FechaFinal 			DATE = NULL;
+	DECLARE @ErrorMessage  			NVARCHAR(4000); 
+   	DECLARE @ErrorSeverity 			INT;
+   	DECLARE @ErrorState    			INT;
+    DECLARE @Dias 					INT = 0;
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	--Consulta la nómina ingresada
+	
+	SELECT @FechaInicial = FechaInicio , @FechaFinal =  FechaFinal FROM Nomina WHERE Id = @NominaId;
+	IF @FechaInicial IS NULL OR @FechaFinal IS NULL 
+	BEGIN
+		RAISERROR ( 'No existe nómina.',16,1);
+	END 	
+	
+	-- Ejecuta el procedimiento para obtener los días a pagar del funcionario.
+	
+	EXEC @Dias = [dbo].[USP_ObtenerDiasApagar]
+				@FuncionarioId = @FuncionarioId,
+				@FechaInicial = @FechaInicial,
+				@FechaFinal = @FechaFinal 
+
+	RETURN @Dias;
+	
+END
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

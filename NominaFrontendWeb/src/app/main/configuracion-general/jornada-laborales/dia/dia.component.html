@@ -1,0 +1,111 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+    <h1 mat-dialog-title>Agregar día</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+        <div>
+            <mat-form-field appearance="outline">
+                <mat-label>Día</mat-label>
+                <mat-select formControlName="dia">
+                    <mat-option></mat-option>
+                    <mat-option value="Lunes">Lunes</mat-option>
+                    <mat-option value="Martes">Martes</mat-option>
+                    <mat-option value="Miercoles">Miércoles</mat-option>
+                    <mat-option value="Jueves">Jueves</mat-option>
+                    <mat-option value="Viernes">Viernes</mat-option>
+                    <mat-option value="Sabado">Sábado</mat-option>
+                    <mat-option value="Domingo">Domingo</mat-option>
+                </mat-select>
+                <mat-error *ngFor="let error of dia.errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Días de la jornada laboral.">info</mat-icon>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+                <mat-label>Hora inicio de jornada</mat-label>
+                <div class="oculto">
+                    <input type="time" matInput placeholder="" formControlName="horaInicioJornada" required>
+                </div>
+                <mat-error *ngFor="let error of horaInicioJornada.errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Hora de inicio de la jornada laboral.">info</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Hora inicio de descanso</mat-label>
+                <div class="oculto">
+                    <input type="time" matInput placeholder="" formControlName="horaInicioDescanso">
+                </div>
+                <mat-error *ngFor="let error of horaInicioDescanso.errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Hora de inicio del descanso del medio día o almuerzo.">info</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Hora fin de descanso</mat-label>
+                <div class="oculto">
+                    <input type="time" matInput placeholder="" formControlName="horaFinDescanso">
+                </div>
+                <mat-error *ngFor="let error of horaFinDescanso.errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Hora de finalización del descanso del medio día o almuerzo.">info
+                </mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Hora fin de la jornada</mat-label>
+                <div class="oculto">
+                    <input type="time" matInput placeholder="" formControlName="horaFinJornada" required>
+                </div>
+                <mat-error *ngFor="let error of horaFinJornada.errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Hora de finalización de la jornada laboral.">info</mat-icon>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions>
+            <button mat-raised-button type="button" (click)="dialogRef.close()">
+                <mat-icon>cancel</mat-icon>
+                <span>Cancelar</span>
+            </button>
+            <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                <mat-icon>save</mat-icon>
+                <span>Guardar</span>
+            </button>
+        </div>
+    </div>
+</form>

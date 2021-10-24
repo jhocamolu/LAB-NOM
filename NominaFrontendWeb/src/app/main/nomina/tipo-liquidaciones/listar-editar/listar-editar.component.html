@@ -1,0 +1,96 @@
+<!-- CONTENT -->
+<div class="btn-filter">
+    <button class="mat-icon-button" (click)="filtroHandle($event)">
+        <span class="mat-button-wrapper">
+            <mat-icon matTooltip="Filtrar" aria-hidden="true">
+                filter_list
+            </mat-icon>
+        </span>
+    </button>
+</div>
+
+<div>
+
+    <div>
+
+        <alcanos-empty-list (fnCreate)="conceptoHandle($event)"
+            labelH1="¡Uy! Aún no has registrado conceptos asociados." labelBtn="Agregar concepto"
+            [visible]="!hasFilter && !dataLength && !dataRequest">
+        </alcanos-empty-list>
+
+        <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+            [visible]="hasFilter && !dataLength && !dataRequest">
+        </alcanos-empty-filter>
+
+        <div [hidden]="!dataLength" class="box-shadow">
+            <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                [@animateStagger]="{value:'50'}">
+
+                <!-- Columna codigo -->
+                <ng-container matColumnDef="conceptoNomina/codigo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
+                    <td mat-cell *matCellDef="let element">
+                        <p class="text-truncate">{{element.conceptoNomina?.codigo}} </p>
+                    </td>
+                </ng-container>
+
+                <!-- Columna nombre -->
+                <ng-container matColumnDef="conceptoNomina/nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                    <td mat-cell *matCellDef="let element">
+                        <p class="text-truncate">{{element.conceptoNomina?.nombre}}</p>
+                    </td>
+                </ng-container>
+
+                <!-- Columna orden -->
+                <ng-container matColumnDef="conceptoNomina/orden">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Orden</th>
+                    <td mat-cell *matCellDef="let element" class="dr">
+                        <p class="text-truncate">{{element.conceptoNomina?.orden}}</p>
+                    </td>
+                </ng-container>
+
+                <!-- Columna Suberiodo -->
+                <ng-container matColumnDef="subPeriodo/nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Subperíodo</th>
+                    <td mat-cell *matCellDef="let element">
+                        <p class="text-truncate">{{element.subPeriodo?.nombre}}</p>
+                    </td>
+                </ng-container>
+
+                <!-- Columna Tipo de contrato -->
+                <ng-container matColumnDef="tipoContrato/nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de contrato</th>
+                    <td mat-cell *matCellDef="let element">
+                        <p class="text-truncate">{{element.tipoContrato?.nombre}}
+                            {{element.tipoContrato == null ? 'Todos' : ''}}
+                        </p>
+
+                    </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="acciones" class="text-center">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"
+                        [ngStyle]="{ display: mostrarBtnCrear ? '': 'none'}"> Acciones </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"
+                        [ngStyle]="{ display: mostrarBtnCrear ? '': 'none'}">
+                        <button *ngIf="arrayPermisosConceptos.eliminar && mostrarBtnCrear" mat-icon-button
+                            (click)="eliminarHandle($event, element.id)">
+                            <mat-icon class="s-20" matTooltip="Eliminar">delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+    <!-- / CONTENIDO -->
+
+</div>
+<!-- / CONTENT -->

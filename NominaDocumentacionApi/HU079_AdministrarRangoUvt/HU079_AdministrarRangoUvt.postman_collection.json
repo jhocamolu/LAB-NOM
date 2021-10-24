@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "a61e78b8-225f-4a20-9d42-975f414c0594",
+		"name": "HU079_AdministrarRangoUvt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar Rango Uvt",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/RangoUvts",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"RangoUvts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Rango Uvt por id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/RangoUvts/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"RangoUvts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Rango UVT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"desde\": 2000,\r\n    \"hasta\": 10000,\r\n    \"porcentaje\": 10.000000,\r\n    \"adiciona\": 5,\r\n    \"sustrae\": 10,\r\n    \"validoDesde\": \"2020-08-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/RangoUvts",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"RangoUvts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar RangoUvts",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"desde\": 1,\r\n    \"hasta\":8,\r\n    \"porcentaje\": 10.000000,\r\n    \"adiciona\": 5,\r\n    \"sustrae\": 10,\r\n    \"validoDesde\": \"2020-08-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/RangoUvts/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"RangoUvts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Estado RangoUvts",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"activo\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/RangoUvts/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"RangoUvts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="ActividadFuncionario_V2">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [ActividadFuncionario] ADD [ActividadId] int NOT NULL DEFAULT 0;
+
+GO
+
+CREATE INDEX [IX_ActividadFuncionario_ActividadId] ON [ActividadFuncionario] ([ActividadId]);
+
+GO
+
+ALTER TABLE [ActividadFuncionario] ADD CONSTRAINT [FK_ActividadFuncionario_Actividad_ActividadId] FOREIGN KEY ([ActividadId]) REFERENCES [Actividad] ([Id]) ON DELETE NO ACTION;
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE ActividadFuncionario DROP CONSTRAINT FK_ActividadFuncionario_Actividad_ActividadId;
+
+GO
+
+DROP INDEX ActividadFuncionario.IX_ActividadFuncionario_ActividadId;
+GO
+
+ALTER TABLE [ActividadFuncionario] DROP COLUMN [ActividadId];
+
+GO
+
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

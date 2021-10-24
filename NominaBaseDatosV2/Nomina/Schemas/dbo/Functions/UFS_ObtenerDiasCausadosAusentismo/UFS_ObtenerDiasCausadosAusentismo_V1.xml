@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_ObtenerDiasCausadosAusentismo_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerDiasCausadosAusentismo]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerDiasCausadosAusentismo];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 29/04/2020
+-- Description: Pemite obtener el número de días causaod de un ausentismo y según el parámetro 
+--			 ConProrroga de los ausentismos anteriores si hay prorroga
+--
+-- Parameters:
+--   @AusentismoFuncionarioId:  Identificador del ausenstismo del cual se quieren obtener los días
+--						  causados
+--   @ConProrroga:			  Bandera para determinar si se obtiene el histórico. 
+--						  0: No (Valor por defecto) y 1: Si
+--
+-- Returns:		    Scalar
+--	 DiasCausados:   Cantidad de días del ausentismo
+-- ==========================================================================================
+CREATE FUNCTION [dbo].[UFS_ObtenerDiasCausadosAusentismo]
+(@AusentismoFuncionarioId INT,
+ @ConProrroga             BIT = 0
+)
+RETURNS INT
+AS
+     BEGIN
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         DECLARE @DiasCausados INT;
+         DECLARE @AusentismoProrrogaDeId INT;
+         DECLARE @AuditoriaActivo VARCHAR(255)=
+         (
+             SELECT ces.AUDITORIA_ACTIVO
+             FROM util.VW_ConstanteEstado AS ces
+         );
+	    DECLARE @ModuloAusentismos VARCHAR(255) = (SELECT [AUSENTISMOS] FROM [util].[VW_ConstanteModuloSistema]) 
+
+         ---------------------------------------------
+         -- Proceso
+         ---------------------------------------------
+         -- Días causados del ausentismo
+	    SELECT @DiasCausados = COALESCE(SUM(nde.Cantidad),0)
+	    FROM dbo.NominaFuenteNovedad nfn INNER JOIN dbo.NominaDetalle nde ON (nde.NominaFuenteNovedadId = nfn.Id)
+	    WHERE nfn.Modulo = @ModuloAusentismos AND nfn.ModuloRegistroId = @AusentismoFuncionarioId
+	    AND nfn.EstadoRegistro = @AuditoriaActivo
+	    AND nde.EstadoRegistro = @AuditoriaActivo;
+
+         IF @ConProrroga = 1
+         BEGIN
+             -- Se consulta si este ausentismo es prorroga de otro ausentismo
+             SELECT TOP 1 @AusentismoProrrogaDeId = pau.ProrrogaId
+             FROM dbo.ProrrogaAusentismo AS pau
+             WHERE pau.AusentismoId = @AusentismoFuncionarioId
+                   AND pau.EstadoRegistro = @AuditoriaActivo
+             ORDER BY pau.FechaCreacion DESC;
+
+             IF @AusentismoProrrogaDeId IS NOT NULL
+             BEGIN
+                 SET @DiasCausados = @DiasCausados + dbo.UFS_ObtenerDiasCausadosAusentismo(@AusentismoProrrogaDeId, @ConProrroga);
+             END;
+
+         END;
+
+         RETURN(@DiasCausados);
+     END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerDiasCausadosAusentismo]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerDiasCausadosAusentismo]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

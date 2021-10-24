@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_tipo_moneda_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[TipoMoneda] ON 
+GO
+INSERT [dbo].[TipoMoneda] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, 'COP', 'Peso Colombiano')
+GO                         
+INSERT [dbo].[TipoMoneda] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, 'EUR', 'Euro')
+GO                         
+INSERT [dbo].[TipoMoneda] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, 'USD', 'Dolar Estadounidense')
+GO                         
+INSERT [dbo].[TipoMoneda] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, 'JPY', 'Yen Japones')
+GO                         
+INSERT [dbo].[TipoMoneda] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 5, 'Activo', GETDATE(), NULL, NULL, 'ARS', 'Peso Argentino')
+GO
+SET IDENTITY_INSERT [dbo].[TipoMoneda] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoMoneda] WHERE Id BETWEEN 1 AND 5;
+</rollback>
+</changeSet>
+</databaseChangeLog>

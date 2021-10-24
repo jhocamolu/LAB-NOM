@@ -1,0 +1,91 @@
+<h1 mat-dialog-title>
+    <div *ngIf="!data?.id">Registrar costo asociado</div>
+    <div *ngIf="data?.id">Editar costo asociado</div>
+</h1>
+<div mat-dialog-content fusePerfectScrollbar>
+
+    <form [formGroup]="form" *ngIf="form">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Departamento</mat-label>
+            <mat-select formControlName="departamentoOrigenId" required>
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of departamentosOrigen" [value]="item.id">
+                    {{item.nombre}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('departamentoOrigenId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Departamento del país  donde trabajará el funcionario.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Municipio</mat-label>
+            <mat-select formControlName="municipioOrigenId" required>
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of municipiosOrigen" [value]="item.id">
+                    {{item.nombre}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('municipioOrigenId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Municipio donde trabajará el funcionario.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Centro de costos</mat-label>
+            <mat-select formControlName="centroCosto" required>
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of centroCostos" [value]="item.id">
+                    {{item.nombre}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('centroCosto').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Código de clasificación del costo y gasto de la compañía.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="dialogRef.close() ">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancelar</span>
+    </button>
+    <button mat-raised-button [disabled]="form.invalid" (click)="guardarHandle($event)" color="accent">
+        <mat-icon>save</mat-icon>
+        <span>Guardar</span>
+    </button>
+</div>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_ObtenerJefeInmediato_V1">
+<comment>HU056</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerJefeInmediato]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerJefeInmediato];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 04/08/2020
+-- Description: Permite obtener el jefe inmediato de un funcionario
+--
+-- Parameters:
+--   FuncionarioId:	    Identficador del funcionario para el cual se quiere obtener el jefe 
+--				    inmediato
+--
+-- Return:
+--	   FuncionarioId:	Identificador del funcionario que es el jefe inmediato
+-- ==========================================================================================
+
+CREATE FUNCTION [dbo].[UFS_ObtenerJefeInmediato]
+(
+-- Add the parameters for the function here
+@FuncionarioId INT
+)
+RETURNS INT
+AS
+     BEGIN
+
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         -- Declare the return variable here
+         DECLARE @AuditoriaActivo VARCHAR(255)=
+         (
+             SELECT vce.AUDITORIA_ACTIVO
+             FROM util.VW_ConstanteEstado AS vce
+         );
+         DECLARE @ErrorFuncion INT=
+         (
+             SELECT vcg.ERRORFUNCION
+             FROM util.VW_ConstanteGenerica AS vcg
+         );
+         DECLARE @ClaseContratoCentroOperativo VARCHAR(255)=
+         (
+             SELECT vccc.CENTROOPERATIVO
+             FROM util.VW_ConstanteClaseCargo AS vccc
+         );
+         DECLARE @ContratoVigente VARCHAR(255)=
+         (
+             SELECT vce.CONTRATO_VIGENTE
+             FROM util.VW_ConstanteEstado AS vce
+         );
+
+         DECLARE @DependenciaId INT;
+         DECLARE @CargoId INT;
+         DECLARE @CentroOperativoId INT;
+         DECLARE @GrupoId INT;
+         DECLARE @CargoClase VARCHAR(255);
+         DECLARE @CargoDependenciaReportaId INT; -- Id del cargo y dependencia del jefe inmediato o superior
+         DECLARE @CargoReportaId INT;
+         DECLARE @DependenciaReportaId INT;
+         DECLARE @CargoSustitutoId INT;
+         DECLARE @FuncionarioJefeId INT;
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+         -- Se consulta la información contractual del funcionario
+         SELECT @DependenciaId = vfda.DependenciaId,
+                @CargoId = vfda.CargoId,
+                @CentroOperativoId = vfda.CentroOperativoId,
+                @GrupoId = cag.GrupoId
+         FROM dbo.VW_FuncionarioDatoActual AS vfda
+              INNER JOIN dbo.Contrato AS con ON(vfda.ContratoId = con.Id)
+              INNER JOIN dbo.CargoGrupo AS cag ON(con.CargoGrupoId = cag.Id)
+         WHERE vfda.Id = @FuncionarioId
+               AND con.EstadoRegistro = @AuditoriaActivo;
+
+         -- Obtener información del cargo jefe inmediato
+         SELECT @CargoClase = car.Clase
+         FROM dbo.Cargo AS car
+         WHERE car.Id = @CargoId;
+
+         SELECT @CargoDependenciaReportaId = cre.CargoDependenciaReportaId
+         FROM dbo.CargoReporta AS cre
+              INNER JOIN dbo.CargoDependencia AS cde ON(cre.CargoDependenciaId = cde.Id)
+         WHERE cde.CargoId = @CargoId
+               AND cde.DependenciaId = @DependenciaId
+               AND cre.JefeInmediato = 1
+               AND cde.EstadoRegistro = @AuditoriaActivo
+               AND cre.EstadoRegistro = @AuditoriaActivo;
+
+         SELECT @CargoReportaId = cde.CargoId,
+                @DependenciaReportaId = cde.DependenciaId
+         FROM dbo.CargoDependencia AS cde
+         WHERE cde.Id = @CargoDependenciaReportaId;
+
+         -- Se encuentra definido el cargo que es jefe inmediato
+         IF @CargoDependenciaReportaId IS NOT NULL
+         BEGIN
+
+             SELECT TOP 1 @CargoSustitutoId = sus.CargoSustitutoId
+             FROM dbo.Sustituto AS sus
+             WHERE sus.CargoASustituirId = @CargoReportaId
+                   AND ((@CargoClase = @ClaseContratoCentroOperativo
+                         AND sus.CentroOperativoASutituirId = @CentroOperativoId)
+                        OR (@CargoClase != @ClaseContratoCentroOperativo))
+                   AND CAST(GETDATE() AS DATE) BETWEEN sus.FechaInicio AND sus.FechaFinal
+                   AND sus.EstadoRegistro = @AuditoriaActivo
+             ORDER BY sus.FechaFinal DESC;
+
+             -- Existe un sustituto para el cargo
+             IF @CargoSustitutoId IS NOT NULL
+             BEGIN
+
+                 SELECT TOP 1 @FuncionarioJefeId = vfda.Id
+                 FROM dbo.VW_FuncionarioDatoActual AS vfda
+                      INNER JOIN dbo.Contrato AS con ON(vfda.ContratoId = con.Id)
+                      INNER JOIN dbo.CargoGrupo AS cag ON(con.CargoGrupoId = cag.Id)
+                 WHERE vfda.CargoId = @CargoSustitutoId
+                       AND cag.GrupoId = @GrupoId
+                       AND ((@CargoClase = @ClaseContratoCentroOperativo
+                             AND vfda.CentroOperativoId = @CentroOperativoId)
+                            OR (@CargoClase != @ClaseContratoCentroOperativo))
+                       AND con.Estado = @ContratoVigente
+                       AND con.EstadoRegistro = @AuditoriaActivo;
+
+             END;
+
+             -- En caso de que no exista el sustituto, se busca el jefe inmediato
+             IF @CargoSustitutoId IS NULL
+                OR @FuncionarioJefeId IS NULL
+             BEGIN
+
+                 -- Se consulta el contrato del jefe inmediato
+                 SELECT TOP 1 @FuncionarioJefeId = vfda.Id
+                 FROM dbo.VW_FuncionarioDatoActual AS vfda
+                      INNER JOIN dbo.Contrato AS con ON(vfda.ContratoId = con.Id)
+                      INNER JOIN dbo.CargoGrupo AS cag ON(con.CargoGrupoId = cag.Id)
+                 WHERE vfda.CargoId = @CargoReportaId
+                       AND vfda.DependenciaId = @DependenciaReportaId
+                       AND cag.GrupoId = @GrupoId
+                       AND ((@CargoClase = @ClaseContratoCentroOperativo
+                             AND vfda.CentroOperativoId = @CentroOperativoId)
+                            OR (@CargoClase != @ClaseContratoCentroOperativo))
+                       AND con.Estado = @ContratoVigente
+                       AND con.EstadoRegistro = @AuditoriaActivo;
+
+                 --PRINT CONCAT('@FuncionarioJefeId: ', @FuncionarioJefeId);
+                 IF @FuncionarioJefeId IS NULL
+                 BEGIN
+                     RETURN @ErrorFuncion;
+                 END;
+             END;
+
+         END;
+         ELSE
+         BEGIN
+             RETURN @ErrorFuncion;
+         END;
+
+         RETURN @FuncionarioJefeId;
+     END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerJefeInmediato]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerJefeInmediato]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

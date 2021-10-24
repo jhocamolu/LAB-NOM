@@ -1,0 +1,56 @@
+// Material theming tools
+@import "~@angular/material/theming";
+
+// Breakpoint mixins
+@import "partials/breakpoints";
+
+.filtro-dialog {
+    .mat-toolbar {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        padding: 16px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 40px;
+        padding-bottom: 0px;
+        margin: 0px;
+        background: white !important;
+        mat-toolbar-row {
+            padding-left: 0px;
+            padding-right: 0px;
+            flex-direction: row;
+            box-sizing: border-box;
+            display: flex;
+            place-content: center space-between;
+            align-items: center;
+            flex: 1 1 0%;
+        }
+    }
+
+    mat-form-field {
+        width: 100% !important;
+    }
+    @include media-breakpoint("xs") {
+        width: 100%;
+    }
+    @include media-breakpoint("gt-xs") {
+        width: 400px;
+        min-height: 1000px;
+    }
+    .mat-dialog-container {
+        padding: 32px;
+        padding-top: 4px;
+        padding-bottom: 16px;
+        margin: 0px;
+    }
+    .dialog-content-wrapper {
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mat-icon {
+        margin-right: 5px;
+    }
+}

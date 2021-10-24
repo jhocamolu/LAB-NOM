@@ -1,0 +1,1387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="USP_GenerarPilaTipo2_V1">
+<comment>HU101</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+IF OBJECT_ID('reporte.USP_GenerarPilaTipo2', 'P') IS NULL
+    BEGIN
+        EXECUTE ('CREATE PROCEDURE reporte.USP_GenerarPilaTipo2 as SELECT 1');
+    END;
+GO
+
+-- ==========================================================================================
+-- Author:      Jhonatan Camilo Moreno Luna
+-- Create date: 29/08/2020
+-- Description: Permite generar el archivo tipo 2 de la planilla integrada de liquidación 
+-- de aportes (PILA).
+--
+-- Parameters:
+--   @PeriodoPagoId:	   Identificador del periodo para el cual se va a generar el archivo
+--   @TipoPlanillaId:	   Identificador del tipo de planilla que se va a generar.
+--   @NumeroPlanilla:	   Número de planilla.
+--   @FechaPagoPlanilla:	   Fecha del pago de la planilla.
+--   @TipoCotizanteId:	   Identificador del tipo de cotizante
+--   @SubtiposCotizante:	   Listado de subtipos de cotizante separado por comas
+--   @Funcionarios:		   Listado de funcionarios separados por coma
+--   @UsuarioOperacion:	   Usuario que realizar la operación
+--		
+-- Returns:						
+--   @Resultado:		   Estado resultado del proceso. = 0 Todo bien; > 0 Error
+-- ==========================================================================================
+
+ALTER PROCEDURE [reporte].[USP_GenerarPilaTipo2]
+(@PeriodoPagoId     INT, 
+ @TipoPlanillaId    INT, 
+ @NumeroPlanilla    VARCHAR(255)  = NULL, 
+ @FechaPagoPlanilla DATE          = NULL, 
+ @TipoCotizanteId   INT           = NULL, 
+ @SubtiposCotizante NVARCHAR(MAX) = NULL, 
+ @Funcionarios      NVARCHAR(MAX) = NULL, 
+ @UsuarioOperacion  VARCHAR(255)  = NULL, 
+ @Resultado         INT OUTPUT
+)
+AS
+    BEGIN
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@PeriodoPagoId=', CONVERT(VARCHAR, @PeriodoPagoId), '@TipoPlanillaId=', CONVERT(VARCHAR, @TipoPlanillaId), '@NumeroPlanilla=', CONVERT(VARCHAR, @NumeroPlanilla), '@FechaPagoPlanilla=', CONVERT(VARCHAR, @FechaPagoPlanilla), '@FechaPagoPlanilla=', CONVERT(VARCHAR, @FechaPagoPlanilla), '@TipoCotizanteId=', CONVERT(VARCHAR, @TipoCotizanteId), '@SubtiposCotizante=', CONVERT(VARCHAR, @SubtiposCotizante), '@Funcionarios=', CONVERT(VARCHAR, @Funcionarios), '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        ---------------------------------------------
+        -- Declaraciones
+        ---------------------------------------------
+        -- Variables de apoyo
+        DECLARE @MensajeExcepcion VARCHAR(255);
+        DECLARE @AuditoriaActivo VARCHAR(255);
+        DECLARE @ContratoSinIniciar VARCHAR(255);
+        DECLARE @ContratoCancelado VARCHAR(255);
+        DECLARE @NominaFuncionarioLiquidado VARCHAR(255);
+        DECLARE @NominaAplicada VARCHAR(255);
+        DECLARE @ContadorFila INT= 0;
+        DECLARE @TipoIGE NVARCHAR(MAX)=
+        (
+            SELECT vcca.CODIGO_ENFERMEDAD_GENERAL
+            FROM util.VW_ConstanteCodigoAusentismo vcca
+        );
+        DECLARE @TipoLMA NVARCHAR(MAX)= CONCAT(
+        (
+            SELECT vcca.CODIGO_LICENCIA_MATERNIDAD
+            FROM util.VW_ConstanteCodigoAusentismo vcca
+        ), ',',
+        (
+            SELECT vcca.CODIGO_LICENCIA_PATERNIDAD
+            FROM util.VW_ConstanteCodigoAusentismo vcca
+        ));
+        DECLARE @TipoSLN NVARCHAR(MAX);
+        SELECT @TipoSLN = COALESCE(@TipoSLN + ',', '') + ISNULL(ta.Codigo, '')
+        FROM dbo.TipoAusentismo ta
+             INNER JOIN dbo.ClaseAusentismo ca ON ta.ClaseAusentismoId = ca.Id
+        WHERE ca.Codigo =
+        (
+            SELECT vccca.CODIGO_LICENCIA_NO_REMUNARADA
+            FROM util.VW_ConstanteCodigoClaseAusentismo vccca
+        );
+        DECLARE @TipoIRL NVARCHAR(MAX)= CONCAT(
+        (
+            SELECT vcca.CODIGO_ENFERMEDAD_PROFESIONAL
+            FROM util.VW_ConstanteCodigoAusentismo vcca
+        ), ',',
+        (
+            SELECT vcca.CODIGO_ACCIDENTE_LABORAL
+            FROM util.VW_ConstanteCodigoAusentismo vcca
+        ));
+        DECLARE @TipoLR VARCHAR(MAX);
+        SELECT @TipoLR = COALESCE(@TipoLR + ',', '') + ISNULL(ta.Codigo, '')
+        FROM dbo.TipoAusentismo ta
+             INNER JOIN dbo.ClaseAusentismo ca ON ta.ClaseAusentismoId = ca.Id
+        WHERE ca.Codigo =
+        (
+            SELECT vccca.CODIGO_LICENCIA_REMUNERADA_DIAS
+            FROM util.VW_ConstanteCodigoClaseAusentismo vccca
+        );
+        DECLARE @NominaModulo INT;
+        DECLARE @CodigoArl CHAR(6);
+        DECLARE @FechaInicio DATE=
+        (
+            SELECT DATEADD(mm, DATEDIFF(mm, 0, pc.Fecha), 0)
+            FROM dbo.PeriodoContable pc
+            WHERE pc.Id = @PeriodoPagoId
+        );
+        DECLARE @FechaFin DATE=
+        (
+            SELECT pc.Fecha
+            FROM dbo.PeriodoContable pc
+            WHERE pc.Id = @PeriodoPagoId
+        );
+        DECLARE @AliasPensionFuncionario VARCHAR(255)= 'PensionFuncionario';
+        DECLARE @AliasSaludFuncionario VARCHAR(255)= 'SaludFuncionario';
+        DECLARE @AliasARL VARCHAR(255)= 'ARL';
+        DECLARE @AliasCcf VARCHAR(255)= 'Ccf';
+        DECLARE @AliasSalBasico VARCHAR(255)= 'SalBasico';
+        DECLARE @AliasBaseIbcMes VARCHAR(255)= 'BaseIbcMes';
+        DECLARE @AliasBaseParafiscalesMes VARCHAR(255)= 'BaseParafiscalesMes';
+        DECLARE @AliasAportePensionVoluntario VARCHAR(255)= 'AportePensionVoluntario';
+        DECLARE @AliasAportePensionVoluntarioEmpresa VARCHAR(255)= 'AportePensionVoluntarioEmpresa';
+        DECLARE @AliasAporteFondoSolidaridad VARCHAR(255)= 'AporteFondoSolidaridad';
+        DECLARE @AliasAporteFonsubsistencia VARCHAR(255)= 'AporteFonsubsistencia';
+        DECLARE @AliasValorUPC VARCHAR(255)= 'ValorUPC';
+        DECLARE @AliasSena VARCHAR(255)= 'Sena';
+        DECLARE @AliasIcbf VARCHAR(255)= 'Icbf';
+        DECLARE @CantidadPensionFuncionario DECIMAL(16, 6);
+        DECLARE @CantidadSaludFuncionario DECIMAL(16, 6);
+        DECLARE @CantidadARL DECIMAL(16, 6);
+        DECLARE @CantidadCcf DECIMAL(16, 6);
+        DECLARE @ValorSalBasico MONEY;
+        DECLARE @ValorBaseIbcMes MONEY;
+        DECLARE @ValorBaseParafiscalesMes MONEY;
+        DECLARE @ValorPensionFuncionario MONEY;
+        DECLARE @ValorAportePensionVoluntario MONEY;
+        DECLARE @ValorAportePensionVoluntarioEmpresa MONEY;
+        DECLARE @ValorAporteFondoSolidaridad MONEY;
+        DECLARE @ValorAporteFonsubsistencia MONEY;
+        DECLARE @ValorSaludFuncionario MONEY;
+        DECLARE @ValorValorUPC MONEY;
+        DECLARE @ValorARL MONEY;
+        DECLARE @ValorCcf MONEY;
+        DECLARE @ValorSena MONEY;
+        DECLARE @ValorIcbf MONEY;
+        DECLARE @CantidadSalBasico DECIMAL(16, 6);
+        DECLARE @ValorDiasPila DECIMAL(16, 6);
+
+        -- Datos para la tabla resultado
+        DECLARE @TipoRegistro CHAR(2)= '02';
+        DECLARE @Secuencia INT= 0;
+        DECLARE @FuncionarioId INT;
+        DECLARE @NumeroDocumento VARCHAR(255);
+        DECLARE @TipoDocumento CHAR(2);
+        DECLARE @TipoCotizante CHAR(2);
+        DECLARE @SubtipoCotizante CHAR(2);
+        DECLARE @ExtranjeroNoObligadoACotizarAPension CHAR(1);
+        DECLARE @ColombianoEnElExterior CHAR(1);
+        DECLARE @CodigoDepartamento CHAR(2);
+        DECLARE @CodigoMunicipio CHAR(3);
+        DECLARE @Pensionado CHAR(1);
+        DECLARE @PrimerNombre CHAR(20);
+        DECLARE @SegundoNombre CHAR(30);
+        DECLARE @PrimerApellido CHAR(20);
+        DECLARE @SegundoApellido CHAR(30);
+        DECLARE @FuncionarioAusentismoId INT;
+        DECLARE @FechaInicioSln CHAR(10);
+        DECLARE @FechaFinSln CHAR(10);
+        DECLARE @FechaInicioIge CHAR(10);
+        DECLARE @FechaFinIge CHAR(10);
+        DECLARE @FechaInicioLma CHAR(10);
+        DECLARE @FechaFinLma CHAR(10);
+        DECLARE @FechaInicioVacLr CHAR(10);
+        DECLARE @FechaFinVacLr CHAR(10);
+        DECLARE @FechaInicioVct CHAR(10);
+        DECLARE @FechaFinVct CHAR(10);
+        DECLARE @FechaInicioIrl CHAR(10);
+        DECLARE @FechaFinIrl CHAR(10);
+        DECLARE @SLN CHAR(1);
+        DECLARE @IGE CHAR(1);
+        DECLARE @LMA CHAR(1);
+        DECLARE @VacLr CHAR(1);
+        DECLARE @AVP CHAR(1);
+        DECLARE @VCT CHAR(1);
+        DECLARE @IRL CHAR(1);
+        DECLARE @AutorizacionIncapacidad CHAR(15);
+        DECLARE @ValorIncapacidad CHAR(9);
+        DECLARE @ModuloRegistroId INT;
+        DECLARE @FuncionarioContratoId INT;
+        DECLARE @CodigoCentroTrabajo CHAR(1);
+        DECLARE @FechaInicioCentroTrabajo CHAR(10);
+        DECLARE @FechaFinCentroTrabajo CHAR(10);
+        DECLARE @Ingreso CHAR(1);
+        DECLARE @Retiro CHAR(1);
+        DECLARE @FechaIngreso CHAR(10);
+        DECLARE @FechaRetiro CHAR(10);
+        DECLARE @AdminsitradoraEPS CHAR(6);
+        DECLARE @TarifaAporteFuncionarioEPS CHAR(7);
+        DECLARE @TarifaAporteTotalEPS CHAR(7);
+        DECLARE @FechaInicioEPS CHAR(10);
+        DECLARE @FechaFinEPS CHAR(10);
+        DECLARE @AdminsitradoraAFP CHAR(6);
+        DECLARE @TarifaAporteFuncionarioAFP CHAR(7);
+        DECLARE @TarifaAporteTotalAFP CHAR(7);
+        DECLARE @FechaInicioAFP CHAR(10);
+        DECLARE @FechaFinAFP CHAR(10);
+        DECLARE @AdminsitradoraCCF CHAR(6);
+        DECLARE @TarifaAporteFuncionarioCCF CHAR(7);
+        DECLARE @TarifaAporteTotalCCF CHAR(7);
+        DECLARE @FechaInicioCCF CHAR(10);
+        DECLARE @FechaFinCCF CHAR(10);
+        DECLARE @TipoSalario CHAR(1);
+
+        -- Contadores
+        DECLARE @ContadorIGE INT= 0;
+        DECLARE @ContadorLR INT= 0;
+        DECLARE @ContadorLMA INT= 0;
+        DECLARE @ContadorIRL INT= 0;
+        DECLARE @ContadorSLN INT= 0;
+        DECLARE @ContadorContrato INT= 0;
+
+        ---------------------------------------------
+        -- Proceso
+        ---------------------------------------------
+        BEGIN TRY
+            SET @CodigoArl =
+            (
+                SELECT TOP 1 a.Codigo
+                FROM dbo.InformacionBasica ib
+                     INNER JOIN dbo.Administradora a ON ib.ArlId = a.Id
+            );
+            PRINT '';
+            PRINT @CodigoArl;
+            SET @ValorDiasPila =
+            (
+                SELECT [util].[UFS_ObtenerParametro]('HorasDiasPila', 1)
+            );
+            PRINT '';
+            PRINT @ValorDiasPila;
+            DECLARE @CodigoTipoPlanilla VARCHAR(255)=
+            (
+                SELECT tp.codigo
+                FROM dbo.TipoPlanilla tp
+                WHERE tp.Id = @TipoPlanillaId
+            );
+            DECLARE @TotalCotizantes INT=
+            (
+                SELECT COUNT(Id)
+                FROM reporte.UFT_ObtenerFuncionarioPilaTipo2(@PeriodoPagoId, @funcionarios, @TipoCotizanteId, @SubtiposCotizante)
+            );
+            DECLARE @BeneficiarioCREE BIT=
+            (
+                SELECT infb.BeneficiarioImpuestoEquidad
+                FROM dbo.InformacionBasica infb
+            );
+
+            -- Se crea tabla temporal local que contendrá la información del archivo
+            CREATE TABLE #Pila
+            (FuncionarioId                       INT, 
+             RegistroFuncionario                 INT, 
+             TipoRegistro                        CHAR(2) DEFAULT SPACE(2), 
+             Secuencia                           CHAR(5) DEFAULT SPACE(5), 
+             TipoDocumentoCotizante              CHAR(2) DEFAULT SPACE(2), 
+             NumeroDocumentoCotizante            CHAR(16) DEFAULT SPACE(16), 
+             TipoCotizante                       CHAR(2) DEFAULT SPACE(2), 
+             SubtipoCotizante                    CHAR(2) DEFAULT SPACE(2), 
+             ExtranjeroNoObligadoPension         CHAR(1) DEFAULT SPACE(1), 
+             ColombianoExterior                  CHAR(1) DEFAULT SPACE(1), 
+             DepartamentoUbicacionLaboral        CHAR(2) DEFAULT SPACE(2), 
+             MunicipioUbicacionLaboral           CHAR(3) DEFAULT SPACE(3), 
+             PrimerApellido                      CHAR(20) DEFAULT SPACE(20), 
+             SegundoApellido                     CHAR(30) DEFAULT SPACE(30), 
+             PrimerNombre                        CHAR(20) DEFAULT SPACE(20), 
+             SegundoNombre                       CHAR(30) DEFAULT SPACE(30), 
+             ING                                 CHAR(1) DEFAULT SPACE(1), -- fecha de Ingreso Contrato
+             RET                                 CHAR(1) DEFAULT SPACE(1), -- fecha de retiro contrato
+             TDE                                 CHAR(1) DEFAULT SPACE(1), -- Traslado desde otra EPS o EOC
+             TAE                                 CHAR(1) DEFAULT SPACE(1), -- Traslado a otra EPS o EOC
+             TDP                                 CHAR(1) DEFAULT SPACE(1), -- Traslado desde otra administradora de pensiones
+             TAP                                 CHAR(1) DEFAULT SPACE(1), -- Traslado a otra administradora de pensiones
+             VSP                                 CHAR(1) DEFAULT SPACE(1), -- Variación permanente de salario
+             Correcciones                        CHAR(1) DEFAULT SPACE(1), 
+             VST                                 CHAR(1) DEFAULT SPACE(1), -- Variación transitoria del salario
+             SLN                                 CHAR(1) DEFAULT SPACE(1), -- Suspensión temporal o licencia no remunerada
+             IGE                                 CHAR(1) DEFAULT SPACE(1), -- Incapacidad temporal por enfermedad general
+             LMA                                 CHAR(1) DEFAULT SPACE(1), -- Licencia de Maternidad, paternidad
+             VacLr                               CHAR(1) DEFAULT SPACE(1), -- Vacaciones, Licencia remunerada
+             AVP                                 CHAR(1) DEFAULT SPACE(1), -- Aporte voluntario
+             VCT                                 CHAR(1) DEFAULT SPACE(1), -- Variación centros de trabajo
+             IRL                                 CHAR(2) DEFAULT SPACE(2), -- Días incapacidad por accidente de trabajo o enfermedad laboral.
+             AfpActual                           CHAR(6) DEFAULT SPACE(6), 
+             AfpTraslado                         CHAR(6) DEFAULT SPACE(6), 
+             EpsActual                           CHAR(6) DEFAULT SPACE(6), 
+             EpsTraslado                         CHAR(6) DEFAULT SPACE(6), 
+             CcfActual                           CHAR(6) DEFAULT SPACE(6), 
+             DiasCotizadosPension                CHAR(2) DEFAULT SPACE(2), 
+             DiasCotizadosSalud                  CHAR(2) DEFAULT SPACE(2), 
+             DiasCotizadosRiesgosLaborales       CHAR(2) DEFAULT SPACE(2), 
+             DiasCotizadosCcf                    CHAR(2) DEFAULT SPACE(2), 
+             SalarioBasico                       CHAR(9) DEFAULT SPACE(9), 
+             TipoSalario                         CHAR(1) DEFAULT SPACE(1), 
+             IbcPension                          CHAR(9) DEFAULT SPACE(9), 
+             IbcSalud                            CHAR(9) DEFAULT SPACE(9), 
+             IbcRiesgosLaborales                 CHAR(9) DEFAULT SPACE(9), 
+             IbcCcf                              CHAR(9) DEFAULT SPACE(9), 
+             TarifaAportePensiones               CHAR(7) DEFAULT SPACE(7), 
+             CotizacionObligatoriaPensiones      CHAR(9) DEFAULT SPACE(9), 
+             AporteVolAfilFondoPensOblig         CHAR(9) DEFAULT SPACE(9), 
+             AporteVolAportaFondoPensOblig       CHAR(9) DEFAULT SPACE(9), 
+             TotalCotizacionSistemaGralPensiones CHAR(9) DEFAULT SPACE(9), 
+             AporteFspSubcuentaSolidaridad       CHAR(9) DEFAULT SPACE(9), 
+             AporteFspSubcuentaSubsistencia      CHAR(9) DEFAULT SPACE(9), 
+             ValorNoRetenidoAportesVoluntarios   CHAR(9) DEFAULT SPACE(9), 
+             TarifaAporteSalud                   CHAR(7) DEFAULT SPACE(7), 
+             CotizacionObligatoriaSalud          CHAR(9) DEFAULT SPACE(9), 
+             ValorUpcAdicional                   CHAR(9) DEFAULT SPACE(9), 
+             AutorizacionIncapacidad             CHAR(15) DEFAULT SPACE(15), 
+             ValorIncapacidad                    CHAR(9) DEFAULT SPACE(9), 
+             AutorizacionLicenciaMaternidad      CHAR(15) DEFAULT SPACE(15), 
+             ValorLicenciaMaternidad             CHAR(9) DEFAULT SPACE(9), 
+             TarifaAporteRiesgosLaborales        CHAR(9) DEFAULT SPACE(9), 
+             CentroTrabajo                       CHAR(9) DEFAULT SPACE(9), 
+             CotizacionObligRiesgosLaborales     CHAR(9) DEFAULT SPACE(9), 
+             TarifaAporteCcf                     CHAR(7) DEFAULT SPACE(7), 
+             ValorAporteCcf                      CHAR(9) DEFAULT SPACE(9), 
+             TarifaAporteSena                    CHAR(7) DEFAULT SPACE(7), 
+             ValorAporteSena                     CHAR(9) DEFAULT SPACE(9), 
+             TarifaAporteIcbf                    CHAR(7) DEFAULT SPACE(7), 
+             ValorAporteIcbf                     CHAR(9) DEFAULT SPACE(9), 
+             TarifaAporteEsap                    CHAR(7) DEFAULT SPACE(7), 
+             ValorAporteEsap                     CHAR(9) DEFAULT SPACE(9), 
+             TarifaAporteMen                     CHAR(7) DEFAULT SPACE(7), 
+             ValorAporteMen                      CHAR(9) DEFAULT SPACE(9), 
+             TipoDocumentoCotizantePrincipal     CHAR(2) DEFAULT SPACE(2), 
+             NumeroDocumentoCotizantePrincipal   CHAR(16) DEFAULT SPACE(16), 
+             CotizanteExoneradoSaludYOtros       CHAR(1) DEFAULT SPACE(1), 
+             ArlAfiliado                         CHAR(6) DEFAULT SPACE(6), 
+             ClaseRiesgoArlAfiliado              CHAR(1) DEFAULT SPACE(1), 
+             IndicadorTarifaEspecialPensiones    CHAR(1) DEFAULT SPACE(1), 
+             FechaIngreso                        CHAR(10) DEFAULT SPACE(10), 
+             FechaRetiro                         CHAR(10) DEFAULT SPACE(10), 
+             FechaInicioVsp                      CHAR(10) DEFAULT SPACE(10), 
+             FechaInicioSln                      CHAR(10) DEFAULT SPACE(10), 
+             FechaFinSln                         CHAR(10) DEFAULT SPACE(10), 
+             FechaInicioIge                      CHAR(10) DEFAULT SPACE(10), 
+             FechaFinIge                         CHAR(10) DEFAULT SPACE(10), 
+             FechaInicioLma                      CHAR(10) DEFAULT SPACE(10), 
+             FechaFinLma                         CHAR(10) DEFAULT SPACE(10), 
+             FechaInicioVacLr                    CHAR(10) DEFAULT SPACE(10), 
+             FechaFinVacLr                       CHAR(10) DEFAULT SPACE(10), 
+             FechaInicioVct                      CHAR(10) DEFAULT SPACE(10), 
+             FechaFinVct                         CHAR(10) DEFAULT SPACE(10), 
+             FechaInicioIrl                      CHAR(10) DEFAULT SPACE(10), 
+             FechaFinIrl                         CHAR(10) DEFAULT SPACE(10), 
+             IBCOtrosParafiscales                CHAR(9) DEFAULT SPACE(9), 
+             NúmeroHorasLaboradas                CHAR(3) DEFAULT SPACE(3), 
+             FechaRadicaciónExterior             CHAR(10) DEFAULT SPACE(10)
+            );
+
+            -- tabla auxiliar para carga de novedades y determinar la fecha
+            CREATE TABLE #NovedadFuncionario
+            (FuncionarioId           INT, 
+             RegistroFuncionario     INT, 
+             TipoNovedad             CHAR(6), 
+             IbcPension              CHAR(9) DEFAULT SPACE(9), 
+             IbcSalud                CHAR(9) DEFAULT SPACE(9), 
+             IbcRiesgosLaborales     CHAR(9) DEFAULT SPACE(9), 
+             IbcCcf                  CHAR(9) DEFAULT SPACE(9), 
+             FechaInicio             CHAR(10) DEFAULT SPACE(10), 
+             FechaFin                CHAR(10) DEFAULT SPACE(10), 
+             AutorizacionIncapacidad CHAR(15) DEFAULT SPACE(15), 
+             ValorIncapacidad        CHAR(9) DEFAULT SPACE(9)
+            );
+            SET @Resultado = 0;
+
+            -- Se consultan constantes para los estados
+            SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO, 
+                   @ContratoSinIniciar = vce.CONTRATO_SININICIAR, 
+                   @ContratoCancelado = vce.CONTRATO_CANCELADO, 
+                   @NominaFuncionarioLiquidado = vce.NOMINAFUNCIONARIO_LIQUIDADO, 
+                   @NominaAplicada = vce.NOMINA_APLICADA
+            FROM util.VW_ConstanteEstado AS vce;
+
+            -- Se consultan los funcionarios asignados a la nómina que se encuentren pendientes por liquidar
+            DECLARE CUR_FuncionariosPila CURSOR LOCAL
+            FOR SELECT *
+                FROM [reporte].[UFT_ObtenerFuncionarioPilaTipo2](@PeriodoPagoId, @funcionarios, @TipoCotizanteId, @SubtiposCotizante);
+            OPEN CUR_FuncionariosPila;
+            FETCH NEXT FROM CUR_FuncionariosPila INTO @FuncionarioId, @TipoDocumento, @NumeroDocumento, @TipoCotizante, @SubtipoCotizante, @ExtranjeroNoObligadoACotizarAPension, @ColombianoEnElExterior, @CodigoDepartamento, @CodigoMunicipio, @Pensionado, @PrimerNombre, @SegundoNombre, @PrimerApellido, @SegundoApellido, @TipoSalario;
+            WHILE @@FETCH_STATUS = 0
+                BEGIN
+                    PRINT '';
+                    PRINT CONCAT('@Funcionario=', CONVERT(VARCHAR(255), @FuncionarioId));
+
+                    -- EJECUCION de Procedimiento Basicos para llenar la Informacion
+                    --Datos de cantidad por alias
+                    EXECUTE [dbo].[USP_ObtenerCantidadConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasPensionFuncionario, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @CantidadPensionFuncionario OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerCantidadConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasSaludFuncionario, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @CantidadSaludFuncionario OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerCantidadConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasARL, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @CantidadARL OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerCantidadConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasCcf, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @CantidadCcf OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerCantidadConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasSalBasico, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @CantidadSalBasico OUTPUT;
+                    --Datos de Valor por alias
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasPensionFuncionario, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorPensionFuncionario OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasSaludFuncionario, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorSaludFuncionario OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasARL, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorARL OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasCcf, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorCcf OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasSalBasico, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorSalBasico OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasBaseIbcMes, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorBaseIbcMes OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasBaseParafiscalesMes, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorBaseParafiscalesMes OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasAportePensionVoluntario, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAportePensionVoluntario OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasAportePensionVoluntarioEmpresa, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAportePensionVoluntarioEmpresa OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasAporteFondoSolidaridad, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAporteFondoSolidaridad OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasAporteFonsubsistencia, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorAporteFonsubsistencia OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasValorUPC, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorValorUPC OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasSena, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorSena OUTPUT;
+                    EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                            @FuncionarioId, 
+                            @AliasIcbf, 
+                            @FechaInicio, 
+                            @FechaFin, 
+                            @ValorIcbf OUTPUT;
+                    --TERMINA Procedimientos
+
+                    PRINT 'Carga procedimientos problemas al insertar';
+                    --INSERTAR FILA Por funcionario
+                    INSERT INTO #Pila
+                    (FuncionarioId, 
+                     RegistroFuncionario, 
+                     TipoRegistro, 
+                     Secuencia, 
+                     TipoDocumentoCotizante, 
+                     NumeroDocumentoCotizante, 
+                     TipoCotizante, 
+                     SubtipoCotizante, 
+                     ExtranjeroNoObligadoPension, 
+                     ColombianoExterior, 
+                     DepartamentoUbicacionLaboral, 
+                     MunicipioUbicacionLaboral, 
+                     PrimerApellido, 
+                     SegundoApellido, 
+                     PrimerNombre, 
+                     SegundoNombre, 
+                     ING, 
+                     RET, 
+                     TDE, 
+                     TAE, 
+                     TDP, 
+                     TAP, 
+                     VSP, 
+                     Correcciones, 
+                     VST, 
+                     SLN, 
+                     IGE, 
+                     LMA, 
+                     VacLr, 
+                     AVP, 
+                     VCT, 
+                     IRL, 
+                     AfpActual, 
+                     AfpTraslado, 
+                     EpsActual, 
+                     EpsTraslado, 
+                     CcfActual, 
+                     DiasCotizadosPension, 
+                     DiasCotizadosSalud, 
+                     DiasCotizadosRiesgosLaborales, 
+                     DiasCotizadosCcf, 
+                     SalarioBasico, 
+                     TipoSalario, 
+                     IbcPension, 
+                     IbcSalud, 
+                     IbcRiesgosLaborales, 
+                     IbcCcf, 
+                     TarifaAportePensiones, 
+                     CotizacionObligatoriaPensiones, 
+                     AporteVolAfilFondoPensOblig, 
+                     AporteVolAportaFondoPensOblig, 
+                     TotalCotizacionSistemaGralPensiones, 
+                     AporteFspSubcuentaSolidaridad, 
+                     AporteFspSubcuentaSubsistencia, 
+                     ValorNoRetenidoAportesVoluntarios, 
+                     TarifaAporteSalud, 
+                     CotizacionObligatoriaSalud, 
+                     ValorUpcAdicional, 
+                     AutorizacionIncapacidad, 
+                     ValorIncapacidad, 
+                     AutorizacionLicenciaMaternidad, 
+                     ValorLicenciaMaternidad, 
+                     TarifaAporteRiesgosLaborales, 
+                     CentroTrabajo, 
+                     CotizacionObligRiesgosLaborales, 
+                     TarifaAporteCcf, 
+                     ValorAporteCcf, 
+                     TarifaAporteSena, 
+                     ValorAporteSena, 
+                     TarifaAporteIcbf, 
+                     ValorAporteIcbf, 
+                     TarifaAporteEsap, 
+                     ValorAporteEsap, 
+                     TarifaAporteMen, 
+                     ValorAporteMen, 
+                     TipoDocumentoCotizantePrincipal, 
+                     NumeroDocumentoCotizantePrincipal, 
+                     CotizanteExoneradoSaludYOtros, 
+                     ArlAfiliado, 
+                     ClaseRiesgoArlAfiliado, 
+                     IndicadorTarifaEspecialPensiones, 
+                     FechaIngreso, 
+                     FechaRetiro, 
+                     FechaInicioVsp, 
+                     FechaInicioSln, 
+                     FechaFinSln, 
+                     FechaInicioIge, 
+                     FechaFinIge, 
+                     FechaInicioLma, 
+                     FechaFinLma, 
+                     FechaInicioVacLr, 
+                     FechaFinVacLr, 
+                     FechaInicioVct, 
+                     FechaFinVct, 
+                     FechaInicioIrl, 
+                     FechaFinIrl, 
+                     IBCOtrosParafiscales, 
+                     NúmeroHorasLaboradas, 
+                     FechaRadicaciónExterior
+                    )
+                    VALUES
+                    (@FuncionarioId, 
+                     1, 
+                     @TipoRegistro, 
+                     RIGHT('00000' + CONVERT(VARCHAR(5), @Secuencia), 5), 
+                     @TipoDocumento, 
+                     @NumeroDocumento, 
+                     @TipoCotizante, 
+                     @SubtipoCotizante, 
+                     @ExtranjeroNoObligadoACotizarAPension, 
+                     @ColombianoEnElExterior, 
+                     @CodigoDepartamento, 
+                     @CodigoMunicipio, 
+                     @PrimerApellido, 
+                     @SegundoApellido, 
+                     @PrimerNombre, 
+                     @SegundoNombre, 
+                     ' ', -- ING - CHAR
+                     ' ', -- RET - CHAR
+                     ' ', -- TDE - CHAR
+                     ' ', -- TAE - CHAR
+                     ' ', -- TDP - CHAR
+                     ' ', -- TAP - CHAR
+                     ' ', -- VSP - CHAR
+                     ' ', -- Correcciones - CHAR
+                     ' ', -- VST - CHAR
+                     ' ', -- SLN - CHAR
+                     ' ', -- IGE - CHAR
+                     ' ', -- LMA - CHAR
+                     ' ', -- VacLr - CHAR
+                     ' ', -- AVP - CHAR
+                     ' ', -- VCT - CHAR
+                     ' ', -- IRL - CHAR
+                     ' ', -- AfpActual - CHAR
+                     ' ', -- AfpTraslado - CHAR
+                     ' ', -- EpsActual - CHAR
+                     ' ', -- EpsTraslado - CHAR
+                     ' ', -- CcfActual - CHAR
+                     CAST(CAST(@CantidadPensionFuncionario AS INT) AS CHAR(2)), -- DiasCotizadosPension - CHAR
+                     CAST(CAST(@CantidadSaludFuncionario AS INT) AS CHAR(2)), -- DiasCotizadosSalud - CHAR
+                     CAST(CAST(@CantidadARL AS INT) AS CHAR(2)), -- DiasCotizadosRiesgosLaborales - CHAR
+                     CAST(CAST(@CantidadCcf AS INT) AS CHAR(2)), -- DiasCotizadosCcf - CHAR
+                     CAST(CAST(@ValorSalBasico AS INT) AS CHAR(9)), -- SalarioBasico - CHAR
+                     @TipoSalario, -- TipoSalario - CHAR
+                     CAST(CAST(@ValorBaseIbcMes AS INT) AS CHAR(9)), -- IbcPension - CHAR
+                     CAST(CAST(@ValorBaseIbcMes AS INT) AS CHAR(9)), -- IbcSalud - CHAR
+                     CAST(CAST(@ValorBaseIbcMes AS INT) AS CHAR(9)), -- IbcRiesgosLaborales - CHAR
+                     CAST(CAST(@ValorBaseParafiscalesMes AS INT) AS CHAR(9)), -- IbcCcf - CHAR
+                     ' ', -- TarifaAportePensiones - CHAR
+                     CAST(CAST(@ValorPensionFuncionario AS INT) AS CHAR(9)), -- CotizacionObligatoriaPensiones - CHAR
+                     CAST(CAST(@ValorAportePensionVoluntario AS INT) AS CHAR(9)), -- AporteVolAfilFondoPensOblig - CHAR
+                     CAST(CAST(@ValorAportePensionVoluntarioEmpresa AS INT) AS CHAR(9)), -- AporteVolAportaFondoPensOblig - CHAR
+                     ' ', -- TotalCotizacionSistemaGralPensiones - CHAR
+                     CAST(CAST(@ValorAporteFondoSolidaridad AS INT) AS CHAR(9)), -- AporteFspSubcuentaSolidaridad - CHAR
+                     CAST(CAST(@ValorAporteFonsubsistencia AS INT) AS CHAR(9)), -- AporteFspSubcuentaSubsistencia - CHAR
+                     ' ', -- ValorNoRetenidoAportesVoluntarios - CHAR
+                     ' ', -- TarifaAporteSalud - CHAR
+                     CAST(CAST(@ValorPensionFuncionario AS INT) AS CHAR(9)), -- CotizacionObligatoriaSalud - CHAR
+                     CAST(CAST(@ValorValorUPC AS INT) AS CHAR(9)), -- ValorUpcAdicional - CHAR
+                     ' ', -- AutorizacionIncapacidad - CHAR
+                     ' ', -- ValorIncapacidad - CHAR
+                     ' ', -- AutorizacionLicenciaMaternidad - CHAR
+                     ' ', -- ValorLicenciaMaternidad - CHAR
+                     ' ', -- TarifaAporteRiesgosLaborales - CHAR
+                     ' ', -- CentroTrabajo - CHAR
+                     ' ', -- CotizacionObligRiesgosLaborales - CHAR
+                     ' ', -- TarifaAporteCcf - CHAR
+                     ' ', -- ValorAporteCcf - CHAR
+                     ' ', -- TarifaAporteSena - CHAR
+                     CAST(CAST(@ValorSena AS INT) AS CHAR(9)), -- ValorAporteSena - CHAR
+                     ' ', -- TarifaAporteIcbf - CHAR
+                     CAST(CAST(@ValorIcbf AS INT) AS CHAR(9)), -- ValorAporteIcbf - CHAR
+                     '0', -- TarifaAporteEsap - CHAR
+                     '0', -- ValorAporteEsap - CHAR
+                     '0', -- TarifaAporteMen - CHAR
+                     '0', -- ValorAporteMen - CHAR
+                     ' ', -- TipoDocumentoCotizantePrincipal - CHAR
+                     ' ', -- NumeroDocumentoCotizantePrincipal - CHAR
+                     ' ', -- CotizanteExoneradoSaludYOtros - CHAR
+                     @CodigoArl, -- ArlAfiliado - CHAR
+                     ' ', -- ClaseRiesgoArlAfiliado - CHAR
+                     ' ', -- IndicadorTarifaEspecialPensiones - CHAR
+                     ' ', -- FechaIngreso - CHAR
+                     ' ', -- FechaRetiro - CHAR
+                     ' ', -- FechaInicioVsp - CHAR
+                     ' ', -- FechaInicioSln - CHAR
+                     ' ', -- FechaFinSln - CHAR
+                     ' ', -- FechaInicioIge - CHAR
+                     ' ', -- FechaFinIge - CHAR
+                     ' ', -- FechaInicioLma - CHAR
+                     ' ', -- FechaFinLma - CHAR
+                     ' ', -- FechaInicioVacLr - CHAR
+                     ' ', -- FechaFinVacLr - CHAR
+                     ' ', -- FechaInicioVct - CHAR
+                     ' ', -- FechaFinVct - CHAR
+                     ' ', -- FechaInicioIrl - CHAR
+                     ' ', -- FechaFinIrl - CHAR
+                     CAST(CAST(@ValorBaseParafiscalesMes AS INT) AS CHAR(9)), -- IBCOtrosParafiscales - CHAR
+                     CAST(CAST((@CantidadSalBasico * @ValorDiasPila) AS INT) AS CHAR(3)), -- NúmeroHorasLaboradas - CHAR
+                     ' ' -- FechaRadicaciónExterior - CHAR
+                    );
+
+                    --- Informacion de contratos
+                    DECLARE CUR_ContratoFuncionario CURSOR LOCAL
+                    FOR SELECT *
+                        FROM [reporte].[UFT_ObtenerAdministradorasPilaTipo2](@PeriodoPagoId, @funcionarios, @TipoCotizanteId, @SubtiposCotizante)
+                        WHERE FuncionarioId = @FuncionarioId;
+                    OPEN CUR_ContratoFuncionario;
+                    FETCH NEXT FROM CUR_ContratoFuncionario INTO @FuncionarioContratoId, @CodigoCentroTrabajo, @FechaInicioCentroTrabajo, @FechaFinCentroTrabajo, @Ingreso, @FechaIngreso, @Retiro, @FechaRetiro, @AdminsitradoraEPS, @TarifaAporteFuncionarioEPS, @TarifaAporteTotalEPS, @FechaInicioEPS, @FechaFinEPS, @AdminsitradoraAFP, @TarifaAporteFuncionarioAFP, @TarifaAporteTotalAFP, @FechaInicioAFP, @FechaFinAFP, @AdminsitradoraCCF, @TarifaAporteFuncionarioCCF, @TarifaAporteTotalCCF, @FechaInicioCCF, @FechaFinCCF;
+                    WHILE @@FETCH_STATUS = 0
+                        BEGIN
+                            PRINT 'Entra Contrato';
+                            PRINT CONCAT('@FuncionarioContratoId=', CONVERT(VARCHAR(255), @FuncionarioContratoId));
+                            SET @ContadorContrato = @ContadorContrato + 1;
+                            --SET @NominaModulo
+                            UPDATE #Pila
+                              SET 
+                                  #Pila.ING = @Ingreso, -- CHAR
+                                  #Pila.RET = @Retiro, -- CHAR
+                                  #Pila.AfpActual = @AdminsitradoraAFP, -- CHAR
+                                  #Pila.AfpTraslado = ' ', -- CHAR
+                                  #Pila.EpsActual = @AdminsitradoraEPS, -- CHAR
+                                  #Pila.EpsTraslado = ' ', -- CHAR
+                                  #Pila.CcfActual = @AdminsitradoraCCF, -- CHAR
+                                  #Pila.TarifaAportePensiones = @TarifaAporteTotalAFP, -- CHAR
+                                  #Pila.TarifaAporteSalud = @TarifaAporteTotalEPS, -- CHAR
+                                  #Pila.CentroTrabajo = ' ', -- CHAR
+                                  #Pila.TarifaAporteCcf = @TarifaAporteTotalCCF, -- CHAR
+                                  #Pila.FechaIngreso = @FechaIngreso, 
+                                  #Pila.FechaRetiro = @FechaRetiro
+                            WHERE #Pila.FuncionarioId = @FuncionarioContratoId;
+                            FETCH NEXT FROM CUR_ContratoFuncionario INTO @FuncionarioContratoId, @CodigoCentroTrabajo, @FechaInicioCentroTrabajo, @FechaFinCentroTrabajo, @Ingreso, @FechaIngreso, @Retiro, @FechaRetiro, @AdminsitradoraEPS, @TarifaAporteFuncionarioEPS, @TarifaAporteTotalEPS, @FechaInicioEPS, @FechaFinEPS, @AdminsitradoraAFP, @TarifaAporteFuncionarioAFP, @TarifaAporteTotalAFP, @FechaInicioAFP, @FechaFinAFP, @AdminsitradoraCCF, @TarifaAporteFuncionarioCCF, @TarifaAporteTotalCCF, @FechaInicioCCF, @FechaFinCCF;
+                        END;
+                    CLOSE CUR_ContratoFuncionario;
+                    DEALLOCATE CUR_ContratoFuncionario;
+
+                    --- Incapacidad General
+                    DECLARE CUR_IncapacidadFuncionario CURSOR LOCAL
+                    FOR SELECT ige.FuncionarioId, 
+                               ige.ModuloRegistroId, 
+                               ige.FechaInicio, 
+                               ige.FechaFin, 
+                               ige.NumeroIncapacidad, 
+                               ige.ValorIncapacidad
+                        FROM [reporte].[UFT_ObtenerAusentismosPilaTipo2](@PeriodoPagoId, @TipoIGE, NULL) ige
+                        WHERE ige.FuncionarioId = @FuncionarioId;
+                    OPEN CUR_IncapacidadFuncionario;
+                    FETCH NEXT FROM CUR_IncapacidadFuncionario INTO @FuncionarioAusentismoId, @ModuloRegistroId, @FechaInicioIge, @FechaFinIge, @AutorizacionIncapacidad, @ValorIncapacidad;
+                    WHILE @@FETCH_STATUS = 0
+                        BEGIN
+                            PRINT 'Entra Ausentismo';
+                            PRINT CONCAT('@FuncionarioAusentismoId=', CONVERT(VARCHAR(255), @FuncionarioAusentismoId));
+                            IF @FuncionarioAusentismoId IS NOT NULL
+                                BEGIN
+                                    SET @ContadorIGE = @ContadorIGE + 1;
+                                    --SET @NominaModulo
+                                    INSERT INTO #NovedadFuncionario
+                                    (FuncionarioId, 
+                                     RegistroFuncionario, 
+                                     TipoNovedad, 
+                                     IbcPension, 
+                                     IbcSalud, 
+                                     IbcRiesgosLaborales, 
+                                     IbcCcf, 
+                                     FechaInicio, 
+                                     FechaFin, 
+                                     AutorizacionIncapacidad, 
+                                     ValorIncapacidad
+                                    )
+                                    VALUES
+                                    (@FuncionarioAusentismoId, 
+                                     0, 
+                                     'IGE', 
+                                     @ValorIncapacidad, -- IbcPension - CHAR
+                                     @ValorIncapacidad, -- IbcSalud - CHAR
+                                     @ValorIncapacidad, -- IbcRiesgosLaborales - CHAR
+                                     '', -- IbcCcf - CHAR
+                                     @FechaInicioIge, -- FechaInicio - CHAR
+                                     @FechaFinIge, -- FechaFin - CHAR
+                                     @AutorizacionIncapacidad, -- AutorizacionIncapacidad - CHAR
+                                     @ValorIncapacidad -- ValorIncapacidad - CHAR
+                                    );
+                                END;
+                            FETCH NEXT FROM CUR_IncapacidadFuncionario INTO @FuncionarioAusentismoId, @ModuloRegistroId, @FechaInicioIge, @FechaFinIge, @AutorizacionIncapacidad, @ValorIncapacidad;
+                        END;
+                    CLOSE CUR_IncapacidadFuncionario;
+                    DEALLOCATE CUR_IncapacidadFuncionario;
+
+                    --- Licencia de maternidad
+
+                    DECLARE CUR_MaternidadFuncionario CURSOR LOCAL
+                    FOR SELECT lma.FuncionarioId, 
+                               lma.ModuloRegistroId, 
+                               lma.FechaInicio, 
+                               lma.FechaFin, 
+                               lma.NumeroIncapacidad, 
+                               lma.ValorIncapacidad
+                        FROM [reporte].[UFT_ObtenerAusentismosPilaTipo2](@PeriodoPagoId, @TipoLMA, NULL) lma
+                        WHERE lma.FuncionarioId = @FuncionarioId;
+                    OPEN CUR_MaternidadFuncionario;
+                    FETCH NEXT FROM CUR_MaternidadFuncionario INTO @FuncionarioAusentismoId, @ModuloRegistroId, @FechaInicioLma, @FechaFinLma, @AutorizacionIncapacidad, @ValorIncapacidad;
+                    WHILE @@FETCH_STATUS = 0
+                        BEGIN
+                            PRINT 'Entra Ausentismo';
+                            PRINT CONCAT('@FuncionarioAusentismoId=', CONVERT(VARCHAR(255), @FuncionarioAusentismoId));
+                            IF @FuncionarioAusentismoId IS NOT NULL
+                                BEGIN
+                                    SET @ContadorLMA = @ContadorLMA + 1;
+                                    INSERT INTO #NovedadFuncionario
+                                    (FuncionarioId, 
+                                     RegistroFuncionario, 
+                                     TipoNovedad, 
+                                     IbcPension, 
+                                     IbcSalud, 
+                                     IbcRiesgosLaborales, 
+                                     IbcCcf, 
+                                     FechaInicio, 
+                                     FechaFin, 
+                                     AutorizacionIncapacidad, 
+                                     ValorIncapacidad
+                                    )
+                                    VALUES
+                                    (@FuncionarioAusentismoId, 
+                                     0, 
+                                     'LMA', 
+                                     @ValorIncapacidad, -- IbcPension - CHAR
+                                     @ValorIncapacidad, -- IbcSalud - CHAR
+                                     @ValorIncapacidad, -- IbcRiesgosLaborales - CHAR
+                                     '', -- IbcCcf - CHAR
+                                     @FechaInicioLma, -- FechaInicio - CHAR
+                                     @FechaFinLma, -- FechaFin - CHAR
+                                     @AutorizacionIncapacidad, -- AutorizacionIncapacidad - CHAR
+                                     @ValorIncapacidad -- ValorIncapacidad - CHAR
+                                    );
+                                END;
+                            FETCH NEXT FROM CUR_MaternidadFuncionario INTO @FuncionarioAusentismoId, @ModuloRegistroId, @FechaInicioLma, @FechaFinLma, @AutorizacionIncapacidad, @ValorIncapacidad;
+                        END;
+                    CLOSE CUR_MaternidadFuncionario;
+                    DEALLOCATE CUR_MaternidadFuncionario;
+
+                    --- Vacaciones Licencia Remunerada
+
+                    DECLARE CUR_RemuneradaFuncionario CURSOR LOCAL
+                    FOR SELECT rm.FuncionarioId, 
+                               rm.ModuloRegistroId, 
+                               rm.FechaInicio, 
+                               rm.FechaFin, 
+                               rm.ValorIncapacidad
+                        FROM reporte.UFT_ObtenerAusentismosPilaTipo2(@PeriodoPagoId, @TipoLR, NULL) rm
+                        WHERE rm.FuncionarioId = @FuncionarioId
+                        UNION
+                        SELECT vc.FuncionarioId, 
+                               vc.ModuloRegistroId, 
+                               vc.FechaInicio, 
+                               vc.FechaFin, 
+                               vc.ValorVacaciones
+                        FROM reporte.UFT_ObtenerVacacionesPilaTipo2(@PeriodoPagoId, NULL) vc
+                        WHERE vc.FuncionarioId = @FuncionarioId;
+                    OPEN CUR_RemuneradaFuncionario;
+                    FETCH NEXT FROM CUR_RemuneradaFuncionario INTO @FuncionarioAusentismoId, @ModuloRegistroId, @FechaInicioVacLr, @FechaFinVacLr, @ValorIncapacidad;
+                    WHILE @@FETCH_STATUS = 0
+                        BEGIN
+                            PRINT 'Entra Ausentismo';
+                            PRINT CONCAT('@FuncionarioAusentismoId=', CONVERT(VARCHAR(255), @FuncionarioAusentismoId));
+                            IF @FuncionarioAusentismoId IS NOT NULL
+                                BEGIN
+                                    SET @ContadorLR = @ContadorLR + 1;
+                                    INSERT INTO #NovedadFuncionario
+                                    (FuncionarioId, 
+                                     RegistroFuncionario, 
+                                     TipoNovedad, 
+                                     IbcPension, 
+                                     IbcSalud, 
+                                     IbcRiesgosLaborales, 
+                                     IbcCcf, 
+                                     FechaInicio, 
+                                     FechaFin
+                                    )
+                                    VALUES
+                                    (@FuncionarioAusentismoId, 
+                                     0, 
+                                     'VacLr', 
+                                     @ValorIncapacidad, -- IbcPension - CHAR
+                                     @ValorIncapacidad, -- IbcSalud - CHAR
+                                     @ValorIncapacidad, -- IbcRiesgosLaborales - CHAR
+                                     '', -- IbcCcf - CHAR
+                                     @FechaInicioVacLr, -- FechaInicio - CHAR
+                                     @FechaFinVacLr -- FechaFin - CHAR
+                                    );
+                                END;
+                            FETCH NEXT FROM CUR_RemuneradaFuncionario INTO @FuncionarioAusentismoId, @ModuloRegistroId, @FechaInicioVacLr, @FechaFinVacLr, @ValorIncapacidad;
+                        END;
+                    CLOSE CUR_RemuneradaFuncionario;
+                    DEALLOCATE CUR_RemuneradaFuncionario;
+
+                    --- Licencia No remunerada
+
+                    DECLARE CUR_SuspensionFuncionario CURSOR LOCAL
+                    FOR SELECT sln.FuncionarioId, 
+                               sln.ModuloRegistroId, 
+                               sln.FechaInicio, 
+                               sln.FechaFin
+                        FROM reporte.UFT_ObtenerAusentismosPilaTipo2(@PeriodoPagoId, @TipoSLN, NULL) sln
+                        WHERE sln.FuncionarioId = @FuncionarioId;
+                    OPEN CUR_SuspensionFuncionario;
+                    FETCH NEXT FROM CUR_SuspensionFuncionario INTO @FuncionarioAusentismoId, @ModuloRegistroId, @FechaInicioSln, @FechaFinSln;
+                    WHILE @@FETCH_STATUS = 0
+                        BEGIN
+                            PRINT 'Entra Ausentismo';
+                            PRINT CONCAT('@FuncionarioAusentismoId=', CONVERT(VARCHAR(255), @FuncionarioAusentismoId));
+                            IF @FuncionarioAusentismoId IS NOT NULL
+                                BEGIN
+                                    SET @ContadorSLN = @ContadorSLN + 1;
+                                    INSERT INTO #NovedadFuncionario
+                                    (FuncionarioId, 
+                                     RegistroFuncionario, 
+                                     TipoNovedad, 
+                                     IbcPension, 
+                                     IbcSalud, 
+                                     IbcRiesgosLaborales, 
+                                     IbcCcf, 
+                                     FechaInicio, 
+                                     FechaFin
+                                    )
+                                    VALUES
+                                    (@FuncionarioAusentismoId, 
+                                     0, 
+                                     'SLN', 
+                                     '', -- IbcPension - CHAR
+                                     '', -- IbcSalud - CHAR
+                                     '', -- IbcRiesgosLaborales - CHAR
+                                     '', -- IbcCcf - CHAR
+                                     @FechaInicioSln, -- FechaInicio - CHAR
+                                     @FechaFinSln -- FechaFin - CHAR
+                                    );
+                                END;
+                            FETCH NEXT FROM CUR_SuspensionFuncionario INTO @FuncionarioAusentismoId, @ModuloRegistroId, @FechaInicioSln, @FechaFinSln;
+                        END;
+                    CLOSE CUR_SuspensionFuncionario;
+                    DEALLOCATE CUR_SuspensionFuncionario;
+
+                    --- Accidente laboral
+
+                    DECLARE CUR_AccidenteFuncionario CURSOR LOCAL
+                    FOR SELECT irl.FuncionarioId, 
+                               irl.ModuloRegistroId, 
+                               irl.FechaInicio, 
+                               irl.FechaFin, 
+                               irl.NumeroIncapacidad
+                        FROM [reporte].[UFT_ObtenerAusentismosPilaTipo2](@PeriodoPagoId, @TipoIRL, NULL) irl
+                        WHERE irl.FuncionarioId = @FuncionarioId;
+                    OPEN CUR_AccidenteFuncionario;
+                    FETCH NEXT FROM CUR_AccidenteFuncionario INTO @FuncionarioAusentismoId, @ModuloRegistroId, @FechaInicioIrl, @FechaFinIrl, @AutorizacionIncapacidad;
+                    WHILE @@FETCH_STATUS = 0
+                        BEGIN
+                            PRINT 'Entra Ausentismo';
+                            PRINT CONCAT('@FuncionarioAusentismoId=', CONVERT(VARCHAR(255), @FuncionarioAusentismoId));
+                            IF @FuncionarioAusentismoId IS NOT NULL
+                                BEGIN
+                                    SET @ContadorIRL = @ContadorIRL + 1;
+                                    INSERT INTO #NovedadFuncionario
+                                    (FuncionarioId, 
+                                     RegistroFuncionario, 
+                                     TipoNovedad, 
+                                     IbcPension, 
+                                     IbcSalud, 
+                                     IbcRiesgosLaborales, 
+                                     IbcCcf, 
+                                     FechaInicio, 
+                                     FechaFin, 
+                                     AutorizacionIncapacidad, 
+                                     ValorIncapacidad
+                                    )
+                                    VALUES
+                                    (@FuncionarioAusentismoId, 
+                                     0, 
+                                     'IRL', 
+                                     '', -- IbcPension - CHAR
+                                     '', -- IbcSalud - CHAR
+                                     '', -- IbcRiesgosLaborales - CHAR
+                                     '', -- IbcCcf - CHAR
+                                     @FechaInicioIrl, -- FechaInicio - CHAR
+                                     @FechaFinIrl, -- FechaFin - CHAR
+                                     @AutorizacionIncapacidad, -- AutorizacionIncapacidad - CHAR
+                                     @ValorIncapacidad -- ValorIncapacidad - CHAR
+                                    );
+                                END;
+                            FETCH NEXT FROM CUR_AccidenteFuncionario INTO @FuncionarioAusentismoId, @ModuloRegistroId, @FechaInicioIrl, @FechaFinIrl, @AutorizacionIncapacidad;
+                        END;
+                    CLOSE CUR_AccidenteFuncionario;
+                    DEALLOCATE CUR_AccidenteFuncionario;
+
+                    ---
+                    ---
+                    FETCH NEXT FROM CUR_FuncionariosPila INTO @FuncionarioId, @TipoDocumento, @NumeroDocumento, @TipoCotizante, @SubtipoCotizante, @ExtranjeroNoObligadoACotizarAPension, @ColombianoEnElExterior, @CodigoDepartamento, @CodigoMunicipio, @Pensionado, @PrimerNombre, @SegundoNombre, @PrimerApellido, @SegundoApellido, @TipoSalario;
+                END;
+            CLOSE CUR_FuncionariosPila;
+            DEALLOCATE CUR_FuncionariosPila;
+
+            DECLARE @TipoNovedad CHAR(6);
+            DECLARE @FechaInicioNovedad CHAR(10);
+            DECLARE @FechaFinNovedad CHAR(10);
+            DECLARE @ValorIncapacidadNovedad CHAR(9);
+            DECLARE @IbcPension CHAR(9);
+            DECLARE @IbcSalud CHAR(9);
+            DECLARE @IbcRiesgosLaborales CHAR(9);
+            DECLARE @IbcCcf CHAR(9);
+            DECLARE @contadorNovedad INT= 0;
+
+            --- insertar las novedades por funcionario
+            DECLARE CUR_NovedadFuncionario CURSOR LOCAL
+            FOR SELECT FuncionarioId, 
+                       TipoNovedad, 
+                       IbcPension, 
+                       IbcSalud, 
+                       IbcRiesgosLaborales, 
+                       IbcCcf, 
+                       FechaInicio, 
+                       FechaFin, 
+                       AutorizacionIncapacidad, 
+                       ValorIncapacidad
+                FROM #NovedadFuncionario nvf
+                ORDER BY nvf.FechaInicio ASC;
+            OPEN CUR_NovedadFuncionario;
+            FETCH NEXT FROM CUR_NovedadFuncionario INTO @FuncionarioId, @TipoNovedad, @IbcPension, @IbcSalud, @IbcRiesgosLaborales, @IbcCcf, @FechaInicioNovedad, @FechaFinNovedad, @AutorizacionIncapacidad, @ValorIncapacidadNovedad;
+            WHILE @@FETCH_STATUS = 0
+                BEGIN
+                    SET @contadorNovedad = @contadorNovedad + 1;
+                    INSERT INTO #Pila
+                    (FuncionarioId, 
+                     RegistroFuncionario, 
+                     TipoRegistro, 
+                     Secuencia, 
+                     TipoDocumentoCotizante, 
+                     NumeroDocumentoCotizante, 
+                     TipoCotizante, 
+                     SubtipoCotizante, 
+                     ExtranjeroNoObligadoPension, 
+                     ColombianoExterior, 
+                     DepartamentoUbicacionLaboral, 
+                     MunicipioUbicacionLaboral, 
+                     PrimerApellido, 
+                     SegundoApellido, 
+                     PrimerNombre, 
+                     SegundoNombre, 
+                     ING, 
+                     RET, 
+                     TDE, 
+                     TAE, 
+                     TDP, 
+                     TAP, 
+                     VSP, 
+                     Correcciones, 
+                     VST, 
+                     SLN, 
+                     IGE, 
+                     LMA, 
+                     VacLr, 
+                     AVP, 
+                     VCT, 
+                     IRL, 
+                     AfpActual, 
+                     AfpTraslado, 
+                     EpsActual, 
+                     EpsTraslado, 
+                     CcfActual, 
+                     DiasCotizadosPension, 
+                     DiasCotizadosSalud, 
+                     DiasCotizadosRiesgosLaborales, 
+                     DiasCotizadosCcf, 
+                     SalarioBasico, 
+                     TipoSalario, 
+                     IbcPension, 
+                     IbcSalud, 
+                     IbcRiesgosLaborales, 
+                     IbcCcf, 
+                     TarifaAportePensiones, 
+                     CotizacionObligatoriaPensiones, 
+                     AporteVolAfilFondoPensOblig, 
+                     AporteVolAportaFondoPensOblig, 
+                     TotalCotizacionSistemaGralPensiones, 
+                     AporteFspSubcuentaSolidaridad, 
+                     AporteFspSubcuentaSubsistencia, 
+                     ValorNoRetenidoAportesVoluntarios, 
+                     TarifaAporteSalud, 
+                     CotizacionObligatoriaSalud, 
+                     ValorUpcAdicional, 
+                     AutorizacionIncapacidad, 
+                     ValorIncapacidad, 
+                     AutorizacionLicenciaMaternidad, 
+                     ValorLicenciaMaternidad, 
+                     TarifaAporteRiesgosLaborales, 
+                     CentroTrabajo, 
+                     CotizacionObligRiesgosLaborales, 
+                     TarifaAporteCcf, 
+                     ValorAporteCcf, 
+                     TarifaAporteSena, 
+                     ValorAporteSena, 
+                     TarifaAporteIcbf, 
+                     ValorAporteIcbf, 
+                     TarifaAporteEsap, 
+                     ValorAporteEsap, 
+                     TarifaAporteMen, 
+                     ValorAporteMen, 
+                     TipoDocumentoCotizantePrincipal, 
+                     NumeroDocumentoCotizantePrincipal, 
+                     CotizanteExoneradoSaludYOtros, 
+                     ArlAfiliado, 
+                     ClaseRiesgoArlAfiliado, 
+                     IndicadorTarifaEspecialPensiones, 
+                     FechaIngreso, 
+                     FechaRetiro, 
+                     FechaInicioVsp, 
+                     FechaInicioSln, 
+                     FechaFinSln, 
+                     FechaInicioIge, 
+                     FechaFinIge, 
+                     FechaInicioLma, 
+                     FechaFinLma, 
+                     FechaInicioVacLr, 
+                     FechaFinVacLr, 
+                     FechaInicioVct, 
+                     FechaFinVct, 
+                     FechaInicioIrl, 
+                     FechaFinIrl, 
+                     IBCOtrosParafiscales, 
+                     NúmeroHorasLaboradas, 
+                     FechaRadicaciónExterior
+                    )
+                           SELECT FuncionarioId, 
+                                  RegistroFuncionario + @contadorNovedad, 
+                                  TipoRegistro, 
+                                  Secuencia, 
+                                  TipoDocumentoCotizante, 
+                                  NumeroDocumentoCotizante, 
+                                  TipoCotizante, 
+                                  SubtipoCotizante, 
+                                  ExtranjeroNoObligadoPension, 
+                                  ColombianoExterior, 
+                                  DepartamentoUbicacionLaboral, 
+                                  MunicipioUbicacionLaboral, 
+                                  PrimerApellido, 
+                                  SegundoApellido, 
+                                  PrimerNombre, 
+                                  SegundoNombre, 
+                                  ING, 
+                                  RET, 
+                                  TDE, 
+                                  TAE, 
+                                  TDP, 
+                                  TAP, 
+                                  VSP, 
+                                  Correcciones, 
+                                  VST, 
+                                  IIF(@TipoNovedad = 'SLN', 'X', SPACE(1)), 
+                                  IIF(@TipoNovedad = 'IGE', 'X', SPACE(1)), 
+                                  IIF(@TipoNovedad = 'LMA', 'X', SPACE(1)), 
+                                  IIF(@TipoNovedad = 'VacLr', 'X', SPACE(1)), 
+                                  AVP, 
+                                  VCT, 
+                                  IIF(@TipoNovedad = 'IRL', 'X', SPACE(1)), 
+                                  AfpActual, 
+                                  AfpTraslado, 
+                                  EpsActual, 
+                                  EpsTraslado, 
+                                  CcfActual, 
+                                  DiasCotizadosPension, 
+                                  DiasCotizadosSalud, 
+                                  DiasCotizadosRiesgosLaborales, 
+                                  DiasCotizadosCcf, 
+                                  SalarioBasico, 
+                                  TipoSalario, 
+                                  @IbcPension, 
+                                  @IbcSalud, 
+                                  @IbcRiesgosLaborales, 
+                                  @IbcCcf, 
+                                  TarifaAportePensiones, 
+                                  CAST(@IbcPension AS MONEY) * CAST(TarifaAportePensiones AS MONEY), 
+                                  AporteVolAfilFondoPensOblig, 
+                                  AporteVolAportaFondoPensOblig, 
+                                  TotalCotizacionSistemaGralPensiones, 
+                                  AporteFspSubcuentaSolidaridad, 
+                                  AporteFspSubcuentaSubsistencia, 
+                                  ValorNoRetenidoAportesVoluntarios, 
+                                  TarifaAporteSalud, 
+                                  CotizacionObligatoriaSalud, 
+                                  ValorUpcAdicional, 
+                                  AutorizacionIncapacidad, 
+                                  IIF(@TipoNovedad = 'IGE', @ValorIncapacidadNovedad, SPACE(9)), 
+                                  AutorizacionLicenciaMaternidad, 
+                                  IIF(@TipoNovedad = 'LMA', @ValorIncapacidadNovedad, SPACE(9)), 
+                                  TarifaAporteRiesgosLaborales, 
+                                  CentroTrabajo, 
+                                  CotizacionObligRiesgosLaborales, 
+                                  TarifaAporteCcf, 
+                                  ValorAporteCcf, 
+                                  TarifaAporteSena, 
+                                  ValorAporteSena, 
+                                  TarifaAporteIcbf, 
+                                  ValorAporteIcbf, 
+                                  TarifaAporteEsap, 
+                                  ValorAporteEsap, 
+                                  TarifaAporteMen, 
+                                  ValorAporteMen, 
+                                  TipoDocumentoCotizantePrincipal, 
+                                  NumeroDocumentoCotizantePrincipal, 
+                                  CotizanteExoneradoSaludYOtros, 
+                                  ArlAfiliado, 
+                                  ClaseRiesgoArlAfiliado, 
+                                  IndicadorTarifaEspecialPensiones, 
+                                  FechaIngreso, 
+                                  FechaRetiro, 
+                                  FechaInicioVsp, 
+                                  IIF(@TipoNovedad = 'SLN', @FechaInicioNovedad, SPACE(10)), 
+                                  IIF(@TipoNovedad = 'SLN', @FechaFinNovedad, SPACE(10)), 
+                                  IIF(@TipoNovedad = 'IGE', @FechaInicioNovedad, SPACE(10)), 
+                                  IIF(@TipoNovedad = 'IGE', @FechaFinNovedad, SPACE(10)), 
+                                  IIF(@TipoNovedad = 'LMA', @FechaInicioNovedad, SPACE(10)), 
+                                  IIF(@TipoNovedad = 'LMA', @FechaFinNovedad, SPACE(10)), 
+                                  IIF(@TipoNovedad = 'VacLr', @FechaInicioNovedad, SPACE(10)), 
+                                  IIF(@TipoNovedad = 'VacLr', @FechaFinNovedad, SPACE(10)), 
+                                  FechaInicioVct, 
+                                  FechaFinVct, 
+                                  IIF(@TipoNovedad = 'IRL', @FechaInicioNovedad, SPACE(10)) FechaInicioIrl, 
+                                  IIF(@TipoNovedad = 'IRL', @FechaFinNovedad, SPACE(10)) FechaFinIrl, 
+                                  '0', 
+                                  NúmeroHorasLaboradas, 
+                                  FechaRadicaciónExterior
+                           FROM #Pila p
+                           WHERE p.FuncionarioId = @FuncionarioId
+                                 AND p.RegistroFuncionario = 1;
+                    FETCH NEXT FROM CUR_NovedadFuncionario INTO @FuncionarioId, @TipoNovedad, @IbcPension, @IbcSalud, @IbcRiesgosLaborales, @IbcCcf, @FechaInicioNovedad, @FechaFinNovedad, @AutorizacionIncapacidad, @ValorIncapacidadNovedad;
+                END;
+            CLOSE CUR_NovedadFuncionario;
+            DEALLOCATE CUR_NovedadFuncionario;
+            --consulta final
+
+            DECLARE @TablaConsulta TABLE(Registro VARCHAR(686));
+
+            INSERT INTO @TablaConsulta(Registro)
+                   SELECT CONCAT('01', ' ', '0001', CONCAT(infb.RazonSocial, SPACE(200 - DATALENGTH(infb.RazonSocial))), tdoc.CodigoPila, CONCAT(infb.Nit, SPACE(16 - DATALENGTH(infb.Nit))), infb.DigitoVerificacion, @CodigoTipoPlanilla, ISNULL(@NumeroPlanilla, SPACE(10)), ISNULL(@FechaPagoPlanilla, SPACE(10)), 'U', SPACE(10), SPACE(40), a.Codigo, FORMAT(
+                   (
+                       SELECT DATEADD(ms, -3, DATEADD(mm, 0, DATEADD(mm, DATEDIFF(mm, 0, pc.Fecha), 0)))
+                       FROM dbo.PeriodoContable pc
+                       WHERE pc.Id = @PeriodoPagoId
+                   ), 'yyyy-MM'), FORMAT(
+                   (
+                       SELECT pc.Fecha
+                       FROM dbo.PeriodoContable pc
+                       WHERE pc.Id = @PeriodoPagoId
+                   ), 'yyyy-MM'), SPACE(10),
+                   (
+                       SELECT pc.Fecha
+                       FROM dbo.PeriodoContable pc
+                       WHERE pc.Id = @PeriodoPagoId
+                   ), IIF(@TotalCotizantes > 0, @TotalCotizantes, SPACE(5)), SPACE(12), ta.Codigo, '00') AS Registro
+                   FROM dbo.InformacionBasica infb
+                        INNER JOIN dbo.Administradora a ON infb.ArlId = a.Id
+                                                           AND a.EstadoRegistro =
+                   (
+                       SELECT vce.AUDITORIA_ACTIVO
+                       FROM util.VW_ConstanteEstado vce
+                   )
+                        INNER JOIN dbo.TipoDocumento tdoc ON infb.TipoDocumentoId = tdoc.Id
+                                                             AND infb.EstadoRegistro =
+                   (
+                       SELECT vce.AUDITORIA_ACTIVO
+                       FROM util.VW_ConstanteEstado vce
+                   )
+                                                             AND tdoc.EstadoRegistro =
+                   (
+                       SELECT vce.AUDITORIA_ACTIVO
+                       FROM util.VW_ConstanteEstado vce
+                   )
+                        INNER JOIN dbo.ClaseAportanteTipoAportante cata ON infb.ClaseAportanteTipoAportanteId = cata.Id
+                                                                           AND cata.EstadoRegistro =
+                   (
+                       SELECT vce.AUDITORIA_ACTIVO
+                       FROM util.VW_ConstanteEstado vce
+                   )
+                        INNER JOIN dbo.ClaseAportante capor ON cata.ClaseAportanteId = capor.Id
+                                                               AND capor.EstadoRegistro =
+                   (
+                       SELECT vce.AUDITORIA_ACTIVO
+                       FROM util.VW_ConstanteEstado vce
+                   )
+                        INNER JOIN dbo.TipoAportante ta ON cata.TipoAportanteId = ta.Id
+                                                           AND ta.EstadoRegistro =
+                   (
+                       SELECT vce.AUDITORIA_ACTIVO
+                       FROM util.VW_ConstanteEstado vce
+                   )
+                        INNER JOIN dbo.NaturalezaJuridica naju ON infb.NaturalezaJuridicaId = naju.Id
+                                                                  AND naju.EstadoRegistro =
+                   (
+                       SELECT vce.AUDITORIA_ACTIVO
+                       FROM util.VW_ConstanteEstado vce
+                   )
+                        INNER JOIN dbo.TipoPersona tper ON infb.TipoPersonaId = tper.Id
+                                                           AND tper.EstadoRegistro =
+                   (
+                       SELECT vce.AUDITORIA_ACTIVO
+                       FROM util.VW_ConstanteEstado vce
+                   )
+                        INNER JOIN dbo.DivisionPoliticaNivel2 dpol2 ON infb.DivisionPoliticaNivel2Id = dpol2.Id
+                                                                       AND dpol2.EstadoRegistro =
+                   (
+                       SELECT vce.AUDITORIA_ACTIVO
+                       FROM util.VW_ConstanteEstado vce
+                   )
+                        INNER JOIN dbo.DivisionPoliticaNivel1 dpol1 ON dpol2.DivisionPoliticaNivel1Id = dpol1.Id
+                                                                       AND dpol2.EstadoRegistro =
+                   (
+                       SELECT vce.AUDITORIA_ACTIVO
+                       FROM util.VW_ConstanteEstado vce
+                   )
+                        INNER JOIN dbo.ActividadEconomica ae ON infb.ActividadEconomicaId = ae.Id
+                                                                AND ae.EstadoRegistro =
+                   (
+                       SELECT vce.AUDITORIA_ACTIVO
+                       FROM util.VW_ConstanteEstado vce
+                   );
+            INSERT INTO @TablaConsulta(Registro)
+                   SELECT Concat(RIGHT('00' + LTRIM(RTRIM(TipoRegistro)), 2), RIGHT('00000' + LTRIM(RTRIM(ROW_NUMBER() OVER(
+                                                                                    ORDER BY TipoRegistro))), 5), CONCAT(TipoDocumentoCotizante, SPACE(2 - DATALENGTH(TipoDocumentoCotizante))), CONCAT(NumeroDocumentoCotizante, SPACE(16 - DATALENGTH(NumeroDocumentoCotizante))), RIGHT('00' + LTRIM(RTRIM(TipoCotizante)), 2), RIGHT('00' + LTRIM(RTRIM(SubtipoCotizante)), 2), CONCAT(ExtranjeroNoObligadoPension, SPACE(1 - DATALENGTH(ExtranjeroNoObligadoPension))), CONCAT(ColombianoExterior, SPACE(1 - DATALENGTH(ColombianoExterior))), CONCAT(DepartamentoUbicacionLaboral, SPACE(2 - DATALENGTH(DepartamentoUbicacionLaboral))), CONCAT(MunicipioUbicacionLaboral, SPACE(3 - DATALENGTH(MunicipioUbicacionLaboral))), CONCAT(PrimerApellido, SPACE(20 - DATALENGTH(PrimerApellido))), CONCAT(SegundoApellido, SPACE(30 - DATALENGTH(SegundoApellido))), CONCAT(PrimerNombre, SPACE(20 - DATALENGTH(PrimerNombre))), CONCAT(SegundoNombre, SPACE(30 - DATALENGTH(SegundoNombre))), CONCAT(ING, SPACE(1 - DATALENGTH(ING))), CONCAT(RET, SPACE(1 - DATALENGTH(RET))), CONCAT(TDE, SPACE(1 - DATALENGTH(TDE))), CONCAT(TAE, SPACE(1 - DATALENGTH(TAE))), CONCAT(TDP, SPACE(1 - DATALENGTH(TDP))), CONCAT(TAP, SPACE(1 - DATALENGTH(TAP))), CONCAT(VSP, SPACE(1 - DATALENGTH(VSP))), CONCAT(Correcciones, SPACE(1 - DATALENGTH(Correcciones))), CONCAT(VST, SPACE(1 - DATALENGTH(VST))), CONCAT(SLN, SPACE(1 - DATALENGTH(SLN))), CONCAT(IGE, SPACE(1 - DATALENGTH(IGE))), CONCAT(LMA, SPACE(1 - DATALENGTH(LMA))), CONCAT(VacLr, SPACE(1 - DATALENGTH(VacLr))), CONCAT(AVP, SPACE(1 - DATALENGTH(AVP))), CONCAT(VCT, SPACE(1 - DATALENGTH(VCT))), RIGHT('00' + LTRIM(RTRIM(IRL)), 2), CONCAT(AfpActual, SPACE(6 - DATALENGTH(AfpActual))), CONCAT(AfpTraslado, SPACE(6 - DATALENGTH(AfpTraslado))), CONCAT(EpsActual, SPACE(6 - DATALENGTH(EpsActual))), CONCAT(EpsTraslado, SPACE(6 - DATALENGTH(EpsTraslado))), CONCAT(CcfActual, SPACE(6 - DATALENGTH(CcfActual))), RIGHT('00' + LTRIM(RTRIM(DiasCotizadosPension)), 2), RIGHT('00' + LTRIM(RTRIM(DiasCotizadosSalud)), 2), RIGHT('00' + LTRIM(RTRIM(DiasCotizadosRiesgosLaborales)), 2), RIGHT('00' + LTRIM(RTRIM(DiasCotizadosCcf)), 2), RIGHT('000000000' + LTRIM(RTRIM(SalarioBasico)), 9), CONCAT(TipoSalario, SPACE(1 - DATALENGTH(TipoSalario))), RIGHT('000000000' + LTRIM(RTRIM(IbcPension)), 9), RIGHT('000000000' + LTRIM(RTRIM(IbcSalud)), 9), RIGHT('000000000' + LTRIM(RTRIM(IbcRiesgosLaborales)), 9), RIGHT('000000000' + LTRIM(RTRIM(IbcCcf)), 9), RIGHT('0000000' + LTRIM(RTRIM(TarifaAportePensiones)), 7), RIGHT('000000000' + LTRIM(RTRIM(CotizacionObligatoriaPensiones)), 9), RIGHT('000000000' + LTRIM(RTRIM(AporteVolAfilFondoPensOblig)), 9), RIGHT('000000000' + LTRIM(RTRIM(AporteVolAportaFondoPensOblig)), 9), RIGHT('000000000' + LTRIM(RTRIM(TotalCotizacionSistemaGralPensiones)), 9), RIGHT('000000000' + LTRIM(RTRIM(AporteFspSubcuentaSolidaridad)), 9), RIGHT('000000000' + LTRIM(RTRIM(AporteFspSubcuentaSubsistencia)), 9), RIGHT('000000000' + LTRIM(RTRIM(ValorNoRetenidoAportesVoluntarios)), 9), RIGHT('0000000' + LTRIM(RTRIM(TarifaAporteSalud)), 7), RIGHT('000000000' + LTRIM(RTRIM(CotizacionObligatoriaSalud)), 9), RIGHT('000000000' + LTRIM(RTRIM(ValorUpcAdicional)), 9), CONCAT(AutorizacionIncapacidad, SPACE(15 - DATALENGTH(AutorizacionIncapacidad))), RIGHT('000000000' + LTRIM(RTRIM(ValorIncapacidad)), 9), CONCAT(AutorizacionLicenciaMaternidad, SPACE(15 - DATALENGTH(AutorizacionLicenciaMaternidad))), RIGHT('000000000' + LTRIM(RTRIM(ValorLicenciaMaternidad)), 9), RIGHT('000000000' + LTRIM(RTRIM(TarifaAporteRiesgosLaborales)), 9), RIGHT('000000000' + LTRIM(RTRIM(CentroTrabajo)), 9), RIGHT('000000000' + LTRIM(RTRIM(CotizacionObligRiesgosLaborales)), 9), RIGHT('0000000' + LTRIM(RTRIM(TarifaAporteCcf)), 7), RIGHT('000000000' + LTRIM(RTRIM(ValorAporteCcf)), 9), RIGHT('0000000' + LTRIM(RTRIM(TarifaAporteSena)), 7), RIGHT('000000000' + LTRIM(RTRIM(ValorAporteSena)), 9), RIGHT('0000000' + LTRIM(RTRIM(TarifaAporteIcbf)), 7), RIGHT('000000000' + LTRIM(RTRIM(ValorAporteIcbf)), 9), RIGHT('0000000' + LTRIM(RTRIM(TarifaAporteEsap)), 7), RIGHT('000000000' + LTRIM(RTRIM(ValorAporteEsap)), 9), RIGHT('0000000' + LTRIM(RTRIM(TarifaAporteMen)), 7), RIGHT('000000000' + LTRIM(RTRIM(ValorAporteMen)), 9), CONCAT(TipoDocumentoCotizantePrincipal, SPACE(2 - DATALENGTH(TipoDocumentoCotizantePrincipal))), CONCAT(NumeroDocumentoCotizantePrincipal, SPACE(16 - DATALENGTH(NumeroDocumentoCotizantePrincipal))), CONCAT(CotizanteExoneradoSaludYOtros, SPACE(1 - DATALENGTH(CotizanteExoneradoSaludYOtros))), CONCAT(ArlAfiliado, SPACE(6 - DATALENGTH(ArlAfiliado))), CONCAT(ClaseRiesgoArlAfiliado, SPACE(1 - DATALENGTH(ClaseRiesgoArlAfiliado))), CONCAT(IndicadorTarifaEspecialPensiones, SPACE(1 - DATALENGTH(IndicadorTarifaEspecialPensiones))), CONCAT(FechaIngreso, SPACE(10 - DATALENGTH(FechaIngreso))), CONCAT(FechaRetiro, SPACE(10 - DATALENGTH(FechaRetiro))), CONCAT(FechaInicioVsp, SPACE(10 - DATALENGTH(FechaInicioVsp))), CONCAT(FechaInicioSln, SPACE(10 - DATALENGTH(FechaInicioSln))), CONCAT(FechaFinSln, SPACE(10 - DATALENGTH(FechaFinSln))), CONCAT(FechaInicioIge, SPACE(10 - DATALENGTH(FechaInicioIge))), CONCAT(FechaFinIge, SPACE(10 - DATALENGTH(FechaFinIge))), CONCAT(FechaInicioLma, SPACE(10 - DATALENGTH(FechaInicioLma))), CONCAT(FechaFinLma, SPACE(10 - DATALENGTH(FechaFinLma))), CONCAT(FechaInicioVacLr, SPACE(10 - DATALENGTH(FechaInicioVacLr))), CONCAT(FechaFinVacLr, SPACE(10 - DATALENGTH(FechaFinVacLr))), CONCAT(FechaInicioVct, SPACE(10 - DATALENGTH(FechaInicioVct))), CONCAT(FechaFinVct, SPACE(10 - DATALENGTH(FechaFinVct))), CONCAT(FechaInicioIrl, SPACE(10 - DATALENGTH(FechaInicioIrl))), CONCAT(FechaFinIrl, SPACE(10 - DATALENGTH(FechaFinIrl))), RIGHT('000000000' + LTRIM(RTRIM(IBCOtrosParafiscales)), 9), RIGHT('000' + LTRIM(RTRIM(NúmeroHorasLaboradas)), 3), CONCAT(FechaRadicaciónExterior, SPACE(10 - DATALENGTH(FechaRadicaciónExterior)))) AS Registro
+                   FROM #Pila p
+                   ORDER BY FuncionarioId;
+
+
+			SELECT * FROM @TablaConsulta tc 
+            RETURN @Resultado;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+                END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+    GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [reporte].[USP_GenerarPilaTipo2];
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

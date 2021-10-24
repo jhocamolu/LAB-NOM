@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestada" id="TipoAportante_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[TipoAportante] ON
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (1,'01','Empleador','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (2,'02','Independiente','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (3,'03','Entidades o universidades públicas de los regímenes Especial y de Excepción','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (4,'04','Agremiaciones, asociaciones o congregaciones religiosas','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (5,'05','Cooperativas y precooperativas de trabajo asociado','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (6,'06','Misión diplomática, consular o de organismos multilaterales no sometidos a la legislación colombiana','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (7,'07','Organizaciones administradoras del programa de hogares de bienestar','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (8,'08','Pagador de aportes de los concejales municipales o distritales','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (9,'09','Pagador de aportes contrato sindical','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (10,'10','Pagador programa de reincorporación','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (11,'11','Pagador aportes parafiscales del Magisterio','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoAportante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (12,'12','Pagador prestación humanitaria','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+
+SET IDENTITY_INSERT [dbo].[TipoAportante] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoAportante] WHERE Id BETWEEN 1 AND 12;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="AplicacionExternaCargo_V5">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [AplicacionExternaCargo] ADD CONSTRAINT [CK_AplicacionExternaCargo_Tipo] CHECK (([Tipo]='Aprobacion' OR [Tipo]='Autorizacion' OR [Tipo]='Revision'));
+
+GO
+
+ALTER TABLE [AplicacionExternaCargo] ADD [CargoDependenciaIndependienteId] int NOT NULL DEFAULT 0;
+
+GO
+
+CREATE INDEX [IX_AplicacionExternaCargo_CargoDependenciaIndependienteId] ON [AplicacionExternaCargo] ([CargoDependenciaIndependienteId]);
+
+GO
+
+ALTER TABLE [AplicacionExternaCargo] ADD CONSTRAINT [FK_AplicacionExternaCargo_CargoDependencia_CargoDependenciaIndependienteId] FOREIGN KEY ([CargoDependenciaIndependienteId]) REFERENCES [CargoDependencia] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [AplicacionExternaCargo] DROP CONSTRAINT [FK_AplicacionExternaCargo_CargoDependencia_CargoDependenciaIndependienteId];
+
+GO
+
+
+ALTER TABLE [AplicacionExternaCargo] DROP COLUMN [CargoDependenciaIndependienteId];
+GO
+
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

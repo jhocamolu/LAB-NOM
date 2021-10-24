@@ -1,0 +1,35 @@
+{
+	"info": {
+		"_postman_id": "b975e3d2-d3a6-4086-ab22-3ff8455eebfd",
+		"name": "HU031_Visualizar_Listado_Fucionarios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "OdataFuncionarioDatoActuales",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/FuncionarioDatoActuales?$expand=contrato,ContratoOtroSi",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"FuncionarioDatoActuales"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "contrato,ContratoOtroSi"
+						}
+					]
+				},
+				"description": "{{host}}/odata/FuncionarioDatoActuales?$expand=contrato"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,49 @@
+tipo-prorrogas-listar {
+    @import "src/@alcanos/scss/alcanos-v2";
+
+    .text-success {
+        color: green;
+    }
+
+    .text-danger {
+        color: red;
+    }
+
+    table {
+        width: 100%;
+
+        .dr {
+            text-align: right;
+        }
+        .prorrogas {
+            padding-right: 28px !important;
+        }
+        .duracion {
+            padding-right: 34px !important;
+        }
+        .termino {
+            padding-left: 20px !important;
+        }
+
+        .mat-column-nombre {
+            max-width: 150px;
+        }
+        .mat-column-clase {
+            max-width: 60px;
+        }
+        .mat-column-cantidadProrrogas {
+            max-width: 60px;
+        }
+        .mat-column-duracionMaxima {
+            max-width: 60px;
+            text-align: end;
+        }
+        .mat-column-duracionMaxima .mat-sort-header-container {
+            display: inline-flex;
+            padding-right: 20px;
+        }
+        .mat-column-terminoIndefinido {
+            max-width: 60px;
+        }
+    }
+}

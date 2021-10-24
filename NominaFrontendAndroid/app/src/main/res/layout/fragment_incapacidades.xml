@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="incapacidad"
+            type="com.alcanosesp.appalcanos.db.entity.AusentismoFuncionario" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.menulateral.incapacidades.IncapacidadesFragment">
+
+        <!--PROGRESS BAR-->
+        <include
+            android:id="@+id/pb_incapacidads"
+            layout="@layout/progress_bar" />
+
+        <!--LISTA EXPERIENCIAS-->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_incapaciad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_incapacidad"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <!--EMPTY STATE-->
+        <LinearLayout
+            style="@style/emptyState"
+            android:id="@+id/ll_empty_incapacidad"
+            tools:ignore="UseCompoundDrawables"
+            android:visibility="gone">
+
+            <ImageView
+                style="@style/emptyStateImg"
+                android:contentDescription="@string/imagenemptystate"
+                android:src="@drawable/empty_incapacidades" />
+
+            <TextView style="@style/emptyStateTexto"
+                android:text="@string/empty_incapacidades"/>
+        </LinearLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_incapacidad"
+            style="@style/fabEditar"
+            android:visibility="invisible"/>
+    </RelativeLayout>
+</layout>

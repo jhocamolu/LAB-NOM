@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="FuncionNomina_Datos_V8">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.FuncionNomina SET Proceso='[dbo].[USP_RedondearCentenaSupeior]',FuncionParametro='[dbo].[USP_RedondearCentenaSupeior] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@FechaInicio ={{FechaInicioMes}},@FechaFin = {{FechaFinalMes}},@Valor ={{Valor}} OUTPUT' 
+WHERE Id In(55,56,57,58,59,60,61,62,63,64);
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE dbo.FuncionNomina SET Proceso='[dbo].[USP_RedondearCentenaSuperior]',FuncionParametro='[dbo].[USP_RedondearCentenaSuperior] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@FechaInicio ={{FechaInicioMes}},@FechaFin = {{FechaFinalMes}},@Valor ={{Valor}} OUTPUT' 
+WHERE Id In(55,56,57,58,59,60,61,62,63,64);
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

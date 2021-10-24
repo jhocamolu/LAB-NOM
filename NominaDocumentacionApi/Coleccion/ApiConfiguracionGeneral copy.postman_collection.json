@@ -1,0 +1,3188 @@
+{
+	"info": {
+		"_postman_id": "af44c6ed-71ff-4997-a87a-9529f5947e67",
+		"name": "ApiConfiguracionGeneral copy",
+		"description": "ApiConfiguracionGeneral para proyecto nomina",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "HU025 Administrar Cargos",
+			"item": [
+				{
+					"name": "CargoGrado",
+					"item": [
+						{
+							"name": "Obtener Listado de Grados del Cargo",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/odata/CargoGrados",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"odata",
+										"CargoGrados"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener Grado del Cargo",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/odata/CargoGrados",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"odata",
+										"CargoGrados"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear Cargo Grado",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{        \r\n    \"nombre\": \"Primedr Grado\",\r\n    \"descripcion\": \"Descripcion del cargo grado\",\r\n    \"cargoId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/cargogrados",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"cargogrados"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Estado cargo grado",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{        \r\n    \"id\": 2,\r\n    \"activo\":0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/cargogrados/2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"cargogrados",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Eliminar cargo grado.",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/cargogrados/2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"cargogrados",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Cargo",
+					"item": [
+						{
+							"name": "Obtener Listado de Cargos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/odata/Cargos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"odata",
+										"Cargos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obtener Cargo",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/odata/Cargos/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"odata",
+										"Cargos",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear Cargo",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"codigo\": \"023\",\r\n    \"nombre\": \"Cargo de preubas\",\r\n    \"objetivoCargo\": \"Objetivo ddel cargo\",\r\n    \"nivelCargoId\": 1,\r\n    \"costoSicom\": true,\r\n    \"Clase\" : \"Nacional\"\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/api/Cargos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"Cargos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Editar Cargo",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"id\": 525,\r\n    \"codigo\": \"0010011\",\r\n    \"nombre\": \"Operariou\",\r\n    \"objetivoCargo\": \"Objetivo del cargo\",\r\n    \"nivelCargoId\": 1,\r\n    \"costoSicom\": true,\r\n    \"Clase\" : \"Nacional\"\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/api/Cargos/525",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"Cargos",
+										"525"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Actualizacion Parcial Cargo",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"id\": 525,\r\n    \"Activo\":0\r\n\t\r\n}"
+								},
+								"url": {
+									"raw": "{{host}}/api/Cargos/525",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"Cargos",
+										"525"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "\t\t[Key]\r\n        public int Id { get; set; }\r\n\r\n        [Required]\r\n        [Column(TypeName = \"varchar(10)\")]\r\n        public string Codigo { get; set; }\r\n\r\n        [Required]\r\n        [Column(TypeName = \"varchar(255)\")]\r\n        public string Nombre { get; set; }\r\n\r\n        [Required]\r\n        [Column(TypeName = \"text\")]\r\n        public string ObjetivoCargo { get; set; }\r\n\r\n        [Required]\r\n        [Column(TypeName = \"bit\")]\r\n        public bool CostoSicom { get; set; }\r\n\r\n        public int NivelCargoId { get; set; }        \r\n        public virtual NivelCargo NivelCargo { get; set; }\r\n\r\n        [Column(TypeName = \"varchar(255)\")]\r\n        public ClaseCargo Clase { get; set; } \r\n        \r\n        \r\n        ClaseCargo es un enumerable que acepta los siguientes valores\r\n        CentroOperativo = 1,\r\n        Nacional =2\r\n        \r\n        \r\n        \r\n       ",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "063a9e80-1f7e-4216-afb1-4e3318211df6",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1458e490-2272-4839-8096-ee7e32a9e605",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CargoReporta",
+					"item": [
+						{
+							"name": "Listar Cargo reporta ",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/odata/CargoReportas",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"odata",
+										"CargoReportas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear Cargo Reporta",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cargoDependenciaId\":1,\r\n    \"CargoDependenciaReportaId\": 26,\r\n    \"jefeInmediato\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/CargoReportas",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"CargoReportas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Eliminar CargoReporta",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/CargoReportas/2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"CargoReportas",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CargoGrupos",
+					"item": [
+						{
+							"name": "Listado Grupos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/odata/Grupos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"odata",
+										"Grupos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar Cargo Grupo",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/odata/CargoGrupos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"odata",
+										"CargoGrupos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear Cargo Grupo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n    \"cargoId\":10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/CargoGrupos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"CargoGrupos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Eliminar Cargo Grupo",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"Id\":1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/CargoGrupos/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"CargoGrupos",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "\t\t-- Modelo --\r\n\t\t[Key]\r\n        public int Id { get; set; }\r\n\r\n        [Required]\r\n        public int CargoId { get; set; }\r\n        public virtual Cargo Cargo { get; set; }\r\n\r\n        [Required]\r\n        public int GrupoId { get; set; }\r\n        public virtual Grupo Grupo { get; set; }\r\n\r\n        [Required]\r\n        [Column(TypeName = \"bit\")]\r\n        public bool Defecto { get; set; }\r\n        ",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "af7e6446-ef05-40d2-a7ca-8a9209f6f3e7",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "df3e5001-196b-426a-bf0d-051507a9cc67",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "CargoDependencia",
+					"item": [
+						{
+							"name": "Listado cargo dependencia",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/odata/cargoDependencias",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"odata",
+										"cargoDependencias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Obtiene cargo dependencia",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/odata/cargoDependencias/1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"odata",
+										"cargoDependencias",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear Cargo Dependencia",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cargoId\": 1,\r\n    \"dependenciaId\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/Api/cargoDependencias",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"Api",
+										"cargoDependencias"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Eliminar Cargo Dependencia",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/Api/cargoDependencias/2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"Api",
+										"cargoDependencias",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Cargo Presupuesto",
+					"item": [
+						{
+							"name": "Listar cargo presupuesto",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/odata/CargoPresupuestos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"odata",
+										"CargoPresupuestos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear cargo presupuesto",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cargoId\": 20,\r\n    \"annoVigenciaId\": 1,\r\n    \"cantidad\": 23\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/CargoPresupuestos",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"CargoPresupuestos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Actualizar cargo presupuesto",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2,\r\n    \"cargoId\": 21,\r\n    \"annoVigenciaId\": 1,\r\n    \"cantidad\":10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/CargoPresupuestos/2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"CargoPresupuestos",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU010 Centro Trabajo",
+			"item": [
+				{
+					"name": "ObtenerCentroTrabajo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/CentroTrabajos/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"CentroTrabajos",
+								""
+							]
+						},
+						"description": "Obtener Centro de Trabajo"
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerLIstaCentroTrabajos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/centrotrabajos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"centrotrabajos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearCentroTrabajos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"codigo\": \"2\",\n\t\"descripcion\": \"Descripcion\",\n\t\"porcentajeriesgo\":\"0.156\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/centrotrabajos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"centrotrabajos"
+							]
+						},
+						"description": "Crear centros de trabajo"
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarCentroTrabajos",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/centrotrabajos/4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"centrotrabajos",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarCentroTrabajos",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":1,\n\t\"codigo\": \"152545\",\n\t\"descripcion\": \"Descripcion\",\n\t\"porcentajeriesgo\":\"0.156\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/centrotrabajos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"centrotrabajos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Estado Registro CentroTrabajos",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":1,\n\t\"activo\": 0\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/centrotrabajos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"centrotrabajos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "HU010 Administra Centro Trabajo",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "072c1f1b-bc0c-4a68-9666-aa87b8a969c8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "589b0565-f61f-452a-ba26-1e50e916f8c4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU008 Tipo Viviendas",
+			"item": [
+				{
+					"name": "Obtener Lista de Tipo de Viviendas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/tipoviviendas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"tipoviviendas"
+							]
+						},
+						"description": "Obtener Tipo Vivienda"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Tipo Vivienda",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/tipoviviendas/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"tipoviviendas",
+								"1"
+							]
+						},
+						"description": "Obtiene el registro individual de tipo de vivienda"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Tipo Vivienda",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nombre\" : \"ññ ófjsañjkasñdjfdsfsdf\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/tipoviviendas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipoviviendas"
+							]
+						},
+						"description": "Crear Tipo Vivienda"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Tipo Vivienda",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": 1,\r\n    \"Nombre\": \"Mia\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/tipoviviendas/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipoviviendas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Tipo Vivienda",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/tipoviviendas/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipoviviendas",
+								"2"
+							]
+						},
+						"description": "Elimina el recurso de tipo de vivienda"
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar Estado Registro Tipo Vivienda",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":2,\n\t\"activo\": 0\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/parentescos/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"parentescos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "HU008-AdministrarTipoVivienda",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d905ef1d-4572-413d-9934-de8cf3ce328e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "49df0440-70f0-4d1a-b275-1783b57623a1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU001 Administrar Pais",
+			"item": [
+				{
+					"name": "ObtenerPaises",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/paises",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"paises"
+							]
+						},
+						"description": "Obtiene la lista de paises"
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerPais",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/paises/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"paises",
+								"1"
+							]
+						},
+						"description": "Obtiene un pais"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Pais",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"codigo\": \"057\",\n\t\"nombre\": \"Colombia\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/paises",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"paises"
+							]
+						},
+						"description": "Crear Pais"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Pais",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\"\t: 1,\r\n    \"codigo\": \"025\",\r\n    \"nombre\": \"Colombia\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/paises/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"paises",
+								"1"
+							]
+						},
+						"description": "Actualizar Pais"
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarPais",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/paises/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"paises",
+								"1"
+							]
+						},
+						"description": "Eliminar País"
+					},
+					"response": []
+				}
+			],
+			"description": "HU001 Administrar Pais",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c435f320-eba8-486e-9101-4bb544c01eff",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6249d4f6-6b28-4f59-9210-a8f6098f76c8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU011-AdministrarTipoDocumento ",
+			"item": [
+				{
+					"name": "ObtenerTipoDocumentos(Todos)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"type": "text",
+								"value": ""
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/odata/tipodocumentos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"tipodocumentos"
+							]
+						},
+						"description": " - Habilitado para Odata\n"
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerTipoDocumento/id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/odata/tipodocumentos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"tipodocumentos",
+								"1"
+							]
+						},
+						"description": "- Habilitado para Odata"
+					},
+					"response": []
+				},
+				{
+					"name": "CrearTipoDocumento ",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"codigoDian\":\"13\",\n\t\"codigoPila\":\"CC\",\n\t\"nombre\":\"Cedula Ciudadania\",\n\t\"formato\":\"Numerico\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/tipodocumentos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipodocumentos"
+							]
+						},
+						"description": "Tener en cuenta que el tipo de Formato enviado debe ser:\n- Alfanumerico\n- Numerico\n"
+					},
+					"response": []
+				},
+				{
+					"name": "ActulizarTipoDocumento",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"1\",\r\n    \"codigoPila\": \"RC\",\r\n    \"codigoDian\": \"44\",\r\n    \"nombre\": \"Registro Civil actualizado\",\r\n    \"Formato\": \"Alfanumerico\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/tipodocumentos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipodocumentos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CambiarEstadoRegistroTipoDocumento",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":\"3\",\n\t\"activo\":1\n\n\t\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/tipodocumentos/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipodocumentos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteTipoDocumento",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/tipodocumentos/35",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipodocumentos",
+								"35"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Administrador tipos de Documento",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5222cff1-4736-45c6-9cc1-fa8e4623cc17",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b4cfd84-e2bd-46fd-876f-1c23dbf4a224",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU005-Administrar profesiones",
+			"item": [
+				{
+					"name": "ConsultaProfesiones(Todas)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/profesiones",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"profesiones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ConsultaProfesiones/Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/profesiones/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"profesiones",
+								"1"
+							]
+						},
+						"description": "{{host}}/odata/profesiones/1"
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarProfesiones/Id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"id\": 1,\r\n  \"nombre\": \"ABOGADO\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/profesiones/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"profesiones",
+								"1"
+							]
+						},
+						"description": "{{host}}/api/profesiones/1"
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizacionParcial",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"Activo\": 1\r\n    \r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/profesiones/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"profesiones",
+								"1"
+							]
+						},
+						"description": "{{host}}/api/profesiones/1"
+					},
+					"response": []
+				},
+				{
+					"name": "CrearProfesiones",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"lA PROFESION cÓN \"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/profesiones",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"profesiones"
+							]
+						},
+						"description": "{{host}}/api/profesiones"
+					},
+					"response": []
+				},
+				{
+					"name": "BorrarProfesiones",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/profesiones/128",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"profesiones",
+								"128"
+							]
+						},
+						"description": "{{host}}/api/profesiones/128"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU0019-Administrador_Información_BásicaCompañía",
+			"item": [
+				{
+					"name": "ConsultarInformacionBasica",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/informacionBasicas/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"informacionBasicas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarInformacionBasica",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\" : 3,\r\n    \"nombre\": \"Empresa\",\r\n    \"nit\": \"1234567893\",\r\n    \"digitoVerificacion\": 4,\r\n    \"razonSocial\": \"razón social\",\r\n    \"actividadEconomicaId\": 1,\r\n    \"direccion\": \"Av siempre linda 123\",\r\n    \"telefono\": \"2669598\",\r\n    \"fax\": \"2369586\",\r\n    \"correoElectronico\": \"correo@correo.com\",\r\n    \"web\": \"http://www.alcanosesp.com\",\r\n    \"fechaConstitucion\": \"2020-07-01T00:00:00-05:00\",\r\n    \"tipoContribuyenteId\": 1,\r\n    \"operadorPagoId\": 1,\r\n    \"arlId\": 117,\r\n    \"tipoDocumentoId\": 1,\r\n    \"naturalezaJuridicaId\": 1,\r\n    \"tipoPersonaId\": 1,\r\n    \"claseAportanteTipoAportanteId\": 1,\r\n    \"cargoId\": 256,\r\n    \"beneficiarioLey1429De2010\": true,\r\n    \"beneficiarioImpuestoEquidad\": true\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/informacionBasicas/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"informacionBasicas",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU004 Administrar Parentescos",
+			"item": [
+				{
+					"name": "ObtenerListado de  Parentescos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/parentescos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"parentescos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Parentesco",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/parentescos/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"parentescos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Parentescos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nombre\" : \"Hi154ito mio\",\n\t\"tipo\": \"Afinidad\",\n\t\"grado\":\"Tercero\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/parentescos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"parentescos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Parentesco",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 1,\n\t\"nombre\" : \"Hijo\",\n\t\"tipo\": \"Afinidad\",\n\t\"grado\":\"Tercero\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/parentescos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"parentescos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Parentesco",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/parentescos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"parentescos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar Estado Registro Parentesco",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":2,\n\t\"activo\": 0\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/parentescos/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"parentescos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU003 Administrar estado civiles",
+			"item": [
+				{
+					"name": "Obtener Estados Civiles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/estadociviles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"estadociviles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Estado Civil",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/estadociviles/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"estadociviles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Estado Civil",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":2,\n\t\"nombre\":\"nombreestado\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/estadociviles/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"estadociviles",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Estado Civil",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nombre\":\"SOLTERO\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/estadociviles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"estadociviles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Estado Civil",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/estadociviles/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"estadociviles",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU016-Tipo Moneda",
+			"item": [
+				{
+					"name": "Obtener Listado de Tipo de Moneda",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/TipoMonedas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"TipoMonedas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Tipo Moneda",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/TipoMonedas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"TipoMonedas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Tipo de Moneda",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":2,\r\n    \"codigo\": \"COP\",\r\n    \"nombre\": \"Peso Colombiano\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/TipoMonedas/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoMonedas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Tipo de Moneda",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codigo\": \"COP\",\r\n    \"nombre\": \"Peso Colombiano\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/tipomonedas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipomonedas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizacion Parcial Tipo de Moneda",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":2,\r\n    \"codigo\": \"COP\",\r\n    \"nombre\": \"Peso Colombiano\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/TipoMonedas/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoMonedas",
+								"2"
+							]
+						},
+						"description": "Actualizacion Parcial Tipo de Moneda"
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar registro Tipo de Moneda",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/TipoMonedas/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoMonedas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Carpeta que administra el recurso de Tipo de Moneda",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU020_Administrar_formas_pago",
+			"item": [
+				{
+					"name": "BuscarFormaPagos(Todas)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/FormaPagos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"FormaPagos"
+							]
+						},
+						"description": "{{host}}/odata/FormaPagos"
+					},
+					"response": []
+				},
+				{
+					"name": "BusarFormaPago/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/FormaPagos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"FormaPagos",
+								"1"
+							]
+						},
+						"description": "{{host}}/odata/FormaPagos/1"
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarFormapago",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 1,\r\n    \"nombre\": \"tarjeta\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/FormaPagos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"FormaPagos",
+								"1"
+							]
+						},
+						"description": "{{host}}/api/FormaPagos/1"
+					},
+					"response": []
+				},
+				{
+					"name": "CrearFormaPago",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Cheque\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/FormaPagos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"FormaPagos"
+							]
+						},
+						"description": "{{host}}/api/FormaPagos"
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarFormaPago",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 1,\r\n    \"nombre\": \"tarjeta\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/FormaPagos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"FormaPagos",
+								"1"
+							]
+						},
+						"description": "{{host}}/api/FormaPagos/1"
+					},
+					"response": []
+				},
+				{
+					"name": "EstadoResgitroFormaPago",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":\"30\",\n\t\"Activo\":\"false\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/FormaPagos/30",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"FormaPagos",
+								"30"
+							]
+						},
+						"description": "{{host}}/api/FormaPagos/30"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU013 Actividades Economicas",
+			"item": [
+				{
+					"name": "Obtener Listado de Actividad Economica",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/actividadeconomicas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"actividadeconomicas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Actividad Economica",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/actividadEconomicas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"actividadEconomicas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Actividad Economica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/tipomonedas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipomonedas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Actividad Economica",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/TipoMonedas/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoMonedas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar registro Actividad Economica",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/TipoMonedas/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoMonedas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizacion Parcial Actividad Economicas",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 3,\n\t\"codigo\" : \"12\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/actividadEconomicas/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"actividadEconomicas",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "HU013 Actividades Economicas",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU017_Administrar_CIE10",
+			"item": [
+				{
+					"name": "BusarDiagnosticoCie(Todas)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/odata/DiagnosticoCies",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"DiagnosticoCies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BusarDiagnosticoCie/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/DiagnosticoCies/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"DiagnosticoCies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarDiagnosticoCie",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"id\": 1,\r\n    \"codigo\": \"A001\",\r\n    \"nombre\": \"Prueba\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/DiagnosticoCies/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"DiagnosticoCies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarDiagnosticosCie",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/DiagnosticoCies/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"DiagnosticoCies",
+								"3"
+							]
+						},
+						"description": "{{host}}/api/DiagnosticoCies/3"
+					},
+					"response": []
+				},
+				{
+					"name": "CrearDiagnosticoCie",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codigo\": \"A003\",\r\n    \"nombre\": \"Prueba2\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/DiagnosticoCies",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"DiagnosticoCies"
+							]
+						},
+						"description": "{{host}}/api/DiagnosticoCies"
+					},
+					"response": []
+				},
+				{
+					"name": "ParcialDiagnosticoCie",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":2,\n\"Codigo\":null\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/DiagnosticoCies/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"DiagnosticoCies",
+								"2"
+							]
+						},
+						"description": "{{host}}/api/DiagnosticoCies/2"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU012-Administrar Entidad Financiera",
+			"item": [
+				{
+					"name": "Obtener Listado Entidades Financieras",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/EntidadFinancieras",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"EntidadFinancieras"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Entidad Financiera",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/TipoMonedas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"TipoMonedas"
+							]
+						},
+						"description": "Obtener Entidad Financiera"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Entidad Financiera",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codigo\": \"001\",\r\n    \"nit\": \"00123\",\r\n    \"dv\": \"322\",\r\n    \"nombre\": \"1231\",\r\n    \"divisionPoliticaNivel2Id\": 12,\r\n    \"telefono\": \"12345678\",\r\n    \"direccion\": \"1\",\r\n    \"representanteLegal\": \"Maria Juana Contreras Rojas\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/EntidadFinancieras",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"EntidadFinancieras"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Entidad Financiera",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 1,\r\n    \"codigo\": \"115\",\r\n    \"nit\": \"59632145\",\r\n    \"dv\": \"6\",\r\n    \"nombre\": \"Bancolombia\",\r\n    \"divisionPoliticaNivel2Id\": 12,\r\n    \"telefono\": \"3215698745\",\r\n    \"direccion\": \"Calle 23 n° 11-45 \",\r\n    \"representanteLegal\": \"Maria Juana Contreras Rojas\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/EntidadFinancieras/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"EntidadFinancieras",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizacion parcial de  Entidad Financiera",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 1,\r\n    \"codigo\": \"009\",\r\n    \"nit\": \"59632145\",\r\n    \"dv\": \"6\",\r\n    \"nombre\": \"BBVA\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/EntidadFinancieras/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"EntidadFinancieras",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Entidad Financiera",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/api/DiagnosticoCies/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"DiagnosticoCies",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "HU012-Administrar Entidad Financiera",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU002 Administrar Divisiones Politicas",
+			"item": [
+				{
+					"name": "odata",
+					"item": [
+						{
+							"name": "division politica niveles 1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:44352/odata/divisionpoliticaniveles1",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "44352",
+									"path": [
+										"odata",
+										"divisionpoliticaniveles1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "division politica nivel 1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:44352/odata/divisionpoliticaniveles1/34",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "44352",
+									"path": [
+										"odata",
+										"divisionpoliticaniveles1",
+										"34"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "division politica niveles 2",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:44352/odata/divisionpoliticaniveles2",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "44352",
+									"path": [
+										"odata",
+										"divisionpoliticaniveles2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "division politica nivel 2",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:44352/odata/divisionpoliticaniveles2/1123",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "44352",
+									"path": [
+										"odata",
+										"divisionpoliticaniveles2",
+										"1123"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "rest",
+					"item": [
+						{
+							"name": "crear division politica nivel 1",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"codigo\":\"159753\",\n\t\"nombre\":\"asd\",\n\t\"paisId\":\"1\"\n}"
+								},
+								"url": {
+									"raw": "https://localhost:44352/api/divisionpoliticaniveles1",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "44352",
+									"path": [
+										"api",
+										"divisionpoliticaniveles1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Actualizar division politica nivel 1",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":34,\n\t\"codigo\":\"123456\",\n\t\"nombre\":\"asd\",\n\t\"paisId\":\"100\"\n}"
+								},
+								"url": {
+									"raw": "https://localhost:44352/api/divisionpoliticaniveles1/34",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "44352",
+									"path": [
+										"api",
+										"divisionpoliticaniveles1",
+										"34"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Parcial division politica nivel 1",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\":34,\n\t\"codigo\":\"123456\",\n\t\"nombre\":\"asd\",\n\t\"paisId\":\"100\",\n\t\"activo\": true\n}"
+								},
+								"url": {
+									"raw": "https://localhost:44352/api/divisionpoliticaniveles1/34",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "44352",
+									"path": [
+										"api",
+										"divisionpoliticaniveles1",
+										"34"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Crear Divisiones Politicas Nivel 2",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"codigo\": \"123\",\n    \"nombre\": \"Requerido\",\n    \"divisionPoliticaNivel1Id\": 3\n\n}"
+								},
+								"url": {
+									"raw": "https://localhost:44352/api/divisionpoliticaniveles2",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "44352",
+									"path": [
+										"api",
+										"divisionpoliticaniveles2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Actualizar Divisiones Politicas Nivel 2",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": 1123,\n\t\"codigo\": \"123\",\n    \"nombre\": \"Requerido\",\n    \"divisionPoliticaNivel1Id\": 4\n}"
+								},
+								"url": {
+									"raw": "https://localhost:44352/api/divisionpoliticaniveles2/1123",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "44352",
+									"path": [
+										"api",
+										"divisionpoliticaniveles2",
+										"1123"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Parcial Divisiones Politicas Nivel 2",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"id\": 1123,\n\t\"codigo\": \"123\",\n    \"nombre\": \"Requerido\",\n    \"divisionPoliticaNivel1Id\": 4,\n    \"activo\":true\n}"
+								},
+								"url": {
+									"raw": "https://localhost:44352/api/divisionpoliticaniveles2/1123",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "44352",
+									"path": [
+										"api",
+										"divisionpoliticaniveles2",
+										"1123"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HU023-Administrar Nivel Cargos",
+			"item": [
+				{
+					"name": "Obtener Listado Nivel Cargos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44352/odata/NivelCargos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44352",
+							"path": [
+								"odata",
+								"NivelCargos"
+							]
+						},
+						"description": "HU023-Administrar Nivel Cargos"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Nivel Cargos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44352/odata/NivelCargos/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44352",
+							"path": [
+								"odata",
+								"NivelCargos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Nivel Cargo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"12 Caste1lláno 15\"\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44352/api/NivelCargos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44352",
+							"path": [
+								"api",
+								"NivelCargos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Nivel Cargo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 1,\r\n    \"nombre\": \"Nivel Cargo cambiada\"\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44352/api/NivelCargos/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44352",
+							"path": [
+								"api",
+								"NivelCargos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Nivel Cargos",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44352/api/NivelCargos/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44352",
+							"path": [
+								"api",
+								"NivelCargos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizacion parcial de  Nivel Cargo",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 1,\r\n    \"codigo\": \"009\",\r\n    \"nit\": \"59632145\",\r\n    \"dv\": \"6\",\r\n    \"nombre\": \"BBVA\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/EntidadFinancieras/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"EntidadFinancieras",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizacion parcial de  Nivel Cargo",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":1,\r\n    \"nombre\": \"BBVA\"\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44352/api/NivelCargos/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44352",
+							"path": [
+								"api",
+								"NivelCargos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "HU023-Administrar Nivel Cargos",
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "8dbe155b-d2f4-4009-87c8-763c9d258873",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c78735b7-c732-4c1f-86cf-c3fe4e00367b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

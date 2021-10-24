@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_gruponomina_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[GrupoNomina] ON
+GO
+INSERT [dbo].[GrupoNomina] ([CreadoPor], [Id],  [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, 'Administrativos')
+GO
+INSERT [dbo].[GrupoNomina] ([CreadoPor], [Id],  [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, 'Aprendices')
+GO
+INSERT [dbo].[GrupoNomina] ([CreadoPor], [Id],  [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, 'Comerciales')
+GO
+INSERT [dbo].[GrupoNomina] ([CreadoPor], [Id],  [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, 'Operativos')
+GO
+SET IDENTITY_INSERT [dbo].[GrupoNomina] OFF
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[GrupoNomina] WHERE Id BETWEEN 1 AND 4;
+</rollback>
+</changeSet>
+</databaseChangeLog>

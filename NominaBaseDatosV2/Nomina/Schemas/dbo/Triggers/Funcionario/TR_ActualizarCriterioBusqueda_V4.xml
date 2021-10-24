@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TR_ActualizarCriterioBusqueda_V4">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.TR_ActualizarCriterioBusqueda', 'TR') IS NULL
+    BEGIN
+        EXECUTE ('CREATE TRIGGER dbo.TR_ActualizarCriterioBusqueda ON dbo.Funcionario AFTER INSERT,UPDATE as SELECT 1');
+END;
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 2020-02-13
+-- Description:	Trigger que desencadena la actualizacion del campo CriterioBusqueda.
+-- =============================================
+ALTER TRIGGER [dbo].[TR_ActualizarCriterioBusqueda] ON [dbo].[Funcionario]
+AFTER INSERT, UPDATE
+AS
+     BEGIN
+		
+		DECLARE @Bandera BIT = 0;
+
+		IF NOT EXISTS(SELECT Id FROM DELETED)
+		BEGIN
+			SET @Bandera = 1;
+		END
+				   
+         IF EXISTS
+         (
+             SELECT ins.Id
+             FROM Inserted ins
+                  JOIN Deleted del ON ins.Id = del.Id
+             WHERE del.NumeroDocumento <> ins.NumeroDocumento
+                   OR del.PrimerNombre <> ins.PrimerNombre
+                   OR del.SegundoNombre <> ins.SegundoNombre
+                   OR del.PrimerApellido <> ins.PrimerApellido
+                   OR del.SegundoApellido <> ins.SegundoApellido
+         )
+		 BEGIN
+			SET @Bandera = 1;
+		 END
+		 
+		 IF (@Bandera = 1)
+             BEGIN
+				SELECT * FROM INSERTED 
+				SELECT * FROM DELETED
+                 --------------------------------------------------------------------------
+                 -- Instrucciones de configuración y manejo de errores
+                 --------------------------------------------------------------------------
+                 SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+                 DECLARE @Parametros VARCHAR(MAX)= '';
+                 DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+                 BEGIN TRY
+                     BEGIN TRAN Funcionario;
+                     UPDATE dbo.Funcionario
+                       SET 
+                           [CriterioBusqueda] = REPLACE(CONCAT(ins.NumeroDocumento, ' - ', ins.PrimerNombre, ' ', ins.SegundoNombre, ' ', ins.PrimerApellido, ' ', ins.SegundoApellido), '  ', ' ')
+                     FROM dbo.Funcionario fun
+                          JOIN Inserted ins ON fun.Id = ins.Id
+                     WHERE fun.Id = ins.Id;
+                     IF @@TRANCOUNT > 0
+                         BEGIN
+                             IF XACT_STATE() = 1
+                                 BEGIN
+                                     COMMIT TRAN Funcionario;
+                             END;
+                                 ELSE
+                                 BEGIN
+                                     EXEC util.USP_GenerarExcepcion 
+                                          50000, 
+                                          'No se puede confirmar la transacción.  Error desconocido.';
+                             END;
+                     END;
+         END TRY
+                 BEGIN CATCH
+                     -- Rollback de la transacción
+                     IF XACT_STATE() <> 0
+                        AND @@TRANCOUNT > 0
+                         BEGIN
+                             ROLLBACK;
+                     END;
+
+                     -- Se almacena la información del error
+                     EXEC util.USP_Registrarerror 
+                          @NombreObjeto, 
+                          @Parametros;
+
+                     -- Se lanza la excepción
+                     EXEC util.USP_LanzarExcepcion;
+         END CATCH;
+         END;
+     END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TRIGGER [dbo].[TR_ActualizarCriterioBusqueda];
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,61 @@
+<form [formGroup]="form" *ngIf="form">
+    <h1 mat-dialog-title>Editar presupuesto del cargo</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Año</mat-label>
+            <mat-select formControlName="annoVigenciaId" step="any" required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let item of anios" [value]="item.id">
+                    {{ item.anno }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('annoVigenciaId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Espacio de tiempo en el que se ingresa el presupuesto.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cantidad</mat-label>
+            <input matInput placeholder="" formControlName="cantidad" required type="number">
+            <mat-error *ngFor="let error of form.get('cantidad').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'min'">
+                        Valor mínimo 1.
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo 100.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número de funcionarios.">info</mat-icon>
+        </mat-form-field>
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button [disabled]="form.invalid" (click)="guardarHandle($event)" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

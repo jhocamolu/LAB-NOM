@@ -1,0 +1,66 @@
+<div>
+
+    <div>
+
+        <alcanos-empty-list (fnCreate)="estadoHandle($event)"
+            labelH1="¡Uy! Aún no has registrado estados asociados." labelBtn="Agregar estado"
+            [visible]="!dataLength && !dataRequest">
+        </alcanos-empty-list>
+
+        <div [hidden]="!dataLength" class="box-shadow">
+            <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                [@animateStagger]="{value:'50'}">
+
+                <!-- Columna Estado funcionario -->
+                <ng-container matColumnDef="estadoFuncionario">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado del funcionario</th>
+                    <td mat-cell *matCellDef="let element">{{ renameEstado(element.estadoFuncionario) }}
+                    </td>
+                </ng-container>
+
+                <!-- Columna Estado del contrato -->
+                <ng-container matColumnDef="estadoContrato">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado del contrato</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div *ngIf="element.estadoContrato == 'Vigente'">
+                            {{estadoContrato.vigente}}
+                        </div>
+                        <div *ngIf="element.estadoContrato == 'SinIniciar'">
+                            {{estadoContrato.sinIniciar}}
+                        </div>
+                        <div *ngIf="element.estadoContrato == 'Terminado'">
+                            {{estadoContrato.terminado}}
+                        </div>
+                        <div *ngIf="element.estadoContrato == 'Cancelado'">
+                            {{estadoContrato.cancelado}}
+                        </div>
+                        <div *ngIf="element.estadoContrato == 'PendientePorLiquidar'">
+                            {{estadoContrato.pendientePorLiquidar}}
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="acciones" class="text-center">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"
+                        [ngStyle]="{ display: mostrarBtnCrear ? '': 'none'}"> Acciones </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"
+                        [ngStyle]="{ display: mostrarBtnCrear ? '': 'none'}">
+                        <button *ngIf="arrayPermisosEstados.eliminar && mostrarBtnCrear" mat-icon-button
+                            (click)="eliminarHandle($event, element.id)">
+                            <mat-icon class="s-20" matTooltip="Eliminar">delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+    <!-- / CONTENIDO -->
+
+</div>
+<!-- / CONTENT -->

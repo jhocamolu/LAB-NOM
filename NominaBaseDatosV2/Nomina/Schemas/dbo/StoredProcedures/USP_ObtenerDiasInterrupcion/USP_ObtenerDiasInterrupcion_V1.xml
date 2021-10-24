@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ObtenerDiasInterrupcion_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerDiasInterrupcion', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerDiasInterrupcion as SELECT 1');
+END;
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 29/04/2020
+-- Description:	Procedimiento almacenado, el cual se encarga de calcular
+--				los días disponibles para el libro de vacaciones
+-- =============================================
+ALTER PROCEDURE [dbo].[USP_ObtenerDiasInterrupcion] @LibroVacacionesId INT
+AS
+    BEGIN
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT( '@LibroVacacionesId=', CONVERT(VARCHAR, @LibroVacacionesId));
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        --------------------------------------------------------------------------
+        -- Variables
+
+		DECLARE @DiasInterrupcion INT = 0;
+		DECLARE @FechaInicio DATE;
+		DECLARE @FechaFin DATE;
+		DECLARE @AcumulaDiasInterrupcion  INT = 0;
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+			
+			DECLARE CUR_SolicitudVacacionesInterrupcion CURSOR LOCAL
+            FOR SELECT aus.FechaInicio, aus.FechaFin
+				FROM SolicitudVacacionesInterrupcion sol
+				INNER JOIN AusentismoFuncionario aus ON sol.FuncionarioAusentismoId = aus.Id
+				WHERE SolicitudVacacionesId IN (
+					SELECT Id FROM SolicitudVacaciones 
+					WHERE LibroVacacionesId = @LibroVacacionesId  AND
+						(Estado = (SELECT SOLICITUDVACACIONES_AUTORIZADA FROM util.VW_ConstanteEstado ) OR
+						Estado = (SELECT SOLICITUDVACACIONES_ENCURSO FROM util.VW_ConstanteEstado ) OR
+						Estado = (SELECT SOLICITUDVACACIONES_TERMINADA FROM util.VW_ConstanteEstado ))
+					)
+			OPEN CUR_SolicitudVacacionesInterrupcion;
+            FETCH NEXT FROM CUR_SolicitudVacacionesInterrupcion INTO @FechaInicio, @FechaFin
+            WHILE @@fetch_status = 0
+            BEGIN
+				
+				-- Calcula y acumula los días acumulados
+				SET @DiasInterrupcion = (DATEDIFF(day, @FechaInicio, @FechaFin) + 1);
+				SET @AcumulaDiasInterrupcion += @DiasInterrupcion;
+				
+                FETCH NEXT FROM CUR_SolicitudVacacionesInterrupcion INTO @FechaInicio, @FechaFin
+            END
+			CLOSE CUR_SolicitudVacacionesInterrupcion;
+        	DEALLOCATE CUR_SolicitudVacacionesInterrupcion;
+        	
+			RETURN @AcumulaDiasInterrupcion;
+
+        END TRY
+        BEGIN CATCH
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerDiasInterrupcion];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

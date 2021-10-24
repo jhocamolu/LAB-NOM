@@ -1,0 +1,141 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+    <h1 mat-dialog-title>Visualizar estudios realizados</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Nivel educativo
+                    <mat-icon class="s-16" matSuffix matTooltip="Grado de estudio que tiene el funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.nivelEducativo?.nombre}}
+                </p>
+            </div>
+
+            <div>
+                <h3>Institución educativa
+                    <mat-icon class="s-16" matSuffix matTooltip="Colegio, instituto o universidad con la que realizó los estudios.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.institucionEducativa}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Estado
+                    <mat-icon class="s-16" matSuffix matTooltip="Estado en el que se encuentra su estudio.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p *ngIf="element.estadoEstudio == 'EnCurso'"> En curso
+                </p>
+                <p *ngIf="element.estadoEstudio == 'Aplazado'"> Aplazado
+                </p>
+                <p *ngIf="element.estadoEstudio == 'Abandonado'"> Abandonado
+                </p>
+                <p *ngIf="element.estadoEstudio == 'Culminado'"> Culminado
+                </p>
+
+            </div>
+
+            <div>
+                <h3>País
+                    <mat-icon class="s-16" matSuffix matTooltip="País en el que realizó sus estudios.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.pais?.nombre}}</p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Fecha de inicio
+                    <mat-icon class="s-16" matSuffix matTooltip="Fecha en la que comenzó sus estudios.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.anioDeInicio | date:'dd / LL / yyyy' }}
+                </p>
+            </div>
+            <div>
+                <h3>Fecha fin
+                    <mat-icon class="s-16" matSuffix matTooltip="Fecha en la que terminó sus estudios.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.anioDeFin != null ? (element.anioDeFin | date:'dd / LL / yyyy') : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Profesión
+                    <mat-icon class="s-16" matSuffix matTooltip="Profesión que se relaciona con los estudios realizados.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.profesion?.nombre != null ? element.profesion?.nombre : 'N/A'}}
+                </p>
+            </div>
+            <div>
+                <h3>N° tarjeta profesional
+                    <mat-icon class="s-16" matSuffix matTooltip="Número del certificado ó tarjeta profesional.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.tarjetaProfesional  ? element.tarjetaProfesional : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h3>Título
+                    <mat-icon class="s-16" matSuffix matTooltip="Nombre del título descrito en el diploma de graduación.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.titulo}}
+                </p>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h3>Nota
+                    <mat-icon class="s-16" matSuffix matTooltip="Calificación obtenida en el proceso académico.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.observacion  ? element.observacion : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

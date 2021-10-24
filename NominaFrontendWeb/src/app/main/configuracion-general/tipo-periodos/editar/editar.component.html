@@ -1,0 +1,116 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/configuracion/dashboard'">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/configuracion/tipo-periodos'">Tipos de período</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Editar tipo de período</span>
+            </div>
+            <div>
+                <h2 class="title">Editar tipo de período</h2>
+            </div>
+        </div>
+
+        <div div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="subperiodoHandle($event)">
+                    <span>Agregar subperíodo</span>
+                </button>
+                <a routerLink="/configuracion/tipo-periodos" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="tabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+                    <!-- Formulario -->
+
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                        <mat-form-field appearance="outline" fxFlex="100">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput placeholder="" formControlName="nombre" required>
+                            <mat-error *ngFor="let error of nombre.errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Nombre del tipo de período de liquidación.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" fxFlex="100">
+                            <mat-label>Período de pago por defecto</mat-label>
+                            <mat-select [compareWith]="compareBooleanWith" formControlName="pagoPorDefecto" required>
+                                <mat-option></mat-option>
+                                <mat-option value="true">Si</mat-option>
+                                <mat-option value="false">No</mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of pagoPorDefecto.errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Indica el tipo de período de pago por defecto.">
+                                info</mat-icon>
+                        </mat-form-field>
+
+
+                        <div class="actions">
+                            <a mat-raised-button [routerLink]="'/configuracion/tipo-periodos'"
+                                routerLinkActive="router-link-active">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <!-- / Formulario -->
+                </mat-tab>
+                <!-- / Primer Label -->
+                <mat-tab label="Subperíodos del tipo de período">
+                    <!-- Formulario -->
+                    <tipo-periodos-subperiodo [tipo-periodo]="item">
+                    </tipo-periodos-subperiodo>
+
+                    <!-- / Formulario -->
+                </mat-tab>
+            </mat-tab-group>
+
+        </div>
+    </div>

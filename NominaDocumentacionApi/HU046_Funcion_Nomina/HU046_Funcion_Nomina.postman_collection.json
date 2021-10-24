@@ -1,0 +1,591 @@
+{
+	"info": {
+		"_postman_id": "5e25e320-e207-4437-b400-350e5a916adc",
+		"name": "HU045_administrar_conceptos_nomina",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cuentas Contables",
+			"item": [
+				{
+					"name": "cuentas contables",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/cuentacontables",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"cuentacontables"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cuenta contable",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/cuentacontables/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"cuentacontables",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Conceptos Nomina",
+			"item": [
+				{
+					"name": "Conceptonominas/n",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/Conceptonominas/29",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"Conceptonominas",
+								"29"
+							]
+						},
+						"description": "{{host}}/odata/Conceptonominas/2?$expand=tipoConceptoNomina,claseConceptoNomina"
+					},
+					"response": []
+				},
+				{
+					"name": "Conceptonominas/Todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/Conceptonominas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"Conceptonominas"
+							]
+						},
+						"description": "{{host}}/odata/Conceptonominas"
+					},
+					"response": []
+				},
+				{
+					"name": "obtener todos los conceptos agrupadores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/conceptoNominas?$filter=conceptoAgrupador eq true  and estadoRegistro eq 'Activo'",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"conceptoNominas"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "conceptoAgrupador eq true  and estadoRegistro eq 'Activo'"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener todos los conceptos NO agrupadores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/conceptoNominas?$filter=conceptoAgrupador eq false  and estadoRegistro eq 'Activo'",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"conceptoNominas"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "conceptoAgrupador eq false  and estadoRegistro eq 'Activo'"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Concepto Nomina Agrupador",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"dev196\",\n    \"alias\": \"Escod\",\n    \"nombre\": \"prueba guardar\",\n    \"tipoConceptoNomina\": 1,\n    \"claseConceptoNomina\": 2,\n    \"orden\": 52,\n    \"cuentaContableId\": 1,\n    \"origenCentroCosto\": \"Especifico\",\n    \"origenTercero\": \"Especifico\",\n    \"VisibleImpresion\": true,\n    \"UnidadMedida\": \"Dias\",\n    \"RequiereCantidad\": false,\n    \"FuncionNominaId\": null,\n    \"nitTercero\": 1110487472,\n    \"digitoVerificacion\": 3,\n    \"descripcion\": \"laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in vo\",\n    \"conceptoAgrupador\": true,\n    \"bases\": [\n        1,\n        14\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/Conceptonominas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Conceptonominas"
+							]
+						},
+						"description": "{{host}}/api/Conceptonominas"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Concepto Nomina No Agrupador",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"codigo\": \"dev195\",\n    \"alias\": \"Escoprud\",\n    \"nombre\": \"prueba guardar\",\n    \"tipoConceptoNomina\": 1,\n    \"claseConceptoNomina\": 2,\n    \"orden\": 12,\n    \"cuentaContableId\": 1,\n    \"origenCentroCosto\": \"Especifico\",\n    \"origenTercero\": \"Especifico\",\n    \"VisibleImpresion\": true,\n    \"UnidadMedida\": \"Dias\",\n    \"RequiereCantidad\": false,\n    \"FuncionNominaId\": null,\n    \"nitTercero\": 1110487472,\n    \"digitoVerificacion\": 3,\n    \"descripcion\": \"laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in vo\",\n    \"conceptoAgrupador\": false,\n    \"agrupadores\": [\n        42,\n        44\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/Conceptonominas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Conceptonominas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarConceptonominas NO agrupador",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 107,\n    \"codigo\": \"dev195\",\n    \"alias\": \"Escoprud\",\n    \"nombre\": \"prueba guardar\",\n    \"tipoConceptoNomina\": 1,\n    \"claseConceptoNomina\": 2,\n    \"orden\": 12,\n    \"cuentaContableId\": 1,\n    \"origenCentroCosto\": \"Especifico\",\n    \"origenTercero\": \"Especifico\",\n    \"VisibleImpresion\": true,\n    \"UnidadMedida\": \"Dias\",\n    \"RequiereCantidad\": false,\n    \"FuncionNominaId\": null,\n    \"nitTercero\": 1110487472,\n    \"digitoVerificacion\": 3,\n    \"descripcion\": \"laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in vo\",\n    \"conceptoAgrupador\": false,\n    \"agrupadores\": [\n        44,\n        42\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/Conceptonominas/107",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Conceptonominas",
+								"107"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarConceptonominas Agrupador",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 29,\n    \"codigo\": \"IBC01\",\n    \"alias\": \"Ibc\",\n    \"nombre\": \"Ibc\",\n    \"tipoConceptoNomina\": \"Fija\",\n    \"claseConceptoNomina\": \"Devengo\",\n    \"orden\": 99,\n    \"origenCentroCosto\": \"Delfuncionario\",\n    \"origenTercero\": \"DeLaAdministradora\",\n    \"visibleImpresion\": false,\n    \"unidadMedida\": \"Horas\",\n    \"requiereCantidad\": false,\n    \"FuncionNominaId\": null,\n    \"nitTercero\": null,\n    \"digitoVerificacion\": null,\n    \"descripcion\": \"valiar\",\n    \"conceptoAgrupador\": true,\n    \"bases\": [\n        1,\n        3,\n        4,\n        5,\n        6,\n        8,\n        9\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/Conceptonominas/29",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Conceptonominas",
+								"29"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ParcialConceptonominas",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 29,\n\t\"Activo\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/Conceptonominas/29",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Conceptonominas",
+								"29"
+							]
+						},
+						"description": "{{host}}/api/Conceptonominas/107"
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarConceptonominas",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/Conceptonominas/107",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"Conceptonominas",
+								"107"
+							]
+						},
+						"description": "{{host}}/api/Conceptonominas/107"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Concepto Nomina Cuenta Contables",
+			"item": [
+				{
+					"name": "Conceptos Nominas Cuentas Contables",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/ConceptoNominaCuentaContables",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"ConceptoNominaCuentaContables"
+							]
+						},
+						"description": "{{host}}/odata/ConceptoNominaCuentaDebitos?$expand=centrocosto,CuentaContable"
+					},
+					"response": []
+				},
+				{
+					"name": "Concepto Nomina Cuenta Contable",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/ConceptoNominaCuentaContables/1?$expand=centrocosto,CuentaContable",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"ConceptoNominaCuentaContables",
+								"1"
+							],
+							"query": [
+								{
+									"key": "$expand",
+									"value": "centrocosto,CuentaContable"
+								}
+							]
+						},
+						"description": "{{host}}/odata/ConceptoNominaCuentaDebitos/3?$expand=centrocosto,CuentaContable"
+					},
+					"response": []
+				},
+				{
+					"name": "CrearConceptoNominaCuentaDebitos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"conceptoNominaId\":1,\n\t\"centroCostoId\":2,\n\t\"naturaleza\": \"Debito\",\n\t\"cuentaContableId\":3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/ConceptoNominaCuentaContables",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"ConceptoNominaCuentaContables"
+							]
+						},
+						"description": "{{host}}/api/ConceptoNominaCuentaDebitos"
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarConceptoNominaCuentaDebitos/5",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Id\":5,\n\t\"conceptoNominaId\":63,\n\t\"centroCostoId\":7,\n\t\"naturaleza\": \"Debito\",\n\t\"cuentaContableId\":200\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/ConceptoNominaCuentaContables/5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"ConceptoNominaCuentaContables",
+								"5"
+							]
+						},
+						"description": "{{host}}/api/ConceptoNominaCuentaDebitos/5"
+					},
+					"response": []
+				},
+				{
+					"name": "ParcialConceptoNominaCuentaDebitos/5",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":5,\n\t\"activo\":1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/ConceptoNominaCuentaDebitos/5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"ConceptoNominaCuentaDebitos",
+								"5"
+							]
+						},
+						"description": "{{host}}/api/ConceptoNominaCuentaDebitos/5"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Concepto bases",
+			"item": [
+				{
+					"name": "odata Conceptobases listar todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/Conceptobases/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"Conceptobases",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "odata Conceptobases listar id tabla",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/Conceptobases/14",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"Conceptobases",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener bases de un concepto agrupador",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/conceptobases?$filter=conceptoNominaAgrupadorId eq 44  and estadoRegistro eq 'Activo'",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"conceptobases"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "conceptoNominaAgrupadorId eq 44  and estadoRegistro eq 'Activo'"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener los agrupadores de un concepto base",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/conceptobases?$filter=conceptoNominaId eq 2  and estadoRegistro eq 'Activo'",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"conceptobases"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "conceptoNominaId eq 2  and estadoRegistro eq 'Activo'"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

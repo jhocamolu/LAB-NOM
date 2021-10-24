@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_nomenclatura_dian_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[NomenclaturaDian] ON 
+GO
+
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('1', 'AC', 'Avenida calle', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('2', 'AD', 'Administración', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('3', 'ADL', 'Adelante', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('4', 'AER', 'Aeropuerto', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('5', 'AG', 'Agencia', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('6', 'AGP', 'Agrupación', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('7', 'AK', 'Avenida carrera', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('8', 'AL', 'Altillo', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('9', 'ALD', 'Al lado', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('10', 'ALM', 'Almacén', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('11', 'AP', 'Apartamento', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('12', 'APTDO', 'Apartado', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('13', 'ATR', 'Atrás', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('14', 'AUT', 'Autopista', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('15', 'AV', 'Avenida', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('16', 'AVIAL', 'Anillo vial', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('17', 'BG', 'Bodega', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('18', 'BL', 'Bloque', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('19', 'BLV', 'Boulevard', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('20', 'BRR', 'Barrio', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('21', 'C', 'Corregimiento', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('22', 'CA', 'Casa', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('23', 'CAS', 'Caserío', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('24', 'CC', 'Centro comercial', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('25', 'CD', 'Ciudadela', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('26', 'CEL', 'Célula', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('27', 'CEN', 'Centro', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('28', 'CIR', 'Circular', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('29', 'CL', 'Calle', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('30', 'CLJ', 'Callejón', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('31', 'CN', 'Camino', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('32', 'CON', 'Conjunto residencial', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('33', 'CONJ', 'Conjunto', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('34', 'CR', 'Carrera', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('35', 'CRT', 'Carretera', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('36', 'CRV', 'Circunvalar', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('37', 'CS', 'Consultorio', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('38', 'DG', 'Diagonal', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('39', 'DP', 'Depósito', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('40', 'DPTO', 'Departamento', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('41', 'DS', 'Depósito sótano', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('42', 'ED', 'Edificio', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('43', 'EN', 'Entrada', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('44', 'ES', 'Escalera', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('45', 'ESQ', 'Esquina', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('46', 'ESTE', 'Este', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('47', 'ET', 'Etapa', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('48', 'EX', 'Exterior', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('49', 'FCA', 'Finca', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('50', 'GJ', 'Garaje', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('51', 'GS', 'Garaje sótano', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('52', 'GT', 'Glorieta', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('53', 'HC', 'Hacienda', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('54', 'HG', 'Hangar', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('55', 'IN', 'Interior', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('56', 'IP', 'Inspección de Policía', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('57', 'IPD', 'Inspección Departamental', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('58', 'IPM', 'Inspección Municipal', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('59', 'KM', 'Kilómetro', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('60', 'LC', 'Local', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('61', 'LM', 'Local mezzanine', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('62', 'LT', 'Lote', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('63', 'MD', 'Módulo', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('64', 'MJ', 'Mojón', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('65', 'MLL', 'Muelle', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('66', 'MN', 'Mezzanine', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('67', 'MZ', 'Manzana', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('68', 'NOMBRE VIA', 'Vías de nombre común', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('69', 'NORTE', 'Norte', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('70', 'O', 'Oriente', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('71', 'OCC', 'Occidente', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('72', 'OESTE', 'Oeste', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('73', 'OF', 'Oficina', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('74', 'P', 'Piso', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('75', 'PA', 'Parcela', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('76', 'PAR', 'Parque', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('77', 'PD', 'Predio', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('78', 'PH', 'Penthouse', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('79', 'PJ', 'Pasaje', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('80', 'PL', 'Planta', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('81', 'PN', 'Puente', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('82', 'POR', 'Portería', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('83', 'POS', 'Poste', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('84', 'PQ', 'Parqueadero', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('85', 'PRJ', 'Paraje', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('86', 'PS', 'Paseo', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('87', 'PT', 'Puesto', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('88', 'PW', 'Park Way', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('89', 'RP', 'Round Point', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('90', 'SA', 'Salón', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('91', 'SC', 'Salón comunal', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('92', 'SD', 'Salida', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('93', 'SEC', 'Sector', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('94', 'SL', 'Solar', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('95', 'SM', 'Súper manzana', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('96', 'SS', 'Semisótano', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('97', 'ST', 'Sótano', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('98', 'SUITE', 'Suite', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('99', 'SUR', 'Sur', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('100', 'TER', 'Terminal', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('101', 'TERPLN', 'Terraplén', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('102', 'TO', 'Torre', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('103', 'TV', 'Transversal', '0', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('104', 'TZ', 'Terraza', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('105', 'UN', 'Unidad', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('106', 'UR', 'Unidad residencial', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('107', 'URB', 'Urbanización', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('108', 'VRD', 'Vereda', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('109', 'VTE', 'Variante', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('110', 'ZF', 'Zona franca', '1', 'Activo', 'sistema', GETDATE())
+GO
+INSERT INTO [dbo].[NomenclaturaDian] (Id, Codigo, Nombre, TextoPosterior, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('111', 'ZN', 'Zona', '1', 'Activo', 'sistema', GETDATE())
+GO
+SET IDENTITY_INSERT [dbo].[NomenclaturaDian] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[NomenclaturaDian] WHERE Id BETWEEN 1 AND 111;
+</rollback>
+</changeSet>
+</databaseChangeLog>

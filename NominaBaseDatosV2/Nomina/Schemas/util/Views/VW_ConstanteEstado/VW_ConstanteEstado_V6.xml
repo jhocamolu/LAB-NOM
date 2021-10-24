@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="VW_ConstanteEstado_V6">
+<comment>Constantes estados solicitudes cesantías</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteEstado]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteEstado]
+END
+GO
+
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 09-04-2020
+-- Description: Vista que permite la simulación de constantes para los estados dentro de SQL Server
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [util].[VW_ConstanteEstado]
+AS
+SELECT 
+	-- Estados asociados a los campos de auditoría que hay en todas la tabla
+		CAST('Activo' AS VARCHAR) AS [AUDITORIA_ACTIVO]
+		,CAST('Inactivo' AS VARCHAR) AS [AUDITORIA_INACTIVO]
+		,CAST('Eliminado' AS VARCHAR) AS [AUDITORIA_ELIMINADO]
+
+		-- Estados asociados a los funcionarios
+		,CAST('Seleccionado' AS VARCHAR) AS [FUNCIONARIO_SELECCIONADO]
+		,CAST('Activo' AS VARCHAR) AS [FUNCIONARIO_ACTIVO]
+		,CAST('EnVacaciones' AS VARCHAR) AS [FUNCIONARIO_ENVACACIONES]
+		,CAST('Incapacitado' AS VARCHAR) AS [FUNCIONARIO_INCAPACITADO]
+		,CAST('Retirado' AS VARCHAR) AS [FUNCIONARIO_RETIRADO]
+
+		-- Estados asociados a los contratos
+		,CAST('SinIniciar' AS VARCHAR) AS [CONTRATO_SININICIAR]
+		,CAST('Vigente' AS VARCHAR) AS [CONTRATO_VIGENTE]
+		,CAST('Terminado' AS VARCHAR) AS [CONTRATO_TERMINADO]
+		,CAST('Cancelado' AS VARCHAR) AS [CONTRATO_CANCELADO]
+		,CAST('PendientePorLiquidar' AS VARCHAR) AS [CONTRATO_PENDIENTEPORLIQUIDAR]
+
+		-- Estados asociados a los ausentismos
+		,CAST('Registrado' AS VARCHAR) AS [AUSENTISMO_REGISTRADO]
+		,CAST('Aprobado' AS VARCHAR) AS [AUSENTISMO_APROBADO]
+		,CAST('Anulado' AS VARCHAR) AS [AUSENTISMO_ANULADO]
+		,CAST('Finalizado' AS VARCHAR) AS [AUSENTISMO_FINALIZADO]
+		,CAST('Procesado' AS VARCHAR) AS [AUSENTISMO_PROCESADO]
+
+		-- Estados asociados a las libranzas
+		,CAST('Pendiente' AS VARCHAR) AS [LIBRANZA_PENDIENTE]
+		,CAST('Vigente' AS VARCHAR) AS [LIBRANZA_VIGENTE]
+		,CAST('Terminada' AS VARCHAR) AS [LIBRANZA_TERMINADA]
+		,CAST('Anulada' AS VARCHAR) AS [LIBRANZA_ANULADA]
+
+		-- Estados asociados a los embargos
+		,CAST('Pendiente' AS VARCHAR) AS [EMBARGO_PENDIENTE]
+		,CAST('Vigente' AS VARCHAR) AS [EMBARGO_VIGENTE]
+		,CAST('Terminado' AS VARCHAR) AS [EMBARGO_TERMINADO]
+		,CAST('Anulado' AS VARCHAR) AS [EMBARGO_ANULADO]
+		
+		-- Estados asociados a los beneficios corporativos
+		,CAST('EnTramite' AS VARCHAR) AS [BENEFICIO_ENTRAMITE]
+		,CAST('Rechazada' AS VARCHAR) AS [BENEFICIO_RECHAZADA]
+		,CAST('Aprobada' AS VARCHAR) AS [BENEFICIO_APROBADA]
+		,CAST('Cancelada' AS VARCHAR) AS [BENEFICIO_CANCELADA]
+		,CAST('Autorizada' AS VARCHAR) AS [BENEFICIO_AUTORIZADA]
+		,CAST('Otorgada' AS VARCHAR) AS [BENEFICIO_OTORGADA]
+		,CAST('Finalizada' AS VARCHAR) AS [BENEFICIO_FINALIZADA]
+		,CAST('EnCondonacion' AS VARCHAR) AS [BENEFICIO_ENCONDONACION]
+		,CAST('EnReembolso' AS VARCHAR) AS [BENEFICIO_ENREEMBOLSO]
+		,CAST('Condonada' AS VARCHAR) AS [BENEFICIO_CONDONADA]
+
+		-- Estados asociados a la nómina
+		,CAST('Inicializada' AS VARCHAR) AS [NOMINA_INICIALIZADA]
+		,CAST('Modificada' AS VARCHAR) AS [NOMINA_MODIFICADA]
+		,CAST('EnLiquidacion' AS VARCHAR) AS [NOMINA_ENLIQUIDACION]
+		,CAST('Liquidada' AS VARCHAR) AS [NOMINA_LIQUIDADA]
+		,CAST('Aprobada' AS VARCHAR) AS [NOMINA_APROBADA]
+		,CAST('Aplicada' AS VARCHAR) AS [NOMINA_APLICADA]
+
+		-- Estados asociados a los funcionarios asignados a una nómina
+		,CAST('Asignado' AS VARCHAR) AS [NOMINAFUNCIONARIO_ASIGNADO]
+		,CAST('Pendiente' AS VARCHAR) AS [NOMINAFUNCIONARIO_PENDIENTELIQUIDACION]
+		,CAST('EnLiquidacion' AS VARCHAR) AS [NOMINAFUNCIONARIO_ENLIQUIDACION]
+		,CAST('Liquidado' AS VARCHAR) AS [NOMINAFUNCIONARIO_LIQUIDADO]
+		,CAST('ConErrores' AS VARCHAR) AS [NOMINAFUNCIONARIO_CONERRORES]
+		
+		-- Tipo asociados al libro de vacaciones
+        ,CAST('Anticipado' AS VARCHAR) AS [LIBROVACACIONES_ANTICIPADO]
+        ,CAST('Causado' AS VARCHAR) AS [LIBROVACACIONES_CAUSADO]
+
+        -- Estados asociados a la solicitud de vacaciones
+        ,CAST('Aprobada' AS VARCHAR) AS [SOLICITUDVACACIONES_APROBADA]
+        ,CAST('Autorizada' AS VARCHAR) AS [SOLICITUDVACACIONES_AUTORIZADA]
+        ,CAST('Cancelada' AS VARCHAR) AS [SOLICITUDVACACIONES_CANCELADA]
+        ,CAST('EnCurso' AS VARCHAR) AS [SOLICITUDVACACIONES_ENCURSO]
+        ,CAST('Interrumpida' AS VARCHAR) AS [SOLICITUDVACACIONES_INTERRUMPIDA]
+        ,CAST('Rechazada' AS VARCHAR) AS [SOLICITUDVACACIONES_RECHAZADA]
+        ,CAST('Solicitada' AS VARCHAR) AS [SOLICITUDVACACIONES_SOLICITADA]
+        ,CAST('Terminada' AS VARCHAR) AS [SOLICITUDVACACIONES_TERMINADA]
+		
+		-- Estados asociados los destinatarios de las notificaciones
+		,CAST('Pendiente' AS VARCHAR) AS [NOTIFICACIONDESTINATARIO_PENDIENTE]
+		,CAST('Enviado' AS VARCHAR) AS [NOTIFICACIONDESTINATARIO_ENVIADO]
+		,CAST('Fallido' AS VARCHAR) AS [NOTIFICACIONDESTINATARIO_FALLIDO]
+		
+		-- Estados asociados al detalle de la nómina
+		,CAST('Pendiente' AS VARCHAR) AS [NOMINADETALLE_PENDIENTE]
+		,CAST('Procesado' AS VARCHAR) AS [NOMINADETALLE_PROCESADO]
+		,CAST('Inconsistente' AS VARCHAR) AS [NOMINADETALLE_INCONSISTENTE]
+		
+		-- Estados asociados al log de tareas programdas
+		,CAST('Exitoso' AS VARCHAR) AS [TAREAPROGRAMADALOG_EXITOSO]
+		,CAST('Fallido' AS VARCHAR) AS [TAREAPROGRAMADALOG_FALLIDO]
+
+		-- Estados asociados al período 
+		,CAST('Activo' AS VARCHAR) AS [PERIODOCONTABLE_ACTIVO]
+		,CAST('Cerrado' AS VARCHAR) AS [PERIODOCONTABLE_CERRADO]
+
+		-- Estados asociados a los estudios de funcionario
+		,CAST('EnCurso' AS VARCHAR) AS [ESTUDIO_ENCURSO]
+		,CAST('Aplazado' AS VARCHAR) AS [ESTUDIO_APLAZADO]
+		,CAST('Abandonado' AS VARCHAR) AS [ESTUDIO_ABANDONADO]
+		,CAST('Culminado' AS VARCHAR) AS [ESTUDIO_CULMINADO]
+
+		-- Estados asociados a la informacion de funcionario
+		,CAST('Rechazado' AS VARCHAR) AS [INFORMACION_RECHAZADO]
+		,CAST('Validado' AS VARCHAR) AS [INFORMACION_VALIDADO]
+		,CAST('Pendiente' AS VARCHAR) AS [INFORMACION_PENDIENTE]
+		
+		-- Estados asociados a años de trabajo
+		,CAST('Vigente' AS VARCHAR) AS [ANIO_VIGENTE]
+		,CAST('Pasado' AS VARCHAR) AS [ANIO_PASADO]
+		,CAST('Cerrado' AS VARCHAR) AS [ANIO_CERRADO]
+		
+		-- Estados asociados a horas extras
+		,CAST('Pendiente' AS VARCHAR) AS [HORAEXTRA_PENDIENTE]
+		,CAST('Aplicada' AS VARCHAR) AS [HORAEXTRA_APLICADA]
+		
+		-- Estados asociados a gastos de viaje
+		,CAST('Pendiente' AS VARCHAR) AS [GASTOVIAJE_PENDIENTE]
+		,CAST('Aplicada' AS VARCHAR) AS [GASTOVIAJE_APLICADA]
+		
+		-- Estados asociados a otras novedades
+		,CAST('EnCurso' AS VARCHAR) AS [OTRANOVEDAD_ENCURSO]
+		,CAST('Pendiente' AS VARCHAR) AS [OTRANOVEDAD_PENDIENTE]
+		,CAST('Liquidada' AS VARCHAR) AS [OTRANOVEDAD_LIQUIDADA]
+		,CAST('Anulada' AS VARCHAR) AS [OTRANOVEDAD_ANULADA]
+		,CAST('Cancelada' AS VARCHAR) AS [OTRANOVEDAD_CANCELADA]
+
+		-- Estados asociados a Candidato
+		,CAST('Postulado' AS VARCHAR) AS [CANDIDATO_POSTULADO]
+		,CAST('Descartado' AS VARCHAR) AS [CANDIDATO_DESCARTADO]
+		,CAST('Competente' AS VARCHAR) AS [CANDIDATO_COMPETENTE]
+		,CAST('Elegible' AS VARCHAR) AS [CANDIDATO_ELEGIBLE]
+		,CAST('NoApto' AS VARCHAR) AS [CANDIDATO_NOAPTO]
+		,CAST('Seleccionado' AS VARCHAR) AS [CANDIDATO_SELECCIONADO]
+		
+		-- Estados asociados a RequisicionPersonal
+		,CAST('Anulada' AS VARCHAR) AS [REQUISICIONPERSONA_ANULADA]
+		,CAST('Aprobada' AS VARCHAR) AS [REQUISICIONPERSONA_APROBADA]
+		,CAST('Autorizada' AS VARCHAR) AS [REQUISICIONPERSONA_AUTORIZADA]
+		,CAST('Cancelada' AS VARCHAR) AS [REQUISICIONPERSONA_CANCELADA]
+		,CAST('Cubierta' AS VARCHAR) AS [REQUISICIONPERSONA_CUBIERTA]
+		,CAST('Rechazada' AS VARCHAR) AS [REQUISICIONPERSONA_RECHAZADA]
+		,CAST('Revisada' AS VARCHAR) AS [REQUISICIONPERSONA_REVISADA]
+		,CAST('Solicitada' AS VARCHAR) AS [REQUISICIONPERSONA_SOLICITADA]
+		
+		-- Estados asociados a la solicitud de cesantías
+        ,CAST('EnTramite' AS VARCHAR) AS [SOLICITUDCESANTIAS_ENTRAMITE]
+        ,CAST('Aprobada' AS VARCHAR) AS [SOLICITUDCESANTIAS_APROBADA]
+        ,CAST('Rechazada' AS VARCHAR) AS [SOLICITUDCESANTIAS_RECHAZADA]
+        ,CAST('Cancelada' AS VARCHAR) AS [SOLICITUDCESANTIAS_CANCELADA]
+        ,CAST('Finalizada' AS VARCHAR) AS [SOLICITUDCESANTIAS_FINALIZADA]
+		
+		-- Estados asociados a la solicitud de permisos
+        ,CAST('Aprobada' AS VARCHAR) AS [SOLICITUDPERMISOS_APROBADA]
+        ,CAST('Autorizada' AS VARCHAR) AS [SOLICITUDPERMISOS_AUTORIZADA]
+        ,CAST('Cancelada' AS VARCHAR) AS [SOLICITUDPERMISOS_CANCELADA]
+        ,CAST('Rechazada' AS VARCHAR) AS [SOLICITUDPERMISOS_RECHAZADA]
+        ,CAST('Solicitada' AS VARCHAR) AS [SOLICITUDPERMISOS_SOLICITADA]
+
+GO
+
+
+-- Descripción de la vista asociados a la vista
+EXEC sys.sp_addextendedproperty 
+		@name=N'MS_Description', 
+		@value=N'Vista que permite la simulación de constantes para los estados dentro de SQL Server.' , 
+		@level0type=N'SCHEMA', @level0name=N'util', 
+		@level1type=N'VIEW', @level1name=N'VW_ConstanteEstado'
+GO
+
+
+-- Descripción para los estados asociados a auditoría
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Indica que el registro se muestra dentro la aplicación y se puede utilizar.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteEstado',  
+@level2type = N'Column', @level2name = 'AUDITORIA_ACTIVO';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Indica que el registro se muestra dentro la aplicación y pero solo se utiliza para información histórica.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteEstado',  
+@level2type = N'Column', @level2name = 'AUDITORIA_ELIMINADO';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Indica que el registro no se muestra dentro la aplicación y no se puede utilizar para nada.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteEstado',  
+@level2type = N'Column', @level2name = 'AUDITORIA_INACTIVO';  
+GO
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteEstado]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteEstado]
+END
+GO
+
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 09-04-2020
+-- Description: Vista que permite la simulación de constantes para los estados dentro de SQL Server
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [util].[VW_ConstanteEstado]
+AS
+SELECT 
+	-- Estados asociados a los campos de auditoría que hay en todas la tabla
+		CAST('Activo' AS VARCHAR) AS [AUDITORIA_ACTIVO]
+		,CAST('Inactivo' AS VARCHAR) AS [AUDITORIA_INACTIVO]
+		,CAST('Eliminado' AS VARCHAR) AS [AUDITORIA_ELIMINADO]
+
+		-- Estados asociados a los funcionarios
+		,CAST('Seleccionado' AS VARCHAR) AS [FUNCIONARIO_SELECCIONADO]
+		,CAST('Activo' AS VARCHAR) AS [FUNCIONARIO_ACTIVO]
+		,CAST('EnVacaciones' AS VARCHAR) AS [FUNCIONARIO_ENVACACIONES]
+		,CAST('Incapacitado' AS VARCHAR) AS [FUNCIONARIO_INCAPACITADO]
+		,CAST('Retirado' AS VARCHAR) AS [FUNCIONARIO_RETIRADO]
+
+		-- Estados asociados a los contratos
+		,CAST('SinIniciar' AS VARCHAR) AS [CONTRATO_SININICIAR]
+		,CAST('Vigente' AS VARCHAR) AS [CONTRATO_VIGENTE]
+		,CAST('Terminado' AS VARCHAR) AS [CONTRATO_TERMINADO]
+		,CAST('Cancelado' AS VARCHAR) AS [CONTRATO_CANCELADO]
+		,CAST('PendientePorLiquidar' AS VARCHAR) AS [CONTRATO_PENDIENTEPORLIQUIDAR]
+
+		-- Estados asociados a los ausentismos
+		,CAST('Registrado' AS VARCHAR) AS [AUSENTISMO_REGISTRADO]
+		,CAST('Aprobado' AS VARCHAR) AS [AUSENTISMO_APROBADO]
+		,CAST('Anulado' AS VARCHAR) AS [AUSENTISMO_ANULADO]
+		,CAST('Finalizado' AS VARCHAR) AS [AUSENTISMO_FINALIZADO]
+		,CAST('Procesado' AS VARCHAR) AS [AUSENTISMO_PROCESADO]
+
+		-- Estados asociados a las libranzas
+		,CAST('Pendiente' AS VARCHAR) AS [LIBRANZA_PENDIENTE]
+		,CAST('Vigente' AS VARCHAR) AS [LIBRANZA_VIGENTE]
+		,CAST('Terminada' AS VARCHAR) AS [LIBRANZA_TERMINADA]
+		,CAST('Anulada' AS VARCHAR) AS [LIBRANZA_ANULADA]
+
+		-- Estados asociados a los embargos
+		,CAST('Pendiente' AS VARCHAR) AS [EMBARGO_PENDIENTE]
+		,CAST('Vigente' AS VARCHAR) AS [EMBARGO_VIGENTE]
+		,CAST('Terminado' AS VARCHAR) AS [EMBARGO_TERMINADO]
+		,CAST('Anulado' AS VARCHAR) AS [EMBARGO_ANULADO]
+		
+		-- Estados asociados a los beneficios corporativos
+		,CAST('EnTramite' AS VARCHAR) AS [BENEFICIO_ENTRAMITE]
+		,CAST('Rechazada' AS VARCHAR) AS [BENEFICIO_RECHAZADA]
+		,CAST('Aprobada' AS VARCHAR) AS [BENEFICIO_APROBADA]
+		,CAST('Cancelada' AS VARCHAR) AS [BENEFICIO_CANCELADA]
+		,CAST('Autorizada' AS VARCHAR) AS [BENEFICIO_AUTORIZADA]
+		,CAST('Otorgada' AS VARCHAR) AS [BENEFICIO_OTORGADA]
+		,CAST('Finalizada' AS VARCHAR) AS [BENEFICIO_FINALIZADA]
+		,CAST('EnCondonacion' AS VARCHAR) AS [BENEFICIO_ENCONDONACION]
+		,CAST('EnReembolso' AS VARCHAR) AS [BENEFICIO_ENREEMBOLSO]
+		,CAST('Condonada' AS VARCHAR) AS [BENEFICIO_CONDONADA]
+
+		-- Estados asociados a la nómina
+		,CAST('Inicializada' AS VARCHAR) AS [NOMINA_INICIALIZADA]
+		,CAST('Modificada' AS VARCHAR) AS [NOMINA_MODIFICADA]
+		,CAST('EnLiquidacion' AS VARCHAR) AS [NOMINA_ENLIQUIDACION]
+		,CAST('Liquidada' AS VARCHAR) AS [NOMINA_LIQUIDADA]
+		,CAST('Aprobada' AS VARCHAR) AS [NOMINA_APROBADA]
+		,CAST('Aplicada' AS VARCHAR) AS [NOMINA_APLICADA]
+
+		-- Estados asociados a los funcionarios asignados a una nómina
+		,CAST('Asignado' AS VARCHAR) AS [NOMINAFUNCIONARIO_ASIGNADO]
+		,CAST('Pendiente' AS VARCHAR) AS [NOMINAFUNCIONARIO_PENDIENTELIQUIDACION]
+		,CAST('EnLiquidacion' AS VARCHAR) AS [NOMINAFUNCIONARIO_ENLIQUIDACION]
+		,CAST('Liquidado' AS VARCHAR) AS [NOMINAFUNCIONARIO_LIQUIDADO]
+		,CAST('ConErrores' AS VARCHAR) AS [NOMINAFUNCIONARIO_CONERRORES]
+		
+		-- Tipo asociados al libro de vacaciones
+        ,CAST('Anticipado' AS VARCHAR) AS [LIBROVACACIONES_ANTICIPADO]
+        ,CAST('Causado' AS VARCHAR) AS [LIBROVACACIONES_CAUSADO]
+
+        -- Estados asociados a la solicitud de vacaciones
+        ,CAST('Aprobada' AS VARCHAR) AS [SOLICITUDVACACIONES_APROBADA]
+        ,CAST('Autorizada' AS VARCHAR) AS [SOLICITUDVACACIONES_AUTORIZADA]
+        ,CAST('Cancelada' AS VARCHAR) AS [SOLICITUDVACACIONES_CANCELADA]
+        ,CAST('EnCurso' AS VARCHAR) AS [SOLICITUDVACACIONES_ENCURSO]
+        ,CAST('Interrumpida' AS VARCHAR) AS [SOLICITUDVACACIONES_INTERRUMPIDA]
+        ,CAST('Rechazada' AS VARCHAR) AS [SOLICITUDVACACIONES_RECHAZADA]
+        ,CAST('Solicitada' AS VARCHAR) AS [SOLICITUDVACACIONES_SOLICITADA]
+        ,CAST('Terminada' AS VARCHAR) AS [SOLICITUDVACACIONES_TERMINADA]
+		
+		-- Estados asociados los destinatarios de las notificaciones
+		,CAST('Pendiente' AS VARCHAR) AS [NOTIFICACIONDESTINATARIO_PENDIENTE]
+		,CAST('Enviado' AS VARCHAR) AS [NOTIFICACIONDESTINATARIO_ENVIADO]
+		,CAST('Fallido' AS VARCHAR) AS [NOTIFICACIONDESTINATARIO_FALLIDO]
+		
+		-- Estados asociados al detalle de la nómina
+		,CAST('Pendiente' AS VARCHAR) AS [NOMINADETALLE_PENDIENTE]
+		,CAST('Procesado' AS VARCHAR) AS [NOMINADETALLE_PROCESADO]
+		,CAST('Inconsistente' AS VARCHAR) AS [NOMINADETALLE_INCONSISTENTE]
+		
+		-- Estados asociados al log de tareas programdas
+		,CAST('Exitoso' AS VARCHAR) AS [TAREAPROGRAMADALOG_EXITOSO]
+		,CAST('Fallido' AS VARCHAR) AS [TAREAPROGRAMADALOG_FALLIDO]
+
+		-- Estados asociados al período 
+		,CAST('Activo' AS VARCHAR) AS [PERIODOCONTABLE_ACTIVO]
+		,CAST('Cerrado' AS VARCHAR) AS [PERIODOCONTABLE_CERRADO]
+
+		-- Estados asociados a los estudios de funcionario
+		,CAST('EnCurso' AS VARCHAR) AS [ESTUDIO_ENCURSO]
+		,CAST('Aplazado' AS VARCHAR) AS [ESTUDIO_APLAZADO]
+		,CAST('Abandonado' AS VARCHAR) AS [ESTUDIO_ABANDONADO]
+		,CAST('Culminado' AS VARCHAR) AS [ESTUDIO_CULMINADO]
+
+		-- Estados asociados a la informacion de funcionario
+		,CAST('Rechazado' AS VARCHAR) AS [INFORMACION_RECHAZADO]
+		,CAST('Validado' AS VARCHAR) AS [INFORMACION_VALIDADO]
+		,CAST('Pendiente' AS VARCHAR) AS [INFORMACION_PENDIENTE]
+
+		-- Estados asociados a años de trabajo
+		,CAST('Vigente' AS VARCHAR) AS [ANIO_VIGENTE]
+		,CAST('Pasado' AS VARCHAR) AS [ANIO_PASADO]
+		,CAST('Cerrado' AS VARCHAR) AS [ANIO_CERRADO]
+		
+		-- Estados asociados a horas extras
+		,CAST('Pendiente' AS VARCHAR) AS [HORAEXTRA_PENDIENTE]
+		,CAST('Aplicada' AS VARCHAR) AS [HORAEXTRA_APLICADA]
+		
+		-- Estados asociados a gastos de viaje
+		,CAST('Pendiente' AS VARCHAR) AS [GASTOVIAJE_PENDIENTE]
+		,CAST('Aplicada' AS VARCHAR) AS [GASTOVIAJE_APLICADA]
+
+GO
+
+
+-- Descripción de la vista asociados a la vista
+EXEC sys.sp_addextendedproperty 
+		@name=N'MS_Description', 
+		@value=N'Vista que permite la simulación de constantes para los estados dentro de SQL Server.' , 
+		@level0type=N'SCHEMA', @level0name=N'util', 
+		@level1type=N'VIEW', @level1name=N'VW_ConstanteEstado'
+GO
+
+
+-- Descripción para los estados asociados a auditoría
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Indica que el registro se muestra dentro la aplicación y se puede utilizar.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteEstado',  
+@level2type = N'Column', @level2name = 'AUDITORIA_ACTIVO';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Indica que el registro se muestra dentro la aplicación y pero solo se utiliza para información histórica.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteEstado',  
+@level2type = N'Column', @level2name = 'AUDITORIA_ELIMINADO';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Indica que el registro no se muestra dentro la aplicación y no se puede utilizar para nada.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteEstado',  
+@level2type = N'Column', @level2name = 'AUDITORIA_INACTIVO';  
+GO
+
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

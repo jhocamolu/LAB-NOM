@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_RedondearAMultiplo_V1">
+<comment>Retefuente</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_RedondearAMultiplo]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_RedondearAMultiplo];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 25/07/2020
+-- Description: Permite redondear una valor númerico a un multiplo. Ej: 0, 10, 100, 1000
+--
+-- Parameters:
+--   @Numero:			   Número a redondear
+--   @MultiploRedondeo	   Multiplo al cual e va a redondear @Numero
+--
+-- Returns:		Scalar
+--	@Valor:		Valor del Parametro 
+-- ==========================================================================================
+CREATE FUNCTION [util].[UFS_RedondearAMultiplo]
+(@Numero MONEY,
+    @MultiploRedondeo INT
+)
+RETURNS MONEY
+AS
+     BEGIN
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         DECLARE @valor MONEY;
+         DECLARE @NumeroDecimales INT;
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+         
+	    -- Número digitos del multiplo de redondeo para convertirlos a decimales
+	    SET @NumeroDecimales = ((LEN(@MultiploRedondeo) - 1) * -1);
+
+         -- Se aplica el redondeo
+         SELECT @valor = ROUND(@Numero, @NumeroDecimales)
+
+         RETURN @valor;
+     END;
+GO	 
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_RedondearAMultiploAnioPasado]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_RedondearAMultiploAnioPasado];
+END;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

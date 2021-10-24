@@ -1,0 +1,23 @@
+tipo-embargos-crear {
+    @import "src/@alcanos/scss/alcanos-v2";
+    .lista {
+        margin-top:10px;
+        thead tr th {
+            color: #6e992e !important;
+            font-size: 15px;
+            font-weight: bold;
+        }
+        th {
+            padding: 8px;
+        }
+
+        tbody tr:nth-child(2n + 1) {
+            background-color: rgba(104, 135, 44, 0.08) !important;
+        }
+        tr > td:nth-child(3), tr > th:nth-child(3) {
+            text-align: center;
+        }
+    }
+}
+
+

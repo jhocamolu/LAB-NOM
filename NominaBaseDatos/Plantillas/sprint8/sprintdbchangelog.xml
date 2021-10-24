@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+	
+	<!-- Incluir archivo de cambios asociados a cada historia y versión. Ejemplo HU012-V3.xml
+	<include file="HU012-V3.xml"/> 
+	-->
+    <include file="sprint8/maestro_Etiqueta_v1.xml"/>
+    <include file="sprint8/maestro_GrupoDocumento_v1.xml"/>
+    <include file="sprint8/maestro_ServicioFijo_v1.xml"/>
+    <include file="sprint8/maestro_Documento_v1.xml"/>
+    <include file="sprint8/maestro_GrupoDocumentoEtiqueta_v1.xml"/>
+    <include file="sprint8/maestro_ComplementoPlantilla_v1.xml"/>
+    <include file="sprint8/maestro_Plantilla_v1.xml"/>
+	<!--
+	<changeSet author="userId" id="tag_version_0_1_0">
+        <tagDatabase tag="version_0.1.0" />
+    </changeSet>
+	-->
+    <!-- version 0.1.0 ends here -->
+	
+</databaseChangeLog>

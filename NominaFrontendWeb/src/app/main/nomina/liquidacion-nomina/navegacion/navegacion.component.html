@@ -1,0 +1,31 @@
+<div fxLayout="row" fxLayoutAlign="center" class="paso-a-paso-menu">
+    <button (click)="navegarHandle($event,1)">
+        <img src="/assets/alcanos/img-tabs/Paso1Activo.svg"  *ngIf=" paso == 1"> 
+        <img src="/assets/alcanos/img-tabs/Paso1Inactivo.svg" *ngIf=" paso != 1 && item">
+        <img src="/assets/alcanos/img-tabs/Paso1Bloqueado.svg" *ngIf="paso != 1 && !item">
+    </button>
+    <button (click)="navegarHandle($event,2)" [disabled]="!item">
+        <img src="/assets/alcanos/img-tabs/Paso2Activo.svg" *ngIf=" paso == 2">
+        <img src="/assets/alcanos/img-tabs/Paso2Inactivo.svg" *ngIf=" paso != 2 && item">
+        <img src="/assets/alcanos/img-tabs/Paso2Bloqueado.svg" *ngIf="paso != 2 && !item">
+    </button>
+    <button (click)="navegarHandle($event,3 )" [disabled]="!item || (item && nuevoEstado.estado == estadoLiquidacion.inicializada)">
+        <img src="/assets/alcanos/img-tabs/Paso3Activo.svg" *ngIf=" paso == 3">
+        <img src="/assets/alcanos/img-tabs/Paso3Inactivo.svg" *ngIf=" paso != 3 && item && nuevoEstado.estado != estadoLiquidacion.inicializada">
+        <img src="/assets/alcanos/img-tabs/Paso3Bloqueado.svg" *ngIf="paso != 3 && ( !item || (item && nuevoEstado.estado == estadoLiquidacion.inicializada) )">
+    </button>
+    <button (click)="navegarHandle($event,4)" [disabled]="!item || (item && nuevoEstado.estado == estadoLiquidacion.inicializada)">
+        <img src="/assets/alcanos/img-tabs/Paso4Activo.svg" *ngIf=" paso == 4">
+        <img src="/assets/alcanos/img-tabs/Paso4Inactivo.svg" *ngIf=" paso != 4 && item && nuevoEstado.estado != estadoLiquidacion.inicializada">
+        <img src="/assets/alcanos/img-tabs/Paso4Bloqueado.svg" *ngIf="paso != 4 && ( !item || (item && nuevoEstado.estado == estadoLiquidacion.inicializada) )">
+    </button>
+    <button (click)="navegarHandle($event,5)"
+        [disabled]="!item || (item && (nuevoEstado.estado == estadoLiquidacion.inicializada || nuevoEstado.estado ==
+        estadoLiquidacion.modificada || nuevoEstado.estado == estadoLiquidacion.enLiquidacion) )">
+        <img src="/assets/alcanos/img-tabs/Paso5Activo.svg" *ngIf=" paso == 5">
+        <img src="/assets/alcanos/img-tabs/Paso5Inactivo.svg"
+            *ngIf=" paso != 5 && item && nuevoEstado.estado != estadoLiquidacion.inicializada && nuevoEstado.estado != estadoLiquidacion.modificada && nuevoEstado.estado != estadoLiquidacion.modificada && nuevoEstado.estado != estadoLiquidacion.enLiquidacion ">
+        <img src="/assets/alcanos/img-tabs/Paso5Bloqueado.svg"
+            *ngIf="paso != 5 && ( !item || (item && (nuevoEstado.estado == estadoLiquidacion.inicializada  || nuevoEstado.estado == estadoLiquidacion.modificada  || nuevoEstado.estado == estadoLiquidacion.enLiquidacion) ) )">
+    </button>
+</div>

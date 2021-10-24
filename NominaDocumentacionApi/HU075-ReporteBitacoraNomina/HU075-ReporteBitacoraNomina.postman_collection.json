@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "35615f3a-959d-4ac5-836d-03fd13e38296",
+		"name": "HU075-ReporteBitacoraNomina",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte Bitacora Nomina",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Metodo\": \"PorPeriodo\",\r\n    \"TipoLiquidacionId\": 1,\r\n    \"SubperiodoId\": 1,\r\n    \"FechaInicial\": \"2020-01-01\",\r\n    \"FechaFinal\": \"2020-06-12\",\r\n    \"NominaAnio\": 2020,\r\n    \"NominaMes\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44366/reporte/BitacoraNomina",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44366",
+					"path": [
+						"reporte",
+						"BitacoraNomina"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

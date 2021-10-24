@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_CargarNovedadesVacaciones_V1">
+<comment>HU054</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_CargarNovedadesVacaciones', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_CargarNovedadesVacaciones as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 18/09/2020
+-- Description: Pemite cargar novedades de asociadas a solicitud de vacaciones
+--
+-- Parameters:
+--  @NominaId:						Identificador de la nómina
+--  @FuncionarioId:					Identificador del funcionario
+--  @NominaFuncionarioId				Identificador del funcionario en la nómina
+--  @ConceptoVacacionesAnticipadasId	Identificador del concepto de anticipo de cesantías
+--  @ConceptoVacacionesDineroId	 	Identificador del concepto de anticipo de cesantías
+--  @ConceptoVacacionesTiempoId	 	Identificador del concepto de anticipo de cesantías
+--  @Id							Identificador de la novedad a cargar
+--  @UsuarioOperacion :				Usuario que realiza la operación.
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_CargarNovedadesVacaciones] @NominaId                        INT,
+                                                      @FuncionarioId                   INT,
+                                                      @NominaFuncionarioId             INT,
+                                                      @ConceptoVacacionesAnticipadasId INT,
+                                                      @ConceptoVacacionesDineroId      INT,
+                                                      @ConceptoVacacionesTiempoId      INT,
+                                                      @Id                              INT,
+                                                      @UsuarioOperacion                VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaFuncionarioId=', CONVERT(VARCHAR, @NominaFuncionarioId), '&', '@ConceptoVacacionesAnticipadasId=', CONVERT(VARCHAR, @ConceptoVacacionesAnticipadasId), '&', '@ConceptoVacacionesDineroId=', CONVERT(VARCHAR, @ConceptoVacacionesDineroId), '&', '@ConceptoVacacionesTiempoId=', CONVERT(VARCHAR, @ConceptoVacacionesTiempoId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @NominaDetallePendiente VARCHAR(255);
+    DECLARE @LibroVacacionesTipo VARCHAR(255);
+    DECLARE @LibroVacacionesAnticipado VARCHAR(255);
+    DECLARE @LibroVacacionesCausado VARCHAR(255);
+    DECLARE @SolicitudVacacionesAutorizada VARCHAR(255);
+    DECLARE @SolicitudVacacionesEnCurso VARCHAR(255);
+    DECLARE @SolicitudVacacionesDiasDinero INT;
+    DECLARE @SolicitudVacacionesDiasDisfrute INT;
+
+    DECLARE @ConceptoNominaId INT;
+    DECLARE @SolicitudVacacionesId INT;
+    DECLARE @Valor MONEY= 0;
+    DECLARE @Cantidad INT= 1;
+    DECLARE @UnidadMedida VARCHAR(255);
+    DECLARE @NominaFuenteNovedadId INT= 0;
+    DECLARE @ModuloSistema VARCHAR(255)=
+    (
+        SELECT cms.VACACIONES
+        FROM util.VW_ConstanteModuloSistema AS cms
+    );
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN CargarNovedadesVacaciones;
+
+        -- Se consultan constantes asociadas a estados
+        SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+               @NominaDetallePendiente = vce.NOMINADETALLE_PENDIENTE,
+               @SolicitudVacacionesAutorizada = vce.SOLICITUDVACACIONES_AUTORIZADA,
+               @SolicitudVacacionesEnCurso = vce.SOLICITUDVACACIONES_ENCURSO
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Se consultan las constantes asociadas al tipo de libro de vacaciones
+        SELECT @LibroVacacionesAnticipado = ctlv.ANTICIPADO,
+               @LibroVacacionesCausado = ctlv.CAUSADO
+        FROM util.VW_ConstanteTipoLibroVacaciones AS ctlv;
+
+        -- Cursor para obtener los gastos de viaje asociados al funcionario
+        DECLARE CUR_SolicitudVacaciones CURSOR LOCAL
+        FOR SELECT sva.Id,
+                   lva.Tipo,
+                   sva.DiasDisfrute,
+                   sva.DiasDinero
+            FROM dbo.SolicitudVacaciones AS sva
+                 INNER JOIN dbo.LibroVacaciones AS lva ON(sva.LibroVacacionesId = lva.Id)
+            WHERE sva.FuncionarioId = @FuncionarioId
+                  AND ((@Id IS NOT NULL
+                        AND sva.Id = @Id)
+                       OR (@Id IS NULL))
+                  AND sva.Estado IN(@SolicitudVacacionesAutorizada, @SolicitudVacacionesEnCurso)
+                 AND sva.EstadoRegistro = @AuditoriaActivo
+                 AND lva.EstadoRegistro = @AuditoriaActivo;
+
+        OPEN CUR_SolicitudVacaciones;
+
+        FETCH NEXT FROM CUR_SolicitudVacaciones INTO @SolicitudVacacionesId, @LibroVacacionesTipo, @SolicitudVacacionesDiasDisfrute, @SolicitudVacacionesDiasDinero;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+            --- Inserta  NominaFuenteNovedad
+            INSERT INTO [dbo].[NominaFuenteNovedad]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [Modulo],
+             [ModuloRegistroId]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @ModuloSistema,
+             @SolicitudVacacionesId
+            );
+
+            SET @NominaFuenteNovedadId =
+            (
+                SELECT SCOPE_IDENTITY()
+            );
+
+            -- Si la solicitud esta asociada a vacaciones anticipadas
+            IF @LibroVacacionesTipo = @LibroVacacionesAnticipado
+            BEGIN
+
+                SELECT @UnidadMedida = cno.UnidadMedida
+                FROM dbo.ConceptoNomina AS cno
+                WHERE cno.Id = @ConceptoVacacionesAnticipadasId;
+
+                SET @ConceptoNominaId = @ConceptoVacacionesAnticipadasId;
+                SET @Cantidad = @SolicitudVacacionesDiasDisfrute;
+            END;
+            ELSE
+            BEGIN
+
+                -- Si en la solicitud se pidieron vacaciones en dinero
+                IF @SolicitudVacacionesDiasDinero IS NOT NULL
+                   AND @SolicitudVacacionesDiasDinero > 0
+                BEGIN
+
+                    SELECT @UnidadMedida = cno.UnidadMedida
+                    FROM dbo.ConceptoNomina AS cno
+                    WHERE cno.Id = @ConceptoVacacionesDineroId;
+
+                    SET @ConceptoNominaId = @ConceptoVacacionesDineroId;
+                    SET @Cantidad = @SolicitudVacacionesDiasDinero;
+
+                    -- Inserta NominaDetalle
+                    INSERT INTO [dbo].[NominaDetalle]
+                    ([EstadoRegistro],
+                     [CreadoPor],
+                     [FechaCreacion],
+                     [NominaFuncionarioId],
+                     [NominaFuenteNovedadId],
+                     [ConceptoNominaId],
+                     [UnidadMedida],
+                     [Cantidad],
+                     [Valor],
+                     [Estado]
+                    )
+                    VALUES
+                    (@AuditoriaActivo,
+                     @UsuarioOperacion,
+                     GETDATE(),
+                     @NominaFuncionarioId,
+                     @NominaFuenteNovedadId,
+                     @ConceptoNominaId,
+                     @UnidadMedida,
+                     @Cantidad,
+                     @Valor,
+                     @NominaDetallePendiente
+                    );
+
+                END;
+
+                -- Solicitud de vacaciones en tiempo
+                SELECT @UnidadMedida = cno.UnidadMedida
+                FROM dbo.ConceptoNomina AS cno
+                WHERE cno.Id = @ConceptoVacacionesTiempoId;
+
+                SET @ConceptoNominaId = @ConceptoVacacionesTiempoId;
+                SET @Cantidad = @SolicitudVacacionesDiasDisfrute;
+
+            END;
+
+            -- Inserta NominaDetalle
+            INSERT INTO [dbo].[NominaDetalle]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [NominaFuncionarioId],
+             [NominaFuenteNovedadId],
+             [ConceptoNominaId],
+             [UnidadMedida],
+             [Cantidad],
+             [Valor],
+             [Estado]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @NominaFuncionarioId,
+             @NominaFuenteNovedadId,
+             @ConceptoNominaId,
+             @UnidadMedida,
+             @Cantidad,
+             @Valor,
+             @NominaDetallePendiente
+            );
+
+            FETCH NEXT FROM CUR_SolicitudVacaciones INTO @SolicitudVacacionesId, @LibroVacacionesTipo, @SolicitudVacacionesDiasDisfrute, @SolicitudVacacionesDiasDinero;
+        END;
+
+        CLOSE CUR_SolicitudVacaciones;
+
+        DEALLOCATE CUR_SolicitudVacaciones;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN CargarNovedadesVacaciones;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_CargarNovedadesVacaciones];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

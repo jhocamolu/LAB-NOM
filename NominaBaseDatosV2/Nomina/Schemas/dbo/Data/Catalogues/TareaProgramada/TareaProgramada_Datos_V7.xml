@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TareaProgramada_Datos_V7">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TareaProgramada] ON
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [Alias]) 
+VALUES (12, N'Sincronizar cuentas contables', N'diaria', N'Se encarga de comparar y realizar cambios a las cuentas contables registradas en GHestic de acuerdo a como se encuentre su parametrización en softland.', N'node C:\inetpub\wwwroot\NominaConsola\index.js sincronizar-cuentas-contables', 0, 'Activo', 'sistema',GETDATE(), N'sincronizar-cuentas-contables')
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [Alias]) 
+VALUES (13, N'Sincronizar periodos contables', N'diaria', N'Se encarga de cambiar de estado el periodo contable activo que se encuentre en el sistema a cerrrado y de ingresar un nuevo periodo contable activo según el periodo contable activo registrado en softland.', N'node C:\inetpub\wwwroot\NominaConsola\index.js sincronizar-periodo-contable', 0, 'Activo', 'sistema',GETDATE(), N'sincronizar-periodo-contable')
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [Alias]) 
+VALUES (14, N'Sincronizar centros de costo', N'diaria', N'Se encarga de comparar y realizar cambios a los centros de costo registrados en GHestic de acuerdo a como se encuentre su parametrización en softland.', N'node C:\inetpub\wwwroot\NominaConsola\index.js sincronizar-centros-costo', 0, 'Activo', 'sistema',GETDATE(), N'sincronizar-centros-costo')
+GO
+
+SET IDENTITY_INSERT [dbo].[TareaProgramada] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[TareaProgramada] WHERE Id IN (12,13,14);
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

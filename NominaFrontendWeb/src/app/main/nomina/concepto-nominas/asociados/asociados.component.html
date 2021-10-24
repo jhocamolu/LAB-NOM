@@ -1,0 +1,43 @@
+<!-- CONTENT -->
+
+
+<div>
+
+    <div>
+
+        <alcanos-empty-list 
+            labelH1="¡Uy! Aún no has registrado conceptos asociados." 
+            [visibleBtnCreate]="false"
+            [visible]="!dataLength && !dataRequest">
+        </alcanos-empty-list>
+        
+
+        <div [hidden]="!dataLength" class="box-shadow">
+            <table mat-table #table [dataSource]="dataSource"
+                [@animateStagger]="{value:'50'}">
+
+                <!-- Columna N° contrato -->
+                <ng-container matColumnDef="codigo">
+                    <th mat-header-cell *matHeaderCellDef>Código</th>
+                    <td mat-cell *matCellDef="let element"> {{element.asociado?.codigo}} </td>
+                </ng-container>
+
+                <!-- Columna N° documento -->
+                <ng-container matColumnDef="concepto">
+                    <th mat-header-cell *matHeaderCellDef>Concepto</th>
+                    <td mat-cell *matCellDef="let element">{{element.asociado?.nombre}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+
+
+    </div>
+
+</div>
+<!-- / CONTENT -->

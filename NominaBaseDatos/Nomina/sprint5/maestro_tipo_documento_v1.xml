@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_tipo_documento_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[TipoDocumento] ON 
+GO
+INSERT [dbo].[TipoDocumento] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [CodigoPila], [CodigoDian], [Nombre], [Formato], [Validacion]) VALUES ('sistema', 1, 'Activo', GETDATE(), GETDATE(), NULL, 'RC', '11', 'Registro civil de nacimiento', 'Numerico', '^[0-9]*$')
+GO
+INSERT [dbo].[TipoDocumento] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [CodigoPila], [CodigoDian], [Nombre], [Formato], [Validacion]) VALUES ('sistema', 2, 'Activo', GETDATE(), GETDATE(), NULL, 'TI', '12', 'Tarjeta de identidad', 'Numerico', '^[0-9]*$')
+GO
+INSERT [dbo].[TipoDocumento] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [CodigoPila], [CodigoDian], [Nombre], [Formato], [Validacion]) VALUES ('sistema', 3, 'Activo', GETDATE(), GETDATE(), NULL, 'CC', '13', 'Cédula de ciudadania', 'Numerico', '^[0-9]*$')
+GO
+INSERT [dbo].[TipoDocumento] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [CodigoPila], [CodigoDian], [Nombre], [Formato], [Validacion]) VALUES ('sistema', 4, 'Activo', GETDATE(), GETDATE(), NULL, 'CE', '22', 'Cédula de extranjería', 'Numerico', '^[0-9]*$')
+GO
+INSERT [dbo].[TipoDocumento] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [CodigoPila], [CodigoDian], [Nombre], [Formato], [Validacion]) VALUES ('sistema', 5, 'Activo', GETDATE(), GETDATE(), NULL, 'NI', '31', 'NIT', 'Numerico', '^[0-9]*$')
+GO
+INSERT [dbo].[TipoDocumento] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [CodigoPila], [CodigoDian], [Nombre], [Formato], [Validacion]) VALUES ('sistema', 6, 'Activo', GETDATE(), GETDATE(), NULL, 'PA', '41', 'Pasaporte', 'Alfanumerico', '^[A-Za-z0-9]*$')
+GO
+INSERT [dbo].[TipoDocumento] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [CodigoPila], [CodigoDian], [Nombre], [Formato], [Validacion]) VALUES ('sistema', 7, 'Activo', GETDATE(), GETDATE(), NULL, 'CD', '46', 'Carné Diplomático', 'Alfanumerico', '^[A-Za-z0-9]*$')
+GO
+SET IDENTITY_INSERT [dbo].[TipoDocumento] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoDocumento] WHERE Id BETWEEN 1 AND 7;
+</rollback>
+</changeSet>
+</databaseChangeLog>

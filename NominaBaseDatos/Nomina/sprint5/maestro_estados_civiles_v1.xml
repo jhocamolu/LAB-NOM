@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_estados_civiles_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[EstadoCivil] ON 
+GO
+INSERT [dbo].[EstadoCivil] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, 'CASADO/A')
+GO
+INSERT [dbo].[EstadoCivil] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, 'DIVORCIADO/A')
+GO
+INSERT [dbo].[EstadoCivil] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, 'SOLTERO/A')
+GO
+INSERT [dbo].[EstadoCivil] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, 'MADRE CABEZA DE FAMILIA')
+GO
+INSERT [dbo].[EstadoCivil] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 5, 'Activo', GETDATE(), NULL, NULL, 'UNIÓN LIBRE')
+GO
+INSERT [dbo].[EstadoCivil] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 6, 'Activo', GETDATE(), NULL, NULL, 'VIUDO/A')
+GO
+INSERT [dbo].[EstadoCivil] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 7, 'Activo', GETDATE(), NULL, NULL, 'OTRO')
+GO
+SET IDENTITY_INSERT [dbo].[EstadoCivil] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[EstadoCivil] WHERE Id BETWEEN 1 AND 7;
+</rollback>
+</changeSet>
+</databaseChangeLog>

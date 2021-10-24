@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_CargarNovedadesAusentismos_V1">
+<comment>HU054</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_CargarNovedadesAusentismos', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_CargarNovedadesAusentismos as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 24/04/2020
+-- Description: Pemite cargar las novedades del funcionario para el módulo de ausentismos
+--
+-- Parameters:
+--  @NominaId:			   Identificador de la nómina a la que va a vincular la novedad
+--  @FuncionarioId:		   Identificador del funcionario
+--  @SubperiodoId:		   Subperiodo asociado a la nómina que se esta liquidando
+--  @Id				   Identificador de la novedad a cargar
+--  @UsuarioOperacion:	   Usuario que realiza la operación
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_CargarNovedadesAusentismos] @NominaId         INT,
+                                                   @FuncionarioId    INT,
+                                                   @SubperiodoId     INT,
+										 @Id			    INT,
+                                                   @UsuarioOperacion VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@SubperiodoId=', CONVERT(VARCHAR, @SubperiodoId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @NominaFuncionarioId INT;
+    DECLARE @AusentismoAprobado VARCHAR(255);
+    DECLARE @AusentismoFinalizado VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @NominaFechaInicio DATE;
+    DECLARE @NominaFechaFinal DATE;
+    DECLARE @DiasAusentismo INT;
+    DECLARE @DiasCausados INT;
+    DECLARE @AusentismoFuncionarioId INT;
+    DECLARE @DiasSubperiodo INT;
+    DECLARE @FechaInicioLiquidacionAusentismo DATE;
+    DECLARE @FechaFinLiquidacionAusentismo DATE;
+    DECLARE @AusentismoFuncionarioFechaInicio DATE;
+    DECLARE @AusentismoFuncionarioFechaFin DATE;
+    DECLARE @DiasLiquidar INT;
+    DECLARE @TipoAusentismoId INT;
+    DECLARE @CoberturaHasta INT;
+    DECLARE @ConceptoNominaId INT;
+    DECLARE @DiasNovedad INT;
+    DECLARE @AcumuladoLiquidacion INT;
+    DECLARE @ModuloSistema VARCHAR(255)=
+    (
+        SELECT cms.[AUSENTISMOS]
+        FROM util.VW_ConstanteModuloSistema AS cms
+    );
+    DECLARE @NominaFuenteNovedadId INT= 0;
+    DECLARE @UnidadMedida VARCHAR(255)=
+    (
+        SELECT cum.[DIA]
+        FROM util.VW_ConstanteUnidadMedida AS cum
+    );
+    DECLARE @ValorNovedad MONEY = 0;
+	DECLARE @NominaDetallePendiente VARCHAR(255);
+
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN CargarNovedadesAusentismos;
+
+        -- Se consultan los estados
+        SELECT @AusentismoAprobado = ces.[AUSENTISMO_APROBADO],
+               @AusentismoFinalizado = [AUSENTISMO_FINALIZADO],
+               @AuditoriaActivo = ces.AUDITORIA_ACTIVO,
+			   @NominaDetallePendiente = ces.NOMINADETALLE_PENDIENTE
+        FROM util.VW_ConstanteEstado AS ces;
+
+        -- Se consulta la fecha inicial y final de la nómina
+        SELECT @NominaFechaInicio = nom.FechaInicio,
+               @NominaFechaFinal = nom.FechaFinal,
+               @DiasSubperiodo = spe.Dias
+        FROM dbo.Nomina AS nom
+             INNER JOIN dbo.SubPeriodo AS spe ON(spe.Id = nom.SubperiodoId)
+        WHERE nom.Id = @NominaId;
+
+	   
+
+        -- Cursor para obtener los ausentismos del funcionario
+        DECLARE CUR_Ausentismos CURSOR LOCAL
+        FOR SELECT afu.Id,
+                   afu.FechaInicio,
+                   afu.FechaFin,
+                   afu.TipoAusentismoId,
+			    nfu.Id
+            FROM dbo.AusentismoFuncionario AS afu
+			 INNER JOIN dbo.NominaFuncionario nfu ON (nfu.FuncionarioId = afu.FuncionarioId)
+                 INNER JOIN dbo.TipoAusentismo AS tau ON(tau.Id = afu.TipoAusentismoId)
+            WHERE afu.FuncionarioId = @FuncionarioId
+			 AND ((@Id IS NOT NULL AND afu.Id = @Id) OR (@Id IS NULL))
+			 AND nfu.NominaId = @NominaId
+                  AND afu.Estado IN(@AusentismoAprobado, @AusentismoFinalizado)
+                 AND ((afu.FechaInicio BETWEEN @NominaFechaInicio AND @NominaFechaFinal)
+                      OR (afu.FechaFin BETWEEN @NominaFechaInicio AND @NominaFechaFinal)
+                      OR (afu.FechaInicio < @NominaFechaInicio
+                          AND afu.FechaFin > @NominaFechaFinal))
+                 AND afu.EstadoRegistro = @AuditoriaActivo
+			  ORDER BY afu.FechaInicio ASC;
+
+        OPEN CUR_Ausentismos;
+
+        FETCH NEXT FROM CUR_Ausentismos INTO @AusentismoFuncionarioId, @AusentismoFuncionarioFechaInicio, @AusentismoFuncionarioFechaFin, @TipoAusentismoId, @NominaFuncionarioId;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+            SET @DiasAusentismo = dbo.UFS_ObtenerDiasAusentismo(@AusentismoFuncionarioId, 1);
+
+            SET @DiasCausados = dbo.UFS_ObtenerDiasCausadosAusentismo(@AusentismoFuncionarioId, 1);
+
+            SET @FechaInicioLiquidacionAusentismo = @NominaFechaInicio;
+            SET @FechaFinLiquidacionAusentismo = @NominaFechaFinal;
+
+            IF @AusentismoFuncionarioFechaInicio > @NominaFechaInicio
+            BEGIN
+                SET @FechaInicioLiquidacionAusentismo = @AusentismoFuncionarioFechaInicio;
+            END;
+
+            IF @AusentismoFuncionarioFechaFin < @NominaFechaFinal
+            BEGIN
+                SET @FechaFinLiquidacionAusentismo = @AusentismoFuncionarioFechaFin;
+            END;
+
+            SET @DiasLiquidar = DATEDIFF(DAY, @FechaInicioLiquidacionAusentismo, @FechaFinLiquidacionAusentismo) + 1;
+
+            IF @DiasLiquidar > @DiasSubperiodo
+            BEGIN
+                SET @DiasLiquidar = @DiasSubperiodo;
+            END;
+
+            -- Cursor para obtener las coberturas y sus conceptos
+            DECLARE CUR_Coberturas CURSOR LOCAL
+            FOR SELECT tacn.CoberturaHasta,
+                       tacn.ConceptoNominaId
+                FROM dbo.TipoAusentismoConceptoNomina AS tacn
+                WHERE tacn.TipoAusentismoId = @TipoAusentismoId
+                      AND ((tacn.CoberturaHasta < @DiasAusentismo
+                            OR @DiasAusentismo BETWEEN tacn.CoberturaDesde AND tacn.CoberturaHasta)
+                           AND (tacn.CoberturaHasta > @DiasCausados))
+                      AND tacn.EstadoRegistro = @AuditoriaActivo;
+
+            OPEN CUR_Coberturas;
+
+            FETCH NEXT FROM CUR_Coberturas INTO @CoberturaHasta, @ConceptoNominaId;
+
+            WHILE @@FETCH_STATUS = 0
+
+            BEGIN
+
+			 IF @CoberturaHasta > @DiasCausados AND @DiasLiquidar <> 0
+			 BEGIN
+				
+				IF @CoberturaHasta < @DiasLiquidar
+				BEGIN
+				    SET @DiasNovedad = @CoberturaHasta;
+				END
+				ELSE
+				BEGIN
+				    SET @AcumuladoLiquidacion = @DiasCausados + @DiasLiquidar;
+
+				    IF @AcumuladoLiquidacion < @CoberturaHasta
+				    BEGIN
+					   SET @DiasNovedad = @DiasLiquidar;
+				    END
+				    ELSE
+				    BEGIN
+					   SET @DiasNovedad = (@CoberturaHasta - @DiasCausados);
+				    END
+				END
+
+				--- Inserta  NominaFuenteNovedad
+				INSERT INTO [dbo].[NominaFuenteNovedad]
+				([EstadoRegistro],
+				 [CreadoPor],
+				 [FechaCreacion],
+				 [Modulo],
+				 [ModuloRegistroId]
+				)
+				VALUES
+				(@AuditoriaActivo,
+				 @UsuarioOperacion,
+				 GETDATE(),
+				 @ModuloSistema,
+				 @AusentismoFuncionarioId
+				);
+
+				SET @NominaFuenteNovedadId =
+				(
+				    SELECT SCOPE_IDENTITY()
+				);
+
+				-- Inserta NominaDetalle
+				INSERT INTO [dbo].[NominaDetalle]
+				([EstadoRegistro],
+				 [CreadoPor],
+				 [FechaCreacion],
+				 [NominaFuncionarioId],
+				 [NominaFuenteNovedadId],
+				 [ConceptoNominaId],
+				 [UnidadMedida],
+				 [Cantidad],
+				 [Valor],
+				 [Estado]
+				)
+				VALUES
+				(@AuditoriaActivo,
+				 @UsuarioOperacion,
+				 GETDATE(),
+				 @NominaFuncionarioId,
+				 @NominaFuenteNovedadId,
+				 @ConceptoNominaId,
+				 @UnidadMedida,
+				 @DiasNovedad,
+				 @ValorNovedad,
+				 @NominaDetallePendiente
+				);
+
+
+				SET @DiasLiquidar = @DiasLiquidar - @DiasNovedad;
+
+				SET @DiasCausados = @DiasCausados + @DiasNovedad;
+
+			 END
+
+
+                FETCH NEXT FROM CUR_Coberturas INTO @CoberturaHasta, @ConceptoNominaId;
+            END;
+
+            CLOSE CUR_Coberturas;
+
+            DEALLOCATE CUR_Coberturas;
+
+            FETCH NEXT FROM CUR_Ausentismos INTO @AusentismoFuncionarioId, @AusentismoFuncionarioFechaInicio, @AusentismoFuncionarioFechaFin, @TipoAusentismoId, @NominaFuncionarioId;
+        END;
+
+        CLOSE CUR_Ausentismos;
+
+        DEALLOCATE CUR_Ausentismos;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN CargarNovedadesAusentismos;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_CargarNovedadesAusentismos];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

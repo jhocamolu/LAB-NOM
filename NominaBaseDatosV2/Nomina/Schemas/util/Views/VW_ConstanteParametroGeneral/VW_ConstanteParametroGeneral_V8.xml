@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="VW_ConstanteParametroGeneral_V8">
+<comment>Nuevo parametro de retefuente</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteParametroGeneral]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteParametroGeneral]
+END
+GO
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 21-04-2020
+-- Description: Vista que permite la simulación de constantes para los parámetros generales
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [util].[VW_ConstanteParametroGeneral]
+AS
+SELECT 
+		-- Parámetros generales
+		CAST('conceptoDescuentoLibranza' AS VARCHAR(255)) AS [CONCEPTODESCUENTOLIBRANZA]
+		,CAST('decimalesMostrar' AS VARCHAR(255)) AS [DECIMALESMOSTRAR]
+		,CAST('diasTrabajados' AS VARCHAR(255)) AS [DIASTRABAJADOS]
+		,CAST('diasLey' AS VARCHAR(255)) AS [DIASLEY]
+        ,CAST('diasCalendario' AS VARCHAR(255)) AS [DIASCALENDARIO]
+		,CAST('basePrimaCesantiasMes' AS VARCHAR(255)) AS BASEPRIMACESANTIASMES
+		,CAST('ProvCesantias' AS VARCHAR(255)) AS [PROVCESANTIAS]
+		,CAST('ProvIntCesantias' AS VARCHAR(255)) AS [PROVINTCESANTIAS]
+		,CAST('CesantiasConsolidadas' AS VARCHAR(255)) AS [CESANTIASCONSOLIDADAS]
+		,CAST('InteresCesantiasConsolidadas' AS VARCHAR(255)) AS [INTERESESCESANTIASCONSOLIDADAS]
+		
+		,CAST('conceptoPagosBrutosRetefuente' AS VARCHAR(255)) AS [PAGOSBRUTOSRETEFUENTE]
+		,CAST('conceptoIngresosNoGravablesRetefuente' AS VARCHAR(255)) AS [INGRESOSNOGRAVABLESRETEFUENTE]
+		,CAST('conceptoRentasExentasRetefuente' AS VARCHAR(255)) AS [RENTASEXENTASRETEFUENTE]
+		,CAST('rentaExenta' AS VARCHAR(255)) AS [RENTAEXENTA]
+		,CAST('multiploRedondeos' AS VARCHAR(255)) AS [MULTIPLOREDONDEOS]
+		,CAST('porcentajeLimiteDeducciones' AS VARCHAR(255)) AS [PORCENTAJELIMITEDEDUCCIONES]
+		,CAST('porcentajeDeduccionDependientes' AS VARCHAR(255)) AS [PORCENTAJEDEDUCCIONDEPENDIENTES]
+		,CAST('uvtLimiteDeduccionesYRentas' AS VARCHAR(255)) AS [UVTLIMITEDEDUCCIONESYRENTAS]
+		,CAST('uvtAnual' AS VARCHAR(255)) AS [UVTANUAL]
+		,CAST('conceptoBaseRetefuente' AS VARCHAR(255)) AS [BASERETEFUENTE]
+		,CAST('conceptoBaseRetefuenteRecalculo' AS VARCHAR(255)) AS [BASERETEFUENTERECALCULO]
+        ,CAST('diasVencimientoContrato' AS VARCHAR(255)) AS [DIASVENCIMIENTOCONTRATO]
+        ,CAST('funcionarioVencimiento' AS VARCHAR(255)) AS [FUNCIONARIOVENCIMIENTO]
+        ,CAST('uvtLimiteDeduccionDependientes' AS VARCHAR(255)) AS [UVTLIMITEDEDUCCIONEDEPENDIENTES]
+
+        ,CAST('revisorRequisicionIbague' AS VARCHAR(255)) AS [REVISORREQUISICIONIBAGUE]
+        ,CAST('revisorRequisicionRionegro' AS VARCHAR(255)) AS [REVISORREQUISICIONRIONEGRO]
+        ,CAST('revisorRequisicionPasto1' AS VARCHAR(255)) AS [REVISORREQUISICIONPASTO1]
+        ,CAST('revisorRequisicionPasto2' AS VARCHAR(255)) AS [REVISORREQUISICIONPASTO2]
+        ,CAST('revisorRequisicionNacional' AS VARCHAR(255)) AS [REVISORREQUISICIONNACIONAL]
+        ,CAST('aprobadorRequsicion' AS VARCHAR(255)) AS [APROBADORREQUSICION]
+        ,CAST('autorizadorRequisicion' AS VARCHAR(255)) AS [AUTORIZADORREQUISICION]
+        ,CAST('urlAutorizacionTratamientoDatos' AS VARCHAR(255)) AS [URLAUTORIZACIONTRATAMIENTODATOS]
+        ,CAST('diasCubrirRequisicion' AS VARCHAR(255)) AS [DIASCUBRIRREQUISICION]
+        ,CAST('diasNotificarRequisicion' AS VARCHAR(255)) AS [DIASNOTIFICARREQUISICION]
+
+        ,CAST('CentroOperativoIbague' as VARCHAR(255)) AS [CENTROOPERATIVOIBAGUE]
+        ,CAST('CentroOperativoNeiva' as VARCHAR(255)) AS [CENTROOPERATIVONEIVA]
+        ,CAST('CentroOperativoFusagasuga' as VARCHAR(255)) AS [CENTROOPERATIVOFUSAGASUGA]
+        ,CAST('CentroOperativoGirardot' as VARCHAR(255)) AS [CENTROOPERATIVOGIRARDOT]
+        ,CAST('CentroOperativoLaDorada' as VARCHAR(255)) AS [CENTROOPERATIVOLADORADA]
+  ,CAST('CentroOperativoRionegro' as VARCHAR(255)) AS [CENTROOPERATIVORIONEGRO]
+        ,CAST('CentroOperativoPopayan' as VARCHAR(255)) AS [CENTROOPERATIVOPOPAYAN]
+        ,CAST('CentroOperativoFlorencia' as VARCHAR(255)) AS [CENTROOPERATIVOFLORENCIA]
+        ,CAST('CentroOperativoPasto' as VARCHAR(255)) AS [CENTROOPERATIVOPASTO]
+		
+		,CAST('ConceptoAnticipoCesantias' AS VARCHAR(255)) AS [CONCEPTOANTICIPOCESANTIAS]
+		,CAST('ConceptoVacacionesAnticipadas' AS VARCHAR(255)) AS [CONCEPTOVACACIONESANTICIPADAS]
+		,CAST('ConceptoVacacionesDinero' AS VARCHAR(255)) AS [CONCEPTOVACACIONESDINERO]
+		,CAST('ConceptoVacacionesTiempo' AS VARCHAR(255)) AS [CONCEPTOVACACIONESTIEMPO]
+		,CAST('ConceptoPrimaLegal' AS VARCHAR(255)) AS [CONCEPTOPRIMALEGAL]
+		,CAST('FechaGeneracionPrimaLegal' AS VARCHAR(255)) AS [GENERACIONPRIMALEGAL]
+		,CAST('FechaInicialPrimaLegal' AS VARCHAR(255)) AS [INICIOPRIMALEGAL]
+		,CAST('FechaFinalPrimaLegal' AS VARCHAR(255)) AS [FINPRIMALEGAL]
+
+		,CAST('notaAcademicaBeneficio' AS VARCHAR(255)) AS [NOTAACADEMICABENEFICIO]
+		,CAST('tiempoPermanenciaBeneficio' AS VARCHAR(255)) AS [TIEMPOPERMANENCIABENEFICIO]
+		
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SELECT 1;
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TareaProgramada_Datos_V5">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TareaProgramada] ON
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [Alias]) VALUES (10, N'Notificar vencimiento contratos', N'quincenal', N'Se encarga de notificar que la fecha de vencimiento de un contrato es inferior a 45 días. ', N'node C:\inetpub\wwwroot\NominaConsola\index.js notificar-vencimientocontratos', 0, 'Activo', 'sistema',GETDATE(), N'notificar-vencimientocontratos')
+GO
+
+SET IDENTITY_INSERT [dbo].[TareaProgramada] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[TareaProgramada] WHERE Id =10;
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

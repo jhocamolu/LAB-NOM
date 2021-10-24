@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="NaturalezaJuridica_Datos_V1">
+<comment>Carga inicial</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[NaturalezaJuridica] ON 
+GO
+INSERT [dbo].[NaturalezaJuridica] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (1,1,'Pública','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[NaturalezaJuridica] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (2,2,'Privada','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[NaturalezaJuridica] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (3,3,'Mixta','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[NaturalezaJuridica] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (4,4,'Organismos multilaterales','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[NaturalezaJuridica] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (5,5,'Entidades de derecho público no sometidas a la legislación colombiana','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+
+SET IDENTITY_INSERT [dbo].[NaturalezaJuridica] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    DELETE FROM [dbo].[NaturalezaJuridica] WHERE Id<=5;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

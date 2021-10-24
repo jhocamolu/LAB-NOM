@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_RegistrarTareaProgramadaLog_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_RegistrarTareaProgramadaLog', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_RegistrarTareaProgramadaLog as SELECT 1');
+END;
+GO
+IF OBJECT_ID('[dbo].[USP_TareaProgramadaLog]') IS NOT NULL
+BEGIN
+    DROP PROCEDURE [dbo].[USP_TareaProgramadaLog];
+END
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 18/05/2020
+-- Description:	Procedimiento almacenado, el cual se encarga de actualizar el estado de la tarea programada
+--				y realizar el registro en la tabla TareaProgramadaLog 
+-- =============================================
+ALTER PROCEDURE [dbo].[USP_RegistrarTareaProgramadaLog] @UsuarioOperacion VARCHAR(255),
+											@Estado	VARCHAR(255),
+											@Resultado VARCHAR(255),
+											@Alias VARCHAR(255)
+AS 	
+ BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+       	DECLARE @Parametros VARCHAR(MAX)= CONCAT( '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion), '&', '@Estado=', CONVERT(VARCHAR, @Estado), '&', '@Resultado=', CONVERT(VARCHAR, @Resultado), '&', '@Alias=', CONVERT(VARCHAR, @Alias));
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        DECLARE @TareaProgramadaId INT;
+
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+			-- Inicio de la transacción
+            BEGIN TRAN TareaProgramadaLog;
+           
+           -- Consulta Id de la tarea programada 
+           SELECT @TareaProgramadaId = Id FROM TareaProgramada WHERE Alias = @Alias; 
+           IF @TareaProgramadaId  IS NOT NULL
+           BEGIN 
+	           	-- Inserta el registro de la tarea
+		           INSERT INTO [dbo].[TareaProgramadaLog]
+				           ([TareaProgramadaId]
+				           ,[Estado]
+				           ,[Resultado]
+				           ,[EstadoRegistro]
+				           ,[CreadoPor]
+				           ,[FechaCreacion]
+				           )
+				     VALUES
+				           (@TareaProgramadaId
+				           ,@Estado
+				           ,@Resultado
+				           ,(SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+				           ,@UsuarioOperacion
+				           ,GETDATE()
+				           )
+           END
+           
+            -- Cierre de la transacción
+
+            IF @@TRANCOUNT > 0
+                BEGIN
+                    IF XACT_STATE() = 1
+                        BEGIN
+                            COMMIT TRAN TareaProgramadaLog;
+                    END;
+                        ELSE
+                        BEGIN
+                            EXEC util.TareaProgramadaLog 
+                                 50000, 
+                                 'No se puede confirmar la transacción.  Error desconocido.';
+                    END;
+            END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+          @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_RegistrarTareaProgramadaLog];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

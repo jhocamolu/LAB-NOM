@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ActualizarSolicitudVacacionesInterrupcion_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ActualizarSolicitudVacacionesInterrupcion', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ActualizarSolicitudVacacionesInterrupcion as SELECT 1');
+END;
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 29/04/2020
+-- Description:	Procedimiento almacenado, el cual se encarga de actualizar 
+--				la información de la solicitud de vacaciones interrupciones
+-- =============================================
+ALTER PROCEDURE [dbo].[USP_ActualizarSolicitudVacacionesInterrupcion]
+AS
+    BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= 'NULL';
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        DECLARE @SolicitudVacacionesId INT;
+		DECLARE @FechaInicio DATE;
+		DECLARE @FechaFin DATE;
+		DECLARE @FechaActual DATE = CONVERT(DATE,GETDATE());
+		DECLARE @Estado VARCHAR(30);
+
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+
+            -- Inicio de la transacción
+            BEGIN TRAN SolicitudVacacionesInt;
+
+            -- Crea Cursor
+            DECLARE SolicitudVacacionesInterrupciones CURSOR LOCAL
+            FOR SELECT svi.SolicitudVacacionesId, auf.FechaInicio, auf.FechaFin, sov.Estado FROM SolicitudVacacionesInterrupcion svi
+					INNER JOIN AusentismoFuncionario auf ON svi.FuncionarioAusentismoId = auf.Id
+					INNER JOIN SolicitudVacaciones sov ON sov.Id = svi.SolicitudVacacionesId
+					WHERE auf.EstadoRegistro = ( SELECT AUDITORIA_ACTIVO FROM util.W_ConstanteEstado) AND
+					svi.EstadoRegistro = ( SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado) AND
+					(auf.Estado = ( SELECT AUSENTISMO_APROBADO FROM util.VW_ConstanteEstado) OR
+					auf.Estado = ( SELECT AUSENTISMO_PROCESADO FROM util.VW_ConstanteEstado));
+
+            OPEN SolicitudVacacionesInterrupciones;
+            FETCH NEXT FROM SolicitudVacacionesInterrupciones INTO @SolicitudVacacionesId, @FechaInicio, @FechaFin, @Estado;
+            WHILE @@fetch_status = 0
+                BEGIN
+                  
+					-- Actualiza cuando estado en curso
+                    IF @Estado =
+                    (
+                        SELECT SOLICITUDVACACIONES_ENCURSO
+                        FROM util.VW_ConstanteEstado
+                    )
+                    BEGIN
+                        IF @FechaInicio <= @FechaActual
+						BEGIN
+							-- Actualiza  estado de la solicitud a EnCurso
+							UPDATE SolicitudVacaciones
+								SET 
+									Estado = 
+									(
+										SELECT SOLICITUDVACACIONES_INTERRUMPIDA
+										FROM util.VW_ConstanteEstado
+									)
+							WHERE Id = @SolicitudVacacionesId;
+						END;
+                    END;
+
+					-- Actualiza cuando estado en curso
+                    IF @Estado =
+                    (
+                        SELECT SOLICITUDVACACIONES_INTERRUMPIDA
+                        FROM util.VW_ConstanteEstado
+                    )
+                    BEGIN
+                        IF @FechaFin <= @FechaActual
+						BEGIN
+							-- Actualiza  estado de la solicitud a Terminada
+							UPDATE SolicitudVacaciones
+								SET 
+									Estado = 
+									(
+										SELECT SOLICITUDVACACIONES_ENCURSO
+										FROM util.VW_ConstanteEstado
+									)
+							WHERE Id = @SolicitudVacacionesId;
+							
+						END;
+                    END;
+				 
+                   FETCH NEXT FROM SolicitudVacacionesInterrupciones INTO @SolicitudVacacionesId, @FechaInicio, @FechaFin,@Estado;
+
+                END;
+            CLOSE SolicitudVacacionesInterrupciones;
+            DEALLOCATE SolicitudVacacionesInterrupciones;
+            
+            -- Cierre de la transacción
+
+            IF @@TRANCOUNT > 0
+                BEGIN
+                    IF XACT_STATE() = 1
+                        BEGIN
+                            COMMIT TRAN SolicitudVacacionesInt;
+                    END;
+                        ELSE
+                        BEGIN
+                            EXEC util.USP_GenerarExcepcion 
+                                 50000, 
+                                 'No se puede confirmar la transacción.  Error desconocido.';
+                    END;
+            END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ActualizarSolicitudVacacionesInterrupcion];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

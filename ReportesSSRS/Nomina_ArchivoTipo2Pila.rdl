@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Principal">
+      <DataSourceReference>Principal</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>95a68929-1fd4-457a-a467-580d1cb4d101</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Pila2">
+      <Query>
+        <DataSourceName>Principal</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@PeriodoPagoId">
+            <Value>=Parameters!PeriodoPagoId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@TipoPlanillaId">
+            <Value>=Parameters!TipoPlanillaId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@NumeroPlanilla">
+            <Value>=Parameters!NumeroPlanilla.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@FechaPagoPlanilla">
+            <Value>=Parameters!FechaPagoPlanilla.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@TipoCotizanteId">
+            <Value>=Parameters!TipoCotizanteId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@SubtiposCotizante">
+            <Value>=Parameters!SubtiposCotizante.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Funcionarios">
+            <Value>=Parameters!Funcionarios.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@UsuarioOperacion">
+            <Value>=Parameters!UsuarioOperacion.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Resultado">
+            <Value>=Parameters!Resultado.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>reporte.USP_GenerarPilaTipo2</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Registro">
+          <DataField>Registro</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="table1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>10.66667in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.21in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Registro">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Registro.Value</Value>
+                                  <Style>
+                                    <FontFamily />
+                                    <Color>#333333</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Registro</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                            </Border>
+                            <BottomBorder>
+                              <Style>Solid</Style>
+                            </BottomBorder>
+                            <FontFamily />
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="table1_Details_Group">
+                    <DataElementName>Detail</DataElementName>
+                  </Group>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                  <DataElementName>Detail_Collection</DataElementName>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>Pila2</DataSetName>
+            <Height>0.21in</Height>
+            <Width>10.66667in</Width>
+            <Style />
+          </Tablix>
+        </ReportItems>
+        <Height>0.21in</Height>
+        <Style />
+      </Body>
+      <Width>10.66667in</Width>
+      <Page>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="PeriodoPagoId">
+      <DataType>Integer</DataType>
+      <Prompt>Periodo Pago Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TipoPlanillaId">
+      <DataType>Integer</DataType>
+      <Prompt>Tipo Planilla Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="NumeroPlanilla">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>Numero Planilla</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FechaPagoPlanilla">
+      <DataType>DateTime</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>Fecha Pago Planilla</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TipoCotizanteId">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>Tipo Cotizante Id</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="SubtiposCotizante">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>Subtipos Cotizante</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Funcionarios">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>Funcionarios</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="UsuarioOperacion">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>Usuario Operacion</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="Resultado">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>0</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Resultado</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>3</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>PeriodoPagoId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>TipoPlanillaId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>NumeroPlanilla</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>FechaPagoPlanilla</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>TipoCotizanteId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>SubtiposCotizante</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>Funcionarios</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>1</RowIndex>
+          <ParameterName>UsuarioOperacion</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>2</RowIndex>
+          <ParameterName>Resultado</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <Language>es-ES</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>fb4e88ce-d46a-4bdf-83e2-2c8249a67dc8</rd:ReportID>
+</Report>

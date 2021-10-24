@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TR_ActualizarAlias_v3_1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.TR_ActualizarAlias', 'TR') IS NULL
+BEGIN
+   EXECUTE ('CREATE TRIGGER dbo.TR_ActualizarAlias ON dbo.ParametroGeneral AFTER INSERT,UPDATE as SELECT 1');
+END;
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 28/02/2020
+-- Description:	Disparador utiliza funcion camel case para ajustar el campo alias
+--              de la tabla ParametroGeneral.
+-- =============================================
+ALTER TRIGGER [dbo].[TR_ActualizarAlias]
+   ON [dbo].[ParametroGeneral]
+   AFTER  INSERT,UPDATE
+AS 
+BEGIN
+	IF EXISTS(SELECT Alias 
+            FROM inserted)
+	DECLARE @Id AS INT                  = ( SELECT ins.Id FROM inserted ins)
+	DECLARE @Alias AS VARCHAR(20)       = ( SELECT ins.Alias FROM inserted ins)
+	DECLARE @Camelcase AS VARCHAR(MAX)   = (SELECT [dbo].[UFS_CamelCase](@alias))
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Id=', CONVERT(VARCHAR, @Id), '&', '@Alias=', CONVERT(VARCHAR, @Alias));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+	
+    -- Insert statements for trigger here
+	BEGIN TRY	
+			UPDATE 
+            [ParametroGeneral]
+        SET
+            [Alias] = @camelcase
+        WHERE 
+            Id = @Id
+    END TRY
+	BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID ('dbo.TR_ActualizarAlias', 'TR') IS NOT NULL  
+   DROP TRIGGER dbo.TR_ActualizarAlias;  
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 28/02/2020
+-- Description:	Disparador utiliza funcion camel case para ajustar el campo alias
+--              de la tabla ParametroGeneral.
+-- =============================================
+CREATE TRIGGER [dbo].[TR_ActualizarAlias]
+   ON [dbo].[ParametroGeneral]
+   AFTER  INSERT,UPDATE
+AS 
+BEGIN
+	IF EXISTS(SELECT Alias 
+            FROM inserted)
+	DECLARE @Id AS INT                  = ( SELECT ins.Id FROM inserted ins)
+	DECLARE @Alias AS VARCHAR(20)       = ( SELECT ins.Alias FROM inserted ins)
+	DECLARE @Camelcase AS VARCHAR(20)   = (SELECT [dbo].[UFS_CamelCase](@alias))
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Id=', CONVERT(VARCHAR, @Id), '&', '@Alias=', CONVERT(VARCHAR, @Alias));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+	
+    -- Insert statements for trigger here
+	BEGIN TRY	
+			UPDATE 
+            [ParametroGeneral]
+        SET
+            [Alias] = @camelcase
+        WHERE 
+            Id = @Id
+    END TRY
+	BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

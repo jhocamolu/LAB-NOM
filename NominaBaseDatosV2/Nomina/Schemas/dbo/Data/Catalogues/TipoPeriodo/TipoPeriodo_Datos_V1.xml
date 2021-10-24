@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="TipoPeriodo_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[TipoPeriodo] ON
+GO
+INSERT [dbo].[TipoPeriodo] ([CreadoPor], [Id],  [Nombre], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [PagoPorDefecto]) VALUES ('sistema', 1, 'Quincenal', 'Activo', GETDATE(), NULL, NULL, 1)
+GO
+INSERT [dbo].[TipoPeriodo] ([CreadoPor], [Id],  [Nombre], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [PagoPorDefecto]) VALUES ('sistema', 2, 'Mensual', 'Activo', GETDATE(), NULL, NULL, 0)
+GO
+INSERT [dbo].[TipoPeriodo] ([CreadoPor], [Id],  [Nombre], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [PagoPorDefecto]) VALUES ('sistema', 3, 'No Aplica', 'Activo', GETDATE(), NULL, NULL, 0)
+GO
+INSERT [dbo].[TipoPeriodo] ([CreadoPor], [Id],  [Nombre], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [PagoPorDefecto]) VALUES ('sistema', 4, 'Semestral', 'Activo', GETDATE(), NULL, NULL, 0)
+GO
+INSERT [dbo].[TipoPeriodo] ([CreadoPor], [Id],  [Nombre], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [PagoPorDefecto]) VALUES ('sistema', 5, 'Anual', 'Activo', GETDATE(), NULL, NULL, 0)
+GO
+SET IDENTITY_INSERT [dbo].[TipoPeriodo] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoPeriodo] WHERE Id BETWEEN 1 AND 5;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,138 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Mantenimiento</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/mantenimiento/notificaciones/'">Notificaciones</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar notificación</span>
+                <span *ngIf="!item">Crear notificación</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar notificación </h2>
+                <h2 *ngIf="!item">Crear notificación</h2>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button mat-raised-button color="accent" mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>edit</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button *ngIf="id != null" (click)="destinatarioHandle($event)" mat-menu-item>
+                    <span>Agregar destinatario</span>
+                </button>
+                <a style="text-decoration: none !important;" routerLink="/mantenimiento/notificaciones"
+                    mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="tabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tipo</mat-label>
+                                <mat-select formControlName="tipo" required>
+                                    <mat-option [value]='null'></mat-option>
+                                    <mat-option [value]='"Email"'>E-mail</mat-option>
+                                    <mat-option [value]='"MobilePush"'>Mobile push</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('tipo').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Clasificación de la notificación.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Título</mat-label>
+                                <input matInput formControlName="titulo" required>
+                                <mat-error *ngFor="let error of form.get('titulo').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Nombre de la notificación.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="bloque-textarea">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Mensaje</mat-label>
+                                <textarea matInput formControlName="mensaje" required></textarea>
+                                <mat-error *ngFor="let error of form.get('mensaje').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Nota que lleva la notificación.">
+                                    info</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="actions">
+                            <a *ngIf="true" mat-raised-button [routerLink]="'/mantenimiento/notificaciones/'">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+
+
+                    </form>
+
+
+
+                </mat-tab>
+                <!-- Segundo Label -->
+                <mat-tab label="Destinatarios" [disabled]="!item">
+                    <destinatarios-listar-editar [destinatario-id]="item.id" *ngIf="item"></destinatarios-listar-editar>
+                </mat-tab>
+                <!-- / Segundo Label -->
+            </mat-tab-group>
+
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

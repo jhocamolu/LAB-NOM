@@ -1,0 +1,104 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Mantenimiento</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/mantenimiento/tareas-programadas'">Tareas programadas</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar tarea programada</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar tarea programada</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <div fxFlex="1 0 auto">
+
+
+                    <div class="dos-bloque">
+                        <div appearance="outline">
+                            <h3>Nombre</h3>
+                            <p>{{item.nombre}}</p>
+                        </div>
+                        <div appearance="outline">
+                            <h3>Periodicidad</h3>
+                            <p>{{item.periodicidad}} </p>
+                        </div>
+					</div>
+					
+					<div class="dos-bloque">
+						<div appearance="outline">
+							<h3>Alias</h3>
+							<p>{{item.alias}}</p>
+						</div>
+
+						<mat-form-field class="margen" appearance="outline">
+                            <mat-label>En ejecución </mat-label>
+                            <mat-select formControlName="enEjecucion" required>
+                                <mat-option></mat-option>
+                                <mat-option [value]="false">No</mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of objToArray(form.get('enEjecucion').errors)">
+                                <div [ngSwitch]="error">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Indica si la tarea se va a iniciar.">info
+                            </mat-icon>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div>
+                        <div appearance="outline">
+                            <h3>Instrucción</h3>
+                            <p>{{item.instruccion}}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div appearance="outline">
+                            <h3>Descripción</h3>
+                            <p>{{item.descripcion}}</p>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="actions">
+                        <button mat-raised-button type="button" routerLink="/mantenimiento/tareas-programadas">
+                            <mat-icon>cancel</mat-icon>
+                            <span>Cancelar</span>
+                        </button>
+                        <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                            <mat-icon>save</mat-icon>
+                            <span>Guardar</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- / CONTENIDO -->
+</div>

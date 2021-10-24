@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_funcionnomina_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[FuncionNomina] ON 
+GO
+INSERT [dbo].[FuncionNomina] ([CreadoPor], [Id],  [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Alias], [Ayuda], [Proceso], [TipoFuncion]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, 'Sueldo básico', 'SUELDO_BASICO', 'Devuelve el sueldo del funcionario establecido en el contrato u otrosí vigente para el periodo de liquidación.', 'dbo.sp_sueldo_basico(@funcionarioId, @fecha)', '')
+GO
+INSERT [dbo].[FuncionNomina] ([CreadoPor], [Id],  [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Alias], [Ayuda], [Proceso], [TipoFuncion]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, 'Días trabajados', 'DIAS_TRABAJADOS', 'Devuelve la cantidad de días trabajados del funcionario para la liquidación de la nómina.', 'dbo.sp_dias_trabajados', '')
+GO
+INSERT [dbo].[FuncionNomina] ([CreadoPor], [Id],  [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Alias], [Ayuda], [Proceso], [TipoFuncion]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, 'Días de retroactividad', 'DIAS_RETROACTIVIDAD', 'Devuelve la cantidad de días de retroactividad del funcionario para la liquidación de la nómina.', '', '')
+GO
+INSERT [dbo].[FuncionNomina] ([CreadoPor], [Id],  [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Alias], [Ayuda], [Proceso], [TipoFuncion]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, 'Salario mínimo actual', 'SALARIO_MINIMO_ACTUAL', 'Devuelve el valor del salario mínimo mensual legal vigente', 'obtener_parametro("SalarioMinimoActual")', '')
+GO
+INSERT [dbo].[FuncionNomina] ([CreadoPor], [Id],  [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Alias], [Ayuda], [Proceso], [TipoFuncion]) VALUES ('sistema', 5, 'Activo', GETDATE(), NULL, NULL, 'Auxilio de transporte', 'AUXILIO_TRANSPORTE_ACTUAL', 'Devuelve el valor del auxilio de transporte legal vigente.', 'obtener_parametro("AuxilioTransporteActual")', '')
+GO
+INSERT [dbo].[FuncionNomina] ([CreadoPor], [Id],  [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Alias], [Ayuda], [Proceso], [TipoFuncion]) VALUES ('sistema', 6, 'Activo', GETDATE(), NULL, NULL, 'Valor de concepto', 'VALOR_CONCEPTO', 'Trae el valor del concepto de nómina.', 'obtener_valor_concepto("id_concepto")', '')
+GO
+SET IDENTITY_INSERT [dbo].[FuncionNomina] OFF
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[FuncionNomina] WHERE Id BETWEEN 1 AND 6;
+</rollback>
+</changeSet>
+</databaseChangeLog>

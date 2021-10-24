@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="HU052_v2">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+	SET ANSI_NULLS ON
+	GO
+	SET QUOTED_IDENTIFIER ON
+	GO
+	--=====================================================================================
+	-- Author:      Laura Katherine Estrada Arango.
+	-- Create date: Marzo 4 del 2020
+	-- Description: Trigger que se desencadena cuando se  actualiza el campo
+	--              prioridad, no puede haber prioridades repetidas, entonces si se agrega
+	--              una prioridad existente las demas prioridades se les suma 1.
+	--=====================================================================================
+
+	ALTER TRIGGER [dbo].[TR_RecalculaNumero] ON [dbo].[Nomina]
+	AFTER UPDATE
+	AS
+
+	--Obtenemos los valores insertados.
+	DECLARE @TipoLiquidacionId as varchar(30)				= ( SELECT i.TipoLiquidacionId  FROM deleted i)
+	
+	DECLARE @Numero as int									= ( SELECT i.Numero  FROM deleted i)
+	
+	DECLARE @id as int                      				= ( SELECT i.Id FROM inserted i)
+
+	
+	BEGIN TRY		
+			IF EXISTS(SELECT Numero FROM Nomina 
+				WHERE TipoLiquidacionId = @TipoLiquidacionId
+				AND Numero > @Numero)
+
+				UPDATE 
+					Nomina
+				SET
+					Numero = Numero - 1
+				WHERE
+					TipoLiquidacionId = @TipoLiquidacionId AND
+					Numero > @Numero AND
+					Id <> @id 
+	END TRY
+	BEGIN CATCH
+		EXECUTE [dbo].[USP_RegistrarError];
+END CATCH
+]]>
+</sql>
+
+<rollback>
+DROP TRIGGER [dbo].[TR_RecalculaNumero];
+</rollback>
+</changeSet>
+</databaseChangeLog>

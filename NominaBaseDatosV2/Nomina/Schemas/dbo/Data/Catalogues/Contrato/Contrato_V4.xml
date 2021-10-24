@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="Contrato_V4">
+<comment>Actualiza procediemito retencion a 1</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    UPDATE dbo.Contrato
+    SET dbo.Contrato.ProcedimientoRetencion = 'Procedimiento1'
+    WHERE dbo.Contrato.ProcedimientoRetencion NOT IN('Procedimiento1', 'Procedimiento2');
+    
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    UPDATE dbo.Contrato
+    SET dbo.Contrato.ProcedimientoRetencion = '0'
+    WHERE dbo.Contrato.ProcedimientoRetencion NOT IN('Procedimiento1', 'Procedimiento2');
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

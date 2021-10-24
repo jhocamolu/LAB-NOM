@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="HT020">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- ==========================================================================================
+-- Author:      Jhonatan Camilo Moreno Luna
+-- Create date: 20/04/2020
+-- Description: Permite o obtener el valor de un concepto agrupador segun la Nomina y el funcionario.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @NominaId int:				Identificador de la Nomina
+--   @ConceptoAlias:			Alias del Concepto
+--
+-- Returns:						
+--	 Actualiza el campo Valor segun los acumuladores (SUM) de sus conceptos asociaciados.
+-- ==========================================================================================
+
+
+CREATE PROCEDURE [dbo].[USP_ObtenerValorConceptoAgrupador] 
+(
+	@FuncionarioId int,
+	@NominaId int,
+	@ConceptoAlias VARCHAR(MAX)
+)  
+AS
+BEGIN
+		DECLARE @NominaFuncionarioId INT
+		DECLARE @ConceptoNominaId INT
+		
+		-- Obtiene el Id de la NominaFuncionario.
+		SET @NominaFuncionarioId = (SELECT Id FROM NominaFuncionario
+											WHERE FuncionarioId=@FuncionarioId 
+											AND NominaId=@NominaId)
+
+		-- Obtiene el Id del concepto de nomina tipo Agrupador.
+		SET @ConceptoNominaId = (SELECT Id FROM ConceptoNomina where Alias= @ConceptoAlias)
+
+		-- Actualiza el campo Valor de la nomina detalle.
+		UPDATE NominaDetalle SET
+			-- Se realiza la Suma de los valores de los conceptos asociados.
+			Valor = (SELECT SUM(Valor) respuesta FROM NominaDetalle
+												 WHERE NominaFuncionarioId = @NominaFuncionarioId 
+												 AND ConceptoNominaId IN (
+																		-- Obtiene los conceptos asociados al concepto Agrupador.
+																		 SELECT ConceptoNominaId FROM ConceptoBase	
+																		 WHERE ConceptoNominaAgrupadorId = @ConceptoNominaId)
+																		 )
+		WHERE NominaFuncionarioId = @NominaFuncionarioId 
+		AND ConceptoNominaId = @ConceptoNominaId
+
+END
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerValorConceptoAgrupador]
+GO
+]]>
+</sql>
+</rollback>
+
+</changeSet>
+</databaseChangeLog>

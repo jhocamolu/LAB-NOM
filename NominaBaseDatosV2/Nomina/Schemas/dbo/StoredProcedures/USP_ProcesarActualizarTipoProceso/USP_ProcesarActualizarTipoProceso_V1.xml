@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="USP_ProcesarActualizarTipoProceso_V1">
+<comment>HU057</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ProcesarActualizarTipoProceso', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ProcesarActualizarTipoProceso as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Jesus Albeiro Gaviria R
+-- Create date: 03/03/2021
+-- Description: Pemite realizar la actualicacion de procedimientoretencion, 
+--	completar datos de solicitud vacaciones,  solicitud de cesantias y cambiar estado de contrato,
+--  este proceso se llama desde USP_AprobarNomina.
+--
+-- Parameters:
+--  @NominaId:			Identificador de la nómina que se va a contabilizar
+--  @FechaInicio:	   	Fecha de incio de la nómina que se va a contabilizar
+--  @FechaFinal:	   	Fecha de fin de la nómina que se va a contabilizar
+--  @UsuarioOperacion:	Usuario que realiza la operación
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ProcesarActualizarTipoProceso]( @NominaId          INT,
+														 	@TipoLiquidacionId int,
+                                                         	@UsuarioOperacion 	VARCHAR(255)
+                                                         )
+AS
+BEGIN
+
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@TipoLiquidacionId=', CONVERT(VARCHAR, @TipoLiquidacionId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables Global
+    --------------------------------------------------------------------------
+	DECLARE @AuditoriaActivo VARCHAR(255);
+	DECLARE @CODIGO_VACACIONES VARCHAR(255);
+	DECLARE @CODIGO_RETENCIONFUENTE VARCHAR(255);
+	DECLARE @CODIGO_ANTICIPOCESANTIAS VARCHAR(255);
+	DECLARE @CODIGO_DEFINITIVA VARCHAR(255);
+	DECLARE @CodigoTipoLiquidacion VARCHAR(255);
+	DECLARE @CONTRATO_PENDIENTEPORLIQUIDAR VARCHAR(30);
+
+	SELECT @AuditoriaActivo = ces.AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado AS ces;
+	SELECT @CODIGO_VACACIONES = CODIGO_VACACIONES, @CODIGO_RETENCIONFUENTE = CODIGO_RETENCIONFUENTE, @CODIGO_ANTICIPOCESANTIAS = CODIGO_ANTICIPOCESANTIAS, @CODIGO_DEFINITIVA = CODIGO_DEFINITIVA FROM UTIL.VW_ConstanteCodigoTipoLiquidacion;
+	SELECT  @CodigoTipoLiquidacion = Codigo FROM TipoLiquidacion WHERE Id = @TipoLiquidacionId
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN ProcesarActualizarTipoProceso;
+
+	       	IF @CodigoTipoLiquidacion = @CODIGO_VACACIONES 
+			BEGIN
+				
+				DECLARE @VacacionesTiempo VARCHAR(255);
+				DECLARE @SOLICITUDVACACIONES_APROBADA VARCHAR(255);
+				SELECT @VacacionesTiempo = Id FROM ConceptoNomina WHERE Alias = 'VacacionesTiempo';
+				SELECT @SOLICITUDVACACIONES_APROBADA = SOLICITUDVACACIONES_APROBADA	FROM util.VW_ConstanteEstado ;
+			
+				UPDATE solicitudvacaiones
+				SET 
+					NominaFuncionarioId = nominaFuncionario.Id
+					,FechaPago = GETDATE()
+					,ValorPago = nominaDetalle.Valor
+					,FechaModificacion = GETDATE()
+					,ModificadoPor = @UsuarioOperacion 
+				FROM SolicitudVacaciones solicitudvacaiones 
+				INNER JOIN NominaFuncionario nominaFuncionario 
+							ON solicitudvacaiones.FuncionarioId = nominaFuncionario.FuncionarioId
+							AND nominaFuncionario.NominaId = @NominaId
+							AND nominaFuncionario.EstadoRegistro = @AuditoriaActivo
+				INNER JOIN NominaDetalle nominaDetalle 
+							ON nominaFuncionario.Id = nominaDetalle.NominaFuncionarioId
+							AND nominaDetalle.ConceptoNominaId = @VacacionesTiempo
+							AND nominaDetalle.EstadoRegistro = @AuditoriaActivo
+				WHERE solicitudvacaiones.NominaFuncionarioId IS NULL
+				AND solicitudvacaiones.Estado = @SOLICITUDVACACIONES_APROBADA
+				AND solicitudvacaiones.EstadoRegistro = @AuditoriaActivo
+					
+			END
+			ELSE IF @CodigoTipoLiquidacion = @CODIGO_RETENCIONFUENTE 
+			BEGIN
+				
+				DECLARE @Procedimiento1 VARCHAR(255) = 'Procedimiento1';
+				DECLARE @Procedimiento2 VARCHAR(255) = 'Procedimiento2';
+				DECLARE @PorcentajeRetefuente INT;
+				DECLARE @CONTRATO_VIGENTE VARCHAR(255);
+				SELECT @CONTRATO_VIGENTE = CONTRATO_VIGENTE, @CONTRATO_PENDIENTEPORLIQUIDAR = CONTRATO_PENDIENTEPORLIQUIDAR FROM util.VW_ConstanteEstado;
+				SELECT @PorcentajeRetefuente = Id FROM ConceptoNomina WHERE Alias = 'PorcentajeRetefuente';
+				
+				--- Update Procedimiento2
+				UPDATE Contrato 
+				SET ProcedimientoRetencion = @Procedimiento2
+					,FechaModificacion = GETDATE()
+					,ModificadoPor = @UsuarioOperacion 
+				FROM Contrato contrato 
+				INNER JOIN NominaFuncionario nominafuncionario 
+							ON contrato.FuncionarioId = nominafuncionario.FuncionarioId
+							AND nominafuncionario.NominaId = @NominaId
+							AND nominafuncionario.EstadoRegistro = @AuditoriaActivo
+				INNER JOIN NominaDetalle nominaDetalle ON nominafuncionario.Id = nominaDetalle.NominaFuncionarioId
+							AND nominaDetalle.ConceptoNominaId = @PorcentajeRetefuente
+							AND nominaDetalle.Valor > 0
+							AND nominaDetalle.EstadoRegistro = @AuditoriaActivo	
+				WHERE contrato.ProcedimientoRetencion = @Procedimiento1
+				AND contrato.Estado IN (@CONTRATO_VIGENTE, @CONTRATO_PENDIENTEPORLIQUIDAR)
+				AND contrato.EstadoRegistro = @AuditoriaActivo;
+				
+			
+				--- Update Procedimiento1
+				UPDATE Contrato
+				SET ProcedimientoRetencion = @Procedimiento1
+					,FechaModificacion = GETDATE()
+					,ModificadoPor = @UsuarioOperacion 
+				FROM Contrato contrato 
+				INNER JOIN NominaFuncionario nominafuncionario 
+				ON contrato.FuncionarioId = nominafuncionario.FuncionarioId
+							AND nominafuncionario.NominaId = @NominaId
+							AND nominafuncionario.EstadoRegistro = @AuditoriaActivo
+				INNER JOIN NominaDetalle nominaDetalle ON nominafuncionario.Id = nominaDetalle.NominaFuncionarioId
+							AND nominaDetalle.ConceptoNominaId = @PorcentajeRetefuente
+							AND nominaDetalle.Valor = 0
+							AND nominaDetalle.EstadoRegistro = @AuditoriaActivo	
+				WHERE contrato.ProcedimientoRetencion = @Procedimiento2
+				AND contrato.Estado IN (@CONTRATO_VIGENTE, @CONTRATO_PENDIENTEPORLIQUIDAR)
+				AND contrato.EstadoRegistro = @AuditoriaActivo;
+				
+			END
+			ELSE IF @CodigoTipoLiquidacion = @CODIGO_ANTICIPOCESANTIAS 
+			BEGIN
+				
+				DECLARE @SOLICITUDCESANTIAS_FINALIZADA VARCHAR(30);
+				DECLARE @SOLICITUDCESANTIAS_APROBADA VARCHAR(30);
+				SELECT @SOLICITUDCESANTIAS_FINALIZADA = SOLICITUDCESANTIAS_FINALIZADA, @SOLICITUDCESANTIAS_APROBADA = SOLICITUDCESANTIAS_APROBADA FROM util.VW_ConstanteEstado;
+			
+				UPDATE solicitudCesantia
+				SET solicitudCesantia.Estado = @SOLICITUDCESANTIAS_FINALIZADA
+					,FechaModificacion = GETDATE()
+					,ModificadoPor = @UsuarioOperacion 
+				FROM SolicitudCesantia solicitudCesantia
+				INNER JOIN NominaFuncionario nominaFuncionario 
+							ON solicitudCesantia.FuncionarioId = nominaFuncionario.FuncionarioId
+							AND nominaFuncionario.NominaId = @NominaId
+							AND nominaFuncionario.EstadoRegistro = @AuditoriaActivo
+				WHERE solicitudCesantia.Estado = @SOLICITUDCESANTIAS_APROBADA
+				AND solicitudCesantia.EstadoRegistro = @AuditoriaActivo;
+				
+			END
+			ELSE IF @CodigoTipoLiquidacion = @CODIGO_DEFINITIVA 
+			BEGIN
+				
+				DECLARE @CONTRATO_TERMINADO VARCHAR(30);
+				SELECT @CONTRATO_TERMINADO = CONTRATO_TERMINADO, @CONTRATO_PENDIENTEPORLIQUIDAR = CONTRATO_PENDIENTEPORLIQUIDAR FROM util.VW_ConstanteEstado;
+
+				UPDATE contrato
+				SET contrato.Estado = @CONTRATO_TERMINADO
+					,FechaModificacion = GETDATE()
+					,ModificadoPor = @UsuarioOperacion 
+				FROM Contrato contrato
+				INNER JOIN NominaFuncionario nominaFuncionario ON contrato.FuncionarioId = nominaFuncionario.FuncionarioId
+							AND nominaFuncionario.NominaId = @NominaId
+							AND nominaFuncionario.EstadoRegistro = @AuditoriaActivo
+				WHERE contrato.Estado = @CONTRATO_PENDIENTEPORLIQUIDAR
+				AND contrato.EstadoRegistro = @AuditoriaActivo;
+			END;
+       
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN ProcesarActualizarTipoProceso;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+
+
+
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ProcesarActualizarTipoProceso];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

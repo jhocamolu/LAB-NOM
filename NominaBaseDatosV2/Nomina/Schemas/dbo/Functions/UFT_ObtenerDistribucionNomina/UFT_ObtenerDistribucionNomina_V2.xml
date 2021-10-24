@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="UFT_ObtenerDistribucionNomina_V2">
+<comment>HU057</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerDistribucionNomina]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerDistribucionNomina]
+END
+GO
+-- =============================================
+-- Author:		Jhonatan Camilo Moreno Luna
+-- Create date: 27-05-2020
+-- Description:Obtener la cantidad y el valor segun concepto de nomina relacionado en parametros 
+-- para la visualizacion de widget
+-- Parametros:
+--	@NominaId INT: Id de la nomina
+-- Retorna: 
+-- @Tabla TABLE: Retorna el Alias del Concepto, la sumatoria de Valor de NominaDetalle
+-- =============================================
+CREATE FUNCTION [dbo].[UFT_ObtenerDistribucionNomina]
+(
+	-- Add the parameters for the function here
+	@NominaId INT
+)
+RETURNS 
+@Table TABLE 
+(
+	-- Add the column definitions for the TABLE variable here 
+	Nombre VARCHAR(255),
+	Total MONEY
+)
+AS
+BEGIN
+	-- Fill the table variable with the rows for your result set
+	DECLARE @ParametroAliasSeguridadSocial VARCHAR(255)= 'ConceptoSeguridadSocial';
+	DECLARE @ParametroAliasParafiscales VARCHAR(255)= 'ConceptoParafiscales';
+	DECLARE @ParametroAliasARL VARCHAR(255)= 'ConceptoARL';
+	DECLARE @ParametroAliasProvisiones VARCHAR(255)= 'ConceptoProvisiones';
+	DECLARE @ParametroAliasTotalDevengo VARCHAR(255)= 'ConceptoTotalDevengo';
+	DECLARE @NominaAplicada VARCHAR(255)=
+	(
+		SELECT vce.NOMINA_APLICADA
+		FROM util.VW_ConstanteEstado AS vce
+	);
+	DECLARE @AuditoriaActivo VARCHAR(255)=
+	(
+		SELECT vce.AUDITORIA_ACTIVO
+		FROM util.VW_ConstanteEstado AS vce
+	);
+	DECLARE @TipoLiquidacionId INT;
+	DECLARE @NominaFechaInicio DATE;
+
+	-- Datos de la nómina actual
+	SELECT @TipoLiquidacionId = nom.TipoLiquidacionId,
+			@NominaFechaInicio = nom.FechaInicio
+	FROM dbo.Nomina AS nom
+	WHERE nom.Id = @NominaId
+	INSERT INTO @Table
+	SELECT cn.Alias, SUM(Valor) total FROM NominaDetalle nd
+	INNER JOIN NominaFuncionario nf ON nd.NominaFuncionarioId = nf.Id
+	INNER JOIN dbo.Nomina nom ON nf.NominaId = nom.Id
+	INNER JOIN ConceptoNomina cn ON nd.ConceptoNominaId = cn.Id 
+	WHERE nd.ConceptoNominaId IN (
+			SELECT Id FROM ConceptoNomina 
+			WHERE alias IN (
+			[util].[UFS_ObtenerParametro](@ParametroAliasSeguridadSocial,null), 
+			[util].[UFS_ObtenerParametro](@ParametroAliasParafiscales,null), 
+			[util].[UFS_ObtenerParametro](@ParametroAliasARL,null), 
+			[util].[UFS_ObtenerParametro](@ParametroAliasProvisiones,null), 
+			[util].[UFS_ObtenerParametro](@ParametroAliasTotalDevengo,null)
+			)
+		)
+	AND nf.NominaId=@NominaId
+	AND nom.EstadoRegistro = @AuditoriaActivo
+	AND nf.EstadoRegistro = @AuditoriaActivo
+	AND nd.EstadoRegistro = @AuditoriaActivo
+	GROUP BY cn.Alias
+	RETURN 
+END
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerDistribucionNomina]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerDistribucionNomina]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

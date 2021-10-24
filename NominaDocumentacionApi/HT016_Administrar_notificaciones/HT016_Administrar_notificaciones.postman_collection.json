@@ -1,0 +1,323 @@
+{
+	"info": {
+		"_postman_id": "82c4092d-4fbe-491b-be52-bb6670d1fff3",
+		"name": "HT016_Administrar_notificaciones",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Destinatarios",
+			"item": [
+				{
+					"name": "{{host}}/odata/NotificacionDestinatarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostIn}}/odata/NotificacionDestinatarios/16",
+							"host": [
+								"{{hostIn}}"
+							],
+							"path": [
+								"odata",
+								"NotificacionDestinatarios",
+								"16"
+							],
+							"query": [
+								{
+									"key": "$expand",
+									"value": "funcionario",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearNotificacionDestinatario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t //\"funcionarioId\":8,\n     \"CorreoElectronico\": \"desarrollador3@alcanosesp.com\",\n\t \"notificacionId\": 45\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/NotificacionDestinatarios",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"NotificacionDestinatarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarNotificacionDestinatarios/10",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/NotificacionDestinatarios/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"NotificacionDestinatarios",
+								"1"
+							]
+						},
+						"description": "{{host}}/api/NotificacionDestinatarios/10"
+					},
+					"response": []
+				},
+				{
+					"name": "{{hostIn}}/api/NotificacionDestinatarios/16",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":16,\n\t\"estado\":\"Pendiente\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostIn}}/api/NotificacionDestinatarios/16",
+							"host": [
+								"{{hostIn}}"
+							],
+							"path": [
+								"api",
+								"NotificacionDestinatarios",
+								"16"
+							]
+						},
+						"description": "{{hostIn}}/api/NotificacionDestinatarios/16"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Log",
+			"item": [
+				{
+					"name": "{{host}}/odata/NotificacionDestinatarioLogs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/NotificacionDestinatarioLogs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"NotificacionDestinatarioLogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearNotificacionDestinatarioLogs",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"funcionarioId\":3,\n\t\"notificacionId\":5,\n\t\"resultado\":\"Este es un resultado\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/NotificacionDestinatarioLogs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"NotificacionDestinatarioLogs"
+							]
+						},
+						"description": "{{host}}/api/NotificacionDestinatarioLogs"
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarNotificacionDestinatarioLogs/2",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/NotificacionDestinatarioLogs/4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"NotificacionDestinatarioLogs",
+								"4"
+							]
+						},
+						"description": "{{host}}/api/NotificacionDestinatarioLogs/2"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "{{host}}/odata/notificaciones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/notificaciones/16",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"notificaciones",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CrearNotificaciones",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tipo\": \"Email\",\n    \"titulo\": \"Requerido\",\n    \"mensaje\":\"Este es el mensaje para notificar\",\n    \"NotificacionDestinatarios\":[\n    \t{\n    \t\t//\"funcionarioId\":1\n            \"CorreoElectronico\": \"desarrollador3@alcanosesp.com\"\n    \t},\n    \t{\n    \t\t//\"funcionarioId\":2\n            \"CorreoElectronico\": \"desarrollador3@alcanosesp.com\"\n    \t},\n    \t{\n    \t\t//\"funcionarioId\":3\n            \"CorreoElectronico\": \"desarrollador3@alcanosesp.com\"\n    \t}\n    ]\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/notificaciones",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"notificaciones"
+					]
+				},
+				"description": "{{host}}/api/notificaciones"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarNotificaciones/1",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 1,\n\t\"tipo\": \"MobilePush\",\n    \"titulo\": \"Requerido\",\n    \"mensaje\":\"Este es el mensaje para notificar\"\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/notificaciones/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"notificaciones",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/notificaciones/1"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialNotificaciones/1",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 1,\n\t\"enEjecucion\":true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/notificaciones/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"notificaciones",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/notificaciones/1"
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarNotificaciones/1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/notificaciones/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"notificaciones",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

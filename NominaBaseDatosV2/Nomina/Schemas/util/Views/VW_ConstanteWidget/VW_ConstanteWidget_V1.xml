@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="VW_ConstanteWidget_V1">
+<comment>HT041</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteWidget]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteWidget]
+END
+GO
+
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 09-04-2020
+-- Description: Vista que permite la simulación de constantes para los widgets dentro de SQL Server
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [util].[VW_ConstanteWidget]
+AS
+SELECT 
+		CAST (1 AS INT) AS [SOLICITUDDECESANTIAS],
+		CAST (2 AS INT) AS [SOLICITUDDEPERMISOS],
+		CAST (3 AS INT) AS [SOLICITUDDEVACACIONES],
+		CAST (4 AS INT) AS [INCAPACIDADES],
+		CAST (5 AS INT) AS [SOLICITUDDEBENEFICIOS],
+		CAST (6 AS INT) AS [EMBARGOS],
+		CAST (7 AS INT) AS [GASTOSDEVIAJE],
+		CAST (8 AS INT) AS [HORASEXTRAS],
+		CAST (9 AS INT) AS [LIBRANZAS],
+		CAST (10 AS INT) AS [OTRASNOVEDADES],
+		CAST (11 AS INT) AS [REQUISICIONES],
+		CAST (12 AS INT) AS [CONVOCATORIAS],
+		CAST (13 AS INT) AS [NOTIFICACIONESFALLIDAS],
+		CAST (14 AS INT) AS [TAREASPROGRAMADASFALLIDAS],
+		CAST (15 AS INT) AS [FECHAYHORA],
+		CAST (16 AS INT) AS [PROXIMOSCUMPLEANIOS],
+		CAST (17 AS INT) AS [VALIDACIONFUNCIONARIOS],
+		CAST (18 AS INT) AS [CONTRATOSPORTERMINAR],
+		CAST (19 AS INT) AS [CONTRATOSPORELABORAR],
+		CAST (20 AS INT) AS [FUNCIONARIOSPORCENTROOPERATIVO],
+		CAST (21 AS INT) AS [FUNCIONARIOSPORESTADO]
+
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteWidget]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteWidget]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

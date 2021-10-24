@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="Subcategoria_V1">
+<comment>Migración Inicial HT037</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Subcategoria] ON 
+GO
+INSERT [dbo].[Subcategoria] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [CategoriaId]) VALUES (1, N'Activo    ', N'Sistema', CAST(N'2020-06-03T15:10:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Administración de personal', 1)
+GO
+INSERT [dbo].[Subcategoria] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [CategoriaId]) VALUES (2, N'Activo    ', N'Sistema', CAST(N'2020-06-03T15:10:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Entidades externas', 1)
+GO
+INSERT [dbo].[Subcategoria] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [CategoriaId]) VALUES (3, N'Activo    ', N'Sistema', CAST(N'2020-06-03T15:10:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Nómina', 3)
+GO
+INSERT [dbo].[Subcategoria] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [CategoriaId]) VALUES (4, N'Activo    ', N'Sistema', CAST(N'2020-06-03T15:10:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Pagos a terceros', 3)
+GO
+INSERT [dbo].[Subcategoria] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [CategoriaId]) VALUES (5, N'Activo    ', N'Sistema', CAST(N'2020-06-03T15:10:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Seguridad socual', 3)
+GO
+INSERT [dbo].[Subcategoria] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [CategoriaId]) VALUES (6, N'Activo    ', N'Sistema', CAST(N'2020-06-03T15:10:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Prestaciones sociales', 3)
+GO
+INSERT [dbo].[Subcategoria] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [CategoriaId]) VALUES (7, N'Activo    ', N'Sistema', CAST(N'2020-06-03T15:10:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Contabilidad', 3)
+GO
+SET IDENTITY_INSERT [dbo].[Subcategoria] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[Subcategoria] WHERE Id IN (1,2,3,4,5,6,7)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

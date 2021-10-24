@@ -1,0 +1,104 @@
+<!-- CONTENIDO -->
+<div class="contenido">
+    <div *ngIf="item" fxLayout="column" fxLayoutAlign="start" class="card-header p-12">
+        <div fxLayout="row" fxLayoutAlign="start" fxFlex="1 0 auto">
+            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="10">
+                <div fxLayout="column" (click)="cambiarImgHandle($event)" style="cursor: pointer;"
+                    *ngIf="editarImg">
+                    <div class="avatar" title="{{item.primerNombre}} {{item.primerApellido}}" *ngIf="item.adjunto"
+                        [ngStyle]="{'background-image': 'url(' + enviroments + '/bucket/download?document_id=' + item.adjunto + ')'}">
+                    </div>
+                    <img *ngIf="!item.adjunto" src="assets/alcanos/nofuncionario.jpg" class="card-circe">
+                </div>
+
+                <div fxLayout="column" *ngIf="editarImg == false">
+                    <div class="avatar" title="{{item.primerNombre}} {{item.primerApellido}}" *ngIf="item.adjunto"
+                        [ngStyle]="{'background-image': 'url(' + enviroments + '/bucket/download?document_id=' + item.adjunto + ')'}">
+                    </div>
+                    <img *ngIf="!item.adjunto" src="assets/alcanos/nofuncionario.jpg" class="card-circe">
+                </div>
+
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="space-between" fxFlex="90" fxLayoutGap="15px" fxHide
+                fxShow.gt-md="true">
+                <div fxLayout="column">
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <span style="font-size: 18px;">
+                            {{ item.primerNombre }} {{ item.primerApellido }}
+                        </span>
+                    </div>
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon matTooltip="Centro operativo." class="mr-8">business</mat-icon>
+                        <div class="text-truncate max-width-primario"
+                            matTooltip="{{datosActuales?.centroOperativo.nombre}}">
+                            {{datosActuales?.centroOperativo.nombre}}
+                        </div>
+                        <div *ngIf="!datosActuales?.centroOperativo">
+                            Indefinido
+                        </div>
+                    </div>
+                </div>
+
+                <div fxLayout="column">
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon matTooltip=" Tipo y número de documento." class="mr-8">person_pin</mat-icon>
+                        {{item.tipoDocumento?.codigoPila}} {{item.numeroDocumento}}
+                    </div>
+
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon matTooltip="Dependencia" class="mr-8">work_outline</mat-icon>
+                        <div class="text-truncate max-width-primario"
+                            matTooltip="{{datosActuales?.dependencia.nombre}}">
+                            {{datosActuales?.dependencia.nombre}}
+                        </div>
+                        <div *ngIf="!datosActuales?.dependencia ">
+                            Indefinido
+                        </div>
+                    </div>
+                </div>
+
+                <div fxLayout="column">
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon matTooltip="Cumpleaños" class="mr-8">cake</mat-icon>
+                        {{item.fechaNacimiento | date:'dd / LL'}}
+                    </div>
+
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon matTooltip="Cargo" class="mr-8">featured_play_list</mat-icon>
+                        <div class="text-truncate max-width-primario" matTooltip="{{datosActuales?.cargo.nombre}}">
+                            {{datosActuales?.cargo.nombre}}
+                        </div>
+                        <div *ngIf="!datosActuales?.cargo">
+                            Indefinido
+                        </div>
+                    </div>
+                </div>
+
+                <div fxLayout="column">
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon matTooltip="Tipo de sangre." class="mr-8">healing</mat-icon>
+                        {{item.tipoSangre?.nombre}}
+                    </div>
+
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <span *ngIf="item.estado == 'Activo'" class="btn-tipo-prueba activo">
+                            {{item.estado}}</span>
+                        <span *ngIf="item.estado == 'Seleccionado'" class="btn-tipo-prueba seleccionado">
+                            {{item.estado}}</span>
+                        <span *ngIf="item.estado == 'Retirado'" class="btn-tipo-prueba retirado">
+                            {{item.estado}}</span>
+                        <span *ngIf="item.estado == 'EnVacaciones'" class="btn-tipo-prueba enVacaciones">
+                            En vacaciones</span>
+                        <span *ngIf="item.estado == 'Incapacitado'" class="btn-tipo-prueba incapacitado">
+                            {{item.estado}}</span>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--Contenido -->

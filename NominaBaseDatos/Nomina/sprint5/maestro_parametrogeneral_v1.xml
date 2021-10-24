@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_parametrogeneral_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON
+GO
+INSERT [dbo].[ParametroGeneral] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, 'SalarioMinimoActual', 'Number', 'min="828000", max="5000000"', 'Salario mínimo', 'Es el salario mínimo establecido para el año en curso.', 1, NULL, 1, '877803', 1)
+GO
+INSERT [dbo].[ParametroGeneral] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, 'AuxilioTransporteActual', 'Number', 'min="90000", max="1000000"', 'Auxilio de transporte', 'Es el valor del auxilio de transporte establecido para el año en curso.', 2, NULL, 1, '102853', 1)
+GO
+INSERT [dbo].[ParametroGeneral] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, 'UvtAnual', 'Number', 'min="34270"', 'Razon social', 'El valor del UVT establecido para el año en curso.', 1, NULL, 1, '34270', 1)
+GO
+INSERT [dbo].[ParametroGeneral] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Alias], [Tipo], [HtmlOpcion], [Etiqueta], [Ayuda], [Orden], [Item], [Obligatorio], [Valor], [CategoriaParametroId]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, 'RentaExenta', 'Number', 'min="1", max="100"', 'Renta exenta', 'Es el valor de la renta exenta.', 2, NULL, 1, '25', 1)
+GO
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[ParametroGeneral] WHERE Id BETWEEN 1 AND 4;
+</rollback>
+</changeSet>
+</databaseChangeLog>

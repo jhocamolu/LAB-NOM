@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoLiquidacionComprobante_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[TipoLiquidacionComprobante] ON; 
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('1', '1', 'Contabilizacion', '1028', '1771', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('2', '2', 'Contabilizacion', '1028', '1771', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('3', '3', 'Contabilizacion', '1028', '1771', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('4', '7', 'Contabilizacion', '1028', '1771', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('5', '8', 'Contabilizacion', '1028', '1771', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('6', '9', 'Contabilizacion', '1028', '1771', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('7', '11', 'Contabilizacion', '1028', '1771', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('8', '1', 'Transferencia', '1028', '1771', 'Debito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('9', '1', 'Transferencia', '1028', '44', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('10', '2', 'Transferencia', '1028', '1771', 'Debito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('11', '2', 'Transferencia', '1028', '44', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('12', '3', 'Transferencia', '1028', '1771', 'Debito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('13', '3', 'Transferencia', '1028', '44', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('14', '7', 'Transferencia', '1028', '1771', 'Debito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('15', '7', 'Transferencia', '1028', '44', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('16', '8', 'Transferencia', '1028', '1771', 'Debito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('17', '8', 'Transferencia', '1028', '44', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('18', '9', 'Transferencia', '1028', '1771', 'Debito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('19', '9', 'Transferencia', '1028', '44', 'Credito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('20', '11', 'Transferencia', '1028', '1771', 'Debito', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionComprobante (Id, TipoLiquidacionId, TipoComprobante, CentroCostoId, CuentaContableId, Naturaleza, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('21', '11', 'Transferencia', '1028', '44', 'Credito', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[TipoLiquidacionComprobante] OFF;
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    DELETE FROM dbo.TipoLiquidacionComprobante WHERE Id BETWEEN 1 AND 21;
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

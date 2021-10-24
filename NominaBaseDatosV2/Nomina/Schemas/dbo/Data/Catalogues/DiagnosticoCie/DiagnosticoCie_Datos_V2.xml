@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="DiagnosticoCie_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[DiagnosticoCie] ON;
+INSERT INTO dbo.DiagnosticoCie (Id, Codigo, Nombre, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion) 
+VALUES(12424, 'U072', 'COVID-19, virus no identificado', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL);
+SET IDENTITY_INSERT [dbo].[DiagnosticoCie] OFF;
+]]>
+
+</sql>
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[DiagnosticoCie] WHERE Id = 12424;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

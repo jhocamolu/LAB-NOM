@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="Candidato_V8">
+<comment>Crear estado anulado al constraint</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ 
+    DROP INDEX [IX_Candidato_RequisicionPersonalId_HojaDeVidaId_EstadoRegistro] ON [Candidato];
+    GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ 
+    CREATE UNIQUE INDEX [IX_Candidato_RequisicionPersonalId_HojaDeVidaId_EstadoRegistro] ON [Candidato] ([RequisicionPersonalId], [HojaDeVidaId], [EstadoRegistro]) WHERE [EstadoRegistro] IS NOT NULL;
+    GO
+    
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

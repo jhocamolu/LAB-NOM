@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="TipoEmbargoConceptoNomina_Datos_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoEmbargoConceptoNomina] ON 
+GO
+
+INSERT INTO dbo.TipoEmbargoConceptoNomina (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoEmbargoId, ConceptoNominaId, MaximoEmbargarConcepto) VALUES ('Activo', 'sistema', GETDATE(), '1', '1', '23', '0.5')
+GO
+INSERT INTO dbo.TipoEmbargoConceptoNomina (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoEmbargoId, ConceptoNominaId, MaximoEmbargarConcepto) VALUES ('Activo', 'sistema', GETDATE(), '2', '1', '1', '0.5')
+GO
+INSERT INTO dbo.TipoEmbargoConceptoNomina (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoEmbargoId, ConceptoNominaId, MaximoEmbargarConcepto) VALUES ('Activo', 'sistema', GETDATE(), '3', '2', '25', '0.2')
+GO
+INSERT INTO dbo.TipoEmbargoConceptoNomina (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoEmbargoId, ConceptoNominaId, MaximoEmbargarConcepto) VALUES ('Activo', 'sistema', GETDATE(), '4', '2', '1', '0.2')
+GO
+INSERT INTO dbo.TipoEmbargoConceptoNomina (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoEmbargoId, ConceptoNominaId, MaximoEmbargarConcepto) VALUES ('Activo', 'sistema', GETDATE(), '5', '3', '24', '0.5')
+GO
+INSERT INTO dbo.TipoEmbargoConceptoNomina (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoEmbargoId, ConceptoNominaId, MaximoEmbargarConcepto) VALUES ('Activo', 'sistema', GETDATE(), '6', '3', '1', '0.5')
+GO
+INSERT INTO dbo.TipoEmbargoConceptoNomina (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoEmbargoId, ConceptoNominaId, MaximoEmbargarConcepto) VALUES ('Activo', 'sistema', GETDATE(), '7', '4', '22', '0.2')
+GO
+INSERT INTO dbo.TipoEmbargoConceptoNomina (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoEmbargoId, ConceptoNominaId, MaximoEmbargarConcepto) VALUES ('Activo', 'sistema', GETDATE(), '8', '4', '1', '0.2')
+GO
+
+SET IDENTITY_INSERT [dbo].[TipoEmbargoConceptoNomina] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[TipoEmbargoConceptoNomina] WHERE Id BETWEEN 1 AND 8;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="CuentaBancaria_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[CuentaBancaria] ON
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (1,'Activo','Sistemas',GETDATE(),10,1,'550396000051906','DAVIVIENDA Rionegro C. O.')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (2,'Activo','Sistemas',GETDATE(),10,1,'550406000081025','DAVIVIENDA Fusa Centro O.')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (3,'Activo','Sistemas',GETDATE(),10,1,'550496000007773','DAVIVIENDA Florencia C. O.')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (4,'Activo','Sistemas',GETDATE(),10,1,'550076000330795','DAVIVIENDA Neiva')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (5,'Activo','Sistemas',GETDATE(),10,1,'550406000072511','DAVIVIENDA Fusa Recaudo')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (6,'Activo','Sistemas',GETDATE(),10,1,'570167070004418','DAVIVIENDA Ibagué C. O.')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (7,'Activo','Sistemas',GETDATE(),10,1,'570356070114752','DAVIVIENDA Girardot C. O.')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (8,'Activo','Sistemas',GETDATE(),10,2,'1701405218','DAVIVIENDA NEIVA Tarjetas')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (9,'Activo','Sistemas',GETDATE(),10,2,'560076069999035','DAVIVIENDA NEIVA Recaudo')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (10,'Activo','Sistemas',GETDATE(),10,2,'076000709220','B. DAVIVIENDA CONVENIO 220')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (11,'Activo','Sistemas',GETDATE(),10,1,'0106800028271','B. DAVIVIENDA PASTO')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (12,'Activo','Sistemas',GETDATE(),10,1,'0550076000822825','DAVIVIENDA NEIVA CTA. 2825')
+GO
+
+INSERT INTO dbo.CuentaBancaria (Id,EstadoRegistro,CreadoPor,FechaCreacion,EntidadFinancieraId,TipoCuentaId,Numero,Nombre)
+VALUES (13,'Activo','Sistemas',GETDATE(),10,1,'085000125824','B. Davivienda Dorada Ahorros 824')
+GO
+
+
+SET IDENTITY_INSERT [dbo].[CuentaBancaria] OFF
+GO
+</sql>
+
+<rollback>
+    DELETE FROM [dbo].[CuentaBancaria] WHERE Id BETWEEN 1 AND 13;
+</rollback>
+</changeSet>
+</databaseChangeLog>

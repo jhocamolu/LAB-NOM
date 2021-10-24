@@ -1,0 +1,111 @@
+{
+	"info": {
+		"_postman_id": "91b2bbd9-d821-4c33-b09b-1a24b394f41e",
+		"name": "HU090_Administrar categoria novedades",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listado categoria novedades",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/CategoriaNovedades",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"CategoriaNovedades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear categoria novedad",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{            \r\n    \"nombre\": \"Categoria de prueba dos\",\r\n    \"conceptoNominaId\": 2,\r\n    \"modulo\": \"Libranzas\",\r\n    \"clase\": \"Fija\",\r\n    \"usaParametrizacion\": false,\r\n    \"requiereTercero\": false,\r\n    \"ubicacionTercero\": \"EntidadFinanciera\",\r\n    \"valorEditable\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/CategoriaNovedades",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"CategoriaNovedades"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar categoria novedad",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{       \r\n    \"Id\": 2,    \r\n    \"nombre\": \"CATEGORIA NOVEDAD LIBRANZA\",\r\n    \"conceptoNominaId\": 3,\r\n    \"modulo\": \"Libranzas\",\r\n    \"clase\": \"Fija\",\r\n    \"usaParametrizacion\": false,\r\n    \"requiereTercero\": false,\r\n    \"ubicacionTercero\": \"EntidadFinanciera\",\r\n    \"valorEditable\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/CategoriaNovedades/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"CategoriaNovedades",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Estado registro",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{       \r\n    \"Id\": 2,    \r\n    \"Activo\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/CategoriaNovedades/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"CategoriaNovedades",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

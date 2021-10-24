@@ -1,0 +1,61 @@
+<div class="sidebar-content">
+
+    <div class="card">
+
+        <!-- SIDEBAR HEADER -->
+        <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
+
+            <!-- USER -->
+            <mat-icon class="x-large cursor-pointer" *ngIf="!imagen" (click)="cambiarImgHandle($event)" >
+                account_circle
+            </mat-icon>
+            <img *ngIf="user && imagen" [src]="enviroments + '/bucket/download?document_id=' + imagen" class="avatar cursor-pointer" [alt]="user.name" (click)="cambiarImgHandle($event)" />
+            <label class="h4">{{user.nameid}}</label>
+            <!-- / USER-->
+
+        </div>
+        <!-- / SIDEBAR HEADER -->
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content py-16" fusePerfectScrollbar>
+
+            <div class="nav material2">
+
+                <div class="nav-item" [ngClass]="block_menu ? 'block_menu' : null" aria-label="inicio">
+                    <a class="nav-link" matRipple (click)="block_menu ? null : changeMenu('inicio')"
+                       [ngClass]="{'active accent':menu ==='inicio', 'no_click' : block_menu}">
+                        <span class="title">Inicio</span>
+                    </a>
+                </div>
+
+                <div class="nav-item"  [ngClass]="block_menu ? 'block_menu' : null" aria-label="convocatorias">
+                    <a class="nav-link" [ngClass]="{'active accent':menu ==='convocatorias', 'no_click' : block_menu}" matRipple (click)="block_menu && disabled ? null : changeMenu('convocatorias')">
+                        <div class="title">Convocatorias</div>
+                    </a>
+                </div>
+
+                <div class="nav-item" [ngClass]="block_menu ? 'block_menu' : null" aria-label="aplicaciones">
+                    <a class="nav-link" [ngClass]="{'active accent':menu ==='aplicaciones', 'no_click' : block_menu}" matRipple  (click)="block_menu && disabled ? null : changeMenu('aplicaciones')">
+                        <div class="title">Aplicaciones</div>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="hoja_vida">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':menu ==='hoja_vida'}" (click)="disabled ? null : changeMenu('hoja_vida')">
+                        <div class="title">Hoja de vida</div>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="starred">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':menu ==='starred'}" [routerLink]="'/logout'" (click)="disabled ? null : changeMenu('starred')">
+                        <div class="title">Cerrar sesión</div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->

@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "2468222d-b0cc-4749-91f1-0913e804eeca",
+		"name": "HU082-OtrasNovedades",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Novedad",
+			"item": [
+				{
+					"name": "Listar todas Novedades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/novedades",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"novedades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Una Novedad",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/novedades/1?$expand=funcionario",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"novedades",
+								"1"
+							],
+							"query": [
+								{
+									"key": "$expand",
+									"value": "funcionario"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Novedad",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"funcionarioId\": 5679,\r\n    \"categoriaNovedadId\":6,\r\n    \"fechaAplicacion\": \"2020-07-22\",\r\n    \"fechaFinalizacion\": \"2020-08-22\",\r\n    \"tipoPeriodoId\": 1,\r\n    \"unidad\": \"Unidad\",\r\n    \"valor\": 200000,\r\n    \"Cantidad\": null,\r\n    \"terceroId\" :null,\r\n    \"observacion\": \"Pruebas\",\r\n    \"periodicidad\": [\r\n        1,2\r\n    ]    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/novedades",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"novedades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Novedad",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\":2,\r\n    \"funcionarioId\": 5679,\r\n    \"categoriaNovedadId\":6,\r\n    \"fechaAplicacion\": \"2020-07-21\",\r\n    \"fechaFinalizacion\": \"2020-08-22\",\r\n    \"tipoPeriodoId\": 1,\r\n    \"unidad\": \"Unidad\",\r\n    \"valor\": 200000,\r\n    \"Cantidad\": null,\r\n    \"terceroId\" :null,\r\n    \"observacion\": \"Pruebas\",\r\n    \"periodicidad\": [\r\n        1,2\r\n    ]    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/novedades/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"novedades",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Estado Novedad",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":2,\r\n    \"estado\": \"Anulada\",\r\n    \"Activo\":true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/novedades/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"novedades",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "NovedadSubperiodo",
+			"item": [
+				{
+					"name": "Listar todas Novedad Subperiodos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/novedadsubperiodos?$expand=novedad&$filter=NovedadId eq 2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"novedadsubperiodos"
+							],
+							"query": [
+								{
+									"key": "$expand",
+									"value": "novedad"
+								},
+								{
+									"key": "$filter",
+									"value": "NovedadId eq 2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar una Novedad Subperiodo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/novedadsubperiodos/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"novedadsubperiodos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Consulta de Seleccion Categoria Novedad",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/categorianovedades?$expand=conceptonomina",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"categorianovedades"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "conceptonomina"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Carga masiva de novedades",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDQ0NDM3NDgsImV4cCI6MTYwNDQ1ODE0OCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.H_o2xyL-qvzRU_sDaJpOWzODo0tEXKlWJtXe-x6hqnE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "Archivo",
+							"type": "file",
+							"src": "/C:/Users/lestrada/Downloads/AUXILIO OPTICO QUIN.xlsx"
+						},
+						{
+							"key": "CategoriaNovedadId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "FechaAplicacion",
+							"value": "2020-10-01",
+							"type": "text"
+						},
+						{
+							"key": "PeriodoPagoId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "Periodicidad",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "Validar",
+							"value": "false",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/api/novedades/cargar",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"novedades",
+						"cargar"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="Reporte_V1">
+<comment>Migración Inicial HT037</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Reporte] ON 
+GO
+INSERT [dbo].[Reporte] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias], [Nombre], [Descripcion], [SubcategoriaId], [Link], [Path], [Formato], [Extension], [Alto], [Ancho], [EsModal], [VistaGeneracion]) VALUES (3, N'Activo    ', N'sistema', CAST(N'2020-06-03T15:16:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'ejemplo', N'EjemploBuenasPracticas', N'Prueba de Formato con parametros', 1, N'http://172.16.1.26:8189/ReportServer/Pages/ReportViewer.aspx?%2fEjemploBuenasPracticas&rs:Command=Render', N'EjemploBuenasPracticas', N'PDF', N'PDF', N'11in', N'8.5in', 0, 'ejemplo')
+GO
+SET IDENTITY_INSERT [dbo].[Reporte] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[Reporte] WHERE Id IN (3)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

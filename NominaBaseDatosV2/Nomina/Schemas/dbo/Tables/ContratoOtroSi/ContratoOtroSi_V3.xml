@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="ContratoOtroSi_V3">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [ContratoOtroSi] ADD [TipoOtroSiId] int NULL;
+GO
+ALTER TABLE [ContratoOtroSi] ADD CONSTRAINT [FK_ContratoOtroSi_TipoOtroSi_TipoOtroSiId] FOREIGN KEY ([TipoOtroSiId]) REFERENCES [TipoOtroSi] ([Id]) ON DELETE NO ACTION;
+GO
+
+CREATE INDEX [IX_ContratoOtroSi_TipoOtroSiId] ON [ContratoOtroSi] ([TipoOtroSiId]);
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+DROP INDEX [IX_ContratoOtroSi_TipoOtroSiId];
+GO
+ALTER TABLE [ContratoOtroSi] DROP CONSTRAINT [FK_ContratoOtroSi_TipoOtroSi_TipoOtroSiId];
+GO
+ALTER TABLE [ContratoOtroSi] DROP COLUMN [TipoOtroSiId];
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

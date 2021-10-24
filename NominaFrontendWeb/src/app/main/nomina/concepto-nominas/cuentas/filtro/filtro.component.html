@@ -1,0 +1,65 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+        <mat-toolbar class="toolbar-filter"> 
+            <mat-toolbar-row>
+                <h1 mat-dialog-title>Filtro</h1>
+                <button type="button" mat-icon-button (click)="dialogRef.close()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <div mat-dialog-content>
+            <mat-form-field appearance="outline">
+                <mat-label>Código centro de costo</mat-label>
+                <input matInput placeholder="" formControlName="codigo">
+                <mat-error *ngFor="let error of objToArray(codigo.errors)">
+                    <div [ngSwitch]="error">
+                        <ng-template ngSwitchDefault>
+                            {{error}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Código de clasificación del costo y gasto de la compañía.">info</mat-icon>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre centro de costo</mat-label>
+                <input matInput placeholder="" formControlName="centroCostoId">
+                <mat-error *ngFor="let error of objToArray(centroCostoId.errors)">
+                    <div [ngSwitch]="error">
+                        <ng-template ngSwitchDefault>
+                            {{error}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Nombre de la clasificación del costo y gasto de la compañía.">info</mat-icon>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+                <mat-label>Cuenta contable</mat-label>
+                <input matInput placeholder="" formControlName="cuentaContableId">
+                <mat-error *ngFor="let error of objToArray(cuentaContableId.errors)">
+                    <div [ngSwitch]="error">
+                        <ng-template ngSwitchDefault>
+                            {{error}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="N° de cuenta donde se registran las transacciones de la compañía.">info</mat-icon>
+            </mat-form-field>
+        
+
+        </div>
+
+        <div mat-dialog-actions>
+            <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+                <mat-icon>cancel</mat-icon>
+                <span>Borrar filtros</span>
+            </button>
+            <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+                <mat-icon>search</mat-icon>
+                <span>Buscar</span>
+            </button>
+        </div>
+</form>

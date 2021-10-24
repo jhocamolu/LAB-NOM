@@ -1,0 +1,70 @@
+<div class="btn-lateral-filtro">
+    <button class="mat-icon-button warn mat-elevation-z2" (click)="filtroHandle($event)">
+        <span class="mat-button-wrapper">
+            <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" matTooltip="Filtrar" role="img"
+                aria-hidden="true">
+                filter_list</mat-icon>
+        </span>
+        <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div>
+        <div class="mat-button-focus-overlay"></div>
+    </button>
+</div>
+
+<div class="page-layout simple fullwidth inner-scroll" id="nuevo" [fusePerfectScrollbar]="true"
+    (ps-y-reach-end)="doSomethingOnScroll($event)">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Funcionarios</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Funcionarios</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+            <a *ngIf="arrayPermisos.crear" mat-raised-button color="accent" routerLink="/administracion-personal/funcionarios/datos-basicos">
+                <mat-icon>add</mat-icon>
+                <span>Registrar funcionario</span>
+            </a>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- CONTENIDO -->
+        <div>
+
+            <alcanos-empty-list (fnCreate)="crearHandle($event)" labelH1="¡Uy! Aún no has registrado funcionarios."
+                labelBtn="Registrar funcionario" [visibleBtnCreate]="arrayPermisos.crear"
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+
+            <div class="lista-funcionarios">
+                <ng-container *ngFor="let item of todosFuncionarios; let i = index">
+                    <funcionarios-cards-listar fxFlex="100" fxFlex.gt-md="25"  fxFlex.gt-sm="33" fxFlex.gt-xs="50" [funcionario]="item" [colorsInput]="i"></funcionarios-cards-listar>
+                    <!-- -->
+                </ng-container>
+            </div>
+            <!-- / CONTENIDO -->
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="NominaFuenteNovedad_V3">
+<comment>HU054</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE dbo.NominaFuenteNovedad drop CONSTRAINT [CK_NominaFuenteNovedad_Modulo];
+
+ALTER TABLE dbo.NominaFuenteNovedad ADD CONSTRAINT [CK_NominaFuenteNovedad_Modulo] 
+CHECK (([Modulo]='Libranzas' OR [Modulo]='Embargos' 
+OR [Modulo]='Ausentismos'
+OR [Modulo]='Beneficios'
+OR [Modulo]='HorasExtra'
+OR [Modulo]='GastosViaje'
+OR [Modulo]='OtrasNovedades'
+OR [Modulo]='Vacaciones'
+OR [Modulo]='AnticipoCesatias'
+));
+
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE dbo.NominaFuenteNovedad drop CONSTRAINT [CK_NominaFuenteNovedad_Modulo];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

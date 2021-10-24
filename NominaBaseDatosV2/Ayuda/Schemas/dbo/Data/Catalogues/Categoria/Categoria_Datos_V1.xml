@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="Categoria__Datos_V1">
+<comment>Migración Inicial</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Categoria] ON 
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (1, N'Activo', CAST(N'2020-05-11T15:45:53.3370000' AS DateTime2), CAST(N'2020-09-15T08:37:57.7546473' AS DateTime2), NULL, N'Configuración general', 1, NULL)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (2, N'Activo', CAST(N'2020-05-11T15:46:01.9130000' AS DateTime2), CAST(N'2020-05-11T15:46:01.9130000' AS DateTime2), NULL, N'Aprobaciones y autorizaciones', 2, 1)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (3, N'Activo', CAST(N'2020-05-11T15:46:02.0570000' AS DateTime2), CAST(N'2020-05-11T15:46:02.0570000' AS DateTime2), NULL, N'Aspectos generales', 3, 1)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (4, N'Activo', CAST(N'2020-05-11T15:46:02.1000000' AS DateTime2), CAST(N'2020-05-11T15:46:02.1000000' AS DateTime2), NULL, N'Ayuda', 4, 1)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (5, N'Activo', CAST(N'2020-05-11T15:46:02.2270000' AS DateTime2), CAST(N'2020-05-11T15:46:02.2270000' AS DateTime2), NULL, N'Catálogos', 5, 1)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (6, N'Activo', CAST(N'2020-05-11T15:46:02.2730000' AS DateTime2), CAST(N'2020-05-11T15:46:02.2730000' AS DateTime2), NULL, N'Compañía', 6, 1)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (7, N'Activo', CAST(N'2020-05-11T15:46:02.4000000' AS DateTime2), CAST(N'2020-05-11T15:46:02.4000000' AS DateTime2), NULL, N'Mantenimiento', 7, 1)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (8, N'Activo', CAST(N'2020-05-11T15:46:02.4770000' AS DateTime2), CAST(N'2020-05-11T15:46:02.4770000' AS DateTime2), NULL, N'Parámetros del sistema', 8, 1)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (9, N'Activo', CAST(N'2020-05-11T15:46:02.5570000' AS DateTime2), CAST(N'2020-05-11T15:46:02.5570000' AS DateTime2), NULL, N'Plantillas', 9, 1)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (10, N'Activo', CAST(N'2020-05-11T15:48:55.8970000' AS DateTime2), CAST(N'2020-05-11T15:48:55.8970000' AS DateTime2), NULL, N'Administración de personal', 10, NULL)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (11, N'Activo', CAST(N'2020-05-11T15:49:16.3170000' AS DateTime2), CAST(N'2020-06-08T08:01:17.0617751' AS DateTime2), NULL, N'Cesantías', 11, 10)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (12, N'Activo', CAST(N'2020-05-11T15:49:16.3800000' AS DateTime2), CAST(N'2020-05-11T15:49:16.3800000' AS DateTime2), NULL, N'Contratos', 12, 10)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (13, N'Activo', CAST(N'2020-05-11T15:49:16.4730000' AS DateTime2), CAST(N'2020-05-11T15:49:16.4730000' AS DateTime2), NULL, N'Funcionarios', 13, 10)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (14, N'Activo', CAST(N'2020-05-11T15:49:16.5670000' AS DateTime2), CAST(N'2020-05-11T15:49:16.5670000' AS DateTime2), NULL, N'Permisos', 14, 10)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (15, N'Activo', CAST(N'2020-05-11T15:49:16.6000000' AS DateTime2), CAST(N'2020-05-11T15:49:16.6000000' AS DateTime2), NULL, N'Reemplazos vistos buenos', 15, 10)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (16, N'Activo', CAST(N'2020-05-11T15:49:16.6930000' AS DateTime2), CAST(N'2020-05-11T15:49:16.6930000' AS DateTime2), NULL, N'Vacaciones', 16, 10)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (17, N'Activo', CAST(N'2020-05-11T15:50:15.0200000' AS DateTime2), CAST(N'2020-05-11T15:50:15.0200000' AS DateTime2), NULL, N'Desarrollo del talento humano', 17, NULL)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (18, N'Activo', CAST(N'2020-05-11T15:50:34.3800000' AS DateTime2), CAST(N'2020-05-11T15:50:34.3800000' AS DateTime2), NULL, N'Beneficios corporativos', 18, 17)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (19, N'Activo', CAST(N'2020-05-11T15:50:34.5500000' AS DateTime2), CAST(N'2020-05-11T15:50:34.5500000' AS DateTime2), NULL, N'Entrenamiento y capacitación', 19, 17)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (20, N'Activo', CAST(N'2020-05-11T15:51:34.9700000' AS DateTime2), CAST(N'2020-05-11T15:51:34.9700000' AS DateTime2), NULL, N'Nómina', 20, NULL)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (21, N'Activo', CAST(N'2020-05-11T15:51:51.0500000' AS DateTime2), CAST(N'2020-05-11T15:51:51.0500000' AS DateTime2), NULL, N'Conceptos', 21, 20)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (22, N'Activo', CAST(N'2020-05-11T15:51:51.1100000' AS DateTime2), CAST(N'2020-05-11T15:51:51.1100000' AS DateTime2), NULL, N'Distribución de costos', 22, 20)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (23, N'Activo', CAST(N'2020-05-11T15:51:51.1430000' AS DateTime2), CAST(N'2020-05-11T15:51:51.1430000' AS DateTime2), NULL, N'Liquidaciones', 23, 20)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (24, N'Activo', CAST(N'2020-05-11T15:51:51.1730000' AS DateTime2), CAST(N'2020-05-11T15:51:51.1730000' AS DateTime2), NULL, N'Tipos de liquidación', 24, 20)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (25, N'Activo', CAST(N'2020-05-11T15:53:50.6400000' AS DateTime2), CAST(N'2020-05-11T15:53:50.6400000' AS DateTime2), NULL, N'Novedades', 25, NULL)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (26, N'Activo', CAST(N'2020-05-11T15:54:07.6400000' AS DateTime2), CAST(N'2020-05-11T15:54:07.6400000' AS DateTime2), NULL, N'Ausentismos', 26, 25)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (27, N'Activo', CAST(N'2020-05-11T15:54:07.9830000' AS DateTime2), CAST(N'2020-05-11T15:54:07.9830000' AS DateTime2), NULL, N'Comisiones', 27, 25)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (28, N'Activo', CAST(N'2020-05-11T15:54:08.1230000' AS DateTime2), CAST(N'2020-05-11T15:54:08.1230000' AS DateTime2), NULL, N'Embargos', 28, 25)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (29, N'Activo', CAST(N'2020-05-11T15:54:08.1570000' AS DateTime2), CAST(N'2020-05-11T15:54:08.1570000' AS DateTime2), NULL, N'Gastos de viaje', 29, 25)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (30, N'Activo', CAST(N'2020-05-11T15:54:08.2170000' AS DateTime2), CAST(N'2020-05-11T15:54:08.2170000' AS DateTime2), NULL, N'Horas extras', 30, 25)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (31, N'Activo', CAST(N'2020-05-11T15:54:08.3730000' AS DateTime2), CAST(N'2020-09-01T08:30:04.8960662' AS DateTime2), NULL, N'Libranzas', 31, 25)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (32, N'Activo', CAST(N'2020-05-11T15:54:08.4200000' AS DateTime2), CAST(N'2020-05-11T15:54:08.4200000' AS DateTime2), NULL, N'Otras novedades', 32, 25)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (33, N'Activo', CAST(N'2020-05-11T15:54:08.4670000' AS DateTime2), CAST(N'2020-05-11T15:54:08.4670000' AS DateTime2), NULL, N'Rodamiento', 33, 25)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (34, N'Activo', CAST(N'2020-05-11T15:54:46.9200000' AS DateTime2), CAST(N'2020-05-11T15:54:46.9200000' AS DateTime2), NULL, N'Seguridad y salud en el trabajo', 34, NULL)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (35, N'Activo', CAST(N'2020-05-11T15:54:46.9670000' AS DateTime2), CAST(N'2020-05-11T15:54:46.9670000' AS DateTime2), NULL, N'Selección de personal', 35, NULL)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (36, N'Activo', CAST(N'2020-05-11T15:54:47.0770000' AS DateTime2), CAST(N'2020-05-11T15:54:47.0770000' AS DateTime2), NULL, N'Reportes', 36, NULL)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (37, N'Inactivo', CAST(N'2020-06-06T15:04:39.5637916' AS DateTime2), CAST(N'2020-06-06T16:18:29.2157386' AS DateTime2), NULL, N'Nueva categoría', 2, NULL)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (38, N'Inactivo', CAST(N'2020-06-06T15:54:34.2096125' AS DateTime2), CAST(N'2020-06-06T16:31:27.9596205' AS DateTime2), NULL, N'Subcategoría', 1, 1)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (39, N'Inactivo', CAST(N'2020-06-06T15:57:54.6954565' AS DateTime2), CAST(N'2020-09-01T08:30:12.7711431' AS DateTime2), NULL, N'Subcategoría II', 2, 37)
+GO
+INSERT [dbo].[Categoria] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Orden], [CategoriaId]) VALUES (40, N'Inactivo', CAST(N'2020-06-06T16:16:23.0713348' AS DateTime2), CAST(N'2020-06-06T16:17:57.9334800' AS DateTime2), NULL, N'Subcategoría 1&2!3', 3, 37)
+GO
+SET IDENTITY_INSERT [dbo].[Categoria] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [Categoria]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

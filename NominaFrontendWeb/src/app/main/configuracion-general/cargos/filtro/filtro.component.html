@@ -1,0 +1,96 @@
+<div class="">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content fusePerfectScrollbar>
+        <div>
+            <form [formGroup]="form" *ngIf="form">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Código</mat-label>
+                    <input matInput placeholder="" formControlName="codigo" type="text" step="any">
+                    <mat-error *ngFor="let error of codigo.errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Código que identifica el cargo.">
+                        info</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput placeholder="" formControlName="nombre">
+                    <mat-error *ngFor="let error of nombre.errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Nombre del cargo.">info
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Nivel</mat-label>
+                    <mat-select formControlName="nivelCargoId" step="any">
+                        <mat-option [value]="null"></mat-option>
+                        <mat-option *ngFor="let item of nivelCargoOptions" [value]="item.id">
+                            {{ item.nombre }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngFor="let error of nivelCargoId.errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Seleccione el nivel que ocupa este cargo en la compañía.">
+                        info</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Clase</mat-label>
+                    <mat-select formControlName="clase" step="any">
+                        <mat-option [value]="null"></mat-option>
+                        <mat-option value="CentroOperativo">Centro operativo</mat-option>
+                        <mat-option value="Nacional">Nacional</mat-option>
+                        
+                    </mat-select>
+                    <mat-error *ngFor="let error of clase.errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Selecciona la clasificación del cargo.">
+                        info</mat-icon>
+                </mat-form-field>
+
+            </form>
+
+        </div>
+
+        <div mat-dialog-actions>
+            <button type="button" mat-raised-button (click)="limpiarHandle($event)">
+                <mat-icon>cancel</mat-icon>
+                <span>Borrar filtros</span>
+            </button>
+            <button type="submit" mat-raised-button [disabled]="form.invalid" (click)="buscarHandle($event)"
+                color="accent">
+                <mat-icon>search</mat-icon>
+                <span>Buscar</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="CategoriaNovedad_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[CategoriaNovedad] ON;
+INSERT INTO CategoriaNovedad (Id, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, ConceptoNominaId, Modulo, Clase, UsaParametrizacion, RequiereTercero, UbicacionTercero, ValorEditable, Nombre) VALUES(63, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 163, 'OtrasNovedades', 'Fija', 1, 1, 'OtrosTerceros', 0, 'Poliza seguro');
+UPDATE dbo.CategoriaNovedad SET Clase='Eventual' WHERE Id='53';
+SET IDENTITY_INSERT [dbo].[CategoriaNovedad] OFF;
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM dbo.CategoriaNovedad WHERE Id='63';
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

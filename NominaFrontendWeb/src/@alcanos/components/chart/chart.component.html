@@ -1,0 +1,23 @@
+<div class="border">
+  <div class="px-16 py-16 border-bottom" fxLayout="row" fxLayoutAlign="space-between center">
+      <div class="h3 px-8 py-8">{{title}}</div>
+  </div>
+  <div fxLayout="row wrap" fxLayoutAlign="start start" style="padding: 30px !important;">
+      <div fxFlex="100" class="h-400">
+        <canvas baseChart 
+          [datasets]="data" 
+          [labels]="labels" 
+          [chartType]="type"
+          [options]="options" 
+          (chartHover)="chartHovered($event)" 
+          (chartClick)="chartClicked($event)">
+        </canvas>
+      </div>
+  </div>
+  <div class="px-16 py-24 border-top" *ngIf="footerVisible">
+    <div class="h4 secondary-text">{{footerTitle}}</div>
+    <div class="pt-8 mat-display-1 m-0 font-weight-300">
+        <span>{{footerValue.replace(',', '.') | currency:'$':'symbol':'4.2-2'}}</span>
+    </div>
+  </div>
+</div>

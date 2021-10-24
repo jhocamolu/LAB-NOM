@@ -1,0 +1,120 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Vacaciones</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Solicitudes de vacaciones</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Solicitudes de vacaciones</h2>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+            <a *ngIf="arrayPermisos.crear" mat-raised-button color="accent" routerLink="/vacaciones/solicitudes/crear">
+                <mat-icon>add</mat-icon>
+                <span>Registrar solicitud</span>
+            </a>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <alcanos-empty-list (fnCreate)="crearHandle($event)"
+                labelH1="¡Uy! Aún no has registrado solicitudes de vacaciones." labelBtn="Registrar solicitud"
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna N° contrato -->
+                    <ng-container matColumnDef="funcionario/numeroDocumento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> N° documento</th>
+                        <td mat-cell *matCellDef="let element">{{element.funcionario?.numeroDocumento}}</td>
+                    </ng-container>
+
+                    <!-- Columna Nombre -->
+                    <ng-container matColumnDef="funcionario/primerNombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Funcionario</th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate">{{element.funcionario?.primerNombre}}
+                                {{element.funcionario?.segundoNombre}} {{element.funcionario?.primerApellido}}
+                                {{element.funcionario?.segundoApellido}} </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna Fecha de inicio de vacaciones -->
+                    <ng-container matColumnDef="fechaInicioDisfrute">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de inicio de vacaciones</th>
+                        <td mat-cell *matCellDef="let element" class="dr fecha">
+                            {{element.fechaInicioDisfrute | date:'dd / LL / yyyy'}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna Fecha fin de vacaciones -->
+                    <ng-container matColumnDef="fechaFinDisfrute">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha fin de vacaciones</th>
+                        <td mat-cell *matCellDef="let element" class="dr fechaF">
+                            {{element.fechaFinDisfrute | date:'dd / LL / yyyy'}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna estado -->
+                    <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                        <td mat-cell *matCellDef="let element">
+                             {{element.estado == 'EnCurso'? 'En curso': element.estado}}
+                             </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef
+                        [ngStyle]="{'display': !( arrayPermisos.actualizar && arrayPermisos.obtener) ? 'none' : ''}"> Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="1">
+                                <a *ngIf="arrayPermisos.obtener" mat-icon-button routerLink="/vacaciones/solicitudes/{{element.id}}/mostrar">
+                                    <mat-icon matTooltip="Visualizar">visibility</mat-icon>
+                                </a>
+                                <a mat-icon-button 
+                                 *ngIf="arrayPermisos.actualizar && (estadoVacacionesAlcanos.solicitada == element.estado ||
+                                 estadoVacacionesAlcanos.aprobada ==
+                                 element.estado)"
+                                routerLink="/vacaciones/solicitudes/{{element.id}}/editar">
+                                    <mat-icon matTooltip="Editar">edit</mat-icon>
+                                </a>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+            <!-- / CONTENIDO -->
+        </div>
+    </div>
+</div>

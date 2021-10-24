@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Reporte_V12">
+<comment>Reporte regreso vacaciones o ausentismos </comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Reporte] ON 
+GO
+INSERT [dbo].[Reporte] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias], [Nombre], [Descripcion], [SubcategoriaId], [Link], [Path], [Formato], [Extension], [Alto], [Ancho], [EsModal], [VistaGeneracion]) VALUES (11, N'Activo    ', N'sistema', CAST(N'2020-07-02T20:30:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'RegresoVacacionesAusentismos', N'Regreso de vacaciones y ausentismos', N'Permite obtener la información de la finalización de las vacaciones y ausentismos de los funcionarios, para prever el tiempo en que estarán ausentes, y de esta manera, suplir las vacantes por un período de tiempo.',1, N'/ReportServer/Pages/ReportViewer.aspx?%2fDesarrollo%2fGHestic%2fReportes%2fAdmPer_RegresoVacacionesAusentismos&rs:Command=Render', N'GHESTIC/Reportes/AdmPer_RegresoVacacionesAusentismos', N'EXCELOPENXML', N'XLSX', N'11in', N'8.5in',1, N'regresovacacionesausentismos')
+GO
+SET IDENTITY_INSERT [dbo].[Reporte] OFF
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[Reporte] WHERE Id IN (11)
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

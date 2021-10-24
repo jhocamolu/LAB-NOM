@@ -1,0 +1,47 @@
+<div class="spiner" *ngIf="espera">
+    <mat-spinner></mat-spinner>
+</div>
+
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Obtener actividades de costos</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha de corte</mat-label>
+            <input matInput [matDatepicker]="fechaFin" (click)="fechaFin.open()"
+                formControlName="fechaFin">
+            <mat-datepicker-toggle matPrefix [for]="fechaFin">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaFin></mat-datepicker>
+            <mat-error *ngFor="let error of form.get('fechaFin').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Fecha de fin de las actividades.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+    </div>
+
+    <div mat-dialog-actions fxLayout="row " fxLayoutAlign="end center ">
+        <button mat-raised-button type="button" (click)="dialogRef.close()">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+    
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit " color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+</form>

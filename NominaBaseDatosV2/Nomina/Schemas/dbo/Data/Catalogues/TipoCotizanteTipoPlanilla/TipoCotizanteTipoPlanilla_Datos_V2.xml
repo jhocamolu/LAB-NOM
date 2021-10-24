@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TipoCotizanteTipoPlanilla_Datos_V2">
+<comment>Carga inicial</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM dbo.TipoCotizanteTipoPlanilla WHERE TipoPlanillaId in(2,3,4,5,8,9,10,11,12,13,14,15);
+
+]]>
+</sql>
+
+</changeSet>
+</databaseChangeLog>

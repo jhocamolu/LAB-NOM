@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoLiquidacionConcepto_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoLiquidacionConcepto] ON 
+GO
+
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('199', '9', '111', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('200', '9', '112', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('201', '9', '130', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('202', '9', '131', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('203', '8', '128', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('204', '8', '129', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('205', '8', '32', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('206', '11', '132', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('207', '11', '133', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('208', '11', '134', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('209', '11', '135', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('210', '11', '45', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionConcepto (Id, TipoliquidacionId, ConceptoNominaId, SubperiodoId, TipoContratoId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('211', '11', '46', '3', NULL, 'Activo    ', 'sistema', GETDATE());
+
+SET IDENTITY_INSERT [dbo].[TipoLiquidacionConcepto] OFF
+GO
+
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='3' WHERE Id='98';
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='3' WHERE Id='105';
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='3' WHERE Id='108';
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='3' WHERE Id='109';
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='3' WHERE Id='110';
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='3' WHERE Id='111';
+UPDATE dbo.TipoLiquidacionConcepto SET ConceptoNominaId='127' WHERE Id='28';
+UPDATE dbo.TipoLiquidacionConcepto SET ConceptoNominaId='127' WHERE Id='117';
+UPDATE dbo.TipoLiquidacionConcepto SET ConceptoNominaId='33' WHERE Id='198';
+GO;
+]]>
+
+</sql>
+
+<rollback>
+
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='2' WHERE Id='105';
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='2' WHERE Id='108';
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='2' WHERE Id='109';
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='2' WHERE Id='110';
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='2' WHERE Id='111';
+UPDATE dbo.TipoLiquidacionConcepto SET SubPeriodoId='2' WHERE Id='98';
+UPDATE dbo.TipoLiquidacionConcepto SET ConceptoNominaId='49' WHERE Id='28';
+UPDATE dbo.TipoLiquidacionConcepto SET ConceptoNominaId='49' WHERE Id='117';
+UPDATE dbo.TipoLiquidacionConcepto SET ConceptoNominaId='1' WHERE Id='198';
+DELETE FROM [dbo].[TipoLiquidacionConcepto] WHERE Id BETWEEN 199 AND 211 ;
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

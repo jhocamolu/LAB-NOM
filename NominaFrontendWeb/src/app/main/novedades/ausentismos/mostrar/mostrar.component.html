@@ -1,0 +1,256 @@
+<!-- CONTENIDO -->
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon color="accent" class="mat-icon24">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Novedades</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/novedades/ausentismos/'">Ausentismos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar ausentimo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar ausentimo</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+
+                <button mat-menu-item
+                    *ngIf="arrayPermisos.cambiarEstado && (!periodoLiquidacion &&  (estadoAusentismos.aprobado == element.estado))"
+                    (click)="arrayPermisos.cambiarEstado ? anularHandle($event, element) : snackSinPermiso()">
+                    <span>Anular</span>
+                </button>
+
+                <button mat-menu-item
+                    *ngIf="arrayPermisos.cambiarEstado && (estadoAusentismos.registrado == element.estado)"
+                    (click)="arrayPermisos.cambiarEstado ? aprobarHandle($event, element) : snackSinPermiso()">
+                    <span>Aprobar</span>
+                </button>
+
+                <a mat-menu-item
+                    *ngIf="arrayPermisos.actualizar && (estadoAusentismos.aprobado == element.estado || estadoAusentismos.registrado  == element.estado)"
+                    routerLink="/novedades/ausentismos/{{element.id}}/editar">
+                    <span>Editar</span>
+                </a>
+
+                <a routerLink="/novedades/ausentismos/" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+
+            <div>
+                <div>
+                    <h3>Funcionario
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Número de identificación y nombre completo del funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        {{element.funcionario?.primerNombre}}
+                        {{element.funcionario?.segundoNombre}} {{element.funcionario?.primerApellido}}
+                        {{element.funcionario?.segundoApellido}}
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <h3>Clase ausentismo
+                        <mat-icon class="s-16" matSuffix matTooltip="Clase de ausentismo del funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        {{element.tipoAusentismo?.claseAusentismo?.nombre}}
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <h3>Tipo ausentismo
+                    <mat-icon class="s-16" matSuffix matTooltip="Tipo de ausentismo del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.tipoAusentismo?.nombre}}
+                </p>
+            </div>
+
+            <div>
+                <h3>Diagnóstico
+                    <mat-icon class="s-16" matSuffix
+                        matTooltip="Código y nombre del diagnóstico del funcionario emitido por la Organización Mundial de la Salud.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p> {{element.diagnosticoCie?.codigo  != null ? element.diagnosticoCie?.codigo : 'N/A'}}  {{element.diagnosticoCie?.codigo  != null ? '- ' + element.diagnosticoCie?.nombre : ''}} </p>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Fecha inicial
+                        <mat-icon class="s-16" matSuffix matTooltip="Fecha inicial del ausentismo del funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        {{element.fechaInicio | date:'dd / LL / yyyy'}}
+                    </p>
+                </div>
+
+                <div>
+                    <h3>Fecha final
+                        <mat-icon class="s-16" matSuffix matTooltip="Fecha final del ausentismo del funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        {{element.fechaFin | date:'dd / LL / yyyy'}}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="dos-bloque">
+                <div>
+                    <h3>Fecha inicio real
+                        <mat-icon class="s-16" matSuffix matTooltip="Fecha inicial en la que ocurrió el  ausentismo del funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        {{element.fechaIniciaReal | date:'dd / LL / yyyy'}}
+                    </p>
+                </div>
+
+                <div>
+                    <h3>Fecha fin real
+                        <mat-icon class="s-16" matSuffix matTooltip="Fecha final en la que ocurrió el ausentismo del funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        {{element.fechaFinalReal | date:'dd / LL / yyyy'}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="dos-bloque" *ngIf="element.horaInicio != null || element.horaFin != null">
+                <div>
+                    <h3>Hora inicial
+                        <mat-icon class="s-16" matSuffix matTooltip="Hora inicial del ausentismo del funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        {{ ('2001-01-01' + ' ' + element.horaInicio | date: 'shortTime') }}
+                    </p>
+                </div>
+
+                <div>
+                    <h3>Hora final
+                        <mat-icon class="s-16" matSuffix matTooltip="Hora final del ausentismo del funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.horaFin  != null ?  ('2001-01-01' + ' ' + element.horaFin | date: 'shortTime')  : 'N/A'}}
+                    </p>
+                </div>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Prórroga de
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Incapacidad anterior que el funcionario tiene relacionada a la actual.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{prorroga != null ? prorroga : 'N/A'}}</p>
+                </div>
+                <div>
+                    <h3>Número de incapacidad
+                        <mat-icon class="s-16" matSuffix matTooltip="Número de incapacidad emitido por la EPS.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.numeroIncapacidad  != null ? element.numeroIncapacidad : 'N/A'}}</p>
+                </div>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Estado
+                        <mat-icon class="s-16" matSuffix matTooltip="Nombre del estado del ausentismo.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.estado}}</p>
+                </div>
+
+                <div>
+                    <h3>Número de días
+                        <mat-icon class="s-16" matSuffix matTooltip="Número de días del ausentismo.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.numeroDeDias != null ? element.numeroDeDias : 'N/A'}} </p>
+                </div>
+            </div>
+
+            <div>
+                <h3>Justificación
+                    <mat-icon class="s-16" matSuffix
+                        matTooltip="Indica el porqué de la aprobación o anulación del ausentismo.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.justificacion != null ? element.justificacion : 'N/A'}} </p>
+            </div>
+
+            <div>
+                <h3>Observaciones
+                    <mat-icon class="s-16" matSuffix matTooltip="Breve descripción del ausentismo.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.observacion != null ? element.observacion : 'N/A'}} </p>
+            </div>
+
+
+            <div *ngIf="element.adjunto">
+                <div>
+                    <h3>Documento
+                        <mat-icon class="s-16" matSuffix matTooltip="Documento de soporte del ausentismo.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        <button mat-icon-button matTooltip="Descargar" (click)="descargarHandle($event, element)">
+                            <mat-icon class="s-20">save_alt</mat-icon>
+                        </button>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>

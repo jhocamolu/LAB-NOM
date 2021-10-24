@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="NotificacionPlantilla_Datos_v11">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+UPDATE dbo.NotificacionPlantilla SET Descripcion='Notificación de recuperación de contraseña',  Plantilla = '<div><p>Hola |&|PRIMERNOMBREUSUARIO|&|!</p><p>Hemos recuperado tu contraseña. Podrás acceder al portal de reclutamiento de |&|RAZONSOCIAL|&| con la contraseña |&|CLAVE|&|</p></div>' WHERE Id = 5;
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE dbo.NotificacionPlantilla SET Descripcion='Notificación de recuperación de contraseña', Plantilla = '<div><p>Hola |&|PRIMERNOMBREUSUARIO|&|!</p><p>Hemos recuperado tu contraseña. Podrás acceder al portal de reclutamiento de |&|RAZONSOCIAL|&| con la contraseña |&|CLAVE|&|.</p></div>' WHERE Id = 5;
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

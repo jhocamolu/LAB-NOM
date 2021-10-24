@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="NominaContabilidad_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+CREATE TABLE [NominaContabilidad] (
+    [Id] int NOT NULL IDENTITY,
+    [EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    [NominaFuncionarioId] int NOT NULL,
+    [ConceptoNominaId] int NOT NULL,
+    [CentroCostoId] int NOT NULL,
+    [CuentaContableId] int NOT NULL,
+    [TipoComprobante] varchar(255) NOT NULL,
+    [Nit] varchar(255) NOT NULL,
+    [Fecha] date NOT NULL,
+    [Debito] money NULL,
+    [Credito] money NULL,
+    CONSTRAINT [PK_NominaContabilidad] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_NominaContabilidad_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [FK_NominaContabilidad_CentroCosto_CentroCostoId] FOREIGN KEY ([CentroCostoId]) REFERENCES [CentroCosto] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_NominaContabilidad_ConceptoNomina_ConceptoNominaId] FOREIGN KEY ([ConceptoNominaId]) REFERENCES [ConceptoNomina] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_NominaContabilidad_CuentaContable_CuentaContableId] FOREIGN KEY ([CuentaContableId]) REFERENCES [CuentaContable] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_NominaContabilidad_NominaFuncionario_NominaFuncionarioId] FOREIGN KEY ([NominaFuncionarioId]) REFERENCES [NominaFuncionario] ([Id]) ON DELETE NO ACTION
+);
+
+GO
+
+CREATE INDEX [IX_NominaContabilidad_CentroCostoId] ON [NominaContabilidad] ([CentroCostoId]);
+
+GO
+
+CREATE INDEX [IX_NominaContabilidad_ConceptoNominaId] ON [NominaContabilidad] ([ConceptoNominaId]);
+
+GO
+
+CREATE INDEX [IX_NominaContabilidad_CuentaContableId] ON [NominaContabilidad] ([CuentaContableId]);
+
+GO
+
+CREATE INDEX [IX_NominaContabilidad_NominaFuncionarioId] ON [NominaContabilidad] ([NominaFuncionarioId]);
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [NominaContabilidad];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

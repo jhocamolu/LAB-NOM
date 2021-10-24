@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="FuncionVariable_Datos_V8">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+DELETE FROM dbo.FuncionVariable WHERE Id=266;
+DELETE FROM dbo.FuncionVariable WHERE Id=267;
+DELETE FROM dbo.FuncionVariable WHERE Id=268;
+DELETE FROM dbo.FuncionVariable WHERE Id=269;
+DELETE FROM dbo.FuncionVariable WHERE Id=270;
+DELETE FROM dbo.FuncionVariable WHERE Id=271;			
+DELETE FROM dbo.FuncionVariable WHERE Id=272;
+DELETE FROM dbo.FuncionVariable WHERE Id=273;
+DELETE FROM dbo.FuncionVariable WHERE Id=274;
+DELETE FROM dbo.FuncionVariable WHERE Id=275;
+DELETE FROM dbo.FuncionVariable WHERE Id=276;
+DELETE FROM dbo.FuncionVariable WHERE Id=277;
+DELETE FROM dbo.FuncionVariable WHERE Id=278;
+DELETE FROM dbo.FuncionVariable WHERE Id=279;
+DELETE FROM dbo.FuncionVariable WHERE Id=280;
+DELETE FROM dbo.FuncionVariable WHERE Id=281;
+DELETE FROM dbo.FuncionVariable WHERE Id=282;
+DELETE FROM dbo.FuncionVariable WHERE Id=283;
+DELETE FROM dbo.FuncionVariable WHERE Id=284;
+DELETE FROM dbo.FuncionVariable WHERE Id=285;
+DELETE FROM dbo.FuncionVariable WHERE Id=286;
+DELETE FROM dbo.FuncionVariable WHERE Id=287;
+DELETE FROM dbo.FuncionVariable WHERE Id=288;
+DELETE FROM dbo.FuncionVariable WHERE Id=289;
+DELETE FROM dbo.FuncionVariable WHERE Id=290;
+DELETE FROM dbo.FuncionVariable WHERE Id=291;
+DELETE FROM dbo.FuncionVariable WHERE Id=292;
+DELETE FROM dbo.FuncionVariable WHERE Id=293;
+DELETE FROM dbo.FuncionVariable WHERE Id=294;
+DELETE FROM dbo.FuncionVariable WHERE Id=295;
+DELETE FROM dbo.FuncionVariable WHERE Id=296;
+DELETE FROM dbo.FuncionVariable WHERE Id=297;
+DELETE FROM dbo.FuncionVariable WHERE Id=298;
+DELETE FROM dbo.FuncionVariable WHERE Id=299;
+DELETE FROM dbo.FuncionVariable WHERE Id=300;
+DELETE FROM dbo.FuncionVariable WHERE Id=301;
+DELETE FROM dbo.FuncionVariable WHERE Id=302;
+DELETE FROM dbo.FuncionVariable WHERE Id=303;
+DELETE FROM dbo.FuncionVariable WHERE Id=304;
+DELETE FROM dbo.FuncionVariable WHERE Id=305;
+DELETE FROM dbo.FuncionVariable WHERE Id=306;
+DELETE FROM dbo.FuncionVariable WHERE Id=307;
+DELETE FROM dbo.FuncionVariable WHERE Id=308;
+DELETE FROM dbo.FuncionVariable WHERE Id=309;
+DELETE FROM dbo.FuncionVariable WHERE Id=310;
+DELETE FROM dbo.FuncionVariable WHERE Id=311;
+DELETE FROM dbo.FuncionVariable WHERE Id=312;
+DELETE FROM dbo.FuncionVariable WHERE Id=313;
+DELETE FROM dbo.FuncionVariable WHERE Id=314;
+DELETE FROM dbo.FuncionVariable WHERE Id=315;
+
+SET IDENTITY_INSERT [dbo].[FuncionVariable] ON;
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(266, 65, 5, 2, 'BasePrimaCesantiasMes', 'Activo    ', 'sistema', GETDATE(), 'ConceptoAlias');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(267, 65, 18, 3, 'PrimaNormal', 'Activo    ', 'sistema', GETDATE(), 'TipoProceso');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(268, 65, 11, 4, NULL, 'Activo    ', 'sistema', GETDATE(), 'Valor');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(269, 66, 1, 1, NULL, 'Activo    ', 'sistema', GETDATE(), 'FuncionarioId');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(270, 66, 12, 4, NULL, 'Activo    ', 'sistema', GETDATE(),'Cantidad');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(271, 67, 1, 1, NULL, 'Activo    ', 'sistema', GETDATE(), 'FuncionarioId');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(272, 67, 25, 2, NULL, 'Activo    ', 'sistema', GETDATE(),  'FechaInicial');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(273, 67, 4, 3, NULL, 'Activo    ', 'sistema', GETDATE(),  'FechaFinal');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(274, 67, 12, 4, NULL, 'Activo    ', 'sistema', GETDATE(),  'Cantidad');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(275, 68, 1, 1, NULL, 'Activo    ', 'sistema', GETDATE(),  'FuncionarioId');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(276, 68, 5, 2, 'AnticiCesantias', 'Activo    ', 'sistema', GETDATE(),  'ConceptoAlias');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(277, 68, 6, 3, NULL, 'Activo    ', 'sistema', GETDATE(),  'FechaInicio');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(278, 68, 7, 4, NULL, 'Activo    ', 'sistema', GETDATE(),  'FechaFin');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(279, 68, 11, 5, NULL, 'Activo    ', 'sistema', GETDATE(),  'Valor');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(280, 69, 1, 1, NULL, 'Activo    ', 'sistema', GETDATE(),  'FuncionarioId');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(281, 69, 5, 2, 'AnticiCesantias', 'Activo    ', 'sistema', GETDATE(),  'ConceptoAlias');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(282, 69, 6, 3, NULL, 'Activo    ', 'sistema', GETDATE(),  'FechaInicio');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(283, 69, 7, 4, NULL, 'Activo    ', 'sistema', GETDATE(),  'FechaFin');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) VALUES(284, 69, 11, 5, NULL, 'Activo    ', 'sistema', GETDATE(),  'Valor');
+SET IDENTITY_INSERT [dbo].[FuncionVariable] OFF;
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE dbo.FuncionVariable WHERE Id BETWEEN 266 AND 284;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

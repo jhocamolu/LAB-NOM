@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="USP_ObtenerValorNovedadesVacaciones_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerValorNovedadesVacaciones', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerValorNovedadesVacaciones as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Reynaldo Sabogal
+-- Create date: 13/09/2020
+-- Description: Obtiene el valor base promedio de las novedades que se utilizan en el cálculo de las vacaciones de un funcionario.
+--
+-- Parameters:
+--  @FuncionarioId:		   Identificador del funcionario
+--  @NominaFuncionarioId:  Identificador del funcionario en la liquidación de nomina
+--  @NominaDetalleId:	   Identificador del detalle de liquidación
+--  @ConceptoAlias:		   Alias del concepto sobre el cual se quiere obtener el valor
+--  @Valor:			   Parámetro de salida con el valor para el detalle
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ObtenerValorNovedadesVacaciones] @FuncionarioId       INT,       
+												@NominaFuncionarioId	INT,
+												@NominaDetalleId		INT,
+                                                @ConceptoAlias       VARCHAR(255),                                                                                                
+                                                @Valor               MONEY OUTPUT
+AS
+BEGIN
+
+	--------------------------------------------------------------------------
+	-- Instrucciones de configuración y manejo de errores
+	--------------------------------------------------------------------------
+	SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+	DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId));
+	DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+	DECLARE @MensajeExcepcion VARCHAR(255);
+
+	--------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @ContratoVigente VARCHAR(255);
+    DECLARE @ContratoPendienteLiquidar VARCHAR(255);
+    DECLARE @NominaAplicada VARCHAR(255);
+    DECLARE @NominaFuncionarioLiquidado VARCHAR(255);
+    DECLARE @ModuloVacaciones VARCHAR(255)=
+    (
+        SELECT ces.VACACIONES
+        FROM util.VW_ConstanteModuloSistema AS ces
+    );
+	DECLARE @FechaInicio DATE;
+	DECLARE @FechaFin DATE;
+
+	--------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------	   	
+
+	-- consultar solicitud y obtener fecha de Inicio disfrute 
+	SELECT @FechaFin = sv.FechaInicioDisfrute,
+			@FechaInicio = DATEADD(DAY, -365, @FechaFin)
+	FROM NominaFuncionario AS nf
+			INNER JOIN NominaDetalle AS nd ON nd.NominaFuncionarioId = nf.Id
+			INNER JOIN NominaFuenteNovedad AS nv ON nv.Id = nd.NominaFuenteNovedadId
+			INNER JOIN SolicitudVacaciones AS sv ON(sv.Id = nv.ModuloRegistroId
+													AND nv.Modulo = @ModuloVacaciones
+													AND sv.FuncionarioId = nf.FuncionarioId)
+	WHERE nf.Id = @NominaFuncionarioId
+			AND nd.Id = @NominaDetalleId
+			AND nf.EstadoRegistro = @AuditoriaActivo;		
+			   		 
+
+	-- Proceso de consulta de valor promedio de prestación 
+    SELECT @Valor = COALESCE(AVG(nde.Valor), 0)
+    FROM dbo.NominaFuncionario AS nfu
+         INNER JOIN dbo.Nomina AS nom ON(nom.Id = nfu.NominaId)
+         INNER JOIN dbo.NominaDetalle AS nde ON(nde.NominaFuncionarioId = nfu.Id)
+         INNER JOIN dbo.ConceptoNomina AS cno ON(cno.Id = nde.ConceptoNominaId)
+    WHERE nfu.FuncionarioId = @FuncionarioId
+          AND cno.Alias = @ConceptoAlias
+          AND nom.FechaInicio BETWEEN @FechaInicio AND @FechaFin
+          AND nom.FechaFinal BETWEEN @FechaInicio AND @FechaFin
+		AND nom.Estado = @NominaAplicada
+          AND nfu.EstadoRegistro = @AuditoriaActivo
+          AND nom.EstadoRegistro = @AuditoriaActivo;
+
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerValorNovedadesVacaciones];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

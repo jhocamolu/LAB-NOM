@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="ParametroGeneral_Datos_V23">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.ParametroGeneral SET Item='{administracionPersonal}/odata/funcionariodatoactuales?$filter=centroOperativoId eq 1&$select=criterioBusqueda,id&$orderby=primernombre asc' WHERE Id=33;
+UPDATE dbo.ParametroGeneral SET Item='{administracionPersonal}/odata/funcionariodatoactuales?$filter=centroOperativoId eq 6&$select=criterioBusqueda,id&$orderby=primernombre asc' WHERE Id=34;
+UPDATE dbo.ParametroGeneral SET Item='{administracionPersonal}/odata/funcionariodatoactuales?$filter=centroOperativoId eq 9&$select=criterioBusqueda,id&$orderby=primernombre asc' WHERE Id=35;
+UPDATE dbo.ParametroGeneral SET Item='{administracionPersonal}/odata/funcionariodatoactuales?$filter=centroOperativoId eq 9&$select=criterioBusqueda,id&$orderby=primernombre asc' WHERE Id=36;
+UPDATE dbo.ParametroGeneral SET Item='{administracionPersonal}/odata/Funcionarios?$select=id,CriterioBusqueda&$orderby=primernombre asc' WHERE Id=37;
+UPDATE dbo.ParametroGeneral SET Item='{administracionPersonal}/odata/Funcionarios?$select=id,CriterioBusqueda&$orderby=primernombre asc' WHERE Id=38;
+UPDATE dbo.ParametroGeneral SET Item='{administracionPersonal}/odata/Funcionarios?$select=id,CriterioBusqueda&$orderby=primernombre asc' WHERE Id=39;
+UPDATE dbo.ParametroGeneral SET Item='{configuracionGeneral}/odata/centroOperativos?$filter=id eq 1&$select=id,nombre&$orderby=nombre asc' WHERE Id=43;
+UPDATE dbo.ParametroGeneral SET Item='{configuracionGeneral}/odata/centroOperativos?$filter=id eq 2&$select=id,nombre&$orderby=nombre asc' WHERE Id=44;
+UPDATE dbo.ParametroGeneral SET Item='{configuracionGeneral}/odata/centroOperativos?$filter=id eq 3&$select=id,nombre&$orderby=nombre asc' WHERE Id=45;
+UPDATE dbo.ParametroGeneral SET Item='{configuracionGeneral}/odata/centroOperativos?$filter=id eq 4&$select=id,nombre&$orderby=nombre asc' WHERE Id=46;
+UPDATE dbo.ParametroGeneral SET Item='{configuracionGeneral}/odata/centroOperativos?$filter=id eq 5&$select=id,nombre&$orderby=nombre asc' WHERE Id=47;
+UPDATE dbo.ParametroGeneral SET Item='{configuracionGeneral}/odata/centroOperativos?$filter=id eq 6&$select=id,nombre&$orderby=nombre asc' WHERE Id=48;
+UPDATE dbo.ParametroGeneral SET Item='{configuracionGeneral}/odata/centroOperativos?$filter=id eq 7&$select=id,nombre&$orderby=nombre asc' WHERE Id=49;
+UPDATE dbo.ParametroGeneral SET Item='{configuracionGeneral}/odata/centroOperativos?$filter=id eq 8&$select=id,nombre&$orderby=nombre asc' WHERE Id=50;
+UPDATE dbo.ParametroGeneral SET Item='{configuracionGeneral}/odata/centroOperativos?$filter=id eq 9&$select=id,nombre&$orderby=nombre asc' WHERE Id=51;
+]]>
+</sql>
+
+<rollback>
+
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+DELETE FROM dbo.ParametroGeneral WHERE Id IN (55,62,63,64,65,66);
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

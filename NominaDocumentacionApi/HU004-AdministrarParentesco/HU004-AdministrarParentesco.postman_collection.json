@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "98e8072f-41ff-496f-a666-0661e5ff82ae",
+		"name": "HU004-AdministrarParentesco",
+		"description": "Administración Parentesco",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listado Parentescos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44352/odata/parentescos",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"odata",
+						"parentescos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Parentescos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\" : \"Hi154ito mio\",\n\t\"tipo\": \"Afinidad\",\n\t\"grado\":\"Tercero\"\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/parentescos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"parentescos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Parentesco",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":1,\n\t\"nombre\" : \"Padre\",\n\t\"tipo\": \"Afinidad\",\n\t\"grado\":\"Tercero\",\n\t\"numeropersonaspermitidas\": 1\n}"
+				},
+				"url": {
+					"raw": "https://localhost:44352/api/parentescos/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"api",
+						"parentescos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Parentesco",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44352/odata/parentescos/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"odata",
+						"parentescos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizacion Parcial Parentesco",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"numeroPersonasPermitidas\": 2,\r\n    \"Activo\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44352/api/parentescos/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"api",
+						"parentescos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

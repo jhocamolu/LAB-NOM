@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="UFT_MaestroFuncionario_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[reporte].[UFT_MaestroFuncionario]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [reporte].[UFT_MaestroFuncionario]
+END
+GO
+-- =============================================
+-- Author:		Jhonatan Camilo Moreno Luna
+-- Create date: 17-06-2020
+-- Description:
+-- Parametros:
+-- @EstadoFuncionario NVARCHAR(MAX): String con los estados de los funcionarios separados por coma.
+-- @CentroOperativo   NVARCHAR(MAX): String con los Centros Operativos separados por coma.
+-- @Dependencia		  NVARCHAR(MAX): String con las Dependecias separados por coma.
+-- @Cargo			  NVARCHAR(MAX): String con los Cargos separados por coma.
+-- Retorna: 
+--  @MaestroFuncionarios TABLE: Retorna todos los valores el reporte de maestro Funcionarios
+-- =============================================
+CREATE FUNCTION [reporte].[UFT_MaestroFuncionario]
+(
+@EstadoFuncionario NVARCHAR(MAX), 
+@CentroOperativo   NVARCHAR(MAX) = NULL, 
+@Dependencia       NVARCHAR(MAX) = NULL, 
+@Cargo             NVARCHAR(MAX) = NULL
+)
+RETURNS @MaestroFuncionarios TABLE
+(
+FuncionarioId                       INT, 
+TipoDocumento                       NVARCHAR(MAX), 
+NumeroDocumento                     NVARCHAR(MAX), 
+PrimerNombre                        NVARCHAR(MAX), 
+OtrosNombres                        NVARCHAR(MAX), 
+PrimerApellido                      NVARCHAR(MAX), 
+SegundoApellido                     NVARCHAR(MAX), 
+Sexo                                NVARCHAR(MAX), 
+Estado                              NVARCHAR(MAX), 
+FechaNacimiento                     NVARCHAR(MAX), 
+Edad                                NVARCHAR(MAX), 
+EstadoCivil                         NVARCHAR(MAX), 
+TipoSangre                          NVARCHAR(MAX), 
+ClaseLibretaMilitar                 NVARCHAR(MAX), 
+NumeroLibreta                       NVARCHAR(MAX), 
+Distrito                            NVARCHAR(MAX), 
+NivelEducativo                      NVARCHAR(MAX), 
+Profesion                           NVARCHAR(MAX), 
+DepartamentoResidencia              NVARCHAR(MAX), 
+MunicipioResidencia                 NVARCHAR(MAX), 
+Direccion                           NVARCHAR(MAX), 
+ALicenciaConduccion                 NVARCHAR(MAX), 
+LicenciaConduccionAFechaVencimiento NVARCHAR(MAX), 
+BLicenciaConduccion                 NVARCHAR(MAX), 
+LicenciaConduccionBFechaVencimiento NVARCHAR(MAX), 
+CLicenciaConduccion                 NVARCHAR(MAX), 
+LicenciaConduccionCFechaVencimiento NVARCHAR(MAX), 
+TelefonoFijo                        NVARCHAR(MAX), 
+Celular                             NVARCHAR(MAX), 
+CorreoElectronico                   NVARCHAR(MAX)
+)
+AS
+     BEGIN
+
+         -- Variables Tabla  
+
+         DECLARE @CentroOperativoId TABLE(Id INT);
+         DECLARE @DependenciaId TABLE(Id INT);
+         DECLARE @CargoId TABLE(Id INT);
+
+         -- SPLIT de data Centro Operativo
+         IF @CentroOperativo IS NULL
+             BEGIN
+                 INSERT INTO @CentroOperativoId
+                        SELECT Id
+                        FROM CentroOperativo;
+             END;
+             ELSE
+             BEGIN
+                 INSERT INTO @CentroOperativoId
+                        SELECT CAST([Value] AS INT)
+                        FROM util.UFT_Split(@CentroOperativo, ',');
+             END;
+         -- SPLIT de data Dependencia
+         IF @Dependencia IS NULL
+             BEGIN
+                 INSERT INTO @DependenciaId
+                        SELECT Id
+                        FROM Dependencia;
+             END;
+             ELSE
+             BEGIN
+                 INSERT INTO @DependenciaId
+                        SELECT CAST([Value] AS INT)
+                        FROM util.UFT_Split(@Dependencia, ',');
+             END;
+
+         -- SPLIT de data Cargo
+         IF @Cargo IS NULL
+             BEGIN
+                 INSERT INTO @CargoId
+                        SELECT Id
+                        FROM Cargo;
+             END;
+             ELSE
+             BEGIN
+                 INSERT INTO @CargoId
+                        SELECT CAST([Value] AS INT)
+                        FROM util.UFT_Split(@Cargo, ',');
+             END;
+         INSERT INTO @MaestroFuncionarios
+                -- Consulta 
+                SELECT DISTINCT 
+                       f.Id, 
+                       td.Nombre AS 'Tipo de Documento', 
+                       f.NumeroDocumento, 
+                       f.PrimerNombre AS 'Primer nombre', 
+                       f.SegundoNombre AS 'Otros nombres', 
+                       f.PrimerApellido AS 'Primer apellido', 
+                       f.SegundoApellido AS 'Segundo apellido', 
+                       s.Nombre AS 'Sexo', 
+                       f.Estado AS 'Estado del funcionario', 
+                       f.FechaNacimiento AS 'Fecha de nacimiento', 
+                       DATEDIFF(year, f.FechaNacimiento, GETDATE()) AS 'Edad', 
+                       ec.Nombre AS 'Estado civil', 
+                       ts.Nombre AS 'Tipo de sangre', 
+                       clm.Nombre AS 'Clase de libreta militar', 
+                       f.NumeroLibreta AS 'Número de libreta militar', 
+                       f.Distrito AS 'Distrito de libreta militar', 
+                       ne.Nombre AS 'Nivel educativo', 
+                       p.Nombre AS 'Profesion', 
+                       dpn1.Nombre AS 'Departamento de residencia', 
+                       dpn2.Nombre AS 'Municipio de residencia', 
+                       f.Direccion AS 'Dirección', 
+                       lcA.Nombre AS 'Categoría A de licencia de conducción', 
+                       f.LicenciaConduccionAFechaVencimiento AS 'Fecha de vencimiento de licencia de conducción', 
+                       lcB.Nombre AS 'Categoría B de licencia de conducción', 
+                       f.LicenciaConduccionBFechaVencimiento AS 'Fecha de vencimiento de licencia de conducción', 
+                       lcC.Nombre AS 'Categoría C de licencia de conducción', 
+                       f.LicenciaConduccionCFechaVencimiento AS 'Fecha de vencimiento de licencia de conducción', 
+                       f.TelefonoFijo AS 'Teléfono fijo', 
+                       f.Celular, 
+                       ISNULL(f.CorreoElectronicoPersonal, '') AS 'Correo electrónico'
+                FROM VW_FuncionarioDatoActual f
+                     LEFT JOIN TipoDocumento AS td ON f.TipoDocumentoId = td.Id
+                                                      AND td.EstadoRegistro =
+                (
+                    SELECT util.VW_ConstanteEstado.AUDITORIA_ACTIVO
+                    FROM util.VW_ConstanteEstado
+                )
+                     LEFT JOIN
+                (
+                    SELECT fne.FuncionarioId, 
+                           MAX(ne.Id) AS 'NivelEducativoId', 
+                           MAX(fne.AnioDeFin) AS 'FechaFinal', 
+                           MAX(fne.ProfesionId) AS 'Profesion', 
+                           MAX(ne.Orden) AS 'Orden'
+                    FROM FuncionarioEstudio fne
+                         LEFT JOIN NivelEducativo ne ON fne.NivelEducativoId = ne.Id
+                                                        AND ne.EstadoRegistro =
+                    (
+                        SELECT util.VW_ConstanteEstado.AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado
+                    )
+                                                        AND fne.EstadoEstudio =
+                    (
+                        SELECT util.VW_ConstanteEstado.ESTUDIO_CULMINADO
+                        FROM util.VW_ConstanteEstado
+                    )
+                                                        AND fne.Estado =
+                    (
+                        SELECT util.VW_ConstanteEstado.INFORMACION_VALIDADO
+                        FROM util.VW_ConstanteEstado
+                    )
+                                                        AND fne.EstadoRegistro =
+                    (
+                        SELECT util.VW_ConstanteEstado.AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado
+                    )
+                    GROUP BY fne.FuncionarioId
+                ) NivelEduca ON f.Id = NivelEduca.FuncionarioId
+                     LEFT JOIN NivelEducativo ne ON NivelEduca.NivelEducativoId = ne.Id
+                     LEFT JOIN Profesion p ON NivelEduca.Profesion = p.Id
+                     LEFT JOIN DivisionPoliticaNivel2 dpn2 ON f.DivisionPoliticaNivel2ResidenciaId = dpn2.Id
+                     LEFT JOIN DivisionPoliticaNivel1 dpn1 ON dpn2.DivisionPoliticaNivel1Id = dpn1.Id
+                     LEFT JOIN Sexo s ON f.SexoId = s.Id
+                     LEFT JOIN EstadoCivil ec ON f.EstadoCivilId = ec.Id
+                     LEFT JOIN TipoSangre ts ON f.TipoSangreId = ts.Id
+                     LEFT JOIN ClaseLibretaMilitar clm ON f.ClaseLibretaMilitarId = ts.Id
+                     LEFT JOIN LicenciaConduccion lcA ON f.LicenciaConduccionAId = lcA.Id
+                     LEFT JOIN LicenciaConduccion lcB ON f.LicenciaConduccionBId = lcB.Id
+                     LEFT JOIN LicenciaConduccion lcC ON f.LicenciaConduccionCId = lcC.Id
+                WHERE f.Estado IN
+                (
+                    SELECT [Value]
+                    FROM util.UFT_Split(@EstadoFuncionario, ',')
+                )
+                     AND f.CentroOperativoId IN
+                (
+                    SELECT Id
+                    FROM @CentroOperativoId
+                )
+                     AND f.DependenciaId IN
+                (
+                    SELECT Id
+                    FROM @DependenciaId
+                )
+                     AND f.CargoId IN
+                (
+                    SELECT Id
+                    FROM @CargoId
+                )
+                     AND f.EstadoRegistro =
+                (
+                    SELECT util.VW_ConstanteEstado.AUDITORIA_ACTIVO
+                    FROM util.VW_ConstanteEstado
+                )
+                ORDER BY f.Id;
+         RETURN;
+     END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[reporte].[UFT_MaestroFuncionario]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [reporte].[UFT_MaestroFuncionario]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

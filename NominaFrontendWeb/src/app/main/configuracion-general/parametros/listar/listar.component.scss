@@ -1,0 +1,53 @@
+parametros-listar {
+    @import "src/@alcanos/scss/alcanos-v2";
+    .contenido {
+        box-shadow: none;
+        a {
+            text-decoration: none !important;
+        }
+    }
+    mat-card {
+        margin-bottom: 10px;
+        mat-card-content {
+            text-align: center;
+            height: 160px;
+            .card-circe {
+                margin: auto;
+                margin-top: 25px !important;
+                height: 120px;
+                min-width: 120px;
+                width: 50%;
+                border-radius: 50%;
+               //@debug background: red;
+                font-size: 65px;
+                font-weight: bold;
+                color: white;
+                text-align: center;
+                line-height: 115px;
+                text-transform: uppercase;
+            }
+        }
+    }
+
+  
+    .anno-vigente {
+        margin-bottom: -24px !important;
+        width: 100%;
+        z-index: 100;
+        padding: 0px;
+        padding-left:12px;
+        padding-right:12px;
+        form {
+            margin-bottom: -20px;
+            background: white !important;
+            width: 100%;
+            padding-top: 20px;
+            padding-right: 20px;
+            mat-form-field {
+                float: right;
+                width: 33%;
+                text-align: right;
+            }
+        }
+    }
+}

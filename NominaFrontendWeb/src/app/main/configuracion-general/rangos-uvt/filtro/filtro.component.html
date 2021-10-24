@@ -1,0 +1,158 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Desde</mat-label>
+            <input matInput formControlName="desde">
+            <mat-error *ngFor="let error of desde.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo: {{desde.errors.max.max }}.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número donde comienza el rango de UVT.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Hasta</mat-label>
+            <input matInput formControlName="hasta">
+            <mat-error *ngFor="let error of hasta.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo: {{hasta.errors.max.max }}.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número donde termina  el rango de UVT.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Porcentaje</mat-label>
+            <input matInput formControlName="porcentaje" mask="separator.2" suffix="%">
+            <mat-error *ngFor="let error of porcentaje.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo: {{porcentaje.errors.max.max }}.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número que indica el valor porcentual que tiene el rango.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>UVT que adiciona</mat-label>
+            <input matInput formControlName="adiciona">
+            <mat-error *ngFor="let error of adiciona.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo: {{adiciona.errors.max.max }}.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número de UVT que se suman en el rango definido.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>UVT que sustrae</mat-label>
+            <input matInput formControlName="sustrae">
+            <mat-error *ngFor="let error of sustrae.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo: {{sustrae.errors.max.max }}.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número de UVT que se restan en el rango definido.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Válido desde</mat-label>
+            <input matInput [matDatepicker]="validoDesde" (click)="validoDesde.open()" formControlName="validoDesde">
+            <mat-datepicker-toggle matPrefix [for]="validoDesde">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #validoDesde></mat-datepicker>
+            <mat-error *ngFor="let error of form.get('validoDesde').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Fecha desde la que comienza la validez del rango definido.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+            <mat-icon>cancel</mat-icon>
+            <span>Borrar filtros</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+            <mat-icon>search</mat-icon>
+            <span>Buscar</span>
+        </button>
+    </div>
+
+</form>

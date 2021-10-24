@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="ParametroGeneral_Datos_V9">
+<comment>Retefuente</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON 
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(32, 'funcionarioVencimiento', 'Number', '', 'Funcionario de Contratación', 'Es el Funcionario del area de Talento Humano encargado de la Contratacion.', 1, '', 1, '680'	, 1, 'Activo    ', 'sistema', GETDATE(), 1);
+
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF 
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM dbo.ParametroGeneral WHERE Id = 32;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>      

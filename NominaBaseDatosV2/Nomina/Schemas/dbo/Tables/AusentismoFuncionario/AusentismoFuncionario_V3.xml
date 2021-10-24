@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="AusentismoFuncionario_V3">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [AusentismoFuncionario] ADD CONSTRAINT [CK_AusentismoFuncionario_Estado] CHECK (([Estado]='Anulado' OR [Estado]='Aprobado' OR [Estado]='Procesado' OR [Estado]='Registrado' OR [Estado]='Finalizado'));
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [AusentismoFuncionario] DROP CONSTRAINT [CK_AusentismoFuncionario_Estado];
+
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

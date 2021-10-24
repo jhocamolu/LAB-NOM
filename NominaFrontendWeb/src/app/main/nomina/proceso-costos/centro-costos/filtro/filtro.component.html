@@ -1,0 +1,89 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Código centro de costo</mat-label>
+            <input matInput placeholder="" formControlName="codigoCentrodeCostos">
+            <mat-error *ngFor="let error of form.get('codigoCentrodeCostos').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Código de la distribución de costos definida por la compañía.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre centro de costo</mat-label>
+            <input matInput placeholder="" formControlName="centrodeCostos">
+            <mat-error *ngFor="let error of form.get('centrodeCostos').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Distribución de costos definida por la compañía.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cantidad</mat-label>
+            <input matInput placeholder="" formControlName="cantidad">
+            <mat-error *ngFor="let error of form.get('cantidad').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número que indica la cuantía de actividades.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha de corte</mat-label>
+            <input matInput [matDatepicker]="fechaCorte" (click)="fechaCorte.open()"
+                formControlName="fechaCorte">
+            <mat-datepicker-toggle matPrefix [for]="fechaCorte">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaCorte></mat-datepicker>
+            <mat-error *ngFor="let error of form.get('fechaCorte').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Fecha hasta la que se desea obtener la información.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+            <mat-icon>cancel</mat-icon>
+            <span>Borrar filtros</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+            <mat-icon>search</mat-icon>
+            <span>Buscar</span>
+        </button>
+    </div>
+</form>

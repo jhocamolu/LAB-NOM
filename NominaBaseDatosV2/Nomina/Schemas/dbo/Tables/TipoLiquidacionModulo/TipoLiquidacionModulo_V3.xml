@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoLiquidacion_V3">
+<comment>Eliminar constarint CK_TipoLiquidacionModulo_Modulo TipoLiquidacionModulo</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    ALTER TABLE [TipoLiquidacionModulo] ADD CONSTRAINT [CK_TipoLiquidacionModulo_Modulo] CHECK (([Modulo]='Libranzas' or [Modulo]='Embargos' or [Modulo]='Ausentismos' or [Modulo]='Beneficios' or [Modulo]='HorasExtra' or [Modulo]='HorasExtra' or [Modulo]='GastosViaje' or [Modulo]='OtrasNovedades' or [Modulo]='Vacaciones' or [Modulo]='AnticipoCesantias'));
+    GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    ALTER TABLE [TipoLiquidacionModulo] DROP CONSTRAINT [CK_TipoLiquidacionModulo_Modulo];
+    GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

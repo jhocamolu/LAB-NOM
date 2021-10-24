@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_centrooperativo_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[CentroOperativo] ON 
+GO
+INSERT [dbo].[CentroOperativo] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CreadoPor], [Codigo]) VALUES (1, 'Activo', GETDATE(), NULL, NULL, 'Centro Operativo Ibagué', 'sistema', '06')
+GO
+INSERT [dbo].[CentroOperativo] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CreadoPor], [Codigo]) VALUES (2, 'Activo', GETDATE(), NULL, NULL, 'Centro Operativo Neiva', 'sistema', '07')
+GO
+INSERT [dbo].[CentroOperativo] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CreadoPor], [Codigo]) VALUES (3, 'Activo', GETDATE(), NULL, NULL, 'Centro Operativo Fusagasugá', 'sistema', '08')
+GO
+INSERT [dbo].[CentroOperativo] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CreadoPor], [Codigo]) VALUES (4, 'Activo', GETDATE(), NULL, NULL, 'Centro Operativo Girardot', 'sistema', '09')
+GO
+INSERT [dbo].[CentroOperativo] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CreadoPor], [Codigo]) VALUES (5, 'Activo', GETDATE(), NULL, NULL, 'Centro Operativo La Dorada', 'sistema', '11')
+GO
+INSERT [dbo].[CentroOperativo] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CreadoPor], [Codigo]) VALUES (6, 'Activo', GETDATE(), NULL, NULL, 'Centro Operativo Rionegro', 'sistema', '13')
+GO
+INSERT [dbo].[CentroOperativo] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CreadoPor], [Codigo]) VALUES (7, 'Activo', GETDATE(), NULL, NULL, 'Centro Operativo Popayán', 'sistema', '15')
+GO
+INSERT [dbo].[CentroOperativo] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CreadoPor], [Codigo]) VALUES (8, 'Activo', GETDATE(), NULL, NULL, 'Centro Operativo Florencia', 'sistema', '17')
+GO
+INSERT [dbo].[CentroOperativo] ([Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CreadoPor], [Codigo]) VALUES (9, 'Activo', GETDATE(), NULL, NULL, 'Centro Operativo Pasto', 'sistema', '19')
+GO
+SET IDENTITY_INSERT [dbo].[CentroOperativo] OFF
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[CentroOperativo] WHERE Id BETWEEN 1 AND 9;
+</rollback>
+</changeSet>
+</databaseChangeLog>

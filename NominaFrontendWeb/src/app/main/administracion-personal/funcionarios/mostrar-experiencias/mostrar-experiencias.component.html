@@ -1,0 +1,133 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+    <h1 mat-dialog-title>Visualizar experiencia laboral</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Nombre del cargo
+                    <mat-icon class="s-16" matSuffix matTooltip="Nombre del cargo que realizó o realiza.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.nombreCargo}}
+                </p>
+            </div>
+            <div>
+                <h3>Empresa
+                    <mat-icon class="s-16" matSuffix matTooltip="Nombre de la empresa donde laboraba.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.nombreEmpresa}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Teléfono
+                    <mat-icon class="s-16" matSuffix matTooltip="Número telefónico de la empresa donde laboraba.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.telefono}}
+                </p>
+            </div>
+            <div>
+                <h3>Trabaja actualmente en la empresa
+                    <mat-icon class="s-16" matSuffix matTooltip="Actualmente se encuentra contratado y/o labora en la empresa.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p *ngIf="element.trabajaActualmente == false ">No</p>
+                <p *ngIf="element.trabajaActualmente == true ">Si </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Fecha de inicio
+                    <mat-icon class="s-16" matSuffix matTooltip="Fecha en la que inició labores en la empresa anterior.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.fechaInicio | date:'dd / LL / yyyy' }}
+                </p>
+            </div>
+            <div>
+                <h3>Fecha finalización
+                    <mat-icon class="s-16" matSuffix matTooltip="Fecha en la que terminó labores en la empresa anterior.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.fechaFin != null ? (element.fechaFin | date:'dd / LL / yyyy') : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Salario
+                    <mat-icon class="s-16" matSuffix matTooltip="Sueldo que tenía en su anterior trabajo.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.salario  != null ? (element.salario | currency:'COP':'symbol-narrow':'4.2-2': 'co') : 'N/A'}}
+                </p>
+            </div>
+            <div>
+                <h3>Último jefe inmediato
+                    <mat-icon class="s-16" matSuffix matTooltip="Nombre de su último jefe inmediato con el que laboró.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.nombreJefeInmediato != null ? element.nombreJefeInmediato : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h3>Motivo de retiro
+                    <mat-icon class="s-16" matSuffix matTooltip="Razones por las cuales se produjo el retiro.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.motivoRetiro  ? element.motivoRetiro : 'N/A'}}
+                </p>
+            </div>
+
+        </div>
+
+        <div>
+            <div>
+                <h3>Funciones
+                    <mat-icon class="s-16" matSuffix matTooltip="Funciones que desempeñaba en la empresa donde laboraba.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>
+                    {{element.funcionesCargo  != null ? element.funcionesCargo : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+</div>

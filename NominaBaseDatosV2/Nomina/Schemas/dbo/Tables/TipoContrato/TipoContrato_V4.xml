@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="TipoContrato_V4">
+<comment>HU035</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [TipoContrato] DROP CONSTRAINT [CK_TipoContrato_Clase];
+
+GO
+
+ALTER TABLE [TipoContrato] ADD CONSTRAINT [CK_TipoContrato_Clase] CHECK (([Clase]='NoIntegral' OR [Clase]='Integral' OR [Clase]='Aprendizaje' OR [Clase]='Practicante' OR [Clase]='Variable'));
+
+GO
+
+ALTER TABLE [TipoContrato] ADD [DocumentoSlug] varchar(255) NULL;
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [TipoContrato] DROP CONSTRAINT [CK_TipoContrato_Clase];
+
+GO
+
+ALTER TABLE [TipoContrato] ADD CONSTRAINT [CK_TipoContrato_Clase] CHECK (([Clase]='NoIntegral' OR [Clase]='Integral' OR [Clase]='Aprendizaje' OR [Clase]='Practicante'));
+
+GO
+
+ALTER TABLE [TipoContrato] DROP COLUMN [DocumentoSlug];
+
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

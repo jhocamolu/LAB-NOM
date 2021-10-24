@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="TipoAdministradora_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[TipoAdministradora] ON 
+GO
+INSERT [dbo].[TipoAdministradora] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, 'ARL', 'Administradora de Riesgos Laborales')
+GO
+INSERT [dbo].[TipoAdministradora] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, 'AFP', 'Administradora de Fondos de Pensiones')
+GO
+INSERT [dbo].[TipoAdministradora] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, 'EPS', 'Empresa Promotoras de Salud')
+GO
+INSERT [dbo].[TipoAdministradora] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, 'AFC', 'Fondo de cesantias')
+GO
+INSERT [dbo].[TipoAdministradora] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 5, 'Activo', GETDATE(), NULL, NULL, 'CCF', 'Caja compensacion')
+GO
+INSERT [dbo].[TipoAdministradora] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 6, 'Activo', GETDATE(), NULL, NULL, 'PARA', 'Parafiscales')
+GO
+SET IDENTITY_INSERT [dbo].[TipoAdministradora] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoAdministradora] WHERE Id BETWEEN 1 AND 6;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,72 @@
+    <mat-card class="card-funcionarios" [ngStyle]="{'border-top': color(i) + ' 10px solid'}">
+        <mat-card-header>
+            <a *ngIf="arrayPermisos.actualizar" routerLink="/administracion-personal/funcionarios/{{item.id}}/datos-basicos" class="editar-icon">
+                <mat-icon matTooltip="Editar">edit</mat-icon>
+            </a>
+            <a *ngIf="arrayPermisos.obtener" routerLink="/administracion-personal/funcionarios/{{item.id}}/mostrar" class="visualizar-icon">
+                <mat-icon matTooltip="Visualizar">remove_red_eye</mat-icon>
+            </a>
+        </mat-card-header>
+        <div class="bloque-image">
+            <div *ngIf="item.adjunto" class="funcionario-image"
+                [ngStyle]="{'background-image': 'url(' + enviroments + '/bucket/download?document_id=' + item.adjunto + ')'}">
+            </div>
+        </div>
+        <img *ngIf="!item.adjunto" src="assets/alcanos/nofuncionario.jpg" class="card-circe"
+            alt="{{item.primerNombre}}{{item.primerApellido}}">
+        <mat-card-content>
+            <h2>{{item.primerNombre}}</h2>
+            <h2>{{item.primerApellido}}</h2>
+            <br>
+            <p>
+                <mat-icon matTooltip="Número del documento">payment</mat-icon>
+                <span style="top:1px;">{{item.numeroDocumento}}</span><br>
+                <mat-icon matTooltip="Centro operativo">business</mat-icon>
+                <span *ngIf="item.contratoOtroSi == null && item.contrato == null"
+                    style="text-transform: none !important;">
+                    <p>Sin definir</p>
+                </span>
+                <span *ngIf="item.contratoOtroSi != null && item.contrato != null">
+                    <p matTooltip="{{ item.contratoOtroSi?.centroOperativo?.nombre }}">
+                        {{ item.contratoOtroSi?.centroOperativo?.nombre }}</p>
+                </span>
+                <span *ngIf="item.contratoOtroSi == null">
+                    <p matTooltip="{{ item.contrato?.centroOperativo?.nombre}}">
+                        {{ item.contrato?.centroOperativo?.nombre }}</p>
+                </span>
+                <br>
+
+                <mat-icon matTooltip="Cargo">person_pin</mat-icon>
+                <span *ngIf="item.contratoOtroSi == null && item.contrato == null"
+                    style="text-transform: none !important;">
+                    <p>Sin definir</p>
+                </span>
+                <span *ngIf="item.contratoOtroSi != null && item.contrato != null">
+                    <p matTooltip="{{item.contratoOtroSi?.cargoDependencia?.cargo?.nombre}}">
+                        {{item.contratoOtroSi?.cargoDependencia?.cargo?.nombre}}</p>
+                </span>
+                <span *ngIf="item.contratoOtroSi == null">
+                    <p matTooltip="{{item.contrato?.cargoDependencia?.cargo?.nombre}}">
+                        {{item.contrato?.cargoDependencia?.cargo?.nombre}}</p>
+                </span>
+
+
+            </p>
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <span *ngIf="item.estado == 'Activo'" class="btn-tipo-prueba activo">
+                    {{item.estado}}</span>
+                <span *ngIf="item.estado == 'Seleccionado'" class="btn-tipo-prueba seleccionado">
+                    {{item.estado}}</span>
+                <span *ngIf="item.estado == 'Retirado'" class="btn-tipo-prueba retirado">
+                    {{item.estado}}</span>
+                <span *ngIf="item.estado == 'EnVacaciones'" class="btn-tipo-prueba enVacaciones">
+                    En vacaciones</span>
+                <span *ngIf="item.estado == 'Incapacitado'" class="btn-tipo-prueba incapacitado">
+                    Incapacitado</span>
+
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+
+        </mat-card-actions>
+    </mat-card>

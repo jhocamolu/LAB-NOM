@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="TipoAusentismo_Datos_V3">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+UPDATE dbo.TipoAusentismo SET Codigo='EG   ', Nombre='Enfermedad general', ClaseAusentismoId=4, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=1;
+UPDATE dbo.TipoAusentismo SET Codigo='EP   ', Nombre='Enfermedad profesional', ClaseAusentismoId=4, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=2;
+UPDATE dbo.TipoAusentismo SET Codigo='AL   ', Nombre='Accidente laboral', ClaseAusentismoId=4, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=3;
+UPDATE dbo.TipoAusentismo SET Codigo='LM   ', Nombre='Licencia de maternidad', ClaseAusentismoId=4, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=4;
+UPDATE dbo.TipoAusentismo SET Codigo='LP   ', Nombre='Licencia de paternidad', ClaseAusentismoId=4, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=5;
+UPDATE dbo.TipoAusentismo SET Codigo='CD   ', Nombre='Calamidad doméstica', ClaseAusentismoId=2, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=6;
+UPDATE dbo.TipoAusentismo SET Codigo='CS   ', Nombre='Comisión sindical', ClaseAusentismoId=2, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=7;
+UPDATE dbo.TipoAusentismo SET Codigo='DCO  ', Nombre='Desempeño cargo oficial', ClaseAusentismoId=2, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=8;
+UPDATE dbo.TipoAusentismo SET Codigo='DS   ', Nombre='Derecho sufragio', ClaseAusentismoId=1, UnidadTiempo='Horas', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=9;
+UPDATE dbo.TipoAusentismo SET Codigo='JV   ', Nombre='Jurado de votación', ClaseAusentismoId=2, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=10;
+UPDATE dbo.TipoAusentismo SET Codigo='LPL  ', Nombre='Licencia por luto', ClaseAusentismoId=2, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=11;
+UPDATE dbo.TipoAusentismo SET Codigo='SM   ', Nombre='Servicio médico', ClaseAusentismoId=1, UnidadTiempo='Horas', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=12;
+UPDATE dbo.TipoAusentismo SET Codigo='DC   ', Nombre='Detención correccional', ClaseAusentismoId=3, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=13;
+UPDATE dbo.TipoAusentismo SET Codigo='S    ', Nombre='Suspensión', ClaseAusentismoId=3, UnidadTiempo='Días', EstadoRegistro='Activo    ', CreadoPor='sistema', FechaCreacion=GETDATE(), ModificadoPor=NULL, FechaModificacion=NULL, EliminadoPor=NULL, FechaEliminacion=NULL WHERE Id=14;
+
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+SELECT 1
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

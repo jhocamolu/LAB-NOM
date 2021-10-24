@@ -1,0 +1,109 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+    <h1 mat-dialog-title>Visualizar hoja de vida</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div>
+            <div>
+                <h3>Nombre completo
+                    <mat-icon class="s-16" matSuffix matTooltip="Nombre completo del aspirante.">info</mat-icon>
+                </h3>
+                <p> {{element.hojaDeVida?.primerNombre}}
+                    {{element.hojaDeVida?.segundoNombre}} {{element.hojaDeVida?.primerApellido}}
+                    {{element.hojaDeVida?.segundoApellido}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Tipo de documento <mat-icon class="s-16" matSuffix
+                        matTooltip="Tipo del documento de identificación del aspirante."> info </mat-icon>
+                </h3>
+                <p> {{element.hojaDeVida?.tipoDocumento?.nombre}} </p>
+            </div>
+            <div>
+                <h3>Número de documento <mat-icon class="s-16" matSuffix
+                        matTooltip="Número del documento de identificación del aspirante."> info</mat-icon>
+                </h3>
+                <p> {{element.hojaDeVida?.numeroDocumento}} </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Sexo <mat-icon class="s-16" matSuffix matTooltip="Sexo del aspirante."> info </mat-icon>
+                </h3>
+                <p> {{element.hojaDeVida?.sexo?.nombre }} </p>
+            </div>
+
+            <div>
+                <h3>Celular <mat-icon class="s-16" matSuffix matTooltip="Número del celular del aspirante."> info
+                    </mat-icon>
+                </h3>
+                <p> {{element.hojaDeVida?.celular}} </p>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h3>Ocupación <mat-icon class="s-16" matSuffix matTooltip="Ocupación que desempeña el aspirante."> info
+                    </mat-icon>
+                </h3>
+                <p> {{element.hojaDeVida?.ocupacion?.nombre}} </p>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h3>Correo electrónico <mat-icon class="s-16" matSuffix
+                        matTooltip="Correo electrónico personal del aspirante."> info </mat-icon>
+                </h3>
+                <p>{{element.hojaDeVida?.correoElectronicoPersonal != null ?  element.hojaDeVida?.correoElectronicoPersonal : 'N/A'}}
+                </p>
+            </div>
+        </div>
+
+        <h3 *ngIf="element.adjuntoExamen || element.adjuntoPruebas">Documentos <mat-icon class="s-16" matSuffix
+                matTooltip="Documentos relacionados al proceso de reclutamiento y selección.">
+                info
+            </mat-icon>
+        </h3>
+        <div *ngIf="element.adjuntoPruebas">
+            <div>
+                <p>Prueba</p>
+                <p>
+                    <button mat-icon-button matTooltip="Descargar" (click)="descargarPruebaHandle($event, element)">
+                        <mat-icon class="s-20">save_alt</mat-icon>
+                    </button>
+                </p>
+            </div>
+        </div>
+
+        <div *ngIf="element.adjuntoExamen">
+            <div>
+                <p>Exámenes</p>
+                <p>
+                    <button mat-icon-button matTooltip="Descargar" (click)="descargarExamenHandle($event, element)">
+                        <mat-icon class="s-20">save_alt</mat-icon>
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button (click)="hojaVidaHandle($event, element)" type="button"
+            (click)="dialogRef.close()">
+            <mat-icon>insert_drive_file</mat-icon>
+            <span>Abrir hoja de vida</span>
+        </button>
+
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

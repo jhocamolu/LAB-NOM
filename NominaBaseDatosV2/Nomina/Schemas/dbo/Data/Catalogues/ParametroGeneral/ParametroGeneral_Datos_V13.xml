@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="ParametroGeneral_Datos_V13">
+<comment>ReclutamientoYSeleccion parametros centro operativo</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON 
+GO
+
+
+INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId)
+VALUES(43,'CentroOperativoIbague','Select','Centro Operativo Ibagué','Concepto que se usara para guardar el id del Centro Operativo Ibagué',43,'{{hostIn}}/odata/centrooperativos?$select=id,orderby=primernombre asc',1,'1',5,'Activo','Sistemas',GETDATE(),1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId)
+VALUES(44,'CentroOperativoNeiva','Select','Centro Operativo Neiva','Concepto que se usara para guardar el id del Centro Operativo Neiva',44,'{{hostIn}}/odata/centrooperativos?$select=id,orderby=primernombre asc',1,'2',5,'Activo','Sistemas',GETDATE(),1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId)
+VALUES(45,'CentroOperativoFusagasuga','Select','Centro Operativo Fusagasugá','Concepto que se usara para guardar el id del Centro Operativo Fusagasugá',45,'{{hostIn}}/odata/centrooperativos?$select=id,orderby=primernombre asc',1,'3',5,'Activo','Sistemas',GETDATE(),1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId)
+VALUES(46,'CentroOperativoGirardot','Select','Centro Operativo Girardot','Concepto que se usara para guardar el id del Centro Operativo Girardot',46,'{{hostIn}}/odata/centrooperativos?$select=id,orderby=primernombre asc',1,'4',5,'Activo','Sistemas',GETDATE(),1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId)
+VALUES(47,'CentroOperativoLaDorada','Select','Centro Operativo La Dorada','Concepto que se usara para guardar el id del Centro Operativo La Dorada',47,'{{hostIn}}/odata/centrooperativos?$select=id,orderby=primernombre asc',1,'5',5,'Activo','Sistemas',GETDATE(),1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId)
+VALUES(48,'CentroOperativoRionegro','Select','Centro Operativo Rionegro','Concepto que se usara para guardar el id del Centro Operativo Rionegro',48,'{{hostIn}}/odata/centrooperativos?$select=id,orderby=primernombre asc',1,'6',5,'Activo','Sistemas',GETDATE(),1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId)
+VALUES(49,'CentroOperativoPopayan','Select','Centro Operativo Popayán','Concepto que se usara para guardar el id del Centro Operativo Popayán',49,'{{hostIn}}/odata/centrooperativos?$select=id,orderby=primernombre asc',1,'7',5,'Activo','Sistemas',GETDATE(),1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId)
+VALUES(50,'CentroOperativoFlorencia','Select','Centro Operativo Florencia','Concepto que se usara para guardar el id del Centro Operativo Florencia',50,'{{hostIn}}/odata/centrooperativos?$select=id,orderby=primernombre asc',1,'8',5,'Activo','Sistemas',GETDATE(),1)
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id,Alias,Tipo,Etiqueta,Ayuda,Orden,Item,Obligatorio,Valor,CategoriaParametroId,EstadoRegistro,CreadoPor,FechaCreacion,AnnoVigenciaId)
+VALUES(51,'CentroOperativoPasto','Select','Centro Operativo Pasto','Concepto que se usara para guardar el id del Centro Operativo Pasto',51,'{{hostIn}}/odata/centrooperativos?$select=id,orderby=primernombre asc',1,'9',5,'Activo','Sistemas',GETDATE(),1)
+GO
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF 
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM dbo.ParametroGeneral WHERE Id >= 43 AND Id <= 51;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

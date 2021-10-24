@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoLiquidacionEstado_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='1', EstadoFuncionario='Activo', EstadoContrato='Vigente' WHERE Id='1';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='1', EstadoFuncionario='EnVacaciones', EstadoContrato='Vigente' WHERE Id='2';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='1', EstadoFuncionario='Incapacitado', EstadoContrato='Vigente' WHERE Id='3';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='2', EstadoFuncionario='Retirado', EstadoContrato='PendientePorLiquidar' WHERE Id='4';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='3', EstadoFuncionario='Activo', EstadoContrato='Vigente' WHERE Id='5';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='4', EstadoFuncionario='Activo', EstadoContrato='Vigente' WHERE Id='6';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='4', EstadoFuncionario='EnVacaciones', EstadoContrato='Vigente' WHERE Id='7';
+
+SET IDENTITY_INSERT [dbo].[TipoLiquidacionEstado] ON
+GO
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('8', '4', 'Incapacitado', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('9', '5', 'Activo', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('10', '5', 'EnVacaciones', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('11', '5', 'Incapacitado', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('12', '6', 'Activo', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('13', '6', 'EnVacaciones', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('14', '6', 'Incapacitado', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('15', '7', 'Activo', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('16', '7', 'EnVacaciones', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('17', '7', 'Incapacitado', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('18', '8', 'Activo', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('19', '8', 'Incapacitado', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('20', '9', 'Activo', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('21', '9', 'EnVacaciones', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('22', '9', 'Incapacitado', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('23', '10', 'Activo', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('24', '10', 'EnVacaciones', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('25', '10', 'Incapacitado', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('26', '10', 'Retirado', 'PendientePorLiquidar', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('27', '11', 'Activo', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('28', '11', 'EnVacaciones', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('29', '11', 'Incapacitado', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('30', '12', 'Activo', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('31', '12', 'EnVacaciones', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('32', '12', 'Incapacitado', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('33', '13', 'Activo', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('34', '13', 'EnVacaciones', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('35', '13', 'Incapacitado', 'Vigente', 'Activo    ', 'sistema', GETDATE());
+
+SET IDENTITY_INSERT [dbo].[TipoLiquidacionEstado] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='1', EstadoFuncionario='Activo', EstadoContrato='Vigente' WHERE Id='1';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='1', EstadoFuncionario='Activo', EstadoContrato='Suspendido' WHERE Id='2';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='2', EstadoFuncionario='Activo', EstadoContrato='Finalizado' WHERE Id='3';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='3', EstadoFuncionario='Activo', EstadoContrato='Vigente' WHERE Id='4';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='4', EstadoFuncionario='Activo', EstadoContrato='Vigente' WHERE Id='5';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='4', EstadoFuncionario='Activo', EstadoContrato='Suspendido' WHERE Id='6';
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId='5', EstadoFuncionario='Activo', EstadoContrato='Vigente' WHERE Id='7';
+
+DELETE FROM [dbo].[TipoLiquidacionEstado] WHERE Id BETWEEN 8 AND 35;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

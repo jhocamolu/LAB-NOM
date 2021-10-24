@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="VW_ContratoCentroTrabajoCambios_V2">
+<comment>Crear </comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[VW_ContratoCentroTrabajoCambios]') IS NOT NULL
+BEGIN
+    DROP VIEW [dbo].[VW_ContratoCentroTrabajoCambios]
+END
+GO
+--=====================================================================================
+-- Author:      Laura Katherine Estrada Arango.
+-- Create date: 18-11-2020
+-- Description: Obtiene los datos de ContratoCentroTrabajo, actual y anterior 
+--=====================================================================================
+
+CREATE VIEW [dbo].[VW_ContratoCentroTrabajoCambios]
+AS
+	SELECT
+		conCenTraActual.Id 
+		,conCenTraActual.ContratoId
+		,funcionario.Id as FuncionarioId
+		,(	SELECT TOP 1 centroTrabajoAnterior.Nombre	
+			FROM ContratoCentroTrabajo AS conCenTraAnterior
+				INNER JOIN CentroTrabajo AS centroTrabajoAnterior ON conCenTraAnterior.CentroTrabajoId = centroTrabajoAnterior.Id
+			WHERE conCenTraAnterior.EstadoRegistro = ( SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+			AND conCenTraAnterior.FechaFin IS NOT NULL
+			AND conCenTraAnterior.ContratoId = conCenTraActual.ContratoId
+			ORDER BY  conCenTraAnterior.FechaFin DESC
+			) Anterior
+		,centrotrabajo.Nombre as Actual
+		,centrotrabajo.Id as centroTrabajoActualId
+		,conCenTraActual.FechaInicio
+		,conCenTraActual.Observacion
+	FROM
+		dbo.Funcionario funcionario 
+	 INNER JOIN dbo.Contrato AS contrato ON
+		funcionario.Id = contrato.FuncionarioId
+		AND Contrato.EstadoRegistro = (SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+	RIGHT JOIN dbo.ContratoCentroTrabajo AS conCenTraActual ON
+		 conCenTraActual.ContratoId = contrato.Id
+		AND conCenTraActual.EstadoRegistro = (SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+	INNER JOIN dbo.CentroTrabajo AS centrotrabajo ON
+		conCenTraActual.CentroTrabajoId = centrotrabajo.Id
+		AND centrotrabajo.EstadoRegistro = (SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+	WHERE
+		funcionario.EstadoRegistro = (SELECT AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado)
+		AND conCenTraActual.FechaFin IS NULL;
+GO
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[VW_ContratoCentroTrabajoCambios]') IS NOT NULL
+BEGIN
+    DROP VIEW [dbo].[VW_ContratoCentroTrabajoCambios]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

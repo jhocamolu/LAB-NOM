@@ -1,0 +1,50 @@
+@import "src/@alcanos/scss/alcanos-modal";
+
+liquidacion-nomina-asignacion-agregar {
+    @import "src/@alcanos/scss/alcanos-v2";
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    mat-checkbox {
+        padding-right: 8px !important;
+    }
+
+    td {
+        padding-right: 10px !important;
+    }
+
+    .tamaño {
+        max-width: 690px;
+        min-width: 685px;
+    }
+
+    .margen {
+        padding-left: 6px !important;
+    }
+
+    table {
+        padding-top: 24px;
+        min-width: 637px;
+    }
+
+    mat-expansion-panel-header .mat-content {
+        flex: none;
+        margin-left: auto;
+    }
+    .mat-expansion-panel:not([class*=mat-elevation-z]){
+        box-shadow: none !important;
+    }
+
+    .spinner-wrapper{
+        position: fixed;
+        top: 50%;
+        left: 47%;
+        z-index: 1099;
+    }
+
+    .hidden{
+        display: none;
+    }
+}

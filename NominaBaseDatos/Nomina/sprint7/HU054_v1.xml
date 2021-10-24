@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="HU054_v1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[ 
+/****** Object:  UserDefinedFunction [dbo].[UFT_DevuelveFuncionarioNomina]    Script Date: 28/02/2020 11:26:17 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+/*
+-- =============================================
+-- Author:		Jhonatan Camilo Moreno Luna
+-- Create date: 20-02-2020
+-- Description:
+-- Parametros:
+-- @NOMINA INT: Identifica el id de la nomina que se desea buscar.
+-- @FECHAINICIO DATE: Fecha de inicio de la nomina.
+-- @FECHAFIN DATE: Fecha de inicio de la nomina.
+-- Retorna: 
+-- @Tabla TABLE: Retorna todos los valores para lista los funcionarios que se pueden seleccionar
+-- =============================================
+*/
+CREATE FUNCTION [dbo].[UFT_DevuelveFuncionarioNomina]
+(
+	@NOMINA INT
+)
+RETURNS 
+@Tabla TABLE 
+(
+	FuncionarioId INT,
+	NumeroDocumento  VARCHAR(255),
+	PrimerNombre VARCHAR(255), 
+	SegundoNombre VARCHAR(255), 
+	PrimerApellido VARCHAR(255), 
+	SegundoApellido VARCHAR(255),
+	DependenciaId INT,
+	CargoId INT,
+	CargoNombre VARCHAR(255),
+	CentroOperativoId INT,
+	CentroOperativoNombre VARCHAR(255),
+	GrupoNominaId INT,
+	GrupoNominaNombre VARCHAR(255)
+)
+AS
+BEGIN
+DECLARE @FECHAINICIO DATE
+DECLARE @FECHAFIN DATE
+
+SET @FECHAINICIO = (SELECT FechaInicio FROM [dbo].[Nomina] WHERE Id = @NOMINA)
+SET @FECHAFIN = (SELECT FechaFinal FROM [dbo].[Nomina] WHERE Id = @NOMINA)
+
+insert  into @Tabla
+	SELECT 
+		vfd.Id,
+		vfd.NumeroDocumento, 
+		vfd.PrimerNombre, 
+		vfd.SegundoNombre, 
+		vfd.PrimerApellido, 
+		vfd.SegundoApellido,
+		CASE WHEN otr.Id <> NULL THEN otrdep.Id ELSE dep.Id END as DependenciaId,
+		CASE WHEN otr.Id <> NULL THEN otrcar.Id ELSE car.Id END as CargoId,
+		CASE WHEN otr.Id <> NULL THEN otrcar.Nombre ELSE car.Nombre END as CargoNombre,
+		CASE WHEN otr.Id <> NULL THEN otrceo.Id ELSE ceo.Id END as CentroOperativoId,
+		CASE WHEN otr.Id <> NULL THEN otrceo.Nombre ELSE ceo.Nombre END as CentroOperativoNombre,
+		grn.Id as GrupoNominaId,
+		grn.Nombre as GrupoNominaNombre
+	FROM [dbo].[VW_FuncionarioDatoActual] as vfd 
+	-- Datos de Contrato
+	INNER JOIN [dbo].[Contrato] as con ON (vfd.ContratoId = con.Id)
+	INNER JOIN [dbo].[GrupoNomina] as grn ON (grn.Id = con.GrupoNominaId)
+	INNER JOIN [dbo].[CargoDependencia] as cardep ON (cardep.Id = con.CargoDependenciaId)
+	INNER JOIN [dbo].[Dependencia] as dep ON (cardep.DependenciaId=dep.Id)
+	INNER JOIN [dbo].[Cargo] as car ON (cardep.CargoId=car.Id)
+	INNER JOIN [dbo].CentroOperativo as ceo ON (ceo.Id = con.CentroOperativoId)
+	-- Datos de Otro Si
+	LEFT JOIN [dbo].[ContratoOtroSi] as otr ON (vfd.ContratoOtroSiId = otr.Id)
+	LEFT JOIN [dbo].[CargoDependencia] as otrcardep ON (otrcardep.Id = otr.CargoDependenciaId)
+	LEFT JOIN [dbo].[Dependencia] as otrdep ON (otrcardep.DependenciaId=otrdep.Id)
+	LEFT JOIN [dbo].[Cargo] as otrcar ON (otrcardep.CargoId=otrcar.Id)
+	LEFT JOIN [dbo].CentroOperativo as otrceo ON (otrceo.Id = otr.CentroOperativoId)
+	-- Datos de la nomina
+	INNER JOIN TipoLiquidacionEstado as tle ON (tle.EstadoContrato = con.Estado AND tle.EstadoFuncionario = vfd.Estado AND tle.EstadoRegistro = 'Activo')
+	INNER JOIN TipoLiquidacion as tli ON (tle.TipoLiquidacionId = tli.Id)
+	INNER JOIN dbo.Nomina as nom ON (nom.TipoLiquidacionId = tli.Id)
+	WHERE nom.Id = @NOMINA
+	AND vfd.Id NOT IN (
+		SELECT nof.Id
+		FROM NominaFuncionario as nof
+		INNER JOIN Nomina nom ON nof.NominaId = nom.id
+		WHERE (nof.NominaId = @NOMINA) OR (nom.id <> @NOMINA AND nom.FechaInicio = @FECHAINICIO AND nom.FechaFinal = @FECHAFIN)
+	) 
+	RETURN 
+	END
+	GO
+	]]>
+</sql>
+<rollback>
+    DROP FUNCTION [dbo].[UFT_DevuelveFuncionarioNomina]
+</rollback>
+</changeSet>
+</databaseChangeLog>

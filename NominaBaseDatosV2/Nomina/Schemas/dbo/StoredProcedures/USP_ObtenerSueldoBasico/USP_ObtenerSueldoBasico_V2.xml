@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="USP_ObtenerSueldoBasico_V2">
+<comment>Cambio para cuando hay incremento de salario entre la quincena</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+-- ==========================================================================================
+-- Author:      Laura Estrada
+-- Create date: 17/03/2020
+-- Description: Permite obtener el sueldo básico del funcionario para la nómina
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @NominaId:				Identificador de la nómina
+--   @Valor:					Suéldo básico del funcionario
+--
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerSueldoBasico]
+(@FuncionarioId INT,
+ @NominaId      INT,
+ @Valor         MONEY OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaId=', CONVERT(VARCHAR, @NominaId));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @SueldoBasico DECIMAL(16, 6)= 0;
+    DECLARE @FechaInicioNomina DATE;
+    DECLARE @FechaFinalNomina DATE;
+    DECLARE @IdContrato INT;
+    DECLARE @Sueldo DECIMAL(16, 6);
+    DECLARE @FechaInicioContrato DATE;
+    DECLARE @FechaFinContato DATE;
+    DECLARE @DiasTrabajados INT;
+    DECLARE @FechaInferior DATE;
+    DECLARE @FechaSuperior DATE;
+    DECLARE @DiasMesLaboral INT= 30;	
+	DECLARE @CantidadOtrosi INT = 0;
+	DECLARE @FechaAplicacionOtrosi DATE;
+	DECLARE @AuditoriaActivo VARCHAR(255);
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+		SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO
+		FROM util.VW_ConstanteEstado AS vce;
+
+        -- Obtener período de liquidación de la nómina 
+        IF NOT EXISTS
+        (
+            SELECT *
+            FROM [dbo].[Nomina]
+            WHERE Id = @NominaId
+        )
+        BEGIN
+            EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No existe la nómina con el Id suministrado.';
+        END;
+
+        --Asigna valor a variable
+        SELECT @FechaInicioNomina = FechaInicio,
+               @FechaFinalNomina = FechaFinal
+        FROM [dbo].[Nomina]
+        WHERE Id = @NominaId;
+
+		-- Determinamos cantidad de otrosi que puede tener el funcionario
+		SELECT @CantidadOtrosi = COUNT(otrosi.Id)                      
+               FROM ContratoOtroSi AS otrosi
+                    INNER JOIN Contrato AS c ON c.Id = otrosi.ContratoId
+               WHERE c.FuncionarioId = @FuncionarioId
+                     AND (@FechaInicioNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion
+                          OR @FechaFinalNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion)
+					 AND otrosi.EstadoRegistro = @AuditoriaActivo;
+
+
+        -- Obtiene los contratos / otros sis activos en el período
+        DECLARE CUR_Contratos CURSOR LOCAL
+        FOR
+           (
+               SELECT con.Id,
+                      con.sueldo,
+                      con.FechaInicio,
+                      con.FechaFinalizacion
+               FROM Contrato AS con
+               WHERE con.FuncionarioId = @FuncionarioId
+                     AND (@FechaInicioNomina BETWEEN con.FechaInicio AND con.FechaFinalizacion
+                          OR @FechaFinalNomina BETWEEN con.FechaInicio AND con.FechaFinalizacion)
+					 AND con.EstadoRegistro = @AuditoriaActivo
+           )
+           UNION
+           (
+               SELECT otrosi.Id,
+                      otrosi.sueldo,
+                      otrosi.FechaAplicacion,
+                      otrosi.FechaFinalizacion
+               FROM ContratoOtroSi AS otrosi
+                    INNER JOIN Contrato AS c ON c.Id = otrosi.ContratoId
+               WHERE c.FuncionarioId = @FuncionarioId
+                     AND (@FechaInicioNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion
+                          OR @FechaFinalNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion)
+					 AND otrosi.EstadoRegistro = @AuditoriaActivo
+           );
+
+        OPEN CUR_Contratos;
+
+        FETCH NEXT FROM CUR_Contratos INTO @IdContrato, @Sueldo, @FechaInicioContrato, @FechaFinContato;
+
+        WHILE @@fetch_status = 0
+        BEGIN
+            SET @FechaInferior = @FechaInicioContrato;
+            SET @FechaSuperior = @FechaFinContato;
+
+            IF @FechaInicioContrato < @FechaInicioNomina
+            BEGIN
+                SET @FechaInferior = @FechaInicioNomina;
+            END;
+
+            IF @FechaFinContato > @FechaFinalNomina AND @CantidadOtrosi = 0 
+            BEGIN
+                SET @FechaSuperior = @FechaFinalNomina;				
+            END;
+			
+			IF @FechaFinContato < @FechaFinalNomina AND @CantidadOtrosi > 0 
+			BEGIN
+				SELECT @FechaAplicacionOtrosi = MAX(otrosi.FechaAplicacion)                      
+               FROM ContratoOtroSi AS otrosi
+                    INNER JOIN Contrato AS c ON c.Id = otrosi.ContratoId
+               WHERE c.FuncionarioId = @FuncionarioId
+                     AND (@FechaInicioNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion
+                          OR @FechaFinalNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion)
+				     AND otrosi.EstadoRegistro = @AuditoriaActivo;
+
+				SET @FechaSuperior = DATEADD(DAY, -1, @FechaAplicacionOtrosi);    
+				SET @CantidadOtrosi = 0;				
+			END;
+			
+			IF @FechaFinContato > @FechaFinalNomina AND @CantidadOtrosi > 0 
+            BEGIN
+                
+				/* Obtiene fecha aplicación del otrosi */
+				SELECT @FechaAplicacionOtrosi = MAX(otrosi.FechaAplicacion)                      
+               FROM ContratoOtroSi AS otrosi
+                    INNER JOIN Contrato AS c ON c.Id = otrosi.ContratoId
+               WHERE c.FuncionarioId = @FuncionarioId
+                     AND (@FechaInicioNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion
+                          OR @FechaFinalNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion)
+					 AND otrosi.EstadoRegistro = @AuditoriaActivo;
+				
+				IF @FechaAplicacionOtrosi >=  @FechaInicioNomina AND @FechaAplicacionOtrosi <=  @FechaFinalNomina
+				BEGIN
+					SET @FechaSuperior = DATEADD(DAY, -1, @FechaAplicacionOtrosi);  
+					SET @CantidadOtrosi = 0;									
+				END;
+				ELSE
+				BEGIN
+					/* Obtiene fecha de finalización del otrosi */
+					SELECT @FechaFinContato = MAX(otrosi.FechaFinalizacion)                      
+					FROM ContratoOtroSi AS otrosi
+                    INNER JOIN Contrato AS c ON c.Id = otrosi.ContratoId
+					WHERE c.FuncionarioId = @FuncionarioId
+                     AND (@FechaInicioNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion
+                          OR @FechaFinalNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion)
+					 AND otrosi.EstadoRegistro = @AuditoriaActivo;
+					
+					IF @FechaFinContato > @FechaFinalNomina
+					BEGIN
+						SET @FechaSuperior = @FechaFinalNomina;
+						SET @CantidadOtrosi = 0;						
+					END;
+					ELSE
+					BEGIN
+						SET @FechaSuperior = @FechaFinContato;
+						SET @CantidadOtrosi = 0;
+					END;
+				END;
+            END;
+
+            -- Obtiene Dias a pagar 
+            EXEC [dbo].[USP_ObtenerDiasApagar]
+                 @FuncionarioId = @FuncionarioId,
+                 @FechaInicial = @FechaInferior,
+                 @FechaFinal = @FechaSuperior,
+                 @Cantidad = @DiasTrabajados OUTPUT;
+
+            SET @SueldoBasico = @SueldoBasico + (@Sueldo * @DiasTrabajados / @DiasMesLaboral);
+
+			PRINT CONCAT('@Sueldo= ',@SueldoBasico);
+			PRINT CONCAT('@FechaFinalNomina= ',@FechaFinalNomina);
+			PRINT CONCAT('@FechaInferior= ',@FechaInferior);
+			PRINT CONCAT('@FechaSuperior= ',@FechaSuperior);
+			PRINT CONCAT('@DiasTrabajados= ',@DiasTrabajados);
+			PRINT CONCAT('@FechaAplicacionOtrosi= ',@FechaAplicacionOtrosi);
+			PRINT CONCAT('@CantidadOtrosi= ',@CantidadOtrosi);				
+
+            FETCH NEXT FROM CUR_Contratos INTO @IdContrato, @Sueldo, @FechaInicioContrato, @FechaFinContato;
+        END;
+
+        CLOSE CUR_Contratos;
+        DEALLOCATE CUR_Contratos;
+
+		PRINT CONCAT('@Sueldo= ',@Sueldo);		
+
+        SET @Valor = @SueldoBasico;
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerSueldoBasico', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerSueldoBasico as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Laura Estrada
+-- Create date: 17/03/2020
+-- Description: Permite obtener el sueldo básico del funcionario para la nómina
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @NominaId:				Identificador de la nómina
+--   @Valor:					Suéldo básico del funcionario
+--
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerSueldoBasico]
+(@FuncionarioId INT,
+ @NominaId      INT,
+ @Valor         MONEY OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaId=', CONVERT(VARCHAR, @NominaId));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @SueldoBasico DECIMAL(16, 6)= 0;
+    DECLARE @FechaInicioNomina DATE;
+    DECLARE @FechaFinalNomina DATE;
+    DECLARE @IdContrato INT;
+    DECLARE @Sueldo DECIMAL(16, 6);
+    DECLARE @FechaInicioContrato DATE;
+    DECLARE @FechaFinContato DATE;
+    DECLARE @DiasTrabajados INT;
+    DECLARE @FechaInferior DATE;
+    DECLARE @FechaSuperior DATE;
+    DECLARE @DiasMesLaboral INT= 30;
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+        -- Obtener período de liquidación de la nómina 
+        IF NOT EXISTS
+        (
+            SELECT *
+            FROM [dbo].[Nomina]
+            WHERE Id = @NominaId
+        )
+        BEGIN
+            EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No existe la nómina con el Id suministrado.';
+        END;
+
+        --Asigna valor a variable
+        SELECT @FechaInicioNomina = FechaInicio,
+               @FechaFinalNomina = FechaFinal
+        FROM [dbo].[Nomina]
+        WHERE Id = @NominaId;
+
+        -- Obtiene los contratos / otros sis activos en el período
+        DECLARE CUR_Contratos CURSOR LOCAL
+        FOR
+           (
+               SELECT con.Id,
+                      con.sueldo,
+                      con.FechaInicio,
+                      con.FechaFinalizacion
+               FROM Contrato AS con
+               WHERE con.FuncionarioId = @FuncionarioId
+                     AND (@FechaInicioNomina BETWEEN con.FechaInicio AND con.FechaFinalizacion
+                          OR @FechaFinalNomina BETWEEN con.FechaInicio AND con.FechaFinalizacion)
+           )
+           UNION
+           (
+               SELECT otrosi.Id,
+                      otrosi.sueldo,
+                      otrosi.FechaAplicacion,
+                      otrosi.FechaFinalizacion
+               FROM ContratoOtroSi AS otrosi
+                    INNER JOIN Contrato AS c ON c.Id = otrosi.ContratoId
+               WHERE c.FuncionarioId = @FuncionarioId
+                     AND (@FechaInicioNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion
+                          OR @FechaFinalNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion)
+           );
+
+        OPEN CUR_Contratos;
+
+        FETCH NEXT FROM CUR_Contratos INTO @IdContrato, @Sueldo, @FechaInicioContrato, @FechaFinContato;
+
+        WHILE @@fetch_status = 0
+        BEGIN
+            SET @FechaInferior = @FechaInicioContrato;
+            SET @FechaSuperior = @FechaFinContato;
+
+            IF @FechaInicioContrato < @FechaInicioNomina
+            BEGIN
+                SET @FechaInferior = @FechaInicioNomina;
+            END;
+
+            IF @FechaFinContato > @FechaFinalNomina
+            BEGIN
+                SET @FechaSuperior = @FechaFinalNomina;
+            END;
+
+            -- Obtiene Dias a pagar 
+            EXEC [dbo].[USP_ObtenerDiasApagar]
+                 @FuncionarioId = @FuncionarioId,
+                 @FechaInicial = @FechaInferior,
+                 @FechaFinal = @FechaSuperior,
+                 @Cantidad = @DiasTrabajados OUTPUT;
+
+            SET @SueldoBasico = @SueldoBasico + (@Sueldo * @DiasTrabajados / @DiasMesLaboral);
+
+            FETCH NEXT FROM CUR_Contratos INTO @IdContrato, @Sueldo, @FechaInicioContrato, @FechaFinContato;
+        END;
+
+        CLOSE CUR_Contratos;
+        DEALLOCATE CUR_Contratos;
+
+        SET @Valor = @SueldoBasico;
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Grupo_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Grupo] ON 
+GO
+INSERT INTO [dbo].[Grupo](Id,[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[Orden]) VALUES (1,'Activo','sistema', GETDATE(),'A',1)
+GO
+INSERT INTO [dbo].[Grupo](Id,[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[Orden]) VALUES (2,'Activo','sistema', GETDATE(),'B',2)
+GO
+INSERT INTO [dbo].[Grupo](Id,[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[Orden]) VALUES (3,'Activo','sistema', GETDATE(),'C',3)
+GO
+INSERT INTO [dbo].[Grupo](Id,[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[Orden]) VALUES (4,'Activo','sistema', GETDATE(),'D',4)
+GO
+SET IDENTITY_INSERT [dbo].[Grupo] OFF
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[Grupo] WHERE Id BETWEEN 1 AND 4;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

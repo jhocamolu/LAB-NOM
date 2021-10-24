@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="VW_ConstanteTipoAdministradora_V1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteTipoAdministradora]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteTipoAdministradora]
+END
+GO
+-- =============================================
+-- Author:		Jhonatan Camilo Moreno
+-- Create date: 17/06/2020
+-- Description:	: Vista que permite la simulación de constantes para los 
+--                  códigos de los tipos de administradoras dentro de SQL Server.
+-- =============================================
+-- Estados asociados al campo de código, de la tabla de Ausentismos.
+CREATE VIEW [util].[VW_ConstanteTipoAdministradora] 
+AS
+SELECT 
+		CAST('AFC' AS VARCHAR) AS [CODIGO_FONDO_CESANTIAS]
+		,CAST('AFP' AS VARCHAR) AS [CODIGO_FONDO_PENSIONES]
+		,CAST('CCF' AS VARCHAR) AS [CODIGO_CAJA_COMPENSACION_FAMILIAR]
+		,CAST('EPS' AS VARCHAR) AS [CODIGO_ENTIDAD_PROMOTORA_SALUD]
+GO
+
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP VIEW [util].[VW_ConstanteTipoAdministradora]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

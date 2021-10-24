@@ -1,0 +1,114 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+    <h1 mat-dialog-title>Visualizar hora extra</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div>
+            <div>
+                <h3>Funcionario <mat-icon class="s-16" matSuffix matTooltip="Trabajador que labora en la compañía.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.funcionario?.numeroDocumento}} - {{element.funcionario?.primerNombre}}
+                    {{element.funcionario?.segundoNombre}} {{element.funcionario?.primerApellido}}
+                    {{element.funcionario?.segundoApellido}}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Tipo <mat-icon class="s-16" matSuffix matTooltip="Clase de hora extra.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p> <span *ngIf="element.tipoHoraExtra?.tipo ==
+                                horaExtra.recargoNocturno">{{ horaExtraM.recargoNocturno }}</span>
+                    <span *ngIf="element.tipoHoraExtra?.tipo ==
+                                horaExtra.horaExtraDiurna">{{ horaExtraM.horaExtraDiurna }}</span>
+                    <span *ngIf="element.tipoHoraExtra?.tipo ==
+                                horaExtra.horaExtraNocturna">{{ horaExtraM.horaExtraNocturna }}</span>
+                    <span
+                        *ngIf="element.tipoHoraExtra?.tipo ==
+                                horaExtra.horaExtraFestivaDominicalDiurna">{{ horaExtraM.horaExtraFestivaDominicalDiurna }}</span>
+                    <span
+                        *ngIf="element.tipoHoraExtra?.tipo ==
+                                horaExtra.horaExtraFestivaDominicalNocturna">{{ horaExtraM.horaExtraFestivaDominicalNocturna }}</span>
+                    <span
+                        *ngIf="element.tipoHoraExtra?.tipo ==
+                                horaExtra.recargoNocturnoDominicalFestivo">{{ horaExtraM.recargoNocturnoDominicalFestivo }}</span>
+                    <span
+                        *ngIf="element.tipoHoraExtra?.tipo ==
+                                horaExtra.dominicalFestivoCompensado">{{ horaExtraM.dominicalFestivoCompensado }}</span>
+                    <span
+                        *ngIf="element.tipoHoraExtra?.tipo ==
+                                horaExtra.dominicalFestivoNoCompensado">{{ horaExtraM.dominicalFestivoNoCompensado }}</span>
+                </p>
+            </div>
+
+            <div>
+                <h3>Fecha <mat-icon class="s-16" matSuffix matTooltip="Fecha en la que se efectúa la hora extra.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.fecha | date:'dd / LL / yyyy'}}</p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Unidad <mat-icon class="s-16" matSuffix matTooltip="Unidad de medida que tiene la hora extra.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.tipoHoraExtra?.conceptoNomina?.unidadMedida}}</p>
+            </div>
+            <div>
+                <h3>Cantidad <mat-icon class="s-16" matSuffix matTooltip="Número de horas extras.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.cantidad}}</p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Valor <mat-icon class="s-16" matSuffix matTooltip="Valor de la hora extra.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{(element.valor == null || element.valor == "")? 'Definido en la nómina': element.valor | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}
+            </div>
+            <div>
+                <h3>Estado <mat-icon class="s-16" matSuffix matTooltip="Estado de la hora extra.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.estado }}</p>
+            </div>
+        </div>
+
+         <div>
+             <div>
+                 <h3>Forma de registro <mat-icon class="s-16" matSuffix
+                         matTooltip="Modo como fue ingresada la hora extra.">
+                         info
+                     </mat-icon>
+                 </h3>
+                 <p>{{element.formaRegistro }}</p>
+             </div>
+         </div>
+
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

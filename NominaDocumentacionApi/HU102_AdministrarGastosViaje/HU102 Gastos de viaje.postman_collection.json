@@ -1,0 +1,56 @@
+{
+	"info": {
+		"_postman_id": "d358f6ea-6c5e-42a8-b292-2d5beeea4f17",
+		"name": "HU102 Gastos de viaje",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listado de gasto de viaje",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/GastoViajes",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"GastoViajes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial gasto de viaje",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"activo\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/GastoViajes/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"GastoViajes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

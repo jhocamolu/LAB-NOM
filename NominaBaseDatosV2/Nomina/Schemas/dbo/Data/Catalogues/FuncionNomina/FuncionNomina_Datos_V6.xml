@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="FuncionNomina_Datos_V6">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[FuncionNomina] ON 
+GO
+
+INSERT INTO FuncionNomina (Id, Nombre, Alias, Ayuda, Proceso, TipoFuncion, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, FuncionParametro, ParaCantidad) VALUES(43, 'Valor Salud funcionario', 'SALUD_FUNCIONARIO', 'Obtiene el valor del concepto de salud funcionario en la nómina quincenal', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado]', 'USP', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, '[dbo].[USP_ObtenerValorConceptoNominaAcumulado] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@FechaInicio ={{FechaInicioMes}},@FechaFin = {{FechaFinalMes}},@Valor ={{Valor}} OUTPUT', 0);
+INSERT INTO FuncionNomina (Id, Nombre, Alias, Ayuda, Proceso, TipoFuncion, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, FuncionParametro, ParaCantidad) VALUES(44, 'Valor pensión funcionario', 'PENSION_FUNCIONARIO', 'Obtiene el valor del concepto de pensión del funcionario en la nómina quincenal', '[dbo].[USP_ObtenerValorConceptoNominaAcumulado]', 'USP', 'Activo', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, '[dbo].[USP_ObtenerValorConceptoNominaAcumulado] @FuncionarioId = {{FuncionarioId}},@ConceptoAlias = {{ConceptoAlias}},@FechaInicio ={{FechaInicioMes}},@FechaFin = {{FechaFinalMes}},@Valor ={{Valor}} OUTPUT', 0);
+
+GO
+SET IDENTITY_INSERT [dbo].[FuncionNomina] OFF
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[FuncionNomina] WHERE Id BETWEEN 43 AND 44;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

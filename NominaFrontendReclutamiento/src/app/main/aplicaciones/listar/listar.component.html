@@ -1,0 +1,86 @@
+<div class="page-layout simple inner-sidebar">
+    <!-- CONTENT -->
+    <div class="content">
+        <!-- <div class="title_">
+            Convocatorias
+        </div> -->
+        <div>
+            <alcanos-empty-list (fnCreate)="aplicarConvocatoria($event)" [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}" 
+            labelH1="¡Uy! Aún no has aplicado a ninguna convocatoria." labelBtn="Aplicar a convocatoria" 
+            [visibleBtnCreate]="'true'"
+            [visible]="!dataLength && !item && !loading">
+            </alcanos-empty-list>
+
+            <div *ngIf="loading" class="container_spinner">
+                <mat-spinner class="spinner"></mat-spinner>
+            </div>
+
+            <div [hidden]="loading">
+                <div class="box-shadow" *ngIf="dataLength" [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}">
+                    <table mat-table #table [dataSource]="dataSource" matSort matSortActive="fechaInicio" matSortDirection="desc" matSortDisableClear
+                        [@animateStagger]="{value:'50'}">
+    
+                        <!-- Columna cargoDependenciaSolicitado/cargo/nombre -->
+                        <ng-container matColumnDef="requisicionPersonal/cargoDependenciaSolicitado/cargo/nombre">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Oferta </th>
+                            <td mat-cell *matCellDef="let element"><p class="text-truncate">
+                                {{element.requisicionPersonal?.cargoDependenciaSolicitado?.cargo?.nombre}}
+                                </p>
+                            </td>
+                        </ng-container>
+    
+                        <!-- Columna cargoDependenciaSolicitado/cargo/nombre -->
+                        <ng-container matColumnDef="estado">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                            <td mat-cell *matCellDef="let element"><p class="text-truncate">
+                                {{element.estado}}
+                                </p>
+                            </td>
+                        </ng-container>
+    
+                        <!-- Columna divisionPoliticaNivel2/nombre -->
+                        <ng-container matColumnDef="requisicionPersonal/divisionPoliticaNivel2/nombre">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ciudad </th>
+                            <td mat-cell *matCellDef="let element"> {{element.requisicionPersonal?.divisionPoliticaNivel2?.nombre}} </td>
+                        </ng-container>
+    
+                        <!-- Columna fechaCreacion -->
+                        <ng-container matColumnDef="fechaCreacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Aplicación </th>
+                            <td mat-cell class="text-right padding-r19" *matCellDef="let element">
+                                {{element.fechaCreacion | date:'dd / LL / yyyy'}}
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="accion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="padding-r19" *ngIf="1">
+                                    <button mat-icon-button (click)="changeMenu('mostrar_aplicacion', element)">
+                                        <mat-icon matTooltip="Visualizar aplicación."
+                                        >remove_red_eye</mat-icon>
+                                    </button>
+                                    <button mat-icon-button (click)="eliminarAplicacion(element)">
+                                        <mat-icon matTooltip="Eliminar aplicación."
+                                        >delete</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                        <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+    
+                    <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                        showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

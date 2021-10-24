@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Reporte_V8">
+<comment>Reporte novedad embargo</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+UPDATE [dbo].[Reporte] SET [Nombre] =  N'Novedades embargos' , [Descripcion] = N'Permite obtener la información detallada de los embargos de los funcionarios, con el objetivo de ofrecer como soporte al área de Tesorería, o en caso de auditoría.' WHERE Id =  5 
+GO
+
+UPDATE [dbo].[Reporte] SET [Nombre] =  N'Novedades libranzas' , [Descripcion] = N'Permite obtener la información detallada de las libranzas de los funcionarios, con el objetivo de determinar la capacidad de endeudamiento de los mismos, además, de utilizar dicha información en posibles auditorias.' WHERE Id =  6 
+GO
+
+UPDATE [dbo].[Reporte] SET [Nombre] =  N'Libro vacaciones' , [Descripcion] = N'' WHERE Id =  7 
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+UPDATE [dbo].[Reporte] SET [Nombre] =  N'' , [Descripcion] = N'' WHERE Id =  5 
+GO
+
+UPDATE [dbo].[Reporte] SET [Nombre] =  N'' , [Descripcion] = N'' WHERE Id =  6 
+GO
+
+UPDATE [dbo].[Reporte] SET [Nombre] =  N'' , [Descripcion] = N'' WHERE Id =  7 
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

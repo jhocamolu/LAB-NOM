@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="ConceptoBase_Datos_V5">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+UPDATE dbo.ConceptoBase SET ConceptoNominaAgrupadorId=113 WHERE Id=26;
+UPDATE dbo.ConceptoBase SET ConceptoNominaAgrupadorId=113 WHERE Id=27; 
+UPDATE dbo.ConceptoBase SET ConceptoNominaAgrupadorId=113 WHERE Id=266;
+UPDATE dbo.ConceptoBase SET ConceptoNominaAgrupadorId=113 WHERE Id=267;
+
+SET IDENTITY_INSERT [dbo].[ConceptoBase] ON;
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('315', '113', '71', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('316', '113', '61', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('317', '113', '62', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('318', '113', '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('319', '113', '51', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('320', '113', '52', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('321', '113', '53', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('322', '113', '54', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('323', '113', '55', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('324', '113', '7', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('325', '113', '8', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('326', '113', '9', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('327', '113', '10', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('328', '113', '11', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('329', '113', '12', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('330', '113', '13', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('331', '113', '14', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('332', '113', '15', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('333', '113', '16', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('334', '113', '17', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('335', '113', '18', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('336', '113', '57', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('337', '113', '58', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('338', '113', '59', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('339', '113', '60', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('340', '113', '72', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('341', '113', '73', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('342', '113', '74', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('343', '113', '75', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('344', '113', '65', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.ConceptoBase (Id, ConceptoNominaAgrupadorId, ConceptoNominaId, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('345', '113', '125', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[ConceptoBase] OFF;
+
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM dbo.ConceptoBase WHERE Id BETWEEN 315 AND 345;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

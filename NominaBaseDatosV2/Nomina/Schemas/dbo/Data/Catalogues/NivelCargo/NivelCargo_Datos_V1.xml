@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="NivelCargo_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[NivelCargo] ON 
+GO
+INSERT [dbo].[NivelCargo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES (1, 'Activo', 'sistema' , GETDATE(), NULL, NULL, 'Administrativo')
+GO
+INSERT [dbo].[NivelCargo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES (2, 'Activo', 'sistema' , GETDATE(), NULL, NULL, 'Táctico')
+GO
+INSERT [dbo].[NivelCargo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES (3, 'Activo', 'sistema' , GETDATE(), NULL, NULL, 'Operativo')
+GO
+INSERT [dbo].[NivelCargo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES (4, 'Activo', 'sistema' ,GETDATE(), NULL, NULL, 'Táctico I')
+GO
+SET IDENTITY_INSERT [dbo].[NivelCargo] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[NivelCargo] WHERE Id BETWEEN 1 AND 4;
+</rollback>
+</changeSet>
+</databaseChangeLog>

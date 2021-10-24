@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="NotificacionDestinatarioLog_V3">
+<comment>HT016</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+EXEC sp_rename N'[NotificacionDestinatarioLog].[CorreoEletronico]', N'CorreoElectronico', N'COLUMN';
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+EXEC sp_rename N'[NotificacionDestinatarioLog].[CorreoElectronico]', N'CorreoEletronico', N'COLUMN';
+
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,97 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/jornada-laborales/">Jornadas
+                    laborales</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Editar jornada laboral</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Editar jornada laboral</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button mat-raised-button color="accent" class="acciones" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngIf="arrayPermisosDias.crear" (click)="diaHandle($event)">
+                    <span>Agregar día</span>
+                </button>
+                <a routerLink="/configuracion/jornada-laborales" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="tabChangeHandle($event)">
+
+                <!-- Información -->
+                <mat-tab label="Información">
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                        <mat-form-field appearance="outline" fxFlex="100" class="">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput placeholder="" formControlName="nombre" required>
+                            <mat-error *ngFor="let error of nombre.errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Nombre de la jornada laboral.">info
+                            </mat-icon>
+                        </mat-form-field>
+
+
+                        <div mat-dialog-actions>
+                            <a mat-raised-button type="button" routerLink="/configuracion/jornada-laborales">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <button mat-raised-button [disabled]="form.invalid || submit" type="submit" color="accent"
+                                class="ml-8">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar </span>
+                            </button>
+                        </div>
+
+                    </form>
+                </mat-tab>
+
+                <mat-tab label="Días de la jornada laboral">
+                    <div>
+                        <jornada-laboral-dias-mostrar [jornada-laboral-id]="id"></jornada-laboral-dias-mostrar>
+                    </div>
+                </mat-tab>
+
+            </mat-tab-group>
+        </div>
+
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

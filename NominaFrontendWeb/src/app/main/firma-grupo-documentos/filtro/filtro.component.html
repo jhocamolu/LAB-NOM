@@ -1,0 +1,113 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Funcionario</mat-label>
+            <input matInput formControlName="criterioBusqueda">
+            <mat-error *ngFor="let error of objToArray(form.get('criterioBusqueda').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Documento de identificación o nombre del funcionario.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Grupo documento</mat-label>
+            <mat-select formControlName="grupoDocumentoSlug" step="any">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of grupoDocumentosObtener" [value]="item.slug">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(grupoDocumentoSlug.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Grupo de documento al que el funcionario es designado para firmar.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha inicio</mat-label>
+            <input matInput [matDatepicker]="fechaInicio" (click)="fechaInicio.open()" formControlName="fechaInicio">
+            <mat-datepicker-toggle matPrefix [for]="fechaInicio">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+            <mat-error *ngFor="let error of objToArray(form.get('fechaInicio').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix
+                matTooltip="Fecha inicio en la cual el funcionario es designado para firmar un grupo de documento.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha fin</mat-label>
+            <input matInput [matDatepicker]="fechaFin" (click)="fechaFin.open()" formControlName="fechaFin">
+            <mat-datepicker-toggle matPrefix [for]="fechaFin">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaFin></mat-datepicker>
+            <mat-error *ngFor="let error of objToArray(form.get('fechaFin').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix
+                matTooltip="Fecha fin en la cual el funcionario es designado para firmar un grupo de documento.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+            <mat-icon>cancel</mat-icon>
+            <span>Borrar filtros</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+            <mat-icon>search</mat-icon>
+            <span>Buscar</span>
+        </button>
+    </div>
+
+</form>

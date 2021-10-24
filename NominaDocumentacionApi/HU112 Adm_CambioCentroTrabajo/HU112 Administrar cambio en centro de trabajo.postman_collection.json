@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "3e1a9f16-4014-470b-9faa-c1bea89f6a4f",
+		"name": "HU112 Administrar cambio en centro de trabajo",
+		"description": "Administrar cambio en centro de trabajo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar ContratoCentroTrabajos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "JwtTomen",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDUyOTg3NTIsImV4cCI6MTYwNTMxMzE1MiwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.VbUK_dooXGZJAuGBb5WweekGZdRlaSLJx0WJ4VbJWWM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/odata/ContratoCentroTrabajos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"ContratoCentroTrabajos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener ContratoCentroTrabajos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDU4MjU0NzcsImV4cCI6MTYwNTgzOTg3NywiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.JlvlsdZkm5OEminXyp2Bmwnnoy-KlhEL85WFrSDS7Po",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/odata/ContratoCentroTrabajos/6",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"ContratoCentroTrabajos",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar ContratoCentroTrabajos",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDU4MjI4MjAsImV4cCI6MTYwNTgzNzIyMCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.YezunMd6DqQyiGUhWKz75Awrf0TJOIrDKirsjLOcotw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 15,\r\n    \"contratoId\": 11928,\r\n    \"centroTrabajoId\": 4,\r\n    \"fechaInicio\": \"2021-02-10\",\r\n    \"observacion\": \"comentario\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/ContratoCentroTrabajos/15",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ContratoCentroTrabajos",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar ContratoCentroTrabajoCambios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/ContratoCentroTrabajoCambios",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"ContratoCentroTrabajoCambios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener ContratoCentroTrabajoCambios",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDU4MjU0NzcsImV4cCI6MTYwNTgzOTg3NywiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.JlvlsdZkm5OEminXyp2Bmwnnoy-KlhEL85WFrSDS7Po",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/odata/ContratoCentroTrabajoCambios/13",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"ContratoCentroTrabajoCambios",
+						"13"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear ContratoCentroTrabajos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDU4MjEwNjEsImV4cCI6MTYwNTgzNTQ2MSwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.e_VX4TXtTWH7gJ8XbaCoajj0Ssx3ZPa5WweSl0qxq9I",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"funcionarioId\": 1,\r\n    \"centroTrabajoId\": 2,\r\n    \"fechaInicio\": \"2021-04-01\",\r\n    \"observacion\":\"comentario\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/ContratoCentroTrabajos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"ContratoCentroTrabajos"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

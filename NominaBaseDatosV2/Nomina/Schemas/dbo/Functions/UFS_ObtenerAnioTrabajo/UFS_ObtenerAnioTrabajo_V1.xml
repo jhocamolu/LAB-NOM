@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_ObtenerClaseContrato_V1">
+<comment>HU056</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerAnioTrabajo]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerAnioTrabajo];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 25/07/2020
+-- Description: Permite obtener el año de trabajo vigente o inmediatamente anterior al vigente
+--
+-- Parameters:
+--   Constante:	Identificador del año que se requiere (Vigente o Pasado)
+--
+-- Return:
+--	   Nombre:	Nombre de la clase de contrato
+-- ==========================================================================================
+
+CREATE FUNCTION [dbo].[UFS_ObtenerAnioTrabajo]
+(@Constante VARCHAR(255)
+)
+RETURNS INT
+AS
+     BEGIN
+
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         DECLARE @AnioTrabajoId INT;
+	     DECLARE @AnioVigenteId INT;
+         DECLARE @AuditoriaActivo VARCHAR(255);
+         DECLARE @AnioVigente VARCHAR(255);
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+         SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+                @AnioVigente = vce.ANIO_VIGENTE
+         FROM [util].[VW_ConstanteEstado] AS vce;
+
+	    -- Se consulta el año vigente
+	    SELECT TOP 1 @AnioVigenteId = Id
+             FROM dbo.AnnoVigencia AS avi
+             WHERE avi.Estado = @AnioVigente
+                   AND avi.EstadoRegistro = @AuditoriaActivo
+             ORDER BY avi.Anno DESC;
+
+
+         IF @Constante = @AnioVigente
+            OR @Constante IS NULL
+         BEGIN
+		  SET @AnioTrabajoId = @AnioVigenteId;
+         END;
+         ELSE
+         BEGIN
+
+             SELECT TOP 1 @AnioTrabajoId = Id
+             FROM dbo.AnnoVigencia AS avi
+             WHERE avi.Estado != @AnioVigente
+                   AND avi.EstadoRegistro = @AuditoriaActivo
+			    AND avi.Anno < (SELECT Anno FROM dbo.AnnoVigencia av WHERE av.Id = @AnioVigenteId)
+             ORDER BY avi.Anno DESC;
+
+         END;
+
+         RETURN @AnioTrabajoId;
+     END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerAnioTrabajo]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerAnioTrabajo]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

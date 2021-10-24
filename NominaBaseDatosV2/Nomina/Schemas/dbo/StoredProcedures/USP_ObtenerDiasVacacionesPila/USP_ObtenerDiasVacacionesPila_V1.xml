@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="USP_ObtenerDiasVacacionesPila_V1">
+<comment>Migracion inicial</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerDiasVacacionesPila', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerDiasVacacionesPila as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Reynaldo Andrés Sabogal
+-- Create date: 30/12/2020
+-- Description: Pemite Obtener la cantidad de días de vacaciones en un periodo de liquidación
+--
+-- Parameters:
+--  @FuncionarioId:					Identificador del funcionario
+--  @NominaFechaInicio 				Identificador del funcionario en la nómina
+--  @NominaFechaFin					Identificador del concepto de vacaciones anticipadas
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ObtenerDiasVacacionesPila] 
+(@FuncionarioId              INT,
+@NominaFechaInicio           DATE,
+@NominaFechaFin				 DATE,
+@Cantidad					 INT OUTPUT)
+
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+	DECLARE @FechaInicioDisfrute DATE;
+	DECLARE @FechaFinDisfrute DATE;
+	DECLARE @FechaInferior DATE;
+	DECLARE @FechaSuperior DATE;	
+	DECLARE @AliasConceptoVacacionesTiempo VARCHAR(255);
+	DECLARE @ConceptoVacacionesTiempo VARCHAR(255);
+	DECLARE @ConceptoVacacionesTiempoId INT;	
+    DECLARE @DiasVacacionesPila INT = 0;
+	
+	--------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+		--- Constantes de auditoria
+		SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO
+		FROM util.VW_ConstanteEstado AS vce;
+		
+		--- Constantes de conceptos
+		SELECT @AliasConceptoVacacionesTiempo = vcv.CONCEPTOVACACIONESTIEMPO
+		FROM util.VW_ConstanteParametroGeneral AS vcv;
+
+		-- Se consulta alias de concepto de nómina
+		SELECT @ConceptoVacacionesTiempo = [util].[UFS_ObtenerParametro] 
+		(@AliasConceptoVacacionesTiempo,NULL);
+
+		-- Consultamos id de concepto
+		SELECT @ConceptoVacacionesTiempoId = Id
+		FROM ConceptoNomina
+		WHERE Alias = @ConceptoVacacionesTiempo
+		AND EstadoRegistro = @AuditoriaActivo;
+				
+				
+		-- Cursor para consultar la información de las solicitudes de vacaciones ya liquidadas
+		DECLARE CUR_DiasVacaciones CURSOR LOCAL
+		FOR SELECT sv.FechaInicioDisfrute,sv.FechaFinDisfrute			   	
+		FROM SolicitudVacaciones sv
+		INNER JOIN NominaFuncionario nf ON nf.Id =  sv.NominaFuncionarioId and nf.FuncionarioId = sv.FuncionarioId 
+		INNER JOIN NominaDetalle nd ON nd.NominaFuncionarioId = nf.Id 
+		WHERE sv.FuncionarioId= @FuncionarioId
+		AND (@NominaFechaInicio BETWEEN sv.FechaInicioDisfrute and sv.FechaFinDisfrute OR @NominaFechaFin BETWEEN sv.FechaInicioDisfrute and sv.FechaFinDisfrute)
+		AND sv.NominaFuncionarioId IS NOT NULL 
+		AND sv.Remuneracion IS NOT NULL
+		AND nd.ConceptoNominaId = @ConceptoVacacionesTiempoId
+		AND sv.EstadoRegistro = @AuditoriaActivo
+		AND nf.EstadoRegistro = @AuditoriaActivo
+		AND nd.EstadoRegistro = @AuditoriaActivo;
+
+		OPEN CUR_DiasVacaciones;
+
+		FETCH NEXT FROM CUR_DiasVacaciones INTO @FechaInicioDisfrute,@FechaFinDisfrute;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+			--- determinar los días de vacaciones de la quincena
+			SET @FechaInferior = @FechaInicioDisfrute;
+			SET @FechaSuperior = @FechaFinDisfrute;
+
+			IF @FechaInferior < @NominaFechaInicio
+			BEGIN 
+				SET @FechaInferior = @NominaFechaInicio;
+			END;
+
+			IF @FechaFinDisfrute > @NominaFechaFin
+			BEGIN 
+				SET @FechaSuperior = @NominaFechaFin;
+			END;
+
+			-- Obtener la cantidad de días de vacaciones de la quincena
+			SET @DiasVacacionesPila += DATEDIFF(DAY, @FechaInferior, @FechaSuperior); 			
+
+		FETCH NEXT FROM CUR_DiasVacaciones INTO @FechaInicioDisfrute,@FechaFinDisfrute;
+        END;
+
+        CLOSE CUR_DiasVacaciones;
+        DEALLOCATE CUR_DiasVacaciones;
+
+		SET @Cantidad = @DiasVacacionesPila;
+
+	END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+	PRINT CONCAT('@DiasVacacionesPila= ',@DiasVacacionesPila);
+	PRINT CONCAT('@ConceptoVacacionesTiempoId= ',@ConceptoVacacionesTiempoId);
+		 
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerDiasVacacionesPila];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

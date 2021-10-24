@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="VW_ConstanteTipoGastoViaje_V1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteTipoGastoViaje]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteTipoGastoViaje]
+END
+GO
+-- =============================================
+-- Author:		Jhonatan Camilo Moreno
+-- Create date: 17/06/2020
+-- Description:	: Vista que permite la simulación de constantes para los 
+--                tipos de gastos de viaje dentro de SQL Server.
+-- =============================================
+-- Estados asociados al campo de código, de la tabla tipos de gastos de viaje.
+CREATE VIEW [util].[VW_ConstanteTipoGastoViaje] 
+AS
+SELECT 
+		CAST('ViaticosHospedaje' AS VARCHAR) AS [CODIGO_VIATICOSHOSPEDAJE]
+		,CAST('ViaticosAlimentacion' AS VARCHAR) AS [CODIGO_VIATICOSALIMENTACION]
+		,CAST('FaltanteViaticos' AS VARCHAR) AS [CODIGO_FALTANTEVIATICOS]
+		,CAST('PagoAnticipoGV' AS VARCHAR) AS [CODIGO_PAGOANTICIPOGV]
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP VIEW [util].[VW_ConstanteTipoGastoViaje]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_GenerarExcepcion_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('util.USP_GenerarExcepcion', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE util.USP_GenerarExcepcion as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 13/02/2020
+-- Description: Permite generar una excepción y causa
+--			 el salto a un bloque CATCH de un bloque TRY ... CATCH.
+-- Parameters:
+--   @NumeroError:	Número del error (Pendiente definir identificador para errores)
+--   @MensajeError:	Texto con el mensaje del error 
+--   
+-- ==========================================================================================
+ALTER PROCEDURE [util].[USP_GenerarExcepcion] @NumeroError  INT,
+                                             @MensajeError NVARCHAR(4000)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración
+    --------------------------------------------------------------------------
+    SET NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @EstadoError INT= 1;
+    DECLARE @SeveridadError INT= 16;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    RAISERROR(@MensajeError, @SeveridadError, @EstadoError);
+
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [util].[USP_GenerarExcepcion];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

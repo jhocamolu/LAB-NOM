@@ -1,0 +1,84 @@
+<div class="page-layout simple inner-sidebar">
+    <!-- CONTENT -->
+    <div class="content">
+        <!-- <div class="title_">
+            Convocatorias
+        </div> -->
+        <div>
+            <alcanos-empty-list labelH1="Uy, Aún no se han cargado convocatorias."
+            [visibleBtnCreate]="false" [visible]="!dataLength && !load && !loading">
+            </alcanos-empty-list>
+
+            <div *ngIf="loading" class="container_spinner">
+                <mat-spinner class="spinner"></mat-spinner>
+            </div>
+
+            <div class="box-shadow" *ngIf="dataLength" [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortActive="fechaInicio" matSortDirection="desc" matSortDisableClear
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna fechaInicio -->
+                    <!-- <ng-container matColumnDef="fechaInicio">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de solicitud </th>
+                        <td mat-cell class="text-right padding-r19" *matCellDef="let element">
+                            {{element.fechaInicio | date:'dd / LL / yyyy'}}
+                        </td>
+                    </ng-container> -->
+
+                    <!-- Columna cargoDependenciaSolicitado/cargo/nombre -->
+                    <ng-container matColumnDef="cargoDependenciaSolicitado/cargo/nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Oferta </th>
+                        <td mat-cell *matCellDef="let element"><p class="text-truncate">
+                            {{element.cargoDependenciaSolicitado?.cargo?.nombre}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna divisionPoliticaNivel2/nombre -->
+                    <ng-container matColumnDef="divisionPoliticaNivel2/nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ciudad </th>
+                        <td mat-cell *matCellDef="let element"> {{element.divisionPoliticaNivel2?.nombre}} </td>
+                    </ng-container>
+
+                    <!-- Columna cantidad -->
+                    <ng-container matColumnDef="cantidad">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Vacantes </th>
+                        <td mat-cell class="text-right padding-r19" *matCellDef="let element">{{element.cantidad}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna fecha -->
+                    <ng-container matColumnDef="salario">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Salario </th>
+                        <td mat-cell class="text-right padding-r19" *matCellDef="let element"> 
+                            {{element.salario | currency:'COP':'symbol-narrow':'4.2-2': 'co'}} 
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="accion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="padding-r19" *ngIf="1">
+                                <button mat-icon-button (click)="changeMenu('mostrar_convocatoria', element)">
+                                    <mat-icon matTooltip="Visualizar convocatoria"
+                                    >remove_red_eye</mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

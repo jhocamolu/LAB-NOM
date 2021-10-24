@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="CategoriaNovedad_V2">
+<comment>HU090</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [CategoriaNovedad] ADD CONSTRAINT [CK_CategoriaNovedad_UbicacionTercero] CHECK (([UbicacionTercero]='EntidadFinanciera' OR [UbicacionTercero]='Administradora' OR [UbicacionTercero]='OtrosTerceros' ));
+
+GO
+
+ALTER TABLE [CategoriaNovedad] ADD [Nombre] varchar(255) NOT NULL DEFAULT '';
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [CategoriaNovedad] DROP CONSTRAINT [CK_CategoriaNovedad_UbicacionTercero];
+
+GO
+
+ALTER TABLE [CategoriaNovedad] DROP COLUMN [Nombre];
+
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

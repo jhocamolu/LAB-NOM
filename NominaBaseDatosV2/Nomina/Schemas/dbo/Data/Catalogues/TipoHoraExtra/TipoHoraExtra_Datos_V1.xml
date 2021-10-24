@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="TipoHoraExtra_V1">
+<comment>HU080</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoHoraExtra] ON 
+GO
+INSERT [dbo].[TipoHoraExtra] ([Id], [Tipo], [ConceptoNominaId], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (1, N'RecargoNocturno', 60, N'Activo    ', N'sistema', CAST(N'2020-07-03T11:11:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TipoHoraExtra] ([Id], [Tipo], [ConceptoNominaId], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (2, N'HoraExtraDiurna', 61, N'Activo    ', N'sistema', CAST(N'2020-07-03T11:11:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TipoHoraExtra] ([Id], [Tipo], [ConceptoNominaId], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (3, N'HoraExtraNocturna', 62, N'Activo    ', N'sistema', CAST(N'2020-07-03T11:11:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TipoHoraExtra] ([Id], [Tipo], [ConceptoNominaId], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (4, N'HoraExtraFestivaDominicalDiurna', 63, N'Activo    ', N'sistema', CAST(N'2020-07-03T11:11:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TipoHoraExtra] ([Id], [Tipo], [ConceptoNominaId], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (5, N'HoraExtraFestivaDominicalNocturna', 64, N'Activo    ', N'sistema', CAST(N'2020-07-03T11:11:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TipoHoraExtra] ([Id], [Tipo], [ConceptoNominaId], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (6, N'RecargoNocturnoDominicalFestivo', 65, N'Activo    ', N'sistema', CAST(N'2020-07-03T11:11:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TipoHoraExtra] ([Id], [Tipo], [ConceptoNominaId], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (7, N'DominicalFestivoCompensado', 66, N'Activo    ', N'sistema', CAST(N'2020-07-03T11:43:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[TipoHoraExtra] ([Id], [Tipo], [ConceptoNominaId], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (8, N'DominicalFestivoNoCompensado', 67, N'Activo    ', N'sistema', CAST(N'2020-07-03T11:11:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[TipoHoraExtra] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[TipoHoraExtra] WHERE Id BETWEEN 1 AND 8;
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

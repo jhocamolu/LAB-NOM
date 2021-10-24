@@ -1,0 +1,156 @@
+<div class="page-layout simple fullwidth cargos-listar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Flujos de trabajo</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/flujo-trabajos/vistos-buenos">Vistos buenos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar visto bueno</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar visto bueno</h2>
+            </div>
+        </div>
+        <div class="Acciones">
+            <button mat-raised-button color="accent" mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>edit</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a *ngIf="arrayPermisos.actualizar" routerLink="/flujo-trabajos/vistos-buenos/{{item.id}}/editar" mat-menu-item>Editar</a>
+                <button *ngIf="item.revisa === 'Otro'" mat-menu-item (click)="revisorHandle($event,item.id)">
+                    <span>Agregar revisor</span>
+                </button>
+                <button *ngIf="item.aprueba === 'Otro'" mat-menu-item (click)="aprobadorHandle($event,item.id)">
+                    <span>Agregar aprobador</span>
+                </button>
+                <button *ngIf="item.autoriza === 'Otro'" mat-menu-item (click)="autorizadorHandle($event,item.id)">
+                    <span>Agregar autorizador</span>
+                </button>
+                <a routerLink="/flujo-trabajos/vistos-buenos" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="selectedTabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+
+                    <div *ngIf="item">
+                        <div mat-dialog-content fusePerfectScrollbar>
+                            <div>
+                                <h3>
+                                    Nombre
+                                    <mat-icon class="s-16" matSuffix
+                                        matTooltip="Nombre de la revisión, aprobación y autorización.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.nombre}}</p>
+                            </div>
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Código
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Código de la revisión, aprobación y autorización.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.codigo}}</p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        Revisa
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Alternativas de revisión de la revisión, aprobación y autorización.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.revisa == tipoAplicacion.noAplica ? 'No aplica': item.revisa ==  tipoAplicacion.jefeInmediato ? 'Jefe inmediato': item.revisa}}
+                                    </p>
+                                </div>
+                            </div>
+
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Aprueba
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Alternativas de aprobación de la revisión, aprobación y autorización.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.aprueba == tipoAplicacion.noAplica ? 'No aplica': item.aprueba ==  tipoAplicacion.jefeInmediato ? 'Jefe inmediato': item.aprueba}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        Autoriza
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Alternativas de autorización de la revisión, aprobación y autorización.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.autoriza == tipoAplicacion.noAplica ? 'No aplica': item.autoriza ==  tipoAplicacion.jefeInmediato ? 'Jefe inmediato': item.autoriza}}
+                                    </p>
+
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3>
+                                    Descripción
+                                    <mat-icon class="s-16" matSuffix
+                                        matTooltip="Descripción de la revisión, aprobación y autorización.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.descripcion ? item.descripcion : 'N/A' }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </mat-tab>
+                <!-- / Primer Label -->
+                <mat-tab label="Revisores" [disabled]="item.revisa !== 'Otro'">
+                    <revisores-aprobadores-listar [revisores-id]="item.id" [mostrar-boton-crear]="false">
+                    </revisores-aprobadores-listar>
+                </mat-tab>
+                <!-- Segundo Label -->
+                <mat-tab label="Aprobadores" [disabled]="item.aprueba !== 'Otro'">
+                    <aprobaciones-aprobadores-listar [aprobadores-id]="item.id" [mostrar-boton-crear]="false">
+                    </aprobaciones-aprobadores-listar>
+                </mat-tab>
+                <!-- / Segundo Label -->
+
+                <!-- tercer Label -->
+                <mat-tab label="Autorizadores" [disabled]="item.autoriza !== 'Otro'">
+                    <aprobadores-autorizadores-listar [autorizadores-id]="item.id" [mostrar-boton-crear]="false">
+                    </aprobadores-autorizadores-listar>
+                </mat-tab>
+                <!-- / Segundo Label -->
+
+            </mat-tab-group>
+        </div>
+    </div>
+    <!--/ CONTENIDO-->
+
+</div>

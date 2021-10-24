@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="ParametroGeneral_Datos_V20">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON;
+INSERT INTO dbo.ParametroGeneral
+(Id, CategoriaParametroId, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, EstadoRegistro, CreadoPor, FechaCreacion,AnnoVigenciaId)
+VALUES('5', '1', 'FechaContratoTerminoIndefinido', 'Date', '', 'Fecha definida para contrato término indefinido', 'Corresponde a la fecha que le asigna el sistema a los contratos de los funcionarios que tienen un contrato a término indefinido en el sistema', '5', '', '1', '2050-12-31', 'Activo    ', 'sistema', GETDATE(),1);
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF;
+
+GO
+]]>
+
+</sql>
+
+<rollback>
+
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON;
+DELETE FROM dbo.ParametroGeneral WHERE Id=5;
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF;
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

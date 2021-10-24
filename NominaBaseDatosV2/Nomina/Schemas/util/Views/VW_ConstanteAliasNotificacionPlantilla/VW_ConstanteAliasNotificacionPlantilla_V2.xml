@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="VW_ConstanteAliasNotificacionPlantilla_V1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteAliasNotificacionPlantilla]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteAliasNotificacionPlantilla]
+END
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 12/08/2020
+-- Description:	: Vista que permite la simulación de constantes para los 
+--                alias de NotificacionPlantilla dentro de SQL Server.
+-- =============================================
+
+CREATE VIEW util.VW_ConstanteAliasNotificacionPlantilla
+AS
+SELECT 
+		-- Estados asociados al campo de código, de la tabla de Ausentismos.
+		CAST('NotificacionVencimientoContrato' AS VARCHAR(255)) AS [ALIAS_NOTIFICACIONVENCIMIENTOCONTRATO]
+		,CAST('NotificacionVencimientoContratoJefeInmediato' AS VARCHAR(255)) AS [ALIAS_NOTIFICACIONVENCIMIENTOCONTRATOJEFEINMEDIATO]
+		,CAST('NotificacionRegistroRequisicion' AS VARCHAR(255)) AS [ALIAS_NOTIFICACIONREGISTROREQUISICION]
+		,CAST('NotificacionAutorizacionRequisicion' AS VARCHAR(255)) AS [ALIAS_NOTIFICACIONAUTORIZACIONREQUISICION]
+		,CAST('NotificacionRevisadaRequisicion' AS VARCHAR(255)) AS [ALIAS_NOTIFICACIONREVISADAREQUISICION]
+		,CAST('NotificacionaAprobadaRequisiciones' AS VARCHAR(255)) AS [ALIAS_NOTIFICACIONAAPROBADAREQUISICIONES]
+		,CAST('NotificacionVencimientoCubrirVacantes' AS VARCHAR(255)) AS [ALIAS_NOTIFICACIONVENCIMIENTOCUBRIRVACANTES]
+		
+		GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteAliasNotificacionPlantilla]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteAliasNotificacionPlantilla]
+END
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 12/08/2020
+-- Description:	: Vista que permite la simulación de constantes para los 
+--                alias de NotificacionPlantilla dentro de SQL Server.
+-- =============================================
+
+CREATE VIEW util.VW_ConstanteAliasNotificacionPlantilla
+AS
+SELECT 
+		-- Estados asociados al campo de código, de la tabla de Ausentismos.
+		CAST('NotificacionVencimientoContrato' AS VARCHAR(255)) AS [ALIAS_NOTIFICACIONVENCIMIENTOCONTRATO]
+		,CAST('NotificacionVencimientoContratoJefeInmediato' AS VARCHAR(255)) AS [ALIAS_NOTIFICACIONVENCIMIENTOCONTRATOJEFEINMEDIATO]
+	
+		GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,42 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <div>
+        <mat-toolbar class="toolbar-filter">
+            <mat-toolbar-row>
+                <h1 mat-dialog-title>Filtro</h1>
+                <button type="button" mat-icon-button (click)="dialogRef.close()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <div mat-dialog-content fusePerfectScrollbar>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="" formControlName="nombre">
+                <mat-error *ngFor="let error of nombre.errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Nombre de la jornada laboral.">info
+                </mat-icon>
+            </mat-form-field>
+        </div>
+
+        <div mat-dialog-actions>
+            <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+                <mat-icon>cancel</mat-icon>
+                <span>Borrar filtros</span>
+            </button>
+            <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+                <mat-icon>search</mat-icon>
+                <span>Buscar</span>
+            </button>
+        </div>
+    </div>
+</form>

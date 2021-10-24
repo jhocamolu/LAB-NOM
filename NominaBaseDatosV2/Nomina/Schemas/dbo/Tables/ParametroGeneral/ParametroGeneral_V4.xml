@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="ParametroGeneral_V4">
+<comment>HU049 parametro general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [ParametroGeneral] ADD CONSTRAINT [FK_ParametroGeneral_AnnoVigencia_AnnoVigenciaId] FOREIGN KEY ([AnnoVigenciaId]) REFERENCES [AnnoVigencia] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [ParametroGeneral] DROP CONSTRAINT [FK_ParametroGeneral_AnnoVigencia_AnnoVigenciaId] ;
+
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

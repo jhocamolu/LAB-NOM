@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_CargarNovedadesGastosViaje_V1">
+<comment>HU054</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_CargarNovedadesGastosViaje', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_CargarNovedadesGastosViaje as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 07/08/2020
+-- Description: Pemite cargar novedades de gastos de viaje del funcionario
+--
+-- Parameters:
+--  @NominaId:			   Identificador de la nómina
+--  @FuncionarioId:		   Identificador del funcionario
+--  @NominaFuncionarioId	   Identificador del funcionario en la nómina
+--  @NominaFechaFinal	   Fecha final de la nómina
+--  @SubperiodoId		   Identificador del subperiodo de la nómina
+--  @Id				   Identificador de la novedad a cargar
+--  @UsuarioOperacion :	   Usuario que realiza la operación.
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_CargarNovedadesGastosViaje] @NominaId            INT,
+                                                       @FuncionarioId       INT,
+                                                       @NominaFuncionarioId INT,
+                                                       @NominaFechaFinal    DATE,
+                                                       @SubperiodoId        INT,
+											@Id			    INT,
+                                                       @UsuarioOperacion    VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaFuncionarioId=', CONVERT(VARCHAR, @NominaFuncionarioId), '&', '@NominaFechaFinal=', CONVERT(VARCHAR, @NominaFechaFinal), '&', '@SubperiodoId=', CONVERT(VARCHAR, @SubperiodoId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @NominaDetallePendiente VARCHAR(255);
+    DECLARE @GastoViajePendiente VARCHAR(255);
+
+    DECLARE @GastoViajeId INT;
+    DECLARE @Valor MONEY= 0;
+    DECLARE @Cantidad INT= 1;
+    DECLARE @UnidadMedida VARCHAR(255) = (SELECT vcum.UNIDAD FROM util.VW_ConstanteUnidadMedida vcum);
+    DECLARE @ConceptoNominaId INT= 0;
+    DECLARE @NominaFuenteNovedadId INT= 0;
+    DECLARE @ModuloSistema VARCHAR(255)=
+    (
+        SELECT cms.GASTOSVIAJE
+        FROM util.VW_ConstanteModuloSistema AS cms
+    );
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN CargarNovedadesGastosViaje;
+
+        -- Se consultan constantes asociadas a estados
+        SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+               @NominaDetallePendiente = vce.NOMINADETALLE_PENDIENTE,
+               @GastoViajePendiente = vce.GASTOVIAJE_PENDIENTE
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Cursor para obtener los gastos de viaje asociados al funcionario
+        DECLARE CUR_GastosViaje CURSOR LOCAL
+        FOR SELECT gvi.Id,
+                   tgv.ConceptoNominaId,
+                   gvi.Valor
+            FROM dbo.GastoViaje AS gvi
+                 INNER JOIN dbo.TipoGastoViaje AS tgv ON(gvi.TipoGastoViajeId = tgv.Id)
+            WHERE gvi.FuncionarioId = @FuncionarioId
+			   AND ((@Id IS NOT NULL AND gvi.Id = @Id) OR (@Id IS NULL))
+                  AND gvi.Estado = @GastoViajePendiente
+			   AND gvi.Fecha <= @NominaFechaFinal
+                  AND gvi.EstadoRegistro = @AuditoriaActivo;
+
+        OPEN CUR_GastosViaje;
+
+        FETCH NEXT FROM CUR_GastosViaje INTO @GastoViajeId, @ConceptoNominaId, @Valor;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+            --- Inserta  NominaFuenteNovedad
+            INSERT INTO [dbo].[NominaFuenteNovedad]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [Modulo],
+             [ModuloRegistroId]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @ModuloSistema,
+             @GastoViajeId
+            );
+
+            SET @NominaFuenteNovedadId =
+            (
+                SELECT SCOPE_IDENTITY()
+            );
+
+            -- Inserta NominaDetalle
+            INSERT INTO [dbo].[NominaDetalle]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [NominaFuncionarioId],
+             [NominaFuenteNovedadId],
+             [ConceptoNominaId],
+             [UnidadMedida],
+             [Cantidad],
+             [Valor],
+             [Estado]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @NominaFuncionarioId,
+             @NominaFuenteNovedadId,
+             @ConceptoNominaId,
+             @UnidadMedida,
+             @Cantidad,
+             @Valor,
+             @NominaDetallePendiente
+            );
+
+            FETCH NEXT FROM CUR_GastosViaje INTO @GastoViajeId, @ConceptoNominaId, @Valor;
+        END;
+
+        CLOSE CUR_GastosViaje;
+
+        DEALLOCATE CUR_GastosViaje;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN CargarNovedadesGastosViaje;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+	
+	]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_CargarNovedadesGastosViaje];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

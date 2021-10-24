@@ -1,0 +1,80 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+	<h1 mat-dialog-title>Visualizar reemplazo</h1>
+	<div mat-dialog-content fusePerfectScrollbar>
+
+		<div class="dos-bloque">
+			<div>
+				<h3>Cargo a sustituir</h3>
+				<p>
+					{{element.cargoASustituir?.nombre}}
+				</p>
+			</div>
+			<div>
+				<h3>Centro operativo</h3>
+				<p>
+					{{element.centroOperativoASutituir != null ? element.centroOperativoASutituir?.nombre : 'N/A'}} </p>
+			</div>
+        </div>
+        
+        <div class="dos-bloque">
+			<div>
+				<h3>Cargo sustituto</h3>
+				<p>
+					{{element.cargoSustituto?.nombre}}
+				</p>
+			</div>
+			<div>
+				<h3>Centro operativo</h3>
+				<p>
+					{{ element.centroOperativoSustituto != null ? element.centroOperativoSustituto?.nombre : 'N/A' }}
+				</p>
+			</div>
+		</div>
+
+		<div class="dos-bloque">
+			<div>
+				<h3>Fecha inicial</h3>
+				<p>
+					{{ element.fechaInicio | date:'dd / LL / yyyy' }}
+				</p>
+			</div>
+
+			<div>
+				<h3>Fecha final</h3>
+				<p>
+					{{ element.fechaFinal | date:'dd / LL / yyyy' }}
+				</p>
+			</div>
+		</div>
+
+		<div class="dos-bloque" *ngIf="element.horaInicio || element.horaFin">
+			<div *ngIf="element.horaInicio">
+				<h3>Hora inicial</h3>
+				<p>
+					{{ element.horaInicio }}
+				</p>
+			</div>
+
+			<div *ngIf="element.horaFin">
+				<h3>Hora final</h3>
+				<p>{{ element.horaFin }}</p>
+			</div>
+		</div>
+
+		<div>
+            <h3>Observaciones</h3>
+            <p>{{ element.observacion != null ? element.observacion : 'N/A'}}</p>
+        </div>
+
+	</div>
+
+	<div mat-dialog-actions>
+		<button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+			<mat-icon>check</mat-icon>
+			<span>Aceptar</span>
+		</button>
+	</div>
+
+</div>

@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--PROGRESS BAR-->
+    <include
+        android:id="@+id/pb_fragmentCertificadoLaboral"
+        layout="@layout/progress_bar"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/ll_item_certificado"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/muli_bold"
+                android:text="@string/titulo_certificado_laboral"
+                android:textAlignment="center"
+                android:textColor="@color/gris"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#bbbbbb" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCertificadolaboral"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

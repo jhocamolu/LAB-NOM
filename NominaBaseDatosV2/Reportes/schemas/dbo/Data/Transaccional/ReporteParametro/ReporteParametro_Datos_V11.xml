@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="ReporteParametro_V11">
+<comment>Migración Inicial HT037</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[ReporteParametro] ON 
+GO
+INSERT [dbo].[ReporteParametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [ReporteId], [ParametroId], [EsRequerido]) VALUES (50, N'Activo    ', N'sistema', CAST(N'2020-06-03T15:21:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 13, 6, 0)
+GO
+INSERT [dbo].[ReporteParametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [ReporteId], [ParametroId], [EsRequerido]) VALUES (51, N'Activo    ', N'sistema', CAST(N'2020-06-03T15:21:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 13, 7, 0)
+GO
+INSERT [dbo].[ReporteParametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [ReporteId], [ParametroId], [EsRequerido]) VALUES (52, N'Activo    ', N'sistema', CAST(N'2020-06-03T15:21:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 13, 8, 0)
+GO
+INSERT [dbo].[ReporteParametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [ReporteId], [ParametroId], [EsRequerido]) VALUES (53, N'Activo    ', N'sistema', CAST(N'2020-06-03T15:21:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 13, 9, 0)
+GO
+INSERT [dbo].[ReporteParametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [ReporteId], [ParametroId], [EsRequerido]) VALUES (54, N'Activo    ', N'sistema', CAST(N'2020-06-03T15:21:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 13, 27, 1)
+GO
+INSERT [dbo].[ReporteParametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [ReporteId], [ParametroId], [EsRequerido]) VALUES (55, N'Activo    ', N'sistema', CAST(N'2020-06-03T15:21:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 13, 28, 1)
+GO
+INSERT [dbo].[ReporteParametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [ReporteId], [ParametroId], [EsRequerido]) VALUES (56, N'Activo    ', N'sistema', CAST(N'2020-06-03T15:21:00' AS SmallDateTime), NULL, NULL, NULL, NULL, 13, 36, 1)
+GO
+SET IDENTITY_INSERT [dbo].[ReporteParametro] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[ReporteParametro] WHERE Id IN (50,51,52,53,54,55,56)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

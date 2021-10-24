@@ -1,0 +1,146 @@
+<!-- CONTENIDO -->
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon color="accent" class="mat-icon24">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Novedades</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/administracion-personal/solicitud-cesantias/'">Anticipo de cesantías</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar anticipo de cesantías</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar anticipo de cesantías</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a *ngIf="element && element.estado === 'EnTramite'" mat-menu-item routerLink="/administracion-personal/solicitud-cesantias/{{element.id}}/editar"
+                    >
+                    <span>Editar</span>
+                </a>
+
+                <button mat-menu-item *ngIf="element.estado === 'EnTramite'"
+                    
+                    (click)="aprobarHandle($event, element)">
+                    <span>Aprobar</span>
+                </button>
+                <a routerLink="/administracion-personal/solicitud-cesantias/" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <div class="content">
+        <div *ngIf="element">
+            <div>
+
+                <div>
+                    <div>
+                        <h3>Funcionario
+                            <mat-icon class="s-16" matTooltip="Nombre y número de identificación del funcionario.">info
+                            </mat-icon>
+                        </h3>
+                        <p>
+                            {{element.funcionario?.numeroDocumento}} -
+                            {{element.funcionario?.primerNombre}}
+                            {{element.funcionario?.segundoNombre}} {{element.funcionario?.primerApellido}}
+                            {{element.funcionario?.segundoApellido}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Fecha de solicitud
+                            <mat-icon class="s-16" matTooltip="Fecha en la que se realiza la solicitud.">info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.fechaSolicitud | date:'dd / LL / yyyy'}} </p>
+                    </div>
+                    <div>
+                        <h3>Base cálculo de cesantías
+                            <mat-icon class="s-16"
+                                matTooltip="Valor utilizado para hacer el cálculo del anticipo a las cesantías.">info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.baseCalculoCesantia | currency:'COP':'symbol-narrow':'4.2-2': 'co' }} </p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Valor solicitado
+                            <mat-icon class="s-16"
+                                matTooltip="Valor que requiere sea pagado de su cotización de cesantías en el transcurso del año.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{element.valorSolicitado | currency:'COP':'symbol-narrow':'4.2-2': 'co'}} </p>
+                    </div>
+
+                    <div>
+                        <h3>Estado
+                            <mat-icon class="s-16" matTooltip="Estados en los que se puede encontrar la solicitud.">info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.estado == 'EnTramite'? 'En trámite': element.estado}} </p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Motivo de solicitud
+                            <mat-icon class="s-16" matTooltip="Razón para solicitar el pago de cesantías parciales.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{element.motivoSolicitudCesantia?.nombre}}</p>
+                    </div>
+                    <div>
+                        <h3>Documento de soporte
+                            <mat-icon class="s-16" matTooltip="Documento de respaldo para la solicitud.">info
+                            </mat-icon>
+                        </h3>
+                        <p>
+                            <button mat-icon-button matTooltip="Descargar" (click)="descargarHandle($event, element)">
+                                <mat-icon class="s-20 green_">save_alt</mat-icon>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <h3>Observación
+                            <mat-icon class="s-16" matTooltip="Breve descripción acerca de la solicitud.">info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.observacion != null ? element.observacion : 'N/A'}} </p>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <h3>Respuesta de la solicitud
+                            <mat-icon class="s-16" matTooltip="Breve descripción con respecto de la aprobación.">info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.justificacion != null ? element.justificacion : 'N/A'}} </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

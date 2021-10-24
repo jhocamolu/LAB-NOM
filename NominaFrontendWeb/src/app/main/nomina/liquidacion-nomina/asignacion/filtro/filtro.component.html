@@ -1,0 +1,130 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+	<mat-toolbar class="toolbar-filter">
+		<mat-toolbar-row>
+			<h1 mat-dialog-title>Filtro</h1>
+			<button type="button" mat-icon-button (click)="dialogRef.close()">
+				<mat-icon>close</mat-icon>
+			</button>
+		</mat-toolbar-row>
+	</mat-toolbar>
+	<div mat-dialog-content fusePerfectScrollbar>
+
+		<mat-form-field appearance="outline">
+			<mat-label>N° de documento</mat-label>
+			<input type="number" matInput formControlName="numeroDocumento">
+			<mat-error *ngFor="let error of form.get('numeroDocumento').errors | keyvalue">
+				<div [ngSwitch]="error.key">
+					<ng-template ngSwitchDefault>
+						{{error.key}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Número de identificación del funcionario.">info</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Primer nombre</mat-label>
+			<input matInput formControlName="primerNombre">
+			<mat-error *ngFor="let error of form.get('primerNombre').errors | keyvalue">
+				<div [ngSwitch]="error">
+					<ng-template ngSwitchDefault>
+						{{error.key}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Primer nombre del funcionario.">info</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Primer apellido</mat-label>
+			<input matInput formControlName="primerApellido">
+			<mat-error *ngFor="let error of form.get('primerApellido').errors | keyvalue">
+				<div [ngSwitch]="error">
+					<ng-template ngSwitchDefault>
+						{{error.key}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Primer apellido del funcionario.">info</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Centro operativo</mat-label>
+			<mat-select [compareWith]="compareWith" formControlName="centroOperativoId">
+				<mat-option [value]="null" ></mat-option>
+				<mat-option *ngFor="let item of centroOperativos" [value]="item.id">
+					{{ item.nombre }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngFor="let error of form.get('centroOperativoId').errors | keyvalue">
+				<div [ngSwitch]="error.key">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error.key}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Sede de trabajo en la que labora el funcionario.">
+				info</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Dependencia</mat-label>
+			<mat-select [compareWith]="compareWith" formControlName="dependenciaId">
+				<mat-option [value]="null"></mat-option>
+				<mat-option *ngFor="let item of dependencias" [value]="item.id">
+					{{ item.nombre }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngFor="let error of form.get('dependenciaId').errors | keyvalue">
+				<div [ngSwitch]="error.key">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error.key}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Área de la compañía en la que labora el funcionario.">
+				info</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Grupo nómina</mat-label>
+			<mat-select [compareWith]="compareWith" formControlName="grupoNominaId">
+				<mat-option [value]="null"></mat-option>
+				<mat-option *ngFor="let item of grupoNominas" [value]="item.id">
+					{{ item.nombre }}
+				</mat-option>
+			</mat-select>
+			<mat-error *ngFor="let error of form.get('grupoNominaId').errors | keyvalue">
+				<div [ngSwitch]="error.key">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error.key}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Grupo al que pertenece el funcionario para ser liquidado en la nómina.">
+				info</mat-icon>
+		</mat-form-field>
+
+	</div>
+
+	<div mat-dialog-actions>
+		<button mat-raised-button type="button" (click)="limpiarHandle($event)">
+			<mat-icon>cancel</mat-icon>
+			<span>Borrar filtros</span>
+		</button>
+		<button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+			<mat-icon>search</mat-icon>
+			<span>Buscar</span>
+		</button>
+	</div>
+
+</form>

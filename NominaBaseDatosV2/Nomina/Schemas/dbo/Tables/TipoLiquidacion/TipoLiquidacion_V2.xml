@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoLiquidacion_V2">
+<comment>Adicion campo FechaManual</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    ALTER TABLE [TipoLiquidacion] ADD [FechaManual] bit NOT NULL DEFAULT CAST(0 AS bit);
+
+    GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    ALTER TABLE [TipoLiquidacion] DROP COLUMN [FechaManual];
+
+    GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

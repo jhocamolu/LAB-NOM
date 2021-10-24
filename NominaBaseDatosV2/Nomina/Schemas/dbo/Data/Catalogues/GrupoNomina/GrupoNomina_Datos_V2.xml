@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="GrupoNomina_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.GrupoNomina SET Nombre='QUIN' WHERE Id=1;
+UPDATE dbo.GrupoNomina SET Nombre='COME' WHERE Id=2;
+UPDATE dbo.GrupoNomina SET Nombre='MENS' WHERE Id=3;
+DELETE FROM dbo.GrupoNomina WHERE Id='4';
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE dbo.GrupoNomina SET Nombre='Administrativos' WHERE Id=1;
+UPDATE dbo.GrupoNomina SET Nombre='Aprendices' WHERE Id=2;
+UPDATE dbo.GrupoNomina SET Nombre='Comerciales' WHERE Id=3;
+SET IDENTITY_INSERT [dbo].[GrupoNomina] ON;
+INSERT [dbo].[GrupoNomina] ([CreadoPor], [Id],  [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, 'Operativos')
+SET IDENTITY_INSERT [dbo].[GrupoNomina] OFF;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,201 @@
+{
+	"info": {
+		"_postman_id": "408377f1-c474-4954-bf15-8bfcc7b73059",
+		"name": "HU027-InformacionFamiliar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listado de Informacion  Familiar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/InformacionFamiliares",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"InformacionFamiliares"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener  de Informacion  Familiar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/InformacionFamiliares",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"InformacionFamiliares"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Informacion Familiar",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cliente",
+						"value": "Tm9taW5hTW92aWxBbGNhbm9zQ29sb21iaWFFc3A=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"funcionarioId\": 7,\r\n    \"primerNombre\": \"MARIA\",\r\n    \"segundoNombre\": \"DEL CARMEN\",\r\n    \"primerApellido\": \"CONTRERAS\",\r\n    \"segundoApellido\": \"ROJAS\",\r\n    \"sexoId\": 1,\r\n    \"parentescoId\": 5,\r\n    \"dependiente\": true,\r\n    \"fechaNacimiento\": \"2000/01/15\",\r\n    \"tipoDocumentoId\": 1,\r\n    \"numeroDocumento\": \"3838\",\r\n    \"nivelEducativoId\": 1,\r\n    \"telefonoFijo\": \"2659865\",\r\n    \"celular\": \"33333\",\r\n    \"divisionPoliticaNivel2Id\": 102,\r\n    \"direccion\": \"assdfsdf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/InformacionFamiliares",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"InformacionFamiliares"
+					]
+				},
+				"description": "Crear registro de  informacion  la familiar asociada al funcionario"
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Informacion Familiar",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cliente",
+						"value": "Tm9taW5hTW92aWxBbGNhbm9zQ29sb21iaWFFc3A=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\" :3, \r\n\t\"funcionarioId\": 7,\r\n    \"primerNombre\": \"MARIA\",\r\n    \"segundoNombre\": \"DEL CARMEN\",\r\n    \"primerApellido\": \"CONTRERAS\",\r\n    \"segundoApellido\": \"ROJAS\",\r\n    \"sexoId\": 1,\r\n    \"parentescoId\": 4,\r\n    \"dependiente\": true,\r\n    \"fechaNacimiento\": \"2000/01/15\",\r\n    \"tipoDocumentoId\": 1,\r\n    \"numeroDocumento\": \"3\",\r\n    \"nivelEducativoId\": 1,\r\n    \"telefonoFijo\": \"2659865\",\r\n    \"celular\": \"3012454997\",\r\n    \"divisionPoliticaNivel2Id\": 102,\r\n    \"direccion\": \"mi casa\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/InformacionFamiliares/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"InformacionFamiliares",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Informacion Familiar",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/InformacionFamiliares/4",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"InformacionFamiliares",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizacion Parcial Informacion Familiar",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cliente",
+						"value": "Tm9taW5hTW92aWxBbGNhbm9zQ29sb21iaWFFc3A=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\" :3, \r\n\t\"Estado\":\"Rechazado\",\r\n\t\"justificacion\":\"Una prueba de requerir Justificacion\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/InformacionFamiliares/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"InformacionFamiliares",
+						"3"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

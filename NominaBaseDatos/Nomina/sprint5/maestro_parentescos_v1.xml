@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_parentescos_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[Parentesco] ON 
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 1, 'Activo', GETDATE(), GETDATE(), NULL, 'Hijo/a', 'Consanguinidad', '1', 30)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 2, 'Activo', GETDATE(), GETDATE(), NULL, 'Padre', 'Consanguinidad', '1', 1)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 3, 'Activo', GETDATE(), GETDATE(), NULL, 'Madre', 'Consanguinidad', '1', 1)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 4, 'Activo', GETDATE(), GETDATE(), NULL, 'Nieto/a', 'Consanguinidad', '2', 30)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 5, 'Activo', GETDATE(), GETDATE(), NULL, 'Hermano/a', 'Consanguinidad', '3', 30)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 6, 'Activo', GETDATE(), GETDATE(), NULL, 'Abuelo/a', 'Consanguinidad', '1', 4)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 7, 'Activo', GETDATE(), GETDATE(), NULL, 'Biznieto/a', 'Consanguinidad', '3', 30)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 8, 'Activo', GETDATE(), GETDATE(), NULL, 'Sobrino/a', 'Consanguinidad', '3', 30)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 9, 'Activo', GETDATE(), GETDATE(), NULL, 'Tïo/a', 'Consanguinidad', '3', 30)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 10, 'Activo', GETDATE(), GETDATE(), NULL, 'Bisabuelo/a', 'Consanguinidad', '3', 8)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 11, 'Activo', GETDATE(), GETDATE(), NULL, 'Primo/a hermano/a', 'Consanguinidad', '4', 30)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 12, 'Activo', GETDATE(), GETDATE(), NULL, 'Cónyuge', 'Afinidad', '1', 1)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 13, 'Activo', GETDATE(), GETDATE(), NULL, 'Yerno', 'Afinidad', '1', 30)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 14, 'Activo', GETDATE(), GETDATE(), NULL, 'Nuera', 'Afinidad', '1', 30)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 15, 'Activo', GETDATE(), GETDATE(), NULL, 'Suegro/a', 'Afinidad', '1', 2)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 16, 'Activo', GETDATE(), GETDATE(), NULL, 'Hijastro/a', 'Afinidad', '1', 30)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 17, 'Activo', GETDATE(), GETDATE(), NULL, 'Cuñado/a', 'Afinidad', '2', 30)
+GO
+INSERT [dbo].[Parentesco] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [Tipo], [Grado], [NumeroPersonasPermitidas]) VALUES ('sistema', 18, 'Activo', GETDATE(), GETDATE(), NULL, 'Otro', 'Afinidad', '3', 1)
+GO
+SET IDENTITY_INSERT [dbo].[Parentesco] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[Parentesco] WHERE Id BETWEEN 1 AND 18;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,94 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <div class="spiner" *ngIf="espera">
+        <mat-spinner></mat-spinner>
+    </div>
+    <h1 mat-dialog-title>Generar archivo tipo 1 PILA</h1>
+
+
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo de acción</mat-label>
+            <mat-select formControlName="tipoAccionId">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of tipoAcciones" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor=" let error of form.get('tipoAccionId').errors | keyvalue ">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{ error.key }}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Tipo de acción que toma la compañía.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" *ngIf="mostrar">
+            <mat-label>Fecha inicio</mat-label>
+            <input matInput [matDatepicker]="fechaInicial" (focus)="fechaInicial.open()" (click)="fechaInicial.open()"
+                formControlName="fechaInicial">
+            <mat-datepicker-toggle matPrefix [for]="fechaInicial"> </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaInicial></mat-datepicker>
+            <mat-error *ngFor="let error of form.get('fechaInicial').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix
+                matTooltip="Fecha de inicio del concordato, reestructuración, liquidación o cese de actividades.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="mostrar">
+            <mat-label>Fecha fin</mat-label>
+            <input matInput [matDatepicker]="fechaFinal" (focus)="fechaFinal.open()" (click)="fechaFinal.open()"
+                formControlName="fechaFinal">
+            <mat-datepicker-toggle matPrefix [for]="fechaFinal"> </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaFinal></mat-datepicker>
+            <mat-error *ngFor="let error of form.get('fechaFinal').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Fecha en la que terminó actividades comerciales.">info
+            </mat-icon>
+        </mat-form-field>
+
+
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="finalValidacion(submit)" color="accent">
+            <mat-icon>save_alt</mat-icon>
+            <span>Generar</span>
+        </button>
+    </div>
+</form>

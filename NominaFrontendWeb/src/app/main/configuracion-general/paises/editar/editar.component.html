@@ -1,0 +1,66 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+	<h1 mat-dialog-title>Editar país</h1>
+	<div mat-dialog-content fusePerfectScrollbar>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Código</mat-label>
+			<input matInput formControlName="codigo" required type="number">
+			<mat-error *ngFor="let error of objToArray(form.get('codigo').errors)">
+				<div [ngSwitch]="error">
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Código del país, emitido por la DIAN.">info</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Nombre</mat-label>
+			<input matInput formControlName="nombre" required>
+			<mat-error *ngFor="let error of objToArray(form.get('nombre').errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Nombre del país, emitido por la DIAN.">info</mat-icon>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Nacionalidad</mat-label>
+			<input matInput formControlName="nacionalidad" required>
+			<mat-error *ngFor="let error of objToArray(form.get('nacionalidad').errors)">
+				<div [ngSwitch]="error">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template [ngSwitchCase]="'pattern'">
+						El campo debe ser alfabético con slash.
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix matTooltip="Nombre de la nacionalidad según el país.">info</mat-icon>
+		</mat-form-field>
+
+	</div>
+
+	<div mat-dialog-actions>
+		<button mat-raised-button type="button" (click)="dialogRef.close() ">
+			<mat-icon>cancel</mat-icon>
+			<span>Cancelar</span>
+		</button>
+		<button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+			<mat-icon>save</mat-icon>
+			<span>Guardar</span>
+		</button>
+	</div>
+
+</form>

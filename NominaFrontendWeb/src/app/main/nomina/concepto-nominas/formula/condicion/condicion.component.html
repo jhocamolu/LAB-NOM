@@ -1,0 +1,116 @@
+<div class="contenido">
+    <h1 mat-dialog-title>Condición</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+        <div>
+            <h3>
+                Prueba lógica 
+                <mat-icon matSuffix matTooltip="Es cualquier valor o expresión que pueda evaluarse como verdadero o falso.">info
+                </mat-icon>
+            </h3>
+            
+            <div>
+                <mat-toolbar>
+                    <mat-toolbar-row>
+
+                        <button mat-raised-button [matMenuTriggerFor]="insertarCondicionMenu">
+                            <mat-icon>add</mat-icon>
+                            <span>Insertar</span>
+                            <mat-icon class="s-16 mat-icon pl-4">keyboard_arrow_down</mat-icon>
+                        </button>
+                        <mat-menu #insertarCondicionMenu="matMenu">
+                            <button mat-menu-item (click)="conceptoHandle($event, condicion)">
+                                Concepto
+                            </button>
+                            <button mat-menu-item (click)="funcionHandle($event, condicion)">
+                                Función
+                            </button>
+                        </mat-menu>
+
+                    </mat-toolbar-row>
+                </mat-toolbar>
+                <div class="area" id="condicion" #condicion (keydown)="keydownHandle($event, condicion)" contenteditable="true">
+
+                </div>
+
+            </div>
+        </div>
+        <br/>
+        <div>
+            <h3>
+                Valor si verdadero
+                <mat-icon matSuffix matTooltip="Es el valor que se devolverá si prueba lógica es verdadero.">info
+                </mat-icon>
+            </h3>
+            <div>
+                <mat-toolbar>
+                    <mat-toolbar-row >
+
+                        <button mat-raised-button [matMenuTriggerFor]="insertarVerdaderoMenu">
+                            <mat-icon>add</mat-icon>
+                            <span>Insertar</span>
+                            <mat-icon class="s-16 mat-icon pl-4">keyboard_arrow_down</mat-icon>
+                        </button>
+
+                        <mat-menu #insertarVerdaderoMenu="matMenu">
+                            <button mat-menu-item (click)="conceptoHandle($event, verdadero)">
+                                Concepto
+                            </button>
+                            <button mat-menu-item (click)="funcionHandle($event, verdadero)">
+                                Función
+                            </button>
+                        </mat-menu>
+
+                    </mat-toolbar-row>
+                </mat-toolbar>
+
+                <div class="area" id="verdadero" #verdadero (keydown)="keydownHandle($event, verdadero)" contenteditable="true">
+
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div>
+            <h3>
+                Valor si falso
+                <mat-icon matSuffix matTooltip="Es el valor que se devolverá si prueba lógica es falso.">info
+                </mat-icon>
+            </h3>
+            <div>
+                <mat-toolbar>
+                    <mat-toolbar-row>
+
+                        <button mat-raised-button [matMenuTriggerFor]="insertarFalsoMenu">
+                            <mat-icon>add</mat-icon>
+                            <span>Insertar</span>
+                            <mat-icon class="s-16 mat-icon pl-4">keyboard_arrow_down</mat-icon>
+                        </button>
+                        <mat-menu #insertarFalsoMenu="matMenu">
+                            <button mat-menu-item (click)="conceptoHandle($event,falso)">
+                                Concepto
+                            </button>
+                            <button mat-menu-item (click)="funcionHandle($event,falso)">
+                                Función
+                            </button>
+                        </mat-menu>
+
+                    </mat-toolbar-row>
+                </mat-toolbar>
+                <div class="area" id="falso" #falso (keydown)="keydownHandle($event, falso)" contenteditable="true">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div mat-dialog-actions fxLayout="row " fxLayoutAlign="end center ">
+        <button mat-raised-button type="button" (click)="dialogRef.close()">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="isInvalid()" color="accent" (click)="agregarHandle($event)">
+            <mat-icon>save</mat-icon>
+            <span>Agregar</span>
+        </button>
+
+    </div>
+</div>

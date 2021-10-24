@@ -1,0 +1,278 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+    <h1 mat-dialog-title>Contrato N° {{element.numeroContrato}}</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+        <mat-list>
+            <mat-list-item>
+                <div class="list-item-title">
+                    <mat-icon>credit_card</mat-icon>
+                    <h2>Datos de contrato</h2>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Dependencia
+                            <mat-icon class="s-16" matSuffix matTooltip="Área de la compañía a la que pertenece el funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{element.cargoDependencia?.dependencia.nombre}}</p>
+                    </div>
+                    <div>
+                        <h3>Cargo
+                            <mat-icon class="s-16" matSuffix matTooltip="Puesto de trabajo al que pertenece el funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.cargoDependencia?.cargo.nombre}}</p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Fecha de inicio
+                            <mat-icon class="s-16" matSuffix matTooltip="Fecha en la que se da comienzo al contrato.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.fechaInicio | date:'dd / LL / yyyy'}} </p>
+                    </div>
+                    <div>
+                        <h3>Fecha de finalización
+                            <mat-icon class="s-16" matSuffix matTooltip="Fecha en la que finaliza el contrato.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.fechaFinalizacion | date:'dd / LL / yyyy'}} </p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Fecha de terminación
+                            <mat-icon class="s-16" matSuffix matTooltip="Fecha en la que finaliza el contrato.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.fechaTerminacion != null ? (element.fechaTerminacion | date:'dd / LL / yyyy') : 'N/A'}}
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Estado contrato
+                            <mat-icon class="s-16" matSuffix matTooltip="Estado actual del contrato.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.estado}} </p>
+                    </div>
+                </div>
+            </mat-list-item>
+
+            <mat-list-item>
+                <div class="list-item-title">
+                    <mat-icon>credit_card</mat-icon>
+                    <h2>Datos laborales</h2>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Sueldo
+                            <mat-icon class="s-16" matSuffix matTooltip="Salario básico que devenga el funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.sueldo | currency:'COP':'symbol-narrow':'4.2-2': 'co'}} </p>
+                    </div>
+                    <div>
+                        <h3>Centro operativo
+                            <mat-icon class="s-16" matSuffix matTooltip="Ubicación de la compañía en donde trabaja el funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.centroOperativo?.nombre}} </p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Departamento
+                            <mat-icon class="s-16" matSuffix matTooltip="Departamento del país donde trabaja el funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.divisionPoliticaNivel2?.divisionPoliticaNivel1.nombre}} </p>
+                    </div>
+                    <div>
+                        <h3>Municipio
+                            <mat-icon class="s-16" matSuffix matTooltip="Municipio donde trabaja el funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.divisionPoliticaNivel2.nombre}} </p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Centro de costo
+                            <mat-icon class="s-16" matSuffix matTooltip="Centro de costo que lleva el funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.centroCosto.nombre}} </p>
+                    </div>
+                    <div>
+                        <h3>Forma de pago
+                            <mat-icon class="s-16" matSuffix matTooltip="Medio por el cual se le realiza el pago al funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.formaPago.nombre}} </p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Moneda
+                            <mat-icon class="s-16" matSuffix matTooltip="Tipo de moneda en la que se le paga el sueldo al funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.tipoMoneda.nombre}} </p>
+                    </div>
+                    <div>
+                        <h3>Tipo de cuenta
+                            <mat-icon class="s-16" matSuffix matTooltip="Tipo de cuenta bancaria del funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.tipoCuenta?.nombre}} </p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>N° cuenta
+                            <mat-icon class="s-16" matSuffix matTooltip="Número de la cuenta bancaria del funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.numeroCuenta}} </p>
+                    </div>
+                    <div>
+                        <h3>Entidad financiera
+                            <mat-icon class="s-16" matSuffix matTooltip="Entidad financiera que recibirá el pago del funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.entidadFinanciera?.nombre}} </p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Jornada laboral
+                            <mat-icon class="s-16" matSuffix matTooltip="Jornada de trabajo del funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{element.jornadaLaboral.nombre}} </p>
+                    </div>
+                    <div>
+                        <h3>Centro de trabajo
+                            <mat-icon class="s-16" matSuffix matTooltip="Centro de trabajo establecido para el funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p *ngFor="let itemContrato of element.contratoCentroTrabajos">
+                            {{itemContrato.fechaFin == null ? ( itemContrato.centroTrabajo?.nombre ): 'N/A' }}
+                         </p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>Empleado de confianza
+                            <mat-icon class="s-16" matSuffix matTooltip="Especifica cuando el funcionario es un empleado de confianza para la compañía.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p *ngIf="element.empleadoConfianza == false ">No </p>
+                        <p *ngIf="element.empleadoConfianza == true ">Si </p>
+                    </div>
+                    <div>
+                        <h3>Recibe dotación
+                            <mat-icon class="s-16" matSuffix matTooltip="Especifica si el funcionario recibe o no dotación.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p *ngIf="element.recibeDotacion == false ">No </p>
+                        <p *ngIf="element.recibeDotacion == true ">Si </p>
+                    </div>
+                </div>
+            </mat-list-item>
+
+            <mat-list-item>
+                <div class="list-item-title">
+                    <mat-icon>credit_card</mat-icon>
+                    <h2>Impuestos</h2>
+                </div>
+
+                <div>
+                    <div>
+                        <h3>Procedimientos de retenciones
+                            <mat-icon class="s-16" matSuffix matTooltip="Procedimiento de retención de impuestos del funcionario.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{ element.procedimientoRetencio }} </p>
+                    </div>
+                </div>
+            </mat-list-item>
+
+            <mat-list-item>
+                <div class="list-item-title">
+                    <mat-icon>credit_card</mat-icon>
+                    <h2>Datos de seguridad social</h2>
+                </div>
+                <div class="w-100-p" fxLayout="row">
+                    <div class="w-100-p" fxLayout="column" fxLayoutGap="30px" fxLayoutAlign="start">
+                        <table class="simple">
+                            <thead>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Nombre</th>
+                                    <th>Fecha vinculación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of element.contratoAdministradoras">
+
+                                    <td>
+                                        {{ item?.administradora?.tipoAdministradora?.codigo}}
+                                    </td>
+                                    <td>{{item.administradora?.nombre}}</td>
+                                    <td>
+                                        {{item.fechaInicio | date:'dd / LL / yyyy' }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </mat-list-item>
+
+        </mat-list>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

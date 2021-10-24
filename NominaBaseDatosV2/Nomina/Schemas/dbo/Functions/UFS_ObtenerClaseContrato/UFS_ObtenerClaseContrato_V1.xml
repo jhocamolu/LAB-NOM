@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_ObtenerClaseContrato_V1">
+<comment>HU056</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerClaseContrato]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerClaseContrato];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 13/05/2020
+-- Description: Permite obtener la clase de contrato para una constante determinada
+--
+-- Parameters:
+--   Constante:	Identficador de la clase que se requiere
+--
+-- Return:
+--	   Nombre:	Nombre de la clase de contrato
+-- ==========================================================================================
+
+CREATE FUNCTION [dbo].[UFS_ObtenerClaseContrato]
+(
+-- Add the parameters for the function here
+@Constante VARCHAR(255)
+)
+RETURNS VARCHAR(255)
+AS
+     BEGIN
+
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         -- Declare the return variable here
+         DECLARE @Nombre VARCHAR(255);
+         DECLARE @ClaseContratoNoIntegral VARCHAR(255);
+         DECLARE @ClaseContratoIntegral VARCHAR(255);
+         DECLARE @ClaseContratoAprendizaje VARCHAR(255);
+         DECLARE @ClaseContratoPracticante VARCHAR(255);
+         DECLARE @ClaseContratoVariable VARCHAR(255);
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+         SELECT @ClaseContratoNoIntegral = vccc.[NOINTEGRAL],
+                @ClaseContratoIntegral = vccc.[INTEGRAL],
+                @ClaseContratoAprendizaje = vccc.[APRENDIZAJE],
+                @ClaseContratoPracticante = vccc.[PRACTICANTE],
+                @ClaseContratoVariable = vccc.[VARIABLE]
+         FROM [util].[VW_ConstanteClaseContrato] AS vccc;
+
+         IF @Constante = 'Integral'
+         BEGIN
+             SET @Nombre = @ClaseContratoIntegral;
+         END;
+         ELSE
+         BEGIN
+             IF @Constante = 'NoIntegral'
+             BEGIN
+                 SET @Nombre = @ClaseContratoNoIntegral;
+             END;
+             ELSE
+             BEGIN
+                 IF @Constante = 'Aprendizaje'
+                 BEGIN
+                     SET @Nombre = @ClaseContratoAprendizaje;
+                 END;
+                 ELSE
+                 BEGIN
+                     IF @Constante = 'Practicante'
+                     BEGIN
+                         SET @Nombre = @ClaseContratoPracticante;
+                     END;
+                     ELSE
+                     BEGIN
+                         IF @Constante = 'Variable'
+                         BEGIN
+                             SET @Nombre = @ClaseContratoVariable;
+                         END;
+                     END;
+                 END;
+             END;
+         END;
+
+         RETURN @Nombre;
+     END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerClaseContrato]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerClaseContrato]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

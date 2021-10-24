@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ObtenerDiasApagar_v2_1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+GO
+IF OBJECT_ID('dbo.USP_ObtenerDiasApagar', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerDiasApagar as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 17/03/2020
+-- Description: Pemite obtener los días a pagar del funcionario en un rango de tiempo.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @FechaInicial:				Fecha inicial del período.
+--   @FechaFinal:				Fecha final del período.
+--
+-- Returns:						
+--	 Dias:						Días a pagar
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerDiasApagar]  (@FuncionarioId INT, @FechaInicial DATE, @FechaFinal DATE )  
+AS
+BEGIN
+	--------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@FechaInicial=', CONVERT(VARCHAR, @FechaInicial), '&', '@FechaFinal=', CONVERT(VARCHAR, @FechaFinal));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	
+	DECLARE @DiasApagar INT;
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	BEGIN TRY
+
+		EXEC @DiasApagar = [dbo].[USP_ObtenerDiasFuncionario]@FuncionarioId,@FechaInicial,@FechaFinal,'APAGAR'
+		RETURN @DiasApagar;
+
+	END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+GO
+/****** Objeto: SqlProcedure [dbo].[USP_ObtenerDiasApagar] Fecha del script: 21/04/2020 9:24:42 p. m. ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 17/03/2020
+-- Description: Pemite obtener los días a pagar del funcionario en un rango de tiempo.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @FechaInicial:				Fecha inicial del período.
+--   @FechaFinal:				Fecha final del período.
+--
+-- Returns:						
+--	 Dias:						Días a pagar
+-- ==========================================================================================
+ALTER PROCEDURE USP_ObtenerDiasApagar  (@FuncionarioId INT, @FechaInicial DATE, @FechaFinal DATE )  
+AS
+BEGIN
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	
+	DECLARE @DiasApagar INT;
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	
+	EXEC @DiasApagar = [dbo].[USP_ObtenerDiasFuncionario]@FuncionarioId,@FechaInicial,@FechaFinal,'APAGAR'
+
+	RETURN @DiasApagar;
+
+END
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

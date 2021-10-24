@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="TR_AfectarNominaConEmbargosSubperiodo_V1">
+<comment>HU056</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.TR_AfectarNominaConEmbargosSubperiodo', 'TR') IS NULL
+BEGIN
+    EXECUTE ('CREATE TRIGGER dbo.TR_AfectarNominaConEmbargosSubperiodo ON dbo.EmbargoSubperiodo AFTER INSERT as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 17/09/2020
+-- Description: Cargar Embargos en liquidación de nómina
+-- ==========================================================================================
+ALTER TRIGGER [dbo].[TR_AfectarNominaConEmbargosSubperiodo] ON [dbo].[EmbargoSubperiodo]
+AFTER INSERT, UPDATE
+AS
+     BEGIN
+
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+         DECLARE @Parametros VARCHAR(MAX)= ''; -- = CONCAT('@Columna1=', CONVERT(VARCHAR, inserted.Columna1), '&', '@Columna2=', CONVERT(VARCHAR, @inserted.Columna2))
+         DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         DECLARE @AuditoriaActivo VARCHAR(255);
+         DECLARE @NominaModificada VARCHAR(255);
+         DECLARE @NominaLiquidada VARCHAR(255);
+         DECLARE @NominaFuncionarioAsignado VARCHAR(255);
+         DECLARE @NominaId INT;
+         DECLARE @FuncionarioId INT;
+         DECLARE @NominaFuncionarioId INT;
+         DECLARE @FechaInicio DATE;
+         DECLARE @FechaFinal DATE;
+         DECLARE @SubperiodoId INT;
+         DECLARE @UsuarioOperacion VARCHAR(255);
+         DECLARE @NovedadId INT;
+         DECLARE @ModuloSistema VARCHAR(255)=
+         (
+             SELECT vcms.EMBARGOS
+             FROM util.VW_ConstanteModuloSistema AS vcms
+         );
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+         BEGIN TRY
+
+             -- Consulta de estados
+             SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+                    @NominaModificada = vce.NOMINA_MODIFICADA,
+                    @NominaLiquidada = vce.NOMINA_LIQUIDADA,
+                    @NominaFuncionarioAsignado = vce.NOMINAFUNCIONARIO_ASIGNADO
+             FROM util.VW_ConstanteEstado AS vce;
+
+             -- Inicio de la transacción
+             BEGIN TRAN AfectarLiquidacionNomina;
+
+             -- Obtengo todos los registros asociados a las novedades afectadas
+             DECLARE CUR_Novedades CURSOR LOCAL
+             FOR SELECT DISTINCT
+                        ins.EmbargoId,
+                        emb.FuncionarioId,
+                        nom.Id,
+                        nof.Id,
+                        nom.FechaFinal,
+                        nom.SubperiodoId,
+                        CASE
+                            WHEN ins.ModificadoPor IS NULL
+                            THEN ins.CreadoPor
+                            ELSE ins.ModificadoPor
+                        END
+                 FROM inserted AS ins
+					  INNER JOIN dbo.Embargo emb ON (ins.EmbargoId = emb.Id)
+                      INNER JOIN dbo.NominaFuncionario AS nof ON(emb.FuncionarioId = nof.FuncionarioId)
+                      INNER JOIN dbo.Nomina AS nom ON(nof.NominaId = nom.Id)
+                 WHERE nom.Estado IN(@NominaModificada, @NominaLiquidada)
+                      AND EXISTS
+                 (
+                     SELECT tlm.Id
+                     FROM dbo.TipoLiquidacionModulo AS tlm
+                     WHERE tlm.TipoLiquidacionId = nom.TipoLiquidacionId
+                           AND tlm.Modulo = @ModuloSistema
+                           AND tlm.EstadoRegistro = @AuditoriaActivo
+                 )
+                      AND nof.EstadoRegistro = @AuditoriaActivo
+                      AND nom.EstadoRegistro = @AuditoriaActivo;
+
+             OPEN CUR_Novedades;
+
+             FETCH NEXT FROM CUR_Novedades INTO @NovedadId, @FuncionarioId, @NominaId, @NominaFuncionarioId, @FechaFinal, @SubperiodoId, @UsuarioOperacion;
+
+             WHILE @@FETCH_STATUS = 0
+
+             BEGIN
+
+                 -- Se elimina la novedad cargada en la nómina
+                 EXEC [util].[USP_EliminarNovedadNomina]
+                      @NominaId = @NominaId,
+                      @ModuloSistema = @ModuloSistema,
+                      @NovedadId = @NovedadId,
+                      @UsuarioOperacion = @UsuarioOperacion;
+
+                 -- Cargo nuevamente la novedad
+                 EXEC [dbo].USP_CargarNovedadesEmbargos
+                      @NominaId,
+                      @FuncionarioId,
+                      @SubperiodoId,
+                      @NovedadId,
+                      @UsuarioOperacion;
+
+                 -- Se cambia el estado del funcionario a Asignado
+                 UPDATE dbo.NominaFuncionario
+                   SET
+                       Estado = @NominaFuncionarioAsignado
+                 WHERE Id = @NominaFuncionarioId;
+
+                 -- Se cambia el estado de la nómina a Modificada
+                 UPDATE dbo.Nomina
+                   SET
+                       Estado = @NominaModificada
+                 WHERE Id = @NominaId;
+
+                 FETCH NEXT FROM CUR_Novedades INTO @NovedadId, @FuncionarioId, @NominaId, @NominaFuncionarioId, @FechaFinal, @SubperiodoId, @UsuarioOperacion;
+             END;
+
+             CLOSE CUR_Novedades;
+
+             DEALLOCATE CUR_Novedades;
+
+             -- Cierre de la transacción
+             IF @@TRANCOUNT > 0
+             BEGIN
+                 IF XACT_STATE() = 1
+                 BEGIN
+                     COMMIT TRAN AfectarLiquidacionNomina;
+                 END;
+                 ELSE
+                 BEGIN
+                     EXEC util.USP_GenerarExcepcion
+                          50000,
+                          'No se puede confirmar la transacción.  Error desconocido.';
+                 END;
+             END;
+         END TRY
+         BEGIN CATCH
+
+             -- Rollback de la transacción
+             IF XACT_STATE() <> 0
+                AND @@TRANCOUNT > 0
+             BEGIN
+                 ROLLBACK;
+             END;
+
+             -- Se almacena la información del error
+             EXEC util.USP_Registrarerror
+                  @NombreObjeto,
+                  @Parametros;
+
+             -- Se lanza la excepción
+             EXEC util.USP_LanzarExcepcion;
+         END CATCH;
+
+     END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TRIGGER [dbo].[TR_AfectarNominaConEmbargosSubperiodo];
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

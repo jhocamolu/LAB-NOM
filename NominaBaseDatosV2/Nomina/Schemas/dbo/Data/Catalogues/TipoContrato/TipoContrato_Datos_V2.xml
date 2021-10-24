@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoContrato_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    UPDATE [dbo].[TipoContrato] SET [Clase] ='NoIntegral'  WHERE ID = 1;
+    
+
+    UPDATE [dbo].[TipoContrato] SET [Clase] ='NoIntegral'  WHERE ID = 2;
+    
+
+    UPDATE [dbo].[TipoContrato] SET [Clase] ='Aprendizaje'  WHERE ID = 3;
+    
+
+    UPDATE [dbo].[TipoContrato] SET [Clase] ='NoIntegral'  WHERE ID = 4;
+    
+
+    UPDATE [dbo].[TipoContrato] SET [Clase] ='Integral'  WHERE ID = 5;
+    
+
+    UPDATE [dbo].[TipoContrato] SET [Clase] ='NoIntegral'  WHERE ID = 6;
+    
+
+    UPDATE [dbo].[TipoContrato] SET [Clase] ='NoIntegral'  WHERE ID = 7;
+    
+
+    UPDATE [dbo].[TipoContrato] SET [Clase] ='Practicante'  WHERE ID = 8;
+    
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    UPDATE [dbo].[TipoContrato] SET [Clase] =NULL   WHERE ID <= 8;
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="USP_ProcesarContabilizacionTransferencia_V1">
+<comment>HU057</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ProcesarContabilizacionTransferencia', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ProcesarContabilizacionTransferencia as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Jesus Albeiro Gaviria R
+-- Create date: 15/02/2021
+-- Description: Pemite realizar la contabilización de las transferencias de credito, 
+--  este proceso se llama desde USP_AprobarNomina.
+--
+-- Parameters:
+--  @NominaId:			Identificador de la nómina que se va a contabilizar
+--  @TipoLiquidacionId:	Identificador del tipo de Nomina que se va a contabilizar
+--  @UsuarioOperacion:	Usuario que realiza la operación
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ProcesarContabilizacionTransferencia]	@NominaId          	INT,
+														 		  	@TipoLiquidacionId	INT,
+                                                         		  	@UsuarioOperacion 	VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@TipoLiquidacionId=', CONVERT(VARCHAR, @TipoLiquidacionId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables Global
+    --------------------------------------------------------------------------
+	DECLARE @AuditoriaActivo VARCHAR(255);
+	DECLARE @NaturalezaCredito VARCHAR(255);
+	DECLARE @NaturalezaDebito VARCHAR(255);
+	DECLARE @NitAlcanos VARCHAR(255);
+	DECLARE @TotalNetoPagar money;
+	DECLARE @tablaComprobante table(CentroCostoId int, CuentaContableId int, Naturaleza varchar(255));
+	DECLARE @tablaFuncionario table(NominaFuncionarioId int, FuncionarioId int, NetoPagar money,Nit varchar(255));
+
+	SELECT @AuditoriaActivo = ces.AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado AS ces;
+	SELECT @NaturalezaDebito = DEBITO, @NaturalezaCredito = CREDITO from util.VW_ConstanteNaturalezaContable;
+	
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+    	
+    	INSERT INTO @tablaComprobante
+			SELECT CentroCostoId, CuentaContableId, Naturaleza FROM TipoLiquidacionComprobante
+			WHERE TipoComprobante = 'Transferencia'	
+			AND TipoLiquidacionId = @TipoLiquidacionId;
+			
+		IF (SELECT COUNT(*)  FROM @tablaComprobante) != 2
+			AND  (SELECT COUNT(*)  FROM @tablaComprobante where Naturaleza = 'Debito' ) != 1
+			AND  (SELECT COUNT(*)  FROM @tablaComprobante where Naturaleza = 'Credito' ) != 1
+		BEGIN
+			SET @MensajeExcepcion = 'Parametrizacion erronea';
+		    SET @Parametros += @MensajeExcepcion;
+		    EXEC util.USP_GenerarExcepcion 
+		      50000, 
+		      @MensajeExcepcion;
+		END
+		
+		
+		INSERT INTO @tablaFuncionario
+			SELECT NominaFuncionario.Id, nominaFuncionario.FuncionarioId, nominaFuncionario.NetoPagar, CONCAT(datoActual.Nit,'-', datoActual.DigitoVerificacion)
+			FROM NominaFuncionario nominaFuncionario
+			INNER JOIN Contrato contrato ON nominaFuncionario.FuncionarioId = contrato.FuncionarioId
+										 AND contrato.EstadoRegistro = @AuditoriaActivo
+										 AND contrato.FormaPagoId = 1--Transferencia electrónica --------------------------------
+			INNER JOIN VW_FuncionarioDatoActual datoActual ON  nominaFuncionario.FuncionarioId = datoActual.Id
+			WHERE nominaFuncionario.NominaId = @NominaId
+			AND nominaFuncionario.NetoPagar > 0
+			AND nominaFuncionario.EstadoRegistro = @AuditoriaActivo;
+		
+		IF(SELECT COUNT(*) FROM @tablaFuncionario) = 0
+			BEGIN
+				SET @MensajeExcepcion = 'No se encontraron usuarios en la nomina';
+			    SET @Parametros += @MensajeExcepcion;
+			    EXEC util.USP_GenerarExcepcion 
+			      50000, 
+			      @MensajeExcepcion;
+			END
+			
+		SELECT @TotalNetoPagar = SUM(NetoPagar) FROM @tablaFuncionario;
+		SELECT @NitAlcanos =CONCAT(Nit,'-',DigitoVerificacion) FROM InformacionBasica;
+
+        -- Inicio de la transacción
+        BEGIN TRAN ProcesarContabilizacionNomina;
+		
+       		--Partida debito	
+	        INSERT INTO NominaContabilidad (TipoComprobante, NominaFuncionarioId, Nit, CentroCostoId, CuentaContableId, Fecha, Debito, EstadoRegistro,CreadoPor, FechaCreacion)
+				SELECT 'Transferencia', NominaFuncionarioId,Nit,CentroCostoId,CuentaContableId, GETDATE(), NetoPagar, @AuditoriaActivo, @UsuarioOperacion,GETDATE()
+				FROM @tablaComprobante comprobante,
+					 @tablaFuncionario
+				WHERE comprobante.Naturaleza = @NaturalezaDebito;
+			 
+			--Partida Credito
+			INSERT INTO NominaContabilidad (TipoComprobante, Nit, CentroCostoId, CuentaContableId, Fecha, Credito, EstadoRegistro,CreadoPor, FechaCreacion)
+				SELECT 'Transferencia', @NitAlcanos,CentroCostoId,CuentaContableId, GETDATE(), @TotalNetoPagar, @AuditoriaActivo, @UsuarioOperacion,GETDATE()
+				FROM @tablaComprobante comprobante
+				WHERE comprobante.Naturaleza = @NaturalezaCredito;
+				
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN ProcesarContabilizacionNomina;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+    
+
+
+
+
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ProcesarContabilizacionTransferencia];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

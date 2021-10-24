@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="HU031_v1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+	SET ANSI_NULLS ON
+	GO
+	SET QUOTED_IDENTIFIER ON
+	GO
+
+	--=====================================================================================
+	-- Author:      desarrollador5, Jesus Albeiro Gaviria R.
+	-- Create date: Febrero 12 del 2020
+	-- Description: Vista para generar los datos contractuales del funcionario.
+	--				Se buscan todos los funcionarios cuando el estado registro sea activo,
+	--				se cruza con el ultimo contrato cuando la fecha de inicio sea menor a la fecha actual 
+	--				y se busca el ultimo otroSi para ese contrato, cuando la fecha de aplicacion 
+	--				sea menor a la fecha actual
+	--=====================================================================================
+	CREATE VIEW [dbo].[VW_FuncionarioDatoActual]
+	AS
+
+	SELECT Funcionario.*, contratoDatos.Id ContratoId , otroSiDatos.Id ContratoOtroSiId
+	FROM Funcionario
+	LEFT JOIN (
+		SELECT Contrato.* 
+		FROM Contrato JOIN (
+			SELECT MAX(FechaInicio) AS FechaInicio , FuncionarioId 
+			FROM Contrato
+			WHERE  FechaInicio  <= GETDATE()
+			AND EstadoRegistro = 'Activo'
+			GROUP BY FuncionarioId 
+		) contratoActual ON Contrato.FuncionarioId = contratoActual.FuncionarioId AND 
+							Contrato.FechaInicio = contratoActual.FechaInicio
+		WHERE Contrato.EstadoRegistro = 'Activo'
+	) contratoDatos On Funcionario.Id = contratoDatos.FuncionarioId
+	LEFT JOIN (
+		SELECT ContratoOtroSi.* 
+		FROM ContratoOtroSi JOIN (
+			SELECT MAX(FechaAplicacion) AS FechaAplicacion , ContratoId 
+			FROM ContratoOtroSi
+			WHERE  FechaAplicacion <= GETDATE() 
+			AND EstadoRegistro = 'Activo'
+			GROUP BY ContratoId 
+		) otroSiActual ON ContratoOtroSi.ContratoId = otroSiActual.ContratoId AND 
+						ContratoOtroSi.FechaAplicacion = otroSiActual.FechaAplicacion
+		WHERE ContratoOtroSi.EstadoRegistro = 'Activo'
+	) otroSiDatos On contratoDatos.Id = otroSiDatos.ContratoId
+	WHERE Funcionario.EstadoRegistro = 'Activo'
+	]]>
+</sql>
+
+<rollback>
+    DROP VIEW [dbo].[VW_FuncionarioDatoActual]
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestada" id="SubtipoCotizante_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[SubtipoCotizante] ON
+GO
+INSERT [dbo].[SubtipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (1,'0','Cuando no aplique ningún subtipo de cotizante','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[SubtipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (2,'1','Dependiente pensionado por vejez, jubilación o invalidez activo','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[SubtipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (3,'2','Independiente pensionado por vejez, jubilación o invalidez activo','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[SubtipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (4,'3','Cotizante no obligado a cotización a pensiones por edad','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[SubtipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (5,'4','Cotizante con requisitos cumplidos para pensión','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[SubtipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (6,'5','Cotizante a quien se le ha reconocido indemnización sustitutiva o
+ devolución de saldos','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[SubtipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (7,'6','Cotizante perteneciente a un régimen de exceptuado de pensiones a
+ entidades autorizadas para recibir aportes exclusivamente de un grupo
+ de sus propios trabajadores','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[SubtipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (8,'9','Cotizante pensionado con mesada superior a 25 SMLMV','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[SubtipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (9,'10','Residente en el exterior afiliado voluntario al Sistema General de
+ Pensiones y/o afiliado facultativo al sistema de Subsidio Familiar','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[SubtipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (10,'11','Conductores del servicio público de transporte terrestre automotor
+ individual de pasajeros en vehículos taxi','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[SubtipoCotizante] ([Id],[Codigo],[Nombre],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (11,'12','Conductores del servicio público de transporte terrestre automotor
+ individual de pasajeros en vehículos taxi. No obligado a cotizar a pensión','Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+
+SET IDENTITY_INSERT [dbo].[SubtipoCotizante] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[SubtipoCotizante] WHERE Id BETWEEN 1 AND 11;
+</rollback>
+</changeSet>
+</databaseChangeLog>

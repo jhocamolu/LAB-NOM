@@ -1,0 +1,44 @@
+concepto-nomina-listar {
+    @import "src/@alcanos/scss/alcanos-v2";
+    // Orden izquiero 
+    table {
+        .mat-column-orden {
+            text-align: center !important;
+            justify-content: end !important;
+            .mat-sort-header-container {
+                width: 45px;
+            }
+            .mat-sort-header-button {
+                width: 100%;
+                text-align: center !important;
+                justify-content: end !important;
+            }
+        }
+
+    //     td.mat-column-alias {
+    //         width: 200px !important;
+    //         max-width: 200px !important;
+    //     }
+    //     td.mat-column-nombre {
+    //         width: 180px !important;
+    //         max-width: 350px !important;
+    //     }
+
+        .tamanio {
+            width: 250px !important;
+        }
+
+    //     .alias {
+    //         width: 150px !important;
+    //     }
+    }
+
+    .parent {
+        max-height: 100px;
+        position: sticky;
+        top: 20px;
+        z-index: 99999;
+        background: whitesmoke;
+    }
+
+}

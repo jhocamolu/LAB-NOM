@@ -1,0 +1,50 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+
+    <h1 mat-dialog-title>Visualizar cargos dependientes</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div [hidden]="!dataLength" class="box-shadow">
+            <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                [@animateStagger]="{value:'50'}">
+
+                 <!-- Columna departamento autorizador -->
+                 <ng-container matColumnDef="cargoDependencia/dependencia/nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Dependencia dependiente</th>
+                    <td mat-cell *matCellDef="let element">{{element.cargoDependencia?.dependencia?.nombre}}
+                    </td>
+                </ng-container>
+
+                <!-- Columna cargo autorizador -->
+                <ng-container matColumnDef="cargoDependencia/cargo/nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cargo dependiente</th>
+                    <td mat-cell *matCellDef="let element">{{element.cargoDependencia?.cargo?.nombre}}
+                    </td>
+                </ng-container>
+
+                <!-- Columna Centro operativo autorizador -->
+                <ng-container matColumnDef="aplicacionExternaCargo/aplicacionExternaCargo/centroOperativoDependiente/nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Centro operativo dependiente</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.aplicacionExternaCargo?.centroOperativoDependienteId ? element.aplicacionExternaCargo?.centroOperativoDependiente?.nombre : 'Nacional'}}
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

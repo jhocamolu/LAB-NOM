@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="CentroTrabajo_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[CentroTrabajo] ON 
+GO
+INSERT [dbo].[CentroTrabajo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [PorcentajeRiesgo]) VALUES ('sistema', 1, 'Activo', GETDATE(),  NULL, NULL, '1', 'Nivel I', 0.522)
+GO
+INSERT [dbo].[CentroTrabajo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [PorcentajeRiesgo]) VALUES ('sistema', 2, 'Activo', GETDATE(),  NULL, NULL, '2', 'Nivel II', 1.044)
+GO
+INSERT [dbo].[CentroTrabajo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [PorcentajeRiesgo]) VALUES ('sistema', 3, 'Activo', GETDATE(),  NULL, NULL, '3', 'Nivel III', 2.436)
+GO
+INSERT [dbo].[CentroTrabajo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [PorcentajeRiesgo]) VALUES ('sistema', 4, 'Activo', GETDATE(),  NULL, NULL, '4', 'nivel IV', 4.35)
+GO
+INSERT [dbo].[CentroTrabajo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [PorcentajeRiesgo]) VALUES ('sistema', 5, 'Activo', GETDATE(),  NULL, NULL, '5', 'Nivel V', 6.96)
+GO
+SET IDENTITY_INSERT [dbo].[CentroTrabajo] OFF
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[CentroTrabajo] WHERE Id BETWEEN 1 AND 5;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,203 @@
+		<div class="overlay" *ngIf="spinner">
+			<mat-spinner class="spinner-wrapper"></mat-spinner>
+		</div>
+<div>
+	<h1 mat-dialog-title>Funcionarios a seleccionar</h1>
+	<div mat-dialog-content fusePerfectScrollbar>
+		<div>
+			<mat-accordion>
+				<mat-expansion-panel (opened)="panelOpenState = true"
+									 (closed)="panelOpenState = false"
+									 [expanded]="panelOpenState"
+									 [disabled]="showTable">
+				  <mat-expansion-panel-header>
+					<mat-panel-title>
+					  Filtro
+					</mat-panel-title>
+				  </mat-expansion-panel-header>
+				  <form [formGroup]="form" *ngIf="form && panelOpenState" (ngSubmit)="buscarHandle($event)">
+
+					<div>
+						<mat-form-field appearance="outline">
+							<mat-label>Funcionario</mat-label>
+							<input matInput formControlName="funcionario">
+	
+							<!-- <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+								<mat-option *ngFor="let item of filteredFuncionarios | async" [value]="item">
+									{{item.criterioBusqueda}}
+								</mat-option>
+							</mat-autocomplete> -->
+	
+							<mat-error *ngFor="let error of form.get('funcionario').errors | keyvalue">
+								<div [ngSwitch]="error.key">
+									<ng-template [ngSwitchCase]="'required'">
+										Requerido
+									</ng-template>
+									<ng-template ngSwitchDefault>
+										{{error.key}}
+									</ng-template>
+								</div>
+							</mat-error>
+							<mat-icon matSuffix matTooltip="Número de identificación y nombre completo del funcionario.">info
+							</mat-icon>
+						</mat-form-field>
+					</div>
+	
+					<div>
+						<mat-form-field appearance="outline">
+							<mat-label>Centro operativo</mat-label>
+							<mat-select formControlName="centroOperativoId">
+								<mat-option></mat-option>
+								<mat-option *ngFor="let item of centroOperativos" [value]="item.id">
+									{{ item.nombre }}
+								</mat-option>
+							</mat-select>
+							<mat-error *ngFor="let error of form.get('centroOperativoId').errors | keyvalue">
+								<div [ngSwitch]="error.key">
+									<ng-template [ngSwitchCase]="'required'">
+										Requerido
+									</ng-template>
+									<ng-template ngSwitchDefault>
+										{{error.key}}
+									</ng-template>
+								</div>
+							</mat-error>
+							<mat-icon matSuffix matTooltip="Sede de trabajo en la que labora el funcionario.">
+								info</mat-icon>
+						</mat-form-field>
+					</div>
+	
+	
+					<div class="dos-bloque">
+						<mat-form-field appearance="outline">
+							<mat-label>Dependencia</mat-label>
+							<mat-select formControlName="dependenciaId">
+								<mat-option></mat-option>
+								<mat-option *ngFor="let item of dependencias" [value]="item.id">
+									{{ item.nombre }}
+								</mat-option>
+							</mat-select>
+							<mat-error *ngFor="let error of form.get('dependenciaId').errors | keyvalue">
+								<div [ngSwitch]="error.key">
+									<ng-template [ngSwitchCase]="'required'">
+										Requerido
+									</ng-template>
+									<ng-template ngSwitchDefault>
+										{{error.key}}
+									</ng-template>
+								</div>
+							</mat-error>
+							<mat-icon matSuffix matTooltip="Área de la compañía en la que labora el funcionario.">
+								info</mat-icon>
+						</mat-form-field>
+	
+						<mat-form-field appearance="outline">
+							<mat-label>Grupo nómina</mat-label>
+							<mat-select formControlName="grupoNominaId">
+								<mat-option></mat-option>
+								<mat-option *ngFor="let item of grupoNominas" [value]="item.id">
+									{{ item.nombre }}
+								</mat-option>
+							</mat-select>
+							<mat-error *ngFor="let error of form.get('grupoNominaId').errors | keyvalue">
+								<div [ngSwitch]="error.key">
+									<ng-template [ngSwitchCase]="'required'">
+										Requerido
+									</ng-template>
+									<ng-template ngSwitchDefault>
+										{{error.key}}
+									</ng-template>
+								</div>
+							</mat-error>
+							<mat-icon matSuffix
+								matTooltip="Grupo al que pertenece el funcionario para ser liquidado en la nómina.">
+								info</mat-icon>
+						</mat-form-field>
+					</div>
+	
+					<div mat-dialog-actions>
+						<button mat-raised-button type="button" (click)="limpiarHandle($event)">
+							<mat-icon>cancel</mat-icon>
+							<span>Borrar filtros</span>
+						</button>
+						<button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+							<mat-icon>remove_red_eye</mat-icon>
+							<span class="margen">Buscar</span>
+						</button>
+					</div>
+	
+				</form>
+				</mat-expansion-panel>
+			  </mat-accordion>
+		</div>
+
+		<div [ngClass]="showTable === false ? null : 'hidden'">
+			
+			<table  mat-table #table [dataSource]="dataSource" matSort matSortDisableClear [@animateStagger]="{value:'50'}">
+
+				<!-- Columna seleccion -->
+				<ng-container matColumnDef="seleccion">
+					<th mat-header-cell *matHeaderCellDef>
+						<mat-checkbox (change)="$event ? masterToggle() : null"
+							[checked]="selection.hasValue() && isAllSelected()"
+							[indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+						</mat-checkbox>
+					</th>
+					<td mat-cell *matCellDef="let row">
+						<mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+							[checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+						</mat-checkbox>
+					</td>
+				</ng-container>
+
+				<!-- Columna documento -->
+				<ng-container matColumnDef="numeroDocumento">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header> Documento</th>
+					<td mat-cell *matCellDef="let element"> {{element.numeroDocumento}} </td>
+				</ng-container>
+
+				<!-- Columna nombre-->
+				<ng-container matColumnDef="nombre">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+					<td mat-cell *matCellDef="let element">
+						{{ element.primerNombre }} {{ element.primerApellido }} {{ element.segundoApellido }}
+					</td>
+				</ng-container>
+
+				<!-- Columna cargo -->
+				<ng-container matColumnDef="cargo">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Cargo </th>
+					<td mat-cell *matCellDef="let element"> {{element.cargoNombre}}</td>
+				</ng-container>
+
+				<!-- Columna grupo Nomina -->
+				<ng-container matColumnDef="grupoNomina">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>Grupo nómina </th>
+					<td mat-cell *matCellDef="let element"> {{element.grupoNominaNombre}}</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+				<tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+			</table>
+
+			<mat-paginator [length]="dataSource.length" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+				showFirstLastButtons>
+			</mat-paginator>
+
+
+		</div>
+
+
+	</div>
+	<div mat-dialog-actions>
+		<button type="button" mat-raised-button (click)="dialogRef.close()">
+			<mat-icon>cancel</mat-icon>
+			<span class="margen">Cancelar</span>
+		</button>
+		<button type="button" mat-raised-button [disabled]="submit || !hasSelected" (click)="seleccionarHandle($event)"
+			color="accent">
+			<mat-icon>check_circle</mat-icon>
+			<span class="margen">Asignar</span>
+		</button>
+	</div>
+</div>

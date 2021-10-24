@@ -1,0 +1,69 @@
+<div>
+
+    <div>
+
+        <alcanos-empty-list (fnCreate)="crearParametroHandle($event)" labelH1="¡Uy! Aún no has registrado parámetros contables."
+            labelBtn="Agregar parámetro contable" [visible]="!dataLength && !dataRequest">
+        </alcanos-empty-list>
+
+        <div [hidden]="!dataLength" class="box-shadow">
+            <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                [@animateStagger]="{value:'50'}">
+
+                <!-- Columna Estado funcionario -->
+                <ng-container matColumnDef="tipoComprobante">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de comprobante</th>
+                    <td mat-cell *matCellDef="let element">{{ renameEstado(element.tipoComprobante) }}
+                    </td>
+                </ng-container>
+
+                <!-- Columna Estado funcionario -->
+                <ng-container matColumnDef="centroCosto/codigo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Centro de costo</th>
+                    <td mat-cell *matCellDef="let element">{{ element.centroCosto.codigo }}
+                    </td>
+                </ng-container>
+
+
+                <!-- Columna Estado funcionario -->
+                <ng-container matColumnDef="cuentaContable/cuenta">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta contable</th>
+                    <td mat-cell *matCellDef="let element">{{ element.cuentaContable.cuenta }}
+                    </td>
+                </ng-container>
+
+                <!-- Columna Estado funcionario -->
+                <ng-container matColumnDef="cuentaContable/naturaleza">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Naturaleza</th>
+                    <td mat-cell *matCellDef="let element">{{ renameNaturaleza(element.naturaleza) }}
+                    </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="acciones" class="text-center">
+                    <th mat-header-cell *matHeaderCellDef style="text-align: center;"
+                        [ngStyle]="{ display: mostrarBtnCrear ? '': 'none'}"> Acciones </th>
+                    <td mat-cell *matCellDef="let element" class="text-center"
+                        [ngStyle]="{ display: mostrarBtnCrear ? '': 'none'}">
+                        <button mat-icon-button *ngIf="arrayPermisos.actualizar" (click)="editarHandle($event, element)" class="edit-icon">
+                            <mat-icon matTooltip="Editar">edit</mat-icon>
+                        </button>
+                        <button *ngIf="arrayPermisos.eliminar && mostrarBtnCrear" mat-icon-button
+                            (click)="eliminarHandle($event, element.id)">
+                            <mat-icon class="s-20" matTooltip="Eliminar">delete</mat-icon>
+                        </button>                       
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+    <!-- / CONTENIDO -->
+
+</div>
+<!-- / CONTENT -->

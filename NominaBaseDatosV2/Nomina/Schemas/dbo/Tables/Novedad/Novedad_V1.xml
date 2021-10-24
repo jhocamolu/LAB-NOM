@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="Novedad_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+CREATE TABLE [Novedad] (
+    [Id] int NOT NULL IDENTITY,
+    [FuncionarioId] int NOT NULL,
+    [CategoriaNovedadId] int NOT NULL,
+    [Fecha] smalldatetime NOT NULL,
+    [FechaFinalizacion] smalldatetime NOT NULL,
+    [TipoPeriodoId] int NOT NULL,
+    [Unidad] int NOT NULL,
+    [Valor] money NOT NULL,
+    [Cantidad] int NOT NULL,
+    [TerceroId] int NOT NULL,
+    [Observacion] text NULL,
+    [Estado] varchar(255) NOT NULL,
+    [EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    CONSTRAINT [PK_Novedad] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_Novedad_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [CK_Novedad_Estado] CHECK (([Estado]='EnCurso' OR [Estado]='Pendiente' OR [Estado]='Liquidada' OR [Estado]='Anulada' OR [Estado]='Cancelada')),
+    CONSTRAINT [FK_Novedad_CategoriaNovedad_CategoriaNovedadId] FOREIGN KEY ([CategoriaNovedadId]) REFERENCES [CategoriaNovedad] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Novedad_Funcionario_FuncionarioId] FOREIGN KEY ([FuncionarioId]) REFERENCES [Funcionario] ([Id]) ON DELETE CASCADE
+);
+GO
+CREATE INDEX [IX_Novedad_CategoriaNovedadId] ON [Novedad] ([CategoriaNovedadId]);
+GO
+CREATE INDEX [IX_Novedad_FuncionarioId] ON [Novedad] ([FuncionarioId]);
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [Novedad];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

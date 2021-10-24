@@ -1,0 +1,43 @@
+{
+	"info": {
+		"_postman_id": "4453659d-6955-4fee-9760-71bee2ec67fb",
+		"name": "HUM014-CertificadoIngresoRetencion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte Certificado Ingresos Retenciones",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"annio\":1 \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

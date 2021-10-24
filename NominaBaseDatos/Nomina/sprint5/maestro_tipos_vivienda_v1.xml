@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_tipo_vivienda_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[TipoVivienda] ON 
+GO
+INSERT [dbo].[TipoVivienda] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 1, 'Activo', GETDATE(), GETDATE(), NULL, 'Arrendada')
+GO
+INSERT [dbo].[TipoVivienda] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 2, 'Activo', GETDATE(), GETDATE(), NULL, 'Propia')
+GO
+INSERT [dbo].[TipoVivienda] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 3, 'Activo', GETDATE(), GETDATE(), NULL, 'Familiar')
+GO
+SET IDENTITY_INSERT [dbo].[TipoVivienda] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoVivienda] WHERE Id BETWEEN 1 AND 3;
+</rollback>
+</changeSet>
+</databaseChangeLog>

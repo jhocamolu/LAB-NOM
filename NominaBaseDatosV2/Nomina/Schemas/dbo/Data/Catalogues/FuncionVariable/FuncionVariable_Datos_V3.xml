@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="FuncionVariable_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[FuncionVariable] ON 
+GO
+
+DELETE dbo.FuncionVariable WHERE Id = 108;
+
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) 
+VALUES(108, 4, 24, 2, NULL, 'Activo    ', 'sistema', GETDATE(),  'AnioTrabajo');
+
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, NombreParametro) 
+VALUES(109, 5, 24, 2, NULL, 'Activo    ', 'sistema', GETDATE(), 'AnioTrabajo');
+
+SET IDENTITY_INSERT [dbo].[FuncionVariable] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+DELETE FROM dbo.FuncionVariable WHERE Id BETWEEN 108 AND 109;
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

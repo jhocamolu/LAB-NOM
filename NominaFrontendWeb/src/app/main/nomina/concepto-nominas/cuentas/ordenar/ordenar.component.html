@@ -1,0 +1,66 @@
+
+
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Ordenar Concepto</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+        <div class="spiner" *ngIf="espera">
+            <mat-spinner></mat-spinner>
+        </div>
+		<mat-form-field appearance="outline">
+			<mat-label>Condición</mat-label>
+			<mat-select formControlName="condicion" required>
+				<mat-option [value]="null"></mat-option>
+				<mat-option [value]="OrdenarConcepto.antes">Antes de</mat-option>
+				<mat-option [value]="OrdenarConcepto.despues">Despues de</mat-option>
+			</mat-select>
+			<mat-error *ngFor="let error of form.get('condicion').errors | keyvalue">
+				<div [ngSwitch]="error.key">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{error.key}}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix
+				matTooltip="Posición antes o despues del orden fijado.">
+				info
+			</mat-icon>
+		</mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Concepto de nómina</mat-label>
+            <input matInput formControlName="conceptoNomina" [matAutocomplete]="auto" required>
+            <mat-autocomplete [displayWith]="displayFnConceptos" #auto="matAutocomplete">
+                <mat-option *ngFor="let item of conceptoNominaOptions | async" [value]="item">
+					{{item.orden}} -  {{item.codigo}} - {{item.nombre}}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngFor="let error of form.get('conceptoNomina').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="LIsta que muestre el orden y nombre de los conceptos de nómina ordenados por orden de forma ascendente.">
+                info</mat-icon>
+        </mat-form-field>
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

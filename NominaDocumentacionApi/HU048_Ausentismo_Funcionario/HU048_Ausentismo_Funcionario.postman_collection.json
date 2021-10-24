@@ -1,0 +1,222 @@
+{
+	"info": {
+		"_postman_id": "9f23f83e-76d6-41b5-90b1-6e2935ad1163",
+		"name": "HU048_Ausentismo_Funcionario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Ausentismo Funcionario",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDc2ODg3ODIsImV4cCI6MTYwNzcwMzE4MiwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.d31iwX7Z8ni5x2AS-VJFOPHcZj9k8VciYrrn-LEADJY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"funcionarioId\": 4,\r\n    \"tipoAusentismoId\": 7,\r\n    \"DiagnosticoId\": 1,\r\n    \"fechaInicio\": \"2020-10-12\",\r\n    \"fechaFin\": \"2020-10-12\",\r\n    \"numeroIncapacidad\": \"456789\",\r\n    \"horaFin\": \"12:00\",\r\n    \"horaInicio\": \"14:00\",\r\n    \"ProrrogaId\" : null,\r\n    \"adjunto\": \"4564564\",\r\n    \"observacion\":\"4548\",\r\n    \"FechaIniciaReal\" : \"2020-09-30\",\r\n    \"FechaFinalReal\" : \"2020-09-30\"\r\n\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/AusentismoFuncionarios",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"AusentismoFuncionarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Ausentismo Funcionario",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDAyMDQyMzEsImV4cCI6MTYwMDIxODYzMSwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.fSDcreXs2YiCSGr1vpMQOXQM_sdoVpAFQpQw-gWG-c4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n \t\"id\":6,\r\n    \"FuncionarioId\": 8,\r\n    \"TipoAusentismoId\": 7,\r\n    \"DiagnosticoId\": 1,\r\n    \"FechaInicio\": \"2020/10/08\",\r\n    \"FechaFin\":\"2020/10/10\",\r\n    \"HoraInicio\": \"12:18:50\",\r\n    \"HoraFin\" : \"18:00\",\r\n    \"NumeroIncapacidad\":\"456\",\r\n    \"Adjunto\":\"5656646\",\r\n     \"FechaIniciaReal\" : \"2020-09-30\",\r\n    \"FechaFinalReal\" : \"2020-09-30\"\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/AusentismoFuncionarios/6",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"AusentismoFuncionarios",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial Ausentismo Funcionario",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n \t\"id\":15,\r\n    \"Activo\": 0\r\n}"
+				},
+				"url": {
+					"raw": "{{host}}/api/AusentismoFuncionarios/15",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"AusentismoFuncionarios",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Ausentismo Funcionario",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/AusentismoFuncionarios/15",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"AusentismoFuncionarios",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener  Ausentismo Funcionario",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/odata/AusentismoFuncionarios",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"AusentismoFuncionarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener  Un Ausentismo Funcionario",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/odata/AusentismoFuncionarios/14",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"AusentismoFuncionarios",
+						"14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Estado Ausentismo Funcionario",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDAxOTkxODUsImV4cCI6MTYwMDIxMzU4NSwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.OxwX33Yq4WsLGoQi1nLD_Tq33bwB4bfkXK7KBPq2E-0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":3,\r\n    \"estado\": \"Aprobado\",\r\n    \"justificacion\":\"drewr\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "{{host}}/api/AusentismoFuncionarios/estado/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"AusentismoFuncionarios",
+						"estado",
+						"3"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

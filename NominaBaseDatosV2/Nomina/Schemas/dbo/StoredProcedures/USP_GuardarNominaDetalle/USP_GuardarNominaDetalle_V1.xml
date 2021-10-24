@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_GuardarNominaDetalle_V1">
+<comment>HU056</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[USP_GuardarNominaDetalle]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE [dbo].[USP_GuardarNominaDetalle] as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 20/05/2020
+-- Description: Permite guardar la información de un detalle de nómina dentro del proceso
+--			 de cálculo de una nómina para un funcionario y concepto específico
+--
+-- Parameters:
+--   @NominaFuncionarioId:	  Identificador del registro del funcionario asociado a la nómina
+--   @ConceptoNominaId:		  Identificador del concepto de nómina
+--   @UnidadMedida:			  Unidad de medidad del concepto
+--   @NominaDetalleId:		  Identificador del registro de nómina detalle para registros a novedades cargadas previamente
+--   @Cantidad:			  Cantidad del concepto
+--   @Valor:				  Valor del concepto
+--   @Inconsistencia:		  Texto de la inconsistencia
+--   @ValorNoValido:		  Constante con el valor no valido para conceptos
+--   @UsuarioOperacion:		  Usuario que realiza la operación
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_GuardarNominaDetalle] @NominaFuncionarioId        INT,
+                                                 @ConceptoNominaId           INT,
+                                                 @UnidadMedida               VARCHAR(255),
+                                                 @NominaDetalleId            INT          = NULL,
+                                                 @Cantidad                   INT          = 0,
+                                                 @Valor                      MONEY        = 0,
+                                                 @Inconsistencia             VARCHAR(255) = NULL,
+                                                 @ValorNoValido              MONEY,
+                                                 @NominaDetalleProcesado     VARCHAR(255),
+                                                 @NominaDetalleInconsistente VARCHAR(255),
+                                                 @AuditoriaActivo            VARCHAR(255),
+                                                 @UsuarioOperacion           VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaFuncionarioId=', CONVERT(VARCHAR, @NominaFuncionarioId), '&', '@ConceptoNominaId=', CONVERT(VARCHAR, @ConceptoNominaId), '&', '@UnidadMedida=', CONVERT(VARCHAR, @UnidadMedida), '&', '@Cantidad=', CONVERT(VARCHAR, @Cantidad), '&', '@Valor=', CONVERT(VARCHAR, @Valor), '&', '@Inconsistencia=', CONVERT(VARCHAR, @Inconsistencia), '&', '@ValorNoValido=', CONVERT(VARCHAR, @ValorNoValido), '&', '@NominaDetalleProcesado=', CONVERT(VARCHAR, @NominaDetalleProcesado), '&', '@NominaDetalleInconsistente=', CONVERT(VARCHAR, @NominaDetalleInconsistente), '&', '@AuditoriaActivo=', CONVERT(VARCHAR, @AuditoriaActivo), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @Estado VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        SET @Estado = @NominaDetalleProcesado;
+
+        IF @Valor = @ValorNoValido
+           OR @Inconsistencia IS NOT NULL
+        BEGIN
+            SET @Estado = @NominaDetalleInconsistente;
+
+            IF @Inconsistencia IS NULL
+            BEGIN
+                SET @Inconsistencia = 'No se ha podido calcular de forma correcta el valor del concepto';
+            END;
+        END;
+
+	   -- Se consulta si ya hay un registro para el funcionario y el concepto en caso de que NominaDetalleId sea NULL
+	   IF @NominaDetalleId IS NULL
+	   BEGIN
+
+		  SELECT @NominaDetalleId = Id
+		  FROM dbo.NominaDetalle nde
+		  WHERE nde.NominaFuncionarioId = @NominaFuncionarioId
+		  AND nde.ConceptoNominaId = @ConceptoNominaId
+		  AND nde.EstadoRegistro = @AuditoriaActivo;
+
+	   END
+
+        -- Si ya existe el registro de nomina detalle, se actualiza la información
+        IF @NominaDetalleId IS NOT NULL
+        BEGIN
+
+            UPDATE [dbo].[NominaDetalle]
+              SET
+                  [Cantidad] = @Cantidad,
+                  [Valor] = @Valor,
+                  [Estado] = @Estado,
+                  [Inconsistencia] = @Inconsistencia,
+                  [ModificadoPor] = @UsuarioOperacion,
+                  [FechaModificacion] = GETDATE()
+            WHERE Id = @NominaDetalleId;
+
+        END;
+        ELSE
+        BEGIN
+
+            INSERT INTO [dbo].[NominaDetalle]
+            ([NominaFuncionarioId],
+             [ConceptoNominaId],
+             [UnidadMedida],
+             [Cantidad],
+             [Valor],
+             [Estado],
+             [Inconsistencia],
+             [EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion]
+            )
+            VALUES
+            (@NominaFuncionarioId,
+             @ConceptoNominaId,
+             @UnidadMedida,
+             @Cantidad,
+             @Valor,
+             @Estado,
+             @Inconsistencia,
+             @AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE()
+            );
+
+        END;
+    END TRY
+    BEGIN CATCH
+
+	   -- Rollback de la transacción si existe
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_GuardarNominaDetalle];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

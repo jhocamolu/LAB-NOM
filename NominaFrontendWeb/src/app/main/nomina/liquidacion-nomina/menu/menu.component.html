@@ -1,0 +1,56 @@
+<mat-menu #liquidacionMenu="matMenu">
+    <!-- accion seleccion funcionario es los estados inicializada y modificada -->
+    <a *ngIf="arrayPermisosFuncionarios.crear && (item.estado == estadoLiquidacion.inicializada || item.estado == estadoLiquidacion.modificada || item.estado == estadoLiquidacion.liquidada)"
+        mat-menu-item (click)="seleccionarFuncionarioHandle($event)">
+        Seleccionar funcionario
+    </a>
+    <!-- accion Limpiar funcionario es los estados modificada -->
+    <a *ngIf=" arrayPermisosFuncionarios.op5 && (item.estado == estadoLiquidacion.modificada) " mat-menu-item
+        (click)="limpiarFuncionarioHandle($event)">
+        Limpiar funcionario
+    </a>
+    <!-- accion  Registrar novedad es los estados modificada o liquidada -->
+    <!-- <a *ngIf=" (item.estado == estadoLiquidacion.modificada || item.estado == estadoLiquidacion.liquidada)"
+        mat-menu-item
+        routerLink="/nomina/liquidacion-nomina/{{item.id}}/novedades">
+        Registrar novedad
+    </a> -->
+    <!-- accion Carga novedad masivamente es los estados modificada o liquidada -->
+    <!-- <a *ngIf="item.estado == estadoLiquidacion.modificada || item.estado == estadoLiquidacion.liquidada" mat-menu-item
+        routerLink="/nomina/liquidacion-nomina/{{item.id}}/novedades">
+        Carga novedad masivamente
+    </a> -->
+    <!-- accion Calcular nómina es los estados modificada -->
+    <a *ngIf="item.estado == estadoLiquidacion.modificada" mat-menu-item (click)="calcularNominaHandle($event)">
+        Calcular nómina
+    </a>
+    <!-- accion Finalizar registro es los estados modificada -->
+    <a *ngIf="item.estado == estadoLiquidacion.modificada" mat-menu-item (click)="finalizarRegistroHandle($event)">
+        Finalizar registro
+    </a>
+    <!-- accion Bitacora de la prenómina es los estados liquidada aprobada o aplicada -->
+    <a *ngIf="item.estado == estadoLiquidacion.liquidada || item.estado == estadoLiquidacion.aplicada  || item.estado == estadoLiquidacion.aprobada"
+        mat-menu-item>
+        Bitacora de la prenómina
+    </a>
+    <!-- accion Aprobar nómina es los estados liquidada -->
+    <a *ngIf="item.estado == estadoLiquidacion.liquidada"
+        mat-menu-item>
+        Aprobar nómina
+    </a>
+    <!-- accion Consolidado de conceptos es los estados liquidada aprobada o aplicada -->
+    <a *ngIf="item.estado == estadoLiquidacion.aplicada || item.estado == estadoLiquidacion.aprobada" mat-menu-item>
+        Consolidado de conceptos
+    </a>
+    <!-- accion Aplicar nómina es los estados aprobada  -->
+    <a *ngIf="item.estado == estadoLiquidacion.aprobada " mat-menu-item
+        routerLink="/nomina/liquidacion-nomina/{{item.id}}/aprobar">
+        Aplicar nómina
+    </a>
+    <a mat-menu-item routerLink="/nomina/liquidacion-nomina">Volver</a>
+</mat-menu>
+
+<button color="accent" mat-raised-button [matMenuTriggerFor]="liquidacionMenu" *ngIf="item">
+    <mat-icon class="s-20">add</mat-icon>
+    <span>Acciones</span>
+</button>

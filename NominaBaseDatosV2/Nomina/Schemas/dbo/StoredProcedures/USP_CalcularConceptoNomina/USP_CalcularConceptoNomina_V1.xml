@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_CalcularConceptoNomina_V1">
+<comment>HU056</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[USP_CalcularConceptoNomina]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE [dbo].[USP_CalcularConceptoNomina] as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 20/05/2020
+-- Description: Permite ejecutar los procedimientos asociados al concepto de nómina del cual 
+--			 se quiere obtener el valor y la cantidad
+--
+-- Parameters:
+--   @NominaFechaInicio:				Fecha de inicio de la nómina
+--   @NominaFechaFinal:				Fecha final de la nómina
+--   @FechaInicioMes:				Primer día del mes al que corresponde la nómina
+--   @FechaFinalMes:				Último día del mes al que corresponde la nómina
+--   @FechaInicioMesAnterior:			Primer día del mes anterior al mes de la nómina
+--   @FechaFinalMesAnterior:			Último día del mes anterior al mes de la nómina
+--   @FuncionarioId:				Identificador del funcionario para elq ue se quiere calcular el concepto
+--   @ConceptoAlias:				Alias del concepto
+--   @RequiereCantidad:				<Descripción del parámetro 1>
+--   @ProcedimientoObtenerCantidad:	Procedimiento que permite obtener el valor del concepto
+--   @ProcedimientoObtenerValor:		Procedimiento que permite obtener la cantidad del concepto
+--   @NominaDetalleId:				Identificador del detalle de la nómina para las novedades cargadas previamente
+--   @NominaId						Identificador de la nómina
+--   @NominaFuncionarioId			Identificador del funcionario en la nómina
+--   @AnioVigenteId:				Identificador del año vigente en el sistema
+--   @ConceptoAgrupador				Identifica si el concepto es agrupador o no
+--   @ConceptoNominaId				Identificador del concepto de nómina
+--   @ContratoFechaInicio			Fecha de inicio del contrato del funcionario
+--   @Cantidad:					Parámetro de salida con la cantidad del concepto
+--   @Valor:						Parámetro de salida con el valor del concepto
+--   @Inconsistencia:				Parámetro de salida el texto de la inconsistencia en caso de que se presente alguna
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_CalcularConceptoNomina] @NominaFechaInicio            DATE,
+                                                   @NominaFechaFinal             DATE,
+                                                   @FechaInicioMes               DATE,
+                                                   @FechaFinalMes                DATE,
+                                                   @FechaInicioMesAnterior       DATE,
+                                                   @FechaFinalMesAnterior        DATE,
+                                                   @FuncionarioId                INT,
+                                                   @ConceptoAlias                VARCHAR(255),
+                                                   @RequiereCantidad             BIT,
+                                                   @ProcedimientoObtenerCantidad VARCHAR(1000) = NULL,
+                                                   @ProcedimientoObtenerValor    VARCHAR(1000),
+                                                   @NominaDetalleId              INT           = NULL,
+                                                   @NominaId                     INT,
+                                                   @NominaFuncionarioId          INT,
+                                                   @ValorNoValido                MONEY,
+                                                   @AnioVigenteId                INT,
+                                                   @ConceptoAgrupador            BIT,
+                                                   @ConceptoNominaId             INT,
+										 @ContratoFechaInicio		 DATE,
+                                                   @Cantidad                     INT OUTPUT,
+                                                   @Valor                        MONEY OUTPUT,
+                                                   @Inconsistencia               VARCHAR(255) OUTPUT
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaFechaInicio=', CONVERT(VARCHAR, @NominaFechaInicio), '&', '@NominaFechaFinal=', CONVERT(VARCHAR, @NominaFechaFinal), '&', '@FechaInicioMes=', CONVERT(VARCHAR, @FechaInicioMes), '&', '@FechaFinalMes=', CONVERT(VARCHAR, @FechaFinalMes), '&', '@FechaInicioMesAnterior=', CONVERT(VARCHAR, @FechaInicioMesAnterior), '&', '@FechaFinalMesAnterior=', CONVERT(VARCHAR, @FechaFinalMesAnterior), '&', '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@ConceptoAlias=', CONVERT(VARCHAR, @ConceptoAlias), '&', '@RequiereCantidad=', CONVERT(VARCHAR, @RequiereCantidad), '&', '@ProcedimientoObtenerCantidad=', CONVERT(VARCHAR, @ProcedimientoObtenerCantidad), '&', '@ProcedimientoObtenerValor=', CONVERT(VARCHAR, @ProcedimientoObtenerValor), '&', '@NominaDetalleId=', CONVERT(VARCHAR, @NominaDetalleId), '&', '@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@NominaFuncionarioId=', CONVERT(VARCHAR, @NominaFuncionarioId), '&', '@ValorNoValido=', CONVERT(VARCHAR, @ValorNoValido), '&', '@AnioVigenteId=', CONVERT(VARCHAR, @AnioVigenteId), '&', '@ConceptoAgrupador=', CONVERT(VARCHAR, @ConceptoAgrupador));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @ProcedimientoAEjecutar NVARCHAR(1000);
+    DECLARE @ProcedimientoParametros NVARCHAR(1000);
+    DECLARE @ConceptoCantidad INT;
+    DECLARE @ConceptoValor MONEY;
+    DECLARE @ConceptoInconsistencia VARCHAR(255);
+
+    -- Solo para validaciones temporales
+    DECLARE @NombreObjetoDinamico VARCHAR(255);
+    DECLARE @PosicionEspacioBlanco INT;
+    DECLARE @PosicionInicioParentesis INT;
+    DECLARE @PosicionTipoObjeto INT;
+    DECLARE @CalculoCantidadConProcedimiento BIT;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- TODO: Estas validaciones son temporales, mientras se configura y prueban los procedimientos de todos
+        -- los conceptos de nómina, luego se debe habilitar la validación general antes de recorrer cada funcionario
+        -- y así mejorar el rendimiento en general de la liquidación.
+        -- 
+        -- Validaciones asociadas a existencia de procedimientos para calcular valor y cantidad
+        -- Si no es un concepto agrupador se valida que exista la fórmula para el cálculo del valor
+        IF @ConceptoAgrupador = 0
+        BEGIN
+            -- No se ha definido el procedimiento asociado a la fórmula para calcular el valor del concepto en conceptos no agrupadores
+            IF @ProcedimientoObtenerValor IS NULL
+            BEGIN
+                SET @Cantidad = 0;
+                SET @Valor = @ValorNoValido;
+                SET @Inconsistencia = 'No se ha definido el procedimiento asociado a la fórmula del concepto con alias ' + @ConceptoAlias + '.';
+                RETURN 0;
+            END;
+
+            -- Se revisa si existe el procedimiento asociado a la fórmula del concepto
+            SET @NombreObjetoDinamico = @ProcedimientoObtenerValor;
+            SET @PosicionEspacioBlanco = CHARINDEX(' ', @ProcedimientoObtenerValor);
+
+            IF(@PosicionEspacioBlanco > 0)
+            BEGIN
+                SELECT @NombreObjetoDinamico = SUBSTRING(@ProcedimientoObtenerValor, 1, @PosicionEspacioBlanco);
+            END;
+
+            IF(
+            (
+                SELECT util.UFS_ExisteObjetoBaseDatos(@NombreObjetoDinamico)
+            ) = 0)
+            BEGIN
+                SET @Cantidad = 0;
+                SET @Valor = @ValorNoValido;
+                SET @Inconsistencia = 'No existe en la base de datos el procedimiento asociado a la fórmula del concepto con alias ' + @ConceptoAlias + '.';
+                RETURN 0;
+            END;
+        END;
+
+        -- Se revisa si existe la función para obtener la cantidad del concepto
+        IF @RequiereCantidad = 1
+        BEGIN
+
+            -- No se ha definido la función para calcular la cantidad del concepto
+            IF @ProcedimientoObtenerCantidad IS NULL
+            BEGIN
+                SET @Cantidad = 0;
+                SET @Valor = @ValorNoValido;
+                SET @Inconsistencia = 'No se ha definido la función para obtener la cantidad del concepto con alias ' + @ConceptoAlias + '.';
+                RETURN 0;
+            END;
+
+            SET @NombreObjetoDinamico = @ProcedimientoObtenerCantidad;
+
+            -- Se identifica si es un procedimiento almacenado
+            SET @PosicionTipoObjeto = CHARINDEX('USP_', @ProcedimientoObtenerCantidad);
+
+            IF @PosicionTipoObjeto > 0
+            BEGIN
+                SET @CalculoCantidadConProcedimiento = 1;
+                SET @PosicionEspacioBlanco = CHARINDEX(' ', @ProcedimientoObtenerCantidad);
+
+                IF(@PosicionEspacioBlanco > 0)
+                BEGIN
+                    SELECT @NombreObjetoDinamico = SUBSTRING(@ProcedimientoObtenerCantidad, 1, @PosicionEspacioBlanco);
+                END;
+            END;
+            ELSE
+            BEGIN
+                -- Se identifica si es una función escalar
+                SET @PosicionTipoObjeto = CHARINDEX('UFS_', @ProcedimientoObtenerCantidad);
+
+                IF @PosicionTipoObjeto > 0
+                BEGIN
+                    SET @CalculoCantidadConProcedimiento = 0;
+                    SET @PosicionInicioParentesis = CHARINDEX('(', @ProcedimientoObtenerCantidad);
+
+                    IF(@PosicionInicioParentesis > 0)
+                    BEGIN
+                        SELECT @NombreObjetoDinamico = SUBSTRING(@ProcedimientoObtenerCantidad, 1, @PosicionInicioParentesis);
+                    END;
+                END;
+            END;
+
+            SET @NombreObjetoDinamico = RTRIM(LTRIM(@NombreObjetoDinamico));
+
+            IF(
+            (
+                SELECT util.UFS_ExisteObjetoBaseDatos(@NombreObjetoDinamico)
+            ) = 0)
+            BEGIN
+                SET @Cantidad = 0;
+                SET @Valor = @ValorNoValido;
+                SET @Inconsistencia = 'No existe en la base de datos la función para obtener la cantidad del concepto con alias ' + @ConceptoAlias + '.';
+                RETURN 0;
+            END;
+        END;
+
+        -- Se calcula la cantidad
+        IF @RequiereCantidad = 0
+        BEGIN
+            SET @ConceptoCantidad = 1;
+        END;
+        ELSE
+        BEGIN
+
+            IF @CalculoCantidadConProcedimiento = 1
+            BEGIN
+                PRINT @ProcedimientoObtenerCantidad;
+                SET @ProcedimientoAEjecutar = CONCAT('EXEC ', @ProcedimientoObtenerCantidad);
+                SET @ProcedimientoParametros = '@ConceptoCantidad INT OUTPUT';
+
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{NominaFechaInicio}}', CONCAT(CHAR(39), @NominaFechaInicio, CHAR(39)));
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{NominaFechaFinal}}', CONCAT(CHAR(39), @NominaFechaFinal, CHAR(39)));
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{FechaInicioMes}}', CONCAT(CHAR(39), @FechaInicioMes, CHAR(39)));
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{FechaFinalMes}}', CONCAT(CHAR(39), @FechaFinalMes, CHAR(39)));
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{FechaInicioMesAnterior}}', CONCAT(CHAR(39), @FechaInicioMesAnterior, CHAR(39)));
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{FechaFinalMesAnterior}}', CONCAT(CHAR(39), @FechaFinalMesAnterior, CHAR(39)));
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{FuncionarioId}}', @FuncionarioId);
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{ConceptoAlias}}', CONCAT(CHAR(39), @ConceptoAlias, CHAR(39)));
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{AnioVigenteId}}', @AnioVigenteId);
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{Cantidad}}', '@ConceptoCantidad');
+
+                IF @NominaDetalleId IS NOT NULL
+                BEGIN
+                    SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{NominaDetalleId}}', @NominaDetalleId);
+                END;
+
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{NominaId}}', @NominaId);
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{NominaFuncionarioId}}', @NominaFuncionarioId);
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{ConceptoNominaId}}', @ConceptoNominaId);
+				SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{ContratoFechaInicio}}', CONCAT(CHAR(39), @ContratoFechaInicio, CHAR(39)));
+
+                PRINT CONCAT('@ProcedimientoAEjecutar cantidad=', CONVERT(VARCHAR(255), @ProcedimientoAEjecutar));
+
+                EXECUTE sp_executesql
+                        @ProcedimientoAEjecutar,
+                        @ProcedimientoParametros,
+                        @ConceptoCantidad = @ConceptoCantidad OUTPUT;
+            END;
+            ELSE
+            BEGIN
+                PRINT 'Calculo de cantidad por función - Sin implementar';
+                -- Hay que revisar si es una función o un procedimiento el que permite calcular la cantidad
+                -- Para las funciones se debe utilizar el siguiente código
+/********************************************************************************************************************
+			    DECLARE @Cantidad INT;
+			    DECLARE @select NVARCHAR(255)= 'SELECT @Cantidad = [util].[UFS_ObtenerParametro]('SalarioMinimoActual',null)';
+
+			    exec sp_executeSQl @select, N'@Cantidad INT OUTPUT', @Cantidad OUTPUT;
+
+			    SELECT @Cantidad;
+********************************************************************************************************************/
+            END;
+        END;
+
+        -- Se calcula el valor del concepto
+        IF @ConceptoAgrupador = 1
+        BEGIN
+
+            EXECUTE [dbo].[USP_ObtenerValorConceptoAgrupador]
+                    @FuncionarioId = @FuncionarioId,
+                    @NominaId = @NominaId,
+                    @ConceptoNominaId = @ConceptoNominaId,
+                    @Valor = @ConceptoValor OUTPUT;
+
+        END;
+        ELSE
+        BEGIN
+
+            SET @ProcedimientoAEjecutar = CONCAT('EXEC ', @ProcedimientoObtenerValor);
+            SET @ProcedimientoParametros = '@ConceptoValor MONEY OUTPUT, @ConceptoInconsistencia VARCHAR(255) OUTPUT';
+
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{NominaFechaInicio}}', CONCAT(CHAR(39), @NominaFechaInicio, CHAR(39)));
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{NominaFechaFinal}}', CONCAT(CHAR(39), @NominaFechaFinal, CHAR(39)));
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{FechaInicioMes}}', CONCAT(CHAR(39), @FechaInicioMes, CHAR(39)));
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{FechaFinalMes}}', CONCAT(CHAR(39), @FechaFinalMes, CHAR(39)));
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{FechaInicioMesAnterior}}', CONCAT(CHAR(39), @FechaInicioMesAnterior, CHAR(39)));
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{FechaFinalMesAnterior}}', CONCAT(CHAR(39), @FechaFinalMesAnterior, CHAR(39)));
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{FuncionarioId}}', @FuncionarioId);
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{ConceptoAlias}}', CONCAT(CHAR(39), @ConceptoAlias, CHAR(39)));
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{AnioVigenteId}}', @AnioVigenteId);
+
+            IF @NominaDetalleId IS NOT NULL
+            BEGIN
+                SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{NominaDetalleId}}', @NominaDetalleId);
+            END;
+
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{NominaId}}', @NominaId);
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{NominaFuncionarioId}}', @NominaFuncionarioId);
+            SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{ConceptoNominaId}}', @ConceptoNominaId);
+			SET @ProcedimientoAEjecutar = REPLACE(@ProcedimientoAEjecutar, '{{ContratoFechaInicio}}', CONCAT(CHAR(39), @ContratoFechaInicio, CHAR(39)));
+
+            PRINT CONCAT('@ProcedimientoAEjecutar valor=', CONVERT(VARCHAR(255), @ProcedimientoAEjecutar));
+
+            EXECUTE sp_executesql
+                    @ProcedimientoAEjecutar,
+                    @ProcedimientoParametros,
+                    @ConceptoValor = @ConceptoValor OUTPUT,
+                    @ConceptoInconsistencia = @ConceptoInconsistencia OUTPUT;
+        END;
+
+        -- Se asignan los valores a los parámetros de salida
+        SET @Cantidad = @ConceptoCantidad;
+        SET @Valor = [util].[UFS_RedondearConDireccion](@ConceptoValor, 1, 1); -- Se redondea hacía arriba a la unidad más cercana
+        SET @Inconsistencia = @ConceptoInconsistencia;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción si existe
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_CalcularConceptoNomina];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

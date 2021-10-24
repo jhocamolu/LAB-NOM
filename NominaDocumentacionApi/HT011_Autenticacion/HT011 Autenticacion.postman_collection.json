@@ -1,0 +1,219 @@
+{
+	"info": {
+		"_postman_id": "6fad84a4-43d4-43fe-af6b-fa9b9c3be7a8",
+		"name": "HT011 Autenticacion",
+		"description": "Historia donde se realiza la integración con el sistema de administración de usuarios, el cual administra el login y permisos de las distintas aplicaciones dentro de la compañia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login de Usuario",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cedula\": 1110492787,\r\n  \"clave\": \"12Amable\"\r\n  //\"UsuarioPortal\" : true\r\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Autenticacion/Login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Autenticacion",
+						"Login"
+					]
+				},
+				"description": "Este endpoint, el token con las aplicaciones en las que el usuario puede autenticarse."
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Aplicacion ",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiREEiLCJuYmYiOjE1NzY2ODIyMDMsImV4cCI6MTU3NjcxMTAwMywiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.799_UOrce5tl55axATjS91ArIqyNZGXT236yupEYl8U",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/Autenticacion/Logout",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Autenticacion",
+						"Logout"
+					]
+				},
+				"description": "Devuelve valor booleano true, si se cierra sesion correctamente"
+			},
+			"response": []
+		},
+		{
+			"name": "Permisos del usuario en la Aplicacion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjEwMTAxMzkxNTgiLCJDb3JyZW8iOiJhbmFsaXN0YS5xYTJAYWxjYW5vc2VzcC5jb20iLCJOb21icmUiOiJKVUFOIFNFQkFTVElBTiBCT0FEQSBHQVJaT04iLCJVc3VhcmlvIjoiamJvYWRhIiwiVGlwb0F1dCI6IkRBIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNTk3MDk2NjA0LCJleHAiOjE1OTcxMTEwMDQsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0.YnypxF46r-61jpbyqlXrYw6c62ON5BKbkWDE8bQ_4DQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"aplicacion\": \"GHESTIC\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Autenticacion/PermisoAplicacion",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Autenticacion",
+						"PermisoAplicacion"
+					]
+				},
+				"description": "End point permite obtener los permisos y roles del usuario.\r\n\r\n-Devuelve un array con los permisos asignados al usuario.\r\n    ( Permisos individuales - permiso del rol)\r\n\r\n- Devuelve los roles asignados al usuario."
+			},
+			"response": []
+		},
+		{
+			"name": "Refres Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE1ODA4NTM2MTQsImV4cCI6MTU4MDg2ODAxNCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.r98vkX4sbRsI8Ud6y_PJFmmaTnEq7cbNtvRl-WUiqnk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJSRUYiLCJuYmYiOjE1ODA4NTM2MTQsImV4cCI6MTU4MDg4MjQxNCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.QESXUoFpVZmaPvX6YQEEt90ZCgwmoHK_XWUWpidkLkw\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Autenticacion/Refresh",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Autenticacion",
+						"Refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Aplicacion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"13e92c64-8bd5-45d0-9ccc-5595accefaad\",\r\n  \"secret\": \"4be3fe4b-a43f-4d39-a828-77f7bfe4ecc6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Autenticacion/LoginAplicacion",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Autenticacion",
+						"LoginAplicacion"
+					]
+				},
+				"description": "Login Aplicacion"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "132cd523-b5fd-4a02-9052-b818bc24abbf",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e2172d3d-0b7d-408d-abfb-b718d683d6f5",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

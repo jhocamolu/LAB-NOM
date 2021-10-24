@@ -1,0 +1,23 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+    <button *ngIf="item" mat-raised-button color="accent" class="acciones" [matMenuTriggerFor]="menu">
+        <mat-icon>add</mat-icon>
+        <span>Acciones</span>
+    </button>
+    <mat-menu #menu="matMenu">
+        <a *ngIf="item" routerLink="/administracion-personal/funcionarios/{{item.id}}/datos-basicos"
+            mat-menu-item>Editar
+            datos básicos</a>
+        <a *ngIf="item" routerLink="/administracion-personal/funcionarios/{{item.id}}/familiar" mat-menu-item>Registrar
+            información familiar</a>
+        <a *ngIf="item" routerLink="/administracion-personal/funcionarios/{{item.id}}/estudio" mat-menu-item>Registrar
+            estudio realizado</a>
+        <a *ngIf="item" routerLink="/administracion-personal/funcionarios/{{item.id}}/experiencia-laboral"
+            mat-menu-item>Registrar experiencia laboral
+        </a>
+        <a *ngIf="item" routerLink="/administracion-personal/funcionarios/{{item.id}}/documentos" mat-menu-item>Registrar
+            contrato</a>
+        <a *ngIf="item" routerLink="/administracion-personal/funcionarios/{{item.id}}/documentos" mat-menu-item>Cargar
+            documento</a>
+    </mat-menu>
+
+</div>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TR_EliminarRegistroSolicitudVacacionesInterrupcion_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[TR_EliminarRegistroSolicitudVacacionesInterrupcion]', 'TR') IS NULL
+BEGIN
+	EXECUTE ('CREATE TRIGGER dbo.TR_EliminarRegistroSolicitudVacacionesInterrupcion ON dbo.AusentismoFuncionario AFTER INSERT,UPDATE as SELECT 1');
+END
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 08-05-2020
+-- Description:	Disparador utiliza para cargar el eliminar el registro de interrupcion,
+--				para un Ausentismo que pase a estado anulado
+-- =============================================
+ALTER TRIGGER [dbo].[TR_EliminarRegistroSolicitudVacacionesInterrupcion] ON [dbo].[AusentismoFuncionario]
+AFTER UPDATE
+AS
+     BEGIN
+         IF EXISTS
+         (
+				 SELECT ins.Id,
+							ins.Estado,
+							svi.SolicitudVacacionesId,
+							sva.Estado,
+							svi.Id
+                 FROM inserted  ins
+				 INNER JOIN deleted del ON ins.Id = del.Id
+				 INNER JOIN dbo.SolicitudVacacionesInterrupcion svi ON svi.FuncionarioAusentismoId = ins.Id
+				 INNER JOIN dbo.SolicitudVacaciones sva ON sva.Id = svi.SolicitudVacacionesId
+                 WHERE del.Estado <> ins.Estado 
+         )
+             BEGIN
+			 SELECT ins.Id,
+							ins.Estado,
+							svi.SolicitudVacacionesId,
+							sva.Estado,
+							svi.Id
+                 FROM inserted  ins
+				 INNER JOIN deleted del ON ins.Id = del.Id
+				 INNER JOIN dbo.SolicitudVacacionesInterrupcion svi ON svi.FuncionarioAusentismoId = ins.Id
+				 INNER JOIN dbo.SolicitudVacaciones sva ON sva.Id = svi.SolicitudVacacionesId
+                 WHERE del.Estado <> ins.Estado 
+                 --------------------------------------------------------------------------
+                 -- Instrucciones de configuración y manejo de errores
+                 --------------------------------------------------------------------------
+                 SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+                 DECLARE @Parametros VARCHAR(MAX);
+                 DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+                 --------------------------------------------------------------------------
+                 -- Declaraciones
+                 --------------------------------------------------------------------------
+                 DECLARE @AusentismoId AS INT;
+                 DECLARE @EstadoAusentismo AS VARCHAR(255);
+				 DECLARE @SolicitudVacacionesId AS INT;
+				 DECLARE @EstadoSolicitudVacaciones AS VARCHAR(255);
+				 DECLARE @SolicitudVacacionesInterrupcionId AS INT;
+                
+                 --------------------------------------------------------------------------
+                 -- Proceso
+                 --------------------------------------------------------------------------
+
+                 BEGIN TRY
+                     SET NOCOUNT ON;
+                     BEGIN TRAN AusentismoVacaciones;
+                     -- Obtienen los registros de tipo ausentismo= licencia por luto, Estado ausentismo = Aprobado, estado Solicitud vacaciones = Encurso
+                     DECLARE CUR_AusentismoVacaciones CURSOR LOCAL
+                     FOR 
+					 SELECT ins.Id,
+							ins.Estado,
+							svi.SolicitudVacacionesId,
+							sva.Estado,
+							svi.Id
+                 FROM inserted  ins
+				 INNER JOIN deleted del ON ins.Id = del.Id
+				 INNER JOIN dbo.SolicitudVacacionesInterrupcion svi ON svi.FuncionarioAusentismoId = ins.Id
+				 INNER JOIN dbo.SolicitudVacaciones sva ON sva.Id = svi.SolicitudVacacionesId
+                 WHERE del.Estado <> ins.Estado 
+
+                     OPEN CUR_AusentismoVacaciones;
+                     FETCH NEXT FROM CUR_AusentismoVacaciones INTO @AusentismoId, @EstadoAusentismo, @SolicitudVacacionesId,@EstadoSolicitudVacaciones,@SolicitudVacacionesInterrupcionId;
+                     WHILE @@fetch_status = 0
+                         BEGIN
+                             -- Verifica si estado el nuevo estado del ausentismo es Anulado
+                             IF(@EstadoAusentismo  = (SELECT vce.AUSENTISMO_ANULADO FROM util.VW_ConstanteEstado vce))
+                                 BEGIN
+                                     --Elimina registro en la tabla de SolicitudVacacionesInterrupción.
+                                     DELETE dbo.SolicitudVacacionesInterrupcion WHERE Id = @SolicitudVacacionesInterrupcionId
+
+									 --Verifica el estado de la solicitud de vacaciones 
+									 -- Si está interrumpida la pasa a EnCurso
+									 IF (@EstadoSolicitudVacaciones =(
+                                         SELECT coe.SOLICITUDVACACIONES_INTERRUMPIDA
+                                         FROM util.VW_ConstanteEstado coe
+                                     )  )
+									 BEGIN
+										 --Cambia estado a la solicitud de vacaciones
+										 UPDATE SolicitudVacaciones
+										   SET 
+											   Estado =
+										 (
+											 SELECT coe.SOLICITUDVACACIONES_ENCURSO
+											 FROM util.VW_ConstanteEstado coe
+										 )
+										 WHERE Id = @SolicitudVacacionesId;
+									 END
+                             END;
+                             FETCH NEXT FROM CUR_AusentismoVacaciones INTO @AusentismoId, @EstadoAusentismo, @SolicitudVacacionesId,@EstadoSolicitudVacaciones,@SolicitudVacacionesInterrupcionId;
+         END;
+                     CLOSE CUR_AusentismoVacaciones;
+                     DEALLOCATE CUR_AusentismoVacaciones;
+
+                     -- Cierre de la transacción
+
+                     IF @@TRANCOUNT > 0
+                         BEGIN
+                             IF XACT_STATE() = 1
+                                 BEGIN
+                                     COMMIT TRAN AusentismoVacaciones;
+                             END;
+                                 ELSE
+                                 BEGIN
+                                     EXEC util.USP_GenerarExcepcion 
+                                          50000, 
+                                          'No se puede confirmar la transacción.  Error desconocido.';
+                             END;
+                     END;
+                     SET NOCOUNT OFF;
+         END TRY
+                 BEGIN CATCH
+                     -- Rollback de la transacción
+                     IF XACT_STATE() <> 0
+                        AND @@TRANCOUNT > 0
+                         BEGIN
+                             ROLLBACK;
+                     END;
+
+                     -- Se almacena la información del error
+                     EXEC util.USP_Registrarerror 
+                          @NombreObjeto, 
+                          @Parametros;
+
+                     -- Se lanza la excepción
+                     EXEC util.USP_LanzarExcepcion;
+         END CATCH;
+         END;
+     END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[TR_EliminarRegistroSolicitudVacacionesInterrupcion]') IS NOT NULL
+BEGIN
+    DROP TRIGGER [dbo].[TR_EliminarRegistroSolicitudVacacionesInterrupcion]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

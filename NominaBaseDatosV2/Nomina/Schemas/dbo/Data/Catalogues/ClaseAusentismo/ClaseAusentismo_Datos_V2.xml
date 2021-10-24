@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="yiaguirr" id="ClaseAusentismo_Datos_V2">
+<comment>Insertar nuevo registro clase de ausentismo</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[ClaseAusentismo] ON;
+INSERT INTO ClaseAusentismo(Id, Codigo, Nombre, AfectaDiaPagar, AfectaDiaTrabajado, RequiereHora, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES(5, 'S', 'Suspensión', 1, 1, 0, 'Activo', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[ClaseAusentismo] OFF;
+
+]]>
+</sql>
+
+<rollback>
+
+<![CDATA[
+  DELETE FROM dbo.ClaseAusentismo WHERE ID = 5;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TR_ActualizarCriterioBusqueda_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TRIGGER [dbo].[TR_ActualizarCriterioBusqueda]
+   ON  [dbo].[Funcionario]
+   AFTER INSERT,UPDATE
+AS 
+BEGIN
+	IF EXISTS(  SELECT PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,NumeroDocumento 
+            FROM inserted)
+	-- DECLARE @Id as int                      = ( SELECT ins.Id             FROM inserted ins)
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= '';
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+	BEGIN TRY	
+			UPDATE 
+            Funcionario
+        SET
+            [CriterioBusqueda] =  REPLACE(CONCAT(NumeroDocumento,' - ',PrimerNombre,' ',SegundoNombre,' ',PrimerApellido,' ',SegundoApellido),'  ',' ')
+        WHERE 
+            Id IN (SELECT ins.Id FROM inserted ins)
+			END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TRIGGER [dbo].[TR_ActualizarCriterioBusqueda];
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

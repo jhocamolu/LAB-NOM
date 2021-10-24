@@ -1,0 +1,339 @@
+{
+	"info": {
+		"_postman_id": "39a5248e-c39f-49f6-bf22-a858974fca01",
+		"name": "HU034_Administrar_Jornadas_Laborales",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "JornadaLaborales",
+			"item": [
+				{
+					"name": "ConsultarJornadaLaboralDias/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/jornadaLaboralDias/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"jornadaLaboralDias",
+								"1"
+							]
+						},
+						"description": "{{host}}/odata/jornadaLaboralDias/1"
+					},
+					"response": []
+				},
+				{
+					"name": "ConsultaJornadaLaboralDias(Todas)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/jornadaLaboralDias",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"jornadaLaboralDias"
+							]
+						},
+						"description": "{{host}}/odata/jornadaLaboralDias"
+					},
+					"response": []
+				},
+				{
+					"name": "CrearjornadaLaboralDias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"jornadaLaboralId\": 3,\n    \"dia\": \"Martes\",\n    \"horaInicioJornada\": \"03:00\",\n    \"horaInicioDescanso\": \"05:00\",\n    \"horaFinDescanso\": \"06:00\",\n    \"horaFinJornada\": \"23:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/jornadaLaboralDias",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"jornadaLaboralDias"
+							]
+						},
+						"description": "{{host}}/api/jornadaLaboralDias"
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarjornadaLaboralDias/8",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 8,\n\t\"jornadaLaboralId\": 3,\n    \"dia\": \"Lunes\",\n    \"horaInicioJornada\": \"03:00\",\n    \"horaInicioDescanso\": \"05:00\",\n    \"horaFinDescanso\": \"06:00\",\n    \"horaFinJornada\": \"23:00\"\n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/jornadaLaboralDias/8",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"jornadaLaboralDias",
+								"8"
+							]
+						},
+						"description": "{{host}}/api/jornadaLaboralDias/8"
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/api/jornadaLaboralDias/8",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": 8,\n\t\"jornadaLaboralId\": 3,\n    \"dia\": \"Lunes\"\n    \n} ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/jornadaLaboralDias/8",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"jornadaLaboralDias",
+								"8"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ConsultarJornadaLaborales(todas)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/JornadaLaborales?$expand=jornadaLaboralDias($count=true)",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"JornadaLaborales"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "jornadaLaboralDias($count=true)"
+						}
+					]
+				},
+				"description": "{{host}}/odata/JornadaLaborales?$expand=jornadaLaboralDias($count=true)"
+			},
+			"response": []
+		},
+		{
+			"name": "CrearJornadaLaborales",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"UNA JORNADA MÁs.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/JornadaLaborales",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"JornadaLaborales"
+					]
+				},
+				"description": "{{host}}/api/JornadaLaborales"
+			},
+			"response": []
+		},
+		{
+			"name": "ConsultarJornadaLaborales/n",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/JornadaLaborales/1?$expand=jornadaLaboralDias($count=true)",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"JornadaLaborales",
+						"1"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "jornadaLaboralDias($count=true)"
+						}
+					]
+				},
+				"description": "{{host}}/odata/JornadaLaborales/1?$expand=jornadaLaboralDias($count=true)"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarJornadaLaboral",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":1,\n\t\"nombre\":\"Actualizacion Jornada 1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/JornadaLaborales/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"JornadaLaborales",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/JornadaLaborales/1"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialJornadaLaborales/2",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":2,\n\t\"Activo\":0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/JornadaLaborales/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"JornadaLaborales",
+						"2"
+					]
+				},
+				"description": "{{host}}/api/JornadaLaborales/2"
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarJornadaLaborales/2",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/JornadaLaborales/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"JornadaLaborales",
+						"2"
+					]
+				},
+				"description": "{{host}}/api/JornadaLaborales/2"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

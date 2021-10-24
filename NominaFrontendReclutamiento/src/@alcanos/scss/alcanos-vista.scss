@@ -1,0 +1,136 @@
+// Material theming tools
+@import "~@angular/material/theming";
+
+// Breakpoint mixins
+@import "partials/breakpoints";
+
+.title {
+    font-size: 15px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.87);
+    padding: 0px;
+}
+
+.visualizar {
+    padding: 30px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    button,
+    a {
+        mat-icon {
+            margin-right: 5px;
+        }
+    }
+}
+
+@mixin content {
+    flex-direction: column;
+    box-sizing: border-box;
+    display: flex;
+    place-content: stretch flex-start;
+    align-items: stretch;
+    .contenido {
+        background-color: white;
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+            0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+            0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+    }
+    .bloque {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        .title {
+            margin-bottom: 4px;
+        }
+        .info {
+            margin-bottom: 24px;
+        }
+    }
+    .dos-bloque {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        div {
+            flex: 1 1 100%;
+            box-sizing: border-box;
+            max-width: 50%;
+        }
+        .title {
+            margin-bottom: 4px;
+        }
+        .info {
+            margin-bottom: 24px;
+        }
+    }
+}
+
+.content {
+    @include content;
+}
+
+.content-tab {
+    padding: 24px;
+    padding-bottom: 12px;
+    .contenido {
+        padding: 24px;
+        background-color: white;
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+            0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+            0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+        
+    }
+    @include content;
+    .content {
+        & > div {
+            box-shadow: none !important;
+        }
+    }
+}
+
+.bloque-table--simple {
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center space-between;
+    align-items: center;
+    table.lista {
+        margin-right: 4px;
+        margin-top: 16px;
+        thead tr th {
+            color: #6e992e !important;
+            font-size: 15px;
+            font-weight: bold;
+        }
+        th {
+            padding: 8px;
+        }
+        td {
+            // padding: 6px;
+        }
+        tbody tr:nth-child(2n + 1) {
+            background-color: rgba(104, 135, 44, 0.08) !important;
+        }
+        tr > td:nth-child(2) {
+            width: 10px;
+            text-align: center;
+        }
+    }
+    table.simple {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+        border: none;
+        border-spacing: 0;
+        text-align: left !important;
+        th {
+            padding: 0px !important;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+        td {
+            padding: 0px !important;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+        }
+    }
+}

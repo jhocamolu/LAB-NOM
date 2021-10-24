@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "a01cd0d3-a64b-4724-8e53-7bd7734ed677",
+		"name": "HU092_Otros_terceros",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ObtenerTercerosConExpand",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/terceros/5?$select=id,nombre,nit,digitoVerificacion,divisionPoliticaNivel2Id,telefono ,direccion,entidadFinancieraId,tipoCuentaId,numeroCuenta,descripcion,estadoRegistro &$expand=divisionPoliticaNivel2($select=id, codigo,nombre,divisionPoliticaNivel1id; $expand=divisionPoliticaNivel1($select=id, codigo,nombre,paisid; $expand=pais($select=id,codigo, nombre))), entidadFinanciera($select=id, codigo,nombre), tipoCuenta($select=id, nombre)",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"terceros",
+						"5"
+					],
+					"query": [
+						{
+							"key": "$select",
+							"value": "id,nombre,nit,digitoVerificacion,divisionPoliticaNivel2Id,telefono ,direccion,entidadFinancieraId,tipoCuentaId,numeroCuenta,descripcion,estadoRegistro "
+						},
+						{
+							"key": "$expand",
+							"value": "divisionPoliticaNivel2($select=id, codigo,nombre,divisionPoliticaNivel1id; $expand=divisionPoliticaNivel1($select=id, codigo,nombre,paisid; $expand=pais($select=id,codigo, nombre))), entidadFinanciera($select=id, codigo,nombre), tipoCuenta($select=id, nombre)"
+						}
+					]
+				},
+				"description": "{{host}}/odata/terceros"
+			},
+			"response": []
+		},
+		{
+			"name": "obtenerTerceros",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/terceros/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"terceros",
+						""
+					]
+				},
+				"description": "{{host}}/odata/terceros/5"
+			},
+			"response": []
+		},
+		{
+			"name": "CrearTerceros",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Nombre\":\"Claudia Carvajal\",\r\n    \"Nit\":\"123\",\r\n    \"DigitoVerificacion\":8,\r\n    \"DivisionPoliticaNivel2Id\" :1026,\r\n    \"Telefono\":3012454997,\r\n    \"Direccion\": \"Casa 106 manza 1\",\r\n    \"EntidadFinancieraId\": 1,\r\n    \"TipoCuentaId\":2,\r\n    \"NumeroCuenta\":987654321,\r\n    \"Descripcion\":\"Esta es la descripcion\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/terceros",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"terceros"
+					]
+				},
+				"description": "{{host}}/api/terceros"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarTerceros",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":7,\r\n    \"Nombre\":\"Claudia Carvajal\",\r\n    \"Nit\":\"123\",\r\n    \"DigitoVerificacion\":8,\r\n    \"DivisionPoliticaNivel2Id\" :1026,\r\n    \"Telefono\":3012454997,\r\n    \"Direccion\": \"Casa 106 manza 1 s\",\r\n    \"EntidadFinancieraId\": 1,\r\n    \"TipoCuentaId\":2,\r\n    \"NumeroCuenta\":987654321,\r\n    \"Descripcion\":\"Esta es la descripcion\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/terceros/7",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"terceros",
+						"7"
+					]
+				},
+				"description": "{{host}}/api/terceros/6"
+			},
+			"response": []
+		},
+		{
+			"name": "PArcialTerceros",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":7,\r\n    \"Activo\":false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/terceros/7",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"terceros",
+						"7"
+					]
+				},
+				"description": "{{host}}/api/terceros"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTerceros",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/terceros/8",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"terceros",
+						"8"
+					]
+				},
+				"description": "{{host}}/api/terceros/8"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "fb8a4e7e-aa72-4bca-a61e-753c9ca69483",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6527e534-6ccc-47a6-909a-4afd9f9cbb9a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="Novedad_V2">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+EXEC sp_rename N'[Novedad].[Fecha]', N'FechaAplicacion', N'COLUMN';
+
+GO
+
+CREATE INDEX [IX_Novedad_TerceroId] ON [Novedad] ([TerceroId]);
+
+GO
+
+CREATE INDEX [IX_Novedad_TipoPeriodoId] ON [Novedad] ([TipoPeriodoId]);
+
+GO
+
+ALTER TABLE [Novedad] ADD CONSTRAINT [FK_Novedad_Tercero_TerceroId] FOREIGN KEY ([TerceroId]) REFERENCES [Tercero] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+ALTER TABLE [Novedad] ADD CONSTRAINT [FK_Novedad_TipoPeriodo_TipoPeriodoId] FOREIGN KEY ([TipoPeriodoId]) REFERENCES [TipoPeriodo] ([Id]) ON DELETE NO ACTION;
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+EXEC sp_rename N'[Novedad].[Fecha]', N'FechaAplicacion', N'COLUMN';
+
+GO
+
+CREATE INDEX [IX_Novedad_TerceroId] ON [Novedad] ([TerceroId]);
+
+GO
+
+CREATE INDEX [IX_Novedad_TipoPeriodoId] ON [Novedad] ([TipoPeriodoId]);
+
+GO
+
+ALTER TABLE [Novedad] ADD CONSTRAINT [FK_Novedad_Tercero_TerceroId] FOREIGN KEY ([TerceroId]) REFERENCES [Tercero] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+ALTER TABLE [Novedad] ADD CONSTRAINT [FK_Novedad_TipoPeriodo_TipoPeriodoId] FOREIGN KEY ([TipoPeriodoId]) REFERENCES [TipoPeriodo] ([Id]) ON DELETE NO ACTION;
+
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

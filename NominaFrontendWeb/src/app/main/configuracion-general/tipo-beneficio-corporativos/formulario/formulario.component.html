@@ -1,0 +1,504 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/beneficios/">Tipos de beneficios corporativos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar tipo de beneficio</span>
+                <span *ngIf="!item">Crear tipo de beneficio</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar tipo de beneficio </h2>
+                <h2 *ngIf="!item">Crear tipo de beneficio</h2>
+            </div>
+        </div>
+
+        <div class="Acciones">
+            <button mat-raised-button color="accent" mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>edit</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button *ngIf="arrayPermisosRequisitos.crear && id != null" (click)="requisitoHandle($event)"
+                    mat-menu-item>
+                    <span>Agregar requisito</span>
+                </button>
+                <a routerLink="/configuracion/beneficios" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="box-shadow">
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="tabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre" required>
+                            <mat-error *ngFor="let error of form.get('nombre').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Nombre que identifica el tipo de beneficio.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Requiere aprobación jefe directo</mat-label>
+                                <mat-select formControlName="requiereAprobacionJefe" required>
+                                    <mat-option [value]='null'></mat-option>
+                                    <mat-option *ngFor="let item of eleccion" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('requiereAprobacionJefe').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Seleccione si el tipo de beneficio se debe aprobar por el jefe directo.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Monto máximo permitido</mat-label>
+                                <input matInput formControlName="montoMaximo" required mask="separator.2"
+                                    separatorLimit="100000000" thousandSeparator=".">
+                                <mat-error *ngFor="let error of form.get('montoMaximo').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Valor máximo de dinero que se permite para el tipo de beneficio.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Concepto de nómina para entrega de beneficio</mat-label>
+                            <mat-select formControlName="conceptoNominaDevengoId">
+                                <mat-option [value]='null'></mat-option>
+                                <mat-option *ngFor="let item of devengo" [value]="item.id">
+                                    <span class="text-uppercase">{{item.codigo}}</span>, {{item.nombre}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of form.get('conceptoNominaDevengoId').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Ítem de la nómina que relaciona el tipo de beneficio.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Concepto de nómina para descuento</mat-label>
+                            <mat-select formControlName="conceptoNominaDeduccionId">
+                                <mat-option [value]='null'></mat-option>
+                                <mat-option *ngFor="let item of deduccion" [value]="item.id">
+                                    <span class="text-uppercase">{{item.codigo}}</span>, {{item.nombre}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of form.get('conceptoNominaDeduccionId').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Ítem de la nómina que relaciona el tipo de beneficio.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Concepto de nómina para cálculo o provisión</mat-label>
+                            <mat-select formControlName="conceptoNominaCalculoId">
+                                <mat-option [value]='null'></mat-option>
+                                <mat-option *ngFor="let item of calculo" [value]="item.id">
+                                    <span class="text-uppercase">{{item.codigo}}</span>, {{item.nombre}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of form.get('conceptoNominaCalculoId').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Ítem de la nómina que relaciona el tipo de beneficio.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Valor solicitado por funcionario</mat-label>
+                                <mat-select formControlName="valorSolicitado" required>
+                                    <mat-option [value]='null'></mat-option>
+                                    <mat-option *ngFor="let item of eleccion" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('valorSolicitado').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si se requiere que el funcionario diligencie el valor solicitado para el beneficio.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Solicita plazo en meses</mat-label>
+                                <mat-select formControlName="plazoMes" required>
+                                    <mat-option [value]='null'></mat-option>
+                                    <mat-option *ngFor="let item of eleccion" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('plazoMes').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si se requiere que el funcionario describa la cantidad de cuotas para el pago del beneficio.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Cantidad de cuotas permitidas</mat-label>
+                                <input matInput formControlName="cuotaPermitida" required>
+                                <mat-error *ngFor="let error of form.get('cuotaPermitida').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'max'">
+                                            Valor máximo 60
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica la cantidad de cuotas mensuales a las que se puede amortizar un beneficio.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Permite definir período de pago</mat-label>
+                                <mat-select formControlName="periodoPago" required>
+                                    <mat-option [value]='null'></mat-option>
+                                    <mat-option *ngFor="let item of eleccion" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('periodoPago').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si el funcionario puede definir la periodicidad de pago.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Permite opción de auxilio educativo.</mat-label>
+                                <mat-select formControlName="permiteAuxilioEducativo" required>
+                                    <mat-option [value]='null'></mat-option>
+                                    <mat-option *ngFor="let item of eleccion" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('permiteAuxilioEducativo').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si el funcionario debe definir una opción de auxilio educativo.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Permite descuento por nómina</mat-label>
+                                <mat-select formControlName="permiteDescuentoNomina" required>
+                                    <mat-option [value]='null'></mat-option>
+                                    <mat-option *ngFor="let item of eleccion" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('permiteDescuentoNomina').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si se debe permitir realizar descuento por nómina para el beneficio.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Permite ingresar valor autorizado</mat-label>
+                                <mat-select formControlName="valorAutorizado" required>
+                                    <mat-option [value]='null'></mat-option>
+                                    <mat-option *ngFor="let item of eleccion" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('valorAutorizado').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si el funcionario de gestión humana debe ingresar un monto a autorizar.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Días de antigüedad para beneficio</mat-label>
+                                <input matInput formControlName="diasAntiguedad" required>
+                                <mat-error *ngFor="let error of form.get('diasAntiguedad').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'max'">
+                                            Valor máximo 1000
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Cantidad de días de antigüedad para acceder al beneficio.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Veces permitidos por año</mat-label>
+                                <input matInput formControlName="vecesAnio" required>
+                                <mat-error *ngFor="let error of form.get('vecesAnio').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template [ngSwitchCase]="'max'">
+                                            Valor máximo 1000
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Cantidad de veces que se permite acceder al beneficio en un año.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Permiso para adelantar estudios</mat-label>
+                                <mat-select formControlName="permisoEstudio" required>
+                                    <mat-option [value]='null'></mat-option>
+                                    <mat-option *ngFor="let item of eleccion" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('permisoEstudio').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si el beneficio debe mostrar las condiciones para adelantar estudios.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="bloque-textarea">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Descripción</mat-label>
+                                <textarea matInput formControlName="descripcion"></textarea>
+                                <mat-error *ngFor="let error of form.get('descripcion').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Breve descripción del tipo de beneficio.">
+                                    info</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="actions">
+                            <a *ngIf="!item" mat-raised-button routerLink="/configuracion/beneficios">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <a *ngIf="item" mat-raised-button routerLink="/configuracion/beneficios">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+
+                            <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+                    </form>
+                </mat-tab>
+
+                <!-- Segundo Label -->
+                <mat-tab label="Requisitos" [disabled]="path == 'crear'">
+
+
+                    <alcanos-empty-list (fnCreate)="requisitoHandle($event)"
+                        labelH1="¡Uy! Aún no has agregado requisitos." labelBtn="Agregar requisito"
+                        [visible]="count == 0">
+                    </alcanos-empty-list>
+
+
+                    <table class="simple" *ngIf="count > 0">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen">Nombre del requisito</th>
+                                <th class="mat-header-cell" style="text-align: center;" [ngStyle]="{'display': !arrayPermisosRequisitos.eliminar ? 'none' :
+                            ''}">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of requisitos" class="mat-row ">
+                                <td class="margen">{{item.tipoSoporte?.nombre}}</td>
+                                <td class="text-center">
+                                    <button matTooltip="Eliminar" mat-icon-button
+                                        *ngIf="arrayPermisosRequisitos.eliminar"
+                                        (click)="deleteRequisito($event, item.id)" aria-label="Boton de icono generado">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </mat-tab>
+                <!-- / Segundo Label -->
+            </mat-tab-group>
+
+        </div>
+        <!-- / CONTENT -->
+    </div>

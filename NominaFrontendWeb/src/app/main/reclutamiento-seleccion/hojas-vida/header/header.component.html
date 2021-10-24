@@ -1,0 +1,88 @@
+<!-- CONTENIDO -->
+<div class="contenido">
+    <div *ngIf="item" fxLayout="column" fxLayoutAlign="start" class="card-header p-12">
+        <div fxLayout="row" fxLayoutAlign="start" fxFlex="1 0 auto">
+            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="10">
+                <div fxLayout="column" (click)="cambiarImgHandle($event)" style="cursor: pointer;" *ngIf="editarImg">
+                    <div class="avatar" title="{{item.primerNombre}} {{item.primerApellido}}" *ngIf="item.adjunto"
+                        [ngStyle]="{'background-image': 'url(' + enviroments + '/bucket/download?document_id=' + item.adjunto + ')'}">
+                    </div>
+                    <img *ngIf="!item.adjunto" src="assets/alcanos/nofuncionario.jpg" class="card-circe">
+                </div>
+
+                <div fxLayout="column" *ngIf="editarImg == false">
+                    <div class="avatar" title="{{item.primerNombre}} {{item.primerApellido}}" *ngIf="item.adjunto"
+                        [ngStyle]="{'background-image': 'url(' + enviroments + '/bucket/download?document_id=' + item.adjunto + ')'}">
+                    </div>
+                    <img *ngIf="!item.adjunto" src="assets/alcanos/nofuncionario.jpg" class="card-circe">
+                </div>
+
+            </div>
+            <div fxLayout="row wrap" fxLayoutAlign="space-between" fxFlex="90" fxLayoutGap="15px" fxHide
+                fxShow.gt-md="true">
+                <div fxLayout="column">
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <span style="font-size: 18px;">
+                            {{ item.primerNombre }} {{ item.primerApellido }}
+                        </span>
+                    </div>
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon matTooltip="Ocupación" class="mr-8">account_box</mat-icon>
+                        <div class="text-truncate max-width-primario" matTooltip=" {{item.ocupacion?.nombre}}">
+                            {{item.ocupacion?.nombre}}
+                        </div>
+                    </div>
+                </div>
+
+                <div fxLayout="column">
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon matTooltip=" Tipo y número de documento." class="mr-8">person_pin</mat-icon>
+                        {{item.tipoDocumento?.codigoPila}} {{item.numeroDocumento}}
+                    </div>
+                     <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                         <mat-icon matTooltip="Sexo" class="mr-8">face</mat-icon>
+                        {{item.sexo.nombre}}
+                     </div>
+
+                </div>
+
+                <div fxLayout="column">
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon matTooltip="Edad" class="mr-8">calendar_today</mat-icon>
+                       {{item.edad}} Años
+                    </div>
+
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon matTooltip="Celular" class="mr-8">local_phone</mat-icon>
+                        {{item.celular}}
+                    </div>
+                </div>
+
+                <div fxLayout="column">
+                    <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon matTooltip="Lugar de residencia." class="mr-8">home</mat-icon>
+                        <div class="text-truncate max-width-direccion"
+                            matTooltip="{{item.direccion}}">
+                             {{item.direccion}}
+                        </div>
+                    </div>
+
+                     <div class="p-12" fxLayout="row" fxLayoutAlign="start center">
+                         <mat-icon matTooltip="Correo" class="mr-8">email</mat-icon>
+                         <div class="text-truncate max-width-direccion" matTooltip="{{item.correoElectronicoPersonal}}">
+                             {{item.correoElectronicoPersonal}}
+                         </div>
+                         <div *ngIf="!item.correoElectronicoPersonal">
+                             Sin definir
+                         </div>
+                     </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--Contenido -->

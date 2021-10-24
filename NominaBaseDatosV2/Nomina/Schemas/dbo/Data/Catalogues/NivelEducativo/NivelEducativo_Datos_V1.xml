@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="NivelEducativo_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[NivelEducativo] ON 
+GO
+INSERT [dbo].[NivelEducativo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 1, 'Activo', GETDATE(), GETDATE(), NULL, 'PREESCOLAR')
+GO
+INSERT [dbo].[NivelEducativo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 2, 'Activo', GETDATE(), GETDATE(), NULL, 'BÁSICA PRIMARIA(1° - 5°)')
+GO
+INSERT [dbo].[NivelEducativo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 3, 'Activo', GETDATE(), GETDATE(), NULL, 'BÁSICA SECUNDARIA(6° - 9°)')
+GO
+INSERT [dbo].[NivelEducativo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 4, 'Activo', GETDATE(), GETDATE(), NULL, 'MEDIA (10° - 13)')
+GO
+INSERT [dbo].[NivelEducativo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 5, 'Activo', GETDATE(), GETDATE(), NULL, 'TÉCNICO LABORAL')
+GO
+INSERT [dbo].[NivelEducativo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 6, 'Activo', GETDATE(), GETDATE(), NULL, 'FORMACIÓN TÉC PROFESIONAL')
+GO
+INSERT [dbo].[NivelEducativo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 7, 'Activo', GETDATE(), GETDATE(), NULL, 'TECNOLÓGICA')
+GO
+INSERT [dbo].[NivelEducativo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 8, 'Activo', GETDATE(), GETDATE(), NULL, 'UNIVERSITARIA')
+GO
+INSERT [dbo].[NivelEducativo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 9, 'Activo', GETDATE(), GETDATE(), NULL, 'ESPECIALIZACIÓN')
+GO
+INSERT [dbo].[NivelEducativo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 10, 'Activo', GETDATE(), GETDATE(), NULL, 'MAESTRÍA')
+GO
+INSERT [dbo].[NivelEducativo] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 11, 'Activo', GETDATE(), GETDATE(), NULL, 'DOCTORADO')
+GO
+SET IDENTITY_INSERT [dbo].[NivelEducativo] OFF
+GO
+
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[NivelEducativo] WHERE Id BETWEEN 1 AND 11;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="USP_RedondearCentenaSuperior_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_RedondearCentenaSuperior', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_RedondearCentenaSuperior as SELECT 1');
+END;
+GO
+ALTER PROCEDURE [dbo].[USP_RedondearCentenaSuperior]	  @FuncionarioId 		INT,
+                                                              @ConceptoAlias VARCHAR(255),
+                                                              @FechaInicio          DATE,
+                                                              @FechaFin            DATE,
+                                                              @Valor         MONEY OUTPUT
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@ConceptoAlias=', CONVERT(VARCHAR, @ConceptoAlias), '&', '@FechaInicio=', CONVERT(VARCHAR, @FechaInicio), '&', '@FechaFin=', CONVERT(VARCHAR, @FechaInicio), '&', '@Valor=', CONVERT(VARCHAR, @Valor));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @ValorConcepto MONEY;
+	DECLARE @AuditoriaActivo VARCHAR(255)=
+    (
+        SELECT ces.AUDITORIA_ACTIVO
+        FROM util.VW_ConstanteEstado AS ces
+    );
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        SET @Valor = 0;
+
+	   -- Se acumulan los valores del detalle de la nómina asociados al funcionario, concepto y nóminas del mes
+       SELECT @ValorConcepto = FLOOR((COALESCE(SUM(nde.Valor),0) + 99)/100)*100
+	   FROM dbo.NominaFuncionario nfu INNER JOIN dbo.Nomina nom ON (nom.Id = nfu.NominaId)
+	   INNER JOIN dbo.NominaDetalle nde ON (nde.NominaFuncionarioId = nfu.Id)
+	   INNER JOIN dbo.ConceptoNomina cno ON (cno.Id = nde.ConceptoNominaId)
+	   WHERE nfu.FuncionarioId = @FuncionarioId
+	   AND cno.Alias = @ConceptoAlias
+	   AND nom.FechaInicio BETWEEN @FechaInicio AND @FechaFin
+	   AND nom.FechaFinal BETWEEN @FechaInicio AND @FechaFin
+	   AND nfu.EstadoRegistro = @AuditoriaActivo
+       AND nom.EstadoRegistro = @AuditoriaActivo;
+
+	   -- se redondea valor a la centena superior mas cercana
+	   SELECT @valor = [util].[UFS_RedondearConDireccion] (
+					   @ValorConcepto,
+					   100,
+					   1);
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_RedondearCentenaSuperior];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

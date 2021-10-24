@@ -1,0 +1,353 @@
+{
+	"info": {
+		"_postman_id": "731341f1-c59b-4f42-875b-c3fe5d0736e3",
+		"name": "HU058-Tipos_beneficios_corporativos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tipo Beneficio",
+			"item": [
+				{
+					"name": "Crear",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Nombre\":\"Pruebas server\",\n    \"ConceptoNominaDevengoId\":1,\n    \"ConceptoNominaDeduccionId\":20,\n    \"ConceptoNominaCalculoId\":32,\n    \"RequiereAprobacionJefe\":true,\n    \"MontoMaximo\":100000,\n    \"ValorSolicitado\":true,\n    \"PlazoMes\":true,\n    \"CuotaPermitida\":10,\n    \"PeriodoPago\":true,\n    \"PermisoEstudio\":true,\n    \"PermiteAuxilioEducativo\":false,\n    \"PermiteDescuentoNomina\":true,\n    \"ValorAutorizado\":true,\n    \"DiasAntiguedad\":1,\n    \"VecesAnio\":1,\n    \"Descripcion\":\"bla bla\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/tipobeneficios",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipobeneficios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":5,\n\t\"Nombre\":\"Pruebas server\",\n    \"ConceptoNominaDevengoId\":1,\n    \"ConceptoNominaDeduccionId\":20,\n    \"ConceptoNominaCalculoId\":32,\n    \"RequiereAprobacionJefe\":true,\n    \"MontoMaximo\":100000,\n    \"ValorSolicitado\":true,\n    \"PlazoMes\":true,\n    \"CuotaPermitida\":5,\n    \"PeriodoPago\":true,\n    \"PermisoEstudio\":false,\n    \"PermiteAuxilioEducativo\":false,\n    \"PermiteDescuentoNomina\":true,\n    \"ValorAutorizado\":true,\n    \"DiasAntiguedad\":1,\n    \"VecesAnio\":1,\n    \"Descripcion\":\"bla bla\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/tipobeneficios/5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipobeneficios",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Estado",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":4,\n\t\"Activo\":false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/tipobeneficios/4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"tipobeneficios",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44356/odata/tipobeneficios",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"odata",
+								"tipobeneficios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Uno",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/tipobeneficios/4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"tipobeneficios",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Tipo Beneficio Soporte",
+			"item": [
+				{
+					"name": "Crear",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"tipoSoporteId\": 1,\n        \"tipoBeneficioId\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44356/api/tipobeneficiorequisitos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"api",
+								"tipobeneficiorequisitos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44356/odata/tipobeneficiorequisitos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"odata",
+								"tipobeneficiorequisitos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar uno",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44356/odata/tipobeneficiorequisitos/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"odata",
+								"tipobeneficiorequisitos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":2,\n    \"tipoSoporteId\": 2,\n    \"tipoBeneficioId\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44356/api/tipobeneficiorequisitos/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"api",
+								"tipobeneficiorequisitos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Estado",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":2,\n\t\"Activo\":false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44356/api/tipobeneficiorequisitos/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"api",
+								"tipobeneficiorequisitos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":2,\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44356/api/tipobeneficiorequisitos/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44356",
+							"path": [
+								"api",
+								"tipobeneficiorequisitos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

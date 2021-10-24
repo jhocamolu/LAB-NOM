@@ -1,0 +1,223 @@
+<div id="dashboard-project" class="page-layout simple right-sidebar" fxLayout="row" *ngIf="data">
+
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+
+        <!-- HEADER -->
+        <div class="header accent p-24" fxLayout="column" fxLayoutAlign="space-between">
+
+            <div class="mtb-auto" fxLayout="row" fxLayoutAlign="space-between start">
+
+                <span class="mat-display-1 my-0 my-sm-24 welcome-message"
+                    [@animate]="{value:'*',params:{x:'50px'}}">¡Hola {{nombre}}!, bienvenido a GHestic.
+                </span>
+
+                <button mat-icon-button class="sidebar-toggle mr-8" fxHide.gt-md
+                    (click)="toggleSidebar('project-dashboard-right-sidebar-1')">
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content">
+            <div class="widget-group p-12" fxLayout="row wrap" fxFlex="100" *fuseIfOnDom
+                [@animateStagger]="{value:'50'}">
+                <ng-container *ngFor="let item of items">
+                    <ng-container *ngIf="item?.value?.count">
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget custom-lg">
+                            <div class="fuse-widget-front">
+                                <div class="pl-16 pr-8 py-16 h-52" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="h3">{{item?.value?.label}}</div>
+                                </div>
+
+                                <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+                                    <div class="font-size-72 line-height-72" [style.color]="item?.value?.color">
+                                        {{item?.value?.count}}
+                                    </div>
+                                    <div class="h3 secondary-text font-weight-500 text-center">{{item?.value?.extra?.count}}
+                                    </div>
+                                </div>
+                            </div>
+                        </fuse-widget>
+                    </ng-container>
+                </ng-container>
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100">
+                </fuse-widget>
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                     fxFlex="100" fxFlex.gt-sm="50">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+                                <div class="px-16 py-8 border-bottom" fxLayout="row"
+                                     fxLayoutAlign="space-between center">
+                                    <div class="h3">{{chartRedondo?.data?.label}}</div>
+                                </div>
+
+                                <div class="h-400">
+                                    <ngx-charts-pie-chart
+                                        *fuseIfOnDom
+                                        [scheme]="colorChart.scheme"
+                                        [results]="dataChart"
+                                        [legend]="widget6.showLegend"
+                                        [explodeSlices]="widget6.explodeSlices"
+                                        [labels]="widget6.labels"
+                                        [doughnut]="widget6.doughnut"
+                                        [gradient]="widget6.gradient">
+                                    </ngx-charts-pie-chart>
+                                </div>
+
+                                <!-- <div class="py-8 mh-16 border-top" fxLayout="row wrap" fxLayoutAlign="start center">
+
+                                    <div class="py-8 border-right" fxLayout="column" fxLayoutAlign="center center"
+                                         fxFlex="100" fxFlex.gt-sm="50">
+                                        <span class="mat-display-1 mb-0">
+                                            {{widgets.widget6.footerLeft.count[widget6.currentRange]}}
+                                        </span>
+                                        <span class="h4">{{widgets.widget6.footerLeft.title}}</span>
+                                    </div>
+
+                                    <div class="py-8" fxLayout="column" fxLayoutAlign="center center" fxFlex="100"
+                                         fxFlex.gt-sm="50">
+                                        <span class="mat-display-1 mb-0">
+                                            {{widgets.widget6.footerRight.count[widget6.currentRange]}}
+                                        </span>
+                                        <span class="h4">{{widgets.widget6.footerRight.title}}</span>
+                                    </div>
+                                </div> -->
+
+                            </div>
+                            <!-- / Front -->
+
+                        </fuse-widget>
+
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                                     fxFlex="100" fxFlex.gt-sm="50">
+
+                            <!-- Front -->
+                            <div class="fuse-widget-front">
+                                <div class="px-16 py-8 border-bottom" fxLayout="row"
+                                     fxLayoutAlign="space-between center">
+                                    <div class="h3">{{funcionarios?.data?.label}}</div>
+                                </div>
+
+                                <div class="h-400">
+                                    <ngx-charts-bar-vertical
+                                            *fuseIfOnDom
+                                            [scheme]="colorFuncionario.scheme"
+                                            [results]="dataFuncionario"
+                                            [gradient]="widget5.gradient"
+                                            [xAxis]="widget5.xAxis"
+                                            [yAxis]="widget5.yAxis"
+                                            [legend]="widget5.legend"
+                                            showXAxisLabel="true"
+                                            showYAxisLabel="true"
+                                            [xAxisLabel]="xAxisLabel"
+                                            [yAxisLabel]="yAxisLabel">
+                                        </ngx-charts-bar-vertical>
+                                </div>
+                            </div>
+                            <!-- / Front -->
+
+                        </fuse-widget>
+            </div>
+        </div>
+        <!-- / CONTENT -->
+    </div>
+    <!-- / CENTER -->
+
+    <!-- SIDEBAR -->
+    <fuse-sidebar class="sidebar" name="project-dashboard-right-sidebar-1" position="right" lockedOpen="gt-md">
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content">
+
+            <!-- WIDGET GROUP -->
+            <div class="widget-group" fxLayout="column" fxFlex="100" [@animateStagger]="{value:'50'}">
+
+                <!-- NOW WIDGET -->
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="pb-0">
+
+                    <!-- Front -->
+                    <div class="fuse-widget-front">
+
+                        <div class="pl-16 pr-8 py-16" fxLayout="row" fxLayoutAlign="space-between center">
+
+                            <div class="h3">{{dateNow | date: 'EEEE, HH:mm:ss'}}</div>
+
+                        </div>
+
+                        <div class="p-16 pb-24" fxLayout="column" fxLayoutAlign="center center">
+                            <div class="h1 secondary-text">
+                                <span>{{mesDiaAnio.Mes}}</span>
+                            </div>
+
+                            <div class="font-size-72 line-height-88 secondary-text font-weight-400">
+                                {{mesDiaAnio.Dia}}
+                            </div>
+
+                            <div class="h1 secondary-text">
+                                <span>{{mesDiaAnio.Anio}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- / Front -->
+
+                </fuse-widget>
+                <!-- / NOW WIDGET -->
+
+                <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="pb-0">
+                    <div class="fuse-widget-front">
+                        <div [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
+
+                            <div>
+
+                                <div class="p-16" fxLayout="row" fxLayoutAlign="space-between center">
+                                    <div class="h2 pl-5 pr-16">{{proximosCumpleanos?.label}}</div>
+                                </div>
+
+                                <table class="simple simples clickable">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let row of proximosCumpleanos?.datos">
+                                            <td class="h6 d-flex">
+                                                <img class="avatar" [alt]="row.nombre"
+                                                    [src]="'assets/alcanos/nofuncionario.jpg'" />
+                                                    <label class="mtb-auto capitalize">
+                                                        {{getNameCapitalize(row)}} 
+                                                    </label>
+                                            </td>
+                                            <td class="h6">
+                                                <!-- <img class="avatar" *ngIf="row.foto" [alt]="row.nombre"
+                                                    [src]="row.foto" /> -->
+                                                    {{row.fecha}}
+                                            </td>
+                                            <!-- <td class="text-right">{{row.conversion}}</td> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </fuse-widget>
+
+            </div>
+            <!-- / WIDGET GROUP -->
+
+        </div>
+        <!-- / SIDEBAR CONTENT -->
+
+    </fuse-sidebar>
+    <!-- / SIDEBAR -->
+
+
+</div>

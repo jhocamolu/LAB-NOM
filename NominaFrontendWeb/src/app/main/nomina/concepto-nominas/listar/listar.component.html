@@ -1,0 +1,141 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Nómina</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Conceptos</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Conceptos</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+            <button *ngIf="arrayPermisos.crear" mat-raised-button color="accent"
+                [routerLink]="['/nomina/concepto-nominas/crear']" routerLinkActive="router-link-active">
+                <mat-icon>add</mat-icon>
+                <span>Crear concepto</span>
+            </button>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <div class="parent"></div>
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <alcanos-empty-list [visibleBtnCreate]="arrayPermisos.crear" (fnCreate)="crearHandle($event)"
+                labelH1="¡Uy! Aún no has registrado conceptos de nómina." labelBtn="Crear concepto"
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna Código -->
+                    <ng-container matColumnDef="codigo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Código</th>
+                        <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+                    </ng-container>
+
+                    <!-- Columna Alias-->
+                    <ng-container matColumnDef="alias">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Alias</th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate alias">{{element.alias}}</p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna Nombre -->
+                    <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate tamanio" matTooltip="{{element.nombre}}">{{element.nombre}}</p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna tipoConceptoNomina -->
+                    <ng-container matColumnDef="tipoConceptoNomina">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+                        <td mat-cell *matCellDef="let element">{{element.tipoConceptoNomina}} </td>
+                    </ng-container>
+
+                    <!-- Columna claseConceptoNomina -->
+                    <ng-container matColumnDef="claseConceptoNomina">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Clase </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.claseConceptoNomina == 'Calculo' ? 'Cálculo' : '' }}
+                            {{element.claseConceptoNomina == 'Devengo' ? 'Devengo' : '' }}
+                            {{element.claseConceptoNomina == 'Deduccion' ? 'Deducción' : ''}}</td>
+                    </ng-container>
+
+                    <!-- Columna Orden -->
+                    <ng-container matColumnDef="orden">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Orden </th>
+                        <td mat-cell *matCellDef="let element">{{element.orden}}</td>
+                    </ng-container>
+
+                    <!-- Columna activo -->
+                    <ng-container matColumnDef="estadoRegistro">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-left: 20px;">Activo</th>
+                        <td mat-cell *matCellDef="let element" style="width: 100px">
+                            <button mat-icon-button
+                                [matTooltip]="arrayPermisos.estadoRegistro && element.estado !== 'Activo' ? ( element.estadoRegistro == 'Activo' ? 'Inactivar': 'Activar' ) : null "
+                                (click)="arrayPermisos.estadoRegistro && element.estado !== 'Activo' ? activarHandle($event, element) : null">
+                                <mat-icon *ngIf="element.estadoRegistro == 'Activo'" class="s-20"
+                                    [ngStyle]="{'color':'green'}">
+                                    check</mat-icon>
+                                <mat-icon *ngIf="element.estadoRegistro != 'Activo'" class="s-20"
+                                    [ngStyle]="{'color':'red'}">
+                                    close</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef  [ngStyle]="{'display':!( arrayPermisos.actualizar || arrayPermisos.obtener ) ? 'none' : ''}"> Acciones </th>
+                        <td mat-cell *matCellDef="let element"  [ngStyle]="{'display':!( arrayPermisos.actualizar || arrayPermisos.obtener ) ? 'none' : ''}">
+
+                            <a *ngIf="arrayPermisos.obtener" mat-icon-button matTooltip="Visualizar"
+                                routerLink="/nomina/concepto-nominas/{{element.id}}/mostrar">
+                                <mat-icon class="s-20">visibility</mat-icon>
+                            </a>
+                            <button *ngIf="arrayPermisos.actualizar" mat-icon-button matTooltip="Editar"
+                                routerLink="/nomina/concepto-nominas/{{element.id}}/editar">
+                                <mat-icon class="s-20">edit</mat-icon>
+                            </button>
+
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

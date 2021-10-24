@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "738c48c0-1e38-4704-92a4-3ec3ce658da2",
+		"name": "HU033_Administrar_Documentos_Funcionario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CrearDocuemnto",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t \"funcionarioId\":7,\n\t \"tipoSoporteID\":1,\n\t \"nombre\":\"Otro diploma2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/documentoFuncionarios",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"documentoFuncionarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarDocumentoFuncionarios/3",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":3,\n\t \"funcionarioId\":7,\n\t \"tipoSoporteID\":1,\n\t \"nombre\":\"Otro diploma\",\n\t \"AdjuntoID\":11\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/documentoFuncionarios/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"documentoFuncionarios",
+						"3"
+					]
+				},
+				"description": "{{host}}/api/documentoFuncionarios/3"
+			},
+			"response": []
+		},
+		{
+			"name": "ConsultarDocumentoFuncionarios(todos)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/documentoFuncionarios",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"documentoFuncionarios"
+					]
+				},
+				"description": "{{host}}/odata/documentoFuncionarios"
+			},
+			"response": []
+		},
+		{
+			"name": "ConsultarDocumentoFuncionarios/1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/documentoFuncionarios/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"documentoFuncionarios",
+						"1"
+					]
+				},
+				"description": "{{host}}/odata/documentoFuncionarios/1"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialDocumentoFuncionarios/3",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":3,\n\t \"funcionarioId\":7\n\t \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/documentoFuncionarios/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"documentoFuncionarios",
+						"3"
+					]
+				},
+				"description": "{{host}}/api/documentoFuncionarios/3"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="GrupoDocumentoEtiqueta_Datos_V1">
+<comment>Migración Inicial</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[GrupoDocumentoEtiqueta] ON 
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (1, 6, 1, N'informacionBasica.divisionPoliticaNivel2.nombre', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (2, 6, 2, N'dia-actual', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (3, 6, 3, N'mes-actual', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (4, 6, 4, N'año-actual', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (5, 6, 5, N'informacionBasica.razonSocial', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (6, 6, 6, N'informacionBasica.nit', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (7, 6, 7, N'informacionBasica.direccion', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (8, 6, 8, N'informacionBasica.divisionPoliticaNivel2.divisionPoliticaNivel1.nombre', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (9, 6, 9, N'informacionBasica.divisionPoliticaNivel2.divisionPoliticaNivel1.pais.nombre', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (10, 6, 10, N'primerNombre', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (11, 6, 11, N'segundoNombre', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (12, 6, 12, N'primerApellido', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (13, 6, 13, N'segundoApellido', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (14, 6, 14, N'numeroDocumento', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (15, 6, 15, N'contrato.tipoContrato.nombre', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (16, 6, 16, N'contrato.fechaInicio', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (17, 6, 17, N'cargo.nombre', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (18, 6, 18, N'centroOperativo.nombre', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (19, 6, 19, N'sueldo', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (20, 6, 20, N'sueldo', N'Activo', CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, CAST(N'2020-03-18T09:54:13.2370000' AS DateTime2), NULL, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (21, 6, 21, N'representanteEmpresa.funcionario.primerNombre', N'Activo', CAST(N'2020-03-18T00:00:00.0000000' AS DateTime2), NULL, CAST(N'0001-01-01T00:00:00.0000000' AS DateTime2), 2, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (22, 6, 22, N'representanteEmpresa.funcionario.segundoNombre', N'Activo', CAST(N'2020-03-30T17:56:43.1770000' AS DateTime2), NULL, CAST(N'2020-03-30T17:56:43.1770000' AS DateTime2), 2, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (23, 6, 23, N'representanteEmpresa.funcionario.primerApellido', N'Activo', CAST(N'2020-03-30T17:56:43.1770000' AS DateTime2), NULL, CAST(N'2020-03-30T17:56:43.1770000' AS DateTime2), 2, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (24, 6, 24, N'representanteEmpresa.funcionario.segundoApellido', N'Activo', CAST(N'2020-03-30T17:56:43.1770000' AS DateTime2), NULL, CAST(N'2020-03-30T17:56:43.1770000' AS DateTime2), 2, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (25, 6, 25, N'representanteEmpresa.cargo.nombre', N'Activo', CAST(N'2020-03-30T18:07:09.1170000' AS DateTime2), NULL, CAST(N'2020-03-30T18:07:09.1170000' AS DateTime2), 2, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (26, 6, 26, N'representanteEmpresa.funcionario.numeroDocumento', N'Activo', CAST(N'2020-03-30T18:07:09.1170000' AS DateTime2), NULL, CAST(N'2020-03-30T18:07:09.1170000' AS DateTime2), 2, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (27, 6, 27, N'representanteEmpresa.funcionario.divisionPoliticaNivel2ExpedicionDocumento.nombre', N'Activo', CAST(N'2020-03-30T18:07:09.1170000' AS DateTime2), NULL, CAST(N'2020-03-30T18:07:09.1170000' AS DateTime2), 2, NULL, NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (28, 3, 1, N'informacionBasica.divisionPoliticaNivel2.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 1, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (29, 3, 2, N'dia-actual', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (30, 3, 3, N'mes-actual', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (31, 3, 4, N'año-actual', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (32, 3, 5, N'informacionBasica.razonSocial', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 1, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (33, 3, 6, N'informacionBasica.nit', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 1, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (34, 3, 7, N'informacionBasica.direccion', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 1, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (35, 3, 8, N'informacionBasica.divisionPoliticaNivel2.divisionPoliticaNivel1.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 1, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (36, 3, 9, N'informacionBasica.divisionPoliticaNivel2.divisionPoliticaNivel1.pais.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 1, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (37, 3, 10, N'funcionario.primerNombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (38, 3, 11, N'funcionario.segundoNombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (39, 3, 12, N'funcionario.primerApellido', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (40, 3, 13, N'funcionario.segundoApellido', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (41, 3, 14, N'funcionario.numeroDocumento', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (42, 3, 15, N'tipoContrato.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (43, 3, 16, N'fechaInicio', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (44, 3, 17, N'cargoDependencia.cargo.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (45, 3, 18, N'centroOperativo.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (46, 3, 19, N'sueldo', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (47, 3, 20, N'sueldo', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (48, 3, 21, N'representanteEmpresa.funcionario.primerNombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 2, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (49, 3, 22, N'representanteEmpresa.funcionario.segundoNombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 2, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (50, 3, 23, N'representanteEmpresa.funcionario.primerApellido', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 2, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (51, 3, 24, N'representanteEmpresa.funcionario.segundoApellido', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 2, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (52, 3, 25, N'representanteEmpresa.cargo.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 2, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (53, 3, 26, N'representanteEmpresa.funcionario.numeroDocumento', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 2, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (54, 3, 27, N'representanteEmpresa.funcionario.divisionPoliticaNivel2ExpedicionDocumento.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 2, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (55, 3, 29, N'informacionBasica.digitoVerificacion', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, 1, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (56, 3, 31, N'funcionario.divisionPoliticaNivel2ExpedicionDocumento.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (57, 3, 32, N'funcionario.divisionPoliticaNivel2Origen.divisionPoliticaNivel1.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (58, 3, 33, N'funcionario.divisionPoliticaNivel2Origen.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (59, 3, 34, N'funcionario.fechaNacimiento', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (60, 3, 36, N'divisionPoliticaNivel2.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (61, 3, 39, N'fechaFinalizacion', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (62, 3, 41, N'divisionPoliticaNivel2.nombre', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (63, 3, 42, N'dia-actual', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (64, 3, 43, N'dia-actual', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (65, 3, 44, N'mes-actual', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (66, 3, 45, N'año-actual', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (67, 3, 46, N'año-actual', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (68, 3, 47, N'funcionario.direccion', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (69, 3, 52, N'funcionario.divisionPoliticaNivel2Origen.divisionPoliticaNivel1.pais.nacionalidad', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (70, 3, 54, N'periodoPrueba', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+INSERT [dbo].[GrupoDocumentoEtiqueta] ([Id], [GrupoDocumentoId], [EtiquetaId], [Campo], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [ServicioFijoId], [CreadoPor], [EliminadoPor], [ModificadoPor]) VALUES (71, 3, 55, N'periodoPrueba', N'Activo', CAST(N'2020-04-01T11:50:21.2470000' AS DateTime2), NULL, NULL, NULL, N'Sistema', NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[GrupoDocumentoEtiqueta] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [GrupoDocumentoEtiqueta]
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

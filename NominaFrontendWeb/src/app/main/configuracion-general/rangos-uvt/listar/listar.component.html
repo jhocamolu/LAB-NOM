@@ -1,0 +1,144 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Rangos UVT</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Rangos UVT</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+            <a mat-raised-button *ngIf="arrayPermisos.crear" color="accent"
+                routerLink="/configuracion/rangos-uvt/crear">
+                <mat-icon>add</mat-icon>
+                <span>Crear rango</span>
+            </a>
+
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <alcanos-empty-list [visibleBtnCreate]="arrayPermisos.crear" (fnCreate)="crearHandle($event)"
+                labelH1="¡Uy! Aún no has registrado rangos UVT." labelBtn="Crear rango"
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna Desde -->
+                    <ng-container matColumnDef="desde">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Desde </th>
+                        <td mat-cell *matCellDef="let element">{{element.desde}}
+                        </td>
+                    </ng-container>
+
+
+                    <!-- Columna Hasta -->
+                    <ng-container matColumnDef="hasta">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Hasta </th>
+                        <td mat-cell *matCellDef="let element">{{element.hasta}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna Porcentaje -->
+                    <ng-container matColumnDef="porcentaje">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Porcentaje </th>
+                        <td mat-cell *matCellDef="let element" class="drPorcentaje">
+                            {{( element.porcentaje / 100) | percent }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna UVT que adiciona -->
+                    <ng-container matColumnDef="adiciona">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> UVT que adiciona </th>
+                        <td mat-cell *matCellDef="let element" class="drAdiciona">{{ element.adiciona}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna UVT que sustrae -->
+                    <ng-container matColumnDef="sustrae">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> UVT que sustrae </th>
+                        <td mat-cell *matCellDef="let element" class="drSustrae">{{ element.sustrae}}
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna fechaCreacion -->
+                    <ng-container matColumnDef="validoDesde">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Válido desde </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{  element.validoDesde  | date:'dd / LL / yyyy' }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna activo -->
+                    <ng-container matColumnDef="estadoRegistro">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Activo</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button>
+                                <mat-icon
+                                    [ngClass]="element.estadoRegistro === 'Activo' ? 'text-success' : 'text-danger'"
+                                    matTooltip="{{element.estadoRegistro === 'Activo' ? 'Inactivar' : 'Activar'}}"
+                                    (click)="arrayPermisos.estadoRegistro && element.estado !== 'Aplicada' ? activarHandle($event, element) : null">
+                                    {{element.estadoRegistro === 'Activo' ? 'check' : 'clear'}}
+                                </mat-icon>
+
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': !( arrayPermisos.actualizar || arrayPermisos.obtener ) ? 'none' :
+                            ''}">
+                            Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="1">
+                                <a mat-icon-button *ngIf="arrayPermisos.actualizar"
+                                    routerLink="/configuracion/rangos-uvt/{{element.id}}/editar">
+                                    <mat-icon matTooltip="Editar">edit</mat-icon>
+                                </a>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

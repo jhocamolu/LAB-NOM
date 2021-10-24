@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "414f9885-6363-4bf7-8298-9b8b7d056dbc",
+		"name": "HU006_Administrar_Ocupaciones",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://nomintegra.alcanosesp.com:9001/odata/ocupaciones",
+					"protocol": "https",
+					"host": [
+						"nomintegra",
+						"alcanosesp",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"odata",
+						"ocupaciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ver Uno",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://nomintegra.alcanosesp.com:9001/odata/ocupaciones/1",
+					"protocol": "https",
+					"host": [
+						"nomintegra",
+						"alcanosesp",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"odata",
+						"ocupaciones",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"codigo\": \"Requerido\",\n    \"nombre\": \"Requerido\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://nomintegra.alcanosesp.com:9001/api/ocupaciones",
+					"protocol": "https",
+					"host": [
+						"nomintegra",
+						"alcanosesp",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"ocupaciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"codigo\": \"0011\",\n    \"nombre\": \"Miembros del Poder Ejecutivo y Legislativos\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://nomintegra.alcanosesp.com:9001/api/ocupaciones/1",
+					"protocol": "https",
+					"host": [
+						"nomintegra",
+						"alcanosesp",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"ocupaciones",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"Activo\":true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://nomintegra.alcanosesp.com:9001/api/ocupaciones/1",
+					"protocol": "https",
+					"host": [
+						"nomintegra",
+						"alcanosesp",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"ocupaciones",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

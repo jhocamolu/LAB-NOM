@@ -1,0 +1,85 @@
+<!-- CONTENIDO -->
+<div class="contenido">
+    <div *ngIf="item" fxLayout="column" fxLayoutAlign="start" class="card-header">
+
+        <div class="p-6" fxLayoutAlign="space-between">
+
+            <div class="estilo" fxLayout="initial" fxFlex="0 1 16%">
+                <div fxLayoutAlign="start center">
+                    <mat-icon class="mr-8">assessment</mat-icon>
+                    {{item?.periodoContable?.nombre}}
+                </div>
+            </div>
+
+             <div class="estilo" fxLayout="initial" fxFlex="0 1 16%">
+                 <div fxLayoutAlign="start center">
+                     <mat-icon class="mr-8">ballot</mat-icon>
+                     {{item?.tipoLiquidacion?.nombre}}
+                 </div>
+             </div>
+
+            <div class="estilo" fxLayout="initial" fxFlex="0 1 16%">
+                <div fxLayoutAlign="start center">
+                    <mat-icon class="mr-8">list_alt</mat-icon>
+                    {{item?.subPeriodo?.nombre}}
+                </div>
+            </div>
+
+            <div class="estilo" fxLayout="initial" fxFlex="0 1 25%">
+                <div fxLayoutAlign="start center">
+                    <mat-icon class="mr-8">calendartoday</mat-icon>
+                    {{item?.fechaInicio | date:'dd / LL / yyyy'}} - {{item?.fechaFinal | date:'dd / LL / yyyy'}}
+                </div>
+            </div>
+           
+            <div class="estilo" fxLayout="inherit" fxFlex="0 1 13%">
+                <div fxLayoutAlign="start center">
+                    <div [ngSwitch]="nuevoEstado.estado">
+                        <ng-template [ngSwitchCase]="estadoLiquidacion.aprobada">
+                            <span class="btn-estado aprobada">
+                                {{nuevoEstado.estado}}
+                            </span>
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="estadoLiquidacion.aplicada">
+                            <span class="btn-estado aplicada">
+                                {{nuevoEstado.estado}}
+                            </span>
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="estadoLiquidacion.calculada">
+                            <span class="btn-estado calculada">
+                                {{nuevoEstado.estado}}
+                            </span>
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="estadoLiquidacion.modificada">
+                            <span class="btn-estado modificada">
+                                {{nuevoEstado.estado}}
+                            </span>
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="estadoLiquidacion.inicializada">
+                            <span class="btn-estado inicializada">
+                                {{nuevoEstado.estado}}
+                            </span>
+                        </ng-template>        
+                        <ng-template [ngSwitchCase]="estadoLiquidacion.enLiquidacion">
+                            <span class="btn-estado enLiquidacion">
+                                En liquidación
+                            </span>
+                        </ng-template> 
+                        <ng-template [ngSwitchCase]="estadoLiquidacion.liquidada">
+                            <span class="btn-estado liquidada">
+                               {{nuevoEstado.estado}}
+                            </span>
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            <span class="btn-estado">
+                                {{nuevoEstado.estado}}
+                            </span>
+                        </ng-template>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Contenido -->

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="HU026_v1-2">
+<sql endDelimiter="GO" splitStatements="true">
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 2020-02-13
+-- Description:	Trigger que desencadena la actualizacion del campo CriterioBusqueda.
+-- =============================================
+CREATE TRIGGER [dbo].[TR_ActualizarCriterioBusqueda]
+   ON  [dbo].[Funcionario]
+   AFTER INSERT,UPDATE
+AS 
+BEGIN
+
+	IF EXISTS(  SELECT PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,NumeroDocumento 
+            FROM inserted)
+	DECLARE @id as int                      = ( SELECT i.Id             FROM inserted i)
+	
+	BEGIN TRY	
+			UPDATE 
+            Funcionario
+        SET
+            [CriterioBusqueda] =  REPLACE(CONCAT(NumeroDocumento,' - ',PrimerNombre,' ',SegundoNombre,' ',PrimerApellido,' ',SegundoApellido),'  ',' ')
+        WHERE 
+            Id = @Id
+			END TRY
+	BEGIN CATCH 
+		EXECUTE [dbo].[USP_RegistrarError];
+	END CATCH
+END
+</sql>
+
+<rollback>
+DROP TRIGGER [dbo].[TR_ActualizarCriterioBusqueda];
+</rollback>
+
+</changeSet>
+</databaseChangeLog>

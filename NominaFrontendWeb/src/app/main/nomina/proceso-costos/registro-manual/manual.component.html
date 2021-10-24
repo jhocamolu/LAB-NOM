@@ -1,0 +1,140 @@
+<div class="spiner" *ngIf="espera">
+    <mat-spinner></mat-spinner>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Registrar distribución de costos manual</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>¿Agregar distribución a funcionario ó cargo?</mat-label>
+            <mat-select formControlName="agregar" required>
+                <mat-option></mat-option>
+                <mat-option value="Cargo">Cargo</mat-option>
+                <mat-option value="Funcionario">Funcionario</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('agregar').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Indica si se deben agregar costos a un funcionario o a los funcionarios de un cargo.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" *ngIf="boleanFuncionario">
+            <mat-label>Funcionario</mat-label>
+            <input matInput formControlName="funcionarioId" [matAutocomplete]="autoFn"/>
+            <mat-autocomplete [displayWith]="displayFn" #autoFn="matAutocomplete">
+                <mat-option *ngFor="let item of filteredFuncionarios | async" [value]="item">
+                    {{ item.criterioBusqueda }}
+                </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngFor="let error of form.get('funcionarioId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{ error.key }}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Trabajador que labora en la compañía.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="boleanCargo">
+            <mat-label>Cargo</mat-label>
+            <input matInput formControlName="cargo" [matAutocomplete]="autoCargo">
+                <mat-autocomplete [displayWith]="displayFnCargos" #autoCargo="matAutocomplete">
+                    <mat-option *ngFor="let item of filteredCargos | async" [value]="item">
+                        {{item.codigo}} - {{item.nombre}}
+                    </mat-option>
+                </mat-autocomplete>
+            <mat-error *ngFor="let error of form.get('cargo').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Puesto de trabajo al que pertenece el funcionario.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" *ngIf="boleanCargo">
+            <mat-label>Centro operativo</mat-label>
+            <mat-select formControlName="centroOperativo">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let item of centroOperativos" [value]="item.id">
+                    {{item.nombre}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('centroOperativo').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Ubicación de la compañía en donde trabajará el funcionario.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha de inicio de vigencia</mat-label>
+            <input matInput [matDatepicker]="fechaInicioVigencia" (click)="fechaInicioVigencia.open()"
+                formControlName="fechaInicioVigencia">
+            <mat-datepicker-toggle matPrefix [for]="fechaInicioVigencia">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaInicioVigencia></mat-datepicker>
+            <mat-error *ngFor="let error of form.get('fechaInicioVigencia').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Fecha desde la que comienza a aplicar esta distribución de costos.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+    </div>
+
+    <div mat-dialog-actions fxLayout="row " fxLayoutAlign="end center ">
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+    
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit " color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

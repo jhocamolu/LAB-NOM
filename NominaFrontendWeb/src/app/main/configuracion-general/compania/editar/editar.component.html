@@ -1,0 +1,657 @@
+<div class="page-layout simple fullwidth">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Compañia</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/compania">Datos básicos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Editar datos básicos</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Editar datos básicos</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <!-- Comento el spinner por si se llegase a implementar a futuro -->
+    <!-- <div class="overlay" *ngIf="spinner">
+        <mat-spinner class="spinner-wrapper"></mat-spinner>
+    </div> -->
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+
+            <form name="form" [formGroup]="form">
+                <div class="list-item-title">
+                    <mat-icon>assignment</mat-icon>
+                    <h2>Información general</h2>
+                </div>
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="nombre" type="text" step="any" required>
+                        <mat-error *ngFor="let error of nombre.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Nombre comercial de la compañía.">
+                            info</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Tipo de documento</mat-label>
+                        <mat-select formControlName="tipoDocumentoId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of tipoDocumento" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of tipoDocumentoId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Tipo de documento de identificación de la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nit</mat-label>
+                        <input matInput formControlName="nit" required>
+                        <mat-error *ngFor="let error of nit.errors| keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'max'">
+                                    Valor máximo {{ nit.errors.max.max }}
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Número de identificación tributaria.">info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>DV *</mat-label>
+                        <input matInput formControlName="digitoVerificacion" type="number">
+                        <mat-error *ngFor="let error of digitoVerificacion.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Dígito de verificación.">info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Razón social</mat-label>
+                        <input matInput formControlName="razonSocial" type="text" step="any" required>
+                        <mat-error *ngFor="let error of razonSocial.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Denominación por la cual se conoce legalmente a la compañía.">
+                            info</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>País</mat-label>
+                        <mat-select formControlName="paisOrigenId" disabled>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of paises" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of paisOrigenId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="País en el que se encuentra ubicada la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Departamento</mat-label>
+                        <mat-select formControlName="departamentoOrigenId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of departamentosOrigen" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of departamentoOrigenId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Departamento en el que se encuentra ubicada la sede principal de la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Municipio</mat-label>
+                        <mat-select formControlName="municipioOrigenId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of municipiosOrigen" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of municipioOrigenId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Municipio en el que se encuentra ubicada la sede principal de la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Dirección</mat-label>
+                        <input matInput formControlName="direccion" required>
+                        <mat-error *ngFor="let error of direccion.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Dirección de la sede principal de la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Actividad económica</mat-label>
+                        <input matInput formControlName="actividadEconomicaId" [matAutocomplete]="auto" required>
+                        <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredActividadEconomica | async" [value]="item">
+                                {{ item.nombre }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngFor="let error of actividadEconomicaId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Clasificación que otorga la DIAN según la actividad que desarrolle la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Teléfono de contacto</mat-label>
+                        <input matInput type="numeric" formControlName="telefono" required>
+                        <mat-error *ngFor="let error of telefono.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Número de teléfono de contacto principal.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fax</mat-label>
+                        <input matInput type="numeric" formControlName="fax" required>
+                        <mat-error *ngFor="let error of fax.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Número de fax de la sede principal.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sitio web</mat-label>
+                        <input matInput type="url" formControlName="web" required>
+                        <mat-error *ngFor="let error of web.errors| keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Url del sitio web de la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Correo de contacto</mat-label>
+                        <input matInput type="email" formControlName="correoElectronico" required>
+                        <mat-error *ngFor="let error of correoElectronico.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'pattern'">
+                                    El correo electrónico ingresado no es válido.
+                                </ng-template>
+
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Correo electrónico de contacto principal.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha de constitución *</mat-label>
+                        <input matInput [matDatepicker]="picker" placeholder="Seleccione la fecha de constitución"
+                            formControlName="fechaConstitucion">
+                        <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+                        <mat-error *ngFor="let error of fechaConstitucion.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                    No es un formato de fecha válido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon class="fecha-tooltip-ayuda" matSuffix
+                            matTooltip="Fecha de constitución legal de la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Tipo de contribuyentes</mat-label>
+
+                        <mat-select formControlName="tipoContribuyenteId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of tipoContribuyentes" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of tipoContribuyenteId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'min'">
+                                    Mínimo de caracteres {{ tipoContribuyenteId.errors.min.min }}.
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'pattern'">
+                                    Alfanumérico mayúsculas con espacios - no se admiten simbolos y/o
+                                    caracteres especiales.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Categoría de contribuyente según la DIAN a la que pertenece la compañÍa.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Operador de pagos</mat-label>
+                        <mat-select formControlName="operadorPagoId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of operadorPagos" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of operadorPagoId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'min'">
+                                    Mínimo de caracteres {{ operadorPagoId.errors.min.min }}.
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'pattern'">
+                                    Alfanumérico mayúsculas con espacios - no se admiten simbolos y/o
+                                    caracteres especiales.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Entidad con la cual la compañía hace la liquidación de los aportes.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Compañía ARL (Administradora riesgos profesionales)</mat-label>
+                        <mat-select formControlName="arlId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of administradora" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of arlId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'min'">
+                                    Mínimo de caracteres {{ arlId.errors.min.min }}.
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'pattern'">
+                                    Alfanumérico mayúsculas con espacios - no se admiten simbolos y/o
+                                    caracteres especiales.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Administradora de riesgos laborales que utiliza la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="list-item-title">
+                    <mat-icon>ballot</mat-icon>
+                    <h2>Información PILA</h2>
+                </div>
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Naturaleza jurídica</mat-label>
+                        <mat-select formControlName="naturalezaJuridicaId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of naturalezaJuridica" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of naturalezaJuridicaId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Naturaleza jurídica de la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Tipo de persona</mat-label>
+                        <mat-select formControlName="tipoPersonaId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of tipoPersona" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of tipoPersonaId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Tipo de persona que corresponde a la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Clase de aportante</mat-label>
+                        <mat-select formControlName="claseAportanteId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of claseAportante" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of claseAportanteId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Clase de aportante a la que corresponde la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Tipo de aportante</mat-label>
+                        <mat-select formControlName="tipoAportanteId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of tipoAportante" [value]="item.id">
+                                {{item.tipoAportante?.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of tipoAportanteId.errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Tipo de aportante al que corresponde la compañía.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Cargo representante legal</mat-label>
+                    <mat-select formControlName="cargoId" required>
+                        <mat-option></mat-option>
+                        <mat-option *ngFor="let item of cargo" [value]="item.id">
+                            {{item.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngFor="let error of cargoId.errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Cargo del representante legal de la compañía.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>¿Beneficiario Ley 1429 de 2010?</mat-label>
+                    <mat-select formControlName="beneficiarioLey1429De2010" required>
+                        <mat-option></mat-option>
+                        <mat-option value="true">
+                            Si
+                        </mat-option>
+                        <mat-option value="false">
+                            No
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngFor="let error of beneficiarioLey1429De2010.errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Indica si la compañía es beneficiaria de la Ley 1429 de 2020.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>¿Beneficiario Ley impuesto a la equidad CREE?</mat-label>
+                    <mat-select formControlName="beneficiarioImpuestoEquidad" required>
+                        <mat-option></mat-option>
+                        <mat-option value="true">
+                            Si
+                        </mat-option>
+                        <mat-option value="false">
+                            No
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngFor="let error of beneficiarioImpuestoEquidad.errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix
+                        matTooltip="Indica si la compañía es beneficiaria de la Ley impuesto a la equidad CREE.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+
+                <div class="actions">
+                    <button mat-raised-button [disabled]="form.invalid || submit" (click)="guardarHandle($event)"
+                        color="accent">
+                        <mat-icon>save</mat-icon>
+                        <span>Guardar</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Se incluye este style ya que la precarga del componente fecha obliga a que sea al final -->
+<style>
+    .mat-datepicker-toggle {
+        display: inline-block;
+        top: 2px;
+        position: relative;
+        right: -5px;
+    }
+</style>

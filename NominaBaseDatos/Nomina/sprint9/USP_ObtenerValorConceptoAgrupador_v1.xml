@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ObtenerValorConceptoAgrupador_v2_1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+GO
+IF OBJECT_ID('dbo.USP_ObtenerValorConceptoAgrupador', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerValorConceptoAgrupador as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Jhonatan Camilo Moreno Luna
+-- Create date: 20/04/2020
+-- Description: Permite o obtener el valor de un concepto agrupador segun la Nomina y el funcionario.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @NominaId int:				Identificador de la Nomina
+--   @ConceptoAlias:			Alias del Concepto
+--
+-- Returns:						
+--	 Actualiza el campo Valor segun los acumuladores (SUM) de sus conceptos asociaciados.
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerValorConceptoAgrupador] 
+(
+	@FuncionarioId int,
+	@NominaId int,
+	@ConceptoAlias VARCHAR(MAX)
+)  
+AS
+BEGIN
+	--------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@ConceptoAlias=', CONVERT(VARCHAR, @ConceptoAlias));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	DECLARE @NominaFuncionarioId INT
+	DECLARE @ConceptoNominaId INT
+		
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	BEGIN TRY
+		-- Obtiene el Id de la NominaFuncionario.
+		SET @NominaFuncionarioId = (SELECT Id FROM NominaFuncionario
+											WHERE FuncionarioId=@FuncionarioId 
+											AND NominaId=@NominaId)
+
+		-- Obtiene el Id del concepto de nomina tipo Agrupador.
+		SET @ConceptoNominaId = (SELECT Id FROM ConceptoNomina where Alias= @ConceptoAlias)
+
+		-- Actualiza el campo Valor de la nomina detalle.
+		UPDATE NominaDetalle SET
+			-- Se realiza la Suma de los valores de los conceptos asociados.
+			Valor = (SELECT SUM(Valor) respuesta FROM NominaDetalle
+												 WHERE NominaFuncionarioId = @NominaFuncionarioId 
+												 AND ConceptoNominaId IN (
+																		-- Obtiene los conceptos asociados al concepto Agrupador.
+																		 SELECT ConceptoNominaId FROM ConceptoBase	
+																		 WHERE ConceptoNominaAgrupadorId = @ConceptoNominaId)
+																		 )
+		WHERE NominaFuncionarioId = @NominaFuncionarioId 
+		AND ConceptoNominaId = @ConceptoNominaId
+	END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+GO
+-- ==========================================================================================
+-- Author:      Jhonatan Camilo Moreno
+-- Create date: 21/04/2020
+-- Description: Permite o obtener el valor de un concepto agrupador segun la Nomina y el funcionario.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario
+--   @NominaId int:				Identificador de la Nomina
+--   @ConceptoAlias:			Alias del Concepto
+--
+-- Returns:						
+--	 Actualiza el campo Valor segun los acumuladores (SUM) de sus conceptos asociaciados.
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerValorConceptoAgrupador] 
+(
+	@FuncionarioId int,
+	@NominaId int,
+	@ConceptoNominaId VARCHAR(MAX)
+)  
+AS
+BEGIN
+	
+		--------------------------------------------------------------------------
+		-- Instrucciones de configuración y manejo de errores
+		--------------------------------------------------------------------------
+		SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+		DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaId=', CONVERT(VARCHAR, @NominaId),'&', '@ConceptoNominaId=', CONVERT(VARCHAR, @ConceptoNominaId))
+		DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+		--------------------------------------------------------------------------
+		-- Variables
+		--------------------------------------------------------------------------
+		DECLARE @NominaFuncionarioId INT -- Variable para cargar el Id de Nomina funcionario
+		DECLARE @MensajeError 			VARCHAR(250);
+		DECLARE @ErrorMessage  			NVARCHAR(4000); 
+   		DECLARE @ErrorSeverity 			INT;
+   		DECLARE @ErrorState    			INT;
+
+		BEGIN TRY
+			-- Obtiene el Id de la NominaFuncionario.
+			SET @NominaFuncionarioId = (SELECT Id FROM NominaFuncionario
+												WHERE FuncionarioId=@FuncionarioId 
+												AND NominaId=@NominaId)
+			IF @NominaFuncionarioId IS NULL
+				BEGIN
+					RAISERROR ( 'No existe el funcionario con la nomina seleccionada.',16,1);
+				END 
+
+			-- Inicio de la transacción
+			BEGIN TRAN ActualizarValorAgrupador;
+
+			-- Actualiza el campo Valor de la nomina detalle.
+			UPDATE NominaDetalle SET
+				-- Se realiza la Suma de los valores de los conceptos asociados.
+				Valor = (SELECT SUM(Valor) respuesta FROM NominaDetalle
+													 WHERE NominaFuncionarioId = @NominaFuncionarioId 
+													 AND ConceptoNominaId IN (
+																			-- Obtiene los conceptos asociados al concepto Agrupador.
+																			 SELECT ConceptoNominaId FROM ConceptoBase	
+																			 WHERE ConceptoNominaAgrupadorId = @ConceptoNominaId)
+																			 )
+			WHERE NominaFuncionarioId = @NominaFuncionarioId 
+			AND ConceptoNominaId = @ConceptoNominaId
+
+			-- Cierre de la transacción
+			IF @@TRANCOUNT > 0
+			BEGIN
+				IF XACT_STATE() = 1
+				BEGIN
+					COMMIT TRAN ActualizarValorAgrupador;
+				END;
+				ELSE
+				BEGIN
+					EXEC util.USP_GenerarExcepcion
+						 50000,
+						 'No se puede confirmar la transacción.  Error desconocido.';
+				END;
+			END;
+			
+		END TRY
+		BEGIN CATCH
+			-- Rollback de la transacción
+			IF XACT_STATE() <> 0
+				AND @@TRANCOUNT > 0
+			BEGIN
+				ROLLBACK;
+			END;
+
+			-- Se almacena la información del error
+			EXEC util.USP_Registrarerror
+					@NombreObjeto,
+					@Parametros;
+
+			-- Se lanza la excepción
+			EXEC util.USP_LanzarExcepcion;
+		END CATCH
+END
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoInconsistencia_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoInconsistencia] ON 
+GO
+
+INSERT INTO dbo.TipoInconsistencia (Id, Codigo, Valor, Mensaje, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion) VALUES(3, 'MIN_VITAL', -9999999998.0000, 'El valor a descontar afecta el mínimo vital del funcionario', 'Activo', 'sistema', GETDATE(), NULL, NULL, NULL, NULL);
+
+SET IDENTITY_INSERT [dbo].[TipoInconsistencia] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[TipoInconsistencia] WHERE Id=3;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

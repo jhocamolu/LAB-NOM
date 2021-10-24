@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="USP_ObtenerTercero_V4">
+<comment>Crear paramtero de salida @Tercero</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerTercero', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerTercero as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 21/12/2020
+-- Description: Permite obtener tercero deacuerdo a su origen.
+--
+-- Parameters:
+--  @NominaDetalleId	   Identificador unico de nómina detalle
+--  @UsuarioOperacion:	   Usuario que realiza la operación
+--  @Tercero:              Parametro de salida, retorna nit + Digito verificación. 
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerTercero] @NominaDetalleId  INT,  
+                                           @UsuarioOperacion VARCHAR(255),
+	                                       @Tercero VARCHAR(255) OUTPUT
+                                          
+AS
+    BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaDetalleId=', CONVERT(VARCHAR, @NominaDetalleId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+        DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+        DECLARE @MensajeExcepcion VARCHAR(255);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        DECLARE @OrigenTercero VARCHAR(255);
+        DECLARE @OrigenEspecifico VARCHAR(255);
+        DECLARE @OrigenDelFuncionario VARCHAR(255);
+        DECLARE @OrigenDeLaAdministradora VARCHAR(255);
+        DECLARE @OrigenDeLaNovedad VARCHAR(255);
+        DECLARE @OrigenNoAplica VARCHAR(255);
+        DECLARE @AuditoriaActivo VARCHAR(255);
+        DECLARE @ModuloNominaFuenteNovedad VARCHAR(255);
+        DECLARE @ModuloLibranzas VARCHAR(255);
+        DECLARE @ModuloEmbargos VARCHAR(255);
+        DECLARE @ModuloOtrasNovedades VARCHAR(255);
+		DECLARE @ModuloRegistroId INT;
+		DECLARE @ConceptoNominaId INT;
+		DECLARE @UbicacionTercero VARCHAR(255);
+        DECLARE @ErrorFuncion INT=
+        (
+            SELECT vcg.ERRORFUNCION
+            FROM util.VW_ConstanteGenerica AS vcg
+        );
+
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+
+            -- Se consultan los estados
+            SELECT @AuditoriaActivo = ces.AUDITORIA_ACTIVO
+            FROM util.VW_ConstanteEstado AS ces;
+
+            -- Se consultan el origen del tercero
+            SELECT @OrigenEspecifico = cotc.ESPECIFICO, 
+                   @OrigenDelFuncionario = cotc.DELFUNCIONARIO, 
+                   @OrigenDeLaAdministradora = cotc.DELAADMINISTRADORA, 
+                   @OrigenDeLaNovedad = cotc.DELANOVEDAD, 
+                   @OrigenNoAplica = cotc.NOAPLICA
+            FROM util.VW_ConstanteOrigenTerceroConcepto AS cotc;
+
+            -- Consulta la el origen del tercero para el concepto de nomina
+
+            SELECT @OrigenTercero = cn.OrigenTercero
+            FROM dbo.NominaDetalle nd
+                 INNER JOIN dbo.ConceptoNomina cn ON cn.Id = nd.ConceptoNominaId
+            WHERE cn.EstadoRegistro = @AuditoriaActivo
+            AND nd.Id = @NominaDetalleId;
+
+            IF(@OrigenTercero = @OrigenNoAplica)
+                BEGIN
+                    SET @Tercero = 0;
+            END;
+            IF(@OrigenTercero = @OrigenDeLaAdministradora)
+                BEGIN
+                    -- Consultar información si es de origen de la administradora
+                    SELECT TOP 1 @Tercero = CONCAT(adm.Nit, '-', adm.Dv)
+                    FROM dbo.NominaDetalle nd
+                         INNER JOIN dbo.ConceptoNomina cn ON cn.Id = nd.ConceptoNominaId
+                         INNER JOIN dbo.ConceptoNominaTipoAdministradora cnta ON cnta.Id = nd.ConceptoNominaId
+                         INNER JOIN dbo.NominaFuncionario nf ON nf.Id = nd.NominaFuncionarioId
+                         INNER JOIN dbo.VW_FuncionarioDatoActual vfda ON vfda.Id = nf.FuncionarioId
+                         INNER JOIN dbo.ContratoAdministradora ca ON vfda.ContratoId = ca.ContratoId
+                         INNER JOIN dbo.Administradora adm ON adm.Id = ca.AdministradoraId
+                         INNER JOIN dbo.TipoAdministradora tadm ON tadm.Id = cnta.TipoAdministradoraId
+                    WHERE nd.Id = @NominaDetalleId
+                          AND adm.EstadoRegistro = @AuditoriaActivo
+                          AND nd.EstadoRegistro = @AuditoriaActivo
+                          AND cn.EstadoRegistro = @AuditoriaActivo
+                    ORDER BY ca.FechaInicio DESC;
+            END;
+            IF(@OrigenTercero = @OrigenDelFuncionario)
+                BEGIN
+					
+                    SELECT @Tercero = CONVERT (VARCHAR(255),CONCAT(vfda.Nit, '-', vfda.DigitoVerificacion))
+                    FROM dbo.NominaDetalle nd
+                         INNER JOIN dbo.NominaFuncionario nf ON nf.Id = nd.NominaFuncionarioId
+                         INNER JOIN dbo.VW_FuncionarioDatoActual vfda ON vfda.Id = nf.FuncionarioId
+                    WHERE nd.Id = @NominaDetalleId
+                          AND nd.EstadoRegistro = @AuditoriaActivo
+                          AND nf.EstadoRegistro = @AuditoriaActivo;
+						  
+            END;
+            IF(@OrigenTercero = @OrigenDeLaNovedad)
+                BEGIN
+                    -- Consultar información de la novedad 
+                    SELECT @ModuloNominaFuenteNovedad = nfn.Modulo,
+						   @ModuloRegistroId = nfn.ModuloRegistroId,
+						   @ConceptoNominaId = nd.ConceptoNominaId
+                    FROM dbo.NominaDetalle nd
+                         INNER JOIN dbo.NominaFuenteNovedad nfn ON nd.NominaFuenteNovedadId = nfn.Id
+                    WHERE nd.Id = @NominaDetalleId;
+                    IF @ModuloNominaFuenteNovedad IS NULL
+                        BEGIN
+                            SET @Tercero = 0;
+                    END;
+                    -- Consulta modulos del sistema
+                    SELECT @ModuloLibranzas = vcms.LIBRANZAS, 
+                           @ModuloEmbargos = vcms.EMBARGOS, 
+                           @ModuloOtrasNovedades = vcms.OTRASNOVEDADES
+                    FROM util.VW_ConstanteModuloSistema vcms;
+                    IF @ModuloNominaFuenteNovedad = @ModuloLibranzas
+                        BEGIN
+                            SELECT CONCAT(ef.Nit, '-', ef.Dv)
+                            FROM dbo.Libranza l
+                                 INNER JOIN dbo.EntidadFinanciera ef ON l.EntidadFinancieraId = ef.Id
+							WHERE l.Id = @ModuloRegistroId;
+                    END;
+                    IF @ModuloNominaFuenteNovedad = @ModuloEmbargos
+                        BEGIN
+                            SELECT @Tercero = CONCAT(ef.Nit, '-', ef.Dv)
+                            FROM dbo.Embargo e
+                                 INNER JOIN dbo.EntidadFinanciera ef ON e.EntidadFinancieraId = ef.Id
+						    WHERE e.Id = @ModuloRegistroId;
+                            
+                    END;
+                    IF @ModuloNominaFuenteNovedad = @ModuloOtrasNovedades
+                        BEGIN
+							-- Consultar en la tabla CategoriaNovedad la UbicacionTercero según 
+							SELECT @UbicacionTercero = UbicacionTercero FROM dbo.CategoriaNovedad c
+							WHERE c.ConceptoNominaId = @ConceptoNominaId
+
+							IF @UbicacionTercero IS NOT NULL
+							BEGIN
+								IF @UbicacionTercero = 'EntidadFinanciera'
+								BEGIN
+									--Consulta en la tabla entidad financiera
+									SELECT @Tercero = CONCAT(ef.Nit,'-',ef.Dv) FROM dbo.EntidadFinanciera ef	
+									WHERE ef.Id = @ModuloRegistroId
+
+								END
+								IF @UbicacionTercero = 'OtrosTerceros'
+								BEGIN
+									--Consulta en la tabla de otros terceros
+									SELECT @Tercero = CONCAT(te.Nit,'-',te.DigitoVerificacion) FROM dbo.Tercero te	
+										WHERE te.Id = @ModuloRegistroId
+
+								END
+								IF @UbicacionTercero = 'Administradora'
+								BEGIN
+									--Consulta en la administradora
+									SELECT @Tercero = CONCAT(ad.Nit,'-',ad.Dv) FROM dbo.Administradora ad	
+									WHERE ad.Id = @ModuloRegistroId
+								END
+							END 
+                    END;
+            END;
+            IF(@OrigenTercero = @OrigenEspecifico)
+                BEGIN
+                    -- Consulta el nombre del tercero almacenado en el concepto de nomina
+                    SELECT @Tercero = CONCAT(t.Nit, '-', t.DigitoVerificacion)
+                    FROM dbo.NominaDetalle nd
+                         INNER JOIN dbo.ConceptoNomina cn ON cn.Id = nd.ConceptoNominaId
+                         INNER JOIN dbo.Tercero t ON cn.NitTercero = t.Nit
+                                                     AND cn.DigitoVerificacion = t.DigitoVerificacion
+                    WHERE nd.Id = @NominaDetalleId
+                          AND nd.EstadoRegistro = @AuditoriaActivo
+                          AND cn.EstadoRegistro = @AuditoriaActivo;
+            END;
+			SELECT @Tercero;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+    GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+  
+    IF OBJECT_ID('dbo.USP_ObtenerTercero', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerTercero as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 21/12/2020
+-- Description: Permite obtener tercero deacuerdo a su origen.
+--
+-- Parameters:
+--  @NominaDetalleId	   Identificador unico de nómina detalle
+--  @Fecha:			       Fecha para la cual se hace el proceso
+--  @UsuarioOperacion:	   Usuario que realiza la operación
+--  @Estado:			   Estado resultado del proceso
+--  @Resultado:		       Descripción del resultado
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerTercero] @NominaDetalleId  INT, 
+                                           @Fecha            DATE, 
+                                           @UsuarioOperacion VARCHAR(255)
+                                          
+AS
+    BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaDetalleId=', CONVERT(VARCHAR, @NominaDetalleId), '&', '@Fecha=', CONVERT(VARCHAR, @Fecha), '&', '@UsuarioOperacion=');
+        DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+        DECLARE @MensajeExcepcion VARCHAR(255);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        DECLARE @OrigenTercero VARCHAR(255);
+        DECLARE @OrigenEspecifico VARCHAR(255);
+        DECLARE @OrigenDelFuncionario VARCHAR(255);
+        DECLARE @OrigenDeLaAdministradora VARCHAR(255);
+        DECLARE @OrigenDeLaNovedad VARCHAR(255);
+        DECLARE @OrigenNoAplica VARCHAR(255);
+        DECLARE @AuditoriaActivo VARCHAR(255);
+        DECLARE @Tercero VARCHAR(255)= NULL;
+        DECLARE @ModuloNominaFuenteNovedad VARCHAR(255);
+        DECLARE @ModuloLibranzas VARCHAR(255);
+        DECLARE @ModuloEmbargos VARCHAR(255);
+        DECLARE @ModuloOtrasNovedades VARCHAR(255);
+		DECLARE @ModuloRegistroId INT;
+		DECLARE @ConceptoNominaId INT;
+		DECLARE @UbicacionTercero VARCHAR(255);
+        DECLARE @ErrorFuncion INT=
+        (
+            SELECT vcg.ERRORFUNCION
+            FROM util.VW_ConstanteGenerica AS vcg
+        );
+
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+
+            -- Se consultan los estados
+            SELECT @AuditoriaActivo = ces.AUDITORIA_ACTIVO
+            FROM util.VW_ConstanteEstado AS ces;
+
+            -- Se consultan el origen del tercero
+            SELECT @OrigenEspecifico = cotc.ESPECIFICO, 
+                   @OrigenDelFuncionario = cotc.DELFUNCIONARIO, 
+                   @OrigenDeLaAdministradora = cotc.DELAADMINISTRADORA, 
+                   @OrigenDeLaNovedad = cotc.DELANOVEDAD, 
+                   @OrigenNoAplica = cotc.NOAPLICA
+            FROM util.VW_ConstanteOrigenTerceroConcepto AS cotc;
+            
+            -- Inicio de la transacción
+            BEGIN TRAN ObtenerTercero;
+
+            -- Consulta la el origen del tercero para el concepto de nomina
+
+            SELECT @OrigenTercero = cn.OrigenTercero
+            FROM dbo.NominaDetalle nd
+                 INNER JOIN dbo.ConceptoNomina cn ON cn.Id = nd.ConceptoNominaId
+            WHERE cn.EstadoRegistro = @AuditoriaActivo;
+
+			
+            IF(@OrigenTercero = @OrigenNoAplica)
+                BEGIN
+                    SET @Tercero = 0;
+            END;
+            IF(@OrigenTercero = @OrigenDeLaAdministradora)
+                BEGIN
+                    -- Consultar información si es de origen de la administradora
+                    SELECT TOP 1 @Tercero = CONCAT(adm.Nit, '-', adm.Dv)
+                    FROM dbo.NominaDetalle nd
+                         INNER JOIN dbo.ConceptoNomina cn ON cn.Id = nd.ConceptoNominaId
+                         INNER JOIN dbo.ConceptoNominaTipoAdministradora cnta ON cnta.Id = nd.ConceptoNominaId
+                         INNER JOIN dbo.NominaFuncionario nf ON nf.Id = nd.NominaFuncionarioId
+                         INNER JOIN dbo.VW_FuncionarioDatoActual vfda ON vfda.Id = nf.FuncionarioId
+                         INNER JOIN dbo.ContratoAdministradora ca ON vfda.ContratoId = ca.ContratoId
+                         INNER JOIN dbo.Administradora adm ON adm.Id = ca.AdministradoraId
+                         INNER JOIN dbo.TipoAdministradora tadm ON tadm.Id = adm.TipoAdministradoraId
+                                                                   AND tadm.Id = cnta.TipoAdministradoraId
+                    WHERE nd.Id = @NominaDetalleId
+                          AND adm.EstadoRegistro = @AuditoriaActivo
+                          AND nd.EstadoRegistro = @AuditoriaActivo
+                          AND cn.EstadoRegistro = @AuditoriaActivo
+                    ORDER BY ca.FechaInicio DESC;
+            END;
+            IF(@OrigenTercero = @OrigenDelFuncionario)
+                BEGIN
+					PRINT	CONCAT('OrigenTercero: ',@OrigenTercero);
+                    SELECT @Tercero = CONCAT(vfda.Nit, '-', vfda.DigitoVerificacion)
+                    FROM dbo.NominaDetalle nd
+                         INNER JOIN dbo.ConceptoNomina cn ON cn.Id = nd.ConceptoNominaId
+                         INNER JOIN dbo.ConceptoNominaTipoAdministradora cnta ON cnta.Id = nd.ConceptoNominaId
+                         INNER JOIN dbo.NominaFuncionario nf ON nf.Id = nd.NominaFuncionarioId
+                         INNER JOIN dbo.VW_FuncionarioDatoActual vfda ON vfda.Id = nf.FuncionarioId
+                    WHERE nd.Id = @NominaDetalleId
+                          AND nd.EstadoRegistro = @AuditoriaActivo
+                          AND cn.EstadoRegistro = @AuditoriaActivo;
+            END;
+            IF(@OrigenTercero = @OrigenDeLaNovedad)
+                BEGIN
+                    -- Consultar información de la novedad 
+                    SELECT @ModuloNominaFuenteNovedad = nfn.Modulo,
+						   @ModuloRegistroId = nfn.ModuloRegistroId,
+						   @ConceptoNominaId = nd.ConceptoNominaId
+                    FROM dbo.NominaDetalle nd
+                         INNER JOIN dbo.NominaFuenteNovedad nfn ON nd.NominaFuenteNovedadId = nfn.Id
+                    WHERE nd.Id = @NominaDetalleId;
+                    IF @ModuloNominaFuenteNovedad IS NULL
+                        BEGIN
+                            SET @Tercero = 0;
+                    END;
+                    -- Consulta modulos del sistema
+                    SELECT @ModuloLibranzas = vcms.LIBRANZAS, 
+                           @ModuloEmbargos = vcms.EMBARGOS, 
+                           @ModuloOtrasNovedades = vcms.OTRASNOVEDADES
+                    FROM util.VW_ConstanteModuloSistema vcms;
+                    IF @ModuloNominaFuenteNovedad = @ModuloLibranzas
+                        BEGIN
+                            SELECT CONCAT(ef.Nit, '-', ef.Dv)
+                            FROM dbo.Libranza l
+                                 INNER JOIN dbo.EntidadFinanciera ef ON l.EntidadFinancieraId = ef.Id
+							WHERE l.Id = @ModuloRegistroId;
+                    END;
+                    IF @ModuloNominaFuenteNovedad = @ModuloEmbargos
+                        BEGIN
+                            SELECT @Tercero = CONCAT(ef.Nit, '-', ef.Dv)
+                            FROM dbo.Embargo e
+                                 INNER JOIN dbo.EntidadFinanciera ef ON e.EntidadFinancieraId = ef.Id
+						    WHERE e.Id = @ModuloRegistroId;
+                            
+                    END;
+                    IF @ModuloNominaFuenteNovedad = @ModuloOtrasNovedades
+                        BEGIN
+							-- Consultar en la tabla CategoriaNovedad la UbicacionTercero según 
+							SELECT @UbicacionTercero = UbicacionTercero FROM dbo.CategoriaNovedad c
+							WHERE c.ConceptoNominaId = @ConceptoNominaId
+
+							IF @UbicacionTercero IS NOT NULL
+							BEGIN
+								IF @UbicacionTercero = 'EntidadFinanciera'
+								BEGIN
+									--Consulta en la tabla entidad financiera
+									SELECT @Tercero = CONCAT(ef.Nit,'-',ef.Dv) FROM dbo.EntidadFinanciera ef	
+									WHERE ef.Id = @ModuloRegistroId
+								END
+								IF @UbicacionTercero = 'OtrosTerceros'
+								BEGIN
+									--Consulta en la tabla de otros terceros
+									SELECT @Tercero = CONCAT(te.Nit,'-',te.DigitoVerificacion) FROM dbo.Tercero te	
+										WHERE te.Id = @ModuloRegistroId
+								END
+								IF @UbicacionTercero = 'Administradora'
+								BEGIN
+									--Consulta en la administradora
+									SELECT @Tercero = CONCAT(ad.Nit,'-',ad.Dv) FROM dbo.Administradora ad	
+									WHERE ad.Id = @ModuloRegistroId
+								END
+							END 
+                    END;
+            END;
+            IF(@OrigenTercero = @OrigenEspecifico)
+                BEGIN
+                    -- Consulta el nombre del tercero almacenado en el concepto de nomina
+                    SELECT @Tercero = CONCAT(t.Nit, '-', t.DigitoVerificacion)
+                    FROM dbo.NominaDetalle nd
+                         INNER JOIN dbo.ConceptoNomina cn ON cn.Id = nd.ConceptoNominaId
+                         INNER JOIN dbo.Tercero t ON cn.NitTercero = t.Nit
+                                                     AND cn.DigitoVerificacion = t.DigitoVerificacion
+                    WHERE nd.Id = @NominaDetalleId
+                          AND nd.EstadoRegistro = @AuditoriaActivo
+                          AND cn.EstadoRegistro = @AuditoriaActivo;
+            END;
+			
+            -- Cierre de la transacción
+            IF @@TRANCOUNT > 0
+                BEGIN
+                    IF XACT_STATE() = 1
+                        BEGIN
+                            COMMIT TRAN ObtenerTerceros;
+                    END;
+                        ELSE
+                        BEGIN
+                            EXEC util.USP_GenerarExcepcion 
+                                 50000, 
+                                 'No se puede confirmar la transacción.  Error desconocido.';
+                    END;
+            END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+    GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

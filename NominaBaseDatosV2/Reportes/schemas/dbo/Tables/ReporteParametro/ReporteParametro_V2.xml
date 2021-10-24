@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="ReporteParametro_V2">
+<comment>Migración Inicial HT037</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [ReporteParametro] DROP CONSTRAINT [FK_ReporteParametro_Parametro_ParametroId];
+
+GO
+
+ALTER TABLE [ReporteParametro] DROP CONSTRAINT [FK_ReporteParametro_Reporte_ReporteId];
+
+GO
+
+ALTER TABLE [ReporteParametro] ADD CONSTRAINT [FK_ReporteParametro_Parametro_ParametroId] FOREIGN KEY ([ParametroId]) REFERENCES [Parametro] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+ALTER TABLE [ReporteParametro] ADD CONSTRAINT [FK_ReporteParametro_Reporte_ReporteId] FOREIGN KEY ([ReporteId]) REFERENCES [Reporte] ([Id]) ON DELETE NO ACTION;
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [ReporteParametro] DROP CONSTRAINT [FK_ReporteParametro_Parametro_ParametroId];
+
+GO
+
+ALTER TABLE [ReporteParametro] DROP CONSTRAINT [FK_ReporteParametro_Reporte_ReporteId];
+
+GO
+
+ALTER TABLE [ReporteParametro] ADD CONSTRAINT [FK_ReporteParametro_Parametro_ParametroId] FOREIGN KEY ([ParametroId]) REFERENCES [Parametro] ([Id]) ON DELETE CASCADE ;
+
+GO
+
+ALTER TABLE [ReporteParametro] ADD CONSTRAINT [FK_ReporteParametro_Reporte_ReporteId] FOREIGN KEY ([ReporteId]) REFERENCES [Reporte] ([Id]) ON DELETE CASCADE;
+
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

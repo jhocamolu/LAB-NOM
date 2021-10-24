@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="TipoHoraExtra_V2">
+<comment>HU080</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [TipoHoraExtra] DROP CONSTRAINT [CK_TipoHoraExtra_Tipo];
+
+GO
+
+ALTER TABLE [TipoHoraExtra] ADD CONSTRAINT [CK_TipoHoraExtra_Tipo] CHECK (([Tipo]='RecargoNocturno' OR [Tipo]='HoraExtraDiurna' OR [Tipo]='HoraExtraNocturna' OR [Tipo]='HoraExtraFestivaDominicalDiurna' OR [Tipo]='HoraExtraFestivaDominicalNocturna'  OR [Tipo]='RecargoNocturnoDominicalFestivo' OR [Tipo]='DominicalFestivoCompensado' OR [Tipo]='DominicalFestivoNoCompensado'));
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [TipoHoraExtra] DROP CONSTRAINT [CK_TipoHoraExtra_Tipo];
+
+GO
+
+ALTER TABLE [TipoHoraExtra] ADD CONSTRAINT [CK_TipoHoraExtra_Tipo] CHECK (([Tipo]='RecargoNocturno' OR [Tipo]='HoraExtraDiurna' OR [Tipo]='HoraExtraNocturna' OR [Tipo]='HoraExtraFestivaDominicalDiurna' OR [Tipo]='HoraExtraFestivaDominicalNocturna'  OR [Tipo]='RecargoNocturnoDominicalFestivo' OR [Tipo]=' DominicalFestivoCompensado' OR [Tipo]='DominicalFestivoNoCompensado'));
+
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="RequisicionPersonal_V1">
+<comment>Creacion tabla RequisicionPersonal</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+  
+    CREATE TABLE [RequisicionPersonal] (
+        [Id] int NOT NULL IDENTITY,
+        [EstadoRegistro] char(10) NULL,
+        [CreadoPor] varchar(255) NULL,
+        [FechaCreacion] smalldatetime NULL,
+        [ModificadoPor] varchar(255) NULL,
+        [FechaModificacion] smalldatetime NULL,
+        [EliminadoPor] varchar(255) NULL,
+        [FechaEliminacion] smalldatetime NULL,
+        [CargoDependenciaSolicitanteId] int NOT NULL,
+        [CentroOperativoSolicitanteId] int NOT NULL,
+        [FuncionarioSolicitanteId] int NOT NULL,
+        [CargoDependenciaSolicitadoId] int NOT NULL,
+        [CentroOperativoSolicitadoID] int NOT NULL,
+        [DivisionPoliticaNivel2Id] int NOT NULL,
+        [Cantidad] tinyint NOT NULL,
+        [TipoContratoID] int NOT NULL,
+        [CentroCostoId] int NOT NULL,
+        [FechaInicio] date NOT NULL,
+        [FechaFin] date NOT NULL,
+        [MotivoVacanteId] int NOT NULL,
+        [FuncionarioAQuienReemplazaId] int NOT NULL,
+        [PerfilCargo] text NOT NULL,
+        [CompetenciaCargo] text NOT NULL,
+        [TipoReclutamiento] nvarchar(max) NOT NULL,
+        [Salario] money NOT NULL,
+        [SalarioPortalReclutamiento] bit NOT NULL,
+        [PerfilPortalReclutamiento] bit NOT NULL,
+        [CompetenciaPortalReclutamiento] bit NOT NULL,
+        [Observacion] text NULL,
+        [Justificacion] text NULL,
+        [Estado] char(30) NOT NULL,
+        CONSTRAINT [PK_RequisicionPersonal] PRIMARY KEY ([Id]),
+        CONSTRAINT [CK_RequisicionPersonal_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+        CONSTRAINT [CK_RequisicionPersonal_Estado] CHECK (([estado]='Anulada' OR [estado]='Aprobada' OR [estado]='Autorizacion' OR [estado]='Cancelada' OR [estado]='Cubierta' OR [estado]='Rechazada' OR [estado]='Revisada' OR [estado]='Solicitada')),
+        CONSTRAINT [CK_RequisicionPersonal_TipoReclutamiento] CHECK (([TipoReclutamiento]='Externa' OR [TipoReclutamiento]='Interna' OR [TipoReclutamiento]='Mixta')),
+        CONSTRAINT [FK_RequisicionPersonal_CargoDependencia_CargoDependenciaSolicitadoId] FOREIGN KEY ([CargoDependenciaSolicitadoId]) REFERENCES [CargoDependencia] ([Id]) ON DELETE NO ACTION,
+        CONSTRAINT [FK_RequisicionPersonal_CargoDependencia_CargoDependenciaSolicitanteId] FOREIGN KEY ([CargoDependenciaSolicitanteId]) REFERENCES [CargoDependencia] ([Id]) ON DELETE NO ACTION,
+        CONSTRAINT [FK_RequisicionPersonal_CentroCosto_CentroCostoId] FOREIGN KEY ([CentroCostoId]) REFERENCES [CentroCosto] ([Id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_RequisicionPersonal_CentroOperativo_CentroOperativoSolicitadoID] FOREIGN KEY ([CentroOperativoSolicitadoID]) REFERENCES [CentroOperativo] ([Id]) ON DELETE NO ACTION,
+        CONSTRAINT [FK_RequisicionPersonal_CentroOperativo_CentroOperativoSolicitanteId] FOREIGN KEY ([CentroOperativoSolicitanteId]) REFERENCES [CentroOperativo] ([Id]) ON DELETE NO ACTION,
+        CONSTRAINT [FK_RequisicionPersonal_DivisionPoliticaNivel2_DivisionPoliticaNivel2Id] FOREIGN KEY ([DivisionPoliticaNivel2Id]) REFERENCES [DivisionPoliticaNivel2] ([Id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_RequisicionPersonal_Funcionario_FuncionarioAQuienReemplazaId] FOREIGN KEY ([FuncionarioAQuienReemplazaId]) REFERENCES [Funcionario] ([Id]) ON DELETE NO ACTION,
+        CONSTRAINT [FK_RequisicionPersonal_Funcionario_FuncionarioSolicitanteId] FOREIGN KEY ([FuncionarioSolicitanteId]) REFERENCES [Funcionario] ([Id]) ON DELETE NO ACTION,
+        CONSTRAINT [FK_RequisicionPersonal_MotivoVacante_MotivoVacanteId] FOREIGN KEY ([MotivoVacanteId]) REFERENCES [MotivoVacante] ([Id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_RequisicionPersonal_TipoContrato_TipoContratoID] FOREIGN KEY ([TipoContratoID]) REFERENCES [TipoContrato] ([Id]) ON DELETE CASCADE
+    );
+
+    GO
+
+    CREATE INDEX [IX_RequisicionPersonal_CargoDependenciaSolicitadoId] ON [RequisicionPersonal] ([CargoDependenciaSolicitadoId]);
+
+    GO
+
+    CREATE INDEX [IX_RequisicionPersonal_CargoDependenciaSolicitanteId] ON [RequisicionPersonal] ([CargoDependenciaSolicitanteId]);
+
+    GO
+
+    CREATE INDEX [IX_RequisicionPersonal_CentroCostoId] ON [RequisicionPersonal] ([CentroCostoId]);
+
+    GO
+
+    CREATE INDEX [IX_RequisicionPersonal_CentroOperativoSolicitadoID] ON [RequisicionPersonal] ([CentroOperativoSolicitadoID]);
+
+    GO
+
+    CREATE INDEX [IX_RequisicionPersonal_CentroOperativoSolicitanteId] ON [RequisicionPersonal] ([CentroOperativoSolicitanteId]);
+
+    GO
+
+    CREATE INDEX [IX_RequisicionPersonal_DivisionPoliticaNivel2Id] ON [RequisicionPersonal] ([DivisionPoliticaNivel2Id]);
+
+    GO
+
+    CREATE INDEX [IX_RequisicionPersonal_FuncionarioAQuienReemplazaId] ON [RequisicionPersonal] ([FuncionarioAQuienReemplazaId]);
+
+    GO
+
+    CREATE INDEX [IX_RequisicionPersonal_FuncionarioSolicitanteId] ON [RequisicionPersonal] ([FuncionarioSolicitanteId]);
+
+    GO
+
+    CREATE INDEX [IX_RequisicionPersonal_MotivoVacanteId] ON [RequisicionPersonal] ([MotivoVacanteId]);
+
+    GO
+
+    CREATE INDEX [IX_RequisicionPersonal_TipoContratoID] ON [RequisicionPersonal] ([TipoContratoID]);
+
+    GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    DROP TABLE [RequisicionPersonal]
+
+    GO    
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

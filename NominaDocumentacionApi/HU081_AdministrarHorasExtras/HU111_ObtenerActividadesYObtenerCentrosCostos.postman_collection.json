@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "778a7623-248e-44e0-a6fd-571be372fe48",
+		"name": "HU111_ObtenerActividadesYObtenerCentrosCostos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CentroCosto",
+			"item": [
+				{
+					"name": "CentroCosto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/CargoCentroCostos/15",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"CargoCentroCostos",
+								"15"
+							]
+						},
+						"description": "{{host}}/odata/CargoCentroCostos"
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/api/CargoCentroCostos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"CargoId\" : 19,\r\n    \"CentroOperativoId\" : 3,\r\n    \"FechaCorte\" : \"2021-03-03\",\r\n    \"ListaCargoCentroCosto\" : [\r\n        {\r\n            \"ActividadCentroCostoId\": 34,\r\n            \"Porcentaje\": 100\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/CargoCentroCostos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"CargoCentroCostos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FuncionarioCentroCosto",
+			"item": [
+				{
+					"name": "Listar Funcionario CentroCostos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "JwtToken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0ODc0NzIiLCJDb3JyZW8iOiJhbGJlaXJvMTk4OUBnbWFpbC5jb20iLCJOb21icmUiOiJKRVNVUyBBTEJFSVJPIEdBVklSSUEgUlVCSU8iLCJVc3VhcmlvIjoiIiwiVGlwb0F1dCI6IklEIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNjE0MjYzNDUxLCJleHAiOjE2MTQyNzc4NTEsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0.M3CfL_iEyqnoy-JBBnvseIkYJZEyOTGSdRUSi08IWlk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/odata/FuncionarioCentroCostos?$filter= funcionarioId eq 4208",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"FuncionarioCentroCostos"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": " funcionarioId eq 4208"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear  / Procesar FuncionarioCentroCostos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"confirmacion\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/FuncionarioCentroCostos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"FuncionarioCentroCostos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearManual Fucionario centro costo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "jwttoken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0ODc0NzIiLCJDb3JyZW8iOiJhbGJlaXJvMTk4OUBnbWFpbC5jb20iLCJOb21icmUiOiJKRVNVUyBBTEJFSVJPIEdBVklSSUEgUlVCSU8iLCJVc3VhcmlvIjoiIiwiVGlwb0F1dCI6IklEIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNjE0MDAzNTA4LCJleHAiOjE2MTQwMTc5MDgsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0.i7NUlYQMRndcS1crc5pWHzLFhtX4zrtTouu6z5q149w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"FuncionarioId\" : 5,\r\n   \"FechaCorte\" : \"2021-03-03\",\r\n   \"ListaFucnionariosCentroCosto\" : [\r\n       {\r\n           \"ActividadCentroCostoId\": 34,\r\n           \"Porcentaje\": 80\r\n       },\r\n       {\r\n           \"ActividadCentroCostoId\": 35,\r\n           \"Porcentaje\": 20\r\n       }\r\n   ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/FuncionarioCentroCostos/CrearManual",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"FuncionarioCentroCostos",
+								"CrearManual"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Limpiar  o eliminar centro costo (se envia el id fe funcionario)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/FuncionarioCentroCostos/limpiar/4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"FuncionarioCentroCostos",
+								"limpiar",
+								"4"
+							]
+						},
+						"description": "Se envia el FuncionarioId al cual se quiere limpiar"
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/api/FuncionarioCentroCostos/4208 (idFuncionario)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FuncionarioId\" : 5,\r\n    \"FechaCorte\" : \"2020-12-02\",\r\n    \"ListaFucnionariosCentroCosto\" : [\r\n        {\r\n            \"ActividadCentroCostoId\": 34,\r\n            \"Porcentaje\": 30\r\n        },\r\n        {\r\n            \"ActividadCentroCostoId\": 35,\r\n            \"Porcentaje\": 70\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/FuncionarioCentroCostos/5",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"FuncionarioCentroCostos",
+								"5"
+							]
+						},
+						"description": "{{host}}/api/FuncionarioCentroCostos/4208"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ActividadFuncionario",
+			"item": [
+				{
+					"name": "Listar ActividadFuncionario",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "JwtToken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDYyMjY4MTUsImV4cCI6MTYwNjI0MTIxNSwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.AkPyeh4HrvwP9i5It08aC6YX7nvfwLy4KwIZyhlQeA4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/odata/ActividadFuncionarios",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"ActividadFuncionarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar ActividadFuncionario CentroCosto",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "JwtToken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDYyMjY4MTUsImV4cCI6MTYwNjI0MTIxNSwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.AkPyeh4HrvwP9i5It08aC6YX7nvfwLy4KwIZyhlQeA4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/odata/ActividadFuncionarioCentroCostos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"ActividadFuncionarioCentroCostos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear / Poblar Actividad Funcionarios",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FechaFin\":\"2020-10-31\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/ActividadFuncionarios",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"ActividadFuncionarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar ActividadFuncionarios",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "JwtToken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDYzMTEwODQsImV4cCI6MTYwNjMyNTQ4NCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.-Zxt30YIaLsuQa5r_wRp1tEoaRAoDA1KrYYwLbOmwuc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/ActividadFuncionarios",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"ActividadFuncionarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar ActividadFuncionarioDatoActuales",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "JwtToken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDY5MTYxNjMsImV4cCI6MTYwNjkzMDU2MywiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.WmkpwD3ztYybw09RYbC8e8qJbQS0QVL5qRhAUoGYSj8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/odata/ActividadFuncionarioDatoActuales",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"ActividadFuncionarioDatoActuales"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

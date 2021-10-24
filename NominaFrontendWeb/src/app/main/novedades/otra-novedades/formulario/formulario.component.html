@@ -1,0 +1,307 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Novedades</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/novedades/otra-novedades">Otras novedades</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar novedad</span>
+                <span *ngIf="!item">Registrar novedad</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar novedad</h2>
+                <h2 *ngIf="!item">Registrar novedad</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a routerLink="/novedades/otra-novedades" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Funcionario</mat-label>
+                        <input matInput formControlName="funcionario" [matAutocomplete]="autoFn"
+                            (focusout)="focusData($event)" required>
+
+                        <mat-autocomplete [displayWith]="displayFnFuncionarios" #autoFn="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredFuncionarios | async" [value]="item">
+                                {{item.criterioBusqueda}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngFor="let error of form.get('funcionario').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Documento de identificación o nombre del funcionario.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Novedad</mat-label>
+                        <input matInput formControlName="categoriaNovedadId" [matAutocomplete]="auto" required>
+                        <mat-autocomplete [displayWith]="displayFnNovedades" #auto="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredNovedades | async" [value]="item">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngFor="let error of form.get('categoriaNovedadId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Ítem de la nómina por medio del cual se realiza un pago o un descuento al funcionario.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha de aplicación</mat-label>
+                        <input matInput [matDatepicker]="fechaAplicacion" (focus)="fechaAplicacion.open()"
+                            (click)="fechaAplicacion.open()" formControlName="fechaAplicacion" required>
+                        <mat-datepicker-toggle matPrefix [for]="fechaAplicacion"> </mat-datepicker-toggle>
+                        <mat-datepicker startView="year" #fechaAplicacion></mat-datepicker>
+                        <mat-error *ngFor="let error of form.get('fechaAplicacion').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                    No es un formato de fecha válido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Fecha en la que ocurrió la novedad.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha de finalización</mat-label>
+                        <input matInput [matDatepicker]="fechaFinalizacion" (focus)="fechaFinalizacion.open()"
+                            (click)="fechaFinalizacion.open()" formControlName="fechaFinalizacion" required>
+                        <mat-datepicker-toggle matPrefix [for]="fechaFinalizacion"> </mat-datepicker-toggle>
+                        <mat-datepicker startView="year" #fechaFinalizacion></mat-datepicker>
+                        <mat-error *ngFor="let error of form.get('fechaFinalizacion').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                    No es un formato de fecha válido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Fecha en la que termina la novedad fija.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Período de pago</mat-label>
+                        <mat-select formControlName="tipoPeriodoId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of tipoPeriodos" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('tipoPeriodoId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Indica en qué período de pago se debe descontar el valor del beneficio.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Periodicidad</mat-label>
+                        <mat-select formControlName="subPeriodoId" required multiple>
+                            <mat-option disabled></mat-option>
+                            <mat-option *ngFor="let item of subPeriodos" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('subPeriodoId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Periodicidad en la que desea que sea cobrada o descontada la novedad.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="dos-bloque">
+                    <div fxLayout="row" style="min-height: 100px;">
+                        <div>
+                            <b>Unidad</b>
+                            <p>{{ unidadMedida}}</p>
+                        </div>
+                    </div>
+
+                    <mat-form-field appearance="outline" *ngIf="!valores">
+                        <mat-label>Cantidad </mat-label>
+                        <input matInput formControlName="cantidad" type="number" required>
+                        <mat-error *ngFor="let error of form.get('cantidad').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'max'">
+                                    Valor máximo 100000.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Número que se registra en la novedad.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" *ngIf="valores">
+                        <mat-label> Valor </mat-label>
+                        <input matInput formControlName="valor" required mask="separator.2" separatorLimit="1000000000"
+                            thousandSeparator=".">
+                        <mat-error *ngFor="let error of form.get('valor').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'max'">
+                                    Valor máximo 100000000.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Monto de dinero que se registra para la novedad.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Tercero</mat-label>
+                        <input matInput formControlName="terceroId" [matAutocomplete]="autoTercero" required>
+                        <mat-autocomplete [displayWith]="displayFnTerceros" #autoTercero="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredTercero | async" [value]="item">
+                                {{item.nit}} - {{item.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngFor="let error of form.get('terceroId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Intermediario que se debe registrar en la novedad.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Observación</mat-label>
+                        <textarea matInput formControlName="observacion"></textarea>
+                        <mat-error *ngFor="let error of form.get('observacion').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Breve descripción de la novedad.">info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div class="actions">
+                    <a mat-raised-button routerLink="/novedades/otra-novedades">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+                    <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                        <mat-icon>save</mat-icon>
+                        <span>Guardar</span>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- / CONTENT -->
+</div>

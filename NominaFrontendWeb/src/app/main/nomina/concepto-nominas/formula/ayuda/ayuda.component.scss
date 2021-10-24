@@ -1,0 +1,38 @@
+@import "src/@fuse/scss/fuse";
+.ayuda-formula-dialog {
+    @include media-breakpoint("xs") {
+        width: 100%;
+    }
+    @include media-breakpoint("gt-xs") {
+        width: 600px;
+        min-height: 400px;
+    }
+    formula-ayuda {
+        ul {
+            background: black;
+            width: 100%;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            li {
+                padding: 5px;
+                background: black;
+                color: white;
+                font-weight: 400;
+            }
+        }
+        .contenido {
+            height: 100%;
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 15px;
+        }
+        .dialog-content-wrapper {
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+        button mat-icon {
+            margin-right: 5px;
+        }
+    }
+}

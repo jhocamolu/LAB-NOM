@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_variablenomina_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[VariableNomina] ON 
+GO
+INSERT [dbo].[VariableNomina] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Descripcion], [TipoDato]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, 'FuncionarioId', 'Variable que identifica la Id del funcionario', 'INT')
+GO
+INSERT [dbo].[VariableNomina] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Descripcion], [TipoDato]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, 'NominaId', 'Variable que identifica la Id de la nómina que se está liquidando', 'INT')
+GO
+SET IDENTITY_INSERT [dbo].[VariableNomina] OFF
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[VariableNomina] WHERE Id BETWEEN 1 AND 2;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,37 @@
+{
+	"info": {
+		"_postman_id": "29b136d7-529e-42f7-bda1-16f1715dfd98",
+		"name": "HU077_Reporte_novedades_libranza",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte novedades libranza",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"Metodo\": \"PorPeriodo\",\r\n   \"TipoLiquidacionId\":1,\r\n   \"SubperiodoId\":1,\r\n   \"FechaInicial\":\"2020-01-01\",\r\n   \"FechaFinal\":\"2020-06-12\",\r\n   \"NominaAnio\": 2020,\r\n   \"NominaMes\":\"1\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/NovedadesLibranza",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"NovedadesLibranza"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

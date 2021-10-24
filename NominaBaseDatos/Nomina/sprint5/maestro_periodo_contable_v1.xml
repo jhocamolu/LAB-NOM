@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_periodo_contable_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[PeriodoContable] ON 
+GO
+
+
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '1', 'Diciembre 2006', '2006-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '2', 'Enero 2007', '2007-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '3', 'Febrero 2007', '2007-02-28', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '4', 'Marzo 2007', '2007-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '5', 'Abril 2007', '2007-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '6', 'Mayo 2007', '2007-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '7', 'Junio 2007', '2007-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '8', 'Julio 2007', '2007-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '9', 'Agosto 2007', '2007-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '10', 'Setiembre 2007', '2007-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '11', 'Octubre 2007', '2007-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '12', 'Noviembre 2007', '2007-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '13', 'Diciembre 2007', '2007-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '14', 'Enero 2008', '2008-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '15', 'Febrero 2008', '2008-02-28', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '16', 'Marzo 2008', '2008-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '17', 'Abril 2008', '2008-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '18', 'Mayo 2008', '2008-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '19', 'Junio 2008', '2008-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '20', 'Julio 2008', '2008-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '21', 'Agosto 2008', '2008-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '22', 'Setiembre 2008', '2008-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '23', 'Octubre 2008', '2008-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '24', 'Noviembre 2008', '2008-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '25', 'Diciembre 2008', '2008-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '26', 'Enero 2009', '2009-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '27', 'Febrero 2009', '2009-02-28', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '28', 'Marzo 2009', '2009-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '29', 'Abril 2009', '2009-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '30', 'Mayo 2009', '2009-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '31', 'Junio 2009', '2009-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '32', 'Julio 2009', '2009-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '33', 'Agosto 2009', '2009-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '34', 'Setiembre 2009', '2009-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '35', 'Octubre 2009', '2009-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '36', 'Noviembre 2009', '2009-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '37', 'Diciembre 2009', '2009-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '38', 'Enero 2010', '2010-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '39', 'Febrero 2010', '2010-02-28', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '40', 'Marzo 2010', '2010-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '41', 'Abril 2010', '2010-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '42', 'Mayo 2010', '2010-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '43', 'Junio 2010', '2010-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '44', 'Julio 2010', '2010-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '45', 'Agosto 2010', '2010-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '46', 'Setiembre 2010', '2010-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '47', 'Octubre 2010', '2010-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '48', 'Noviembre 2010', '2010-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '49', 'Diciembre 2010', '2010-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '50', 'Enero 2011', '2011-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '51', 'Febrero 2011', '2011-02-28', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '52', 'Marzo 2011', '2011-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '53', 'Abril 2011', '2011-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '54', 'Mayo 2011', '2011-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '55', 'Junio 2011', '2011-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '56', 'Julio 2011', '2011-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '57', 'Agosto 2011', '2011-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '58', 'Setiembre 2011', '2011-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '59', 'Octubre 2011', '2011-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '60', 'Noviembre 2011', '2011-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '61', 'Diciembre 2011', '2011-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '62', 'Enero 2012', '2012-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '63', 'Febrero 2012', '2012-02-29', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '64', 'Marzo 2012', '2012-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '65', 'Abril 2012', '2012-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '66', 'Mayo 2012', '2012-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '67', 'Junio 2012', '2012-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '68', 'Julio 2012', '2012-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '69', 'Agosto 2012', '2012-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '70', 'Setiembre 2012', '2012-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '71', 'Octubre 2012', '2012-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '72', 'Noviembre 2012', '2012-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '73', 'Diciembre 2012', '2012-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '74', 'Enero 2013', '2013-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '75', 'Febrero 2013', '2013-02-28', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '76', 'Marzo 2013', '2013-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '77', 'Abril 2013', '2013-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '78', 'Mayo 2013', '2013-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '79', 'Junio 2013', '2013-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '80', 'Julio 2013', '2013-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '81', 'Agosto 2013', '2013-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '82', 'Setiembre 2013', '2013-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '83', 'Octubre 2013', '2013-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '84', 'Noviembre 2013', '2013-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '85', 'Diciembre 2013', '2013-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '86', 'Enero 2014', '2014-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '87', 'Febrero 2014', '2014-02-28', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '88', 'Marzo 2014', '2014-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '89', 'Abril 2014', '2014-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '90', 'Mayo 2014', '2014-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '91', 'Junio 2014', '2014-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '92', 'Julio 2014', '2014-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '93', 'Agosto 2014', '2014-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '94', 'Setiembre 2014', '2014-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '95', 'Octubre 2014', '2014-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '96', 'Noviembre 2014', '2014-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '97', 'Diciembre 2014', '2014-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '98', 'Enero 2015', '2015-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '99', 'Febrero 2015', '2015-02-28', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '100', 'Marzo 2015', '2015-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '101', 'Abril 2015', '2015-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '102', 'Mayo 2015', '2015-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '103', 'Junio 2015', '2015-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '104', 'Julio 2015', '2015-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '105', 'Agosto 2015', '2015-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '106', 'Setiembre 2015', '2015-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '107', 'Octubre 2015', '2015-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '108', 'Noviembre 2015', '2015-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '109', 'Diciembre 2015', '2015-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '110', 'Enero 2016', '2016-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '111', 'Febrero 2016', '2016-02-29', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '112', 'Marzo 2016', '2016-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '113', 'Abril 2016', '2016-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '114', 'Mayo 2016', '2016-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '115', 'Junio 2016', '2016-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '116', 'Julio 2016', '2016-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '117', 'Agosto 2016', '2016-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '118', 'Septiembre 2016', '2016-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '119', 'Octubre 2016', '2016-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '120', 'Noviembre 2016', '2016-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '121', 'Diciembre 2016', '2016-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '122', 'Enero 2017', '2017-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '123', 'Febrero 2017', '2017-02-28', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '124', 'Marzo 2017', '2017-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '125', 'Abril 2017', '2017-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '126', 'Mayo 2017', '2017-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '127', 'Junio 2017', '2017-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '128', 'Julio 2017', '2017-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '129', 'Agosto 2017', '2017-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '130', 'Septiembre 2017', '2017-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '131', 'Octubre 2017', '2017-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '132', 'Noviembre 2017', '2017-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '133', 'Diciembre 2017', '2017-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '134', 'Enero 2018', '2018-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '135', 'Febrero 2018', '2018-02-28', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '136', 'Marzo 2018', '2018-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '137', 'Abril 2018', '2018-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '138', 'Mayo 2018', '2018-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '139', 'Junio 2018', '2018-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '140', 'Julio 2018', '2018-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '141', 'Agosto 2018', '2018-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '142', 'Septiembre 2018', '2018-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '143', 'Octubre 2018', '2018-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '144', 'Noviembre 2018', '2018-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '145', 'Diciembre 2018', '2018-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '146', 'Enero 2019', '2019-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '147', 'Febrero 2019', '2019-02-28', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '148', 'Marzo 2019', '2019-03-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '149', 'Abril 2019', '2019-04-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '150', 'Mayo 2019', '2019-05-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '151', 'Junio 2019', '2019-06-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '152', 'Julio 2019', '2019-07-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '153', 'Agosto 2019', '2019-08-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '154', 'Septiembre 2019', '2019-09-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '155', 'Octubre 2019', '2019-10-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '156', 'Noviembre 2019', '2019-11-30', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '157', 'Diciembre 2019', '2019-12-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '158', 'Enero 2020', '2020-01-31', 'Cerrado');
+GO
+INSERT INTO dbo.PeriodoContable (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Fecha, Estado)  VALUES ('Activo', 'sistema', GETDATE(), '159', 'Febrero 2020', '2020-02-29', 'Activo');
+GO
+
+SET IDENTITY_INSERT [dbo].[PeriodoContable] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[PeriodoContable] WHERE Id BETWEEN 1 AND 159;
+</rollback>
+</changeSet>
+</databaseChangeLog>

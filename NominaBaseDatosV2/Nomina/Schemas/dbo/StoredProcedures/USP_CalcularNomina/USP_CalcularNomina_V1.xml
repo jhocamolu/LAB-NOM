@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_CalcularNomina_V1">
+<comment>HU056</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[USP_CalcularNomina]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE [dbo].[USP_CalcularNomina] as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 04/05/2020
+-- Description: Permite calcular la cantidad y valor de cada concepto para cada funcionario
+--			 asociado a una nómina específica
+--
+-- Parameters:
+--  @NominaId:				  Identificador de la nómina que se va a calcular
+--  @FuncionarioOperacionId:	  Identificador del funcionario que lanza el proceso
+--  @UsuarioOperacion:		  Usuario que realiza la operación
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_CalcularNomina] @NominaId               INT,
+                                           @FuncionarioOperacionId INT,
+                                           @UsuarioOperacion       VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+    DECLARE @ResultadoBloqueo INT= 0;
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    -- Variables genericas que se comparten a los procedimientos dinámicos para el cálculo de los conceptos
+    DECLARE @NominaFechaInicio DATE;
+    DECLARE @NominaFechaFinal DATE;
+    DECLARE @FechaInicioMes DATE;
+    DECLARE @FechaFinalMes DATE;
+    DECLARE @FechaInicioMesAnterior DATE;
+    DECLARE @FechaFinalMesAnterior DATE;
+    DECLARE @FuncionarioId INT;
+    DECLARE @NominaFuncionarioId INT;
+    DECLARE @ContratoFechaInicio DATE;
+
+    -- Variables específicas de cada concepto que se comparten a los procedimientos dinámicos para su cálculo
+    DECLARE @ConceptoAlias VARCHAR(255);
+    DECLARE @ProcedimientoObtenerCantidad VARCHAR(1000);
+    DECLARE @ProcedimientoObtenerValor VARCHAR(1000);
+    DECLARE @RequiereCantidad BIT;
+    DECLARE @NominaDetalleId INT;
+    DECLARE @ConceptoId INT;
+    DECLARE @UnidadMedida VARCHAR(255);
+    DECLARE @ConceptoAgrupador BIT;
+    DECLARE @ConceptoOrden INT;
+
+    -- Variables que almacenan el resultado de los procedimientos para obtener la cantidad y valor de los conceptos
+    DECLARE @ConceptoValor MONEY= 0;
+    DECLARE @ConceptoCantidad INT= 0;
+    DECLARE @ConceptoInconsistencia VARCHAR(255)= '';
+
+    -- Constantes y otras variables para filtros y operaciones
+    DECLARE @NominaEnLiquidacion VARCHAR(255);
+    DECLARE @NominaModificada VARCHAR(255);
+    DECLARE @NominaFuncionarioPendienteLiquidacion VARCHAR(255);
+    DECLARE @NominaFuncionarioEnLiquidacion VARCHAR(255);
+    DECLARE @NominaFuncionarioLiquidado VARCHAR(255);
+    DECLARE @NominaFuncionarioConErrores VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @TipoLiquidacionId INT;
+    DECLARE @TipoLiquidacionOperacion VARCHAR(255);
+    DECLARE @TipoLiquidacionDevengosDeducciones VARCHAR(255);
+    DECLARE @TipoLiquidacionDeducciones VARCHAR(255);
+    DECLARE @TipoLiquidacionCalculo VARCHAR(255);
+    DECLARE @SubperiodoId INT;
+    DECLARE @TipoContratoId INT;
+    DECLARE @FuncionarioEstado VARCHAR(255);
+    DECLARE @ContratoEstado VARCHAR(255);
+    DECLARE @TipoConceptoNominaFijo VARCHAR(255);
+    DECLARE @TipoConceptoNominaNovedad VARCHAR(255);
+    DECLARE @TipoConceptoNomina VARCHAR(255);
+    DECLARE @ValorNoValido MONEY;
+    DECLARE @NominaDetalleProcesado VARCHAR(255);
+    DECLARE @NominaDetalleInconsistente VARCHAR(255);
+    DECLARE @NominaFuncionarioNetoPagar MONEY= 0;
+    DECLARE @CantidadNoProcesados INT;
+    DECLARE @NominaFuncionarioEstadoFinal VARCHAR(255);
+    DECLARE @AnioVigente VARCHAR(255);
+    DECLARE @AnioVigenteId INT;
+    DECLARE @ConceptoClaseCalculo VARCHAR(255);
+    DECLARE @ConceptoClaseDeduccion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Se consultan constantes para los estados
+        SELECT @NominaEnLiquidacion = vce.NOMINA_ENLIQUIDACION,
+               @NominaModificada = vce.NOMINA_MODIFICADA,
+               @NominaFuncionarioPendienteLiquidacion = vce.NOMINAFUNCIONARIO_PENDIENTELIQUIDACION,
+               @NominaFuncionarioEnLiquidacion = vce.NOMINAFUNCIONARIO_ENLIQUIDACION,
+               @NominaFuncionarioLiquidado = vce.NOMINAFUNCIONARIO_LIQUIDADO,
+               @NominaFuncionarioConErrores = vce.NOMINAFUNCIONARIO_CONERRORES,
+               @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+               @NominaDetalleProcesado = vce.NOMINADETALLE_PROCESADO,
+               @NominaDetalleInconsistente = vce.NOMINADETALLE_INCONSISTENTE,
+               @AnioVigente = vce.ANIO_VIGENTE
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Se consulta si la nómina se puede calcular
+        IF EXISTS
+        (
+            SELECT nom.Id
+            FROM dbo.Nomina AS nom
+            WHERE nom.Id = @NominaId
+                  AND nom.Estado != @NominaModificada
+        )
+        BEGIN
+            SET @MensajeExcepcion = 'El cálculo de la nómina no se puede realizar ya que no se encuentra en el estado apropiado.';
+            EXEC util.USP_GenerarExcepcion
+                 50000,
+                 @MensajeExcepcion;
+        END;
+
+        -- Se consultan constantes para los tipos de concepto de nómina
+        SELECT @TipoConceptoNominaFijo = vctc.[FIJO],
+               @TipoConceptoNominaNovedad = vctc.[NOVEDAD]
+        FROM [util].[VW_ConstanteTipoConcepto] AS vctc;
+
+        -- Se consulta constante para valor no valido
+        SELECT @ValorNoValido = vcg.VALORNOVALIDO
+        FROM [util].[VW_ConstanteGenerica] AS vcg;
+
+        -- Se consulta constantes para operación total según tipo de liquidación
+        SELECT @TipoLiquidacionDevengosDeducciones = cotl.DEVENGOSMENOSDEDUCCIONES,
+               @TipoLiquidacionDeducciones = cotl.TOTALDEDUCCIONES,
+               @TipoLiquidacionCalculo = cotl.SOLOCALCULOSSINAGRUPAR
+        FROM util.Vw_ConstanteOperacionTipoLiquidacion AS cotl;
+
+        -- Se consultan constantes para las clases de concepto
+        SELECT @ConceptoClaseCalculo = vccc.CALCULO,
+               @ConceptoClaseDeduccion = vccc.DEDUCCION
+        FROM util.VW_ConstanteClaseConcepto AS vccc;
+
+        -- Se obtiene el año de trabajo vigente
+        SET @AnioVigenteId = [dbo].[UFS_ObtenerAnioTrabajo](@AnioVigente);
+
+        -- Inicio de la transacción
+        BEGIN TRAN CalcularNomina;
+
+        -- Se bloquea el procedimiento para que solo pueda existir una instancia de el ejecutandose de forma simultanea
+        EXEC @ResultadoBloqueo = sp_getapplock
+             @Resource = 'USP_CalcularNomina',
+             @LockMode = 'Exclusive',
+             @LockOwner = 'Transaction',
+             @LockTimeout = 15000;
+
+        -- Si se logra bloquear el procedimiento se realiza toda la lógica del procedimiento
+        IF @ResultadoBloqueo >= 0
+        BEGIN
+
+            -- Se actualiza el estado de la nómina a En liquidación
+            UPDATE dbo.Nomina
+              SET
+                  Estado = @NominaEnLiquidacion,
+                  ModificadoPor = @UsuarioOperacion,
+                  FechaModificacion = GETDATE()
+            WHERE Id = @NominaId;
+
+            -- Se consultan los datos de la nómina 
+            SELECT @NominaFechaInicio = nom.FechaInicio,
+                   @NominaFechaFinal = nom.FechaFinal,
+                   @TipoLiquidacionId = nom.TipoLiquidacionId,
+                   @SubperiodoId = nom.SubperiodoId,
+                   @TipoLiquidacionOperacion = tli.OperacionTotal
+            FROM dbo.Nomina AS nom
+                 INNER JOIN dbo.TipoLiquidacion AS tli ON(nom.TipoLiquidacionId = tli.Id)
+            WHERE nom.Id = @NominaId;
+
+            SELECT @FechaInicioMes = DATEADD(DAY, 1, EOMONTH(@NominaFechaInicio, -1)),
+                   @FechaFinalMes = EOMONTH(@NominaFechaInicio),
+                   @FechaInicioMesAnterior = DATEADD(DAY, 1, EOMONTH(@NominaFechaInicio, -2)),
+                   @FechaFinalMesAnterior = EOMONTH(@NominaFechaInicio, -1);
+
+            -- Se consultan los funcionarios asignados a la nómina que se encuentren pendientes por liquidar
+            DECLARE CUR_FuncionariosACalcular CURSOR LOCAL
+            FOR SELECT nfu.Id,
+                       nfu.FuncionarioId,
+                       vfda.Estado,
+                       con.TipoContratoId,
+                       con.Estado,
+                       con.FechaInicio
+                FROM dbo.NominaFuncionario AS nfu
+                     INNER JOIN dbo.VW_FuncionarioDatoActual AS vfda ON(vfda.Id = nfu.FuncionarioId)
+                     INNER JOIN dbo.Contrato AS con ON(con.Id = vfda.ContratoId)
+                WHERE nfu.NominaId = @NominaId
+                      AND nfu.Estado = @NominaFuncionarioPendienteLiquidacion
+                      AND nfu.EstadoRegistro = @AuditoriaActivo;
+
+            OPEN CUR_FuncionariosACalcular;
+
+            FETCH NEXT FROM CUR_FuncionariosACalcular INTO @NominaFuncionarioId, @FuncionarioId, @FuncionarioEstado, @TipoContratoId, @ContratoEstado, @ContratoFechaInicio;
+
+            WHILE @@FETCH_STATUS = 0
+
+            BEGIN
+
+                PRINT '';
+                PRINT CONCAT('@Funcionario=', CONVERT(VARCHAR(255), @FuncionarioId));
+
+                -- Cambiar el estado del funcionario a En liquidación
+                UPDATE dbo.NominaFuncionario
+                  SET
+                      NetoPagar = 0,
+                      Estado = @NominaFuncionarioEnLiquidacion,
+                      ModificadoPor = @UsuarioOperacion,
+                      FechaModificacion = GETDATE()
+                WHERE Id = @NominaFuncionarioId;
+
+                PRINT CONCAT('@TipoLiquidacionId=', CONVERT(VARCHAR(255), @TipoLiquidacionId));
+                PRINT CONCAT('@SubperiodoId=', CONVERT(VARCHAR(255), @SubperiodoId));
+                PRINT CONCAT('@TipoContratoId=', CONVERT(VARCHAR(255), @TipoContratoId));
+                PRINT CONCAT('@FuncionarioEstado=', CONVERT(VARCHAR(255), @FuncionarioEstado));
+                PRINT CONCAT('@ContratoEstado=', CONVERT(VARCHAR(255), @ContratoEstado));
+
+                -- Se elimina el detalle de la nomina del funcionario para los conceptos fijos
+                DELETE FROM dbo.NominaDetalle
+                WHERE NominaFuncionarioId = @NominaFuncionarioId
+                      AND ConceptoNominaId IN
+                (
+                    SELECT Id
+                    FROM dbo.ConceptoNomina AS con
+                    WHERE con.TipoConceptoNomina =
+                    (
+                        SELECT vctc.FIJO
+                        FROM util.VW_ConstanteTipoConcepto AS vctc
+                    )
+                );
+
+                -- Obtener conceptos a liquidar para el tipo de nómina
+                DECLARE CUR_ConceptosALiquidar CURSOR LOCAL
+                FOR SELECT DISTINCT
+                           cno.Id,
+                           cno.Alias,
+                           LTRIM(RTRIM(cno.ProcedimientoNombre)) AS ProcedimientoObtenerValor,
+                           cno.TipoConceptoNomina,
+                           cno.RequiereCantidad,
+                           cno.UnidadMedida,
+                           LTRIM(RTRIM(CONVERT(VARCHAR(255), fno.FuncionParametro))) AS ProcedimientoObtenerCantidad,
+                           cno.ConceptoAgrupador,
+                           cno.Orden
+                    FROM dbo.ConceptoNomina AS cno
+                         INNER JOIN dbo.TipoLiquidacionConcepto AS tlc ON(tlc.ConceptoNominaId = cno.Id)
+                         INNER JOIN dbo.TipoLiquidacionEstado AS tle ON(tle.TipoliquidacionId = tlc.TipoLiquidacionId)
+                         LEFT JOIN dbo.FuncionNomina AS fno ON(fno.Id = cno.FuncionNominaId)
+                    WHERE tlc.TipoliquidacionId = @TipoLiquidacionId
+                          AND tlc.SubPeriodoId = @SubperiodoId
+                          AND (tlc.TipoContratoId = @TipoContratoId
+                               OR tlc.TipoContratoId IS NULL)
+                          AND tle.EstadoFuncionario = @FuncionarioEstado
+                          AND tle.EstadoContrato = @ContratoEstado
+                          AND cno.EstadoRegistro = @AuditoriaActivo
+                          AND tlc.EstadoRegistro = @AuditoriaActivo
+                          AND tle.EstadoRegistro = @AuditoriaActivo
+                    ORDER BY cno.Orden ASC;
+
+                OPEN CUR_ConceptosALiquidar;
+
+                FETCH NEXT FROM CUR_ConceptosALiquidar INTO @ConceptoId, @ConceptoAlias, @ProcedimientoObtenerValor, @TipoConceptoNomina, @RequiereCantidad, @UnidadMedida, @ProcedimientoObtenerCantidad, @ConceptoAgrupador, @ConceptoOrden;
+
+                WHILE @@FETCH_STATUS = 0
+
+                BEGIN
+
+                    -- Si el tipo de concepto es fijo o es un concepto agrupador, entonces se calcula directamente la cantidad y valor
+                    IF @TipoConceptoNomina = @TipoConceptoNominaFijo
+                       OR @ConceptoAgrupador = 1
+                    BEGIN
+
+                        SET @ConceptoValor = 0;
+                        SET @ConceptoCantidad = 0;
+                        SET @ConceptoInconsistencia = NULL;
+                        SET @NominaDetalleId = NULL;
+
+                        EXEC [dbo].[USP_CalcularConceptoNomina]
+                             @NominaFechaInicio = @NominaFechaInicio,
+                             @NominaFechaFinal = @NominaFechaFinal,
+                             @FechaInicioMes = @FechaInicioMes,
+                             @FechaFinalMes = @FechaFinalMes,
+                             @FechaInicioMesAnterior = @FechaInicioMesAnterior,
+                             @FechaFinalMesAnterior = @FechaFinalMesAnterior,
+                             @FuncionarioId = @FuncionarioId,
+                             @ConceptoAlias = @ConceptoAlias,
+                             @RequiereCantidad = @RequiereCantidad,
+                             @ProcedimientoObtenerCantidad = @ProcedimientoObtenerCantidad,
+                             @ProcedimientoObtenerValor = @ProcedimientoObtenerValor,
+                             @NominaDetalleId = @NominaDetalleId,
+                             @NominaId = @NominaId,
+                             @NominaFuncionarioId = @NominaFuncionarioId,
+                             @ValorNoValido = @ValorNoValido,
+                             @AnioVigenteId = @AnioVigenteId,
+                             @ConceptoAgrupador = @ConceptoAgrupador,
+                             @ConceptoNominaId = @ConceptoId,
+                             @ContratoFechaInicio = @ContratoFechaInicio,
+                             @Cantidad = @ConceptoCantidad OUTPUT,
+                             @Valor = @ConceptoValor OUTPUT,
+                             @Inconsistencia = @ConceptoInconsistencia OUTPUT;
+
+                        -- Se guarda el detalle de la nómina
+                        EXEC [dbo].[USP_GuardarNominaDetalle]
+                             @NominaFuncionarioId = @NominaFuncionarioId,
+                             @ConceptoNominaId = @ConceptoId,
+                             @UnidadMedida = @UnidadMedida,
+                             @NominaDetalleId = @NominaDetalleId,
+                             @Cantidad = @ConceptoCantidad,
+                             @Valor = @ConceptoValor,
+                             @Inconsistencia = @ConceptoInconsistencia,
+                             @ValorNoValido = @ValorNoValido,
+                             @NominaDetalleProcesado = @NominaDetalleProcesado,
+                             @NominaDetalleInconsistente = @NominaDetalleInconsistente,
+                             @AuditoriaActivo = @AuditoriaActivo,
+                             @UsuarioOperacion = @UsuarioOperacion;
+
+                    END
+                        -- Si el tipo de concepto es novedad, entonces se consultan el detalle de la nómina asociado al concepto
+                        -- y que fue cargado previamente como novedad;
+                    ELSE
+                    BEGIN
+
+                        -- Obtener conceptos a liquidar para el tipo de nómina
+                        DECLARE CUR_NovedadesConcepto CURSOR LOCAL
+                        FOR SELECT nod.Id
+                            FROM dbo.NominaDetalle AS nod
+                            WHERE nod.NominaFuncionarioId = @NominaFuncionarioId
+                                  AND nod.ConceptoNominaId = @ConceptoId;
+
+                        OPEN CUR_NovedadesConcepto;
+
+                        FETCH NEXT FROM CUR_NovedadesConcepto INTO @NominaDetalleId;
+
+                        WHILE @@FETCH_STATUS = 0
+
+                        BEGIN
+
+                            SET @ConceptoValor = 0;
+                            SET @ConceptoCantidad = 0;
+                            SET @ConceptoInconsistencia = NULL;
+
+                            EXEC [dbo].[USP_CalcularConceptoNomina]
+                                 @NominaFechaInicio = @NominaFechaInicio,
+                                 @NominaFechaFinal = @NominaFechaFinal,
+                                 @FechaInicioMes = @FechaInicioMes,
+                                 @FechaFinalMes = @FechaFinalMes,
+                                 @FechaInicioMesAnterior = @FechaInicioMesAnterior,
+                                 @FechaFinalMesAnterior = @FechaFinalMesAnterior,
+                                 @FuncionarioId = @FuncionarioId,
+                                 @ConceptoAlias = @ConceptoAlias,
+                                 @RequiereCantidad = @RequiereCantidad,
+                                 @ProcedimientoObtenerCantidad = @ProcedimientoObtenerCantidad,
+                                 @ProcedimientoObtenerValor = @ProcedimientoObtenerValor,
+                                 @NominaDetalleId = @NominaDetalleId,
+                                 @NominaId = @NominaId,
+                                 @NominaFuncionarioId = @NominaFuncionarioId,
+                                 @ValorNoValido = @ValorNoValido,
+                                 @AnioVigenteId = @AnioVigenteId,
+                                 @ConceptoAgrupador = @ConceptoAgrupador,
+                                 @ConceptoNominaId = @ConceptoId,
+                                 @ContratoFechaInicio = @ContratoFechaInicio,
+                                 @Cantidad = @ConceptoCantidad OUTPUT,
+                                 @Valor = @ConceptoValor OUTPUT,
+                                 @Inconsistencia = @ConceptoInconsistencia OUTPUT;
+
+                            -- Se guarda el detalle de la nómina
+                            EXEC [dbo].[USP_GuardarNominaDetalle]
+                                 @NominaFuncionarioId = @NominaFuncionarioId,
+                                 @ConceptoNominaId = @ConceptoId,
+                                 @UnidadMedida = @UnidadMedida,
+                                 @NominaDetalleId = @NominaDetalleId,
+                                 @Cantidad = @ConceptoCantidad,
+                                 @Valor = @ConceptoValor,
+                                 @Inconsistencia = @ConceptoInconsistencia,
+                                 @ValorNoValido = @ValorNoValido,
+                                 @NominaDetalleProcesado = @NominaDetalleProcesado,
+                                 @NominaDetalleInconsistente = @NominaDetalleInconsistente,
+                                 @AuditoriaActivo = @AuditoriaActivo,
+                                 @UsuarioOperacion = @UsuarioOperacion;
+
+                            FETCH NEXT FROM CUR_NovedadesConcepto INTO @NominaDetalleId;
+
+                        END;
+
+                        CLOSE CUR_NovedadesConcepto;
+
+                        DEALLOCATE CUR_NovedadesConcepto;
+
+                    END;
+
+                    FETCH NEXT FROM CUR_ConceptosALiquidar INTO @ConceptoId, @ConceptoAlias, @ProcedimientoObtenerValor, @TipoConceptoNomina, @RequiereCantidad, @UnidadMedida, @ProcedimientoObtenerCantidad, @ConceptoAgrupador, @ConceptoOrden;
+
+                END;
+
+                CLOSE CUR_ConceptosALiquidar;
+
+                DEALLOCATE CUR_ConceptosALiquidar;
+
+                -- Se consulta si todos los registros en detalle nómina fueron procesados para el funcionario
+                SET @CantidadNoProcesados = 0;
+
+                SELECT @CantidadNoProcesados = COUNT(*)
+                FROM dbo.NominaDetalle AS nod
+                WHERE nod.NominaFuncionarioId = @NominaFuncionarioId
+                      AND nod.Estado != @NominaDetalleProcesado
+                      AND nod.EstadoRegistro = @AuditoriaActivo;
+
+                IF @CantidadNoProcesados > 0
+                BEGIN
+                    SET @NominaFuncionarioNetoPagar = 0;
+                    SET @NominaFuncionarioEstadoFinal = @NominaFuncionarioConErrores;
+                END;
+                ELSE
+                BEGIN
+
+                    IF @TipoLiquidacionOperacion = @TipoLiquidacionDevengosDeducciones
+                    BEGIN
+                        -- Se calcula el neto a pagar
+                        EXEC [dbo].[USP_ObtenerNetoPagarParcial]
+                             @NominaFuncionarioId = @NominaFuncionarioId,
+                             @Valor = @NominaFuncionarioNetoPagar OUTPUT;
+                    END;
+                    ELSE
+                    BEGIN
+                        IF @TipoLiquidacionOperacion = @TipoLiquidacionDeducciones
+                        BEGIN
+                            -- Se consultan las deducciones
+                            SELECT @NominaFuncionarioNetoPagar = COALESCE(SUM(COALESCE(nde.Valor,0)), 0)
+                            FROM dbo.NominaDetalle AS nde
+                                 INNER JOIN dbo.ConceptoNomina AS cno ON(nde.ConceptoNominaId = cno.Id)
+                            WHERE nde.NominaFuncionarioId = @NominaFuncionarioId
+                                  AND nde.Estado = @NominaDetalleProcesado
+                                  AND cno.ClaseConceptoNomina = @ConceptoClaseDeduccion
+                                  AND nde.EstadoRegistro = @AuditoriaActivo;
+                        END;
+                        ELSE
+                        BEGIN
+                            -- Se consultan conceptos de cálculo sin agrupadores
+                            SELECT @NominaFuncionarioNetoPagar = COALESCE(SUM(COALESCE(nde.Valor,0)), 0)
+                            FROM dbo.NominaDetalle AS nde
+                                 INNER JOIN dbo.ConceptoNomina AS cno ON(nde.ConceptoNominaId = cno.Id)
+                            WHERE nde.NominaFuncionarioId = @NominaFuncionarioId
+                                  AND nde.Estado = @NominaDetalleProcesado
+                                  AND cno.ClaseConceptoNomina = @ConceptoClaseCalculo
+						    AND cno.ConceptoAgrupador = 0
+                                  AND nde.EstadoRegistro = @AuditoriaActivo;
+                        END;
+                    END;
+
+                    SET @NominaFuncionarioEstadoFinal = @NominaFuncionarioLiquidado;
+                END;
+
+                PRINT CONCAT('@NominaFuncionarioNetoPagar=', CONVERT(VARCHAR, @NominaFuncionarioNetoPagar));
+
+                -- Cambiar el estado del funcionario a Liquidado
+                UPDATE dbo.NominaFuncionario
+                  SET
+                      NetoPagar = @NominaFuncionarioNetoPagar,
+                      Estado = @NominaFuncionarioEstadoFinal,
+                      ModificadoPor = @UsuarioOperacion,
+                      FechaModificacion = GETDATE()
+                WHERE Id = @NominaFuncionarioId;
+
+                FETCH NEXT FROM CUR_FuncionariosACalcular INTO @NominaFuncionarioId, @FuncionarioId, @FuncionarioEstado, @TipoContratoId, @ContratoEstado, @ContratoFechaInicio;
+
+            END;
+
+            CLOSE CUR_FuncionariosACalcular;
+
+            DEALLOCATE CUR_FuncionariosACalcular;
+
+            -- Se regresa el estado de la nómina a Modificada
+            UPDATE dbo.Nomina
+              SET
+                  Estado = @NominaModificada,
+                  ModificadoPor = @UsuarioOperacion,
+                  FechaModificacion = GETDATE()
+            WHERE Id = @NominaId;
+
+        END;
+        ELSE
+        BEGIN
+            SET @MensajeExcepcion = 'Ya existe un proceso de cálculo de nómina en curso. Por favor espere a que finalice.';
+            EXEC util.USP_GenerarExcepcion
+                 50000,
+                 @MensajeExcepcion;
+        END;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN CalcularNomina;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+
+            -- Si se genera un error y se debe hacer un rollback se pasan los funcionarios
+            -- con estado Pendiente a con ConErrores
+            UPDATE dbo.NominaFuncionario
+              SET
+                  Estado = @NominaFuncionarioConErrores
+            WHERE NominaId = @NominaId
+                  AND Estado = @NominaFuncionarioPendienteLiquidacion;
+
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_CalcularNomina];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,257 @@
+<div class="page-layout simple fullwidth cargos-listar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Reportes</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/reportes/nomina/dashboard">Nómina</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Generar archivo de dispersión de nómina</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Generar archivo de dispersión de nómina</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <div class="spiner" *ngIf="espera">
+        <mat-spinner></mat-spinner>
+    </div>
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <form (ngSubmit)="buscarFechaHandle($event)" name="formFecha" [formGroup]="formFecha">
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha de inicio *</mat-label>
+                        <input matInput [matDatepicker]="fechaInicial" (click)="fechaInicial.open()"
+                            formControlName="fechaInicial">
+                        <mat-datepicker-toggle matPrefix [for]="fechaInicial">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker startView="year" #fechaInicial></mat-datepicker>
+                        <mat-error *ngFor="let error of formFecha.get('fechaInicial').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                    No es un formato de fecha válido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Fecha inicial de la consulta de las liquidaciones de nómina.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha de finalización *</mat-label>
+                        <input matInput [matDatepicker]="fechaFinal" (click)="fechaFinal.open()"
+                            formControlName="fechaFinal">
+                        <mat-datepicker-toggle matPrefix [for]="fechaFinal">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker startView="year" #fechaFinal></mat-datepicker>
+                        <mat-error *ngFor="let error of formFecha.get('fechaFinal').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                    No es un formato de fecha válido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Fecha final de la consulta de las liquidaciones de nómina.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                </div>
+                <div class="actions">
+                    <a *ngIf="!loadData" mat-raised-button routerLink="/reportes/nomina/dashboard">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+                    <button mat-raised-button type="submit" [disabled]="formFecha.invalid || submit" color="accent">
+                        <mat-icon>search</mat-icon>
+                        <span>Consultar liquidaciones</span>
+                    </button>
+                </div>
+            </form>
+
+
+
+            <alcanos-empty-list [visibleBtnCreate]="false" (fnCreate)="false"
+                labelH1="¡Uy! no existen datos en las fechas seleccionadas." [visible]="loadData && countTotal == 0">
+            </alcanos-empty-list>
+
+
+            <form (ngSubmit)="guardarHandle($event)" name="form" [formGroup]="form">
+                <div [hidden]="false" class="medio-bloque"
+                    [ngStyle]="{'display':loadData && countTotal > 0 ? 'block' : 'none' }">
+                    <div>
+                        <h3>Liquidaciones de nómina * <mat-icon class="s-16" matSuffix
+                                matTooltip="Liquidaciones de nómina aplicadas.">
+                                info
+                            </mat-icon>
+                        </h3>
+
+                    </div>
+                    <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear
+                        matSortDirection="desc" [@animateStagger]="{value:'50'}">
+
+                        <!-- Columna seleccion -->
+                        <ng-container matColumnDef="seleccion">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                    [aria-label]="checkboxLabel()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna Tipo -->
+                        <ng-container matColumnDef="tipoLiquidacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.tipoLiquidacion}} </td>
+                        </ng-container>
+
+                        <!-- Columna Subperíodo-->
+                        <ng-container matColumnDef="subperiodo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Subperíodo</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="text-truncate">{{ element.subperiodo }} </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna Fecha inicio -->
+                        <ng-container matColumnDef="fechaInicial">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha inicio</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span> {{element.fechaInicial | date:'dd / LL / yyyy'}}</span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna neto a pagar -->
+                        <ng-container matColumnDef="fechaFinal">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha fin</th>
+                            <td mat-cell *matCellDef="let element">
+                                <span> {{element.fechaFinal | date:'dd / LL / yyyy'}}</span>
+                        </ng-container>
+
+                        <!-- Columna neto a pagar -->
+                        <ng-container matColumnDef="valorTotal">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="centrar">Valor</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.valorTotal | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                        <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <p class="p-8"></p>
+                    <div *ngIf="form.get('seleccion').errors != null">
+                        <mat-error *ngFor="let error of form.get('seleccion').errors | keyvalue">
+                           <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                    </div>
+
+                    <!-- <mat-paginator [length]="dataOriginalLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                        showFirstLastButtons>
+                    </mat-paginator> -->
+
+                </div>
+
+                <p class="p-8"></p>
+
+                <mat-form-field appearance="outline" [ngStyle]="{'display':loadData ? 'block' : 'none'}" *ngIf="!(loadData && countTotal == 0)">
+                    <mat-label>Entidad financiera *</mat-label>
+                    <mat-select formControlName="entidadFinanciera">
+                        <mat-option></mat-option>
+                        <mat-option *ngFor="let item of entidadesFinancieras" [value]="item.id"
+                            selected="item.entidadPorDefecto">
+                            {{item.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngFor="let error of form.get('entidadFinanciera').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Banco dispersor del pago de la nómina.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" [ngStyle]="{'display':loadData ? 'block' : 'none'}" *ngIf="!(loadData && countTotal == 0)">
+                    <mat-label>Cuenta bancaria *</mat-label>
+                    <mat-select formControlName="cuentaBancariaId">
+                        <mat-option></mat-option>
+                        <mat-option *ngFor="let item of cuentaBancos" [value]="item.id">
+                            {{item.numero}} - {{item.nombre}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngFor="let error of form.get('cuentaBancariaId').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Cuenta bancaria por la cual se hace el pago de la nómina.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+                <div class="actions">
+                    <a *ngIf="loadData" mat-raised-button routerLink="/reportes/nomina/dashboard">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+
+                    <button [ngStyle]="{'display':loadData ? 'block' : 'none' }" mat-raised-button type="submit"
+                        [disabled]="form.invalid || submit" color="accent">
+                        <mat-icon>save_alt</mat-icon>
+                        <span>Generar</span>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

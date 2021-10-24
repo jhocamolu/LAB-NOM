@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="ParametroGeneral_Datos_V7">
+<comment>Retefuente</comment>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] ON 
+GO
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(23, 'conceptoPagosBrutosRetefuente', 'Select', '', 'Concepto pagos brutos retefuente', 'Concepto que agrupa los ingresos constitutivos para el cálculo de retención en la fuente.', 1, '{nomina}/odata/ConceptoNominas?$select=alias,nombre&$orderby=nombre asc', 1, 'PagosBrutosRetefuente', 3, 'Activo    ', 'sistema', GETDATE(), 1);
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(24, 'conceptoIngresosNoGravablesRetefuente', 'Select', '', 'Concepto ingresos no gravables retefuente', 'Concepto que agrupa los ingresos no gravables para el cálculo de retención en la fuente.', 2, '{nomina}/odata/ConceptoNominas?$select=alias,nombre&$orderby=nombre asc', 1, 'IngresosNoGravablesRetefuente', 3, 'Activo    ', 'sistema', GETDATE(), 1);
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(25, 'conceptoRentasExentasRetefuente', 'Select', '', 'Concepto rentas exentas retefuente', 'Concepto que agrupa las rentas exentas para el cálculo de retención en la fuente.', 3, '{nomina}/odata/ConceptoNominas?$select=alias,nombre&$orderby=nombre asc', 1, 'RentasExentasRetefuente', 3, 'Activo    ', 'sistema', GETDATE(), 1);
+
+UPDATE dbo.ParametroGeneral
+	SET CategoriaParametroId=3,Ayuda='Porcentaje de renta exenta de trabajo para el cálculo de retención en la fuente.'
+	WHERE Id=4;
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(26, 'multiploRedondeos', 'Number', 'min="1",max="10000"', 'Multiplo para redondeos', 'Multiplo que que utilizará para hacer los redondeo en cálculos de retención en la fuente.', 5, '', 1, '1000', 3, 'Activo    ', 'sistema', GETDATE(), 1);
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(27, 'porcentajeLimiteDeducciones', 'Number', 'min="1",max="100"', 'Porcentaje control límite deducciones', 'Porcentaje para el control al límite de las deducciones y  rentas exentas.', 6, '', 1, '40', 3, 'Activo    ', 'sistema', GETDATE(), 1);
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(28, 'porcentajeDeduccionDependientes', 'Number', 'min="1",max="100"', 'Porcentaje deducción dependientes', 'Porcentaje de deducción cuando el funcionario tiene dependientes.', 7, '', 1, '10', 3, 'Activo    ', 'sistema', GETDATE(), 1);
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(29, 'uvtLimiteDeduccionesYRentas', 'Number', 'min="1",max="1000"', 'UVTs límite para deducciones y rentas', 'Número de UVTs límite para deducciones y rentas.', 8, '', 1, '420', 3, 'Activo    ', 'sistema', GETDATE(), 1);
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(30, 'conceptoBaseRetefuente', 'Select', '', 'Concepto base calculo retefuente', 'Concepto con la base para el cálculo de retefuente.', 9, '{nomina}/odata/ConceptoNominas?$select=alias,nombre&$orderby=nombre asc', 1, 'BaseRetefuente', 3, 'Activo    ', 'sistema', GETDATE(), 1);
+
+INSERT INTO dbo.ParametroGeneral (Id, Alias, Tipo, HtmlOpcion, Etiqueta, Ayuda, Orden, Item, Obligatorio, Valor, CategoriaParametroId, EstadoRegistro, CreadoPor, FechaCreacion, AnnoVigenciaId) 
+VALUES(31, 'conceptoBaseRetefuenteRecalculo', 'Select', '', 'Concepto base para recalculo retefuente', 'Concepto con la base para el recalculo de porcentaje de retención en la fuente.', 10, '{nomina}/odata/ConceptoNominas?$select=alias,nombre&$orderby=nombre asc', 1, 'BaseRetefuenteRecalculo', 3, 'Activo    ', 'sistema', GETDATE(), 1);
+
+
+SET IDENTITY_INSERT [dbo].[ParametroGeneral] OFF 
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM dbo.ParametroGeneral WHERE id BETWEEN 23 AND 29;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

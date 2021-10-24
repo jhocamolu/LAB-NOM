@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "1d876061-4e10-4ed9-a4ce-ff16e9317383",
+		"name": "HU067 Libro Vacaciones",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listado Libro Vacaciones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/LibroVacaciones",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"LibroVacaciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listado Solicitud Vacaciones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/SolicitudVacaciones",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"SolicitudVacaciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TareaProgramadaActualizar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fecha\":\"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/LibroVacaciones/TareaProgramadaActualizar",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"LibroVacaciones",
+						"TareaProgramadaActualizar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": " Consolidado LibroVacaciones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/LibroVacacionesConsolidados",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"LibroVacacionesConsolidados"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

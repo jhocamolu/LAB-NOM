@@ -1,0 +1,190 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/parametros">Parámetros</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Editar parámetros</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Parámetros del sistema {{totalAnio}}</h2>
+            </div>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="box-shadow">
+            <!-- CONTENIDO -->
+            <form (ngSubmit)="onSubmitHandle($event)" [formGroup]="form" *ngIf="form">
+                <div fxFlex="1 0 auto">
+                    <div *ngFor="let element of items">
+                        <div [ngSwitch]="element.tipo">
+                            <ng-template ngSwitchCase="TextArea">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>{{element.etiqueta}}</mat-label>
+                                    <textarea matInput formControlName="{{element.alias}}">
+                                </textarea>
+                                    <mat-icon matSuffix matTooltip="{{element.ayuda}}">info</mat-icon>
+                                    <mat-error *ngFor="let error of form.get(element.alias).errors |keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </ng-template>
+
+                            <ng-template ngSwitchCase="Date">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>{{element.etiqueta}}</mat-label>
+                                    <input matInput [matDatepicker]="picker" formControlName="{{element.alias}}">
+                                    <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    <mat-icon matSuffix matTooltip="{{element.ayuda}}">info</mat-icon>
+                                    <mat-error *ngFor="let error of form.get(element.alias).errors |keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                                No es un formato de fecha válido.
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </ng-template>
+
+                            <ng-template ngSwitchCase="Time">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>{{element.etiqueta}}</mat-label>
+                                    <input matInput type="time" formControlName="{{element.alias}}">
+                                    <mat-icon matSuffix matTooltip="{{element.ayuda}}">info</mat-icon>
+                                    <mat-error *ngFor="let error of form.get(element.alias).errors |keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </ng-template>
+
+                            <ng-template ngSwitchCase="Select">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>{{element.etiqueta}}</mat-label>
+                                    <mat-select [compareWith]="compareWith" formControlName="{{element.alias}}">
+                                        <mat-option [value]="null"></mat-option>
+                                        <mat-option *ngFor="let item of selects[element.alias]"
+                                            [value]="objectValues(item)[0]">
+                                            {{ objectValues(item)[1] }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-icon matSuffix matTooltip="{{element.ayuda}}">info</mat-icon>
+                                    <mat-error *ngFor="let error of form.get(element.alias).errors |keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </ng-template>
+
+                            <ng-template ngSwitchCase="Boolean">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>{{element.etiqueta}}</mat-label>
+                                    <mat-select [compareWith]="compareWith" formControlName="{{element.alias}}">
+                                        <mat-option [value]="null"></mat-option>
+                                        <mat-option [value]="true">Si</mat-option>
+                                        <mat-option [value]="false">No</mat-option>
+                                    </mat-select>
+                                    <mat-icon matSuffix matTooltip="{{element.ayuda}}">info</mat-icon>
+                                    <mat-error *ngFor="let error of form.get(element.alias).errors |keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </ng-template>
+
+
+                            <ng-template ngSwitchDefault>
+                                <mat-form-field appearance="outline">
+                                    <mat-label>{{element.etiqueta}}</mat-label>
+                                    <input matInput formControlName="{{element.alias}}">
+                                    <mat-icon matSuffix matTooltip="{{element.ayuda}}">info</mat-icon>
+                                    <mat-error *ngFor="let error of form.get(element.alias).errors |keyvalue">
+                                        <div [ngSwitch]="error.key">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'max'">
+                                                Valor máximo: {{ error.value.max }}
+                                            </ng-template>
+                                            <ng-template [ngSwitchCase]="'min'">
+                                                Valor minimo: {{ error.value.min }}
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error.key}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                </mat-form-field>
+                            </ng-template>
+
+                        </div>
+                    </div>
+
+                    <div class="actions">
+
+                        <a mat-raised-button  routerLink="/configuracion/parametros">
+                            <mat-icon>cancel</mat-icon>
+                            <span>Cancelar</span>
+                        </a>
+
+
+                        <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                            <mat-icon>save</mat-icon>
+                            <span>Guardar</span>
+                        </button>
+                    </div>
+
+                </div>
+
+
+
+            </form>
+            <!--/ CONTENIDO -->
+        </div>
+
+    </div>
+    <!--/ CONTENT -->
+</div>

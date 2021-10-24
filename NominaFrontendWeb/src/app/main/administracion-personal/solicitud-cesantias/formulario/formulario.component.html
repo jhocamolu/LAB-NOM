@@ -1,0 +1,247 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                  <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/administracion-personal/solicitud-cesantias">Solicitud de cesantías anticipadas</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar solicitud</span>
+                <span *ngIf="!item">Registrar solicitud</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar solicitud de anticipo cesantías </h2>
+                <h2 *ngIf="!item">Registrar solicitud de anticipo cesantías</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngIf="item && item.estado === 'EnTramite'"
+                    
+                    (click)="aprobarHandle($event, item)">
+                    <span>Aprobar</span>
+                </button>
+                <a routerLink="/administracion-personal/solicitud-cesantias/" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Funcionario</mat-label>
+                        <input matInput formControlName="funcionario" [matAutocomplete]="autoFn" required
+                            (focus)="focusData($event)">
+                        <mat-autocomplete [displayWith]="displayFn" #autoFn="matAutocomplete">
+                            <mat-option *ngFor="
+                                    let item of filteredFuncionarios | async " [value]="item">
+                                {{ item.criterioBusqueda }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngFor="let error of form.get('funcionario').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{ error.key }}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Nombre y número de identificación del funcionario.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div *ngIf="seletedFuncionario">
+                    <div *ngIf="datosCesantias">
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Base cálculo de cesantias
+                                    <mat-icon class="s-16"
+                                        matTooltip="Valor utilizado para hacer el cálculo del anticipo a las cesantías.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{datosCesantias.baseCesantias | currency:'COP':'symbol-narrow':'4.2-2': 'co'}} </p>
+                            </div>
+
+                            <div>
+                                <h3>Días causados
+                                    <mat-icon class="s-16" matTooltip="Cantidad de días acumulados para cesantías que tiene el
+                                         funcionario.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{datosCesantias.cantidadDiasAcumulados}} </p>
+                            </div>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <div>
+                                <h3>Valor acumulado
+                                    <mat-icon class="s-16"
+                                        matTooltip="Valor acumulado de cesantías que tiene el funcionario.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{datosCesantias.valorCesantiasAcumuladas | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3>Intereses causados
+                                    <mat-icon class="s-16"
+                                        matTooltip="Valor obtenido del porcentaje de interés que tiene el valor de las cesantías  acumulado del funcionario.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{datosCesantias.valorInteresCesantiasAcumuladas | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3>Anticipo solicitados
+                                <mat-icon class="s-16"
+                                    matTooltip="Valor de los anticipos a las cesantías ya realizados por el funcionario.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p> {{datosCesantias.anticiposSolicitados | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Motivo de solicitud</mat-label>
+                            <mat-select formControlName="motivoSolicitudCesantiaId" required>
+                                <mat-option [value]="null"></mat-option>
+                                <mat-option *ngFor="let item of motivoSolicitudOptions" [value]="item.id">
+                                    {{item.nombre}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of form.get('motivoSolicitudCesantiaId').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Razón para solicitar el pago de cesantías parciales.">info
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="dos-bloque">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Valor solicitado</mat-label>
+                            <input matInput formControlName="valorSolicitado" mask="separator.2"
+                                separatorLimit="1000000000" thousandSeparator="." required>
+                            <mat-error *ngFor="let error of form.get('valorSolicitado').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'max'">
+                                        Valor máximo: 999999999
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'min'">
+                                        Valor mínimo: 1
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix
+                                matTooltip="Valor que requiere sea pagado de su cotización de cesantías en el transcurso del año.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <div>
+
+                            <label></label>
+                            <input type="file" formControlName="file" accept=".pdf, .png"
+                                style="padding:0px !important; margin-right: 10px;"
+                                (change)="soporteInputHandle($event)">*
+                            <mat-icon matSuffix matTooltip="Documento de respaldo para la solicitud.">
+                                info
+                            </mat-icon>
+                            <div *ngIf="form.get('file').invalid && (form.get('file').dirty ||
+                                form.get('file').touched)">
+                                <mat-error *ngFor="let error of form.get('file').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Observaciones</mat-label>
+                            <textarea matInput formControlName="observacion" required></textarea>
+                            <mat-error *ngFor="let error of form.get('observacion').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Breve descripción acerca de la solicitud.">info
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="actions">
+                        <a mat-raised-button routerLink="/administracion-personal/solicitud-cesantias/">
+                            <mat-icon>cancel</mat-icon>
+                            <span>Cancelar</span>
+                        </a>
+                        <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                            <mat-icon>save</mat-icon>
+                            <span>Guardar</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <!-- / CONTENT -->
+    </div>
+</div>

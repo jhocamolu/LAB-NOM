@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "11185f0f-c821-47f2-8c2d-83dae8c9d067",
+		"name": "HT024_ActualizarEstadoFuncionarioContrato",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ActualizarEstadoFuncionarioContrato",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"fecha\":\"2020-08-11\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/EjecucionTareas/ActualizarEstadoFuncionarioContrato",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"EjecucionTareas",
+						"ActualizarEstadoFuncionarioContrato"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

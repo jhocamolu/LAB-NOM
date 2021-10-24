@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Parametro_V7">
+<comment>Parametros reportes</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Parametro] ON 
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (27, N'Activo    ', N'sistema', CAST(N'2020-06-30T18:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'FechaInicial', N'DateTime')
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (28, N'Activo    ', N'sistema', CAST(N'2020-06-30T18:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'FechaFinal', N'DateTime')
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (29, N'Activo    ', N'sistema', CAST(N'2020-06-30T18:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'ConceptoId', N'String')
+GO
+SET IDENTITY_INSERT [dbo].[Parametro] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[Parametro] WHERE Id IN (27,28,29)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

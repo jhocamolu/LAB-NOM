@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "9ec72cd3-7db2-4a2c-8868-c5a29c242c2d",
+		"name": "HT010-Visualizar Pdf",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Pdf",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/v1/crear?grupo={nombre-documento}&documento={idquesebusca}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"v1",
+						"crear"
+					],
+					"query": [
+						{
+							"key": "grupo",
+							"value": "{nombre-documento}"
+						},
+						{
+							"key": "documento",
+							"value": "{idquesebusca}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CrearHtml",
+			"protocolProfileBehavior": {
+				"tlsPreferServerCiphers": false,
+				"followOriginalHttpMethod": false,
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:8084/api/crearpdf/documento/certificado-sueldo/informacion/680",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"api",
+						"crearpdf",
+						"documento",
+						"certificado-sueldo",
+						"informacion",
+						"680"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="USP_ValidarParametrizacionContable_V1">
+<comment>HU057</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ValidarParametrizacionContable', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ValidarParametrizacionContable as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Jesus Albeiro Gaviria R
+-- Create date: 03/03/2021
+-- Description: Pemite realizar validacion de la parametrizacion contable, 
+-- antes de ejcutar el proceso de  aprobacion de nomina
+-- este proceso se llama desde USP_AprobarNomina.
+--
+-- Parameters:
+--  @NominaId:			Identificador de la nómina que se va a contabilizar
+--  @TipoLiquidacionId:	Identificador del tipo de nomina a contabilizar
+--  @UsuarioOperacion:	Usuario que realiza la operación
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ValidarParametrizacionContable]( @NominaId          INT,
+														 	@TipoLiquidacionId int,
+                                                         	@UsuarioOperacion 	VARCHAR(255)
+                                                         )
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@TipoLiquidacionId=', CONVERT(VARCHAR, @TipoLiquidacionId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables Global
+    --------------------------------------------------------------------------
+	DECLARE @AuditoriaActivo VARCHAR(255);
+	DECLARE @NaturalezaCredito VARCHAR(255);
+	DECLARE @NaturalezaDebito VARCHAR(255);
+	DECLARE @tablaComprobante table(CentroCostoId int, CuentaContableId int, Naturaleza varchar(255));
+	DECLARE @ExisteContabilizacion INT = 0;
+	DECLARE @Validar varchar(255) ='';
+
+	SELECT @AuditoriaActivo = ces.AUDITORIA_ACTIVO FROM util.VW_ConstanteEstado AS ces;
+	SELECT @NaturalezaDebito = DEBITO, @NaturalezaCredito = CREDITO from util.VW_ConstanteNaturalezaContable;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN ValidarParametrizacionContable;
+       
+	       	SELECT @Validar = OperacionTotal
+			FROM  TipoLiquidacion 
+			WHERE Id = @TipoLiquidacionId
+			AND OperacionTotal = 'TotalDevengosMenosTotalDeducciones'
+			AND EstadoRegistro = @AuditoriaActivo;
+
+
+			IF @validar != NULL
+			BEGIN
+				
+				SELECT  Contabilizacion= COUNT(Id)
+				FROM TipoLiquidacionComprobante
+				WHERE TipoLiquidacionId = @TipoLiquidacionId
+				AND TipoComprobante = 'Contabilizacion'
+				AND EstadoRegistro = @AuditoriaActivo;
+
+				IF @ExisteContabilizacion = 0
+				BEGIN
+				
+					SET @MensajeExcepcion = 'Parametrizacion erronea en Tipo Liquidacion Comprobante, Contabilizacion';
+				    SET @Parametros += @MensajeExcepcion;
+				    EXEC util.USP_GenerarExcepcion 
+				      50000, 
+				      @MensajeExcepcion;
+				END
+				
+				INSERT INTO @tablaComprobante		
+					SELECT CentroCostoId, CuentaContableId, Naturaleza 
+					FROM TipoLiquidacionComprobante
+					WHERE TipoLiquidacionId = @TipoLiquidacionId
+					AND  TipoComprobante = 'Transferencia'
+					AND EstadoRegistro = @AuditoriaActivo;
+
+				IF (SELECT COUNT(*)  FROM @tablaComprobante) != 2
+					AND  (SELECT COUNT(*)  FROM @tablaComprobante where Naturaleza = @NaturalezaDebito ) != 1
+					AND  (SELECT COUNT(*)  FROM @tablaComprobante where Naturaleza = @NaturalezaCredito ) != 1
+				BEGIN
+
+					SET @MensajeExcepcion = 'Parametrizacion erronea en Tipo Liquidacion Comprobante, Transferencia';
+				    SET @Parametros += @MensajeExcepcion;
+				    EXEC util.USP_GenerarExcepcion 
+				      50000, 
+				      @MensajeExcepcion;
+				END
+			END
+
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN ValidarParametrizacionContable;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+					50000,
+					'No se puede confirmar la transacción.  Error desconocido.';;
+
+
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+
+
+
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ValidarParametrizacionContable];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

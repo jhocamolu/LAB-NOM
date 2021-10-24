@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_jornada_laboral_v1-1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[JornadaLaboral] ON 
+GO
+
+INSERT INTO [dbo].[JornadaLaboral] (Id, EstadoRegistro, CreadoPor, FechaCreacion, Nombre)
+VALUES(1, 'Activo', 'sistema', GETDATE(), 'Normal');
+
+
+SET IDENTITY_INSERT [dbo].[JornadaLaboral] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[JornadaLaboral] WHERE Id = 1;
+</rollback>
+</changeSet>
+
+
+<changeSet author="dvillega" id="maestro_jornada_laboral_v1-2">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[JornadaLaboralDia] ON 
+GO
+
+INSERT INTO dbo.JornadaLaboralDia (Id, EstadoRegistro, CreadoPor, FechaCreacion, JornadaLaboralId, Dia, HoraInicioJornada, HoraInicioDescanso, HoraFinDescanso, HoraFinJornada)
+VALUES(1, 'Activo', 'sistema', GETDATE(), 1, 'Lunes', '07:00', '12:00', '14:00', '18:00');
+GO
+
+INSERT INTO dbo.JornadaLaboralDia (Id, EstadoRegistro, CreadoPor, FechaCreacion, JornadaLaboralId, Dia, HoraInicioJornada, HoraInicioDescanso, HoraFinDescanso, HoraFinJornada)
+VALUES(2, 'Activo', 'sistema', GETDATE(), 1, 'Martes', '07:00', '12:00', '14:00', '18:00');
+GO
+
+INSERT INTO dbo.JornadaLaboralDia (Id, EstadoRegistro, CreadoPor, FechaCreacion, JornadaLaboralId, Dia, HoraInicioJornada, HoraInicioDescanso, HoraFinDescanso, HoraFinJornada)
+VALUES(3, 'Activo', 'sistema', GETDATE(), 1, 'Miercoles', '07:00', '12:00', '14:00', '18:00');
+GO
+
+INSERT INTO dbo.JornadaLaboralDia (Id, EstadoRegistro, CreadoPor, FechaCreacion, JornadaLaboralId, Dia, HoraInicioJornada, HoraInicioDescanso, HoraFinDescanso, HoraFinJornada)
+VALUES(4, 'Activo', 'sistema', GETDATE(), 1, 'Jueves', '07:00', '12:00', '14:00', '18:00');
+GO
+
+INSERT INTO dbo.JornadaLaboralDia (Id, EstadoRegistro, CreadoPor, FechaCreacion, JornadaLaboralId, Dia, HoraInicioJornada, HoraInicioDescanso, HoraFinDescanso, HoraFinJornada)
+VALUES(5, 'Activo', 'sistema', GETDATE(), 1, 'Viernes', '07:00', '12:00', '14:00', '18:00');
+GO
+
+SET IDENTITY_INSERT [dbo].[JornadaLaboralDia] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[JornadaLaboralDia] WHERE Id BETWEEN 1 AND 5;
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

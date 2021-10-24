@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="ConceptoNomina_Datos_V5">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[ConceptoNomina] ON 
+GO
+
+IF NOT EXISTS (SELECT * FROM dbo.ConceptoNomina Where Id = 50)
+
+INSERT INTO dbo.ConceptoNomina (
+Id, 
+Codigo, 
+Alias, 
+Nombre, 
+TipoConceptoNomina, 
+ClaseConceptoNomina, 
+Orden, 
+ConceptoAgrupador, 
+OrigenCentroCosto, 
+OrigenTercero, 
+VisibleImpresion, 
+UnidadMedida, 
+RequiereCantidad, 
+FuncionNominaId, 
+NitTercero, 
+DigitoVerificacion, 
+Descripcion, 
+Formula, 
+ProcedimientoSql, 
+ProcedimientoNombre, 
+EstadoRegistro, 
+CreadoPor, 
+FechaCreacion
+) 
+VALUES(
+50, 
+'CAL323', 
+'BaseParafiscalesMes', 
+'Base parafiscales mes', 
+'Fijo', 
+'Calculo', 
+72, 
+0, 
+'Especifico', 
+'DelFuncionario', 
+0,
+'Unidad', 	
+0, 					
+NULL, 			
+NULL, 		
+NULL, 				
+'Base para agrupar el valor de todos los conceptos que son base para cálculo de parafiscales en el periodo', '<div><span id="1590792870030" class="funcion" contenteditable="false" data="funcion" valor="16">Base parafiscales</span></div>', 
+NULL, 
+NULL, 
+'Activo    ', 
+'sistema', 
+GETDATE());
+
+
+SET IDENTITY_INSERT [dbo].[ConceptoNomina] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[ConceptoNomina] WHERE Id BETWEEN 50 AND 50;
+]]>
+</sql>
+</rollback>
+
+</changeSet>
+</databaseChangeLog>

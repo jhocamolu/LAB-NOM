@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="maestro_TipoAusentismo_v1">
+<sql endDelimiter="GO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[TipoAusentismo] ON 
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (1, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Enfermedad general', 3, N'Días', N'EG   ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (2, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Enfermedad profesional', 3, N'Días', N'EP   ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (3, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Accidente laboral', 3, N'Días', N'AL   ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (4, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Licencia de maternidad', 3, N'Días', N'LM   ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (5, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Licencia de paternidad', 3, N'Días', N'LP   ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (6, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Calamidad doméstica', 1, N'Días', N'CD   ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (7, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Comisión sindical', 1, N'Días', N'CS   ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (8, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Desempeño cargo oficial', 1, N'Días', N'DCO  ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (9, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Derecho sufragio', 1, N'Horas', N'DS   ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (10, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Jurado de votación', 1, N'Días', N'JV   ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (11, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Licencia por luto', 1, N'Días', N'LPL  ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (12, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Servicio médico', 1, N'Horas', N'SM   ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (13, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Detención correccional', 2, N'Días', N'DC   ')
+GO
+INSERT [dbo].[TipoAusentismo] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [ClaseAusentismoId], [UnidadTiempo], [Codigo]) VALUES (14, N'Activo    ', N'sistema', CAST(N'2020-03-03T19:25:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'Suspensión', 2, N'Días', N'S    ')
+GO
+SET IDENTITY_INSERT [dbo].[TipoAusentismo] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoAusentismo] WHERE Id BETWEEN 1 AND 14;
+</rollback>
+</changeSet>
+</databaseChangeLog>

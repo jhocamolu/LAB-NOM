@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="FuncionarioCentroCosto_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+CREATE TABLE [FuncionarioCentroCosto] (
+    [Id] int NOT NULL IDENTITY,
+    [EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    [FuncionarioId] int NOT NULL,
+    [CentroCostoId] int NOT NULL,
+    [Cantidad] int NOT NULL,
+    [Ponderado] decimal(16,6) NULL,
+    [Porcentaje] decimal(16,6) NULL,
+    CONSTRAINT [PK_FuncionarioCentroCosto] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_FuncionarioCentroCosto_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [FK_FuncionarioCentroCosto_CentroCosto_CentroCostoId] FOREIGN KEY ([CentroCostoId]) REFERENCES [CentroCosto] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_FuncionarioCentroCosto_Funcionario_FuncionarioId] FOREIGN KEY ([FuncionarioId]) REFERENCES [Funcionario] ([Id]) ON DELETE NO ACTION
+);
+
+GO
+
+
+CREATE INDEX [IX_FuncionarioCentroCosto_CentroCostoId] ON [FuncionarioCentroCosto] ([CentroCostoId]);
+
+GO
+
+CREATE INDEX [IX_FuncionarioCentroCosto_FuncionarioId] ON [FuncionarioCentroCosto] ([FuncionarioId]);
+
+GO
+
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [FuncionarioCentroCosto];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

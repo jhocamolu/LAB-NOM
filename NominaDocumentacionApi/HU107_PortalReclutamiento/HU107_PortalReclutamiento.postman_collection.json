@@ -1,0 +1,669 @@
+{
+	"info": {
+		"_postman_id": "1a28ffdc-989f-4b35-8cf1-b8ff00360021",
+		"name": "HU107_PortalReclutamiento",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hoja de vida",
+			"item": [
+				{
+					"name": "Actualizar hoja de vida",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlc2Fycm9sbGFkb3IzQGFsY2Fub3Nlc3AuY29tIiwianRpIjoiODk0MDRhYTEtMjVjZS00MDQwLThiMjYtZTI0MjFjODFjODkyIiwiZXhwIjoxNjMwNjUyMzA0fQ.QHcMUn8ZZJhr52qjWiJXqGHTta6OjERLfsIfxEGxRco",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n\t\"nit\": \"79\",\r\n\t\"celular\": \"1234567894\",\r\n\t\"sexoId\": 1,\r\n\t\"direccion\": \"Calle 25 \",\r\n\t\"usaLentes\": true,\r\n\t\"pensionado\":false,\r\n\t\"ocupacionId\":1,\r\n\t\"primerNombre\":\"Pedro\",\r\n    \"segundoNombre\": \"osa\",\r\n\t\"tipoSangreId\":1,\r\n\t\"estadoCivilId\":1,\r\n\t\"primerApellido\":\"Perez\",\r\n    \"segundoApellido\": null,\r\n\t\"tipoViviendaId\":1,\r\n\t\"fechaNacimiento\":\"2000-10-28\",\r\n\t\"numeroDocumento\": \"79\",\r\n\t\"digitoVerificacion\": 1,\r\n\t\"tipoDocumentoId\": 1,\r\n\t\"divisionPoliticaNivel2OrigenId\": 35,\r\n\t\"divisionPoliticaNivel2ResidenciaId\": 35,\r\n\t\"fechaExpedicionDocumento\": \"2019-11-21\",\r\n\t\"divisionPoliticaNivel2ExpedicionDocumentoId\": 35,\r\n\t\"telefonoFijo\": \"2365987\",\r\n\t\"claseLibretaMilitarId\":2,\r\n    \"numeroLibreta\": 1110487472,\r\n    \"distrito\": 11,\r\n    \"tallaCamisa\": \"S\",\r\n    \"tallaPantalon\": 34,\r\n    \"numeroCalzado\": 40,\r\n    \"correoElectronicoPersonal\": \"albeiro1989@gmail.com\",    \r\n    \"LicenciaConduccionAId\":1,\r\n    \"LicenciaConduccionAFechaVencimiento\":\"2025-01-01\",\r\n    \"LicenciaConduccionBId\":2,\r\n    \"LicenciaConduccionBFechaVencimiento\":\"2025-01-01\",\r\n    \"LicenciaConduccionCId\":3,\r\n    \"LicenciaConduccionCFechaVencimiento\":\"2025-01-01\",\r\n    \"adjunto\":\"validarobjectid\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/HojaDeVidas/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"HojaDeVidas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar foto hoja de vida",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"adjunto\":\"validarobjectid\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/HojaDeVidas/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"HojaDeVidas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Candidato",
+			"item": [
+				{
+					"name": "Crear Candidatos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlc2Fycm9sbGFkb3IzQGFsY2Fub3Nlc3AuY29tIiwianRpIjoiMDA4YzU3MTItMDJiZC00ZTc5LTkzYzItNzlkZGFiNDE1YWI4IiwiZXhwIjoxNjMwNjczODM3fQ.iIOiFTTHt9RjQJSqVFtR8Jw2JeSb4kTetOfRP_8gsxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hojaDeVidaId\": 2,\r\n    \"requisicionPersonalId\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/Candidatos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"Candidatos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar  Candidatos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlc2Fycm9sbGFkb3IzQGFsY2Fub3Nlc3AuY29tIiwianRpIjoiNDc3N2U1YzEtMTA5Ni00NWZlLWFiMmEtNDM2YTc1MWJlMGQyIiwiZXhwIjoxNjMwNjU4ODI1fQ.4-J6LZImmc4FSGKodiddyQzH5jhmD7brYghVgu_z4ZA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/Candidatos/13",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"Candidatos",
+								"13"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Hoja de vida documentos",
+			"item": [
+				{
+					"name": "CrearHojadeVidaDocumentos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlc2Fycm9sbGFkb3IzQGFsY2Fub3Nlc3AuY29tIiwianRpIjoiMDA4YzU3MTItMDJiZC00ZTc5LTkzYzItNzlkZGFiNDE1YWI4IiwiZXhwIjoxNjMwNjczODM3fQ.iIOiFTTHt9RjQJSqVFtR8Jw2JeSb4kTetOfRP_8gsxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t \"hojaDeVidaId\":1,\r\n\t \"tipoSoporteID\":1,\r\n\t \"comentario\":\"Este soporte\",\r\n\t \"adjunto\":\"objectId\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/HojadeVidaDocumentos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"HojadeVidaDocumentos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarHojadeVidaDocumentos/1",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlc2Fycm9sbGFkb3IzQGFsY2Fub3Nlc3AuY29tIiwianRpIjoiYTgxZmMxNWItYjU4NS00ZWJkLWJlMGItMTBiM2MzNDI2Y2JkIiwiZXhwIjoxNjMwNjg1ODYxfQ.sOzUsEXgGQVEVhWx3XOmV9XUsnkIsPl5_tYfnxZv5Bs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\":5,\r\n\t \"hojaDeVidaId\":3,\r\n\t \"tipoSoporteID\":4,\r\n\t \"comentario\":\"ninguno\",\r\n\t \"adjunto\":\"otro\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/HojadeVidaDocumentos/5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"HojadeVidaDocumentos",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ElimianrHojadeVidaDocumentos/1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/HojadeVidaDocumentos/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"HojadeVidaDocumentos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Hoja de vida estudios",
+			"item": [
+				{
+					"name": "Crear HojaDeVidaEstudios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlc2Fycm9sbGFkb3IzQGFsY2Fub3Nlc3AuY29tIiwianRpIjoiYTgxZmMxNWItYjU4NS00ZWJkLWJlMGItMTBiM2MzNDI2Y2JkIiwiZXhwIjoxNjMwNjg1ODYxfQ.sOzUsEXgGQVEVhWx3XOmV9XUsnkIsPl5_tYfnxZv5Bs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hojaDeVidaId\": 1,\r\n    \"NivelEducativoId\": \"1\",\r\n    \"InstitucionEducativa\": \"University of Michigan\",\r\n    \"PaisId\": \"1\",\r\n    \"fechaInicio\": \"2000-01-01\",\r\n    \"EstadoEstudio\": \"3\",\r\n    \"Titulo\": \"Game Theory II\",\r\n    //Opcionales\r\n    \"fechaFin\": \"2010-12-01\",\r\n    \"ProfesionId\": \"2\",\r\n    \"TarjetaProfesional\": \"FullHD\",\r\n    \"Observacion\": \"No por el momento\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/HojaDeVidaEstudios",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"HojaDeVidaEstudios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar HojaDeVidaEstudios/2",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlc2Fycm9sbGFkb3IzQGFsY2Fub3Nlc3AuY29tIiwianRpIjoiMDA4YzU3MTItMDJiZC00ZTc5LTkzYzItNzlkZGFiNDE1YWI4IiwiZXhwIjoxNjMwNjczODM3fQ.iIOiFTTHt9RjQJSqVFtR8Jw2JeSb4kTetOfRP_8gsxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"hojaDeVidaId\": \"1\",\r\n    \"NivelEducativoId\": \"1\",\r\n    \"InstitucionEducativa\": \"University of Michigan\",\r\n    \"PaisId\": \"1\",\r\n    \"fechaInicio\": \"2000-01-01\",\r\n    \"EstadoEstudio\": \"3\",\r\n    \"Titulo\": \"Game Theory II\",\r\n    //Opcionales\r\n    \"fechaFin\": \"2005-12-01\",\r\n    \"ProfesionId\": \"2\",\r\n    \"TarjetaProfesional\": \"FullHD\",\r\n    \"Observacion\": \"No por el momento\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/HojaDeVidaEstudios/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"HojaDeVidaEstudios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete HojaDeVidaEstudios/1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/HojaDeVidaEstudios/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"HojaDeVidaEstudios",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Hoja de vida experiencia laboral",
+			"item": [
+				{
+					"name": "Actulizar HojaDeVidaExperienciaLaborales/1",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlc2Fycm9sbGFkb3IzQGFsY2Fub3Nlc3AuY29tIiwianRpIjoiMDA4YzU3MTItMDJiZC00ZTc5LTkzYzItNzlkZGFiNDE1YWI4IiwiZXhwIjoxNjMwNjczODM3fQ.iIOiFTTHt9RjQJSqVFtR8Jw2JeSb4kTetOfRP_8gsxQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":2,\r\n    \"hojaDeVidaId\": 1,\r\n    \"nombreCargo\": \"Ayudante obra\",\r\n    \"nombreEmpresa\": \"Contructora xyz\",\r\n    \"telefono\": \"2659865\",\r\n    \"salario\": \"900000\",\r\n    \"nombreJefeInmediato\": \"Maria del Carmen\",\r\n    \"fechaInicio\": \"2014-01-12T00:00:00-05:00\",\r\n    \"fechaFin\": \"2018-01-15T00:00:00-05:00\",\r\n    \"funcionesCargo\": \"Ayudante\",\r\n    \"trabajaActualmente\": 1,\r\n    \"motivoRetiro\": \"pelea\",\r\n    \"Observacion\": \"pelea\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/HojaDeVidaExperienciaLaborales/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"HojaDeVidaExperienciaLaborales",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cear HojaDeVidaExperienciaLaborales",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlc2Fycm9sbGFkb3IzQGFsY2Fub3Nlc3AuY29tIiwianRpIjoiYTgxZmMxNWItYjU4NS00ZWJkLWJlMGItMTBiM2MzNDI2Y2JkIiwiZXhwIjoxNjMwNjg1ODYxfQ.sOzUsEXgGQVEVhWx3XOmV9XUsnkIsPl5_tYfnxZv5Bs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hojaDeVidaId\": 1,\r\n    \"nombreCargo\": \"Ayudante obra\",\r\n    \"nombreEmpresa\": \"Contructora xyz\",\r\n    \"telefono\": \"2659865\",\r\n    \"salario\": \"900000\",\r\n    \"nombreJefeInmediato\": \"Maria del Carmen\",\r\n    \"fechaInicio\": \"2014-01-12T00:00:00-05:00\",\r\n    \"fechaFin\": \"2018-01-15T00:00:00-05:00\",\r\n    \"funcionesCargo\": \"Ayudante\",\r\n    \"trabajaActualmente\": 1,\r\n    \"motivoRetiro\": \"\",\r\n    \"Observacion\": \"pelea\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/HojaDeVidaExperienciaLaborales",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"HojaDeVidaExperienciaLaborales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete HojaDeVidaExperienciaLaborales/1",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlc2Fycm9sbGFkb3IzQGFsY2Fub3Nlc3AuY29tIiwianRpIjoiYTgxZmMxNWItYjU4NS00ZWJkLWJlMGItMTBiM2MzNDI2Y2JkIiwiZXhwIjoxNjMwNjg1ODYxfQ.sOzUsEXgGQVEVhWx3XOmV9XUsnkIsPl5_tYfnxZv5Bs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44399/reclutamiento/HojaDeVidaExperienciaLaborales/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44399",
+							"path": [
+								"reclutamiento",
+								"HojaDeVidaExperienciaLaborales",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "crear login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"primerNombre\" : \"Laura\",\r\n    \"SegundoNombre\": \"Katherine\",\r\n    \"PrimerApellido\": \"Estrada\",\r\n    \"SegundoApellido\":\"Arango\",\r\n    \"SexoId\": 1,\r\n    \"Celular\": 30030023003,\r\n    \"TipoDocumentoId\": 1,\r\n    \"NumeroDocumento\": 11102236985,\r\n    \"CorreoElectronicoPersonal\" : \"ing.lkestra@gmail.es\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44399/api/autenticaciones/crear",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44399",
+					"path": [
+						"api",
+						"autenticaciones",
+						"crear"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"correoElectronicoPersonal\" : \"lider.proyecto.nomina@alcanosesp.com\",\r\n    \"clave\" : \"73Qhn!9S\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44399/api/autenticaciones/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44399",
+					"path": [
+						"api",
+						"autenticaciones",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DashboardPortal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"numeroDocumento\": \"475767896\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Dashboards/DashboardPortal/475767896",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Dashboards",
+						"DashboardPortal",
+						"475767896"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recordar Clave",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"CorreoElectronicoPersonal\" : \"ing.lkestra@gmail.co\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44399/api/autenticaciones/RecordarClave",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44399",
+					"path": [
+						"api",
+						"autenticaciones",
+						"RecordarClave"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Acceso a peticiones get .",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44399/odata/Custom/_RequisicionPersonales-5?$expand=funcionarioSolicitante",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44399",
+					"path": [
+						"odata",
+						"Custom",
+						"_RequisicionPersonales-5"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "funcionarioSolicitante"
+						}
+					]
+				},
+				"description": "{{host}}/odata/Custom/_NombredelControlador/?$expand=funcionarioSolicitante"
+			},
+			"response": []
+		},
+		{
+			"name": "Custom",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlc2Fycm9sbGFkb3IzQGFsY2Fub3Nlc3AuY29tIiwianRpIjoiMTM0NTgyYzktY2M0My00NTBlLWFkNTQtYmE4MWEyMzI0ZWVkIiwiZXhwIjoxNjMwNzYyOTQ1fQ.RybzoFm9zKj5zS5y1InIQlsDVWVPEpGcw92IKBlfNCE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44399/odata/Custom/DashboardPortal/79",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44399",
+					"path": [
+						"odata",
+						"Custom",
+						"DashboardPortal",
+						"79"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

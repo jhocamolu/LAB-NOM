@@ -1,0 +1,228 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/flujo-trabajos/vistos-buenos">Flujos de trabajo</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar visto bueno</span>
+                <span *ngIf="!item">Registrar visto bueno</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title" *ngIf="item">Editar visto bueno</h2>
+                <h2 class="title" *ngIf="!item">Registrar visto bueno</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>edit</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button *ngIf="_revisa.value === 'Otro'" mat-menu-item (click)="revisorHandle($event,form)">
+                    <span>Agregar revisor</span>
+                </button>
+                <button *ngIf="_aprueba.value === 'Otro'" mat-menu-item (click)="aprobadorHandle($event,form)">
+                    <span>Agregar aprobador</span>
+                </button>
+                <button *ngIf="_autoriza.value === 'Otro'" mat-menu-item (click)="autorizadorHandle($event,form)">
+                    <span>Agregar autorizador</span>
+                </button>
+                <a routerLink="/flujo-trabajos/vistos-buenos" mat-menu-item>Volver</a>
+
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="tabChangeHandle($event)" #tabGroup>
+                <!-- Información -->
+                <mat-tab label="Información">
+
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput formControlName="nombre" required>
+                            <mat-error *ngFor="let error of form.get('nombre').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Nombre de la revisión, aprobación y autorización.">info
+                            </mat-icon>
+                        </mat-form-field>
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Código</mat-label>
+                                <input matInput formControlName="codigo" required>
+                                <mat-error *ngFor="let error of form.get('codigo').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Código de la revisión, aprobación y autorización.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Revisa</mat-label>
+                                <mat-select formControlName="revisa" required>
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="revisorApruebaAutoriza.jefeInmediato">Jefe inmediato</mat-option>
+                                    <mat-option [value]="revisorApruebaAutoriza.otro">Otro</mat-option>
+                                    <mat-option [value]="revisorApruebaAutoriza.noAplica">No aplica</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('revisa').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Alternativas de revisión de la revisión, aprobación y autorización.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            
+                        </div>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Aprueba</mat-label>
+                                <mat-select formControlName="aprueba" required>
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="revisorApruebaAutoriza.jefeInmediato">Jefe inmediato</mat-option>
+                                    <mat-option [value]="revisorApruebaAutoriza.otro">Otro</mat-option>
+                                    <mat-option [value]="revisorApruebaAutoriza.noAplica">No aplica</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('aprueba').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Alternativas de aprobación de la revisión, aprobación y autorización.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Autoriza</mat-label>
+                                <mat-select formControlName="autoriza" required>
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="revisorApruebaAutoriza.jefeInmediato">Jefe inmediato</mat-option>
+                                    <mat-option [value]="revisorApruebaAutoriza.otro">Otro</mat-option>
+                                    <mat-option [value]="revisorApruebaAutoriza.noAplica">No aplica</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('autoriza').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Alternativas de autorización de la revisión, aprobación y autorización.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Descripción</mat-label>
+                                <textarea matInput #descripcionInput formControlName="descripcion" required></textarea>
+                                <mat-hint align="end">{{descripcionInput.value?.length || 0}}/255</mat-hint>
+                                <mat-error *ngFor="let error of form.get('descripcion').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Descripción de la revisión, aprobación y autorización.">info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="actions">
+                            <a mat-raised-button routerLink="/flujo-trabajos/vistos-buenos">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+
+                            <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+
+                    </form>
+
+                </mat-tab>
+                <!-- /Informacion-->
+                <!-- Primer Label -->
+                <mat-tab label="Revisores" [disabled]="item === undefined || _revisa.value !== 'Otro'">
+                    <revisores-aprobadores-listar [revisores-id]="id" [mostrar-boton-crear]="true">
+                    </revisores-aprobadores-listar>
+                </mat-tab>
+
+                <!-- Segundo Label -->
+                <mat-tab label="Aprobadores" [disabled]="item === undefined || _aprueba.value !== 'Otro'">
+                    <aprobaciones-aprobadores-listar [aprobadores-id]="id" [mostrar-boton-crear]="true">
+                    </aprobaciones-aprobadores-listar>
+                </mat-tab>
+                <!-- / Segundo Label -->
+
+                <!-- Tercer Label -->
+                <mat-tab label="Autorizadores" [disabled]="item === undefined || _autoriza.value !== 'Otro'">
+                    <aprobadores-autorizadores-listar [autorizadores-id]="id" [mostrar-boton-crear]="true">
+                    </aprobadores-autorizadores-listar>
+
+                </mat-tab>
+            </mat-tab-group>
+            <!-- / Tercer Level-->
+        </div>
+        <!-- / CONTENIDO -->
+    </div>
+
+</div>

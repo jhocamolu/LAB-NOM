@@ -1,0 +1,404 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Novedades</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/novedades/ausentismos">Ausentismos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar ausentismo</span>
+                <span *ngIf="!item">Registrar ausentismo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar ausentismo</h2>
+                <h2 *ngIf="!item">Registrar ausentismo</h2>
+            </div>
+        </div>
+
+        <div div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+ 
+                <a routerLink="/novedades/ausentismos" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <div fxFlex="1 0 auto">
+
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Funcionario</mat-label>
+                            <input matInput formControlName="funcionario" [matAutocomplete]="auto" required>
+
+                            <mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+                                <mat-option *ngFor="let item of filteredFuncionarios | async" [value]="item">
+                                    {{item.criterioBusqueda}}
+                                </mat-option>
+                            </mat-autocomplete>
+
+                            <mat-error *ngFor="let error of form.get('funcionario').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix
+                                matTooltip="Número de identificación y nombre completo del funcionario.">info
+                            </mat-icon>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Clase de ausentismo</mat-label>
+                            <mat-select formControlName="claseAusentismoId" required>
+                                <mat-option [value]="null"></mat-option>
+                                <mat-option *ngFor="let item of claseAusentismosOptions" [value]="item.id">
+                                    {{item.nombre}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of form.get('claseAusentismoId').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Clase de ausentismo del funcionario.">info
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Tipo ausentismo</mat-label>
+                        <mat-select formControlName="tipoAusentismoId" required>
+                            <mat-option [value]="null"></mat-option>
+                            <mat-option *ngFor="let item of tipoAusentismosOptions" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('tipoAusentismoId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Tipo de ausentismo del funcionario.">info
+                        </mat-icon>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline" *ngIf="ocultar">
+                        <mat-label>Diagnóstico</mat-label>
+                        <input matInput formControlName="diagnosticoId" [matAutocomplete]="autoFn">
+
+                        <mat-autocomplete [displayWith]="displayFnDiagnostico" #autoFn="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredDiagnostico | async" [value]="item">
+                                {{item.codigo}} - {{item.nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+
+                        <mat-error *ngFor="let error of form.get('diagnosticoId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Código del diagnóstico del funcionario emitido por la Organización Mundial de la Salud.">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+
+
+                    <div class="dos-bloque">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Fecha inicial</mat-label>
+                            <input matInput [matDatepicker]="fechaInicio" (focus)="fechaInicio.open()"
+                                (click)="fechaInicio.open()" formControlName="fechaInicio" required>
+                            <mat-datepicker-toggle matPrefix [for]="fechaInicio"> </mat-datepicker-toggle>
+                            <mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+                            <mat-error *ngFor="let error of form.get('fechaInicio').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                        No es un formato de fecha válido.
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Fecha inicial del ausentismo del funcionario.">info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Fecha final</mat-label>
+                            <input matInput [matDatepicker]="fechaFin" (focus)="fechaFin.open()"
+                                (click)="fechaFin.open()" formControlName="fechaFin" required>
+                            <mat-datepicker-toggle matPrefix [for]="fechaFin"> </mat-datepicker-toggle>
+                            <mat-datepicker startView="year" #fechaFin></mat-datepicker>
+                            <mat-error *ngFor="let error of form.get('fechaFin').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                        No es un formato de fecha válido.
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Fecha final  del ausentismo del funcionario.">info
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="dos-bloque">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Fecha de inicio real</mat-label>
+                            <input matInput [matDatepicker]="fechaIniciaReal" (focus)="fechaIniciaReal.open()"
+                                (click)="fechaIniciaReal.open()" formControlName="fechaIniciaReal" required>
+                            <mat-datepicker-toggle matPrefix [for]="fechaIniciaReal"> </mat-datepicker-toggle>
+                            <mat-datepicker startView="year" #fechaIniciaReal></mat-datepicker>
+                            <mat-error *ngFor="let error of form.get('fechaIniciaReal').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                        No es un formato de fecha válido.
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Fecha inicial en la que ocurrió el ausentismo del funcionario.">info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Fecha final real</mat-label>
+                            <input matInput [matDatepicker]="fechaFinalReal" (focus)="fechaFinalReal.open()"
+                                (click)="fechaFinalReal.open()" formControlName="fechaFinalReal" required>
+                            <mat-datepicker-toggle matPrefix [for]="fechaFinalReal"> </mat-datepicker-toggle>
+                            <mat-datepicker startView="year" #fechaFinalReal></mat-datepicker>
+                            <mat-error *ngFor="let error of form.get('fechaFinalReal').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                        No es un formato de fecha válido.
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Fecha final en la que ocurrió el ausentismo del funcionario.">info
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="dos-bloque" *ngIf="horas || licenciaRemunerada">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Hora inicial</mat-label>
+                            <input type="time" matInput formControlName="horaInicio" required>
+                            <mat-error *ngFor="let error of form.get('horaInicio').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon class="ocultar_mat_icon" matSuffix matTooltip="Hora inicial del ausentismo del funcionario.">info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Hora final</mat-label>
+                            <input type="time" matInput formControlName="horaFin" required >
+                            <mat-error *ngFor="let error of form.get('horaFin').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon class="ocultar_mat_icon" matSuffix matTooltip="Hora final del ausentismo del funcionario.">info
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="dos-bloque" *ngIf="ocultar">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Prórroga de</mat-label>
+                            <mat-select formControlName="prorrogaId">
+                                <mat-option></mat-option>
+                                <mat-option *ngFor="let item of prorrogaOptions" [value]="item.id">
+                                    {{item.diagnosticoCie?.codigo}} ({{ strToDateFormat(item.fechaInicio)}} -
+                                    {{ strToDateFormat(item.fechaFin)}})
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of form.get('prorrogaId').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix
+                                matTooltip="Incapacidad anterior que el funcionario tiene relacionada a la actual.">info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Número de incapacidad</mat-label>
+                            <input matInput formControlName="numeroIncapacidad" required>
+                            <mat-error *ngFor="let error of form.get('numeroIncapacidad').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Número de incapacidad emitido por la EPS.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="file-bloque file-table" *ngIf="documentoAdjunto">
+                        <table class="simple">
+                            <tr>
+                                <td></td>
+                                <td><label style="padding-left: 10px;">Contenido Adjunto: <span style="margin-left:10px">  </span></label><a [href]="documentoAdjunto">  
+                                        <mat-icon class="save_alt_icon" matSuffix matTooltip="Descargar el documento">
+                                            save_alt</mat-icon>
+                                    </a>
+                                    <mat-icon style="margin-left:10px"
+                                        (click)="editarArchivoHandle($event, item)" matSuffix matTooltip="Editar documento">
+                                        edit</mat-icon>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                    <div *ngIf="editarBeneficio">
+                        <div fxFlex="100" class="pb-12">
+                            <label></label>
+                            <input type="file" formControlName="file" accept=".pdf, .png, .jpg, .jpeg"
+                                style="padding:0px !important; margin-right: 10px;" (change)="fileInputHandle($event)">
+                            <mat-icon matSuffix matTooltip="Documento del ausentismo a registrar.">
+                                info
+                            </mat-icon>
+                            <div
+                                *ngIf="form.get('file').invalid && (form.get('file').dirty || form.get('file').touched)">
+                                <mat-error *ngFor="let error of form.get('file').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="p-8"></p>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Observaciones</mat-label>
+                        <textarea matInput formControlName="observacion"></textarea>
+                        <mat-error *ngFor="let error of form.get('observacion').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Breve descripción del ausentismo.">info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <div class="actions">
+                        <a mat-raised-button routerLink="/novedades/ausentismos">
+                            <mat-icon>cancel</mat-icon>
+                            <span>Cancelar</span>
+                        </a>
+                        <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                            <mat-icon>save</mat-icon>
+                            <span>Guardar</span>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

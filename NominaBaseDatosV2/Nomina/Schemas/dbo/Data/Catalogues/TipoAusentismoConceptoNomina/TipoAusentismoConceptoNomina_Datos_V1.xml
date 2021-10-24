@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoAusentismoConceptoNomina_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoAusentismoConceptoNomina] ON 
+GO
+
+INSERT INTO dbo.TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('1', '1', '8', '1', '2', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('2', '1', '9', '3', '90', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('3', '1', '10', '91', '180', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('4', '1', '11', '181', '540', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('5', '1', '12', '541', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('6', '2', '15', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('7', '3', '13', '0', '1', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('8', '3', '14', '2', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('9', '4', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('10', '5', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('11', '6', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('12', '7', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('13', '8', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('14', '9', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('15', '10', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('16', '11', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('17', '12', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('18', '13', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismoConceptoNomina
+(Id, TipoAusentismoId, ConceptoNominaId, CoberturaDesde, CoberturaHasta, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES('19', '14', '17', '1', '1000', 'Activo    ', 'sistema', GETDATE());
+
+GO
+
+SET IDENTITY_INSERT [dbo].[TipoAusentismoConceptoNomina] OFF
+GO
+]]>
+
+</sql>
+
+<rollback>
+
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM [dbo].[TipoAusentismoConceptoNomina] WHERE Id IN (1, 19);
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestada" id="TipoPlanilla_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[TipoPlanilla] ON
+GO
+
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (1,'E','Planillas empleados',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (2,'Y','Planillas Independientes empresas',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (3,'A','Planilla cotizantes con novedad de ingreso',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (4,'I','Planilla independientes',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (5,'S','Planilla servicio domestico',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (6,'M','Planilla de mora',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (7,'N','Planilla de correcciones',1,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (8,'H','Planilla madre sustituta',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (9,'T','Planilla empleados entidad beneficiaria del sistema general de participaciones',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (10,'F','Planilla pago de aporte faltante, de una entidad beneficiaria del SGP',1,1,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (11,'J','Planilla para pago de seguridad social en cumplimiento de sentencia judicial',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (12,'X','Planilla para el pago de empresas en proceso de liquidación,reestructuración o en procesos concursales',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (13,'U','Planilla de uso exclusivo de la UGPP para pago por terceros',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (14,'K','Planilla Estudiantes',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+INSERT [dbo].[TipoPlanilla] ([Id],[Codigo],[Nombre],[RequiereNumeroPlanilla],[RequiereFechaPagoPlanilla],[EstadoRegistro],[FechaCreacion],[CreadoPor],[ModificadoPor], [FechaModificacion],[EliminadoPor],[FechaEliminacion]) VALUES (15,'O','Planilla Obligaciones determinadas por la UGPP',0,0,'Activo',GETDATE(),'sistema',NULL,NULL,NULL,NULL)
+GO
+
+SET IDENTITY_INSERT [dbo].[TipoPlanilla] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoPlanilla] WHERE Id BETWEEN 1 AND 15;
+</rollback>
+</changeSet>
+</databaseChangeLog>

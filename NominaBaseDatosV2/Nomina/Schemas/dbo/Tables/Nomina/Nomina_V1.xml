@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="Nomina_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+CREATE TABLE [Nomina] (
+    [Id] int NOT NULL IDENTITY,
+    [Numero] int NOT NULL,
+    [PeriodoContableId] int NOT NULL,
+    [TipoLiquidacionId] int NOT NULL,
+    [SubperiodoId] int NOT NULL,
+    [FechaInicio] date NOT NULL,
+    [FechaFinal] date NOT NULL,
+    [FechaAplicacion] date NULL,
+    [Estado] varchar(20) NOT NULL,
+	[EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    CONSTRAINT [PK_Nomina] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_Nomina_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [CK_Nomina_Estado] CHECK (([Estado]='Inicializada' OR [Estado]='Modificada' OR [Estado]='EnLiquidacion' OR [Estado]='Liquidada' OR [Estado]='Aprobada' OR [Estado]='Aplicada')),
+    CONSTRAINT [FK_Nomina_PeriodoContable_PeriodoContableId] FOREIGN KEY ([PeriodoContableId]) REFERENCES [PeriodoContable] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Nomina_SubPeriodo_SubperiodoId] FOREIGN KEY ([SubperiodoId]) REFERENCES [SubPeriodo] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Nomina_TipoLiquidacion_TipoLiquidacionId] FOREIGN KEY ([TipoLiquidacionId]) REFERENCES [TipoLiquidacion] ([Id]) ON DELETE NO ACTION
+);
+
+GO
+
+CREATE INDEX [IX_Nomina_PeriodoContableId] ON [Nomina] ([PeriodoContableId]);
+
+GO
+
+CREATE INDEX [IX_Nomina_SubperiodoId] ON [Nomina] ([SubperiodoId]);
+
+GO
+
+CREATE INDEX [IX_Nomina_TipoLiquidacionId] ON [Nomina] ([TipoLiquidacionId]);
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [Nomina];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

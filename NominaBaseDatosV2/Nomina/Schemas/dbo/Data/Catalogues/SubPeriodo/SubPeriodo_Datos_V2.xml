@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="SubPeriodo_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[SubPeriodo] ON 
+GO
+UPDATE SubPeriodo SET TipoPeriodoId=4 WHERE Id=4;
+UPDATE SubPeriodo SET TipoPeriodoId=5 WHERE Id=5;
+GO
+SET IDENTITY_INSERT [dbo].[SubPeriodo] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE SubPeriodo SET TipoPeriodoId=3 WHERE Id=4;
+UPDATE SubPeriodo SET TipoPeriodoId=4 WHERE Id=5;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

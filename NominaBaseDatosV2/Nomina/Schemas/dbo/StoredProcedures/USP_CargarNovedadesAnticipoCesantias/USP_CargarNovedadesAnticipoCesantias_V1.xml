@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_CargarNovedadesAnticipoCesantias_V1">
+<comment>HU054</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_CargarNovedadesAnticipoCesantias', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_CargarNovedadesAnticipoCesantias as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 18/09/2020
+-- Description: Pemite cargar novedades de asociadas a anticipo de cesantías
+--
+-- Parameters:
+--  @NominaId:					 Identificador de la nómina
+--  @FuncionarioId:				 Identificador del funcionario
+--  @NominaFuncionarioId			 Identificador del funcionario en la nómina
+--  @NominaFechaFinal			 Fecha final de la nómina
+--  @ConceptoNominaId		  	 Identificador del concepto de anticipo de cesantías
+--  @Id						 Identificador de la novedad a cargar
+--  @UsuarioOperacion :			 Usuario que realiza la operación.
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_CargarNovedadesAnticipoCesantias] @NominaId            INT,
+                                                             @FuncionarioId       INT,
+                                                             @NominaFuncionarioId INT,
+                                                             @NominaFechaFinal    DATE,
+                                                             @ConceptoNominaId    INT,
+                                                             @Id                  INT,
+                                                             @UsuarioOperacion    VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaFuncionarioId=', CONVERT(VARCHAR, @NominaFuncionarioId), '&', '@NominaFechaFinal=', CONVERT(VARCHAR, @NominaFechaFinal), '&', '@ConceptoNominaId=', CONVERT(VARCHAR, @ConceptoNominaId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @NominaDetallePendiente VARCHAR(255);
+    DECLARE @SolicitudCesantiaAprobada VARCHAR(255);
+
+    DECLARE @SolicitudCesantiaId INT;
+    DECLARE @Valor MONEY= 0;
+    DECLARE @Cantidad INT= 1;
+    DECLARE @UnidadMedida VARCHAR(255)=
+    (
+        SELECT vcum.UNIDAD
+        FROM util.VW_ConstanteUnidadMedida AS vcum
+    );
+    DECLARE @NominaFuenteNovedadId INT= 0;
+    DECLARE @ModuloSistema VARCHAR(255)=
+    (
+        SELECT cms.ANTICIPOCESANTIAS
+        FROM util.VW_ConstanteModuloSistema AS cms
+    );
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN CargarNovedadesAnticipoCesantias;
+
+        -- Se consultan constantes asociadas a estados
+        SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+               @NominaDetallePendiente = vce.NOMINADETALLE_PENDIENTE,
+               @SolicitudCesantiaAprobada = vce.SOLICITUDCESANTIAS_APROBADA
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Cursor para obtener los gastos de viaje asociados al funcionario
+        DECLARE CUR_SolicitudCesantias CURSOR LOCAL
+        FOR SELECT sce.Id,
+                   sce.ValorSolicitado
+            FROM dbo.SolicitudCesantia AS sce
+            WHERE sce.FuncionarioId = @FuncionarioId
+                  AND ((@Id IS NOT NULL
+                        AND sce.Id = @Id)
+                       OR (@Id IS NULL))
+                  AND sce.Estado = @SolicitudCesantiaAprobada
+                  AND sce.FechaSolicitud <= @NominaFechaFinal
+                  AND sce.EstadoRegistro = @AuditoriaActivo;
+
+        OPEN CUR_SolicitudCesantias;
+
+        FETCH NEXT FROM CUR_SolicitudCesantias INTO @SolicitudCesantiaId, @Valor;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+            --- Inserta  NominaFuenteNovedad
+            INSERT INTO [dbo].[NominaFuenteNovedad]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [Modulo],
+             [ModuloRegistroId]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @ModuloSistema,
+             @SolicitudCesantiaId
+            );
+
+            SET @NominaFuenteNovedadId =
+            (
+                SELECT SCOPE_IDENTITY()
+            );
+
+            -- Inserta NominaDetalle
+            INSERT INTO [dbo].[NominaDetalle]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [NominaFuncionarioId],
+             [NominaFuenteNovedadId],
+             [ConceptoNominaId],
+             [UnidadMedida],
+             [Cantidad],
+             [Valor],
+             [Estado]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @NominaFuncionarioId,
+             @NominaFuenteNovedadId,
+             @ConceptoNominaId,
+             @UnidadMedida,
+             @Cantidad,
+             @Valor,
+             @NominaDetallePendiente
+            );
+
+            FETCH NEXT FROM CUR_SolicitudCesantias INTO @SolicitudCesantiaId, @Valor;
+        END;
+
+        CLOSE CUR_SolicitudCesantias;
+
+        DEALLOCATE CUR_SolicitudCesantias;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN CargarNovedadesAnticipoCesantias;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_CargarNovedadesAnticipoCesantias];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

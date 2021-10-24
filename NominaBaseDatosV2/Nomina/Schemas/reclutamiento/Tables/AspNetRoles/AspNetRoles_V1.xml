@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="AspNetRoles_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+IF SCHEMA_ID(N'reclutamiento') IS NULL EXEC(N'CREATE SCHEMA [reclutamiento];');
+
+GO
+CREATE TABLE [reclutamiento].[AspNetRoles] (
+    [Id] nvarchar(450) NOT NULL,
+    [Name] nvarchar(256) NULL,
+    [NormalizedName] nvarchar(256) NULL,
+    [ConcurrencyStamp] nvarchar(max) NULL,
+    CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+);
+
+GO
+CREATE UNIQUE INDEX [RoleNameIndex] ON [reclutamiento].[AspNetRoles] ([NormalizedName]) WHERE [NormalizedName] IS NOT NULL;
+
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [AspNetRoles];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoCotizanteSubtipoCotizante_V2">
+<comment>Crear campos boleanos </comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] ADD [AportaAArl] bit NULL;
+
+GO
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] ADD [AportaACcf] bit NULL;
+
+GO
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] ADD [AportaAIcbf] bit NULL;
+
+GO
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] ADD [AportaAPension] bit NULL;
+
+GO
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] ADD [AportaASalud] bit NULL;
+
+GO
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] ADD [AportaASena] bit NULL;
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] DROP COLUMN [AportaAArl];
+
+GO
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] DROP COLUMN [AportaACcf];
+
+GO
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] DROP COLUMN [AportaAIcbf];
+
+GO
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] DROP COLUMN [AportaAPension];
+
+GO
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] DROP COLUMN [AportaASalud];
+
+GO
+
+ALTER TABLE [TipoCotizanteSubtipoCotizante] DROP COLUMN [AportaASena];
+
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

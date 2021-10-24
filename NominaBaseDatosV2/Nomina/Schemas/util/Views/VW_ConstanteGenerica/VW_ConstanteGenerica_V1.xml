@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="VW_ConstanteGenerica_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteGenerica]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteGenerica]
+END
+GO
+
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 09-04-2020
+-- Description: Vista que permite la simulación de constantes para los estados dentro de SQL Server
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [util].[VW_ConstanteGenerica]
+AS
+SELECT 
+		CAST('-999999999' AS MONEY) AS [VALORNOVALIDO],
+		CAST('1' AS INT) AS [CLASEINCAPACIDAD],
+		CAST('-1' AS INT) AS [ERRORFUNCION]
+GO
+
+-- Descripción de la vista asociados a la vista
+EXEC sys.sp_addextendedproperty 
+		@name=N'MS_Description', 
+		@value=N'Vista que permite la simulación de constantes generica dentro de SQL Server.' , 
+		@level0type=N'SCHEMA', @level0name=N'util', 
+		@level1type=N'VIEW', @level1name=N'VW_ConstanteGenerica'
+GO
+
+
+-- Descripción para los estados asociados a auditoría
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Constante que retornan los procedimientos con párametro de salida Valor.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteGenerica',  
+@level2type = N'Column', @level2name = 'VALORNOVALIDO';  
+GO
+
+-- Descripción para los estados asociados a auditoría
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Identificador de Incapcidad en las clases de ausentismo.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteGenerica',  
+@level2type = N'Column', @level2name = 'CLASEINCAPACIDAD';  
+GO
+
+-- Error función
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Código de error retornado por las funciones escalares.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteGenerica',  
+@level2type = N'Column', @level2name = 'ERRORFUNCION';  
+GO
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteGenerica]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteGenerica]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

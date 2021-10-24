@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="OperadorPago_Datos_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[OperadorPago] ON 
+GO
+INSERT INTO dbo.OperadorPago (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, PaginaWeb) VALUES ('Activo', 'sistema', GETDATE(), '1', 'Aportes en linea', 'www.aportesenlinea.com');
+GO
+INSERT INTO dbo.OperadorPago (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, PaginaWeb) VALUES ('Activo', 'sistema', GETDATE(), '2', 'Arus (Enlace operativo)', 'www.arus.com.co');
+GO
+INSERT INTO dbo.OperadorPago (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, PaginaWeb) VALUES ('Activo', 'sistema', GETDATE(), '3', 'Asopagos', 'www.asopagos.com');
+GO
+INSERT INTO dbo.OperadorPago (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, PaginaWeb) VALUES ('Activo', 'sistema', GETDATE(), '4', 'Fedecajas (Pila Facil)', 'www.pilafacil.com');
+GO
+INSERT INTO dbo.OperadorPago (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, PaginaWeb) VALUES ('Activo', 'sistema', GETDATE(), '5', 'Mi planilla', 'www.miplanilla.com');
+GO
+INSERT INTO dbo.OperadorPago (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, PaginaWeb) VALUES ('Activo', 'sistema', GETDATE(), '6', 'Simple', 'www.pagosimple.com');
+GO
+INSERT INTO dbo.OperadorPago (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, PaginaWeb) VALUES ('Activo', 'sistema', GETDATE(), '7', 'SOI', 'www.nuevosoi.com.co');
+GO
+SET IDENTITY_INSERT [dbo].[OperadorPago] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[OperadorPago] WHERE Id BETWEEN 1 AND 7;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,45 @@
+
+
+
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+	<div class="spiner" *ngIf="espera">
+		<mat-spinner></mat-spinner>
+	</div>
+	<h1 mat-dialog-title>Generar reporte de registraduría</h1>
+	<div mat-dialog-content fusePerfectScrollbar>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Estado de los funcionarios *</mat-label>
+			<mat-select formControlName="estadoFuncionario" multiple>
+				<mat-option disabled></mat-option>
+				<mat-option [value]="registraduriaConstant.activo"> Activo </mat-option>
+				<mat-option [value]="registraduriaConstant.vacaciones"> En vacaciones </mat-option>
+			</mat-select>
+			<mat-error *ngFor=" let error of form.get('estadoFuncionario').errors | keyvalue ">
+				<div [ngSwitch]="error.key">
+					<ng-template [ngSwitchCase]="'required'">
+						Requerido
+					</ng-template>
+					<ng-template ngSwitchDefault>
+						{{ error.key }}
+					</ng-template>
+				</div>
+			</mat-error>
+			<mat-icon matSuffix
+				matTooltip="Estado de los funcionarios de los cuales se desea generar el reporte.">
+				info
+			</mat-icon>
+		</mat-form-field>
+
+	</div>
+	<div mat-dialog-actions>
+		<button mat-raised-button type="button" (click)="dialogRef.close() ">
+			<mat-icon>cancel</mat-icon>
+			<span>Cancelar</span>
+		</button>
+		<button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+			<mat-icon>save_alt</mat-icon>
+			<span>Generar</span>
+		</button>
+	</div>
+</form>

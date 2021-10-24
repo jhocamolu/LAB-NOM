@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="VariableNomina_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[VariableNomina] ON 
+GO
+
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('1', 'FuncionarioId', 'INT', NULL, 'Input', 'Variable que identifica la Id del funcionario', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('2', 'NominaId', 'INT', NULL, 'Input', 'Variable que identifica la Id de la nómina que se está liquidando', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('3', 'NominaFechaInicio', 'DATE', NULL, 'Input', 'Fecha de inicio de la liquidación', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('4', 'NominaFechaFinal', 'DATE', NULL, 'Input', 'Fecha de finalización de la liquidación', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('5', 'ConceptoAlias', 'VARCHAR', '255', 'Input', 'Nombre identificador de concepto de nomina', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('6', 'FechaInicioMes', 'DATE', NULL, 'Input', 'Fecha de inicio del mes en curso', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('7', 'FechaFinalMes', 'DATE', NULL, 'Input', 'Fecha de fin del mes en curso', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('8', 'NominaDetalleId', 'INT', NULL, 'Input', 'Variable que identifica el id del concepto en la nómina', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('9', 'FechaInicioMesAnterior', 'DATE', NULL, 'Input', 'Fecha de inicio del mes anterior al mes de liquidación', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('10', 'FechaFinalMesAnterior', 'DATE', NULL, 'Input', 'Fecha final del mes anterior al mes de liquidación', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('11', 'Valor', 'MONEY', NULL, 'Output', 'Variable de salida con el valor calculado', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('12', 'Cantidad', 'INT', NULL, 'Output', 'Variable de salida con la cantidad calculada', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('13', 'Fraccion', 'DECIMAL', '16,6', 'Output', 'Variable de salida con la fracción calculada', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('14', 'ParametroAlias', 'VARCHAR', '255', 'Input', 'Alias del parámetro', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('15', 'Inconsistencia', 'VARCHAR', '255', 'Output', 'Contiene la información de las inconsistencias generadas al momento de calcular un detalle de nómina', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('16', 'BanderaFija', 'BIT', NULL, 'Input', 'Se utiliza para booleanos cuyo valor es fijo y se establece para cada función', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('17', 'TipoDias', 'VARCHAR', '255', 'Input', 'Indica el tipo de días a tener en cuenta para cálculos de salario de los funcionario', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('18', 'Constante', 'VARCHAR', '255', 'Input', 'Constante para funciones o procedimientos que recieben un valor por defecto en alguno de sus parámetros', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('19', 'Nombre', 'VARCHAR', '255', 'Output', 'Variable de salida con el texto asociado a la salida de una función o procedimiento', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('20', 'NominaFuncionarioId', 'INT', NULL, 'Input', 'Identificador del funcionario asignado a una liquidación de nómina', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('21', 'Booleano', 'BIT', NULL, 'Output', 'Almacena un valor booleano resultado de una función o procedimiento', 'Activo    ', 'sistema', GETDATE());
+
+
+GO
+SET IDENTITY_INSERT [dbo].[VariableNomina] OFF
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[VariableNomina] WHERE Id BETWEEN 1 AND 21;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

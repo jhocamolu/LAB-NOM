@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="InformacionBasica_V2">
+<comment>HU019</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [InformacionBasica] ADD [BeneficiarioImpuestoEquidad] bit NOT NULL DEFAULT CAST(0 AS bit);
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD [BeneficiarioLey1429De2010] bit NOT NULL DEFAULT CAST(0 AS bit);
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD [CargoId] int NOT NULL DEFAULT 1;
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD [ClaseAportanteTipoAportanteId] int NOT NULL DEFAULT 1;
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD [Fax] varchar(255) NULL;
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD [NaturalezaJuridicaId] int NOT NULL DEFAULT 1;
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD [TipoDocumentoId] int NOT NULL DEFAULT 1;
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD [TipoPersonaId] int NOT NULL DEFAULT 1;
+
+GO
+
+CREATE INDEX [IX_InformacionBasica_CargoId] ON [InformacionBasica] ([CargoId]);
+
+GO
+
+CREATE INDEX [IX_InformacionBasica_ClaseAportanteTipoAportanteId] ON [InformacionBasica] ([ClaseAportanteTipoAportanteId]);
+
+GO
+
+CREATE INDEX [IX_InformacionBasica_NaturalezaJuridicaId] ON [InformacionBasica] ([NaturalezaJuridicaId]);
+
+GO
+
+CREATE INDEX [IX_InformacionBasica_TipoDocumentoId] ON [InformacionBasica] ([TipoDocumentoId]);
+
+GO
+
+CREATE INDEX [IX_InformacionBasica_TipoPersonaId] ON [InformacionBasica] ([TipoPersonaId]);
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD CONSTRAINT [FK_InformacionBasica_Cargo_CargoId] FOREIGN KEY ([CargoId]) REFERENCES [Cargo] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD CONSTRAINT [FK_InformacionBasica_ClaseAportanteTipoAportante_ClaseAportanteTipoAportanteId] FOREIGN KEY ([ClaseAportanteTipoAportanteId]) REFERENCES [ClaseAportanteTipoAportante] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD CONSTRAINT [FK_InformacionBasica_NaturalezaJuridica_NaturalezaJuridicaId] FOREIGN KEY ([NaturalezaJuridicaId]) REFERENCES [NaturalezaJuridica] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD CONSTRAINT [FK_InformacionBasica_TipoDocumento_TipoDocumentoId] FOREIGN KEY ([TipoDocumentoId]) REFERENCES [TipoDocumento] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+ALTER TABLE [InformacionBasica] ADD CONSTRAINT [FK_InformacionBasica_TipoPersona_TipoPersonaId] FOREIGN KEY ([TipoPersonaId]) REFERENCES [TipoPersona] ([Id]) ON DELETE NO ACTION;
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+
+ALTER TABLE [InformacionBasica] DROP CONSTRAINT [FK_InformacionBasica_Cargo_CargoId];
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP CONSTRAINT [FK_InformacionBasica_ClaseAportanteTipoAportante_ClaseAportanteTipoAportanteId];
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP CONSTRAINT [FK_InformacionBasica_NaturalezaJuridica_NaturalezaJuridicaId] ;
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP CONSTRAINT [FK_InformacionBasica_TipoDocumento_TipoDocumentoId] ;
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP CONSTRAINT [FK_InformacionBasica_TipoPersona_TipoPersonaId];
+
+GO
+
+
+DROP  INDEX [IX_InformacionBasica_CargoId] ON [InformacionBasica] ([CargoId]);
+
+GO
+
+DROP  INDEX [IX_InformacionBasica_ClaseAportanteTipoAportanteId] ON [InformacionBasica] ([ClaseAportanteTipoAportanteId]);
+
+GO
+
+DROP  INDEX [IX_InformacionBasica_NaturalezaJuridicaId] ON [InformacionBasica] ([NaturalezaJuridicaId]);
+
+GO
+
+DROP  INDEX [IX_InformacionBasica_TipoDocumentoId] ON [InformacionBasica] ([TipoDocumentoId]);
+
+GO
+
+DROP  INDEX [IX_InformacionBasica_TipoPersonaId] ON [InformacionBasica] ([TipoPersonaId]);
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP COLUMN [BeneficiarioImpuestoEquidad];
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP COLUMN [BeneficiarioLey1429De2010] bit NOT NULL DEFAULT CAST(0 AS bit);
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP COLUMN [CargoId] int NOT NULL DEFAULT 0;
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP COLUMN [ClaseAportanteTipoAportanteId] int NOT NULL DEFAULT 0;
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP COLUMN [Fax] varchar(255) NULL;
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP COLUMN [NaturalezaJuridicaId] int NOT NULL DEFAULT 0;
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP COLUMN [TipoDocumentoId] int NOT NULL DEFAULT 0;
+
+GO
+
+ALTER TABLE [InformacionBasica] DROP COLUMN [TipoPersonaId] int NOT NULL DEFAULT 0;
+
+GO
+
+
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

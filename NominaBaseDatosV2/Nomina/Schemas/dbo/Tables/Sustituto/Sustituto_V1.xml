@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Sustituto_V1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+CREATE TABLE [Sustituto] (
+    [Id] int NOT NULL IDENTITY,
+    [EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    [CargoASustituirId] int NOT NULL,
+    [CentroOperativoASutituirId] int NULL,
+    [CargoSustitutoId] int NOT NULL,
+    [CentroOperativoSustitutoId] int NULL,
+    [FechaInicio] datetime NOT NULL,
+    [FechaFinal] datetime NOT NULL,
+    [Observacion] text NULL,
+    CONSTRAINT [PK_Sustituto] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_Sustituto_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [FK_Sustituto_Cargo_CargoASustituirId] FOREIGN KEY ([CargoASustituirId]) REFERENCES [Cargo] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Sustituto_Cargo_CargoSustitutoId] FOREIGN KEY ([CargoSustitutoId]) REFERENCES [Cargo] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Sustituto_CentroOperativo_CentroOperativoASutituirId] FOREIGN KEY ([CentroOperativoASutituirId]) REFERENCES [CentroOperativo] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Sustituto_CentroOperativo_CentroOperativoSustitutoId] FOREIGN KEY ([CentroOperativoSustitutoId]) REFERENCES [CentroOperativo] ([Id]) ON DELETE NO ACTION
+);
+
+GO
+
+CREATE INDEX [IX_Sustituto_CargoASustituirId] ON [Sustituto] ([CargoASustituirId]);
+
+GO
+
+CREATE INDEX [IX_Sustituto_CargoSustitutoId] ON [Sustituto] ([CargoSustitutoId]);
+
+GO
+
+CREATE INDEX [IX_Sustituto_CentroOperativoASutituirId] ON [Sustituto] ([CentroOperativoASutituirId]);
+
+GO
+
+CREATE INDEX [IX_Sustituto_CentroOperativoSustitutoId] ON [Sustituto] ([CentroOperativoSustitutoId]);
+
+GO
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [Sustituto];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,37 @@
+{
+	"info": {
+		"_postman_id": "441c7bff-f572-4180-8c54-aa57cb889615",
+		"name": "HU084_Reporte_consolidado_conceptos_nomina",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte consolidado conceptos nómina",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"FechaInicial\":\"2020-01-01\",\r\n   \"FechaFinal\":\"2020-06-12\",\r\n   \"ConceptoNominaId\": \"2,3,4,5,6,7\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/Consolidadoconceptosnomina",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"Consolidadoconceptosnomina"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

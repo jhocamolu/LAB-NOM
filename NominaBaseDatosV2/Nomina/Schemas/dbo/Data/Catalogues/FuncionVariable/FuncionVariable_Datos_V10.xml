@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="FuncionVariable_Datos_V10">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[FuncionVariable] ON;
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, NombreParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('311', '77', '1', '1', NULL, 'FuncionarioId', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, NombreParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('312', '77', '3', '2', NULL, 'FechaInicial', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, NombreParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('313', '77', '4', '3', NULL, 'FechaFinal', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, NombreParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('314', '77', '12', '4', NULL, 'Cantidad', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[FuncionVariable] OFF;
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE dbo.FuncionVariable WHERE Id BETWEEN 311 AND 314;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

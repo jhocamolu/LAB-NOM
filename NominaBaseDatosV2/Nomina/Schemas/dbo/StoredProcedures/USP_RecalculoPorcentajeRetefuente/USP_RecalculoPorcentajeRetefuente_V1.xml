@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_RecalculoPorcentajeRetefuente_V1">
+<comment>HU093</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_RecalculoPorcentajeRetefuente', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_RecalculoPorcentajeRetefuente as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 18/07/2020
+-- Description: Permite calcular el porcentaje de retención en la fuente para procedimiento 2 
+--
+-- Parameters:
+--   @NominaId:	     Identificador de la nómina para la cúal se calcula el valor
+--   @FuncionarioId:	Identificador del funcionario.
+--   @FechaFin:		Fecha fin del periodo del cual se obtendrá la información.
+--		
+-- Returns:						
+--   @Valor:		    Valor base retefuente
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_RecalculoPorcentajeRetefuente]
+(@NominaId      INT,
+ @FuncionarioId INT,
+ @FechaFin      DATE,
+ @Valor         MONEY OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '@FechaFin=', CONVERT(VARCHAR, @FechaFin), '@Valor=', CONVERT(VARCHAR, @Valor));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @MensajeExcepcion VARCHAR(255);
+    DECLARE @AnioVigenteId INT;
+    DECLARE @AnioVigente VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @AliasParametroBaseRetefuente VARCHAR(255);
+    DECLARE @AliasParametroValorUvt VARCHAR(255);
+    DECLARE @AliasParametroMultiploRedondeo VARCHAR(255);
+    DECLARE @AliasConceptoBaseRetefuente VARCHAR(255);
+    DECLARE @ValorBaseRetefuente MONEY= 0;
+    DECLARE @ValorUvtAnual MONEY= 0;
+    DECLARE @IngresoLaboralEnUvt DECIMAL(19,4) = 0;
+    DECLARE @MultiploRedondeo INT= 0;
+    DECLARE @UvtPorcentaje INT= 0;
+    DECLARE @UvtSustrae INT= 0;
+    DECLARE @UvtAdiciona INT= 0;
+    DECLARE @ValorRetefuente MONEY= 0;
+    DECLARE @SalarioMensualPromedio MONEY= 0;
+    DECLARE @PorcentajeFijoRetencion DECIMAL(7,4) = 0;
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        -- Se obtienen constantes asociadas a estados
+        SELECT @AnioVigente = vce.ANIO_VIGENTE,
+               @AuditoriaActivo = vce.AUDITORIA_ACTIVO
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Se obtiene el año de trabajo vigente
+        SET @AnioVigenteId = [dbo].[UFS_ObtenerAnioTrabajo](@AnioVigente);
+
+        -- Se obtienen constantes asociadas a alias de parámetros del sistema
+        SELECT @AliasParametroBaseRetefuente = vcpg.[BASERETEFUENTE],
+               @AliasParametroValorUvt = vcpg.UVTANUAL,
+               @AliasParametroMultiploRedondeo = vcpg.[MULTIPLOREDONDEOS]
+        FROM util.VW_ConstanteParametroGeneral AS vcpg;
+
+        -- Se obtienen los valores asociados a los parámetros del sistema
+        SET @MultiploRedondeo = CAST([util].[UFS_ObtenerParametro](@AliasParametroMultiploRedondeo, @AnioVigenteId) AS INT);
+        SET @AliasConceptoBaseRetefuente = [util].[UFS_ObtenerParametro](@AliasParametroBaseRetefuente, @AnioVigenteId);
+        SET @ValorUvtAnual = CAST([util].[UFS_ObtenerParametro](@AliasParametroValorUvt, @AnioVigenteId) AS MONEY);
+
+        IF @MultiploRedondeo IS NULL
+           OR @AliasConceptoBaseRetefuente IS NULL
+           OR @ValorUvtAnual IS NULL
+        BEGIN
+            SET @MensajeExcepcion = 'No se ha encontrado valor para alguno de los siguientes parámetros: "Multiplo de redondeo", "Concepto base retefuente", "Valor uvt anual".';
+            EXEC util.USP_GenerarExcepcion
+                 50000,
+                 @MensajeExcepcion;
+        END;
+
+        -- Obtención del valor base de retefuente
+        EXEC [dbo].[USP_ObtenerValorConceptoNomina]
+             @FuncionarioId = @FuncionarioId,
+             @NominaId = @NominaId,
+             @AliasConcepto = @AliasConceptoBaseRetefuente,
+             @NominaDetalleId = NULL,
+             @Valor = @ValorBaseRetefuente OUTPUT;
+
+
+        -- Se calcula el salario mensual promedio
+        SET @SalarioMensualPromedio = [util].[UFS_RedondearAMultiplo]((@ValorBaseRetefuente / 13), @MultiploRedondeo);
+
+        -- Se calcula el ingreso laboral en UVT
+        IF @ValorUvtAnual > 0
+        BEGIN
+            SET @IngresoLaboralEnUvt = @SalarioMensualPromedio / @ValorUvtAnual;
+        END;
+
+        -- Se consulta la información en la tabla de uvt para determinar el valor de retención en la fuente
+        SELECT TOP 1 @UvtPorcentaje = rut.Porcentaje,
+                     @UvtAdiciona = rut.Adiciona,
+                     @UvtSustrae = rut.Sustrae
+        FROM dbo.RangoUvt AS rut
+        WHERE @IngresoLaboralEnUvt BETWEEN rut.Desde AND rut.Hasta
+              AND rut.ValidoDesde <= @FechaFin
+              AND rut.EstadoRegistro = @AuditoriaActivo
+        ORDER BY rut.ValidoDesde DESC;
+
+        IF @UvtPorcentaje IS NULL
+           OR @UvtAdiciona IS NULL
+           OR @UvtSustrae IS NULL
+        BEGIN
+            SET @MensajeExcepcion = 'No se ha encontrado el rango de uvt para calcular la retención en la fuente.';
+            EXEC util.USP_GenerarExcepcion
+                 50000,
+                 @MensajeExcepcion;
+        END;
+
+	   
+	   PRINT CONCAT('@@IngresoLaboralEnUvt=', CONVERT(VARCHAR, @IngresoLaboralEnUvt));
+	   PRINT CONCAT('@@SalarioMensualPromedio=', CONVERT(VARCHAR, @SalarioMensualPromedio));
+	   PRINT CONCAT('@@UvtSustrae=', CONVERT(VARCHAR, @UvtSustrae));
+	   PRINT CONCAT('@@ValorUvtAnual=', CONVERT(VARCHAR, @ValorUvtAnual));
+	   PRINT CONCAT('@@UvtPorcentaje=', CONVERT(VARCHAR, @UvtPorcentaje));
+	   
+
+        SET @ValorRetefuente = ((@SalarioMensualPromedio - (@UvtSustrae * @ValorUvtAnual)) * @UvtPorcentaje) / 100;
+        SET @ValorRetefuente = util.UFS_RedondearAMultiplo(@ValorRetefuente, @MultiploRedondeo);
+
+        SET @PorcentajeFijoRetencion = CAST(@ValorRetefuente AS DECIMAL(19,4)) / CAST(@ValorUvtAnual AS DECIMAL(19,4)) / @IngresoLaboralEnUvt * 100;
+
+	   PRINT CONCAT('@@ValorRetefuente=', CONVERT(VARCHAR(255), @ValorRetefuente));
+	   PRINT CONCAT('@@PorcentajeFijoRetencion=', CONVERT(VARCHAR(255), @PorcentajeFijoRetencion));
+
+        SET @Valor = ROUND(@PorcentajeFijoRetencion, 2);
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_RecalculoPorcentajeRetefuente];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

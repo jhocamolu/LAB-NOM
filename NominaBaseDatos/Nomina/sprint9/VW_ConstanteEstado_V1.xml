@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="VW_ConstanteEstado_V1-1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[VW_ConstanteEstado]') IS NOT NULL
+BEGIN
+    DROP VIEW [dbo].[VW_ConstanteEstado]
+END
+GO
+
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 09-04-2020
+-- Description: Vista que permite la simulación de constantes para los estados dentro de SQL Server
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [dbo].[VW_ConstanteEstado]
+AS
+SELECT 
+		-- Estados asociados a los campos de auditoría que hay en todas la tabla
+		CAST('Activo' AS VARCHAR) AS [AUDITORIA.ACTIVO]
+		,CAST('Inactivo' AS VARCHAR) AS [AUDITORIA.INACTIVO]
+		,CAST('Eliminado' AS VARCHAR) AS [AUDITORIA.ELIMINADO]
+
+		-- Estados asociados a los funcionarios
+		,CAST('Seleccionado' AS VARCHAR) AS [FUNCIONARIO.SELECCIONADO]
+		,CAST('Activo' AS VARCHAR) AS [FUNCIONARIO.ACTIVO]
+		,CAST('Vacaciones' AS VARCHAR) AS [FUNCIONARIO.EN-VACACIONES]
+		,CAST('Incapacitado' AS VARCHAR) AS [FUNCIONARIO.INCAPACITADO]
+		,CAST('Retirado' AS VARCHAR) AS [FUNCIONARIO.RETIRADO]
+
+		-- Estados asociados a los contratos
+		,CAST('Sin iniciar' AS VARCHAR) AS [CONTRATO.SIN-INICIAR]
+		,CAST('Vigente' AS VARCHAR) AS [CONTRATO.VIGENTE]
+		,CAST('Terminado' AS VARCHAR) AS [CONTRATO.TERMINADO]
+		,CAST('Cancelado' AS VARCHAR) AS [CONTRATO.CANCELADO]
+		,CAST('Pendiente por liquidar' AS VARCHAR) AS [CONTRATO.PENDIENTE-POR-LIQUIDAR]
+
+		-- Estados asociados a los ausentismos
+		,CAST('Registrado' AS VARCHAR) AS [AUSENTISMO.REGISTRADO]
+		,CAST('Aprobado' AS VARCHAR) AS [AUSENTISMO.APROBADO]
+		,CAST('Anulado' AS VARCHAR) AS [AUSENTISMO.ANULADO]
+		,CAST('Finalizado' AS VARCHAR) AS [AUSENTISMO.FINALIZADO]
+		,CAST('Procesado' AS VARCHAR) AS [AUSENTISMO.PROCESADO]
+
+		-- Estados asociados a las libranzas
+		,CAST('Pendiente' AS VARCHAR) AS [LIBRANZA.REGISTRADO]
+		,CAST('Vigente' AS VARCHAR) AS [LIBRANZA.APROBADO]
+		,CAST('Terminada' AS VARCHAR) AS [LIBRANZA.ANULADO]
+		,CAST('Anulada' AS VARCHAR) AS [LIBRANZA.FINALIZADO]
+
+		-- Estados asociados a los embargos
+		,CAST('Pendiente' AS VARCHAR) AS [EMBARGO.REGISTRADO]
+		,CAST('Vigente' AS VARCHAR) AS [EMBARGO.APROBADO]
+		,CAST('Terminado' AS VARCHAR) AS [EMBARGO.ANULADO]
+		,CAST('Anulado' AS VARCHAR) AS [EMBARGO.FINALIZADO]
+
+		-- Estados asociados a la nómina
+		,CAST('Inicializada' AS VARCHAR) AS [NOMINA.INICIALIZADA]
+		,CAST('Modificada' AS VARCHAR) AS [NOMINA.MODIFICADA]
+		,CAST('En liquidación' AS VARCHAR) AS [NOMINA.EN-LIQUIDACION]
+		,CAST('Liquidada' AS VARCHAR) AS [NOMINA.LIQUIDADA]
+		,CAST('Aprobada' AS VARCHAR) AS [NOMINA.APROBADA]
+		,CAST('Aplicada' AS VARCHAR) AS [NOMINA.APLICADA]
+
+		-- Estados asociados a los funcionarios asignados a una nómina
+		,CAST('Asignado' AS VARCHAR) AS [NOMINAFUNCIONARIO.ASIGNADO]
+		,CAST('Pendiente liquidación' AS VARCHAR) AS [NOMINAFUNCIONARIO.PENDIENTE-LUQUIDACION]
+		,CAST('En liquidación' AS VARCHAR) AS [NOMINAFUNCIONARIO.EN-LIQUIDACION]
+		,CAST('Liquidado' AS VARCHAR) AS [NOMINAFUNCIONARIO.LIQUIDADO]
+
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[VW_ConstanteEstado]') IS NOT NULL
+BEGIN
+    DROP VIEW [dbo].[VW_ConstanteEstado]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+
+<changeSet author="dvillega" id="VW_ConstanteEstado_V1-2">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+-- Descripción de la vista asociados a la vista
+EXEC sys.sp_addextendedproperty 
+		@name=N'MS_Description', 
+		@value=N'Vista que permite la simulación de constantes para los estados dentro de SQL Server.' , 
+		@level0type=N'SCHEMA', @level0name=N'dbo', 
+		@level1type=N'VIEW', @level1name=N'VW_ConstanteEstado'
+GO
+
+
+-- Descripción para los estados asociados a auditoría
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Indica que el registro se muestra dentro la aplicación y se puede utilizar.',  
+@level0type = N'Schema', @level0name = 'dbo',  
+@level1type = N'View',  @level1name = 'VW_ConstanteEstado',  
+@level2type = N'Column', @level2name = 'AUDITORIA.ACTIVO';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Indica que el registro se muestra dentro la aplicación y pero solo se utiliza para información histórica.',  
+@level0type = N'Schema', @level0name = 'dbo',  
+@level1type = N'View',  @level1name = 'VW_ConstanteEstado',  
+@level2type = N'Column', @level2name = 'AUDITORIA.ELIMINADO';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Indica que el registro no se muestra dentro la aplicación y no se puede utilizar para nada.',  
+@level0type = N'Schema', @level0name = 'dbo',  
+@level1type = N'View',  @level1name = 'VW_ConstanteEstado',  
+@level2type = N'Column', @level2name = 'AUDITORIA.INACTIVO';  
+GO
+
+
+-- Descripción para los estados asociados a funcionarios
+
+
+
+
+-- Descripción para los estados asociados a contratos
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SELECT 1;
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

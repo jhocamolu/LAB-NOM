@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_IniciarVigenciaLibranza_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_IniciarVigenciaLibranza', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_IniciarVigenciaLibranza as SELECT 1');
+END;
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 28/07/2020
+-- Description:	Procedimiento almacenado, el cual se encarga de iniciar la vigencia de la  libranza.
+--
+-- Parameters:
+--  @Fecha:			        Fecha para la cual se hace el proceso
+--  @UsuarioOperacion:	    Usuario que realiza la operación
+--  @Alias:                 Alias - comando de la tarea programada
+-- =============================================
+ALTER PROCEDURE [dbo].[USP_IniciarVigenciaLibranza] @Fecha            DATE, 
+                                                 @UsuarioOperacion VARCHAR(255), 
+                                                 @Alias            VARCHAR(255)
+AS
+    BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Fecha=', CONVERT(VARCHAR, @Fecha), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion), '&', '@Alias=', CONVERT(VARCHAR, @Alias));
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        DECLARE @Resultado NVARCHAR(255)='';
+        DECLARE @Estado VARCHAR(30);
+        DECLARE @FechaActual DATE= CONVERT(DATE, GETDATE());
+		DECLARE @LibranzaId INT;
+        DECLARE @LibranzaPendiente VARCHAR(255);
+		DECLARE @LibranzaVigente VARCHAR(255);
+        DECLARE @RegistrosAfectados INT;
+        DECLARE @TareaProgramadaLogExitoso VARCHAR(255);
+        DECLARE @TareaProgramadaLogFallido VARCHAR(255);
+		DECLARE @AuditoriaActivo VARCHAR(255);
+		
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+            IF @Fecha IS NULL
+			BEGIN
+                SET @Fecha = @FechaActual;
+			END;
+            SELECT @TareaProgramadaLogExitoso = ces.TAREAPROGRAMADALOG_EXITOSO, 
+                   @TareaProgramadaLogFallido = ces.TAREAPROGRAMADALOG_FALLIDO,
+				   @LibranzaPendiente = ces.LIBRANZA_PENDIENTE,
+				   @LibranzaVigente = ces.LIBRANZA_VIGENTE,
+				   @AuditoriaActivo = ces.AUDITORIA_ACTIVO
+            FROM util.VW_ConstanteEstado AS ces;
+
+            IF(
+            (
+                SELECT EnEjecucion
+                FROM dbo.TareaProgramada
+                WHERE Alias = @Alias
+            ) = 1)
+                BEGIN
+                    EXECUTE [dbo].[USP_RegistrarTareaProgramadaLog] 
+                            @UsuarioOperacion = @UsuarioOperacion, 
+                            @Estado = @TareaProgramadaLogFallido, 
+                            @Resultado = @Resultado, 
+                            @Alias = @Alias;
+            END;
+                ELSE
+                BEGIN
+                    SET @RegistrosAfectados = 0;
+                    SET @Resultado = '';
+
+                    -- Inicio de la transacción
+                    BEGIN TRAN IniciarVigenciaLibranza;
+
+					-- Actualiza el estado del la tarea programada
+					UPDATE dbo.TareaProgramada
+                      SET 
+                          dbo.TareaProgramada.EnEjecucion = 1
+                    WHERE Alias = @Alias;
+
+                    -- Crea Cursor
+                    DECLARE CUR_IniciarVigenciaLibranza CURSOR LOCAL
+                    FOR SELECT lib.Id 
+                        FROM dbo.Libranza lib
+                        WHERE lib.Estado = @LibranzaPendiente
+                              AND lib.FechaInicio < @Fecha
+							  AND lib.EstadoRegistro = @AuditoriaActivo;
+                    OPEN CUR_IniciarVigenciaLibranza;
+                    FETCH NEXT FROM CUR_IniciarVigenciaLibranza INTO @LibranzaId;
+                    WHILE @@fetch_status = 0
+                        BEGIN
+                            -- Actualiza  estado del libranza a Terminada
+                            UPDATE dbo.Libranza
+                                SET 
+                                    Estado = @LibranzaVigente
+                            WHERE Id = @LibranzaId;
+							SET @RegistrosAfectados = @RegistrosAfectados + 1;
+
+                            FETCH NEXT FROM CUR_IniciarVigenciaLibranza INTO @LibranzaId;
+					END;
+                    CLOSE CUR_IniciarVigenciaLibranza;
+                    DEALLOCATE CUR_IniciarVigenciaLibranza;
+
+                    SET @Resultado = 'Se afectaron ' + CONVERT(VARCHAR, @RegistrosAfectados) + ' registros.';
+
+					EXECUTE [dbo].[USP_RegistrarTareaProgramadaLog] 
+                            @UsuarioOperacion = @UsuarioOperacion, 
+                            @Estado = @TareaProgramadaLogExitoso, 
+                            @Resultado = @Resultado, 
+                            @Alias = @Alias;
+
+                    -- Actualiza el registro de la tarea programada
+                    UPDATE dbo.TareaProgramada
+                      SET 
+                          dbo.TareaProgramada.EnEjecucion = 0
+                    WHERE Alias = @Alias;
+
+                    -- Cierre de la transacción
+                    IF @@TRANCOUNT > 0
+                        BEGIN
+                            IF XACT_STATE() = 1
+                                BEGIN
+                                    COMMIT TRAN IniciarVigenciaLibranza;
+                            END;
+                                ELSE
+                                BEGIN
+                                    EXEC util.USP_GenerarExcepcion 
+                                         50000, 
+                                         'No se puede confirmar la transacción.  Error desconocido.';
+                            END;
+                    END;
+            END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_IniciarVigenciaLibranza];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

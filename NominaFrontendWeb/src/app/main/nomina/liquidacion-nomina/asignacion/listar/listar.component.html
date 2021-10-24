@@ -1,0 +1,127 @@
+<div class="btn-lateral-filtro">
+    <button class="mat-icon-button" (click)="filtroHandle($event)">
+        <span class="mat-button-wrapper">
+            <mat-icon class="mat-icon" matTooltip="Filtrar">
+                filter_list</mat-icon>
+        </span>
+    </button>
+</div>
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Nómina</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/nomina/liquidacion-nomina">Liquidaciones</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Generar </span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Generar liquidación</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <liquidacion-nomina-menu  [item]="item" *ngIf="item" [asignacionListar]="_this"></liquidacion-nomina-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <div class="content">
+
+        <div>
+            <!-- CONTENIDO -->
+            <liquidacion-nomina-header [item]="item" [nuevoEstado]="newEstado"></liquidacion-nomina-header>
+            <liquidacion-nomina-navegacion [paso]="2" [item]="item" [nuevoEstado]="newEstado"></liquidacion-nomina-navegacion>
+
+            <alcanos-empty-list (fnCreate)="agregarHandle($event)"
+                labelH1="¡Uy! Aún no has seleccionado funcionarios para esta liquidación."
+                labelBtn="Seleccionar funcionarios" [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna documento -->
+                    <ng-container matColumnDef="numeroDocumento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Documento</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.numeroDocumento}} </td>
+                    </ng-container>
+
+                    <!-- Columna nombre-->
+                    <ng-container matColumnDef="primerNombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.primerNombre }} {{ element.segundoNombre }} {{ element.primerApellido }}
+                            {{ element.segundoApellido }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna cargo -->
+                    <ng-container matColumnDef="cargoNombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cargo </th>
+                        <td mat-cell *matCellDef="let element"> {{element.cargoNombre}}</td>
+                    </ng-container>
+
+                    <!-- Columna grupo Nomina -->
+                    <ng-container matColumnDef="grupoNominaNombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Grupo nómina </th>
+                        <td mat-cell *matCellDef="let element"> {{element.grupoNominaNombre}}</td>
+                    </ng-container>
+
+
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef 
+                            [ngStyle]="{'display': !( arrayPermisosFuncionarios.op4 ) || newEstado.estado === estadoLiquidacion.liquidada ? 'none' : ''}">
+                            Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="newEstado.estado !== estadoLiquidacion.liquidada">
+                                <button *ngIf="arrayPermisosFuncionarios.op4" matTooltip="Eliminar" mat-icon-button
+                                    (click)="eliminarHandle($event, element)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+
+            </div>
+
+            <div class="actions">
+                <button mat-raised-button class="margen" (click)="anterior($event)">
+                    <mat-icon>arrow_back</mat-icon>
+                    <span>Anterior</span>
+                </button>
+                <a mat-raised-button color="accent" routerLink="/nomina/liquidacion-nomina/{{item.id}}/novedades"
+                 *ngIf="newEstado.estado == estadoLiquidacion.modificada || newEstado.estado == estadoLiquidacion.aprobada ||
+                 newEstado.estado == estadoLiquidacion.enLiquidacion ||
+                 newEstado.estado == estadoLiquidacion.liquidada">
+                    <mat-icon>arrow_forward</mat-icon>
+                    <span>Siguiente</span>
+                </a>
+            </div>
+            <!-- / CONTENIDO -->
+
+        </div>
+
+    </div>
+
+</div>

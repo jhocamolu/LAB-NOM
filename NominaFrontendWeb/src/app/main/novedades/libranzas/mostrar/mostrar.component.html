@@ -1,0 +1,181 @@
+<!-- CONTENIDO -->
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon color="accent" class="mat-icon24">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Novedades</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/novedades/libranzas'">Libranzas</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar libranza</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar libranza</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+
+                <button mat-menu-item
+                    *ngIf="arrayPermisos.cambiarEstado && (!periodoLiquidacion && (element.estado == estadoLibranzasAlcanosVar.vigente ))"
+                    (click)="anularHandle($event, element)">
+                    <span>Anular</span>
+                </button>
+
+                <button mat-menu-item
+                    *ngIf="arrayPermisos.cambiarEstado && ( periodoLiquidacion && (element.estado == estadoLibranzasAlcanosVar.vigente ))"
+                    (click)="terminarHandle($event, element)">
+                    <span>Terminar</span>
+                </button>
+
+                <a mat-menu-item
+                    *ngIf="arrayPermisos.actualizar && (estadoLibranzasAlcanosVar.pendiente == element.estado || estadoLibranzasAlcanosVar.vigente == element.estado)"
+                    routerLink="/novedades/libranzas/{{element.id}}/editar">
+                    <span>Editar</span>
+                </a>
+
+                <a routerLink="/novedades/libranzas/" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+
+            <div>
+                <h3>Funcionario
+                    <mat-icon class="s-16" matSuffix
+                        matTooltip="Número de identificación y nombre completo del funcionario.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.funcionario?.criterioBusqueda}}
+                </p>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Fecha de inicio
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Fecha inicial en la que se empieza a realizar el descuento.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.fechaInicio | date:'dd / LL / yyyy'}}</p>
+                </div>
+
+                <div>
+                    <h3>Valor préstamo
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Cantidad del valor de la libranza.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.valorPrestamo | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</p>
+                </div>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Número de cuotas
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Número de cuotas de la libranza.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.numeroCuotas }}</p>
+                </div>
+                <div>
+                    <h3>Valor cuota
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Valor de la cuota de la libranza.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{element.valorCuota | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</p>
+                </div>
+            </div>
+
+            <div>
+                <h3>Entidad financiera
+                    <mat-icon class="s-16" matSuffix matTooltip="Entidad operadora de la libranza.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.entidadFinanciera?.nombre}}</p>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Período de pago
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Indica en qué período de pago se descuenta el valor de la cuota de la libranza.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{tipoPeriodo != null ? tipoPeriodo?.nombre : 'N/A'}}</p>
+                </div>
+                <div>
+                    <h3>Periodicidad
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Indica cuál es la periodicidad para realizar el descuento de la cuota de la libranza.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p *ngIf="subperiodosCount == 0">
+                        <span> N/A. </span>
+                    </p>
+                    <p *ngIf="subperiodosCount > 0">
+                        <span class="subperiodo" *ngFor="let item of subperiodos">
+                            {{item.nombre}}<i></i>
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <h3>Observaciones
+                    <mat-icon class="s-16" matSuffix matTooltip="Descripción de características a tener en cuenta de la libranza.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.observacion ? element.observacion : 'N/A'}}
+                </p>
+            </div>
+
+            <div>
+                <h3>Estado
+                    <mat-icon class="s-16" matSuffix matTooltip="Estado en el que se encuentra la libranza.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.estado }}
+                </p>
+            </div>
+
+            <div>
+                <h3>Justificación
+                    <mat-icon class="s-16" matSuffix matTooltip="Descripción del porqué de la anulación o terminación de la libranza.">
+                        info
+                    </mat-icon>
+                </h3>
+                <p>{{element.justificacion ? element.justificacion  : 'N/A'}}
+                </p>
+            </div>
+
+        </div>
+
+    </div>

@@ -1,0 +1,248 @@
+{
+	"info": {
+		"_postman_id": "68d3105f-e2d2-4b62-8ad5-0b7d8e44bb64",
+		"name": "HU054_liquidar_Seleccionar_funcionarios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar Funcionarios para seleccion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nominaId\":18,\n\t\"Funcionario\": null,\n\t\"centroOperativoId\":null,\n\t\"dependenciaId\":null,\n\t\"grupoNominaId\":null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/nominafuncionarios/listar",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"nominafuncionarios",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nominaId\": 2,\n    \"funcionarios\": [\n       1,2\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://172.16.1.71:8001/api/nominafuncionarios",
+					"protocol": "http",
+					"host": [
+						"172",
+						"16",
+						"1",
+						"71"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"nominafuncionarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Funcionarios Seleccionados",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":2,\n    \"funcionarios\": [\n       1,2\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://172.16.1.71:8001/api/nominafuncionarios/eliminarfuncionarios/2",
+					"protocol": "http",
+					"host": [
+						"172",
+						"16",
+						"1",
+						"71"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"nominafuncionarios",
+						"eliminarfuncionarios",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Un solo Funcionario",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44356/api/nominafuncionarios/eliminauno/5",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44356",
+					"path": [
+						"api",
+						"nominafuncionarios",
+						"eliminauno",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Limpiar toda la nomina",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44356/api/nominafuncionarios/limpiarnomina/5",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44356",
+					"path": [
+						"api",
+						"nominafuncionarios",
+						"limpiarnomina",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar los funcionarios Asignados",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://172.16.1.71:8001/odata/nominafuncionarios",
+					"protocol": "http",
+					"host": [
+						"172",
+						"16",
+						"1",
+						"71"
+					],
+					"port": "8001",
+					"path": [
+						"odata",
+						"nominafuncionarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar un funcionario Asignado",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://172.16.1.71:8001/odata/nominafuncionarios/1",
+					"protocol": "http",
+					"host": [
+						"172",
+						"16",
+						"1",
+						"71"
+					],
+					"port": "8001",
+					"path": [
+						"odata",
+						"nominafuncionarios",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

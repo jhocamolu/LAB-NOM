@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_ObtenerLimiteDeducciones_V1">
+<comment>HU093</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerLimiteDeducciones', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerLimiteDeducciones as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 18/07/2020
+-- Description: Permite obtener el límite de deducciones para el cálculo de rete
+--
+-- Parameters:
+--   @DeduccionesArticulo387:	  Valor de las deducciones artículo 387 del periodo.
+--   @AcumuladoRentaExenta:	  Acumulado de la renta exenta durante el periodo.
+--   @RentaExenta:			  Renta exenta en el periodo.
+--		
+-- Returns:						
+--   @Valor:		    Valor base retefuente
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerLimiteDeducciones]
+(
+ @PagosBrutosLaborales   MONEY,
+ @DeduccionesArticulo387 MONEY,
+ @AcumuladoRentaExenta   MONEY,
+ @RentaExenta            MONEY,
+ @Valor                  MONEY OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@PagosBrutosLaborales=', CONVERT(VARCHAR, @PagosBrutosLaborales),'@DeduccionesArticulo387=', CONVERT(VARCHAR, @DeduccionesArticulo387), '@AcumuladoRentaExenta=', CONVERT(VARCHAR, @AcumuladoRentaExenta), '@RentaExenta=', CONVERT(VARCHAR, @RentaExenta));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @RentaExentaProcesar MONEY= 0;
+    DECLARE @ParteIngresoBruto MONEY= 0;
+    DECLARE @AnioVigente VARCHAR(255);
+    DECLARE @AnioVigenteId INT;
+    DECLARE @AliasParametroMultiploRedondeo VARCHAR(255);
+    DECLARE @AliasParametroPorcentajeLimiteDeducciones VARCHAR(255);
+    DECLARE @AliasParametroUvtLimiteDeduccionesYRentas VARCHAR(255);
+    DECLARE @AliasParametroValorUvt VARCHAR(255);
+    DECLARE @PorcentajeLimiteDeducciones INT= 0;
+    DECLARE @NumeroUvtLimiteDeduccionesYRentas INT= 0;
+    DECLARE @ValorLimiteDeducciones MONEY= 0;
+    DECLARE @ValorUvtAnual MONEY= 0;
+    DECLARE @ValorMaximoLimiteDeducciones MONEY= 0;
+    DECLARE @DiferenciaAcumuladoPorcentaje MONEY= 0;
+    DECLARE @ControlLimite MONEY= 0;
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        -- Se obtienen constantes asociadas a estados
+        SELECT @AnioVigente = vce.ANIO_VIGENTE
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Se obtienen constantes asociadas a alias de parámetros del sistema
+        SELECT @AliasParametroPorcentajeLimiteDeducciones = vcpg.PORCENTAJELIMITEDEDUCCIONES,
+               @AliasParametroUvtLimiteDeduccionesYRentas = vcpg.[UVTLIMITEDEDUCCIONESYRENTAS],
+               @AliasParametroValorUvt = vcpg.UVTANUAL
+        FROM util.VW_ConstanteParametroGeneral AS vcpg;
+
+        -- Se obtiene el año de trabajo vigente
+        SET @AnioVigenteId = [dbo].[UFS_ObtenerAnioTrabajo](@AnioVigente);
+
+        -- Se obtienen los valores asociados a los parámetros del sistema
+        SET @PorcentajeLimiteDeducciones = CAST([util].[UFS_ObtenerParametro](@AliasParametroPorcentajeLimiteDeducciones, @AnioVigenteId) AS INT);
+        SET @NumeroUvtLimiteDeduccionesYRentas = CAST([util].[UFS_ObtenerParametro](@AliasParametroUvtLimiteDeduccionesYRentas, @AnioVigenteId) AS INT);
+        SET @ValorUvtAnual = CAST([util].[UFS_ObtenerParametro](@AliasParametroValorUvt, @AnioVigenteId) AS MONEY);
+
+        IF @PorcentajeLimiteDeducciones IS NULL
+           OR @NumeroUvtLimiteDeduccionesYRentas IS NULL
+           OR @ValorUvtAnual IS NULL
+        BEGIN
+            SET @MensajeExcepcion = 'No se ha encontrado valor para alguno de los siguientes parámetros: "Porcentaje límite de deducciones", "Número de uvt límite de deducciones", "Valor uvt anual".';
+            EXEC util.USP_GenerarExcepcion
+                 50000,
+                 @MensajeExcepcion;
+        END;
+
+        SET @ValorMaximoLimiteDeducciones = @NumeroUvtLimiteDeduccionesYRentas * @ValorUvtAnual;
+        SET @RentaExentaProcesar = @DeduccionesArticulo387 + @AcumuladoRentaExenta + @RentaExenta;
+        SET @ValorLimiteDeducciones = @PagosBrutosLaborales * @PorcentajeLimiteDeducciones / 100;
+
+        -- Se calcula el límite de deducciones	   
+        SET @ControlLimite = @ValorLimiteDeducciones;
+
+        IF @ValorLimiteDeducciones > @ValorMaximoLimiteDeducciones
+        BEGIN
+            SET @ControlLimite = @ValorMaximoLimiteDeducciones;
+        END;
+
+        SET @Valor = 0;
+
+        IF @RentaExentaProcesar > @ControlLimite
+        BEGIN
+            SET @Valor = @RentaExentaProcesar - @ControlLimite;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerLimiteDeducciones];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_ImprimirError_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('util.USP_ImprimirError', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE util.USP_ImprimirError as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 13/02/2020
+-- Description: Imprime información sobre el error que causó
+-- 				el salto a un bloque CATCH de un bloque TRY ... CATCH.
+-- ==========================================================================================
+ALTER PROCEDURE [util].[USP_ImprimirError]
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración
+    --------------------------------------------------------------------------
+    SET NOCOUNT ON;
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    PRINT 'Error ' + CONVERT(VARCHAR(50), ERROR_NUMBER()) + ', Severidad ' + CONVERT(VARCHAR(5), ERROR_SEVERITY()) + ', Estado ' + CONVERT(VARCHAR(5), ERROR_STATE()) + ', Procedimiento/Disparador ' + ISNULL(ERROR_PROCEDURE(), '-') + ', Línea ' + CONVERT(VARCHAR(5), ERROR_LINE());
+    PRINT ERROR_MESSAGE();
+
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [util].[USP_ImprimirError];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

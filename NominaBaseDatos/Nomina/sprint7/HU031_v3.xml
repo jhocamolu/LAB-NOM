@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="HU031_v3">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+--=====================================================================================
+	-- Author:      Jhonatan Camilo Moreno Luna.
+	-- Create date: 06-03-2020
+	-- Description: Vista para generar los datos contractuales del funcionario.
+	--				Se buscan todos los funcionarios cuando el estado registro sea activo,
+	--				se cruza con el ultimo contrato cuando la fecha de inicio sea menor a la fecha actual 
+	--				y se busca el ultimo otroSi para ese contrato, cuando la fecha de aplicacion 
+	--				sea menor a la fecha actual
+	--=====================================================================================
+	ALTER VIEW [dbo].[VW_FuncionarioDatoActual]
+	AS
+
+	SELECT Funcionario.*, 
+	contratoDatos.Id ContratoId, 
+	ISNULL(otroSiDatos.Sueldo, contratoDatos.Sueldo) Sueldo,
+	ISNULL(carOtr.Id, car.Id) CargoId, 
+	ISNULL(depOtr.Id, dep.Id) DependenciaId, 
+	ISNULL(ceoOtr.Id, ceo.Id) CentroOperativoId,
+	gru.Id GrupoNominaId, 
+	otroSiDatos.Id ContratoOtroSiId
+	FROM Funcionario
+	LEFT JOIN (
+		SELECT Contrato.* 
+		FROM Contrato JOIN (
+			SELECT MAX(FechaInicio) AS FechaInicio , FuncionarioId 
+			FROM Contrato
+			WHERE  FechaInicio  <= GETDATE()
+			AND EstadoRegistro = 'Activo'
+			GROUP BY FuncionarioId 
+		) contratoActual ON Contrato.FuncionarioId = contratoActual.FuncionarioId AND 
+							Contrato.FechaInicio = contratoActual.FechaInicio
+		WHERE Contrato.EstadoRegistro = 'Activo'
+	) contratoDatos On Funcionario.Id = contratoDatos.FuncionarioId
+	LEFT JOIN (
+		SELECT ContratoOtroSi.* 
+		FROM ContratoOtroSi JOIN (
+			SELECT MAX(FechaAplicacion) AS FechaAplicacion , ContratoId 
+			FROM ContratoOtroSi
+			WHERE  FechaAplicacion <= GETDATE() 
+			AND EstadoRegistro = 'Activo'
+			GROUP BY ContratoId 
+		) otroSiActual ON ContratoOtroSi.ContratoId = otroSiActual.ContratoId AND 
+						ContratoOtroSi.FechaAplicacion = otroSiActual.FechaAplicacion
+		WHERE ContratoOtroSi.EstadoRegistro = 'Activo'
+	) otroSiDatos On contratoDatos.Id = otroSiDatos.ContratoId
+	LEFT JOIN CargoDependencia carDep ON contratoDatos.CargoDependenciaId = carDep.Id
+	LEFT JOIN Cargo car ON carDep.CargoId=car.Id
+	LEFT JOIN Dependencia dep ON carDep.DependenciaId=dep.Id
+	LEFT JOIN CentroOperativo ceo ON contratoDatos.CentroOperativoId=ceo.Id 
+	LEFT JOIN GrupoNomina gru ON contratoDatos.GrupoNominaId=gru.Id 
+	LEFT JOIN CargoDependencia carDepOtr ON otroSiDatos.CargoDependenciaId=carDepOtr.Id
+	LEFT JOIN Dependencia depOtr ON carDepOtr.DependenciaId=depOtr.Id
+	LEFT JOIN Cargo carOtr ON carDepOtr.CargoId=carOtr.Id
+	LEFT JOIN CentroOperativo ceoOtr ON otroSiDatos.CentroOperativoId=ceoOtr.Id 
+	WHERE Funcionario.EstadoRegistro = 'Activo'
+GO
+	]]>
+</sql>
+
+<rollback>
+    DROP VIEW [dbo].[VW_FuncionarioDatoActual]
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,160 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Plantillas </span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/plantilla/complementos">Complementos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Editar complemento</span>
+                <span *ngIf="!item">Crear complemento</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Editar complemento</h2>
+                <h2 *ngIf="!item">Crear complemento</h2>
+            </div>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="nombre" required>
+                        <mat-error *ngFor="let error of form.get('nombre').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Nombre del complemento.">info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Alto</mat-label>
+                        <input matInput formControlName="alto" type="number" required>
+                        <mat-error *ngFor="let error of form.get('alto').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'min'">
+                                    Valor mínimo {{ form.get('alto').errors.min.min }}.
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'max'">
+                                    Valor máximo {{ form.get('alto').errors.max.max }}.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Alto del complemento en centímetros.">info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Tipo</mat-label>
+                        <mat-select formControlName="tipo" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of tipos" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('tipo').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Tipo al que corresponde el complemento. ">info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Grupo de documento</mat-label>
+                        <mat-select [compareWith]="compareWith" formControlName="grupoDocumentoId" required>
+                            <mat-option *ngFor="let item of grupos" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('grupoDocumentoId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix
+                            matTooltip="Grupo de documento al que pertenece el complemento de la plantilla.">info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <label>
+                        Cuerpo del documento *
+                        <mat-icon matSuffix matTooltip="Contenido del complemento de la plantilla.">info
+                        </mat-icon>
+                    </label>
+                    <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)"
+                        formControlName="cuerpoDocumento"></ckeditor>
+                    <div
+                        *ngIf="form.get('cuerpoDocumento').invalid && (form.get('cuerpoDocumento').dirty || form.get('cuerpoDocumento').touched)">
+                        <mat-error *ngFor="let error of form.get('cuerpoDocumento').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                    </div>
+
+                </div>
+
+
+                <div class="actions">
+                    <a mat-raised-button routerLink="/plantilla/complementos">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+                    <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                        <mat-icon>save</mat-icon>
+                        <span>Guardar</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--/ CONTENT -->
+</div>

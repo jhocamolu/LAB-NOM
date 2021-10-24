@@ -1,0 +1,89 @@
+<!-- CONTENIDO -->
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/configuracion/tipo-periodos'">Tipos de período</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar tipo de período</span>
+            </div>
+            <div>
+                <h2 class="title">Visualizar tipo de período</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                 <a mat-menu-item *ngIf="arrayPermisos.actualizar"
+                     routerLink="/configuracion/tipo-periodos/{{item.id}}/editar">
+                     <span>Editar tipo de período</span>
+                 </a>
+                <button mat-menu-item (click)="subperiodoHandle($event)">
+                    <span>Agregar subperíodo</span>
+                </button>
+                <a routerLink="/configuracion/tipo-periodos" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="selectedTabChangeHandle($event)">
+                <!-- Información -->
+                <mat-tab label="Información">
+                    <div *ngIf="item">
+                        <div mat-dialog-content fusePerfectScrollbar>
+                            <div>
+                                <div class="dos-bloque">
+                                    <div>
+                                        <h3>Nombre <mat-icon class="s-16" matSuffix
+                                                matTooltip="Nombre del tipo de período de liquidación.">
+                                                info
+                                            </mat-icon>
+                                        </h3>
+                                        <p>{{item.nombre}}</p>
+                                    </div>
+                                    <div>
+                                        <h3>Período de pago por defecto <mat-icon class="s-16" matSuffix
+                                                matTooltip="Indica el tipo de período de pago por defecto.">
+                                                info
+                                            </mat-icon>
+                                        </h3>
+                                        <p *ngIf="item.pagoPorDefecto == false ">No </p>
+                                        <p *ngIf="item.pagoPorDefecto == true ">Si </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <!-- Subperíodos del tipo de período-->
+                <mat-tab label="Subperíodos del tipo de período">
+                    <tipo-periodos-subperiodo [tipo-periodo]="item" [mostrar-boton-crear]="false">
+                    </tipo-periodos-subperiodo>
+                </mat-tab>
+                <!-- Conceptos asociados-->
+
+            </mat-tab-group>
+        </div>
+        <!-- / CONTENT -->
+    </div>
+
+</div>

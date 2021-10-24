@@ -1,0 +1,85 @@
+<div class="page-layout simple inner-sidebar">
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Nómina</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span (click)="cerrar($event)" class="pointer">Procesar costos</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Registro de costos manualmente por cargo</span>
+            </div>
+            <div [@animate]="{
+                    value: '*',
+                    params: { delay: '100ms', x: '-25px' }
+                }">
+                <h2 class="title">Registro de costos manualmente por cargo</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <button mat-raised-button color="accent" *ngIf="arrayPermisos.op1" (click)="crearHandle($event)">
+                <mat-icon>add</mat-icon>
+                <span>Registrar cambios</span>
+            </button>
+        </div>
+    </div>
+    <!-- / HEADER -->
+    <div class="parent"></div>
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <h3>Cargo: {{nombreCargo.codigo == null ? 'Cargando....' : nombreCargo.codigo + ' -' }}
+                {{nombreCargo.nombre}}</h3>
+            <alcanos-empty-list (fnCreate)="crearHandle($event)" [visibleBtnCreate]="arrayPermisos.op1"
+                labelH1="¡Uy! Aún no has registrado costos manualmente por cargo." labelBtn="Registrar cambios"
+                [visible]="count == 0">
+            </alcanos-empty-list>
+            
+            <div class="box-shadow" *ngIf="visible()">
+
+
+                <table class="simple" *ngIf="count > 0">
+                    <thead>
+                        <tr>
+                            <td class="mat-header-cell margen">Centro de costo</td>
+                            <td class="mat-header-cell">Porcentaje</td>
+                            <td class="mat-header-cell">Fecha de corte</td>
+                            <td class="mat-header-cell">Acciones</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="mat-row" *ngFor="let item of datos">
+                            <td>{{item.centroCosto.centroCosto?.codigo}} - {{item.centroCosto.centroCosto?.nombre}}</td>
+                            <td>{{ (item.porcentaje / 100) | percent}}</td>
+                            <td>{{item.fechaCorte | date:'dd / LL / yyyy'}}</td>
+                            <td>
+                                <a (click)="editarHandle($event, item)" *ngIf="true" class="edit-icon" mat-icon-button>
+                                    <mat-icon matTooltip="Editar">edit</mat-icon>
+                                </a>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br>
+            </div>
+            <div class="actions">
+                <a mat-raised-button type="button" (click)="cerrar($event)">
+                    <mat-icon>cancel</mat-icon>
+                    <span>Cancelar</span>
+                </a>
+
+                <a mat-raised-button color="accent" *ngIf="arrayPermisos.op1" (click)="enviarCompleto()">
+                    <mat-icon>save</mat-icon>
+                    <span>Guardar</span>
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

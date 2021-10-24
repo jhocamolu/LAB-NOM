@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>Principal</DataSourceReference>
+      <CommandText>SELECT vce.FUNCIONARIO_ACTIVO AS EstadoFuncionario FROM util.VW_ConstanteEstado vce
+UNION
+SELECT vce.FUNCIONARIO_ENVACACIONES AS EstadoFuncionario FROM util.VW_ConstanteEstado vce
+UNION
+SELECT vce.FUNCIONARIO_INCAPACITADO AS EstadoFuncionario FROM util.VW_ConstanteEstado vce</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="EstadoFuncionario">
+        <DataField>EstadoFuncionario</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

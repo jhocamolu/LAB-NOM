@@ -1,0 +1,40 @@
+tipo-beneficios-listar {
+    @import "src/@alcanos/scss/alcanos-v2";
+    a {
+        text-decoration: none !important;
+    }
+    table {
+        .mat-column-titulo {
+            max-width: 120px;
+        }
+        .mat-column-fecha {
+            max-width: 80px;
+        }
+        .mat-column-pendiente,
+        .mat-column-enviado,
+        .mat-column-fallido {
+            max-width: 80px;
+        }
+        td.mat-column-pendiente {
+            text-align: right;
+            padding-right: 45px;
+        }
+        td.mat-column-enviado {
+            text-align: right;
+            padding-right: 60px;
+        }
+        td.mat-column-fallido {
+            text-align: right;
+            padding-right: 60px;
+        }
+    }
+    .item-enviar {
+        font-size: 25px;
+    }
+    .text-truncate{
+        display: table-cell !important;
+    }
+    .spiner{
+        margin: auto;
+    }
+}

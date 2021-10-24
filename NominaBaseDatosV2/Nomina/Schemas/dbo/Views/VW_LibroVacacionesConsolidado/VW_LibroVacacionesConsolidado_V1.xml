@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="VW_LibroVacacionesConsolidado_V1">
+<comment>Se agrega vista</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[VW_LibroVacacionesConsolidado]') IS NOT NULL
+BEGIN
+    DROP VIEW [dbo].[VW_LibroVacacionesConsolidado]
+END
+GO
+
+--=====================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 05-01-2020
+-- Description: Vista para obtener la información de libro de vacaciones
+--=====================================================================================
+
+CREATE VIEW [dbo].[VW_LibroVacacionesConsolidado]
+AS
+     SELECT DISTINCT
+       (f.Id), 
+       f.NumeroDocumento, 
+       CONCAT(f.PrimerNombre, ' ', f.PrimerApellido) AS Nombre, 
+(
+    SELECT COUNT(*)
+    FROM dbo.LibroVacaciones li
+         INNER JOIN dbo.Contrato c ON li.ContratoId = c.Id
+         INNER JOIN dbo.Funcionario f ON c.FuncionarioId = f.Id
+    WHERE c.FuncionarioId = co.FuncionarioId
+          AND li.Tipo = (SELECT vctlv.CAUSADO FROM util.VW_ConstanteTipoLibroVacaciones vctlv)
+) AS PeriodosPendientes, 
+(SELECT SUM(li.DiasCausados)
+    FROM dbo.LibroVacaciones li
+         INNER JOIN dbo.Contrato c ON li.ContratoId = c.Id
+         INNER JOIN dbo.Funcionario f ON c.FuncionarioId = f.Id
+    WHERE c.FuncionarioId = co.FuncionarioId
+          AND li.Tipo = (SELECT vctlv.CAUSADO FROM util.VW_ConstanteTipoLibroVacaciones vctlv)
+          AND li.DiasCausados != 0
+) AS DiasPendientes
+FROM dbo.LibroVacaciones lv
+     INNER JOIN dbo.Contrato co ON lv.ContratoId = co.Id
+     INNER JOIN dbo.Funcionario f ON co.FuncionarioId = f.Id
+	 WHERE lv.Tipo = (SELECT vctlv.CAUSADO FROM util.VW_ConstanteTipoLibroVacaciones vctlv)
+	 AND lv.DiasCausados != 0;
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[VW_LibroVacacionesConsolidado]') IS NOT NULL
+BEGIN
+    DROP VIEW [dbo].[VW_LibroVacacionesConsolidado]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

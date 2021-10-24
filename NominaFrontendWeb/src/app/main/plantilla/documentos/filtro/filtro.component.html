@@ -1,0 +1,59 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+        <mat-toolbar class="toolbar-filter">
+            <mat-toolbar-row>
+                <h1 mat-dialog-title>Filtro</h1>
+                <button  type="button" mat-icon-button (click)="dialogRef.close()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-toolbar-row>
+        </mat-toolbar>
+
+        <div mat-dialog-content fusePerfectScrollbar>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre">
+                <mat-error *ngFor="let error of nombre.errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Nombre de la plantilla.">info</mat-icon>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+                <mat-label>Grupo de documento</mat-label>
+                <mat-select formControlName="grupoDocumentoId">
+                    <mat-option [value]="null"></mat-option>
+                    <mat-option *ngFor="let item of grupos" [value]="item.id">
+                        {{item.nombre}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngFor="let error of grupoDocumentoId.errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Grupo de documento al que está asociado la plantilla.">info</mat-icon>
+            </mat-form-field>
+
+        </div>
+        <div mat-dialog-actions class="actions">
+            <button type="button" mat-raised-button (click)="limpiarHandle($event)">
+                <mat-icon>cancel</mat-icon>
+                <span>Borrar filtros</span>
+            </button>
+            <button type="submit" mat-raised-button [disabled]="form.invalid" color="accent">
+                <mat-icon>search</mat-icon>
+                <span>Buscar</span>
+            </button>
+        </div>
+</form>

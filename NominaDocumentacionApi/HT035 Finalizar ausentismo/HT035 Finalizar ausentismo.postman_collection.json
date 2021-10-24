@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "3ccf88ca-2e73-4798-a3b6-7987dd21a610",
+		"name": "HT035 Finalizar ausentismo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TareaProgramadaFinalizar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fecha\":\"2020-07-28\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/AusentismoFuncionarios/TareaProgramadaFinalizar",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"AusentismoFuncionarios",
+						"TareaProgramadaFinalizar"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

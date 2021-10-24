@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="UFT_ObtenerHistoricoNomina_V3">
+<comment>HU057</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerHistoricoNomina]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerHistoricoNomina]
+END
+GO
+-- =============================================
+-- Author:		Jhonatan Camilo Moreno Luna
+-- Create date: 27-05-2020
+-- Description: Obtener el Historico de la nomina segun el top que se desee y el tipo liquidacion
+-- Parametros:
+--	@Top INT: Entero para top de la consulta
+--	@NominaId INT: Id de la nomina
+-- Retorna: 
+-- @Tabla TABLE: Retorna el id de las nomina, los periodos y las sumatoria de Valor de NominaDetalle
+-- =============================================
+CREATE FUNCTION [dbo].[UFT_ObtenerHistoricoNomina](
+-- Add the parameters for the function here
+@Top      INT, 
+@NominaId INT)
+RETURNS @Table TABLE
+(
+-- Add the column definitions for the TABLE variable here
+Id      INT, 
+Periodo VARCHAR(255), 
+Total   MONEY
+)
+AS
+     BEGIN
+         -- Fill the table variable with the rows for your result set
+         DECLARE @ConceptoAgrupador INT;
+         DECLARE @NominaAplicada VARCHAR(255)=
+         (
+             SELECT vce.NOMINA_APLICADA
+             FROM util.VW_ConstanteEstado AS vce
+         );
+         DECLARE @AuditoriaActivo VARCHAR(255)=
+         (
+             SELECT vce.AUDITORIA_ACTIVO
+             FROM util.VW_ConstanteEstado AS vce
+         );
+         DECLARE @TipoLiquidacionId INT;
+         DECLARE @NominaFechaInicio DATE;
+
+         -- Datos de la nómina actual
+         SELECT @TipoLiquidacionId = nom.TipoLiquidacionId, 
+                @NominaFechaInicio = nom.FechaInicio
+         FROM dbo.Nomina AS nom
+         WHERE nom.Id = @NominaId;
+         SELECT @ConceptoAgrupador = tp.ConceptoNominaAgrupadorId
+         FROM dbo.TipoLiquidacion AS tp
+         WHERE tp.Id = @TipoLiquidacionId;
+         INSERT INTO @Table
+                SELECT TOP (@Top) nom.Id, 
+                                  Concat(SUBSTRING(FORMAT(nom.FechaInicio, 'MMMM', 'es-co'), 1, 3), '-', DATEPART(day, nom.FechaInicio)) AS Periodo, 
+                                  CAST(SUM(nde.Valor) AS MONEY) AS Total
+                FROM dbo.Nomina AS nom
+                     INNER JOIN dbo.NominaFuncionario AS nfu ON(nfu.NominaId = nom.Id)
+                     INNER JOIN dbo.NominaDetalle AS nde ON(nde.NominaFuncionarioId = nfu.Id)
+                     INNER JOIN dbo.ConceptoNomina AS cno ON(cno.Id = nde.ConceptoNominaId)
+                WHERE nom.TipoLiquidacionId = @TipoLiquidacionId
+                      AND nom.FechaInicio < @NominaFechaInicio
+                      AND nom.Estado = @NominaAplicada
+                      AND cno.Id = @ConceptoAgrupador
+                      AND nom.EstadoRegistro = @AuditoriaActivo
+                      AND nfu.EstadoRegistro = @AuditoriaActivo
+                      AND nde.EstadoRegistro = @AuditoriaActivo
+                GROUP BY nom.Id, 
+                         nom.FechaInicio
+                ORDER BY nom.FechaInicio ASC;
+         RETURN;
+     END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFT_ObtenerHistoricoNomina]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFT_ObtenerHistoricoNomina]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

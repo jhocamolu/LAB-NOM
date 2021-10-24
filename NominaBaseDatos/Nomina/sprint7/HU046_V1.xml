@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="HU046_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[ 
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- ==========================================================================================
+-- Author:      Jhonatan Camilo Moreno Luna
+-- Create date: 28/02/2020
+-- Description: Pemite identificar la Existencia de un objeto segun su tipo.
+-- Parameters:
+--  @ELEMENTO:  Nombre de Objeto de la base de datos que se desea buscar
+-- Returns:		Scalar
+--	 @EXISTE BIT:		Valor del Parametro 
+-- ==========================================================================================
+CREATE FUNCTION UFS_ExisteObjetoBaseDatos
+(
+	@ELEMENTO NVARCHAR(MAX)
+)
+RETURNS BIT
+AS
+BEGIN
+	DECLARE @EXISTE BIT
+	SET @EXISTE = (SELECT COUNT(name) valor FROM sys.all_objects where schema_id = 1 and type IN ('U', 'P', 'V', 'FN', 'TF') AND name = @ELEMENTO)
+	RETURN @EXISTE
+END
+GO
+	]]>
+</sql>
+<rollback>
+    DROP FUNCTION [dbo].[UFS_ExisteObjetoBaseDatos]
+</rollback>
+</changeSet>
+</databaseChangeLog>

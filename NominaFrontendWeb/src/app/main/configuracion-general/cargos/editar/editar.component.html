@@ -1,0 +1,421 @@
+<div class="page-layout simple fullwidth cargos-listar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/cargos">Cargos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Editar cargo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Editar cargo</h2>
+            </div>
+        </div>
+        <div class="Acciones">
+            <button mat-raised-button color="accent" mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngIf="arrayPermisosDependencias.crear" (click)="segundo()"
+                    (click)="dependenciaHandle($event)">
+                    <span>Agregar dependencias</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisosReporta.crear" (click)="tercero()"
+                    (click)="reportaHandle($event, cargoId)">
+                    <span>Agregar cargo al que reporta</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisosGrados.crear" (click)="cuarto()"
+                    (click)="gradoHandle($event)">
+                    <span>Agregar grado de los cargos</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisosGrupos.crear" (click)="quinto()"
+                    (click)="grupoHandle($event)">
+                    <span>Agregar grupo</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisosPresupuesto.crear" (click)="sexto()"
+                    (click)="presupuestoCrearHandle($event, cargoId)">
+                    <span>Agregar presupuesto</span>
+                </button>
+
+                <a routerLink="/configuracion/cargos" mat-menu-item>Volver</a>
+
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="box-shadow">
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="tabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+                    <!-- Formulario -->
+
+                    <form (ngSubmit)="guardarHandle($event)" name="form" [formGroup]="form">
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Código</mat-label>
+                                <input matInput placeholder="" formControlName="codigo" type="text" step="any" required>
+                                <mat-error *ngFor="let error of form.get('codigo').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Número o nombre que identifica el cargo.">
+                                    info</mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nivel del cargo</mat-label>
+                                <mat-select formControlName="nivelCargoId" step="any" required>
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let item of nivelCargoOptions" [value]="item.id">
+                                        {{ item.nombre }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('nivelCargoId').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Seleccione el nivel que ocupa este cargo en la compañía.">
+                                    info</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput placeholder="" formControlName="nombre" required>
+                            <mat-error *ngFor="let error of form.get('nombre').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Nombre del cargo.">info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Clase</mat-label>
+                                <mat-select formControlName="clase" required>
+                                    <mat-option></mat-option>
+                                    <mat-option value="CentroOperativo">Centro opertativo</mat-option>
+                                    <mat-option value="Nacional">Nacional</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('clase').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Selecciona la clasificación del cargo.">
+                                    info</mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>¿Obtener costos desde SICOM?</mat-label>
+                                <mat-select formControlName="costoSicom" required>
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="true">Si</mat-option>
+                                    <mat-option [value]="false">No</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('costoSicom').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Especifica si el cargo debe tener más de un centro de costo o solamente
+                                    se utiliza un solo centro de costo.">
+                                    info</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Objetivo del cargo</mat-label>
+                            <textarea matInput formControlName="objetivoCargo" required>
+                                            </textarea>
+                            <mat-error *ngFor="let error of form.get('objetivoCargo').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Breve descripción del propósito de este cargo.">
+                                info</mat-icon>
+                        </mat-form-field>
+
+                        <div class="actions">
+                            <a mat-raised-button routerLink="/configuracion/cargos/">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <button mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+                    </form>
+                    <!-- / Formulario -->
+                </mat-tab>
+                <!-- / Primer Label -->
+
+                <!-- Segundo Label -->
+                <mat-tab label="Dependencias">
+
+                    <alcanos-empty-list (fnCreate)="dependenciaHandle($event)"
+                        labelH1="¡Uy! Aún no has agregado ninguna dependencia." labelBtn="Agregar dependencia"
+                        [visible]="dependenciasList.length == 0">
+                    </alcanos-empty-list>
+
+                    <div *ngIf="dependenciasList.length > 0">
+                        <div>
+                            <table class="simple">
+                                <thead>
+                                    <tr>
+                                        <th class="mat-header-cell margen">Dependencias a las que pertenece</th>
+                                        <th class="mat-header-cell" style="text-align: center"
+                                            [ngStyle]="{'display': !( arrayPermisosDependencias.eliminar ) ? 'none' : ''}">
+                                            Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="mat-row" *ngFor="let item of dependenciasList">
+
+                                        <td class="margen">{{item.dependencia?.nombre}}</td>
+                                        <td class="text-center">
+                                            <button matTooltip="Eliminar" *ngIf="arrayPermisosDependencias.eliminar"
+                                                mat-icon-button (click)="deleteDependencias($event, item.id)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </mat-tab>
+                <!-- / Tercer Label -->
+
+                <!-- Tercer Label -->
+                <mat-tab label="Reporta a">
+                    <alcanos-empty-list (fnCreate)="reportaHandle($event, cargoId)"
+                        labelH1="¡Uy! Aún no has agregado ningún cargo al que reporta."
+                        labelBtn="Agregar cargo al que reporta" [visible]="estoyReportandoAList.length == 0">
+                    </alcanos-empty-list>
+
+                    <div *ngIf="estoyReportandoAList.length > 0">
+                        <div fxLayout="row">
+                            <table class="simple">
+                                <thead>
+                                    <tr>
+                                        <th class="mat-header-cell margen">Dependencia del cargo</th>
+                                        <th class="mat-header-cell">Dependencia superior</th>
+                                        <th class="mat-header-cell">Cargo superior</th>
+                                        <th class="mat-header-cell">Jefe inmediato</th>
+                                        <th class="mat-header-cell" style="text-align: center"
+                                            [ngStyle]="{'display': !( arrayPermisosReporta.eliminar ) ? 'none' : ''}">
+                                            Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="mat-row" *ngFor="let item of estoyReportandoAList">
+                                        <td class="margen tamanio">{{item.cargoDependencia?.dependencia.nombre}}</td>
+                                        <td>{{item.cargoDependenciaReporta.dependencia?.nombre}}</td>
+                                        <td>{{item.cargoDependenciaReporta.cargo?.nombre}}</td>
+                                        <td>{{item.jefeInmediato == true ? 'Si' : 'No'}}</td>
+                                        <td class="text-center">
+                                            <button matTooltip="Eliminar" *ngIf="arrayPermisosReporta.eliminar"
+                                                mat-icon-button (click)="deleteReporta($event, item.id)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </mat-tab>
+                <!-- / Segundo Label -->
+
+
+                <!-- Cuerto Label -->
+                <mat-tab label="Grados">
+
+                    <alcanos-empty-list (fnCreate)="gradoHandle($event)"
+                        labelH1="¡Uy! Aún no has agregado ningún grado." labelBtn="Agregar grado"
+                        [visible]="cargoGradosList.length == 0">
+                    </alcanos-empty-list>
+
+                    <div *ngIf="cargoGradosList.length > 0">
+
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <table class="simple">
+                                <thead>
+                                    <tr>
+                                        <th class="mat-header-cell margen">Nombre</th>
+                                        <th class="mat-header-cell">Descripción</th>
+                                        <th class="mat-header-cell" style="text-align: center;">Activo</th>
+                                        <th class="mat-header-cell" style="text-align: center;"
+                                            [ngStyle]="{'display': !( arrayPermisosGrados.eliminar ) ? 'none' : ''}">
+                                            Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="mat-row" *ngFor="let item of cargoGradosList">
+                                        <td class="margen tamanio">{{item.nombre}}</td>
+                                        <td>{{item.descripcion}}</td>
+                                        <!-- Columna activo -->
+                                        <td class="text-center">
+                                            <button mat-icon-button>
+                                                <mat-icon
+                                                    [ngClass]="item.estadoRegistro === 'Activo' ? 'text-success' : 'text-danger'"
+                                                    matTooltip="{{item.estadoRegistro === 'Activo' ? 'Inactivar' : 'Activar'}}"
+                                                    (click)="arrayPermisosGrados.estadoRegistro && item.estado !==
+                                                    'Aplicada' ? activarHandle($event, item) : null">
+                                                    {{item.estadoRegistro === 'Activo' ? 'check' : 'clear'}}
+                                                </mat-icon>
+
+                                            </button>
+                                            <!-- <button mat-icon-button (click)="arrayPermisosGrados.estadoRegistro"
+                                                [matTooltip]="item.estadoRegistro == 'Activo' ? 'Inactivar': 'Activar' "
+                                                (click)="activarHandle($event, item)">
+                                                <mat-icon *ngIf="item.estadoRegistro == 'Activo'" class="s-20"
+                                                    [ngStyle]="{'color':'green'}">check</mat-icon>
+                                                <mat-icon *ngIf="item.estadoRegistro != 'Activo'" class="s-20"
+                                                    [ngStyle]="{'color':'red'}">close</mat-icon>
+                                            </button> -->
+                                        </td>
+                                        <td class="text-center">
+                                            <button matTooltip="Eliminar" *ngIf="arrayPermisosGrados.eliminar"
+                                                mat-icon-button (click)="deleteGrado($event, item.id)"
+                                                aria-label="Editar">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </mat-tab>
+                <!-- / Cuerto Level-->
+
+                <!-- quinto Label -->
+                <mat-tab label="Grupos">
+
+                    <alcanos-empty-list (fnCreate)="grupoHandle($event)"
+                        labelH1="¡Uy! Aún no has agregado ningún grupo." labelBtn="Agregar grupo"
+                        [visible]="cargoGruposList.length == 0">
+                    </alcanos-empty-list>
+
+
+                    <table class="simple" *ngIf="cargoGruposList.length > 0">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen">Nombre</th>
+                                <th class="mat-header-cell">Grupo por defecto</th>
+                                <th class="mat-header-cell" style="text-align: center;" [ngStyle]="{'display': !( arrayPermisosGrupos.eliminar ) ? 'none'
+                                    : ''}">Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of cargoGruposList" class="mat-row">
+                                <td class="margen tamanio">{{item.grupo?.nombre}}</td>
+                                <td>{{item.defecto == true ?'Si': 'No'}}</td>
+                                <td class="text-center">
+                                    <button matTooltip="Eliminar" mat-icon-button
+                                        *ngIf="arrayPermisosGrupos.eliminar &&(!defecto.true == item.defecto)"
+                                        (click)="deleteGrupo($event, item.id)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-tab>
+                <!-- / quinto Level-->
+
+                <!-- quinto Label -->
+                <mat-tab label="Presupuesto">
+
+                    <alcanos-empty-list (fnCreate)="presupuestoCrearHandle($event, cargoId)"
+                        labelH1="¡Uy! Aún no has agregado ningún presupuesto." labelBtn="Agregar presupuesto"
+                        [visible]="cargoPresupuetosList.length == 0">
+                    </alcanos-empty-list>
+
+
+                    <table class="simple" *ngIf="cargoPresupuetosList.length > 0">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen">Año</th>
+                                <th class="mat-header-cell" style="text-align: right; padding-right: 32px;">Cantidad
+                                </th>
+                                <th class="mat-header-cell" style="text-align: center;"
+                                    [ngStyle]="{'display': !( arrayPermisosPresupuesto.actualizar ) ? 'none': ''}">Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of cargoPresupuetosList" class="mat-row">
+                                <td class="margen tamanio">{{item.annoVigencia?.anno}}</td>
+                                <td style="text-align: right; padding-right: 32px;">{{item.cantidad}}</td>
+                                <td class="text-center">
+                                    <button [disabled]="item.annoVigencia?.estado != 'Vigente'" mat-icon-button *ngIf="arrayPermisosPresupuesto.actualizar"
+                                        (click)="presupuestoEditarHandle($event, item)">
+                                        <mat-icon matTooltip="Editar" class="s-20">edit</mat-icon>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-tab>
+                <!-- / quinto Level-->
+            </mat-tab-group>
+
+        </div>
+
+    </div>

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="VW_ConstanteParametroGeneral_V3">
+<comment>Retefuente</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteParametroGeneral]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteParametroGeneral]
+END
+GO
+
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 21-04-2020
+-- Description: Vista que permite la simulación de constantes para los parámetros generales
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [util].[VW_ConstanteParametroGeneral]
+AS
+SELECT 
+		-- Parámetros generales
+		CAST('conceptoDescuentoLibranza' AS VARCHAR(255)) AS [CONCEPTODESCUENTOLIBRANZA]
+		,CAST('decimalesMostrar' AS VARCHAR(255)) AS [DECIMALESMOSTRAR]
+		,CAST('diasTrabajados' AS VARCHAR(255)) AS [DIASTRABAJADOS]
+		,CAST('diasLey' AS VARCHAR(255)) AS [DIASLEY]
+        ,CAST('diasCalendario' AS VARCHAR(255)) AS [DIASCALENDARIO]
+		,CAST('basePrimaCesantiasMes' AS VARCHAR(255)) AS BASEPRIMACESANTIASMES
+		,CAST('ProvCesantias' AS VARCHAR(255)) AS [PROVCESANTIAS]
+		,CAST('ProvIntCesantias' AS VARCHAR(255)) AS [PROVINTCESANTIAS]
+		,CAST('CesantiasConsolidadas' AS VARCHAR(255)) AS [CESANTIASCONSOLIDADAS]
+		,CAST('InteresCesantiasConsolidadas' AS VARCHAR(255)) AS [INTERESESCESANTIASCONSOLIDADAS]
+		
+		,CAST('conceptoPagosBrutosRetefuente' AS VARCHAR(255)) AS [PAGOSBRUTOSRETEFUENTE]
+		,CAST('conceptoIngresosNoGravablesRetefuente' AS VARCHAR(255)) AS [INGRESOSNOGRAVABLESRETEFUENTE]
+		,CAST('conceptoRentasExentasRetefuente' AS VARCHAR(255)) AS [RENTASEXENTASRETEFUENTE]
+		,CAST('rentaExenta' AS VARCHAR(255)) AS [RENTAEXENTA]
+		,CAST('multiploRedondeos' AS VARCHAR(255)) AS [MULTIPLOREDONDEOS]
+		,CAST('porcentajeLimiteDeducciones' AS VARCHAR(255)) AS [PORCENTAJELIMITEDEDUCCIONES]
+		,CAST('porcentajeDeduccionDependientes' AS VARCHAR(255)) AS [PORCENTAJEDEDUCCIONDEPENDIENTES]
+		,CAST('uvtLimiteDeduccionesYRentas' AS VARCHAR(255)) AS [UVTLIMITEDEDUCCIONESYRENTAS]
+		,CAST('uvtAnual' AS VARCHAR(255)) AS [UVTANUAL]
+		,CAST('conceptoBaseRetefuente' AS VARCHAR(255)) AS [BASERETEFUENTE]
+		,CAST('conceptoBaseRetefuenteRecalculo' AS VARCHAR(255)) AS [BASERETEFUENTERECALCULO]
+GO
+
+-- Descripción de la vista 
+EXEC sys.sp_addextendedproperty 
+		@name=N'MS_Description', 
+		@value=N'Vista que permite la simulación de constantes para los parámetros generales.' , 
+		@level0type=N'SCHEMA', @level0name=N'util', 
+		@level1type=N'VIEW', @level1name=N'VW_ConstanteParametroGeneral'
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Concepto que se usará para descuento de libranza.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'CONCEPTODESCUENTOLIBRANZA';  
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Cantidad de números decimales que se pueden mostrar en la nómina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DECIMALESMOSTRAR';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al número de días trabajados .',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DIASTRABAJADOS';  
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al número de días al que se tieine derecho por un período causado.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DIASLEY';  
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al número de días al que se tieine derecho por un período causado.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DIASCALENDARIO';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'BASEPRIMACESANTIASMES';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'PROVCESANTIAS';  
+GO
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'PROVINTCESANTIAS';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'CESANTIASCONSOLIDADAS';  
+GO
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'INTERESESCESANTIASCONSOLIDADAS';  
+GO
+
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Concepto que agrupa los ingresos constitutivos para el cálculo de retención en la fuente.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'PAGOSBRUTOSRETEFUENTE';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Concepto que agrupa los ingresos no gravables para el cálculo de retención en la fuente.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'INGRESOSNOGRAVABLESRETEFUENTE';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Concepto que agrupa las rentas exentas para el cálculo de retención en la fuente.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'RENTASEXENTASRETEFUENTE';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Porcentaje de renta exenta de trabajo.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'RENTAEXENTA';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Múltiplo para redondeo.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'MULTIPLOREDONDEOS';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Porcentaje para el control al límite de las deducciones y rentas exentas.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'PORCENTAJELIMITEDEDUCCIONES';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Porcentaje para el control al límite de las deducciones y rentas exentas.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'PORCENTAJEDEDUCCIONDEPENDIENTES';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Número de UVTs límite para las deducciones y rentas.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'UVTLIMITEDEDUCCIONESYRENTAS';  
+GO
+
+
+
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteParametroGeneral]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteParametroGeneral]
+END
+GO
+
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 21-04-2020
+-- Description: Vista que permite la simulación de constantes para los parámetros generales
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [util].[VW_ConstanteParametroGeneral]
+AS
+SELECT 
+		-- Parámetros generales
+		CAST('conceptoDescuentoLibranza' AS VARCHAR(255)) AS [CONCEPTODESCUENTOLIBRANZA]
+		,CAST('decimalesMostrar' AS VARCHAR(255)) AS [DECIMALESMOSTRAR]
+		,CAST('diasTrabajados' AS VARCHAR(255)) AS [DIASTRABAJADOS]
+		,CAST('diasLey' AS VARCHAR(255)) AS [DIASLEY]
+        ,CAST('diasCalendario' AS VARCHAR(255)) AS [DIASCALENDARIO]
+		,CAST('basePrimaCesantiasMes' AS VARCHAR(255)) AS BASEPRIMACESANTIASMES
+		,CAST('ProvCesantias' AS VARCHAR(255)) AS [PROVCESANTIAS]
+		,CAST('ProvIntCesantias' AS VARCHAR(255)) AS [PROVINTCESANTIAS]
+		,CAST('CesantiasConsolidadas' AS VARCHAR(255)) AS [CESANTIASCONSOLIDADAS]
+		,CAST('InteresCesantiasConsolidadas' AS VARCHAR(255)) AS [INTERESESCESANTIASCONSOLIDADAS]
+GO
+
+-- Descripción de la vista 
+EXEC sys.sp_addextendedproperty 
+		@name=N'MS_Description', 
+		@value=N'Vista que permite la simulación de constantes para los parámetros generales.' , 
+		@level0type=N'SCHEMA', @level0name=N'util', 
+		@level1type=N'VIEW', @level1name=N'VW_ConstanteParametroGeneral'
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Concepto que se usará para descuento de libranza.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'CONCEPTODESCUENTOLIBRANZA';  
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Cantidad de números decimales que se pueden mostrar en la nómina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DECIMALESMOSTRAR';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al número de días trabajados .',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DIASTRABAJADOS';  
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al número de días al que se tieine derecho por un período causado.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DIASLEY';  
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al número de días al que se tieine derecho por un período causado.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DIASCALENDARIO';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'BASEPRIMACESANTIASMES';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'PROVCESANTIAS';  
+GO
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'PROVINTCESANTIAS';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'CESANTIASCONSOLIDADAS';  
+GO
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'INTERESESCESANTIASCONSOLIDADAS';  
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

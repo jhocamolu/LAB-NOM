@@ -1,0 +1,289 @@
+<!-- CONTENIDO -->
+<!-- CONTENIDO -->
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon color="accent" class="mat-icon24">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Novedades</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a [routerLink]="'/novedades/embargos/'">Embargos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar embargo</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar embargo</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a mat-menu-item routerLink="/novedades/embargos/{{embargo.id}}/editar"
+                    *ngIf="arrayPermisos.actualizar && (!periodoLiquidacion &&  !embargo.incluidoLiquidacion) && (embargo.estado !== 'Anulado' && embargo.estado !== 'Terminado')">
+                    <span>Editar</span>
+                </a>
+
+                <button mat-menu-item
+                    *ngIf="arrayPermisos.cambiarEstado && (!periodoLiquidacion &&  !embargo.incluidoLiquidacion)  && (embargo.estado !== 'Anulado' && embargo.estado !== 'Terminado')"
+                    (click)="arrayPermisos.cambiarEstado ? anularHandle($event, embargo) : snackSinPermiso()">
+                    <span>Anular</span>
+                </button>
+
+                <button mat-menu-item *ngIf="arrayPermisos.cambiarEstado && periodoLiquidacion"
+                    (click)="arrayPermisos.cambiarEstado ? terminarHandle($event, embargo) : snackSinPermiso()">
+                    <span>Terminar</span>
+                </button>
+                <a routerLink="/novedades/embargos/" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div *ngIf="embargo" class="visualizar">
+            <div fusePerfectScrollbar>
+                <div>
+                    <h3>
+                        Funcionario
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Número de identificación y nombre completo del funcionario.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{embargo.funcionario.criterioBusqueda}}</p>
+                </div>
+
+                <div>
+                    <h3>
+                        Tipo de embargo
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Nombre del tipo de embargo relacionado al embargo.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{embargo.tipoEmbargo?.nombre}}</p>
+                </div>
+
+                <div>
+                    <h3>
+                        Juzgado
+                        <mat-icon class="s-16" matSuffix matTooltip="Nombre del juzgado que emite la orden de embargo.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{embargo.juzgado != null ? embargo.juzgado?.nombre : 'N/A'}}</p>
+                </div>
+
+                <div>
+                    <h3>
+                        Proceso
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Número del proceso contenido en la orden de embargo.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{embargo.numeroProceso != null ? embargo.numeroProceso : 'N/A'}}</p>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Prioridad
+                            <mat-icon class="s-16" matSuffix matTooltip="Número de prioridad del embargo.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{embargo.prioridad}}</p>
+                    </div>
+                    <div>
+                        <h3>
+                            Entidad financiera
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Entidad financiera donde se consigna la cuota del embargo.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{embargo.entidadFinanciera?.nombre}}</p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Cuenta a consignar
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Número de la cuenta a consignar la cuota del embargo.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{embargo.numeroCuenta}}</p>
+                    </div>
+                    <div>
+                        <h3>
+                            Documento demandante
+                            <mat-icon class="s-16" matSuffix matTooltip="Número de identificación del demandante.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{embargo.numeroDocumentoDemandante}}
+                            {{embargo.digitoVerificacionDemandante != null ? ' - '+embargo.digitoVerificacionDemandante : ''}}
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>
+                        Demandante
+                        <mat-icon class="s-16" matSuffix matTooltip="Nombre del demandante.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{embargo.demandante}}</p>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Fecha de inicio
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Fecha inicial del desembolso de la cuota del embargo.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{embargo.fechaInicio != null ? (embargo.fechaInicio | date:'dd / LL / yyyy') : 'N/A'}}
+                        </p>
+                    </div>
+                    <div>
+                        <h3>
+                            Fecha fin
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Fecha final del desembolso de la cuota del embargo.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{embargo.fechaFin != null ? (embargo.fechaFin | date:'dd / LL / yyyy') : 'N/A' }}
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>
+                        Estado
+                        <mat-icon class="s-16" matSuffix matTooltip="Estado en el que se encuentra el embargo.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{embargo.estado}}</p>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Valor del embargo
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Indica cuál es el valor total del embargo contenido en la orden de embargo.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{embargo.valorEmbargo != null ? (embargo.valorEmbargo | currency:'COP':'symbol-narrow':'4.2-2': 'co') : 'N/A' }}
+                        </p>
+                    </div>
+                    <div>
+                        <h3>
+                            Valor cuota
+                            <mat-icon class="s-16" matSuffix matTooltip="Valor de la cuota del embargo.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{ embargo.valorCuota != null ? (embargo.valorCuota | currency:'COP':'symbol-narrow':'4.2-2': 'co') : 'N/A' }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Porcentaje cuota
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Porcentaje de la cuota del embargo a descontar.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{embargo.porcentajeCuota != null ? embargo.porcentajeCuota : 'N/A' }}</p>
+                    </div>
+                    <div>
+                        <h3>
+                            Período de pago
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Indica en qué período de pago se descuenta el valor de la cuota del embargo.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{embargo?.embargoSubperiodos[0]?.subPeriodo?.tipoPeriodo?.nombre}}</p>
+                    </div>
+                </div>
+
+                <div class="dos-bloque">
+                    <div>
+                        <h3>
+                            Periodicidad
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Indica cuál es la periodicidad para realizar el descuento de la cuota del embargo.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        
+                        <p>
+                            <span class="subperiodo" *ngFor="let sub of embargo.embargoSubperiodos">
+                                {{ sub.subPeriodo?.nombre }}<i></i>
+                            </span>
+                        </p>
+
+                    </div>
+
+                    <div>
+                        <h3>
+                            Conceptos a Embargar
+                            <mat-icon class="s-16" matSuffix
+                                matTooltip="Indica cuál o cuáles son los conceptos a embargar según lo emitido en la orden de embargo.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <span *ngIf="concepto.length === 0">
+                            No existe información.
+                        </span>
+                        <p class="subperiodo" *ngIf="concepto.length > 0">
+                            <span class="subperiodo" *ngFor="let item of concepto">
+                                {{item.conceptoNomina?.nombre}}<i></i>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>
+                        Justificación
+                        <mat-icon class="s-16" matSuffix
+                            matTooltip="Descripción del porqué de la anulación o terminación del embargo.">
+                            info
+                        </mat-icon>
+                    </h3>
+                    <p>{{embargo.justificacion != null ? embargo.justificacion : 'N/A' }}</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

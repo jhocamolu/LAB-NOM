@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="NotificacionPlantilla_Datos_v3">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[NotificacionPlantilla] ON
+GO
+INSERT INTO dbo.NotificacionPlantilla (Id,Alias,Descripcion,Plantilla,EstadoRegistro,CreadoPor,FechaCreacion) VALUES 
+(4,'NotificacionRegistroPortalReclutamiento','Bienvenido(a) a nuestro portal de reclutamiento','<div><p>Hola |&|PRIMERNOMBREUSUARIO|&|!</p><p>Te damos la bienvenida al portal de reclutamiento de |&|RAZONSOCIAL|&|, donde podrás encontrar las mejores oportunidades laborales que contribuirán al desarrollo de tus capacidades.Para iniciar sesión en tu cuenta, debes hacerlo con el siguiente usuario y contraseña:</p><p>Usuario: |&|USUARIO|&|</p><p>Contraseña: |&|CLAVE|&|</p><p>¡Un saludo, y nuevamente bienvenido(a)!</p></div>','Activo','sistema', GETDATE());
+
+INSERT INTO dbo.NotificacionPlantilla (Id,Alias,Descripcion,Plantilla,EstadoRegistro,CreadoPor,FechaCreacion) VALUES 
+(5,'NotificacionRecuperacionContraseña','Notificación de recuperación de contraseña','<div><p>Hola |&|PRIMERNOMBREUSUARIO|&|!</p><p>Hemos recuperado tu contraseña. Podrás acceder al portal de reclutamiento de |&|RAZONSOCIAL|&| con la contraseña |&|CLAVE|&|.</p></div>','Activo','sistema', GETDATE());
+
+INSERT INTO dbo.NotificacionPlantilla (Id,Alias,Descripcion,Plantilla,EstadoRegistro,CreadoPor,FechaCreacion) VALUES 
+(6,'NotificacionAplicacionConvocatoria','Has aplicado a una convocatoria exitosamente','<div><p>Hola |&|PRIMERNOMBREUSUARIO|&|!</p><p>Has aplicado a la convocatoria de |&|CARGOSOLICITADO|&|. Gracias por tenernos en cuenta. Recuerda actualizar tu hoja de vida para aumentar las posibilidades de hacer parte de nuestra compañía.</p></div>','Activo','sistema', GETDATE());
+
+SET IDENTITY_INSERT [dbo].[NotificacionPlantilla] OFF
+GO
+
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[NotificacionPlantilla] WHERE Id IN (4,5,6);
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

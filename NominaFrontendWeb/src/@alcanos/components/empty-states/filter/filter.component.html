@@ -1,0 +1,19 @@
+<div class="empty" *ngIf="visible" fxLayoutAlign="center center" fxLayout="column">
+    <img src="/assets/alcanos/empty_state_filtro.svg" />
+    <div fxLayout="row">
+        <h1>Ooh oh, lo sentimos, no hay resultados.</h1>
+    </div>
+    <div fxLayout="row">
+        <h2>Borra los filtros o intenta con nuevos.</h2>
+    </div>
+    <div fxLayout="row" fxLayoutGap="10px">
+        <button mat-raised-button (click)="fnClearHandler($event)" *ngIf="visibleBtnClear">
+                <mat-icon>cancel</mat-icon>
+                <span>Borrar filtros</span>
+            </button>
+        <button mat-raised-button color="accent" (click)="fnFilterHandler($event)" *ngIf="visibleBtnFilter">
+                <mat-icon>filter_list</mat-icon>
+                <span>Nuevos filtros</span>
+            </button>
+    </div>
+</div>

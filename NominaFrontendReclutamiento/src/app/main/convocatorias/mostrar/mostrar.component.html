@@ -1,0 +1,100 @@
+<div class="page-layout simple fullwidth">
+    <!-- CONTENT -->
+    <div class="content">
+        <div *ngIf="loading" class="container_spinner">
+            <mat-spinner class="spinner"></mat-spinner>
+        </div>
+        <div *ngIf="item" [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}">
+            <div mat-dialog-content>
+                <div class="row">
+                    <div class="col-12">
+                        <h2>
+                            {{item.cargoDependenciaSolicitado?.cargo?.nombre}}
+                        </h2>
+                    </div>
+
+                    <div class="col-12">
+                        <h3>
+                            Perfil
+                        </h3>
+                        <p>{{item.perfilCargo}}</p>
+                    </div>
+                    <div class="col-12">
+                        <h3>
+                            Competencia
+                        </h3>
+                        <p>
+                            {{item.competenciaCargo}}
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h3>
+                            Cargo
+                        </h3>
+                        <p>
+                            {{item.cargoDependenciaSolicitado?.cargo?.nombre}}
+                        </p>
+                    </div>
+    
+                    <div class="col-md-6">
+                        <h3>
+                            Ciudad
+                        </h3>
+                        <p>
+                            {{item.divisionPoliticaNivel2?.nombre}}
+                        </p>
+                    </div>
+    
+                    <div class="col-md-6">
+                        <h3>
+                            Salario
+                        </h3>
+                        <p>
+                            {{item.salario | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h3>
+                            Número de vacantes
+                        </h3>
+                        <p>
+                            {{item.cantidad}}
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h3>
+                            Tipo de contrato
+                        </h3>
+                        <p>
+                            {{item.tipoContrato?.nombre}}
+                        </p>
+                    </div>
+
+                    <div class="col-12 pt-2 pb-2">
+                            <div class="col-md-6 offset-md-6 text-center">
+                                    <a mat-raised-button class="m-2" (click)="changeMenu()">
+                                        <mat-icon>cancel</mat-icon>
+                                        <span>Cancelar</span>
+                                    </a>
+                                    <button type="submit" mat-raised-button color="accent" class="m-2" (click)="aplicarConvocatoria()">
+                                        <mat-icon>check</mat-icon>
+                                        <span>Aplicar</span>
+                                    </button>
+                                </div>
+                        </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--/ CONTENIDO-->
+
+</div>
+
+<div class="div_spinner" *ngIf="loadingSave">
+    <mat-spinner class="spinner_save" color="#066f77"></mat-spinner>
+</div>

@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ActualizarLibroVacaciones_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ActualizarLibroVacaciones', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ActualizarLibroVacaciones as SELECT 1');
+END;
+GO
+
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 23/04/2020
+-- Description:	Procedimiento almacenado, el cual se encarga de actualizar 
+--				la información del libro de vacaciones para el funcionario.
+-- =============================================
+ALTER PROCEDURE [dbo].[USP_ActualizarLibroVacaciones]
+AS
+    BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= 'NULL';
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        DECLARE @FuncionarioId INT;
+        DECLARE @ContratoId INT;
+        DECLARE @EstadoContrato VARCHAR(255);
+        --DECLARE @TipoAnticipado VARCHAR(255) = 
+        -- DECLARE @TipoCausado VARCHAR(255) = ;
+		DECLARE @Tipo VARCHAR(255);
+        DECLARE @LibroVacacionesId INT;
+        DECLARE @InicioCausacion DATE;
+        DECLARE @FinCausacion DATE;
+        DECLARE @FechaActual DATE= CONVERT(DATE, GETDATE());
+        DECLARE @DiasTrabajados INT ;
+        DECLARE @DiasLey INT;
+        DECLARE @DiasAno INT;
+        DECLARE @DiasCausados INT;
+		DECLARE @DiasDisponibles FLOAT;
+		DECLARE @DiasDisfrute INT;
+		DECLARE @DiasDinero INT;
+		DECLARE @DiasInterrupcion INT;
+		DECLARE @DiasDebe FLOAT;
+		DECLARE @DiasDebeAnteriores FLOAT;
+		DECLARE @BanderaActualizar BIT;
+
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+
+            -- Inicio de la transacción
+            BEGIN TRAN LibroVacaciones;
+
+            -- Crea Cursor
+            DECLARE CUR_LibroVacaciones CURSOR LOCAL
+            FOR 				SELECT lib.Id, 
+                       con.FuncionarioId, 
+                       lib.ContratoId,                        
+					   lib.DiasCausados,
+					   con.Estado,
+                       lib.InicioCausacion, 
+                       lib.FinCausacion, 
+                (
+                    SELECT util.UFS_ObtenerParametro
+                    (
+                    (
+                        SELECT DIASLEY
+                        FROM util.VW_ConstanteParametroGeneral
+                    )
+                    )
+                ) AS DiasLey, 
+                (
+                    SELECT util.UFS_ObtenerParametro
+                    (
+                    (
+                        SELECT DIASTRABAJADOS
+                        FROM util.VW_ConstanteParametroGeneral
+                    )
+                    )
+                ) AS DiasAno
+                FROM LibroVacaciones lib
+                     INNER JOIN Contrato con ON con.Id = lib.ContratoId
+                WHERE lib.EstadoRegistro =
+                (
+                    SELECT AUDITORIA_ACTIVO
+                    FROM util.VW_ConstanteEstado
+                )
+                      AND con.EstadoRegistro =
+                (
+                    SELECT AUDITORIA_ACTIVO
+                    FROM util.VW_ConstanteEstado
+                )
+                      AND lib.Tipo =
+                (
+                    SELECT LIBROVACACIONES_ANTICIPADO
+                    FROM util.VW_ConstanteEstado
+                )
+                 AND (
+                  con.Estado =
+                  (
+	                    SELECT CONTRATO_VIGENTE
+	                    FROM util.VW_ConstanteEstado
+	               ) 
+	               OR 
+	               con.Estado =
+	                (
+	                    SELECT CONTRATO_TERMINADO
+	                    FROM util.VW_ConstanteEstado
+	                )
+                );
+            OPEN CUR_LibroVacaciones;
+            FETCH NEXT FROM CUR_LibroVacaciones INTO @LibroVacacionesId, @FuncionarioId, @ContratoId,@DiasCausados, @EstadoContrato, @InicioCausacion, @FinCausacion, @DiasLey, @DiasAno;
+            WHILE @@fetch_status = 0
+            BEGIN
+					SET @BanderaActualizar = 1;
+                    SET @DiasTrabajados = 0;
+                    SET @DiasCausados= 0;
+                    SET @DiasDisponibles = 0;
+					SET @DiasDisfrute = 0;
+					SET @DiasDinero = 0;
+					SET @DiasDebe = 0;
+					SET @DiasDebeAnteriores = 0;
+					
+					--Obtener días interrupción 
+					EXECUTE @DiasInterrupcion = [dbo].[USP_ObtenerDiasInterrupcion] @LibroVacacionesId;
+					
+					 -- Consulta Días a pagar del funcionario.
+					EXEC @DiasTrabajados = [dbo].[USP_ObtenerDiasApagar] 
+							@FuncionarioId = @FuncionarioId, 
+							@FechaInicial = @InicioCausacion, 
+							@FechaFinal = @FechaActual;
+						
+					-- Calcula días causados
+                    SET @DiasCausados = (@DiasLey * @DiasTrabajados) / @DiasAno;
+						
+					-- Obtener días disfrute, días en dinero
+					IF ((SELECT COUNT(Id) FROM SolicitudVacaciones 
+								WHERE LibroVacacionesId = @LibroVacacionesId  AND
+								(Estado = (SELECT SOLICITUDVACACIONES_AUTORIZADA FROM util.VW_ConstanteEstado ) OR
+								Estado = (SELECT SOLICITUDVACACIONES_ENCURSO FROM util.VW_ConstanteEstado ) OR
+								Estado = (SELECT SOLICITUDVACACIONES_TERMINADA FROM util.VW_ConstanteEstado ))) >= 1 )
+					BEGIN 
+						SELECT  @DiasDisfrute =  SUM(DiasDisfrute), @DiasDinero = SUM(DiasDinero) FROM SolicitudVacaciones 
+						WHERE LibroVacacionesId = @LibroVacacionesId  AND
+						(Estado = (SELECT SOLICITUDVACACIONES_AUTORIZADA FROM util.VW_ConstanteEstado ) OR
+						Estado = (SELECT SOLICITUDVACACIONES_ENCURSO FROM util.VW_ConstanteEstado ) OR
+						Estado = (SELECT SOLICITUDVACACIONES_TERMINADA FROM util.VW_ConstanteEstado ));
+					END
+					
+					-- Obtener días que debe de períodos anteriores
+					IF ((SELECT COUNT(Id) FROM dbo.LibroVacaciones WHERE ContratoId = @ContratoId
+							AND DiasDebe <> 0 AND Id <> @LibroVacacionesId )   >= 1 )
+					BEGIN
+						SELECT @DiasDebeAnteriores = SUM(DiasDebe) FROM dbo.LibroVacaciones WHERE ContratoId = @ContratoId;
+					END
+					
+					-- Calcula días disponibles 
+					IF ((@DiasDisfrute + @DiasDinero) > ( @DiasCausados + @DiasInterrupcion ))
+					BEGIN
+						SET @DiasDisponibles =  0;
+						SET @DiasDebe = (@DiasDisfrute + @DiasDinero +  @DiasDebeAnteriores) - ( @DiasCausados + @DiasInterrupcion );
+					END
+					ELSE
+					BEGIN
+						SET @DiasDisponibles = ( @DiasCausados + @DiasInterrupcion ) - (@DiasDisfrute + @DiasDinero+ @DiasDebeAnteriores) ;
+						SET @DiasDebe = 0;
+					END
+					
+					-- Actualiza tipo a Causado si el contrato está en terminado
+                    IF @EstadoContrato =
+                    (
+                        SELECT CONTRATO_TERMINADO
+                        FROM util.VW_ConstanteEstado
+                    )
+                    BEGIN
+						SET @Tipo = (
+							SELECT LIBROVACACIONES_CAUSADO
+							FROM util.VW_ConstanteEstado
+						);
+                    END;
+					 -- Valia que el estado del contrato sea vigente
+					 IF @EstadoContrato =
+                    (
+                        SELECT CONTRATO_VIGENTE
+                        FROM util.VW_ConstanteEstado
+                    )
+                    BEGIN
+                       IF( @FinCausacion = @FechaActual )
+					   BEGIN
+							SET @Tipo = (
+								SELECT LIBROVACACIONES_CAUSADO
+								FROM util.VW_ConstanteEstado
+							);
+
+							-- Crear un nuevo registro en el libro de vacaciones
+                            INSERT INTO LibroVacaciones
+                            (EstadoRegistro, 
+                                CreadoPor, 
+                                FechaCreacion, 
+                                ContratoId, 
+                                InicioCausacion, 
+                                FinCausacion, 
+                                Tipo, 
+                                DiasTrabajados, 
+                                DiasCausados, 
+                                DiasDisponibles,
+								DiasDebe
+                            )
+                            VALUES
+                            (
+                            (
+                                SELECT AUDITORIA_ACTIVO
+                                FROM util.VW_ConstanteEstado
+                            ), 
+                            'sistema', 
+                            GETDATE(), 
+                            @ContratoId, 
+                            DATEADD(DAY, 1, @FinCausacion), 
+                            @FinCausacion, 
+                            ( SELECT LIBROVACACIONES_ANTICIPADO FROM util.VW_ConstanteEstado
+							), 
+                            @DiasTrabajados, 
+                            @DiasCausados, 
+                            @DiasDisponibles,
+							@DiasDebe
+                            );
+					   END
+					   IF( @FinCausacion > @FechaActual )
+					   BEGIN
+							SET @Tipo = ( SELECT LIBROVACACIONES_ANTICIPADO FROM util.VW_ConstanteEstado
+								);
+					   END
+                       
+                    END;
+					PRINT '@LibroVacacionesId'+ CONVERT(VARCHAR,@LibroVacacionesId);
+					PRINT '@EstadoContrato'+ CONVERT(VARCHAR,@EstadoContrato);
+					PRINT 'DiasTrabajados'+ CONVERT(VARCHAR,@DiasTrabajados);
+					PRINT '@DiasCausados'+ CONVERT(VARCHAR,@DiasCausados);
+					PRINT '@DiasDisponibles'+ CONVERT(VARCHAR,@DiasDisponibles);
+					PRINT '@DiasDebe'+ CONVERT(VARCHAR,@DiasDebe);
+					PRINT '@@BanderaActualizar'+ CONVERT(VARCHAR,@BanderaActualizar);
+					PRINT '@Tipo'+ CONVERT(VARCHAR,@Tipo);
+					PRINT '--------------------------------------------'
+
+					
+					-- Actualiza tipo a Causado
+                    UPDATE LibroVacaciones
+                        SET 
+							ModificadoPor = 'sistema', 
+                            FechaModificacion = GETDATE(), 
+                            DiasTrabajados = @DiasTrabajados, 
+                            DiasCausados = @DiasCausados,
+							DiasDisponibles = @DiasDisponibles,
+                            Tipo = @Tipo,
+							DiasDebe = @DiasDebe
+                    WHERE Id = @LibroVacacionesId;
+					          
+					
+                    FETCH NEXT FROM CUR_LibroVacaciones INTO @LibroVacacionesId, @FuncionarioId, @ContratoId,@DiasCausados, @EstadoContrato, @InicioCausacion, @FinCausacion, @DiasLey, @DiasAno;
+			END
+            CLOSE CUR_LibroVacaciones;
+            DEALLOCATE CUR_LibroVacaciones;
+            
+            -- Cierre de la transacción
+
+            IF @@TRANCOUNT > 0
+                BEGIN
+                    IF XACT_STATE() = 1
+                        BEGIN
+                            COMMIT TRAN LibroVacaciones;
+                    END;
+                        ELSE
+                        BEGIN
+                            EXEC util.USP_GenerarExcepcion 
+                                 50000, 
+                                 'No se puede confirmar la transacción.  Error desconocido.';
+                    END;
+            END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ActualizarLibroVacaciones];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

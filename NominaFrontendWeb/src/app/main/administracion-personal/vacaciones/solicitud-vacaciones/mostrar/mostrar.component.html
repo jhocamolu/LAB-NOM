@@ -1,0 +1,214 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Vacaciones</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/vacaciones/solicitudes">Solicitudes de vacaciones</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar solicitud</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar solicitud de vacaciones</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button color="accent" mat-raised-button [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button *ngIf="arrayPermisos.actualizar && (item.estado == 'solicitada' || item.estado == 'aprobada')" mat-menu-item
+                    (click)="editarHandle($event)">
+                    <span>Editar solicitud</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisos.cambiarEstado && estadoVacacionesAlcanos.autorizada == item.estado"
+                    (click)="anularHanlde($event, item)">
+                    <span>Anular solicitud</span>
+                </button>
+
+                <button mat-menu-item *ngIf="arrayPermisos.cambiarEstado && estadoVacacionesAlcanos.solicitada == item.estado"
+                    (click)="aprobarHanlde($event, item)">
+                    <span>Aprobar solicitud</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisos.cambiarEstado && estadoVacacionesAlcanos.aprobada == item.estado"
+                    (click)="autorizarHanlde($event, item)">
+                    <span>Autorizar solicitud</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisos.cambiarEstado && estadoVacacionesAlcanos.enCurso == item.estado"
+                    (click)="terminarHanlde($event, item)">
+                    <span>Terminar solicitud</span>
+                </button>
+
+                <a routerLink="/vacaciones/solicitudes/" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="selectedTabChangeHandle($event)">
+
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+
+                    <div *ngIf="item">
+                        <div mat-dialog-content fusePerfectScrollbar>
+
+                            <div>
+                                <h3>Funcionario <mat-icon class="s-16" matSuffix
+                                        matTooltip="Nombre y número de identificación del funcionario.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.funcionario?.criterioBusqueda}} </p>
+                            </div>
+
+                            <h3>Períodos <mat-icon class="s-16" matSuffix matTooltip="Corresponde a la fecha inicial y final a tomar en cuenta, para
+                                    determinar el número de días de vacaciones por período.">
+                                    info
+                                </mat-icon>
+                            </h3>
+
+                            <table class="simple pb" *ngIf="item">
+                                <thead>
+                                    <tr>
+                                        <th class="mat-header-cell pl">Inicio de causación</th>
+                                        <th class="mat-header-cell">Fin de causación</th>
+                                        <th class="mat-header-cell">Tipo de período</th>
+                                        <th class="mat-header-cell">Días de ley</th>
+                                        <th class="mat-header-cell">Días disponibles</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="mat-row">
+                                        <td class="pl">{{item.libroVacaciones?.inicioCausacion | date:'dd / LL / yyyy'}}
+                                        </td>
+                                        <td>{{item.libroVacaciones?.finCausacion | date:'dd / LL / yyyy'}}</td>
+                                        <td>{{item.libroVacaciones?.tipo }}</td>
+                                        <td>{{item.libroVacaciones?.diasTrabajados }}</td>
+                                        <td>{{item.libroVacaciones?.diasDisponibles}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h3>Período a disfrutar </h3>
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Fecha de inicio <mat-icon class="s-16" matSuffix
+                                            matTooltip="Fecha en la que se inicia el disfrute de las vacaciones.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{ item.fechaInicioDisfrute | date:'dd / LL / yyyy'}}</p>
+                                </div>
+                                <div>
+                                    <h3>Días en disfrute <mat-icon class="s-16" matSuffix
+                                            matTooltip="Corresponde a los días disfrutados del período de vacaciones.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.diasDisfrute}}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Fecha fin <mat-icon class="s-16" matSuffix
+                                            matTooltip="Fecha en la que termina el disfrute de las vacaciones.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.fechaFinDisfrute | date:'dd / LL / yyyy'}}</p>
+                                </div>
+                                <div>
+                                    <h3>Días en dinero <mat-icon class="s-16" matSuffix matTooltip="Corresponde a los días no disfrutados de las vacaciones, y en su
+                                            lugar recibe su equivalente en dinero.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.diasDinero}}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3>Observaciones <mat-icon class="s-16" matSuffix
+                                        matTooltip="Comentario relevante respecto a la solicitud de vacaciones.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{item.observacion  ? item.observacion : 'N/A' }}</p>
+                            </div>
+
+                            <div>
+                                <h3>Estado <mat-icon class="s-16" matSuffix matTooltip="Estado de la solicitud.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{item.estado == 'EnCurso'? 'En curso': item.estado != null ? item.estado : 'N/A' }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3>Justificación <mat-icon class="s-16" matSuffix
+                                        matTooltip="Descripción del cambio de estado de la solicitud de vacaciones.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p> {{item.justificacion  != null ? item.justificacion : 'N/A' }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </mat-tab>
+                <!-- / Primer Label -->
+
+                <!-- Segundo Label -->
+                <mat-tab label="Interrupciones" *ngIf="arrayPermisos.obtener">
+                    <alcanos-empty-list labelH1="¡Uy! Aún no hay interrupciones" [visibleBtnCreate]="false"
+                        [visible]="interrupcionesCount == 0">
+                    </alcanos-empty-list>
+
+                    <table class="simple" *ngIf="interrupcionesCount > 0">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell">Causal de interrupción</th>
+                                <th class="mat-header-cell">Fecha de inicio de la interrupción</th>
+                                <th class="mat-header-cell">Fecha fin de la interrupción</th>
+                                <th class="mat-header-cell">Justificación</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of interrupciones" class="mat-row">
+                                <td>{{item.ausentismoFuncionario?.tipoAusentismo?.nombre}}</td>
+                                <td>{{item.ausentismoFuncionario?.fechaInicio | date:'dd / LL / yyyy'}}</td>
+                                <td>{{item.ausentismoFuncionario?.fechaFin | date:'dd / LL / yyyy'}}</td>
+                                <td>{{item.ausentismoFuncionario?.justificacion != null ? item.ausentismoFuncionario?.justificacion : 'N/A'}}
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </mat-tab>
+                <!-- / Segundo Label -->
+
+            </mat-tab-group>
+        </div>
+    </div>
+    <!--/ CONTENIDO-->
+
+</div>

@@ -1,0 +1,141 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Crear tipo de contrato</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" required>
+            <mat-error *ngFor="let error of objToArray(nombre.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Nombre del tipo de contrato.">info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Clase</mat-label>
+            <mat-select formControlName="clase" required>
+               <mat-option [value]="null"></mat-option>
+               <mat-option value="Aprendizaje">Aprendizaje</mat-option>
+               <mat-option value="Integral">Integral</mat-option>
+               <mat-option value="NoIntegral">No integral</mat-option>
+               <mat-option value="Practicante">Practicante</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(clase.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Categoría del contrato.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cantidad de prórrogas</mat-label>
+            <input matInput formControlName="cantidadProrrogas" required>
+            <mat-error *ngFor="let error of objToArray(cantidadProrrogas.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'min'">
+                        Valor mínimo {{ cantidadProrrogas.errors.min.min }}.
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo {{ cantidadProrrogas.errors.max.max }}.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Cantidad de ampliaciones de tiempo que puede tener el tipo de contrato.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Duración máxima</mat-label>
+            <input matInput formControlName="duracionMaxima" required>
+            <mat-error *ngFor="let error of objToArray(duracionMaxima.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'min'">
+                        Valor mínimo {{ duracionMaxima.errors.min.min }}.
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo {{ duracionMaxima.errors.max.max }}.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Duración máxima en días que puede tener este tipo de contrato.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Término indefinido</mat-label>
+            <mat-select formControlName="terminoIndefinido" required>
+                <mat-option>
+                </mat-option>
+                <mat-option [value]="'true'">
+                    Si
+                </mat-option>
+                <mat-option [value]="'false'">
+                    No
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(terminoIndefinido.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Seleccione si el tipo de contrato es o no a término indefinido.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Documento slug</mat-label>
+            <mat-select formControlName="documentoSlug">
+                <mat-option>
+                </mat-option>
+                <mat-option *ngFor="let documento of documentosSlug" [value]="documento.slug">
+                    {{ documento.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-icon matSuffix matTooltip="Definición del artículo o plantilla que va a utilizar el tipo de contrato.">info
+            </mat-icon>
+        </mat-form-field>
+
+    </div>
+    <div mat-dialog-actions>
+        <button type="button" mat-raised-button (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

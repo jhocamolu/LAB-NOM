@@ -1,0 +1,58 @@
+<form [formGroup]="form" *ngIf="form">
+    <h1 mat-dialog-title>Agregar concepto</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <mat-select formControlName="conceptoNominaId" step="any" required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let item of conceptoNomina" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(conceptoNominaId.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Nombre del concepto a embargar según el tipo de embargo.">
+                info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Máximo a embargar por concepto</mat-label>
+            <input matInput formControlName="maximoEmbargarConcepto" mask="separator.2" suffix="%" required>
+            <mat-error *ngFor="let error of objToArray(maximoEmbargarConcepto.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo {{ maximoEmbargarConcepto.errors.max.max }}
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Porcentaje máximo a embargar por cada concepto.">info
+            </mat-icon>
+        </mat-form-field>
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button [disabled]="form.invalid" (click)="guardarHandle($event)" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

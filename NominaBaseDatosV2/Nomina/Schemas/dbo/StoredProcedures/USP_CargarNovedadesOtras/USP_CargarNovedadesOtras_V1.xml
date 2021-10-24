@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_CargarNovedadesOtras_V1">
+<comment>HU054</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_CargarNovedadesOtras', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_CargarNovedadesOtras as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 07/08/2020
+-- Description: Pemite cargar otras novedades del funcionario
+--
+-- Parameters:
+--  @NominaId:			   Identificador de la nómina
+--  @FuncionarioId:		   Identificador del funcionario
+--  @NominaFuncionarioId	   Identificador del funcionario en la nómina
+--  @NominaFechaFinal	   Fecha final de la nómina
+--  @SubperiodoId		   Identificador del subperiodo de la nómina
+--  @Id				   Identificador de la novedad a cargar
+--  @UsuarioOperacion :	   Usuario que realiza la operación.
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_CargarNovedadesOtras] @NominaId            INT,
+                                                 @FuncionarioId       INT,
+                                                 @NominaFuncionarioId INT,
+                                                 @NominaFechaFinal    DATE,
+                                                 @SubperiodoId        INT,
+                                                 @Id                  INT,
+                                                 @UsuarioOperacion    VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaFuncionarioId=', CONVERT(VARCHAR, @NominaFuncionarioId), '&', '@NominaFechaFinal=', CONVERT(VARCHAR, @NominaFechaFinal), '&', '@SubperiodoId=', CONVERT(VARCHAR, @SubperiodoId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @NominaDetallePendiente VARCHAR(255);
+    DECLARE @OtraNovedadPendiente VARCHAR(255);
+    DECLARE @OtraNovedadEnCurso VARCHAR(255);
+
+    DECLARE @NovedadId INT;
+    DECLARE @Valor MONEY= 0;
+    DECLARE @Cantidad INT= 1;
+    DECLARE @UnidadMedida VARCHAR(255);
+    DECLARE @ConceptoNominaId INT= 0;
+    DECLARE @NominaFuenteNovedadId INT= 0;
+    DECLARE @ModuloSistema VARCHAR(255)=
+    (
+        SELECT cms.OTRASNOVEDADES
+        FROM util.VW_ConstanteModuloSistema AS cms
+    );
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN CargarNovedadesOtras;
+
+        -- Se consultan constantes asociadas a estados
+        SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+               @NominaDetallePendiente = vce.NOMINADETALLE_PENDIENTE,
+               @OtraNovedadPendiente = vce.OTRANOVEDAD_PENDIENTE,
+               @OtraNovedadEnCurso = vce.OTRANOVEDAD_ENCURSO
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Cursor para obtener otras novedades asociadas al funcionario
+        DECLARE CUR_OtrasNovedades CURSOR LOCAL
+        FOR SELECT nov.Id,
+                   nov.Cantidad,
+                   cno.ConceptoNominaId,
+                   nov.Unidad,
+                   nov.Valor
+            FROM dbo.Novedad AS nov
+                 INNER JOIN dbo.CategoriaNovedad AS cno ON(nov.CategoriaNovedadId = cno.Id)
+                 INNER JOIN dbo.NovedadSubperiodo AS nsu ON(nov.Id = nsu.NovedadId)
+            WHERE nov.FuncionarioId = @FuncionarioId
+                  AND ((@Id IS NOT NULL
+                        AND nov.Id = @Id)
+                       OR (@Id IS NULL))
+                  AND nov.Estado IN(@OtraNovedadPendiente, @OtraNovedadEnCurso)
+                 AND nov.FechaAplicacion <= @NominaFechaFinal
+                 AND nsu.SubperiodoId = @SubperiodoId
+                 AND nov.EstadoRegistro = @AuditoriaActivo
+                 AND nsu.EstadoRegistro = @AuditoriaActivo;
+
+        OPEN CUR_OtrasNovedades;
+
+        FETCH NEXT FROM CUR_OtrasNovedades INTO @NovedadId, @Cantidad, @ConceptoNominaId, @UnidadMedida, @Valor;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+            IF @Cantidad IS NULL
+            BEGIN
+                SET @Cantidad = 1;
+            END;
+
+            IF @Valor IS NULL
+            BEGIN
+                SET @Valor = 0;
+            END;
+
+            --- Inserta  NominaFuenteNovedad
+            INSERT INTO [dbo].[NominaFuenteNovedad]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [Modulo],
+             [ModuloRegistroId]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @ModuloSistema,
+             @NovedadId
+            );
+
+            SET @NominaFuenteNovedadId =
+            (
+                SELECT SCOPE_IDENTITY()
+            );
+
+            -- Inserta NominaDetalle
+            INSERT INTO [dbo].[NominaDetalle]
+            ([EstadoRegistro],
+             [CreadoPor],
+             [FechaCreacion],
+             [NominaFuncionarioId],
+             [NominaFuenteNovedadId],
+             [ConceptoNominaId],
+             [UnidadMedida],
+             [Cantidad],
+             [Valor],
+             [Estado]
+            )
+            VALUES
+            (@AuditoriaActivo,
+             @UsuarioOperacion,
+             GETDATE(),
+             @NominaFuncionarioId,
+             @NominaFuenteNovedadId,
+             @ConceptoNominaId,
+             @UnidadMedida,
+             @Cantidad,
+             @Valor,
+             @NominaDetallePendiente
+            );
+
+            --PRINT 'Libranza id ' + CONVERT(VARCHAR, @LibranzaId);
+            FETCH NEXT FROM CUR_OtrasNovedades INTO @NovedadId, @Cantidad, @ConceptoNominaId, @UnidadMedida, @Valor;
+        END;
+
+        CLOSE CUR_OtrasNovedades;
+
+        DEALLOCATE CUR_OtrasNovedades;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN CargarNovedadesOtras;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_CargarNovedadesOtras];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

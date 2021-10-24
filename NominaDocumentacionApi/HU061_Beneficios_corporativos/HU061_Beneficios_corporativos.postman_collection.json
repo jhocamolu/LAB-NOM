@@ -1,0 +1,276 @@
+{
+	"info": {
+		"_postman_id": "cb9e163e-998e-4e36-933c-0f8cbf30a473",
+		"name": "HU061_Beneficios_corporativos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Adjunto",
+			"item": [
+				{
+					"name": "{{host}}/odata/BeneficioAdjuntos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/BeneficioAdjuntos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"BeneficioAdjuntos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/api/BeneficioAdjuntos/2",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/BeneficioAdjuntos/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"BeneficioAdjuntos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/api/BeneficioAdjuntos/3",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":3,\n\t\"adjunto\": \"adjuntoIdMongo\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/BeneficioAdjuntos/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"BeneficioAdjuntos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Subperiodo",
+			"item": [
+				{
+					"name": "{{host}}/odata/BeneficioSubperiodos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/BeneficioSubperiodos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"BeneficioSubperiodos"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ObtenerBeneficios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/beneficios/18",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"beneficios",
+						"18"
+					]
+				},
+				"description": "{{host}}/odata/beneficios"
+			},
+			"response": []
+		},
+		{
+			"name": "CrearBeneficios",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"funcionarioId\":5478,\r\n\t\"fechaSolicitud\":\"2020-06-30\",\r\n\t\"formaDesembolso\":\"Nomina\",\r\n\t\"tipoBeneficioId\":2,\r\n\t\"tipoPeriodoId\":3,\r\n\t\"plazoMaximo\":1,\r\n\t\"valorSolicitud\":455,\r\n\t\"valorAutorizado\":44,\r\n\t\"cantidadHoraSemana\":2,\r\n\t\"fechaInicioEstudio\":\"2020-03-10\",\r\n\t\"FechaFinalizacionEstudio\":\"2020-04-10\",\r\n\t\"opcionAuxilioEducativo\":\"Opcion1Condonacion\",\r\n\t\"BeneficiosSubperiodos\":[\r\n\t\t{\r\n\t\t\t\"subPeriodoId\":6\r\n\t\t}\r\n\t],\r\n\t\"BeneficiosAdjuntos\":[\r\n\t\t{\r\n\t\t\t\"TipoBeneficioRequisitoId\": 3,\r\n\t\t\t\"adjuntoId\":\"0EsteEsUnAdjuntoPrueba\"\r\n\t\t}\r\n\t]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/beneficios",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"beneficios"
+					]
+				},
+				"description": "{{host}}/api/beneficios"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarBeneficios/2",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": 8,\n\t\"funcionarioId\":5478,\n\t\"fechaSolicitud\":\"2020-06-30\",\n\t\"formaDesembolso\":\"Nomina\",\n\t\"tipoBeneficioId\":2,\n\t\"tipoPeriodoId\":3,\n\t\"plazoMaximo\":1,\n\t\"valorSolicitud\":455,\n\t\"valorAutorizado\":44,\n\t\"cantidadHoraSemana\":2,\n\t\"fechaInicioEstudio\":\"2020-03-10\",\n\t\"FechaFinalizacionEstudio\":\"2020-04-10\",\n\t\"opcionAuxilioEducativo\":\"Opcion1Condonacion\",\n\t\"BeneficiosSubperiodos\":[\n\t\t{\n\t\t\t\"subPeriodoId\":6\n\t\t}\n\t],\n\t\"BeneficiosAdjuntos\":[\n\t\t{\n\t\t\t\"TipoBeneficioRequisitoId\": 3,\n\t\t\t\"adjuntoId\":\"0EsteEsUnAdjuntoPrueba\"\n\t\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/beneficios/8",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"beneficios",
+						"8"
+					]
+				},
+				"description": "{{host}}/api/beneficios/2"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialBeneficios/2",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":2,\n\t\"NotaAcademica\":3.89,\n\t\"Observacion\": \"No alcanzo promedio. Le toca pagar el credito.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/beneficios/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"beneficios",
+						"2"
+					]
+				},
+				"description": "{{host}}/api/beneficios/2"
+			},
+			"response": []
+		},
+		{
+			"name": "Estado",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\":8\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/beneficios/Estado/8",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"beneficios",
+						"Estado",
+						"8"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "712b5a52-e4ea-452e-b644-75ea0b2c29a9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3d882a77-21af-4115-8732-763ee3dc33b8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

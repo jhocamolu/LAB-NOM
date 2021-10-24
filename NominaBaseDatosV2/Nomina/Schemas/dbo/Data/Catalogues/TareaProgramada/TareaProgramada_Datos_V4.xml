@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TareaProgramada_Datos_V4">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TareaProgramada] ON
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [Alias]) VALUES (9, N'Actualizar estados de funcionario y de contrato ', N'diaria', N'Se encarga de realizar los cambios de estados que dependen de fechas para que las reglas de negocio asociadas a los estados funcionen de forma correcta.', N'node C:\inetpub\wwwroot\NominaConsola\index.js actualizar-estadofuncionariocontrato', 0, 'Activo', 'sistema',GETDATE(), N'actualizar-estadofuncionariocontrato')
+GO
+
+SET IDENTITY_INSERT [dbo].[TareaProgramada] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[TareaProgramada] WHERE Id =9;
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

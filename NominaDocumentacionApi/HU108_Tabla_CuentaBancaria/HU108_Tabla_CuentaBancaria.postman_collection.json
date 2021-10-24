@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "88657499-ccd4-493e-95a1-8b8323f64f02",
+		"name": "HU108_Tabla_CuentaBancaria",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "obtener CuentaBancarias",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0ODc0NzIiLCJDb3JyZW8iOiJhbGJlaXJvMTk4OUBnbWFpbC5jb20iLCJOb21icmUiOiJKRVNVUyBBTEJFSVJPIEdBVklSSUEgUlVCSU8iLCJVc3VhcmlvIjoiIiwiVGlwb0F1dCI6IklEIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNTk4ODkxNTgxLCJleHAiOjE1OTg5MDU5ODEsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0.fNt6XMXlc-ROB9MU0iH_oQqtQZpRd3C7GzEbZX75lms",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/odata/cuentaBancarias?$Expand=entidadFinanciera,tipoCuenta",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"cuentaBancarias"
+					],
+					"query": [
+						{
+							"key": "$Expand",
+							"value": "entidadFinanciera,tipoCuenta"
+						}
+					]
+				},
+				"description": "{{host}}/odata/cuentaBancarias"
+			},
+			"response": []
+		},
+		{
+			"name": "CrearCuentaBancarias",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0ODc0NzIiLCJDb3JyZW8iOiJhbGJlaXJvMTk4OUBnbWFpbC5jb20iLCJOb21icmUiOiJKRVNVUyBBTEJFSVJPIEdBVklSSUEgUlVCSU8iLCJVc3VhcmlvIjoiIiwiVGlwb0F1dCI6IklEIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNTk4ODkxNTgxLCJleHAiOjE1OTg5MDU5ODEsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0.fNt6XMXlc-ROB9MU0iH_oQqtQZpRd3C7GzEbZX75lms",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\":\"Cuenta Prueba\",\r\n    \"numero\":12123123,\r\n    \"tipoCuentaId\":1,  \r\n    \"entidadFinancieraId\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/cuentaBancarias",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"cuentaBancarias"
+					]
+				},
+				"description": "{{host}}/api/cuentaBancarias"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarCuentaBancarias/1",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":1,\r\n    \"nombre\":\"Cuenta Prueba\",\r\n    \"numero\":12123123,\r\n    \"tipoCuentaId\":1,  \r\n    \"entidadFinancieraId\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/cuentaBancarias/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"cuentaBancarias",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/cuentaBancarias/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial CuentaBancarias/1",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0ODc0NzIiLCJDb3JyZW8iOiJhbGJlaXJvMTk4OUBnbWFpbC5jb20iLCJOb21icmUiOiJKRVNVUyBBTEJFSVJPIEdBVklSSUEgUlVCSU8iLCJVc3VhcmlvIjoiIiwiVGlwb0F1dCI6IklEIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNTk4ODkxNTgxLCJleHAiOjE1OTg5MDU5ODEsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0.fNt6XMXlc-ROB9MU0iH_oQqtQZpRd3C7GzEbZX75lms",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":1,\r\n    \"Activo\":false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/cuentaBancarias/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"cuentaBancarias",
+						"1"
+					]
+				},
+				"description": "{{host}}/api/cuentaBancarias/1"
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarcuentaBancarias/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0ODc0NzIiLCJDb3JyZW8iOiJhbGJlaXJvMTk4OUBnbWFpbC5jb20iLCJOb21icmUiOiJKRVNVUyBBTEJFSVJPIEdBVklSSUEgUlVCSU8iLCJVc3VhcmlvIjoiIiwiVGlwb0F1dCI6IklEIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNTk4ODkxNTgxLCJleHAiOjE1OTg5MDU5ODEsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0.fNt6XMXlc-ROB9MU0iH_oQqtQZpRd3C7GzEbZX75lms",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{host}}/api/cuentaBancarias/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"cuentaBancarias",
+						"1"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				},
+				"description": "{{host}}/api/cuentaBancarias/1"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "693f9d54-81bc-42a4-bc04-899acbfd9828",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "b2fe5ad9-32a6-4a08-9715-e3fdde131337",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

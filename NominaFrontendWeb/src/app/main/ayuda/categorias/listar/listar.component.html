@@ -1,0 +1,115 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Ayuda</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Categorías</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Categorías</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+            <button *ngIf="arrayPermisos.crear" mat-raised-button color="accent" (click)="crearHandle($event)">
+                <mat-icon>add</mat-icon>
+                <span>Crear categoría</span>
+            </button>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <alcanos-empty-list (fnCreate)="crearHandle($event)"
+                labelH1="¡Uy! Aún no has registrado categorías de ayuda." labelBtn="Crear categoría"
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+
+
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna Orden -->
+                    <ng-container matColumnDef="orden">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Orden</th>
+                        <td mat-cell *matCellDef="let element"> {{element.orden}} </td>
+                    </ng-container>
+
+                    <!-- Columna Nombre -->
+                    <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                    </ng-container>
+
+                    <!-- Columna Categoria -->
+                    <ng-container matColumnDef="padre/nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Categoría padre</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.padre?.nombre != null ? element.padre?.nombre : 'Sin padre' }}
+                        </td>
+                    </ng-container>
+
+
+                    <!-- Columna activo -->
+                    <ng-container matColumnDef="estadoRegistro" >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-left: 40px;">Activo</th>
+                        <td mat-cell *matCellDef="let element" style="width: 150px">
+                            <button mat-icon-button
+                                [matTooltip]="(arrayPermisos.estadoRegistro && element.estado !== 'Activo') ? ( element.estadoRegistro == 'Activo' ? 'Inactivar' : 'Activar' ) : null"
+                                (click)="arrayPermisos.estadoRegistro && element.estado !== 'Activo' ? activarHandle($event, element) : null">
+                                <mat-icon *ngIf="element.estadoRegistro == 'Activo'" class="s-20"
+                                    [ngStyle]="{'color':'green'}">check</mat-icon>
+                                <mat-icon *ngIf="element.estadoRegistro != 'Activo'" class="s-20"
+                                    [ngStyle]="{'color':'red'}">close</mat-icon>
+                            </button>
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef
+                            [ngStyle]="{'display':!( arrayPermisos.actualizar ) ? 'none' : ''}"> Acciones </th>
+                        <td mat-cell *matCellDef="let element"
+                            [ngStyle]="{'display':!( arrayPermisos.actualizar ) ? 'none' : ''}">
+
+                            <button mat-icon-button *ngIf="arrayPermisos.actualizar"
+                                (click)="editarHandle($event, element)">
+                                <mat-icon matTooltip="Editar">edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- / CONTENT -->

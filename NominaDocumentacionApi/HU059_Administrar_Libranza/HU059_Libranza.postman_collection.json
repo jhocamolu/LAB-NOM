@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "7a2e86b0-ec5f-4046-901c-66bddbed993e",
+		"name": "HU059_Libranza",
+		"description": "Administrador de libranza",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listado Libranza",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/libranzas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"libranzas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Libranza",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/libranzas/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"libranzas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Libranza",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"funcionarioId\": 37,\r\n    \"entidadFinancieraId\": 2,\r\n    \"fechaInicio\": \"2020-03-30\",\r\n    \"valorPrestamo\": 240000,\r\n    \"numeroCuotas\": 20,\r\n    \"observacion\": \"Observación 2 \",\r\n    \"ValorCuota\": 100000,\r\n    \"LibranzasSubperiodo\":[\r\n\t\t{\r\n\t\t\t\"subPeriodoId\":1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"subPeriodoId\":2\r\n\t\t}\r\n\t]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Libranzas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Libranzas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Libranza",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"funcionarioId\": 29,\r\n    \"entidadFinancieraId\": 2,\r\n    \"fechaInicio\": \"2020-03-15\",\r\n    \"valorPrestamo\": 25000.0,\r\n    \"estado\": \"Activo\",\r\n    \"numeroCuotas\": 20,\r\n    \"observacion\": \"Observación 444 \"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Libranzas/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Libranzas",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cambiar estado libranza",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"Estado\":\"Finalizado\",\r\n    \"Justificacion\":\"Esta es la justificacion del cambio de estado\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Libranzas/estado/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Libranzas",
+						"estado",
+						"2"
+					]
+				},
+				"description": "Cambia a estado terminado o anulado"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Libranza Subperiodos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/LibranzaSubperiodos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"LibranzaSubperiodos"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

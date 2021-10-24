@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="Idioma_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[Idioma] ON 
+GO
+
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '1', 'ab', 'Abjaso');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '2', 'aa', 'Afar');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '3', 'af', 'Afrikaans');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '4', 'ay', 'Aimara');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '5', 'ak', 'Akano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '6', 'sq', 'Albanés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '7', 'de', 'Alemán');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '8', 'am', 'Amárico');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '9', 'ar', 'Árabe');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '10', 'an', 'Arágones');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '11', 'hy', 'Armenio');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '12', 'as', 'Asamés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '13', 'av', 'Avar');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '14', 'ae', 'Avéstico');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '15', 'az', 'Azerí');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '16', 'bm', 'Bambara');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '17', 'ba', 'Baskir');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '18', 'bn', 'Bengalí');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '19', 'bh', 'Bhojpurí');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '20', 'be', 'Bielorruso');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '21', 'my', 'Birmano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '22', 'bi', 'Bislama');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '23', 'bs', 'Bosnio');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '24', 'br', 'Bretón');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '25', 'bg', 'Búlgaro');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '26', 'ks', 'Cachemiro');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '27', 'km', 'Camboyano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '28', 'kn', 'Canarés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '29', 'ca', 'Catalán');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '30', 'ch', 'Chamorro');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '31', 'ce', 'Checheno');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '32', 'cs', 'Checo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '33', 'ny', 'Chichewa');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '34', 'zh', 'Chino');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '35', 'za', 'Chuan');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '36', 'cv', 'Chuvasio');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '37', 'si', 'Cingalés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '38', 'ko', 'Coreano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '39', 'kw', 'Cómico');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '40', 'co', 'Corso');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '41', 'cr', 'cree');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '42', 'hr', 'Croata');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '43', 'da', 'Dánes');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '44', 'dz', 'Dzongkha');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '45', 'cu', 'Eslavo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '46', 'sk', 'Eslovaco');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '47', 'sl', 'Esloveno');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '48', 'es', 'Español');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '49', 'eo', 'Esperanto');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '50', 'et', 'Estonio');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '51', 'ee', 'Ewe');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '52', 'fo', 'Feroés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '53', 'fj', 'Fijiano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '54', 'fi', 'Finlandés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '55', 'fr', 'Francés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '56', 'fy', 'Frisón');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '57', 'ff', 'Fula');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '58', 'gd', 'Gaélico escocés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '59', 'cy', 'Galés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '60', 'gl', 'Gallego');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '61', 'ka', 'Georgiano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '62', 'el', 'Griego');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '63', 'kl', 'Groenlandés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '64', 'gn', 'Guaraní');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '65', 'gu', 'Guayaratí');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '66', 'ht', 'Haitiano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '67', 'ha', 'Hausa');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '68', 'he', 'Hebreo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '69', 'hz', 'Herero');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '70', 'hi', 'Hindú');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '71', 'ho', 'Hiri motu');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '72', 'hu', 'Húngaro');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '73', 'io', 'Ido');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '74', 'ig', 'Igbo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '75', 'id', 'Indonesio');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '76', 'en', 'Inglés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '77', 'ia', 'Intertingua');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '78', 'iu', 'Inuktitut');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '79', 'il', 'Inupiaq');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '80', 'ga', 'Irlandés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '81', 'is', 'Islandés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '82', 'it', 'Italiano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '83', 'ja', 'Japonés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '84', 'jv', 'Javanés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '85', 'kr', 'Kanuri');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '86', 'kk', 'Kazajo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '87', 'ki', 'Kikuyu');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '88', 'ky', 'Kirguís');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '89', 'my', 'Kirundi');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '90', 'kv', 'Komi');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '91', 'kg', 'Kongo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '92', 'kj', 'Kuanyama');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '93', 'ku', 'Kurdo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '94', 'lo', 'Lao');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '95', 'la', 'Latín');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '96', 'lv', 'Letón');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '97', 'li', 'Limburgués');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '98', 'ln', 'Lingala');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '99', 'lt', 'Lituano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '100', 'lu', 'Luba katanga');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '101', 'lg', 'Luganda');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '102', 'lb', 'Luxemburgués');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '103', 'mk', 'Macedonio');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '104', 'ml', 'Malayalam');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '105', 'ms', 'Malayo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '106', 'dv', 'Maldivo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '107', 'mg', 'Malagasy');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '108', 'mt', 'Maltés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '109', 'gv', 'Manés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '110', 'mi', 'Maorí');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '111', 'mr', 'Maratí');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '112', 'mh', 'Marshalés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '113', 'mo', 'Moldavo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '114', 'mn', 'Mongol');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '115', 'na', 'Nauruano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '116', 'nv', 'Navajo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '117', 'nd', 'Ndebele del norte');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '118', 'nr', 'Ndebele del sur');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '119', 'ng', 'Ndonga');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '120', 'nl', 'Holandés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '121', 'ne', 'Nepalí');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '122', 'no', 'Noruego');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '123', 'nb', 'Noruego bokmál');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '124', 'nn', 'Nynorsk');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '125', 'ie', 'Occidental');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '126', 'oc', 'Occitano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '127', 'oj', 'Ojibwa');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '128', 'or', 'Oriya');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '129', 'om', 'Oromo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '130', 'os', 'Osético');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '131', 'pi', 'Pali');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '132', 'pa', 'Panyabí');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '133', 'ps', 'Pastú');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '134', 'fa', 'Persa');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '135', 'pl', 'Polaco');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '136', 'pt', 'Portugués');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '137', 'qu', 'Quechua');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '138', 'rm', 'Retorrománico');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '139', 'rw', 'Ruandés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '140', 'ro', 'Rumano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '141', 'ru', 'Ruso');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '142', 'se', 'sami septentrional');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '143', 'sm', 'Samoano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '144', 'sg', 'Sango');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '145', 'sa', 'Sánscrito');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '146', 'sc', 'Sardo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '147', 'sr', 'Serbio');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '148', 'st', 'Sesotho');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '149', 'tn', 'Setsuana');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '150', 'sn', 'Shona');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '151', 'sd', 'Sindhi');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '152', 'so', 'Somalí');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '153', 'sw', 'Suajilli');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '154', 'ss', 'Suazi');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '155', 'sv', 'Sueco');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '156', 'su', 'Sundanés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '157', 'tl', 'Tagalo');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '158', 'ty', 'Tahitiano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '159', 'th', 'Tailandés');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '160', 'ta', 'tamil');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '161', 'tt', 'Tártaro');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '162', 'tg', 'Tayiko');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '163', 'te', 'Telugú');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '164', 'bo', 'Tibetano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '165', 'ti', 'Tigriña');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '166', 'to', 'Tongano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '167', 'ts', 'Tsonga');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '168', 'tr', 'Turco');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '169', 'tk', 'Turcomano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '170', 'tw', 'Twi');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '171', 'uk', 'Ucraniano');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '172', 'ug', 'Uigur');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '173', 'ur', 'Urdu');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '174', 'uz', 'Uzbeko');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '175', 'wa', 'Valón');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '176', 'eu', 'Vascuence');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '177', 've', 'Venda');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '178', 'vi', 'Vietnamita');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '179', 'vo', 'Volapük');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '180', 'wo', 'Wolof');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '181', 'xh', 'Xhosa');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '182', 'ii', 'Yi de sichuán');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '183', 'yi', 'Yídish');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '184', 'yo', 'Yoruba');
+GO
+INSERT INTO dbo.Idioma (EstadoRegistro, CreadoPor, FechaCreacion, Id, Codigo, Nombre) VALUES ('Activo', 'sistema', GETDATE(), '185', 'zu', 'Zulú');
+GO
+SET IDENTITY_INSERT [dbo].[Idioma] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[Idioma] WHERE Id BETWEEN 1 AND 185;
+</rollback>
+</changeSet>
+</databaseChangeLog>

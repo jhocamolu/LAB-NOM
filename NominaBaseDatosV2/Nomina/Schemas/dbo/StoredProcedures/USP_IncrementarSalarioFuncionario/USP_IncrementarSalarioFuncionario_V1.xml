@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="USP_IncrementarSalarioFuncionario_V1">
+<comment>HU057</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_IncrementarSalarioFuncionario', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_IncrementarSalarioFuncionario as SELECT 1');
+END;
+GO
+-- =============================================
+-- Author:      Jhonatan Camilo Moreno Luna
+-- Create date: 11/01/2021
+-- Description: Permite incrementar el salario segun el aumento de LEY 
+--
+-- Parameters:
+--   @FechaAplicacion:			Fecha desde cuando inicia el aumento de salario
+--   @PorcentajeAplicacion:	    Porcentaje de aumento en decimales
+--   @Aplicar:					Rango de aplicacion puede ser NULL para todos, o FuncionarioHastadosSalarios para hasta 2 salarios minimos.
+-- Returns:						
+--   @Resultado:		   Estado resultado del proceso. = 0 Todo bien; > 0 Error
+-- =============================================
+ALTER PROCEDURE [dbo].[USP_IncrementarSalarioFuncionario] 
+-- Add the parameters for the stored procedure here
+@FechaAplicacion      DATE, 
+@PorcentajeAplicacion DECIMAL(16, 6), 
+@Aplicar              VARCHAR(255)   = NULL, 
+@Resultado            INT OUTPUT
+AS
+    BEGIN
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FechaAplicacion=', CONVERT(VARCHAR, @FechaAplicacion), '@PorcentajeAplicacion=', CONVERT(VARCHAR, @PorcentajeAplicacion), '@Aplicar=', CONVERT(VARCHAR, @Aplicar));
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        ----------------------
+        --VARIABLES DE APOYO--
+        ---------------------- 
+
+        DECLARE @FuncionarioId INT;
+        DECLARE @CriterioBusqueda NVARCHAR(255);
+        DECLARE @ContratoId INT;
+        DECLARE @NumeroContrato NVARCHAR(255);
+        DECLARE @Sueldo MONEY;
+        DECLARE @NuevoSueldo MONEY;
+        DECLARE @CentroOperativoId INT;
+        DECLARE @DivisionPoliticaNivel2 INT;
+        DECLARE @CargoDependenciaId INT;
+        DECLARE @TipoContratoId INT;
+        DECLARE @FechaFinalizacion DATE;
+        DECLARE @InsertData INT;
+        DECLARE @AuditoriaActivo NVARCHAR(255)=
+        (
+            SELECT vce.AUDITORIA_ACTIVO
+            FROM util.VW_ConstanteEstado vce
+        );
+        DECLARE @ContratoVigente NVARCHAR(255)=
+        (
+            SELECT vce.CONTRATO_VIGENTE
+            FROM util.VW_ConstanteEstado vce
+        );
+        DECLARE @FuncionarioActivo NVARCHAR(255)=
+        (
+            SELECT vce.FUNCIONARIO_ACTIVO
+            FROM util.VW_ConstanteEstado vce
+        );
+        DECLARE @FuncionarioEnVacaciones NVARCHAR(255)=
+        (
+            SELECT vce.FUNCIONARIO_ENVACACIONES
+            FROM util.VW_ConstanteEstado vce
+        );
+        DECLARE @FuncionarioIncapacitado NVARCHAR(255)=
+        (
+            SELECT vce.FUNCIONARIO_INCAPACITADO
+            FROM util.VW_ConstanteEstado vce
+        );
+        DECLARE @AliasSalarioMinimo VARCHAR(255)= 'salarioMinimoActual';
+        DECLARE @salarioMinimoActual VARCHAR(255)=
+        (
+            SELECT [util].[UFS_ObtenerParametro](@AliasSalarioMinimo, 1)
+        );
+        --DECLARE @tablainsert TABLE(ContratoOtroSiId INT);
+        DECLARE @Validacion INT;
+        -- inicio procedimiento
+        BEGIN TRY
+            SET @Resultado = 0;
+            --cursor para nuevo otro si
+            DECLARE CUR_NuevoOtroSi CURSOR LOCAL
+            FOR SELECT vfda.Id, 
+                       vfda.CriterioBusqueda, 
+                       vfda.ContratoId, 
+                       c.NumeroContrato, 
+                       vfda.Sueldo, 
+                (
+                    SELECT [util].[UFS_RedondearConDireccion](CAST((vfda.Sueldo + (vfda.Sueldo * (@PorcentajeAplicacion / 100))) AS MONEY), 1, 1)
+                ) NuevoSueldo, 
+                       vfda.CentroOperativoId, 
+                       IIF(vfda.ContratoOtroSiId IS NULL, c.DivisionPoliticaNivel2Id, cots.DivisionPoliticaNivel2Id) DivisionPoliticaNivel2, 
+                       IIF(vfda.ContratoOtroSiId IS NULL, c.CargoDependenciaId, cots.CargoDependenciaId) CargoDependenciaId, 
+                       IIF(vfda.ContratoOtroSiId IS NULL, c.TipoContratoId, cots.TipoContratoId) TipoContratoId, 
+                       IIF(vfda.ContratoOtroSiId IS NULL, c.FechaFinalizacion, cots.FechaFinalizacion) FechaFinalizacion
+                FROM VW_FuncionarioDatoActual vfda
+                     INNER JOIN Contrato c ON vfda.ContratoId = c.Id
+                     LEFT JOIN ContratoOtroSi cots ON vfda.ContratoOtroSiId = cots.Id
+                WHERE vfda.Estado IN(@FuncionarioActivo, @FuncionarioEnVacaciones, @FuncionarioIncapacitado)
+                     AND c.Estado = @ContratoVigente
+                     AND (@Aplicar IS NOT NULL
+                          AND vfda.Sueldo <= (@salarioMinimoActual * 2))
+                     OR (@Aplicar IS NULL);
+            OPEN CUR_NuevoOtroSi;
+            FETCH NEXT FROM CUR_NuevoOtroSi INTO @FuncionarioId, @CriterioBusqueda, @ContratoId, @NumeroContrato, @Sueldo, @NuevoSueldo, @CentroOperativoId, @DivisionPoliticaNivel2, @CargoDependenciaId, @TipoContratoId, @FechaFinalizacion;
+            WHILE @@FETCH_STATUS = 0
+                BEGIN
+                    SET @Validacion = 0;
+                    -- valida si Existe un otro si de Aumento de sueldo antes en la fecha de aplicacion.
+                    SELECT @Validacion = Id
+                    FROM ContratoOtroSi
+                    WHERE ContratoId = @ContratoId
+                          AND FechaAplicacion = @FechaAplicacion;
+                    --PRINT @FuncionarioId;
+                    --PRINT @Validacion;
+                    IF @Validacion = 0
+                        BEGIN
+                            INSERT INTO [dbo].[ContratoOtroSi]
+                            ([ContratoId], 
+                             [TipoContratoId], 
+                             [FechaFinalizacion], 
+                             [CargoDependenciaId], 
+                             [NumeroOtroSi], 
+                             [Sueldo], 
+                             [FechaAplicacion], 
+                             [CentroOperativoId], 
+                             [DivisionPoliticaNivel2Id], 
+                             [Observaciones], 
+                             [Prorroga], 
+                             [EstadoRegistro], 
+                             [CreadoPor], 
+                             [FechaCreacion], 
+                             [NumeroProrroga], 
+                             [TipoOtroSiId]
+                            )
+                            VALUES
+                            (@ContratoId, 
+                             @TipoContratoId, 
+                             @FechaFinalizacion, 
+                             @CargoDependenciaId, 
+                             0, 
+                             @NuevoSueldo, 
+                             @FechaAplicacion, 
+                             @CentroOperativoId, 
+                             @DivisionPoliticaNivel2, 
+                             CONCAT('Aumento de salario Año ', YEAR(GETDATE()), ' por el porcentaje ', convert(DECIMAL(5,2),@PorcentajeAplicacion ),'%'), 
+                             0, 
+                             @AuditoriaActivo, 
+                             'Sistema', 
+                             GETDATE(), 
+                             0, 
+                             NULL
+                            );
+                            --SELECT @InsertData = @@IDENTITY;
+                            --INSERT INTO @tablainsert(ContratoOtroSiId)
+                            --VALUES(@InsertData);
+                        END;
+                        --ELSE
+                        --BEGIN
+                          --  INSERT INTO @tablainsert(ContratoOtroSiId)
+                        --VALUES(@Validacion);
+                        --END;
+                    FETCH NEXT FROM CUR_NuevoOtroSi INTO @FuncionarioId, @CriterioBusqueda, @ContratoId, @NumeroContrato, @Sueldo, @NuevoSueldo, @CentroOperativoId, @DivisionPoliticaNivel2, @CargoDependenciaId, @TipoContratoId, @FechaFinalizacion;
+                END;
+            CLOSE CUR_NuevoOtroSi;
+            DEALLOCATE CUR_NuevoOtroSi;
+           -- SELECT *
+           -- FROM @tablainsert;
+            RETURN @Resultado;
+        END TRY
+        BEGIN CATCH
+            SET @Resultado = 1;
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+                END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+            RETURN @Resultado;
+        END CATCH;
+    END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_IncrementarSalarioFuncionario];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

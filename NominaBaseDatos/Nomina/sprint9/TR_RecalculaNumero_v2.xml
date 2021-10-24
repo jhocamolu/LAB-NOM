@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TR_RecalculaNumero_v2_1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+GO
+IF OBJECT_ID ('dbo.TR_RecalculaNumero', 'TR') IS NOT NULL  
+   DROP TRIGGER dbo.TR_RecalculaNumero;  
+GO
+--=====================================================================================
+-- Author:      Laura Katherine Estrada Arango.
+-- Create date: Marzo 4 del 2020
+-- Description: Trigger que se desencadena cuando se  actualiza el campo
+--              prioridad, no puede haber prioridades repetidas, entonces si se agrega
+--              una prioridad existente las demas prioridades se les suma 1.
+--=====================================================================================
+CREATE TRIGGER [dbo].[TR_RecalculaNumero] ON [dbo].[Nomina]
+AFTER UPDATE
+AS
+BEGIN
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	--Obtenemos los valores insertados.
+	DECLARE @TipoLiquidacionId  AS INT      				= ( SELECT del.TipoLiquidacionId  FROM deleted del)
+	DECLARE @TipoLiquidacionInsertadoId AS INT				= ( SELECT ins.TipoLiquidacionId  FROM inserted ins)
+	DECLARE @Numero  AS INT									= ( SELECT del.Numero  FROM deleted del)
+	DECLARE @Id  AS INT                      				= ( SELECT ins.Id FROM inserted ins)
+
+	--------------------------------------------------------------------------
+	-- Instrucciones de configuración y manejo de errores
+	--------------------------------------------------------------------------
+	SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+	DECLARE @Parametros VARCHAR(MAX)= CONCAT('@TipoLiquidacionId=', CONVERT(VARCHAR, @Id), '&', '@TipoLiquidacionInsertadoId=', CONVERT(VARCHAR, @TipoLiquidacionInsertadoId), '&', '@Id=', CONVERT(VARCHAR, @Id), '&', '@Numero=', CONVERT(VARCHAR, @Numero));
+	DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	
+	BEGIN TRY		
+        IF @TipoLiquidacionInsertadoId <> @TipoLiquidacionId
+        BEGIN
+            UPDATE 
+                Nomina
+            SET
+                Numero = Numero - 1
+            WHERE
+                TipoLiquidacionId = @TipoLiquidacionId AND
+                Numero > @Numero AND
+                Id <> @id 
+        END
+	END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+GO
+	--=====================================================================================
+	-- Author:      Laura Katherine Estrada Arango.
+	-- Create date: Marzo 4 del 2020
+	-- Description: Trigger que se desencadena cuando se  actualiza el campo
+	--              prioridad, no puede haber prioridades repetidas, entonces si se agrega
+	--              una prioridad existente las demas prioridades se les suma 1.
+	--=====================================================================================
+
+	ALTER TRIGGER [dbo].[TR_RecalculaNumero] ON [dbo].[Nomina]
+	AFTER UPDATE
+	AS
+
+	--Obtenemos los valores insertados.
+	DECLARE @TipoLiquidacionId as varchar(30)				= ( SELECT i.TipoLiquidacionId  FROM deleted i)
+	DECLARE @TipoLiquidacionInsertadoId as int				= ( SELECT i.TipoLiquidacionId  FROM inserted i)
+	
+	DECLARE @Numero as int									= ( SELECT i.Numero  FROM deleted i)
+	
+	
+	DECLARE @id as int                      				= ( SELECT i.Id FROM inserted i)
+
+	
+	BEGIN TRY		
+			IF @TipoLiquidacionInsertadoId <> @TipoLiquidacionId
+			BEGIN
+				UPDATE 
+					Nomina
+				SET
+					Numero = Numero - 1
+				WHERE
+					TipoLiquidacionId = @TipoLiquidacionId AND
+					Numero > @Numero AND
+					Id <> @id 
+			END
+	END TRY
+	BEGIN CATCH
+		EXECUTE [dbo].[USP_RegistrarError];
+	END CATCH
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

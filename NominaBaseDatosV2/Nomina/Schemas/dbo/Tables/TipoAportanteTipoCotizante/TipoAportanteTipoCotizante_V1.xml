@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TipoAportanteTipoCotizante_V1">
+<comment>Migración Tablas pila</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+CREATE TABLE [TipoAportanteTipoCotizante] (
+    [Id] int NOT NULL IDENTITY,
+    [EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    [TipoAportanteId] int NOT NULL,
+    [TipoCotizanteId] int NOT NULL,
+    CONSTRAINT [PK_TipoAportanteTipoCotizante] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_TipoAportanteTipoCotizante_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [FK_TipoAportanteTipoCotizante_TipoAportante_TipoAportanteId] FOREIGN KEY ([TipoAportanteId]) REFERENCES [TipoAportante] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_TipoAportanteTipoCotizante_TipoCotizante_TipoCotizanteId] FOREIGN KEY ([TipoCotizanteId]) REFERENCES [TipoCotizante] ([Id]) ON DELETE NO ACTION
+);
+
+GO
+
+CREATE INDEX [IX_TipoAportanteTipoCotizante_TipoAportanteId] ON [TipoAportanteTipoCotizante] ([TipoAportanteId]);
+
+GO
+
+CREATE INDEX [IX_TipoAportanteTipoCotizante_TipoCotizanteId] ON [TipoAportanteTipoCotizante] ([TipoCotizanteId]);
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [TipoAportanteTipoCotizante];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,464 @@
+{
+	"info": {
+		"_postman_id": "72aa972a-5fe1-4e85-be9f-f5b2ee9e656a",
+		"name": "HU050 Tipos Liquidaciones",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TipoLiquidacionEstado",
+			"item": [
+				{
+					"name": "Listado tipo liquidacion estados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/tipoliquidacionestados",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"tipoliquidacionestados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener liquidacion estados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/tipoliquidacionestados/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"tipoliquidacionestados",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Estados de los tipos de liquidación"
+		},
+		{
+			"name": "TipoLiquidacionComprobante",
+			"item": [
+				{
+					"name": "Listar Tipo liquidacion comprobante",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "JwtToken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDgzMzUxMTgsImV4cCI6MTYwODM0OTUxOCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.ZU7dy5jxK7FXmWV5m4dlVr6U-IKsmX2BShWgUSWHCho",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/odata/TipoLiquidacionComprobantes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"TipoLiquidacionComprobantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "obtener Tipo liquidacion comprobante",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "JwtToken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDgzMzUxMTgsImV4cCI6MTYwODM0OTUxOCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.ZU7dy5jxK7FXmWV5m4dlVr6U-IKsmX2BShWgUSWHCho",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/odata/TipoLiquidacionComprobantes/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"TipoLiquidacionComprobantes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Tipo liquidacion comprobante",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "JwtToken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDgzMzUxMTgsImV4cCI6MTYwODM0OTUxOCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.ZU7dy5jxK7FXmWV5m4dlVr6U-IKsmX2BShWgUSWHCho",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{      \r\n    \"tipoLiquidacionId\": 1,\r\n    \"tipoComprobante\": \"Contabilizacion\",\r\n    \"centroCostoId\": 1,\r\n    \"cuentaContableId\": 1,\r\n    \"naturaleza\": \"Credito\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/TipoLiquidacionComprobantes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoLiquidacionComprobantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Tipo liquidacion comprobante",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "JwtToken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDgzMzUxMTgsImV4cCI6MTYwODM0OTUxOCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.ZU7dy5jxK7FXmWV5m4dlVr6U-IKsmX2BShWgUSWHCho",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{      \r\n    \"id\":3,\r\n    \"tipoLiquidacionId\": 1,\r\n    \"tipoComprobante\": \"Contabilizacion\",\r\n    \"centroCostoId\": 1,\r\n    \"cuentaContableId\": 1,\r\n    \"naturaleza\": \"Credito\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/TipoLiquidacionComprobantes/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoLiquidacionComprobantes",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Tipo liquidacion comprobante",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "JwtToken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDg1ODAxNTQsImV4cCI6MTYwODU5NDU1NCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.Ufu43C8MLtsKnxqE4gRrVCOW6Nn2FZEnIwpLwkNegrM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/TipoLiquidacionComprobantes/4",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"TipoLiquidacionComprobantes",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Se crea documentacion para tipo liquidación comprobante"
+		},
+		{
+			"name": "listar Tipoliquidacion",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44352/odata/tipoliquidaciones",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"odata",
+						"tipoliquidaciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar uno Tipoliquidacion",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44352/odata/tipoliquidaciones/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"odata",
+						"tipoliquidaciones",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Tipoliquidacion",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"codigo\":\"Requ\",\n    \"nombre\":\"Requeo\",\n    \"descripcion\": \"Requeridordfhgf fmk gfjfdt jfd jfdu fdujtfuj tfc jtrd utfu fdtufcttu tfctufctu fc\",\n    \"tipoPeriodoId\":4\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44352/api/tipoliquidaciones",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"api",
+						"tipoliquidaciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Tipoliquidacion",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":3,\n\t\"codigo\":\"65dsf\",\n    \"nombre\":\"Requeo\",\n    \"descripcion\": \"Requeridordfhgf fmk gfjfdt jfd jfdu fdujtfuj tfc jtrd utfu fdtufcttu tfctufctu fc\",\n    \"tipoPeriodoId\":4\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44352/api/tipoliquidaciones/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"api",
+						"tipoliquidaciones",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial Tipoliquidacion",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\":3,\n\t\"activo\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44352/api/tipoliquidaciones/3",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"api",
+						"tipoliquidaciones",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar liquidacionconceptos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44352/odata/liquidacionconceptos",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"odata",
+						"liquidacionconceptos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar uno liquidacionconceptos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44352/odata/liquidacionconceptos/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"odata",
+						"liquidacionconceptos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Liquidacionconcepto",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"subPeriodoId\": 2,\n    \"tipoContratoId\": 2,\n    \"conceptoNominaId\": 43,\n    \"tipoliquidacionId\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44352/api/liquidacionconceptos",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"api",
+						"liquidacionconceptos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Liquidacionconcepto",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"subPeriodoId\": 2,\n    \"tipoContratoId\": 2,\n    \"conceptoNominaId\": 43,\n    \"tipoliquidacionId\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44352/api/liquidacionconceptos/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44352",
+					"path": [
+						"api",
+						"liquidacionconceptos",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

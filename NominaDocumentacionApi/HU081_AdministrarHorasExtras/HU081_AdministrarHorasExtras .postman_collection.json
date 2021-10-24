@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "0929d836-cf08-4001-be80-cbbc8ce79a4c",
+		"name": "HU081_AdministrarHorasExtras ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Api Import hora extras GhesticWebApi",
+			"item": [
+				{
+					"name": "optener Horas Extras",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "jwttoken",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0ODc0NzIiLCJDb3JyZW8iOiJhbGJlaXJvMTk4OUBnbWFpbC5jb20iLCJOb21icmUiOiJKRVNVUyBBTEJFSVJPIEdBVklSSUEgUlVCSU8iLCJVc3VhcmlvIjoiIiwiVGlwb0F1dCI6IklEIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNjEyNTU2MzUwLCJleHAiOjE2MTI1NzA3NTAsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0.PhtRyawWHxawtxS4VSxnOUZuhoYulN13M2co3moClho",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:61847/api/HoraExtra/GetHorasExtras?FechaLiquidacionInicio=10%2f09%2f2020&FechaLiquidacionFin=12%2f21%2f2020",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "61847",
+							"path": [
+								"api",
+								"HoraExtra",
+								"GetHorasExtras"
+							],
+							"query": [
+								{
+									"key": "FechaLiquidacionInicio",
+									"value": "10%2f09%2f2020"
+								},
+								{
+									"key": "FechaLiquidacionFin",
+									"value": "12%2f21%2f2020"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Listar horas extras",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear hora extra",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDQ0NDM3NDgsImV4cCI6MTYwNDQ1ODE0OCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.H_o2xyL-qvzRU_sDaJpOWzODo0tEXKlWJtXe-x6hqnE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"funcionarioId\": 5,\r\n    \"tipoHoraExtraId\": 2,\r\n    \"fecha\": \"2020-07-01T00:00:00\",\r\n    \"cantidad\": 5.4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Horaextras",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Horaextras"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar hora extra",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "JwtToken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0OTI3ODciLCJDb3JyZW8iOiJkZXNhcnJvbGxhZG9yM0BhbGNhbm9zZXNwLmNvbSIsIk5vbWJyZSI6IkxBVVJBIEVTVFJBREEiLCJVc3VhcmlvIjoibGVzdHJhZGEiLCJUaXBvQXV0IjoiSUQiLCJUaXBvVG9rZW4iOiJBVVQiLCJuYmYiOjE2MDQ0NDM3NDgsImV4cCI6MTYwNDQ1ODE0OCwiaXNzIjoiU2ljb21TZXJ2ZXIiLCJhdWQiOiJWZW50YXNBcHAifQ.H_o2xyL-qvzRU_sDaJpOWzODo0tEXKlWJtXe-x6hqnE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"funcionarioId\": 5003,\r\n    \"tipoHoraExtraId\": 2,\r\n    \"fecha\": \"2020-07-01T00:00:00\",\r\n    \"cantidad\": 5.4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Horaextras/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Horaextras",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Estado Horaextras ",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 3,\r\n    \"Activo\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Horaextras/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Horaextras",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Importar HoraExtras",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "jwttoken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZGVudGlmaWNhY2lvbiI6IjExMTA0ODc0NzIiLCJDb3JyZW8iOiJhbGJlaXJvMTk4OUBnbWFpbC5jb20iLCJOb21icmUiOiJKRVNVUyBBTEJFSVJPIEdBVklSSUEgUlVCSU8iLCJVc3VhcmlvIjoiIiwiVGlwb0F1dCI6IklEIiwiVGlwb1Rva2VuIjoiQVVUIiwibmJmIjoxNjEyOTg1OTg1LCJleHAiOjE2MTMwMDAzODUsImlzcyI6IlNpY29tU2VydmVyIiwiYXVkIjoiVmVudGFzQXBwIn0.Sj8OHwG6tlSu0bVDCTegW5gyDgLwP0B8KwWA9f0GceY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"FechaInicial\" :\"2020-10-09\",\r\n    \"FechaFinal\": \"2020-12-31\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/Horaextras/ImportarHoraExtras",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"Horaextras",
+						"ImportarHoraExtras"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

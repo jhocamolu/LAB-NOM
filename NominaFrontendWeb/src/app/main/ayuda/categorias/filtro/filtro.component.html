@@ -1,0 +1,79 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="" formControlName="nombre">
+            <mat-error *ngFor="let error of objToArray(nombre.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Nombre de la categoría de ayuda.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Orden</mat-label>
+            <input matInput placeholder="" formControlName="orden" type="number">
+            <mat-error *ngFor="let error of objToArray(orden.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'min'">
+                        Valor mínimo {{ orden.errors.min.min }}
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo {{ orden.errors.max.max }}
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número entero que indica el orden en que se mostrará la categoría.">info
+            </mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Categoría padre</mat-label>
+
+            <mat-select formControlName="categoriaId">
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of categoriaOptions" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+
+            <mat-error *ngFor="let error of objToArray(categoriaId.errors)">
+                <div [ngSwitch]="error">
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Categoría a la que pertenece este ítem.">info</mat-icon>
+        </mat-form-field>
+
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+            <button type="button" mat-raised-button (click)="limpiarHandle($event)">
+                <mat-icon>cancel</mat-icon>
+                <span>Borrar filtros</span>
+            </button>
+            <button type="submit" mat-raised-button [disabled]="form.invalid" color="accent">
+                <mat-icon>search</mat-icon>
+                <span>Buscar</span>
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,85 @@
+<div class="content">
+    <h1 mat-dialog-title>
+        Probar fórmula
+    </h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+        <div>
+            <h3>
+                <mat-icon>scatter_plot</mat-icon>
+                Formula
+            </h3>
+            <div [innerHTML]="element" class="formula">
+
+            </div>
+        </div>
+
+        <div>
+            <h3>
+                <mat-icon>keyboard</mat-icon> Datos de entrada
+            </h3>
+            <form (ngSubmit)="onSubmitHandle($event)" [formGroup]="form" *ngIf="form">
+
+                <div formGroupName="conceptos">
+
+                    <div fxLayout="row" *ngFor="let element of objToArray(conceptos) | keyvalue">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{element.value.label}}</mat-label>
+                            <input matInput required formControlName="{{element.value.name}}">
+                            <mat-error *ngFor="let error of form.get('conceptos').get(element.value.name).errors |keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+
+                </div>
+
+                <div formGroupName="funciones">
+
+                    <div fxLayout="row" *ngFor="let element of objToArray(funciones)  | keyvalue">
+                        <mat-form-field appearance="outline">
+                            <mat-label>{{element.value.label}}</mat-label>
+                            <input matInput required formControlName="{{element.value.name}}">
+                            <mat-error *ngFor="let error of form.get('funciones').get(element.value.name).errors |keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                </div>
+                <div fxLayout="row " fxLayoutAlign="end center ">
+                    <button mat-raised-button class="secundary" type="submit" [disabled]="form.invalid">
+                    <mat-icon>assessment</mat-icon>
+                    <span>Calcular</span>
+                </button>
+                </div>
+            </form>
+        </div>
+        <div>
+            <h3>
+                <mat-icon>assignment</mat-icon>Resultado
+            </h3>
+            <span>{{resultado}}</span>
+        </div>
+    </div>
+    <div mat-dialog-actions fxLayout="row " fxLayoutAlign="end center ">
+        <button mat-raised-button type="button" color="accent" (click)="dialogRef.close()">
+            <mat-icon>check_circle</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+</div>

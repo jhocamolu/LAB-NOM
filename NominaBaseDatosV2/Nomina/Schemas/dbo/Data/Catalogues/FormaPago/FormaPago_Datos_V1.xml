@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="FormaPago_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[FormaPago] ON 
+GO
+INSERT [dbo].[FormaPago] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [HabilitaEnContrato], [HabilitaEntidadFinanciera]) VALUES ('sistema', 1, 'Activo', GETDATE(), GETDATE(), NULL, 'Transferencia electrónica', 1, 1)
+GO                        
+INSERT [dbo].[FormaPago] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [HabilitaEnContrato], [HabilitaEntidadFinanciera]) VALUES ('sistema', 2, 'Activo', GETDATE(), GETDATE(), NULL, 'Cheque', 1, 0)
+GO                        
+INSERT [dbo].[FormaPago] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [HabilitaEnContrato], [HabilitaEntidadFinanciera]) VALUES ('sistema', 3, 'Activo', GETDATE(), GETDATE(), NULL, 'Efectivo', 1, 0)
+GO                        
+INSERT [dbo].[FormaPago] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [HabilitaEnContrato], [HabilitaEntidadFinanciera]) VALUES ('sistema', 4, 'Activo', GETDATE(), GETDATE(), NULL, 'Cheque de gerencia', 1, 0)
+GO
+SET IDENTITY_INSERT [dbo].[FormaPago] OFF
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[FormaPago] WHERE Id BETWEEN 1 AND 4;
+</rollback>
+</changeSet>
+</databaseChangeLog>

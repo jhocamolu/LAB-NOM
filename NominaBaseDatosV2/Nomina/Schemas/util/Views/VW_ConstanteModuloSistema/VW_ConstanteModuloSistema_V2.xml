@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="VW_ConstanteModuloSistema_V2">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteModuloSistema]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteModuloSistema]
+END
+GO
+
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 22-04-2020
+-- Description: Vista que permite la simulación de constantes para los módulos del sistema
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [util].[VW_ConstanteModuloSistema]
+AS
+SELECT 
+		CAST('Libranzas' AS VARCHAR) AS [LIBRANZAS]
+		,CAST('Embargos' AS VARCHAR) AS [EMBARGOS]
+		,CAST('Ausentismos' AS VARCHAR) AS [AUSENTISMOS]
+		,CAST('Beneficios' AS VARCHAR) AS [BENEFICIOS]
+		,CAST('HorasExtra' AS VARCHAR) AS [HORASEXTRA]
+		,CAST('GastosViaje' AS VARCHAR) AS [GASTOSVIAJE]
+		,CAST('OtrasNovedades' AS VARCHAR) AS [OTRASNOVEDADES]
+		,CAST('Vacaciones' AS VARCHAR) AS [VACACIONES]
+		,CAST('AnticipoCesantias' AS VARCHAR) AS [ANTICIPOCESANTIAS]
+
+GO
+
+
+-- Descripción de la vista 
+EXEC sys.sp_addextendedproperty 
+		@name=N'MS_Description', 
+		@value=N'Vista que permite la simulación de constantes para los módulos del sistema.' , 
+		@level0type=N'SCHEMA', @level0name=N'util', 
+		@level1type=N'VIEW', @level1name=N'VW_ConstanteModuloSistema'
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Módulo para la administración de libranzas.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteModuloSistema',  
+@level2type = N'Column', @level2name = 'LIBRANZAS';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Módulo para la administración de embargos.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteModuloSistema',  
+@level2type = N'Column', @level2name = 'EMBARGOS';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Módulo para la administración de ausentismos.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteModuloSistema',  
+@level2type = N'Column', @level2name = 'AUSENTISMOS';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Módulo para la administración de beneficios.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteModuloSistema',  
+@level2type = N'Column', @level2name = 'BENEFICIOS';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Módulo para la administración de horas extra.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteModuloSistema',  
+@level2type = N'Column', @level2name = 'HORASEXTRA';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Módulo para la administración de novedades de gastos de viaje.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteModuloSistema',  
+@level2type = N'Column', @level2name = 'GASTOSVIAJE';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Módulo para la administración de otras novedades.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteModuloSistema',  
+@level2type = N'Column', @level2name = 'OTRASNOVEDADES';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Módulo para la administración de vacaciones.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteModuloSistema',  
+@level2type = N'Column', @level2name = 'VACACIONES';  
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+@name = N'MS_Description',   
+@value = 'Módulo para la solicitud de anticipo de cesantías.',  
+@level0type = N'Schema', @level0name = 'util',  
+@level1type = N'View',  @level1name = 'VW_ConstanteModuloSistema',  
+@level2type = N'Column', @level2name = 'ANTICIPOCESANTIAS';  
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteModuloSistema]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteModuloSistema]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="USP_ObtenerBaseRetefuente_V2">
+<comment>HU093 correcciones</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerBaseRetefuente', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerBaseRetefuente as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 18/07/2020
+-- Description: Obtener valor base para para el cálculo de retención en la fuente mensual o
+--			 para el recalculo semestras del porcentaje
+--
+-- Parameters:
+--   @FuncionarioId:	Identificador del funcionario.
+--   @FechaInicio:		Fecha inicio del periodo del cual se obtendrá la información.
+--   @FechaFin:		Fecha fin del periodo del cual se obtendrá la información.
+--   @Tipo:	Tipo de retención en la fuente Mensual o Recalculo.
+--		
+-- Returns:						
+--   @Valor:		    Valor base retefuente
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ObtenerBaseRetefuente]
+(@FuncionarioId INT,
+ @FechaInicio   DATE,
+ @FechaFin      DATE,
+ @Tipo VARCHAR(255),
+ @Valor         MONEY OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '@FechaInicio=', CONVERT(VARCHAR, @FechaInicio), '@FechaFin=', CONVERT(VARCHAR, @FechaFin), '@Valor=', CONVERT(VARCHAR, @Valor));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @AnioVigenteId INT;
+    DECLARE @AnioVigente VARCHAR(255);
+
+    DECLARE @AliasParametroMultiploRedondeo VARCHAR(255);
+    DECLARE @AliasParametroPagosBrutosLaborales VARCHAR(255);
+    DECLARE @AliasParametroIngresosNoGravables VARCHAR(255);
+    DECLARE @AliasParametroRentaExenta VARCHAR(255);
+    
+    DECLARE @AliasConceptoPagosBrutosLaborales VARCHAR(255);
+    DECLARE @AliasConceptoIngresosNoGravables VARCHAR(255);
+    DECLARE @AliasConceptoRentaExenta VARCHAR(255);
+
+    DECLARE @MultiploRedondeo INT= 0;
+    DECLARE @ValorBaseRetefuente MONEY= 0;
+    DECLARE @ValorPagosBrutosLaborales MONEY= 0;
+    DECLARE @ValorIngresosNoGravables MONEY= 0;
+    DECLARE @ValorDeduccionesArticulo387 MONEY= 0;
+    DECLARE @ValorAcumuladoRentaExenta MONEY = 0;
+    DECLARE @ValorRentaExenta MONEY= 0;
+    DECLARE @ValorLimiteDeducciones MONEY= 0;
+    DECLARE @TipoRetefuenteMensual VARCHAR(255);
+    DECLARE @FechaFinCalculos DATE;
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        -- Se obtienen constantes asociadas a estados
+        SELECT @AnioVigente = vce.ANIO_VIGENTE
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Se obtienen constantes asociadas a alias de parámetros del sistema
+        SELECT @AliasParametroMultiploRedondeo = vcpg.[MULTIPLOREDONDEOS],
+               @AliasParametroPagosBrutosLaborales = vcpg.[PAGOSBRUTOSRETEFUENTE],
+               @AliasParametroIngresosNoGravables = vcpg.[INGRESOSNOGRAVABLESRETEFUENTE],
+               @AliasParametroRentaExenta = vcpg.[RENTASEXENTASRETEFUENTE]
+        FROM util.VW_ConstanteParametroGeneral AS vcpg;
+
+	   -- Se obtiene constante asociada a tipo de retención en la fuente
+	   SELECT @TipoRetefuenteMensual = vctr.MENSUAL
+	   FROM util.VW_ConstanteTipoRetefuente vctr;
+
+	   -- Se obtiene la fecha fin para cálculos según el tipo de retefuente
+	   SET @FechaFinCalculos = @FechaFin;
+	   IF @Tipo != @TipoRetefuenteMensual 
+	   BEGIN
+		  SET @FechaFinCalculos = DATEADD(DAY, 1, EOMONTH(@FechaFin, -13));
+	   END
+
+
+        -- Se obtiene el año de trabajo vigente
+        SET @AnioVigenteId = [dbo].[UFS_ObtenerAnioTrabajo](@AnioVigente);
+
+        -- Se obtienen los valores asociados a los parámetros del sistema
+        SET @MultiploRedondeo = CAST([util].[UFS_ObtenerParametro](@AliasParametroMultiploRedondeo, @AnioVigenteId) AS INT);
+        SET @AliasConceptoPagosBrutosLaborales = [util].[UFS_ObtenerParametro](@AliasParametroPagosBrutosLaborales, @AnioVigenteId);
+        SET @AliasConceptoIngresosNoGravables = [util].[UFS_ObtenerParametro](@AliasParametroIngresosNoGravables, @AnioVigenteId);
+        SET @AliasConceptoRentaExenta = [util].[UFS_ObtenerParametro](@AliasParametroRentaExenta, @AnioVigenteId);
+
+
+        -- Obtención del acumulado de los pagos brutos laborales
+        EXEC [dbo].[USP_ObtenerValorConceptoNominaAcumulado]
+             @FuncionarioId = @FuncionarioId,
+             @ConceptoAlias = @AliasConceptoPagosBrutosLaborales,
+             @FechaInicio = @FechaInicio,
+             @FechaFin = @FechaFinCalculos,
+             @Valor = @ValorPagosBrutosLaborales OUTPUT;
+
+        -- Obtención del acumulado de los ingresos no gravables
+        EXEC [dbo].[USP_ObtenerValorConceptoNominaAcumulado]
+             @FuncionarioId = @FuncionarioId,
+             @ConceptoAlias = @AliasConceptoIngresosNoGravables,
+             @FechaInicio = @FechaInicio,
+             @FechaFin = @FechaFinCalculos,
+             @Valor = @ValorIngresosNoGravables OUTPUT;
+
+        -- Obtención de las deducciones según artículo 387
+        EXEC [dbo].[USP_ObtenerDeduccionesArticulo387]
+             @FuncionarioId = @FuncionarioId,
+		   @PagosBrutosLaborales = @ValorPagosBrutosLaborales,
+		   @Tipo = @Tipo,
+             @Valor = @ValorDeduccionesArticulo387 OUTPUT;
+
+	   -- Obtención del acumulado de la renta exenta
+        EXEC [dbo].[USP_ObtenerValorConceptoNominaAcumulado]
+             @FuncionarioId = @FuncionarioId,
+             @ConceptoAlias = @AliasConceptoRentaExenta,
+             @FechaInicio = @FechaInicio,
+             @FechaFin = @FechaFinCalculos,
+             @Valor = @ValorAcumuladoRentaExenta OUTPUT;
+
+        -- Obtención de la renta de trabajo exenta
+        EXEC [dbo].[USP_ObtenerRentaExenta]
+             @AcumuladoRentaExenta = @ValorAcumuladoRentaExenta,
+		   @PagosBrutosLaborales = @ValorPagosBrutosLaborales,
+		   @IngresosNoGravables = @ValorIngresosNoGravables,
+		   @DeduccionesArticulo387 = @ValorDeduccionesArticulo387,
+             @Valor = @ValorRentaExenta OUTPUT;
+
+        -- Obtener control al límite de deducciones y rentas exentas
+        EXEC [dbo].[USP_ObtenerLimiteDeducciones]
+		   @PagosBrutosLaborales = @ValorPagosBrutosLaborales,
+		   @DeduccionesArticulo387 = @ValorDeduccionesArticulo387,
+		   @AcumuladoRentaExenta = @ValorAcumuladoRentaExenta,
+		   @RentaExenta = @ValorRentaExenta,
+             @Valor = @ValorLimiteDeducciones OUTPUT;
+
+        -- Se cálcula la base de la retención
+        SET @ValorBaseRetefuente = (@ValorPagosBrutosLaborales +  @ValorLimiteDeducciones) - @ValorIngresosNoGravables - @ValorDeduccionesArticulo387 - @ValorRentaExenta - @ValorAcumuladoRentaExenta;
+
+        -- Se redondea al multiplo apropiado
+        SET @Valor = util.UFS_RedondearAMultiplo(@ValorBaseRetefuente, @MultiploRedondeo);
+
+		PRINT CONCAT('@ValorPagosBrutosLaborales=', CONVERT(VARCHAR, @ValorPagosBrutosLaborales));
+		PRINT CONCAT('@ValorLimiteDeducciones=', CONVERT(VARCHAR, @ValorLimiteDeducciones));
+		PRINT CONCAT('@ValorIngresosNoGravables=', CONVERT(VARCHAR, @ValorIngresosNoGravables));
+		PRINT CONCAT('@ValorDeduccionesArticulo387=', CONVERT(VARCHAR, @ValorDeduccionesArticulo387));
+		PRINT CONCAT('@ValorRentaExenta=', CONVERT(VARCHAR, @ValorRentaExenta));
+		PRINT CONCAT('@ValorAcumuladoRentaExenta=', CONVERT(VARCHAR,@ValorAcumuladoRentaExenta));
+		
+
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerBaseRetefuente];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

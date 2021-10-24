@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TareaProgramada_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[TareaProgramada] ON
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias]) VALUES (1, N'NotificacionPush', N'diaria', N'Notificar a los mociles', N'node C:\inetpub\wwwroot\NominaConsola\index.js notificacion-push', 0, NULL, NULL, NULL, N'null', N'2020-05-07 09:38:00', NULL, NULL, N'notificacion-push')
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias]) VALUES (2, N'Notificacion email', N'diaria', N'Notificar a los mociles', N'node C:\inetpub\wwwroot\NominaConsola\index.js notificacion-email', 0, NULL, NULL, NULL, N'null', N'2020-05-07 09:38:00', NULL, NULL, N'notificacion-email')
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias]) VALUES (3, N'Actualizar solicitud vacaciones', N'diaria', N'Actualizar solicitud vacaciones', N'node C:\inetpub\wwwroot\NominaConsola\index.js actualizar-solicitud-vacaciones', 0, N'Activo    ', N'sistema', N'2020-05-18 00:00:00', NULL, NULL, NULL, NULL, N'actualizar-solicitud-vacaciones')
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias]) VALUES (4, N'Actualizar solicitud vacaciones interrupcion', N'diaria', N'Actualizar solicitud vacaciones interrupcion', N'node C:\inetpub\wwwroot\NominaConsola\index.js actualizar-solicitud-vacaciones-interrupcion', 0, N'Activo    ', N'sistema', N'2020-05-18 00:00:00', N'null', NULL, NULL, NULL, N'actualizar-solicitud-vacaciones-interrupcion')
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias]) VALUES (5, N'Actualizar libro de vacaciones', N'diaria', N'Actualizar libro vacaciones', N'node C:\inetpub\wwwroot\NominaConsola\index.js actualizar-libro-vacaciones', 0, N'Activo    ', N'sistema', N'2020-05-18 00:00:00', NULL, NULL, NULL, NULL, N'actualizar-libro-vacaciones')
+GO
+SET IDENTITY_INSERT [dbo].[TareaProgramada] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TareaProgramada] WHERE Id BETWEEN 1 AND 5;
+</rollback>
+</changeSet>
+</databaseChangeLog>

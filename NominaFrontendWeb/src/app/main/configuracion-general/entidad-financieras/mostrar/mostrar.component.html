@@ -1,0 +1,80 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+
+    <h1 mat-dialog-title>Visualizar entidad financiera</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div>
+            <div>
+                <h3>Nombre</h3>
+                <p>{{element.nombre}}</p>
+            </div>
+
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Código</h3>
+                <p>{{element.codigo}}</p>
+            </div>
+            <div>
+                <h3>Nit</h3>
+                <p>{{element.nit}}</p>
+            </div>
+        </div>
+
+
+        <div class="dos-bloque">
+            <div>
+                <h3>DV</h3>
+                <p>{{element.dv }}</p>
+            </div>
+            <div>
+                <h3>Departamento</h3>
+                <p>{{element.divisionPoliticaNivel2?.divisionPoliticaNivel1.nombre }}
+                </p>
+            </div>
+        </div>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Municipio</h3>
+                <p>{{element.divisionPoliticaNivel2?.nombre}}
+                </p>
+            </div>
+            <div>
+                <h3>Teléfono</h3>
+                <p>{{element.telefono}}
+                </p>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h3>Dirección</h3>
+                <p>{{element.direccion}}
+                </p>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h3>Representante legal</h3>
+                <p>{{element.representanteLegal}}
+                </p>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

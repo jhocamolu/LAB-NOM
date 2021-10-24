@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+   
+	<!-- Se debe incluir un archivo por cada objeto de base de datos -->
+	<include file="Schemas/dbo/Tables/Cargo/Cargo_V2.xml" />
+	<include file="Schemas/dbo/Tables/Sustituto/Sustituto_V1.xml" />
+	<include file="Schemas/dbo/Tables/TareaProgramada/TareaProgramada_V2.xml" />
+	<include file="Schemas/dbo/Tables/TareaProgramadaLog/TareaProgramadaLog_V2.xml"/>
+	<include file="Schemas/dbo/Tables/SolicitudVacacionesInterrupcion/SolicitudVacacionesInterrupcion_V1.xml"/>
+	<include file="Schemas/dbo/Tables/SolicitudVacaciones/SolicitudVacaciones_V2.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/ConceptoNomina/ConceptoNomina_Datos_V2.xml"/>
+	<include file="Schemas/dbo/Tables/ConceptoNomina/ConceptoNomina_V2.xml"/>
+	<include file="Schemas/dbo/Tables/FuncionVariable/FuncionVariable_V2.xml"/> 
+	<include file="Schemas/dbo/Tables/AusentismoFuncionario/AusentismoFuncionario_V2.xml"/>
+	<include file="Schemas/dbo/Tables/NominaDetalle/NominaDetalle_V2.xml"/>
+	<include file="Schemas/dbo/Tables/VariableNomina/VariableNomina_V2.xml"/>
+	<include file="Schemas/dbo/Tables/Grupo/Grupo_V1.xml" />
+	<include file="Schemas/dbo/Tables/CargoGrupo/CargoGrupo_V1.xml" />
+	<include file="Schemas/dbo/Tables/Cargo/Cargo_V2.5.xml" />
+	<include file="Schemas/dbo/Tables/Cargo/Cargo_V3.xml" />
+	<include file="Schemas/dbo/Tables/CargoReporta/CargoReporta_V2.xml" />
+	<include file="Schemas/dbo/Tables/ConceptoNomina/ConceptoNomina_V3.xml" />
+	<include file="Schemas/dbo/Tables/AplicacionExterna/AplicacionExterna_V1.xml" />
+	<include file="Schemas/dbo/Tables/AplicacionExternaCargo/AplicacionExternaCargo_V1.xml" />
+	<include file="Schemas/dbo/Tables/ConceptoNomina/ConceptoNomina_V4.xml"/>
+	<include file="Schemas/dbo/Tables/Funcionario/Funcionario_V2.xml"/>
+	<include file="Schemas/dbo/Tables/Contrato/Contrato_V2.xml"/>
+	<include file="Schemas/dbo/Tables/AplicacionExterna/AplicacionExterna_V2.xml"/>
+	<include file="Schemas/dbo/Tables/Actividad/Actividad_V1.xml"/>
+	<include file="Schemas/dbo/Tables/ActividadCentroCosto/ActividadCentroCosto_V1.xml"/>
+
+    <include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V2.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V3.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V4.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V5.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V6.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V7.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V8.xml'/>
+	<include file="Schemas/dbo/Tables/FuncionNomina/FuncionNomina_V2.xml" />
+	<include file='Schemas/dbo/Data/Catalogues/FuncionNomina/FuncionNomina_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/VariableNomina/VariableNomina_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/FuncionVariable/FuncionVariable_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/InformacionBasica/InformacionBasica_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/TareaProgramada/TareaProgramada_Datos_V1.xml' />
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V9.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V10.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V11.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V12.xml'/>
+	
+	<include file="Schemas/util/Views/VW_ConstanteClaseContrato/VW_ConstanteClaseContrato_V1.xml" />
+	
+
+	<include file="Schemas/dbo/Functions/UFS_ObtenerClaseContrato/UFS_ObtenerClaseContrato_V1.xml" />
+
+	<include file="Schemas/dbo/StoredProcedures/USP_CrearRegistroLibroVacaciones/USP_CrearRegistroLibroVacaciones_V2.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ActualizarSolicitudVacaciones/USP_ActualizarSolicitudVacaciones_V2.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesBeneficios/USP_CargarNovedadesBeneficios_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesEmbargos/USP_CargarNovedadesEmbargos_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesLibranzas/USP_CargarNovedadesLibranzas_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesAusentismos/USP_CargarNovedadesAusentismos_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_CalcularValorNovedadEmbargo/USP_CalcularValorNovedadEmbargo_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ActualizarLibroVacaciones/USP_ActualizarLibroVacaciones_V2.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ActualizarSolicitudVacaciones/USP_ActualizarSolicitudVacaciones_V3.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ActualizarSolicitudVacacionesInterrupcion/USP_ActualizarSolicitudVacacionesInterrupcion_V2.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_NotificarInconsistenciaCalculoConcepto/USP_NotificarInconsistenciaCalculoConcepto_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_TareaProgramadaLog/USP_TareaProgramadaLog_V1.xml" />
+
+	
+	<include file="Schemas/dbo/Triggers/Contrato/TR_CrearRegistroLibroVacaciones_V2.xml" />
+	<include file="Schemas/dbo/Triggers/Contrato/TR_CrearRegistroLibroVacaciones_V3.xml" />
+	<include file="Schemas/dbo/Triggers/Funcionario/TR_ActualizarCriterioBusqueda_V2.xml" />
+	<include file="Schemas/dbo/Triggers/Funcionario/TR_ActualizarCriterioBusqueda_V3.xml" />
+	<include file="Schemas/dbo/Triggers/Funcionario/TR_ActualizarCriterioBusqueda_V4.xml" />
+	<include file="Schemas/dbo/Triggers/AusentismoFuncionario/TR_CrearRegistroSolicitudVacacionesInterrupcion_V2.xml" />
+	<include file="Schemas/dbo/Triggers/AusentismoFuncionario/TR_EliminarRegistroSolicitudVacacionesInterrupcion_V1.xml" />
+
+	<include file="Schemas/util/Views/VW_ConstanteCodigoClaseAusentismo/VW_ConstanteCodigoClaseAusentismo_V1.xml" />
+	<include file="Schemas/util/Views/VW_ConstanteCodigoTipoLiquidacion/VW_ConstanteCodigoTipoLiquidacion_V1.xml" />
+	<include file="Schemas/util/Views/VW_ConstanteTipoConcepto/VW_ConstanteTipoConcepto_V1.xml" />
+
+</databaseChangeLog>

@@ -1,0 +1,74 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+    <h1 mat-dialog-title>Log notificación de {{element.titulo | htmlToPlaintext}}</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div *ngIf="!dataLength">
+            No existe información relacionada.
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxFlex="100">
+                <div [ngStyle]="{ display: ( dataLength  > 0)? '': 'none'}">
+
+                    <table mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
+
+                        <!-- Columna fecha y hora -->
+                        <ng-container matColumnDef="fechaCreacion">
+                            <th mat-header-cell *matHeaderCellDef> Fecha y hora</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.fechaCreacion | date:'dd / LL / yyyy / hh:mm a'}} </td>
+                        </ng-container>
+
+                        <!-- Columna Destinatario -->
+                        <ng-container matColumnDef="funcionarioId">
+                            <th mat-header-cell *matHeaderCellDef> Destinatario</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{element.correoElectronico ? element.correoElectronico : element.funcionario?.primerNombre}}
+                                {{element.correoElectronico ? null : element.funcionario?.primerApellido}} </td>
+                        </ng-container>
+
+                        <!-- Columna estado -->
+                        <ng-container matColumnDef="estado">
+                            <th mat-header-cell *matHeaderCellDef> Estado</th>
+                            <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                        </ng-container>
+
+                        <!-- Columna resultado -->
+                        <ng-container matColumnDef="resultado">
+                            <th mat-header-cell *matHeaderCellDef> Observaciones</th>
+                            <td mat-cell *matCellDef="let element">
+                                <div [matTooltip]="element.resultado | htmlToPlaintext" class="text-truncate" style="max-width: 150px;">
+                                    {{element.resultado | htmlToPlaintext}}
+                                </div>
+                            </td>
+                        </ng-container>
+
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+                        <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+                    <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                        showFirstLastButtons>
+                    </mat-paginator>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

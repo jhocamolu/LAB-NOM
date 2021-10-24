@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_RegistrarNotificacion_V3">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('util.USP_RegistrarNotificacion', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE util.USP_RegistrarNotificacion as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 23/04/2020
+-- Description: Permite registrar notificaciones junto con sus destinatarios
+--
+-- Parameters:
+--  @Tipo:		    Tipo de notificación MobilePush | Email
+--  @Fecha:		    Fecha de la notificación
+--  @Titulo:		    Título de la notificación
+--  @Mensaje:		    Mensaje para la notificación (HTML para tipo Email)
+--  @DestinatariosXml:  Xml con los Id de los funcionarios destinatarios de la notificación
+--				    El formato debe ser (SELECT TOP 2 Id as [@Id] FROM dbo.Funcionario FOR XML PATH ('Funcionario'), ROOT('Funcionarios')):
+--				    <Funcionarios>
+--					   <Funcionario Id="4999" />
+--					   <Funcionario Id="1" />
+--				    </Funcionarios>
+--					El formato para el corre  debe ser (SELECT TOP 2 [CorreoElectronicoCorporativo] as [@Correo] FROM dbo.Funcionario FOR XML PATH ('Correo'), ROOT('Correos'))
+--					<Correos>
+--						<Correo Correo="correoejemplo@hotmail.com" />
+--						<Correo Correo="correoejemplo2@gmail.com"/>
+--					</Correos>
+-- ==========================================================================================
+ALTER PROCEDURE [util].[USP_RegistrarNotificacion] @Tipo							VARCHAR(255),
+                                               @Fecha								DATE,
+                                               @Titulo								VARCHAR(255),
+                                               @Mensaje								VARCHAR(MAX),
+                                               @DestinatariosXml					XML,
+											   @DestinatariosCorreoElectronicoXml	XML,
+                                               @UsuarioOperacion					VARCHAR(255) = 'Sistema'
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Tipo=', CONVERT(VARCHAR, @Tipo), '&', '@Fecha=', CONVERT(VARCHAR, @Fecha) , '&', '@Titulo=', CONVERT(VARCHAR, @Titulo) , '&', '@Mensaje=', CONVERT(VARCHAR, @Mensaje) , '&', '@DestinatariosXml=', CONVERT(VARCHAR(MAX), @DestinatariosXml)  , '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+	DECLARE @NotificacionDestinatarioPendiente VARCHAR(255);
+	
+    SELECT @AuditoriaActivo = ces.AUDITORIA_ACTIVO,
+			@NotificacionDestinatarioPendiente = ces.[NOTIFICACIONDESTINATARIO_PENDIENTE]
+        FROM util.VW_ConstanteEstado AS ces;
+    
+    DECLARE @EnEjecucion BIT= 0;
+    DECLARE @NotificacionId INT= 0;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN RegistrarNotificacion;
+
+        INSERT INTO dbo.Notificacion
+        (EstadoRegistro,
+         CreadoPor,
+         FechaCreacion,
+         Tipo,
+         Fecha,
+         Titulo,
+         Mensaje,
+         EnEjecucion
+        )
+        VALUES
+        (@AuditoriaActivo,
+         @UsuarioOperacion,
+         GETDATE(),
+         @Tipo,
+         @Fecha,
+         @Titulo,
+         @Mensaje,
+         @EnEjecucion
+        );
+
+        -- Se obtiene el identificador de la notificación
+        SELECT @NotificacionId = @@IDENTITY;
+
+	   -- Se insertan los destinatarios de la notificación
+		IF @DestinatariosXml IS NOT NULL
+	    BEGIN
+			INSERT INTO [dbo].[NotificacionDestinatario]
+			([EstadoRegistro],
+			 [CreadoPor],
+			 [FechaCreacion],
+			 [NotificacionId],
+			 [FuncionarioId],
+			 [Estado]
+			)
+               SELECT @AuditoriaActivo,
+                      @UsuarioOperacion,
+                      GETDATE(),
+                      @NotificacionId,
+                      ref.value('@Id', 'int') AS FuncionarioId,
+                      @NotificacionDestinatarioPendiente
+               FROM @DestinatariosXml.nodes('/Funcionarios/Funcionario') AS xmlData(ref);
+		END
+		IF  @DestinatariosCorreoElectronicoXml IS NOT NULL
+	    BEGIN
+			INSERT INTO [dbo].[NotificacionDestinatario]
+			([EstadoRegistro],
+			 [CreadoPor],
+			 [FechaCreacion],
+			 [NotificacionId],
+			 [CorreoElectronico],
+			 [Estado]
+			)
+			    SELECT @AuditoriaActivo,
+                       @UsuarioOperacion,
+                       GETDATE(),
+                       @NotificacionId,
+					   ref.value('@Correo', 'varchar(255)') AS CorreoElectronico,
+					   @NotificacionDestinatarioPendiente
+				FROM @DestinatariosCorreoElectronicoXml.nodes('/Correos/Correo') AS xmlData(ref);
+		END
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN RegistrarNotificacion;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('util.USP_RegistrarNotificacion', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE util.USP_RegistrarNotificacion as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 23/04/2020
+-- Description: Permite registrar notificaciones junto con sus destinatarios
+--
+-- Parameters:
+--  @Tipo:		    Tipo de notificación MobilePush | Email
+--  @Fecha:		    Fecha de la notificación
+--  @Titulo:		    Título de la notificación
+--  @Mensaje:		    Mensaje para la notificación (HTML para tipo Email)
+--  @DestinatariosXml:  Xml con los Id de los funcionarios destinatarios de la notificación
+--				    El formato debe ser (SELECT TOP 2 Id as [@Id] FROM dbo.Funcionario FOR XML PATH ('Funcionario'), ROOT('Funcionarios')):
+--				    <Funcionarios>
+--					   <Funcionario Id="4999" />
+--					   <Funcionario Id="1" />
+--				    </Funcionarios>
+-- ==========================================================================================
+ALTER PROCEDURE [util].[USP_RegistrarNotificacion] @Tipo             VARCHAR(255),
+                                               @Fecha            DATE,
+                                               @Titulo           VARCHAR(255),
+                                               @Mensaje          VARCHAR(MAX),
+                                               @DestinatariosXml XML,
+                                               @UsuarioOperacion VARCHAR(255) = 'Sistema'
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Tipo=', CONVERT(VARCHAR, @Tipo), '&', '@Fecha=', CONVERT(VARCHAR, @Fecha) , '&', '@Titulo=', CONVERT(VARCHAR, @Titulo) , '&', '@Mensaje=', CONVERT(VARCHAR, @Mensaje) , '&', '@DestinatariosXml=', CONVERT(VARCHAR(MAX), @DestinatariosXml)  , '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+	DECLARE @NotificacionDestinatarioPendiente VARCHAR(255);
+	
+    SELECT @AuditoriaActivo = ces.AUDITORIA_ACTIVO,
+			@NotificacionDestinatarioPendiente = ces.[NOTIFICACIONDESTINATARIO_PENDIENTE]
+        FROM util.VW_ConstanteEstado AS ces;
+    
+    DECLARE @EnEjecucion BIT= 0;
+    DECLARE @NotificacionId INT= 0;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN RegistrarNotificacion;
+
+        INSERT INTO dbo.Notificacion
+        (EstadoRegistro,
+         CreadoPor,
+         FechaCreacion,
+         Tipo,
+         Fecha,
+         Titulo,
+         Mensaje,
+         EnEjecucion
+        )
+        VALUES
+        (@AuditoriaActivo,
+         @UsuarioOperacion,
+         GETDATE(),
+         @Tipo,
+         @Fecha,
+         @Titulo,
+         @Mensaje,
+         @EnEjecucion
+        );
+
+        -- Se obtiene el identificador de la notificación
+        SELECT @NotificacionId = @@IDENTITY;
+
+	   -- Se insertan los destinatarios de la notificación
+        INSERT INTO [dbo].[NotificacionDestinatario]
+        ([EstadoRegistro],
+         [CreadoPor],
+         [FechaCreacion],
+         [NotificacionId],
+         [FuncionarioId],
+         [Estado]
+        )
+               SELECT @AuditoriaActivo,
+                      @UsuarioOperacion,
+                      GETDATE(),
+                      @NotificacionId,
+                      ref.value('@Id', 'int') AS FuncionarioId,
+                      @NotificacionDestinatarioPendiente
+               FROM @DestinatariosXml.nodes('/Funcionarios/Funcionario') AS xmlData(ref);
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN RegistrarNotificacion;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

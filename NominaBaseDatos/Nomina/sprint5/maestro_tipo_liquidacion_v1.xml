@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_tipo_liquidacion_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[TipoLiquidacion] ON
+GO
+
+INSERT INTO dbo.TipoLiquidacion (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoPeriodoId, Codigo, Nombre, Descripcion) VALUES ('Activo', 'sistema', GETDATE(), '1', '1', 'QUIN', 'Liquidación Quincenal', 'Contiene los conceptos para la generación de una nómina quincenal.');
+GO
+INSERT INTO dbo.TipoLiquidacion (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoPeriodoId, Codigo, Nombre, Descripcion) VALUES ('Activo', 'sistema', GETDATE(), '2', '1', 'DEFI', 'Definitiva', 'Contiene los conceptos para realizar liquidación definitiva de trabajo al funcionario');
+GO
+INSERT INTO dbo.TipoLiquidacion (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoPeriodoId, Codigo, Nombre, Descripcion) VALUES ('Activo', 'sistema', GETDATE(), '3', '1', 'VACA', 'Vacaciones', 'Contiene los conceptos para realizar liquidación de vacaciones');
+GO
+INSERT INTO dbo.TipoLiquidacion (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoPeriodoId, Codigo, Nombre, Descripcion) VALUES ('Activo', 'sistema', GETDATE(), '4', '5', 'PRIM', 'Prima legal y extralegal', 'Contiene los concepto para realizar liquidación de prima legal y extralegal');
+GO
+INSERT INTO dbo.TipoLiquidacion (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoPeriodoId, Codigo, Nombre, Descripcion) VALUES ('Activo', 'sistema', GETDATE(), '5', '4', 'CESA', 'Cesantías', 'Contiene los conceptos para realizar liquidación de cesantías');
+GO
+INSERT INTO dbo.TipoLiquidacion (EstadoRegistro, CreadoPor, FechaCreacion, Id, TipoPeriodoId, Codigo, Nombre, Descripcion) VALUES ('Activo', 'sistema', GETDATE(), '6', '4', 'INCE', 'Intereses a las cesantías.', 'Contiene los conceptos para realizar liquidación de intereses a las cesantías');
+GO
+
+SET IDENTITY_INSERT [dbo].[TipoLiquidacion] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoLiquidacion] WHERE Id BETWEEN 1 AND 6;
+</rollback>
+</changeSet>
+</databaseChangeLog>

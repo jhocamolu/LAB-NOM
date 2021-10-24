@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="ConceptoNominaCuentaContable_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+CREATE TABLE [ConceptoNominaCuentaContable] (
+    [Id] int NOT NULL IDENTITY,
+    [ConceptoNominaId] int NOT NULL,
+    [CentroCostoId] int NULL,
+    [CuentaContableId] int NOT NULL,
+	[EstadoRegistro] char(10) NULL,
+    [CreadoPor] varchar(255) NULL,
+    [FechaCreacion] smalldatetime NULL,
+    [ModificadoPor] varchar(255) NULL,
+    [FechaModificacion] smalldatetime NULL,
+    [EliminadoPor] varchar(255) NULL,
+    [FechaEliminacion] smalldatetime NULL,
+    CONSTRAINT [PK_ConceptoNominaCuentaContable] PRIMARY KEY ([Id]),
+    CONSTRAINT [CK_ConceptoNominaCuentaContable_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+    CONSTRAINT [FK_ConceptoNominaCuentaContable_CentroCosto_CentroCostoId] FOREIGN KEY ([CentroCostoId]) REFERENCES [CentroCosto] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_ConceptoNominaCuentaContable_ConceptoNomina_ConceptoNominaId] FOREIGN KEY ([ConceptoNominaId]) REFERENCES [ConceptoNomina] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_ConceptoNominaCuentaContable_CuentaContable_CuentaContableId] FOREIGN KEY ([CuentaContableId]) REFERENCES [CuentaContable] ([Id]) ON DELETE CASCADE
+);
+
+GO
+
+CREATE INDEX [IX_ConceptoNominaCuentaContable_CentroCostoId] ON [ConceptoNominaCuentaContable] ([CentroCostoId]);
+
+GO
+
+CREATE INDEX [IX_ConceptoNominaCuentaContable_ConceptoNominaId] ON [ConceptoNominaCuentaContable] ([ConceptoNominaId]);
+
+GO
+
+CREATE INDEX [IX_ConceptoNominaCuentaContable_CuentaContableId] ON [ConceptoNominaCuentaContable] ([CuentaContableId]);
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [ConceptoNominaCuentaContable];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

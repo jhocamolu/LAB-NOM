@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_tipo_contribuyente_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[TipoContribuyente] ON 
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, '11', 'Gran contribuyente', 'Jurídica')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, '12', 'Mediano alto', 'Jurídica')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, '13', 'Mediano ', 'Jurídica')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, '14', 'Pequeño', 'Jurídica')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 5, 'Activo', GETDATE(), NULL, NULL, '15', 'Micro', 'Jurídica')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 6, 'Activo', GETDATE(), NULL, NULL, '16', 'Entidades de derecho público', 'Jurídica')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 7, 'Activo', GETDATE(), NULL, NULL, '17', 'Régimen especial y/o sin ánimo de lucro', 'Jurídica')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 8, 'Activo', GETDATE(), NULL, NULL, '18', 'Por clasificar', 'Jurídica')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 9, 'Activo', GETDATE(), NULL, NULL, '21', 'Gran contribuyente', 'Natural no asalariada')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 10, 'Activo', GETDATE(), NULL, NULL, '32', 'Mediano alto', 'Natural no asalariada')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 11, 'Activo', GETDATE(), NULL, NULL, '33', 'Mediano', 'Natural no asalariada')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 12, 'Activo', GETDATE(), NULL, NULL, '34', 'Pequeño', 'Natural no asalariada')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 13, 'Activo', GETDATE(), NULL, NULL, '35', 'Micro', 'Natural no asalariada')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 14, 'Activo', GETDATE(), NULL, NULL, '38', 'Por clasificar', 'Natural no asalariada')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 15, 'Activo', GETDATE(), NULL, NULL, '21', 'Gran contribuyente', 'Natural asalariada')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 16, 'Activo', GETDATE(), NULL, NULL, '42', 'Mediano alto', 'Natural asalariada')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 17, 'Activo', GETDATE(), NULL, NULL, '43', 'Mediano', 'Natural asalariada')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 18, 'Activo', GETDATE(), NULL, NULL, '44', 'Pequeño', 'Natural asalariada')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 19, 'Activo', GETDATE(), NULL, NULL, '45', 'Micro', 'Natural asalariada')
+GO
+
+INSERT [dbo].[TipoContribuyente] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre], [Persona]) VALUES ('sistema', 20, 'Activo', GETDATE(), NULL, NULL, '48', 'Por clasificar', 'Natural asalariada')
+GO
+
+
+SET IDENTITY_INSERT [dbo].[TipoContribuyente] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoContribuyente] WHERE Id BETWEEN 1 AND 20;
+</rollback>
+</changeSet>
+</databaseChangeLog>

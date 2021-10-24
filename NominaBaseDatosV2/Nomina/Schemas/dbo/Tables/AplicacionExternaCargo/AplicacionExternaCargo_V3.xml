@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="AplicacionExternaCargo_V3">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+DROP INDEX IX_AplicacionExternaCargo_CargoDependienteId ON dbo.AplicacionExternaCargo 
+GO
+
+
+
+ALTER TABLE [AplicacionExternaCargo] DROP CONSTRAINT [FK_AplicacionExternaCargo_Cargo_CargoDependienteId];
+
+GO
+
+DECLARE @var0 sysname;
+SELECT @var0 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[AplicacionExternaCargo]') AND [c].[name] = N'CargoDependienteId');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [AplicacionExternaCargo] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [AplicacionExternaCargo] DROP COLUMN [CargoDependienteId];
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [AplicacionExternaCargo] ADD COLUMN [CargoDependienteId] int;
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

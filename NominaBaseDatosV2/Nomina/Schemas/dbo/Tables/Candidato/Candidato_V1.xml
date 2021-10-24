@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="Candidato_V1">
+<comment>Crear tabla  Candidato</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    CREATE TABLE [Candidato] (
+        [Id] int NOT NULL IDENTITY,
+        [EstadoRegistro] char(10) NULL,
+        [CreadoPor] varchar(255) NULL,
+        [FechaCreacion] smalldatetime NULL,
+        [ModificadoPor] varchar(255) NULL,
+        [FechaModificacion] smalldatetime NULL,
+        [EliminadoPor] varchar(255) NULL,
+        [FechaEliminacion] smalldatetime NULL,
+        [RequisicionPersonalId] int NOT NULL,
+        [HojaDeVidaId] int NOT NULL,
+        [Estado] nvarchar(max) NOT NULL,
+        [Justificacion] text NULL,
+        [AdjuntoPruebas] nvarchar(max) NULL,
+        [AdjuntoExamen] nvarchar(max) NULL,
+        CONSTRAINT [PK_Candidato] PRIMARY KEY ([Id]),
+        CONSTRAINT [CK_Candidato_EstadoRegistro] CHECK (([EstadoRegistro]='Eliminado' OR [EstadoRegistro]='Inactivo' OR [EstadoRegistro]='Activo')),
+        CONSTRAINT [CK_Candidato_Estado] CHECK (([Estado]='Postulado' OR [Estado]='Descartado' OR [Estado]='Competente' OR [Estado]='Elegible' OR [Estado]='NoApto' OR [Estado]='Seleccionado')),
+        CONSTRAINT [FK_Candidato_HojaDeVida_HojaDeVidaId] FOREIGN KEY ([HojaDeVidaId]) REFERENCES [HojaDeVida] ([Id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_Candidato_RequisicionPersonal_RequisicionPersonalId] FOREIGN KEY ([RequisicionPersonalId]) REFERENCES [RequisicionPersonal] ([Id]) ON DELETE CASCADE
+    );
+
+    GO
+
+    CREATE INDEX [IX_Candidato_HojaDeVidaId] ON [Candidato] ([HojaDeVidaId]);
+
+    GO
+
+    CREATE INDEX [IX_Candidato_RequisicionPersonalId] ON [Candidato] ([RequisicionPersonalId]);
+
+    GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    DROP TABLE [Candidato];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

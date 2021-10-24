@@ -1,0 +1,132 @@
+<div class="page-layout simple fullwidth">
+
+   <!-- HEADER -->
+   <div class="header">
+      <div>
+         <div class="breadcrumb">
+            <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+            <mat-icon>chevron_right</mat-icon>
+            <span>Configuración general</span>
+            <mat-icon>chevron_right</mat-icon>
+            <a routerLink="/configuracion">Catalogos</a>
+            <mat-icon>chevron_right</mat-icon>
+            <a routerLink="/configuracion/tipo-ausentismos">Tipos de ausentismos</a>
+            <mat-icon>chevron_right</mat-icon>
+            <span>Crear tipo de ausentismo</span>
+         </div>
+         <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+            <h2>Crear tipo de ausentismo</h2>
+         </div>
+      </div>
+      <div class="" fxLayout="row" fxLayoutGap="10px">
+
+      </div>
+
+   </div>
+   <!-- / HEADER -->
+
+   <!-- CONTENT -->
+   <div class="content">
+
+      <div>
+
+         <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+         (selectedTabChange)="tabChangeHandle($event)">
+            <!-- Información -->
+            <mat-tab label="Información">
+
+               <form (ngSubmit)="guardarHandle($event)" [formGroup]="form" *ngIf="form">
+
+                  <div>
+                     <mat-form-field appearance="outline">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="nombre" required type="text">
+                        <mat-error *ngFor="let error of objToArray(nombre.errors)">
+                           <div [ngSwitch]="error">
+                              <ng-template [ngSwitchCase]="'required'">
+                                 Requerido
+                              </ng-template>
+                              <ng-template ngSwitchDefault>
+                                 {{error}}
+                              </ng-template>
+                           </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Nombre del tipo de ausentismo.">info</mat-icon>
+                     </mat-form-field>
+                  </div>
+
+                  <div class="dos-bloque">
+                     <mat-form-field appearance="outline">
+                        <mat-label>Clase</mat-label>
+                        <mat-select formControlName="claseAusentismoId" required>
+                           <mat-option></mat-option>
+                           <mat-option *ngFor="let item of claseOptions" [value]="item.id">
+                              {{ item.nombre }}
+                           </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of objToArray(claseAusentismoId.errors)">
+                           <div [ngSwitch]="error">
+                              <ng-template [ngSwitchCase]="'required'">
+                                 Requerido
+                              </ng-template>
+                              <ng-template ngSwitchDefault>
+                                 {{error}}
+                              </ng-template>
+                           </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Clase de ausentismo al que corresponde el tipo ausentismo.">
+                           info</mat-icon>
+                     </mat-form-field>
+
+                     <mat-form-field appearance="outline">
+                        <mat-label>Unidad de tiempo</mat-label>
+                        <mat-select formControlName="unidadTiempo" required>
+                           <mat-option></mat-option>
+                           <mat-option value="Dias">Días</mat-option>
+                           <mat-option value="Horas">Horas</mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of objToArray(unidadTiempo.errors)">
+                           <div [ngSwitch]="error">
+                              <ng-template [ngSwitchCase]="'required'">
+                                 Requerido
+                              </ng-template>
+                              <ng-template ngSwitchDefault>
+                                 {{error}}
+                              </ng-template>
+                           </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Indica si el tipo de ausentismo se da en horas o días.">
+                           info</mat-icon>
+                     </mat-form-field>
+
+                  </div>
+
+
+                  <div class="actions">
+                     <a mat-raised-button [routerLink]="'/configuracion/tipo-ausentismos'">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                     </a>
+
+                     <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                        <mat-icon>save</mat-icon>
+                        <span>Guardar</span>
+                     </button>
+                  </div>
+
+               </form>
+
+            </mat-tab>
+            <!-- /Informacion-->
+
+
+            <mat-tab label="Conceptos relacionados " [disabled]="!item">
+            </mat-tab>
+
+         </mat-tab-group>
+
+      </div>
+
+   </div>
+
+</div>

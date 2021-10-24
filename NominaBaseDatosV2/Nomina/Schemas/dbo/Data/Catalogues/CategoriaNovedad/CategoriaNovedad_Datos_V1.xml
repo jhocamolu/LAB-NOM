@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="CategoriaNovedad_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[CategoriaNovedad] ON 
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (1,'Activo','sistema',GETDATE(),'Retroactivo salario',51,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (2,'Activo','sistema',GETDATE(),'Salario basico por encargo',52,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (3,'Activo','sistema',GETDATE(),'Ajuste salario',53,'OtrasNovedades','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (4,'Activo','sistema',GETDATE(),'Salario variable',54,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (5,'Activo','sistema',GETDATE(),'Retroactivo salario variable',55,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (6,'Activo','sistema',GETDATE(),'auxilio económico óptico',3,'Beneficios','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (7,'Activo','sistema',GETDATE(),'auxilio económico educativo',4,'Beneficios','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (8,'Activo','sistema',GETDATE(),'Préstamo económico por calamidad domestica',5,'Beneficios','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (9,'Activo','sistema',GETDATE(),'auxilio de rodamiento',6,'OtrasNovedades','Fija',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (10,'Activo','sistema',GETDATE(),'Auxilio de alojamiento',7,'OtrasNovedades','Fija',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (11,'Activo','sistema',GETDATE(),'Auxilio de Traslado',56,'OtrasNovedades','Fija',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (12,'Activo','sistema',GETDATE(),'Enfermedad general empresa',8,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (13,'Activo','sistema',GETDATE(),'Enfermedad general a partir del día 3 hasta el día 90',9,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (14,'Activo','sistema',GETDATE(),'Enfermedad general a partir del día 91 hasta el día 180',10,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (15,'Activo','sistema',GETDATE(),'Enfermedad general a partir del día 181 hasta el día 540',11,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (16,'Activo','sistema',GETDATE(),'Enfermedad general a partir de los 541 días',12,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (17,'Activo','sistema',GETDATE(),'Incapacidad Accidente de Trabajo Empresa',13,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (18,'Activo','sistema',GETDATE(),'Incapacidad Accidente de Trabajo ARL',14,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (19,'Activo','sistema',GETDATE(),'Incapacidad Enfermedad de Origen Laboral Empresa',15,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (20,'Activo','sistema',GETDATE(),'Incapacidad Origen Laboral ARL',16,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (21,'Activo','sistema',GETDATE(),'Licencia remunerada',17,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (22,'Activo','sistema',GETDATE(),'Licencia no remunerada',18,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (23,'Activo','sistema',GETDATE(),'Licencia de maternidad',57,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (24,'Activo','sistema',GETDATE(),'Licencia de paternidad',58,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (25,'Activo','sistema',GETDATE(),'Licencia por luto',59,'Ausentismos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (26,'Activo','sistema',GETDATE(),'Recargo nocturno',60,'HorasExtra','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (27,'Activo','sistema',GETDATE(),'Hora extra diurna',61,'HorasExtra','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (28,'Activo','sistema',GETDATE(),'Hora extra nocturna',62,'HorasExtra','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (29,'Activo','sistema',GETDATE(),'Hora extra festiva dominical diurna',63,'HorasExtra','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (30,'Activo','sistema',GETDATE(),'Hora extra festiva dominical nocturna',64,'HorasExtra','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (31,'Activo','sistema',GETDATE(),'Recargo nocturno dominical y festivo',65,'HorasExtra','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (32,'Activo','sistema',GETDATE(),'Dominical festivo compensado',66,'HorasExtra','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (33,'Activo','sistema',GETDATE(),'Dominical festivo sin compensar',67,'HorasExtra','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (34,'Activo','sistema',GETDATE(),'Dotacion',68,'OtrasNovedades','Eventual',0,0,null,1)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (35,'Activo','sistema',GETDATE(),'Indemnización',69,'OtrasNovedades','Eventual',1,0,null,1)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (36,'Activo','sistema',GETDATE(),'Bonificación por retiro',70,'OtrasNovedades','Eventual',1,0,null,1)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (37,'Activo','sistema',GETDATE(),'Bonos habituales',71,'OtrasNovedades','Eventual',1,0,null,1)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (38,'Activo','sistema',GETDATE(),'Bonos ocasionales',72,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (39,'Activo','sistema',GETDATE(),'Comisiones',73,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (40,'Activo','sistema',GETDATE(),'Compensación teletrabajo',74,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (41,'Activo','sistema',GETDATE(),'Viáticos prestacionales',75,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (42,'Activo','sistema',GETDATE(),'Devolución rte fuente',76,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (43,'Activo','sistema',GETDATE(),'Otros pagos no salariales',77,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (44,'Activo','sistema',GETDATE(),'Intereses cesantías consolidadas',86,'OtrasNovedades','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (45,'Activo','sistema',GETDATE(),'Embargo alimentos',23,'Embargos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (46,'Activo','sistema',GETDATE(),'Embargo cooperativas',24,'Embargos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (47,'Activo','sistema',GETDATE(),'Embargo Coactivo',25,'Embargos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (48,'Activo','sistema',GETDATE(),'Embargo ejecutivo',22,'Embargos','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (49,'Activo','sistema',GETDATE(),'Indemnización Laboral antes de 27 de Diciembre 1992.',89,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (50,'Activo','sistema',GETDATE(),'Indemnización Laboral despues del 28 de diciembre 1992. Ley 789',90,'OtrasNovedades','Eventual',1,0,null,1)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (51,'Activo','sistema',GETDATE(),'Compensatorio',91,'OtrasNovedades','Eventual',1,0,null,1)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (52,'Activo','sistema',GETDATE(),'Libranzas',21,'Libranzas','Eventual',0,0,null,1)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (53,'Activo','sistema',GETDATE(),'Cooperativa emcoservicios',94,'OtrasNovedades','Fija',1,0,'OtrosTerceros',1)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (54,'Activo','sistema',GETDATE(),'Fondo mutuo de inversión CONFEDEGAS',95,'OtrasNovedades','Fija',1,0,'OtrosTerceros',0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (55,'Activo','sistema',GETDATE(),'Cuentas AFC',96,'OtrasNovedades','Fija',1,0,'EntidadFinanciera',0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (56,'Activo','sistema',GETDATE(),'Aportes voluntarios a pensión',97,'OtrasNovedades','Eventual',1,0,'EntidadFinanciera',0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (57,'Activo','sistema',GETDATE(),'Descuento préstamo económico por calamidad',26,'Beneficios','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (58,'Activo','sistema',GETDATE(),'Descuento préstamo económico educativo',27,'Beneficios','Eventual',0,0,null,0)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (59,'Activo','sistema',GETDATE(),'Cuota sindicato',103,'OtrasNovedades','Fija',1,0,'OtrosTerceros',1)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (60,'Activo','sistema',GETDATE(),'Medicina prepagada',104,'OtrasNovedades','Fija',1,0,'OtrosTerceros',1)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (61,'Activo','sistema',GETDATE(),'Mayor valor pagado',105,'OtrasNovedades','Eventual',1,0,null,1)
+GO
+INSERT INTO [dbo].[CategoriaNovedad] ([Id],[EstadoRegistro],[CreadoPor],[FechaCreacion],[Nombre],[ConceptoNominaId],[Modulo],[Clase],[UsaParametrizacion],[RequiereTercero],[UbicacionTercero],[ValorEditable]) VALUES (62,'Activo','sistema',GETDATE(),'Descuento legalización gastos de viaje',108,'OtrasNovedades','Eventual',1,0,null,0)
+GO
+SET IDENTITY_INSERT [dbo].[CategoriaNovedad] OFF
+GO
+
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[CategoriaNovedad] WHERE Id BETWEEN 1 AND 62;
+</rollback>
+</changeSet>
+</databaseChangeLog>

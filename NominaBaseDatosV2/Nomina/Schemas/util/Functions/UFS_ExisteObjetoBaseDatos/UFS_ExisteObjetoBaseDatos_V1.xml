@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_ExisteObjetoBaseDatos_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_ExisteObjetoBaseDatos]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_ExisteObjetoBaseDatos]
+END
+GO
+
+-- ==========================================================================================
+-- Author:      Jhonatan Camilo Moreno Luna
+-- Create date: 28/02/2020
+-- Description: Pemite identificar la Existencia de un objeto segun su tipo.
+-- Parameters:
+--  @ELEMENTO:  Nombre de Objeto de la base de datos que se desea buscar
+-- Returns:		Scalar
+--	 @EXISTE BIT:		Valor del Parametro 
+-- ==========================================================================================
+CREATE FUNCTION [util].[UFS_ExisteObjetoBaseDatos](@Elemento NVARCHAR(MAX))
+RETURNS BIT
+AS
+     BEGIN
+         DECLARE @EXISTE BIT;
+
+         SET @EXISTE =
+         (
+             SELECT COUNT(name) AS valor
+             FROM sys.objects
+             WHERE object_id = OBJECT_ID(@Elemento)
+                   AND type IN('U', 'P', 'V', 'FN', 'TF')
+         );
+
+         RETURN @EXISTE;
+
+     END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_ExisteObjetoBaseDatos]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_ExisteObjetoBaseDatos]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

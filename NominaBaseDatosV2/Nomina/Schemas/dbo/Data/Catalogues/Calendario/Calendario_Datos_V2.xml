@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="Calendario_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Calendario] ON;
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('55', '2021-01-01', 'Año Nuevo', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('56', '2021-01-11', 'Día de los Reyes Magos', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('57', '2021-03-22', 'Dia de san jose', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('58', '2021-04-01', 'Jueves Santo', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('59', '2021-04-02', 'Viernes Santo', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('60', '2021-05-01', 'Día del Trabajo', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('61', '2021-05-17', 'Día de la Ascensión', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('62', '2021-06-03', 'Corpus Christi', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('63', '2021-06-14', 'Sagrado Corazón', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('64', '2021-07-05', 'San Pedro y San Pablo', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('65', '2021-07-20', 'Día de la Independencia', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('66', '2021-08-07', 'Batalla de Boyacá', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('67', '2021-08-16', 'Día de la Asunción', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('68', '2021-10-18', 'Celebración del Día de la Raza', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('69', '2021-11-01', 'Día de todos los Santos', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('70', '2021-11-15', 'Independencia de Cartagena', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('71', '2021-12-08', 'Inmaculada Concepción', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('72', '2021-12-25', 'Navidad', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('73', '2022-01-01', 'Año Nuevo', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('74', '2022-01-10', 'Día de los Reyes Magos', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('75', '2022-03-21', 'Día de San José', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('76', '2022-04-14', 'Jueves Santo', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('77', '2022-04-15', 'Viernes Santo', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('78', '2022-05-01', 'Día del Trabajo', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('79', '2022-05-30', 'Día de la Ascensión', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('80', '2022-06-20', 'Corpus Christi', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('81', '2022-06-27', 'Sagrado Corazón', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('82', '2022-06-04', 'San Pedro y San Pablo', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('83', '2022-07-20', 'Día de la Independencia', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('84', '2022-08-07', 'Batalla de Boyacá', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('85', '2022-08-15', 'Día de la Asunción', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('86', '2022-10-17', 'Celebración del Día de la Raza', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('87', '2022-11-07', 'Día de todos los Santos', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('88', '2022-11-14', 'Independencia de Cartagena', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('89', '2022-12-08', 'Inmaculada Concepción', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO dbo.Calendario (Id, Fecha, Nombre, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('90', '2022-12-25', 'Navidad', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[Calendario] OFF;
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM [dbo].[Calendario] WHERE Id BETWEEN 55 AND 90;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

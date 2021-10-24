@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoAusentismo_Datos_V2">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoAusentismo] ON 
+GO
+UPDATE dbo.TipoAusentismo SET ClaseAusentismoId='4' WHERE Id='1';
+UPDATE dbo.TipoAusentismo SET ClaseAusentismoId='4' WHERE Id='2';
+UPDATE dbo.TipoAusentismo SET ClaseAusentismoId='4' WHERE Id='3';
+UPDATE dbo.TipoAusentismo SET ClaseAusentismoId='4' WHERE Id='4';
+UPDATE dbo.TipoAusentismo SET ClaseAusentismoId='4' WHERE Id='5';
+
+SET IDENTITY_INSERT [dbo].[TipoAusentismo] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE dbo.TipoAusentismo SET ClaseAusentismoId='3' WHERE Id='1';
+UPDATE dbo.TipoAusentismo SET ClaseAusentismoId='3' WHERE Id='2';
+UPDATE dbo.TipoAusentismo SET ClaseAusentismoId='3' WHERE Id='3';
+UPDATE dbo.TipoAusentismo SET ClaseAusentismoId='3' WHERE Id='4';
+UPDATE dbo.TipoAusentismo SET ClaseAusentismoId='3' WHERE Id='5';
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

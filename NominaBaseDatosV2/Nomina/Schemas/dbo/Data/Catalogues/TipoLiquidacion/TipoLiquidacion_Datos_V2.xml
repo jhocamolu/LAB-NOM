@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoLiquidacion_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoLiquidacion] ON
+GO
+INSERT INTO TipoLiquidacion (Id, TipoPeriodoId, Codigo, Nombre, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('6', '5', 'CESAFOND', 'Cesantías a fondos', 'Contiene los conceptos para realizar el pago de cesantías a los fondos de pension', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoLiquidacion (Id, TipoPeriodoId, Codigo, Nombre, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('7', '1', 'ANTCESAN', 'Anticipo de cesantías.', 'Contiene los conceptos para la liquidación de anticipo a las cesantías', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoLiquidacion (Id, TipoPeriodoId, Codigo, Nombre, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('8', '2', 'APRENDIZ', 'Liquidacion de aprendices', 'Contiene los conceptos para el pago de la nómina mensual de los aprendices o practicantes', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoLiquidacion (Id, TipoPeriodoId, Codigo, Nombre, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('9', '2', 'SEGSOCIAL', 'Seguridad social', 'Contiene los conceptos para realizar el cálculo de seguridad social', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoLiquidacion (Id, TipoPeriodoId, Codigo, Nombre, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('10', '2', 'LIQAJUSTE', 'Liquidación de ajuste', 'Contiene los conceptos que permiten realizar ajustes a la nómina ', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoLiquidacion (Id, TipoPeriodoId, Codigo, Nombre, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('11', '2', 'PILA', 'Liquidación de PILA', 'Contiene los conceptos para generar la PILA y pagar seguridad social', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoLiquidacion (Id, TipoPeriodoId, Codigo, Nombre, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('12', '2', 'PROVI', 'Provisiones', 'Contiene los conceptos para realizar el cálculo de provisiones ', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoLiquidacion (Id, TipoPeriodoId, Codigo, Nombre, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('13', '4', 'RETFUENTE', 'Retención en la fuente', 'Contiene la inforamción para realizar la retención en la fuente.', 'Activo    ', 'sistema', GETDATE());
+UPDATE TipoLiquidacion SET Codigo='CESAPROV' WHERE Id='5';
+SET IDENTITY_INSERT [dbo].[TipoLiquidacion] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE TipoLiquidacion SET Codigo='CESA' WHERE Id='5';
+DELETE FROM [dbo].[TipoLiquidacion] WHERE Id BETWEEN 6 AND 13;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ObtenerNominaFuncionarioCantidad_v3_1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerNominaFuncionarioCantidad', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerNominaFuncionarioCantidad as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 14/04/2020
+-- Description: Permite obtener la cantidad según el concepto para NominaFuncionario.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario.
+--   @NominaId:					Identificador de la nómina.
+--   @AliasConcepto:			Alias identificación del concepto.
+--		
+--	 Returns:						
+--	 Cantidad:					Cantidad de la tabla NominaDetalle.
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerNominaFuncionarioCantidad]  (@FuncionarioId INT, @NominaId INT, @AliasConcepto VARCHAR(20) )  
+AS
+BEGIN
+	--------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@AliasConcepto=', CONVERT(VARCHAR, @AliasConcepto));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	DECLARE @ConceptoNominaId 		INT = NULL;
+	DECLARE @Cantidad 				INT = NULL;
+	DECLARE @NominaFuncionarioId 	INT = NULL;
+	DECLARE @MensajeError 			VARCHAR(250);
+	DECLARE @ErrorMessage  			NVARCHAR(4000); 
+   	DECLARE @ErrorSeverity 			INT;
+   	DECLARE @ErrorState    			INT;
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	BEGIN TRY
+		-- Consulta el identificador del Concepto de nómina.
+		SELECT @ConceptoNominaId = id FROM ConceptoNomina WHERE Alias = @AliasConcepto;
+		IF @ConceptoNominaId IS NOT NULL
+			-- Consulta identificador de la tabla NominaFuncionario
+			SELECT @NominaFuncionarioId = Id  FROM NominaFuncionario WHERE FuncionarioId = @FuncionarioId  AND NominaId = @NominaId;		
+			
+			IF @NominaFuncionarioId IS NOT NULL		
+			-- Consulta cantidad según parámetros ingresados.
+				SELECT @Cantidad =  Cantidad FROM NominaDetalle WHERE NominaFuncionarioId = @NominaFuncionarioId AND ConceptoNominaId = @ConceptoNominaId;
+		
+			RETURN @Cantidad;
+	END TRY
+	BEGIN CATCH
+		-- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerNominaFuncionarioCantidad', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerNominaFuncionarioCantidad as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 14/04/2020
+-- Description: Permite obtener la cantidad según el concepto para NominaFuncionario.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario.
+--   @NominaId:					Identificador de la nómina.
+--   @AliasConcepto:			Alias identificación del concepto.
+--		
+--	 Returns:						
+--	 Cantidad:					Cantidad de la tabla NominaDetalle.
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerNominaFuncionarioCantidad]  (@FuncionarioId INT, @NominaId INT, @AliasConcepto VARCHAR(20) )  
+AS
+BEGIN
+	--------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@AliasConcepto=', CONVERT(VARCHAR, @AliasConcepto));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+	---------------------------------------------
+	-- Declaraciones
+	---------------------------------------------
+	DECLARE @ConceptoNominaId 		INT = NULL;
+	DECLARE @Cantidad 				INT = NULL;
+	DECLARE @NominaFuncionarioId 	INT = NULL;
+	DECLARE @MensajeError 			VARCHAR(250);
+	DECLARE @ErrorMessage  			NVARCHAR(4000); 
+   	DECLARE @ErrorSeverity 			INT;
+   	DECLARE @ErrorState    			INT;
+
+	---------------------------------------------
+	-- Proceso
+	---------------------------------------------
+	BEGIN TRY
+		-- Consulta el identificador del Concepto de nómina.
+		SELECT @ConceptoNominaId = id FROM ConceptoNomina WHERE Alias = @AliasConcepto;
+		
+		IF @ConceptoNominaId IS NULL
+		BEGIN
+			RAISERROR ( 'No existe el concepto de nómina.',16,1);
+		END 
+		
+		-- Consulta identificador de la tabla NominaFuncionario
+		SELECT @NominaFuncionarioId = Id  FROM NominaFuncionario WHERE FuncionarioId = @FuncionarioId  AND NominaId = @NominaId;
+	
+		IF @NominaFuncionarioId IS NULL
+		BEGIN
+			RAISERROR ( 'No existe la relación del funcionario y la nómina.',16,1);
+		END 
+		
+		-- Consulta cantidad según parámetros ingresados.
+		SELECT @Cantidad =  Cantidad FROM NominaDetalle WHERE NominaFuncionarioId = @NominaFuncionarioId AND ConceptoNominaId = @ConceptoNominaId;
+	
+		IF @Cantidad IS NULL
+		BEGIN
+			SET @MensajeError = 'No se encontró información para el FuncionarioId: '+ CONVERT(VARCHAR(10), @FuncionarioId)  +', el AliasConcepto: ' + @AliasConcepto 
+			RAISERROR ( @MensajeError,16,1);
+		END 
+	
+		RETURN @Cantidad;
+	END TRY
+	BEGIN CATCH
+		-- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

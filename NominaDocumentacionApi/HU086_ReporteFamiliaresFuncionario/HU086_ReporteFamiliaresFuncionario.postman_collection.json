@@ -1,0 +1,37 @@
+{
+	"info": {
+		"_postman_id": "86d81bf0-447e-4011-9be8-3d2bb3dc04b6",
+		"name": "HU086_ReporteFamiliaresFuncionario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte FamiliaresFuncionario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"TipoParentescoId\":\"3\",\r\n   \"FuncionarioId\":null,\r\n   \"CentroOperativoId\": null,\r\n   \"DependenciaId\": null,\r\n   \"CargoId\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/FamiliaresFuncionario",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"FamiliaresFuncionario"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TareaProgramada_Datos_V3">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TareaProgramada] ON
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [Alias]) VALUES (8, N'Finalizar contrato', N'diaria', N'Se encarga de revisar los contratos en estado Vigente y cuya fecha de terminación sea menor o anterior a la fecha actual, para así, actualizar el estado del contrato a “Pendiente por liquidar” y el estado del funcionario a “Retirado”.', N'node C:\inetpub\wwwroot\NominaConsola\index.js finalizar-contrato', 0, 'Activo', 'sistema',GETDATE(), N'finalizar-contrato')
+GO
+
+SET IDENTITY_INSERT [dbo].[TareaProgramada] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[TareaProgramada] WHERE Id = 8;
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

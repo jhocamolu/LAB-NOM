@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="dbo.FuncionVariable_Datos_V5">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+UPDATE dbo.FuncionVariable SET FuncionNominaId=36 WHERE Id=103;
+UPDATE dbo.FuncionVariable SET FuncionNominaId=36 WHERE Id=104;
+UPDATE dbo.FuncionVariable SET FuncionNominaId=36 WHERE Id=105;
+UPDATE dbo.FuncionVariable SET FuncionNominaId=36 WHERE Id=106;
+UPDATE dbo.FuncionVariable SET FuncionNominaId=36 WHERE Id=107;
+
+SET IDENTITY_INSERT [dbo].[FuncionVariable] ON 
+GO
+
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(128, 37, 18, 1, 'Variable', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'ConstantePracticante');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(129, 37, 19, 2, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, NULL);
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(130, 38, 1, 1, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FuncionarioId');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(131, 38, 5, 2, 'BaseIbcMes', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'ConceptoAlias');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(132, 38, 6, 3, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FechaInicio');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(133, 38, 7, 4, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FechaFin');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(134, 38, 11, 5, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'Valor');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(135, 39, 1, 1, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FuncionarioId');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(136, 39, 5, 2, 'BaseParafiscalesMes', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'ConceptoAlias');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(137, 39, 6, 3, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FechaInicio');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(138, 39, 7, 4, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FechaFin');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(139, 39, 11, 5, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'Valor');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(140, 40, 1, 1, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FuncionarioId');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(141, 40, 5, 2, 'Baseprimacesantiasmes', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'ConceptoAlias');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(142, 40, 6, 3, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FechaInicio');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(143, 40, 7, 4, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FechaFin');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(144, 40, 11, 5, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'Valor');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(145, 41, 1, 1, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FuncionarioId');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(146, 41, 5, 2, 'BaseBonoSemestralMes', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'ConceptoAlias');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(147, 41, 6, 3, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FechaInicio');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(148, 41, 7, 4, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FechaFin');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(149, 41, 11, 5, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'Valor');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(150, 42, 1, 1, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FuncionarioId');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(151, 42, 5, 2, 'BaseBonoSemestralMes', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'ConceptoAlias');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(152, 42, 6, 3, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FechaInicio');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(153, 42, 7, 4, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'FechaFin');
+INSERT INTO dbo.FuncionVariable (Id, FuncionNominaId, VariableNominaId, Orden, ValorDefecto, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, NombreParametro) VALUES(154, 42, 11, 5, NULL, 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL, 'Valor');
+GO
+SET IDENTITY_INSERT [dbo].[FuncionVariable] OFF
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE FuncionVariable SET FuncionNominaId=35 WHERE Id=103;
+UPDATE FuncionVariable SET FuncionNominaId=35 WHERE Id=104;
+UPDATE FuncionVariable SET FuncionNominaId=35 WHERE Id=105;
+UPDATE FuncionVariable SET FuncionNominaId=35 WHERE Id=106;
+UPDATE FuncionVariable SET FuncionNominaId=35 WHERE Id=107;
+DELETE FROM dbo.FuncionVariable WHERE Id BETWEEN 128 AND 154;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

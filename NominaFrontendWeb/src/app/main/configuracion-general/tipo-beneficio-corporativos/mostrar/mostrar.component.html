@@ -1,0 +1,243 @@
+<div class="page-layout simple fullwidth cargos-listar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/dashboard">Catálogos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/configuracion/beneficios/">Tipos de beneficios corporativos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar tipo de beneficio</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar tipo de beneficio</h2>
+            </div>
+        </div>
+        <div class="Acciones">
+            <button mat-raised-button color="accent" mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>edit</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <a style="text-decoration: none !important;" *ngIf="arrayPermisos.actualizar"
+                    routerLink="/configuracion/beneficios//{{element.id}}/editar" mat-menu-item>
+                    <span>Editar tipo de beneficio</span>
+                </a>
+                <button mat-menu-item *ngIf="arrayPermisosRequisitos.crear" (click)="requisitoHandle($event)">
+                    <span>Agregar requisito</span>
+                </button>
+                <a style="text-decoration: none !important;" routerLink="/configuracion/beneficios/"
+                    mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="box-shadow">
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="selectedTabChangeHandle($event)">
+                <!-- Primer Label -->
+                <mat-tab label="Información">
+                    <div>
+                        <h3>Nombre <mat-icon class="s-16" matSuffix
+                                matTooltip="Nombre que identifica el tipo de beneficio.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{element.nombre}}</p>
+                    </div>
+
+                    <div class="dos-bloque">
+                        <div>
+                            <h3>Requiere aprobación del jefe directo <mat-icon class="s-16" matSuffix matTooltip="Seleccione si el tipo de beneficio se debe aprobar por el jefe
+                                    directo.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.requiereAprobacionJefe ? 'Si' : 'No'}}</p>
+                        </div>
+                        <div>
+                            <h3>Monto máximo permitido <mat-icon class="s-16" matSuffix
+                                    matTooltip="Valor máximo de dinero que se permite para el tipo de beneficio.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.montoMaximo | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3>Concepto de nómina para entrega de beneficio <mat-icon class="s-16" matSuffix
+                                matTooltip="Ítem de la nómina que relaciona el tipo de beneficio.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{ element.conceptoNominaDevengo ? element.conceptoNominaDevengo?.nombre : 'N/A' }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3>Concepto nómina para descuento <mat-icon class="s-16" matSuffix
+                                matTooltip="Ítem de la nómina que relaciona el tipo de beneficio.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p> {{ element.conceptoNominaDeduccion ? element.conceptoNominaDeduccion?.nombre : 'N/A' }}
+                        </p>
+                    </div>
+
+                    <div class="dos-bloque">
+                        <div>
+                            <h3>Valor solicitado por funcionario <mat-icon class="s-16" matSuffix matTooltip="Indica si se requiere que el funcionario diligencie el valor solicitado
+                                    para el beneficio.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.valorSolicitado ? 'Si': 'No'}}</p>
+                        </div>
+                        <div>
+                            <h3>Solicita plazo en meses <mat-icon class="s-16" matSuffix matTooltip="Indica si se requiere que el funcionario describa la cantidad de cuotas
+                                    para el pago del beneficio.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.plazoMes ? 'Si': 'No'}}
+                        </div>
+                    </div>
+
+                    <div class="dos-bloque">
+                        <div>
+                            <h3>Cantidad de cuotas permitidas <mat-icon class="s-16" matSuffix matTooltip="Indica la cantidad de cuotas mensuales a las que se puede amortizar un
+                                    beneficio.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.cuotaPermitida}}</p>
+                        </div>
+                        <div>
+                            <h3>Permite definir período de pago <mat-icon class="s-16" matSuffix
+                                    matTooltip="Indica si el funcionario puede definir la periodicidad de pago.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.periodoPago ? 'Si': 'No'}}</p>
+                        </div>
+                    </div>
+
+                    <div class="dos-bloque">
+                        <div>
+                            <h3>Permite opción de auxilio educativo <mat-icon class="s-16" matSuffix
+                                    matTooltip="Indica si el funcionario debe definir una opción de auxilio educativo.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.permiteAuxilioEducativo ? 'Si' : 'No'}}</p>
+                        </div>
+                        <div>
+                            <h3>Permite descuento por nómina <mat-icon class="s-16" matSuffix matTooltip="Indica si se debe permitir realizar descuento por nómina para el
+                                    beneficio.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.permiteDescuentoNomina ? 'Si': 'No'}}
+                        </div>
+                    </div>
+
+                    <div class="dos-bloque">
+                        <div>
+                            <h3>Permite ingresar el valor autorizado <mat-icon class="s-16" matSuffix matTooltip="Indica si el funcionario de gestión humana debe ingresar un monto a
+                                    autorizar.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.valorAutorizado ? 'Si' : 'No'}}</p>
+                        </div>
+                        <div>
+                            <h3>Días de antiguedad para el beneficio <mat-icon class="s-16" matSuffix
+                                    matTooltip="Cantidad de días de antigüedad para acceder al beneficio.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.diasAntiguedad}}</p>
+                        </div>
+                    </div>
+                    <div class="dos-bloque">
+                        <div>
+                            <h3>Veces permitidas por año <mat-icon class="s-16" matSuffix
+                                    matTooltip="Cantidad de veces que se permite acceder al beneficio en un año.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.vecesAnio}}</p>
+                        </div>
+                        <div>
+                            <h3>Permiso para adelantar estudios <mat-icon class="s-16" matSuffix matTooltip="Indica si el beneficio debe mostrar las condiciones para adelantar
+                                    estudios.">
+                                    info
+                                </mat-icon>
+                            </h3>
+                            <p>{{element.permisoEstudio ? 'Si' : 'No'}}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Descripción <mat-icon class="s-16" matSuffix
+                                matTooltip="Breve descripción del tipo de beneficio.">
+                                info
+                            </mat-icon>
+                        </h3>
+                        <p>{{element.descripcion ? element.descripcion : 'N/A' }}</p>
+                    </div>
+
+                </mat-tab>
+                <!-- / Primer Label -->
+
+                <!-- Segundo Label -->
+                <mat-tab label="Requisitos">
+
+                    <div class="empty" fxLayoutAlign="center center" fxLayout="column" *ngIf="count == 0"
+                        style="margin-top:10px">
+                        <img src="/assets/alcanos/empty_state_crear.svg" width="50%" />
+                        <div fxLayout="row">
+                            <h1><strong> ¡Uy! Aún no has agregado requisitos.</strong> </h1>
+                        </div>
+                        <div *ngIf="path == '!mostrar'" fxLayout="row">
+                            <h2>¡Vamos a cambiar esto!</h2>
+                        </div>
+                        <div *ngIf="path == '!mostrar'" fxLayout="row" fxLayoutGap="10px">
+                            <button mat-raised-button color="accent" (click)="requisitoHandle($event)">
+                                <mat-icon>add</mat-icon>
+                                <span>Agregar requisito</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <table class="simple" *ngIf="count > 0">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell margen">Nombre del requisito</th>
+                                <th *ngIf="path == '!mostrar'" class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of requisitos" class="mat-row">
+                                <td class="margen">{{item.tipoSoporte?.nombre}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </mat-tab>
+                <!-- / Segundo Label -->
+
+            </mat-tab-group>
+        </div>
+    </div>
+    <!--/ CONTENIDO-->
+
+</div>

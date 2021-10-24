@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="EntidadFinanciera_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+UPDATE dbo.EntidadFinanciera SET Nit='860002964', DV='4' WHERE Id='1';
+UPDATE dbo.EntidadFinanciera SET Nit='860007738', DV='9' WHERE Id='2';
+UPDATE dbo.EntidadFinanciera SET Nit='890903937', DV='0' WHERE Id='3';
+UPDATE dbo.EntidadFinanciera SET Nit='890903938', DV='8' WHERE Id='4';
+UPDATE dbo.EntidadFinanciera SET Nit='860051135', DV='4' WHERE Id='5';
+UPDATE dbo.EntidadFinanciera SET Nit='860050750', DV='1' WHERE Id='6';
+UPDATE dbo.EntidadFinanciera SET Nit='860003020', DV='1' WHERE Id='7';
+UPDATE dbo.EntidadFinanciera SET Nit='890300279', DV='4' WHERE Id='8';
+UPDATE dbo.EntidadFinanciera SET Nit='860007335', DV='4' WHERE Id='9';
+UPDATE dbo.EntidadFinanciera SET Nit='860034313', DV='7' WHERE Id='10';
+UPDATE dbo.EntidadFinanciera SET Nit='860034594', DV='1' WHERE Id='11';
+UPDATE dbo.EntidadFinanciera SET Nit='800037800', DV='8' WHERE Id='12';
+UPDATE dbo.EntidadFinanciera SET Nit='860035827', DV='5' WHERE Id='13';
+UPDATE dbo.EntidadFinanciera SET Nit='900200960', DV='9' WHERE Id='14';
+UPDATE dbo.EntidadFinanciera SET Nit='900215071', DV='1' WHERE Id='15';
+UPDATE dbo.EntidadFinanciera SET Nit='900378212', DV='2' WHERE Id='16';
+UPDATE dbo.EntidadFinanciera SET Nit='900406150', DV='5' WHERE Id='17';
+UPDATE dbo.EntidadFinanciera SET Nit='860051894', DV='6' WHERE Id='18';
+UPDATE dbo.EntidadFinanciera SET Nit='900047981', DV='8' WHERE Id='19';
+UPDATE dbo.EntidadFinanciera SET Nit='890200756', DV='7' WHERE Id='20';
+UPDATE dbo.EntidadFinanciera SET Nit='890203088', DV='9' WHERE Id='21';
+UPDATE dbo.EntidadFinanciera SET Nit='900628110', DV='3' WHERE Id='22';
+UPDATE dbo.EntidadFinanciera SET Nit='900768933', DV='8' WHERE Id='23';
+UPDATE dbo.EntidadFinanciera SET Nit='860024414', DV='1' WHERE Id='24';
+UPDATE dbo.EntidadFinanciera SET Nit='860025971', DV='5' WHERE Id='25';
+UPDATE dbo.EntidadFinanciera SET Nit='860043186', DV='6' WHERE Id='26'; 
+DELETE FROM dbo.EntidadFinanciera WHERE Id='28';
+DELETE FROM dbo.EntidadFinanciera WHERE Id='29';
+
+SET IDENTITY_INSERT [dbo].[EntidadFinanciera] ON;
+INSERT INTO EntidadFinanciera (Id, Codigo, Nit, Dv, Nombre, DivisionPoliticaNivel2Id, Telefono, Direccion, RepresentanteLegal, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, EntidadPorDefecto) VALUES(28, '50', '890700148', '4', 'Comfenalco del tolima', 1026, '2702494', 'CL 36 ENTRE KR 5 Y 6', 'Jaime Castro Castro', 'Activo    ', '1110475411', '2020-10-27 10:04:00.000', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO EntidadFinanciera (Id, Codigo, Nit, Dv, Nombre, DivisionPoliticaNivel2Id, Telefono, Direccion, RepresentanteLegal, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion, EntidadPorDefecto) VALUES(29, '532', '891180008', '2', 'Comfamiliar del Huila', 657, '8713092', 'CALLE 11 # 5- 63', 'Rosa Adela Pardo Motta', 'Activo    ', '1110475411', '2020-10-27 10:13:00.000', NULL, NULL, NULL, NULL, NULL);
+SET IDENTITY_INSERT [dbo].[EntidadFinanciera] OFF;
+
+]]> 
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+DELETE FROM dbo.EntidadFinanciera WHERE Id IN(28,29);
+]]> 
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

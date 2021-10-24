@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+   
+	<!-- Se debe incluir un archivo por cada objeto de base de datos -->
+
+<include file="Schemas/dbo/Tables/HojaDeVidaDocumento/HojaDeVidaDocumento_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V75.xml"/>
+
+
+<include file="Schemas/dbo/Tables/CausalTerminacion/CausalTerminacion_V1.xml"/>
+<include file="Schemas/dbo/Tables/Contrato/Contrato_V9.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V76.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/CausalTerminacion/CausalTerminacion_Datos_V1.xml"/>
+
+<include file="Schemas/dbo/Tables/CausalTerminacion/CausalTerminacion_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V77.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/TareaProgramada/TareaProgramada_Datos_V3.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_FinalizarContrato/USP_FinalizarContrato_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ActualizarSolicitudVacaciones/USP_ActualizarSolicitudVacaciones_V5.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ActualizarLibroVacaciones/USP_ActualizarLibroVacaciones_V5.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ActualizarSolicitudVacacionesInterrupcion/USP_ActualizarSolicitudVacacionesInterrupcion_V4.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteClaseCargo/VW_ConstanteClaseCargo_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ConceptoBase/ConceptoBase_Datos_V1.xml"/>
+
+
+
+<include file="Schemas/dbo/Tables/TipoContrato/TipoContrato_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V78.xml"/>
+
+<include file="Schemas/dbo/Tables/AplicacionExternaCargoDependiente/AplicacionExternaCargoDependiente_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V79.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/TareaProgramada/TareaProgramada_Datos_V4.xml"/>
+<!--<include file="Schemas/dbo/StoredProcedures/USP_ProcesarEstadosContratos/USP_ProcesarEstadosContratos_V1.xml"/>-->
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarEstadosAusentismos/USP_ProcesarEstadosAusentismos_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarEstadosFuncionario/USP_ProcesarEstadosFuncionario_V1.xml"/>
+
+
+<include file="Schemas/dbo/Tables/Candidato/Candidato_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V80.xml"/>
+
+<include file="Schemas/dbo/Tables/RequisicionPersonal/RequisicionPersonal_V6.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V81.xml"/>
+
+<include file="Schemas/dbo/Tables/SolicitudVacaciones/SolicitudVacaciones_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V82.xml"/>
+
+<include file="Schemas/util/Views/VW_ConstanteFormaRegistroHoraExtra/VW_ConstanteFormaRegistroHoraExtra_V1.xml"/>
+<include file="Schemas/dbo/Tables/NominaFuenteNovedad/NominaFuenteNovedad_V2.xml"/>
+
+<include file="Schemas/dbo/StoredProcedures/USP_CalcularRetencionFuente/USP_CalcularRetencionFuente_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesGastosViaje/USP_CargarNovedadesGastosViaje_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesHorasExtras/USP_CargarNovedadesHorasExtras_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesOtras/USP_CargarNovedadesOtras_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerBaseRetefuente/USP_ObtenerBaseRetefuente_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDeduccionesArticulo387/USP_ObtenerDeduccionesArticulo387_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerLimiteDeducciones/USP_ObtenerLimiteDeducciones_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerRentaExenta/USP_ObtenerRentaExenta_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_RecalculoPorcentajeRetefuente/USP_RecalculoPorcentajeRetefuente_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/FuncionVariable/FuncionVariable_Datos_V5.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V9.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteParametroGeneral/VW_ConstanteParametroGeneral_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TareaProgramada/TareaProgramada_Datos_V5.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteAliasNotificacionPlantilla/VW_ConstanteAliasNotificacionPlantilla_V1.xml"/>
+<include file="Schemas/util/StoredProcedures/USP_RegistrarNotificacion/USP_RegistrarNotificacion_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/NotificacionPlantilla/NotificacionPlantilla_Datos_v1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_NotificarVencimientoContrato/USP_NotificarVencimientoContrato_V1.xml"/>
+
+<include file="Schemas/dbo/Tables/Candidato/Candidato_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V83.xml"/>
+
+<include file="Schemas/dbo/Tables/TipoLiquidacion/TipoLiquidacion_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V84.xml"/>
+
+<include file="Schemas/util/Views/VW_ConstanteEstado/VW_ConstanteEstado_V5.xml"/>
+<include file="Schemas/dbo/Tables/Candidato/Candidato_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V85.xml"/>
+<include file="Schemas/dbo/Triggers/RequisicionPersonal/TR_TrasladarHojaDeVida_V1.xml"/>
+<include file="Schemas/dbo/Functions/UFT_ObtenerHistoricoNomina/UFT_ObtenerHistoricoNomina_V3.xml"/>
+
+
+<include file="Schemas/dbo/Data/Catalogues/TipoHoraExtra/TipoHoraExtra_Datos_V1.xml"/>	
+<include file="Schemas/dbo/Data/Catalogues/CategoriaNovedad/CategoriaNovedad_Datos_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoGastoViaje/TipoGastoViaje_Datos_V1.xml"/>
+
+<include file="Schemas/dbo/Functions/UFT_ObtenerDistribucionNomina/UFT_ObtenerDistribucionNomina_V2.xml"/>
+<include file="Schemas/dbo/Functions/UFT_ObtenerInformacionWidget/UFT_ObtenerInformacionWidget_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ActualizarLibroVacaciones/USP_ActualizarLibroVacaciones_V4.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesLibranzas/USP_CargarNovedadesLibranzas_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CrearRegistroLibroVacaciones/USP_CrearRegistroLibroVacaciones_V4.xml"/>
+<include file="Schemas/dbo/Functions/UFS_ObtenerAnioTrabajo/UFS_ObtenerAnioTrabajo_V1.xml"/>
+<include file='Schemas/dbo/Data/Catalogues/TipoLiquidacion/TipoLiquidacion_Datos_V2.xml' />
+<include file="Schemas/dbo/Data/Catalogues/ConceptoNomina/ConceptoNomina_Datos_V5.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionConcepto/TipoLiquidacionConcepto_Datos_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionEstado/TipoLiquidacionEstado_Datos_V2.xml"/>
+
+
+
+<!-- En los ambientes de desarrollo, integración y pruebas hay datos en esta tabla y estan asociados a contratos
+pero no se sabe como se cargaron ya que no existia la data, por lo que comenta la línea para que no afecte estos
+ambientes hasta que se vuelva a ejecutar la base de datos desde 0 para cada uno de ellos -->
+<include file="Schemas/dbo/Data/Catalogues/CargoGrupo/CargoGrupo_Datos_V1.xml"/>
+
+
+<include file="Schemas/dbo/Tables/Candidato/Candidato_V4.xml" />
+<include file="Schemas/dbo/Tables/HojaDeVida/HojaDeVida_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V86.xml"/>
+
+<include file="Schemas/dbo/Tables/Candidato/Candidato_V5.xml" />
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V87.xml"/>
+
+<include file="Schemas/dbo/Tables/RequisicionPersonal/RequisicionPersonal_V7.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V88.xml"/>
+
+<include file="Schemas/util/Views/VW_ConstanteModuloSistema/VW_ConstanteModuloSistema_V2.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/CategoriaParametro/CategoriaParametro_Datos_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V10.xml"/>
+
+<include file="Schemas/dbo/Tables/Candidato/Candidato_V6.xml" />
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V89.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V11.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteParametroGeneral/VW_ConstanteParametroGeneral_V5.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteAliasNotificacionPlantilla/VW_ConstanteAliasNotificacionPlantilla_V2.xml"/>
+
+<include file="Schemas/dbo/Tables/NotificacionDestinatario/NotificacionDestinatario_V2.xml"/>
+<include file="Schemas/dbo/Tables/NotificacionDestinatarioLog/NotificacionDestinatarioLog_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V90.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V12.xml"/>
+
+<include file="Schemas/dbo/Tables/NotificacionDestinatario/NotificacionDestinatario_V3.xml"/>
+<include file="Schemas/dbo/Tables/NotificacionDestinatarioLog/NotificacionDestinatarioLog_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V91.xml"/>
+
+<include file="Schemas/util/StoredProcedures/USP_RegistrarNotificacion/USP_RegistrarNotificacion_V3.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_NotificarVencimientoContrato/USP_NotificarVencimientoContrato_V1.xml"/>
+
+<include file="Schemas/dbo/Tables/ContratoCentroTrabajo/ContratoCentroTrabajo_V1.xml"/>
+<include file="Schemas/dbo/Tables/TipoAdministradora/TipoAdministradora_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V92.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/NotificacionPlantilla/NotificacionPlantilla_Datos_v3.xml"/>
+
+<include file="Schemas/reclutamiento/Tables/AspNetRoles/AspNetRoles_V1.xml"/>
+<include file="Schemas/reclutamiento/Tables/AspNetRoleClaims/AspNetRoleClaims_V1.xml"/>
+<include file="Schemas/reclutamiento/Tables/AspNetUsers/AspNetUsers_V1.xml"/>
+<include file="Schemas/reclutamiento/Tables/AspNetUserClaims/AspNetUserClaims_V1.xml"/>
+<include file="Schemas/reclutamiento/Tables/AspNetUserLogins/AspNetUserLogins_V1.xml"/>
+<include file="Schemas/reclutamiento/Tables/AspNetUserRoles/AspNetUserRoles_V1.xml"/>
+<include file="Schemas/reclutamiento/Tables/AspNetUserTokens/AspNetUserTokens_V1.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V93.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V14.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoAdministradora/TipoAdministradora_Datos_V2.xml"/>
+
+<include file="Schemas/util/Tables/_EquivalenciaSoftland/_EquivalenciaSoftland_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/CargoDependencia/CargoDependencia_Datos_V2.xml"/>
+<include file="Schemas/util/Data/Catalogues/_EquivalenciaSoftland/_EquivalenciaSoftland_Datos_V1.xml"/>
+<include file="Schemas/util/Data/Catalogues/_EquivalenciaSoftland/_EquivalenciaSoftland_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/Administradora/Administradora_Datos_V2.xml"/>
+<include file="Schemas/util/Tables/_OtrosiExcel/_OtrosiExcel_V1.xml"/>
+<include file="Schemas/util/Data/Catalogues/_OtrosiExcel/_OtrosiExcel_Datos_V1.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/Administradora/Administradora_Datos_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ConceptoNomina/ConceptoNomina_Datos_V6.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ConceptoBase/ConceptoBase_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/FuncionNomina/FuncionNomina_Datos_V6.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/FuncionVariable/FuncionVariable_Datos_V6.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoInconsistencia/TipoInconsistencia_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionConcepto/TipoLiquidacionConcepto_Datos_V2.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/NotificacionPlantilla/NotificacionPlantilla_Datos_v4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V13.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V14.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/NotificacionPlantilla/NotificacionPlantilla_Datos_v5.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/TipoAusentismo/TipoAusentismo_Datos_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoBeneficio/TipoBeneficio_Datos_V3.xml"/>
+
+<include file="Schemas/util/Views/VW_ConstanteParametroGeneral/VW_ConstanteParametroGeneral_V6.xml"/>
+<include file="Schemas/dbo/Triggers/RequisicionPersonal/TR_NotificarRequisicion_V1.xml"/>
+
+<include file="Schemas/dbo/Tables/TipoDocumento/TipoDocumento_V2.xml"/>
+<include file="Schemas/dbo/Tables/TipoCuenta/TipoCuenta_V2.xml"/>
+<include file="Schemas/dbo/Tables/EntidadFinanciera/EntidadFinanciera_V2.xml"/>
+<include file="Schemas/dbo/Tables/CuentaBancaria/CuentaBancaria_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V94.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/TipoDocumento/TipoDocumento_Datos_V1.5.xml"/>
+
+<include file="Schemas/dbo/Tables/TipoDocumento/TipoDocumento_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V95.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/TipoDocumento/TipoDocumento_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoCuenta/TipoCuenta_Datos_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/EntidadFinanciera/EntidadFinanciera_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoDocumento/TipoDocumento_Datos_V3.xml"/>
+
+<include file="Schemas/util/Tables/_EnlaceExterno/_EnlaceExterno_V1.xml"/>
+<include file="Schemas/util/Tables/_MenuFavorito/_MenuFavorito_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V96.xml"/>
+<include file="Schemas/util/Data/Catalogues/_EnlaceExterno/_EnlaceExterno_Datos_V1.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/NotificacionPlantilla/NotificacionPlantilla_Datos_v6.xml"/>
+<include file="Schemas/dbo/Triggers/RequisicionPersonal/TR_NotificarRequisicion_V2.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/CuentaBancaria/CuentaBancaria_Datos_V1.xml"/>
+
+<include file="Schemas/dbo/Triggers/RequisicionPersonal/TR_NotificarRequisicion_V3.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_NotificarVencimientoCubrirVacante/USP_NotificarVencimientoCubrirVacante_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/NotificacionPlantilla/NotificacionPlantilla_Datos_v7.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TareaProgramada/TareaProgramada_Datos_V6.xml"/>
+
+<include file="Schemas/reclutamiento/Tables/AspNetUsers/AspNetUsers_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V97.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/NotificacionPlantilla/NotificacionPlantilla_Datos_v8.xml"/>
+<include file="Schemas/dbo/Triggers/RequisicionPersonal/TR_NotificarRequisicion_V4.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_NotificarVencimientoCubrirVacante/USP_NotificarVencimientoCubrirVacante_V2.xml"/>
+
+<include file="Schemas/dbo/Tables/Candidato/Candidato_V7.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V98.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/NotificacionPlantilla/NotificacionPlantilla_Datos_v9.xml"/>
+<include file="Schemas/dbo/Triggers/RequisicionPersonal/TR_NotificarRequisicion_V5.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_NotificarVencimientoCubrirVacante/USP_NotificarVencimientoCubrirVacante_V3.xml"/>
+<include file="Schemas/util/Functions/UFS_LetraCapital/UFS_LetraCapital_V1.xml"/>
+
+<include file="Schemas/dbo/Tables/CargoReporta/CargoReporta_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V99.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/NotificacionPlantilla/NotificacionPlantilla_Datos_v10.xml"/>
+
+<include file="Schemas/dbo/Triggers/RequisicionPersonal/TR_NotificarRequisicion_V6.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_NotificarVencimientoCubrirVacante/USP_NotificarVencimientoCubrirVacante_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/NotificacionPlantilla/NotificacionPlantilla_Datos_v11.xml"/>
+
+<include file="Schemas/util/Tables/_Widget/_Widget_V1.xml"/>
+<include file="Schemas/util/Data/Catalogues/_Widget/_Widget_Datos_V1.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteWidget/VW_ConstanteWidget_V1.xml"/>
+<include file="Schemas/dbo/Triggers/RequisicionPersonal/TR_NotificarRequisicion_V7.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteEstado/VW_ConstanteEstado_V6.xml"/>
+
+<include file="Schemas/util/StoredProcedures/USP_CalcularDatosWidget/USP_CalcularDatosWidget_V1.xml"/>
+<include file="Schemas/util/StoredProcedures/USP_ObtenerDashboard/USP_ObtenerDashboard_V1.xml"/>
+<include file="Schemas/reporte/StoredProcedures/USP_GenerarDispersionDavivienda/USP_GenerarDispersionDavivienda_V1.xml"/>
+
+<include file="Schemas/dbo/Tables/TipoCotizanteSubtipoCotizante/TipoCotizanteSubtipoCotizante_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoCotizanteSubtipoCotizante/TipoCotizanteSubtipoCotizante_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V100.xml"/>
+
+<include file="Schemas/dbo/Tables/AusentismoFuncionario/AusentismoFuncionario_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V101.xml"/>
+<include file="Schemas/dbo/Functions/UFS_ObtenerJefeInmediato/UFS_ObtenerJefeInmediato_V1.xml"/>
+<include file="Schemas/util/Data/Catalogues/_Widget/_Widget_Datos_V2.xml"/>
+
+<include file="Schemas/util/Functions/UFS_RedondearConDireccion/UFS_RedondearConDireccion_V1.xml"/>
+
+
+<include file="Schemas/util/Views/VW_ConstanteTipoGastoViaje/VW_ConstanteTipoGastoViaje_V1.xml"/>
+
+<include file="Schemas/reporte/StoredProcedures/USP_GenerarMediosMagneticos/USP_GenerarMediosMagneticos_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V16.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesAnticipoCesantias/USP_CargarNovedadesAnticipoCesantias_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesVacaciones/USP_CargarNovedadesVacaciones_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_EliminarNovedadNomina/USP_EliminarNovedadNomina_V1.xml"/>
+<include file="Schemas/dbo/Triggers/AusentismoFuncionario/TR_AfectarNominaConAusentismos_V1.xml"/>
+<include file="Schemas/dbo/Triggers/Beneficio/TR_AfectarNominaConBeneficios_V1.xml"/>
+<include file="Schemas/dbo/Triggers/Embargo/TR_AfectarNominaConEmbargos_V1.xml"/>
+<include file="Schemas/dbo/Triggers/GastoViaje/TR_AfectarNominaConGastosViaje_V1.xml"/>
+<include file="Schemas/dbo/Triggers/HoraExtra/TR_AfectarNominaConHorasExtra_V1.xml"/>
+<include file="Schemas/dbo/Triggers/Libranza/TR_AfectarNominaConLibranzas_V1.xml"/>
+<include file="Schemas/dbo/Triggers/Novedad/TR_AfectarNominaConOtrasNovedades_V1.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteTipoLibroVacaciones/VW_ConstanteTipoLibroVacaciones_V1.xml"/>
+<include file="Schemas/dbo/Triggers/NominaFuncionario/TR_CargarNovedades_V1.xml" />
+<include file="Schemas/dbo/Triggers/NominaFuncionario/TR_ReversarNovedades_V1.xml" />
+<include file="Schemas/dbo/Tables/NominaFuenteNovedad/NominaFuenteNovedad_V3.xml" />
+
+<include file="Schemas/dbo/Triggers/BeneficioSubperiodo/TR_AfectarNominaConBeneficiosSubperiodo_V1.xml" />
+<include file="Schemas/dbo/Triggers/NovedadSubperiodo/TR_AfectarNominaConOtrasNovedadesSubperiodo_V1.xml" />
+<include file="Schemas/dbo/Triggers/EmbargoSubperiodo/TR_AfectarNominaConEmbargosSubperiodo_V1.xml" />
+<include file="Schemas/dbo/Triggers/LibranzaSubperiodo/TR_AfectarNominaConLibranzasSubperiodo_V1.xml" />
+
+<include file="Schemas/dbo/Tables/TipoLiquidacion/TipoLiquidacion_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacion/TipoLiquidacion_Datos_V3.xml"/>
+<include file="Schemas/dbo/Tables/TipoLiquidacionModulo/TipoLiquidacionModulo_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V102.xml"/>
+
+<include file="Schemas/dbo/Tables/TipoLiquidacion/TipoLiquidacion_V5.xml"/>
+
+
+<include file="Schemas/dbo/Tables/AusentismoFuncionario/AusentismoFuncionario_V5.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V104.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionModulo/TipoLiquidacionModulo_Datos_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionModulo/TipoLiquidacionModulo_Datos_V2.xml"/>
+<include file="Schemas/dbo/Tables/ContratoAdministradora/ContratoAdministradora_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V105.xml"/>
+<include file="Schemas/reporte/StoredProcedures/USP_GenerarCertificadoRetenciones/USP_GenerarCertificadoRetenciones_V1.xml"/>
+
+<include file="Schemas/dbo/Tables/TipoLiquidacionModulo/TipoLiquidacionModulo_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionModulo/TipoLiquidacionModulo_Datos_V3.xml"/>
+<include file="Schemas/dbo/Tables/TipoLiquidacionModulo/TipoLiquidacionModulo_V3.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/InformacionBasica/InformacionBasica_Datos_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionModulo/TipoLiquidacionModulo_Datos_V4.xml"/>
+
+<include file="Schemas/dbo/Tables/Candidato/Candidato_V8.xml"/>
+
+<include file="Schemas/dbo/Tables/TipoLiquidacionModulo/TipoLiquidacionModulo_V4.xml"/>
+<include file="Schemas/dbo/Views/VW_ContratoAdministradoraCambios/VW_ContratoAdministradoraCambios_V1.xml"/>
+<include file="Schemas/dbo/Views/VW_ContratoAdministradoraCambios/VW_ContratoAdministradoraCambios_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoAusentismo/TipoAusentismo_Datos_V4.xml"/>
+
+<include file="Schemas/util/Data/Catalogues/_LogConfiguracion/_LogConfiguracion_Datos_V3.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/TareaProgramada/TareaProgramada_Datos_V7.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/Actividad/Actividad_Datos_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ActividadCentroCosto/ActividadCentroCosto_Datos_V1.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/TareaProgramada/TareaProgramada_Datos_V8.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V17.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteParametroGeneral/VW_ConstanteParametroGeneral_V7.xml"/>
+
+
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V18.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarBeneficios/USP_ProcesarBeneficios_V1.xml"/>
+
+<include file="Schemas/dbo/Functions/UFT_ObtenerFuncionarioNomina/UFT_ObtenerFuncionarioNomina_V1.xml" />
+<include file="Schemas/dbo/StoredProcedures/USP_CalcularNomina/USP_CalcularNomina_V1.xml" />
+
+<include file="Schemas/dbo/Triggers/AusentismoFuncionario/TR_AfectarNominaConAusentismos_V2.xml" />
+
+<include file="Schemas/dbo/Tables/Novedad/Novedad_V6.xml" />
+<include file="Schemas/dbo/Tables/NominaDetalle/NominaDetalle_V5.xml" />
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V106.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/CuentaContable/CuentaContable_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/CuentaContable/CuentaContable_Datos_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/GrupoNomina/GrupoNomina_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ConceptoNomina/ConceptoNomina_Datos_V7.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ConceptoNomina/ConceptoNomina_Datos_V8.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ConceptoBase/ConceptoBase_Datos_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacion/TipoLiquidacion_Datos_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionConcepto/TipoLiquidacionConcepto_Datos_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/FuncionNomina/FuncionNomina_Datos_V7.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/VariableNomina/VariableNomina_Datos_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/FuncionVariable/FuncionVariable_Datos_V7.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_GuardarNominaDetalle/USP_GuardarNominaDetalle_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CalcularConceptoNomina/USP_CalcularConceptoNomina_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CalcularNomina/USP_CalcularNomina_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesOtras/USP_CargarNovedadesOtras_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesHorasExtras/USP_CargarNovedadesHorasExtras_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerCantidadConceptoNomina/USP_ObtenerCantidadConceptoNomina_V2.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V107.xml"/>
+<include file="Schemas/dbo/Tables/DocumentoFuncionario/DocumentoFuncionario_V2.xml"/>
+
+<include file="Schemas/dbo/Tables/Contrato/Contrato_V10.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V108.xml"/>
+<include file="Schemas/dbo/Tables/ContratoCentroTrabajo/ContratoCentroTrabajo_V2.xml"/>
+
+<include file="Schemas/dbo/Views/VW_ContratoCentroTrabajoCambios/VW_ContratoCentroTrabajoCambios_V1.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V109.xml"/>
+<include file="Schemas/dbo/Tables/ContratoCentroTrabajo/ContratoCentroTrabajo_V3.xml"/>
+<include file="Schemas/dbo/Views/VW_ContratoCentroTrabajoCambios/VW_ContratoCentroTrabajoCambios_V2.xml"/>
+
+<include file="Schemas/dbo/Tables/ActividadFuncionario/ActividadFuncionario_V1.xml"/>
+<include file="Schemas/dbo/Tables/FuncionarioCentroCosto/FuncionarioCentroCosto_V1.xml"/>
+<include file="Schemas/dbo/Tables/ActividadFuncionarioCentroCosto/ActividadFuncionarioCentroCosto_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V110.xml"/>
+
+<include file="Schemas/reporte/Functions/UFT_ObtenerAdministradorasPilaTipo2/UFT_ObtenerAdministradorasPilaTipo2_V1.xml"/>
+<include file="Schemas/reporte/Functions/UFT_ObtenerAusentismosPilaTipo2/UFT_ObtenerAusentismosPilaTipo2_V1.xml"/>
+<include file="Schemas/reporte/Functions/UFT_ObtenerFuncionarioPilaTipo2/UFT_ObtenerFuncionarioPilaTipo2_V1.xml"/>
+<include file="Schemas/reporte/Functions/UFT_ObtenerVacacionesPilaTipo2/UFT_ObtenerVacacionesPilaTipo2_V1.xml"/>
+
+<include file="Schemas/reporte/StoredProcedures/USP_GenerarPilaTipo2/USP_GenerarPilaTipo2_V1.xml"/>
+
+<include file="Schemas/dbo/Tables/Actividad/Actividad_V2.xml"/>
+<include file="Schemas/dbo/Tables/ActividadFuncionario/ActividadFuncionario_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V111.xml"/>
+
+<include file="Schemas/dbo/Tables/FuncionarioCentroCosto/FuncionarioCentroCosto_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V112.xml"/>
+
+
+<include file="Schemas/dbo/Tables/TipoGastoViaje/TipoGastoViaje_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ConceptoNomina/ConceptoNomina_Datos_V9.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoGastoViaje/TipoGastoViaje_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V113.xml"/>
+
+<include file="Schemas/dbo/Views/VW_ActividadFuncionarioDatoActual/VW_ActividadFuncionarioDatoActual_V1.xml"/>
+
+<include file="Schemas/dbo/Tables/FuncionarioCentroCosto/FuncionarioCentroCosto_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V114.xml"/>
+
+<include file="Schemas/dbo/Tables/FuncionarioCentroCosto/FuncionarioCentroCosto_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V115.xml"/>
+
+<include file="Schemas/dbo/Tables/AusentismoFuncionario/AusentismoFuncionario_V6.xml"/>
+<include file="Schemas/dbo/Tables/ConceptoNominaTipoAdministradora/ConceptoNominaTipoAdministradora_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V116.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/FuncionNomina/FuncionNomina_Datos_V8.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V19.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoCotizanteTipoPlanilla/TipoCotizanteTipoPlanilla_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoAportanteTipoPlanilla/TipoAportanteTipoPlanilla_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoPlanilla/TipoPlanilla_Datos_V2.xml"/>
+<include file="Schemas/dbo/Functions/UFS_ObtenerRiesgoProfesionalFuncionario/UFS_ObtenerRiesgoProfesionalFuncionario_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasACotizar/USP_ObtenerDiasACotizar_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerValorConceptoAgrupador/USP_ObtenerValorConceptoAgrupador_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_RedondearCentenaSuperior/USP_RedondearCentenaSuperior_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerValorConceptoNomina/USP_ObtenerValorConceptoNomina_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerFuncionarioApruebaAutoriza/USP_ObtenerFuncionarioApruebaAutoriza_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V20.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarEstadosContratos/USP_ProcesarEstadosContratos_V2.xml"/>
+
+<include file="Schemas/dbo/Tables/TipoLiquidacionComprobante/TipoLiquidacionComprobante_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V117.xml"/>
+<include file="Schemas/dbo/Tables/TipoLiquidacionComprobante/TipoLiquidacionComprobante_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V118.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V21.xml"/>
+
+<include file="Schemas/reporte/Functions/UFT_ObtenerVariacionSueldo/UFT_ObtenerVariacionSueldo_V1.xml"/>
+
+<include file="Schemas/util/Views/VW_ConstanteOrigenTerceroConcepto/VW_ConstanteOrigenTerceroConcepto_V1.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/Administradora/Administradora_Datos_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/AplicacionExterna/AplicacionExterna_Datos_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ConceptoNominaTipoAdministradora/ConceptoNominaTipoAdministradora_Datos_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionComprobante/TipoLiquidacionComprobante_Datos_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/Tercero/Tercero_Datos_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoContrato/TipoContrato_Datos_V3.xml"/>
+
+<include file="Schemas/dbo/Views/VW_ActividadFuncionarioDatoActual/VW_ActividadFuncionarioDatoActual_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerTercero/USP_ObtenerTercero_V1.xml"/>
+<include file="Schemas/dbo/Views/VW_LibroVacacionesConsolidado/VW_LibroVacacionesConsolidado_V1.xml"/>
+
+<include file="Schemas/dbo/Tables/NominaContabilidad/NominaContabilidad_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V119.xml"/>
+
+<include file="Schemas/util/Views/VW_ConstanteNaturalezaContable/VW_ConstanteNaturalezaContable_V1.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteEstado/VW_ConstanteEstado_V7.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_RegistrarDetalleContable/USP_RegistrarDetalleContable_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerTercero/USP_ObtenerTercero_V2.xml"/>
+<include file="Schemas/dbo/Tables/NominaCentroCosto/NominaCentroCosto_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V120.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_RegistrarNominaCentroCosto/USP_RegistrarNominaCentroCosto_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerTercero/USP_ObtenerTercero_V3.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_GenerarDetalleContable/USP_GenerarDetalleContable_V1.xml"/>
+
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarNovedadesAusentismos/USP_ProcesarNovedadesAusentismos_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarNovedadesBeneficios/USP_ProcesarNovedadesBeneficios_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarNovedadesEmbargos/USP_ProcesarNovedadesEmbargos_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarNovedadesGastosViaje/USP_ProcesarNovedadesGastosViaje_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarNovedadesHorasExtras/USP_ProcesarNovedadesHorasExtras_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarNovedadesLibranzas/USP_ProcesarNovedadesLibranzas_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarNovedadesOtras/USP_ProcesarNovedadesOtras_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_AprobarNomina/USP_AprobarNomina_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_AprobarNomina/USP_AprobarNomina_V2.xml"/>
+
+<include file="Schemas/dbo/Triggers/Beneficio/TR_AfectarNominaConBeneficios_V2.xml"/>
+<include file="Schemas/dbo/Triggers/GastoViaje/TR_AfectarNominaConGastosViaje_V2.xml"/>
+<include file="Schemas/dbo/Triggers/HoraExtra/TR_AfectarNominaConHorasExtra_V2.xml"/>
+<include file="Schemas/dbo/Triggers/Novedad/TR_AfectarNominaConOtrasNovedades_V2.xml"/>
+
+<include file="Schemas/dbo/Tables/TipoOtroSi/TipoOtroSi_V1.xml"/>
+<include file="Schemas/dbo/Tables/ContratoOtroSi/ContratoOtroSi_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V121.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteParametroGeneral/VW_ConstanteParametroGeneral_V8.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerSueldoBasico/USP_ObtenerSueldoBasico_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasVacacionesPila/USP_ObtenerDiasVacacionesPila_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasFuncionario/USP_ObtenerDiasFuncionario_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesVacaciones/USP_CargarNovedadesVacaciones_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDeduccionesArticulo387/USP_ObtenerDeduccionesArticulo387_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerBaseRetefuente/USP_ObtenerBaseRetefuente_V2.xml"/>
+<include file="Schemas/util/Data/Catalogues/_OtrosiExcel/_OtrosiExcel_Datos_V2.xml"/>
+
+<include file="Schemas/dbo/StoredProcedures/USP_DeterminarLiquidacionPrimaLegal/USP_DeterminarLiquidacionPrimaLegal_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerValorPrestacion/USP_ObtenerValorPrestacion_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasAPagarPrima/USP_ObtenerDiasAPagarPrima_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V22.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/FuncionNomina/FuncionNomina_Datos_V9.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/FuncionVariable/FuncionVariable_Datos_V8.xml"/>
+
+<include file="Schemas/dbo/StoredProcedures/USP_IncrementarSalarioFuncionario/USP_IncrementarSalarioFuncionario_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerSueldoBasico/USP_ObtenerSueldoBasico_V1.xml"/>
+
+<include file="Schemas/util/Views/VW_ConstanteProcesoTipoLiquidacion/VW_ConstanteProcesoTipoLiquidacion_V1.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/ConceptoNomina/ConceptoNomina_Datos_V10.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ConceptoBase/ConceptoBase_Datos_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/CategoriaNovedad/CategoriaNovedad_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionConcepto/TipoLiquidacionConcepto_Datos_V4.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasAPagarPrima/USP_ObtenerDiasAPagarPrima_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasALiquidarPrimaLegal/USP_ObtenerDiasALiquidarPrimaLegal_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerDiasALiquidarCesantias/USP_ObtenerDiasALiquidarCesantias_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerValorNovedadesVacaciones/USP_ObtenerValorNovedadesVacaciones_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerValorPrestacion/USP_ObtenerValorPrestacion_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/FuncionNomina/FuncionNomina_Datos_V10.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/FuncionVariable/FuncionVariable_Datos_V9.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/EntidadFinanciera/EntidadFinanciera_Datos_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ParametroGeneral/ParametroGeneral_Datos_V23.xml"/>
+<!--<include file="Schemas/dbo/Data/Catalogues/DiagnosticoCie/DiagnosticoCie_Datos_V2.xml"/> 
+<include file="Schemas/dbo/Data/Catalogues/TipoAusentismo/TipoAusentismo_Datos_V5.xml"/>-->
+<include file="Schemas/util/Views/VW_ConstanteOperacionTipoLiquidacion/VW_ConstanteOperacionTipoLiquidacion_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/CausalTerminacion/CausalTerminacion_Datos_V2.xml"/>
+<include file="Schemas/dbo/Tables/CausalTerminacion/CausalTerminacion_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/CausalTerminacion/CausalTerminacion_Datos_V3.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/Calendario/Calendario_Datos_V2.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesVacaciones/USP_CargarNovedadesVacaciones_V3.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/TipoContrato/TipoContrato_Datos_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/CentroTrabajo/CentroTrabajo_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/CategoriaNovedad/CategoriaNovedad_Datos_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoAusentismoConceptoNomina/TipoAusentismoConceptoNomina_Datos_V2.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V123.xml"/>
+<include file="Schemas/dbo/Tables/HoraExtra/HoraExtra_V3.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteProcesoTipoLiquidacion/VW_ConstanteProcesoTipoLiquidacion_V2.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V123.xml"/>
+<include file="Schemas/dbo/Tables/HoraExtra/HoraExtra_V3.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/FuncionNomina/FuncionNomina_Datos_V11.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/FuncionVariable/FuncionVariable_Datos_V10.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ConceptoNomina/ConceptoNomina_Datos_V11.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ConceptoBase/ConceptoBase_Datos_V5.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/CategoriaNovedad/CategoriaNovedad_Datos_V4.xml"/>
+<include file='Schemas/dbo/Data/Catalogues/TipoLiquidacion/TipoLiquidacion_Datos_V5.xml' />
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionConcepto/TipoLiquidacionConcepto_Datos_V5.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoLiquidacionEstado/TipoLiquidacionEstado_Datos_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/ClaseAusentismo/ClaseAusentismo_Datos_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoAusentismo/TipoAusentismo_Datos_V6.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/TipoAusentismoConceptoNomina/TipoAusentismoConceptoNomina_Datos_V3.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CargarNovedadesLibranzas/USP_CargarNovedadesLibranzas_V3.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_CalcularConceptoNomina/USP_CalcularConceptoNomina_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/GrupoNomina/GrupoNomina_Datos_V3.xml"/>
+
+<include file="Schemas/dbo/Triggers/HoraExtra/TR_AfectarNominaConHorasExtra_V3.xml"/>
+
+<include file="Schemas/dbo/StoredProcedures/USP_AprobarNomina/USP_AprobarNomina_V3.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ObtenerTercero/USP_ObtenerTercero_V4.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarContabilizacionNomina/USP_ProcesarContabilizacionNomina_V1.xml"/>
+<include file="Schemas/dbo/Tables/FuncionarioCentroCosto/FuncionarioCentroCosto_V5.xml"/>
+<include file="Schemas/dbo/Tables/NominaContabilidad/NominaContabilidad_V2.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteOrigenCentroCosto/VW_ConstanteOrigenCentroCosto_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V124.xml"/>
+
+<include file="Schemas/dbo/Tables/CargoCentroCosto/CargoCentroCosto_V1.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V125.xml"/>
+
+<include file="Schemas/dbo/Tables/CargoCentroCosto/CargoCentroCosto_V2.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V126.xml"/>
+
+<include file="Schemas/dbo/Tables/CargoCentroCosto/CargoCentroCosto_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V127.xml"/>
+
+<include file="Schemas/dbo/Tables/CargoCentroCosto/CargoCentroCosto_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V128.xml"/>
+
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V129.xml"/>
+<include file="Schemas/dbo/Tables/CargoCentroCosto/CargoCentroCosto_V5.xml"/>
+
+<include file="Schemas/dbo/Tables/NominaContabilidad/NominaContabilidad_V3.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V130.xml"/>
+
+<include file="Schemas/dbo/StoredProcedures/USP_ProcesarContabilizacionTransferencia/USP_ProcesarContabilizacionTransferencia_V1.xml"/>
+<include file="Schemas/dbo/StoredProcedures/USP_AprobarNomina/USP_AprobarNomina_V4.xml"/>
+
+<include file="Schemas/dbo/Tables/SolicitudVacaciones/SolicitudVacaciones_V4.xml"/>
+<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V131.xml"/>
+<include file="Schemas/util/Views/VW_ConstanteCodigoTipoLiquidacion/VW_ConstanteCodigoTipoLiquidacion_V3.xml"/>
+
+<include file="Schemas/dbo/StoredProcedures/USP_ValidarParametrizacionContable/USP_ValidarParametrizacionContable_V1.xml"/>
+</databaseChangeLog>

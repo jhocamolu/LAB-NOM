@@ -1,0 +1,84 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Editar deducción de retefuente</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Año</mat-label>
+            <mat-select formControlName="annoVigenciaId" required>
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of annoOptions" [value]="item.id">
+                    {{item.anno}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(form.get('annoVigenciaId').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Vigencia en la que se efectúa el ingreso de la información.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Intereses vivienda</mat-label>
+            <input matInput formControlName="interesVivienda" required mask="separator.2" separatorLimit="1000000000"
+                thousandSeparator=".">
+            <mat-error *ngFor="let error of form.get('interesVivienda').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo 100000000.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix
+                matTooltip="Valor anual de los intereses en adquisición de vivienda que tenga el funcionario.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Medicina prepagada</mat-label>
+            <input matInput formControlName="medicinaPrepagada" required mask="separator.2" separatorLimit="1000000000"
+                thousandSeparator=".">
+            <mat-error *ngFor="let error of form.get('medicinaPrepagada').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo 100000000.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix
+                matTooltip="Valor anual de los pagos realizados por medicina prepagada por el funcionario.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit " color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoLiquidacion_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='TotalDevengosMenosTotalDeducciones' WHERE Id=1;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='TotalDevengosMenosTotalDeducciones' WHERE Id=2;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='TotalDevengosMenosTotalDeducciones' WHERE Id=3;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='TotalDevengosMenosTotalDeducciones' WHERE Id=4;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='TotalDevengosMenosTotalDeducciones' WHERE Id=5;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='TotalDevengosMenosTotalDeducciones' WHERE Id=6;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='TotalDevengosMenosTotalDeducciones' WHERE Id=7;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='TotalDevengosMenosTotalDeducciones' WHERE Id=8;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='TotalDeducciones' WHERE Id=9;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='TotalDevengosMenosTotalDeducciones' WHERE Id=10;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='TotalDeducciones' WHERE Id=11;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='SoloCalculosSinAgrupar' WHERE Id=12;
+    UPDATE dbo.TipoLiquidacion 	SET OperacionTotal='SoloCalculosSinAgrupar' WHERE Id=13;
+
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+    UPDATE TipoLiquidacion SET Proceso = null WHERE Id BETWEEN 1 AND 13;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

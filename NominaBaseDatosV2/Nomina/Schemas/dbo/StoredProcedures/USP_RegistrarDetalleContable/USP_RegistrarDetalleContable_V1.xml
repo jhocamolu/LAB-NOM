@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_RegistrarDetalleContable_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+IF OBJECT_ID('dbo.USP_RegistrarDetalleContable', 'P') IS NULL
+    BEGIN
+        EXECUTE ('CREATE PROCEDURE dbo.USP_RegistrarDetalleContable as SELECT 1');
+END;
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 07/01/2021
+-- Description:	Procedimiento almacenado, el cual se encarga de cargar
+--				la información a la tabla NominaContabilidad
+--
+-- Parameters:
+-- @TipoComprobante: Tipo de comprobante insertado.
+-- @NominaFuncionarioId: Identidicador de la tabla nómina funcionario. 
+-- @ConceptoNominaId: Identificacor de la tabla concepto de nomina.
+-- @NitTercero: Numero de indentificacion y nit del tercero
+-- @CentroCostoId: Identificador de la tabla centro de costo 
+-- @CuentaContableId: Identificador de la tabla cuenta contable
+-- @FechaActual: fecha en la cual se realiza el registro 
+-- @Debito: Valor de afectación para el debito 
+-- @Credito: Valor de acetación para el crédito
+-- @UsuarioOperacion:	    Usuario que realiza la operación
+-- =============================================
+ALTER PROCEDURE [dbo].[USP_RegistrarDetalleContable] @TipoComprobante     VARCHAR(255), 
+                                                     @NominaFuncionarioId INT, 
+                                                     @ConceptoNominaId    INT, 
+                                                     @NitTercero          VARCHAR(255), 
+                                                     @CentroCostoId       INT, 
+                                                     @CuentaContableId    INT, 
+                                                     @FechaActual         DATE, 
+                                                     @Debito              MONEY, 
+                                                     @Credito             MONEY, 
+                                                     @UsuarioOperacion    VARCHAR(255)
+AS
+    BEGIN
+
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@TipoComprobante=', CONVERT(VARCHAR, @TipoComprobante), '&', '@NominaFuncionarioId=', CONVERT(VARCHAR, @NominaFuncionarioId), '&', '@ConceptoNominaId=', CONVERT(VARCHAR, @ConceptoNominaId), '&', '@NitTercero=', CONVERT(VARCHAR, @NitTercero), '&', '@CentroCostoId=', CONVERT(VARCHAR, @CentroCostoId), '&', '@CuentaContableId=', CONVERT(VARCHAR, @CuentaContableId), '&', '@FechaActual=', CONVERT(VARCHAR, @FechaActual), '&', '@Debito=', CONVERT(VARCHAR, @Debito), '&', '@Credito=', CONVERT(VARCHAR, @Credito), '&', '@@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        DECLARE @AuditoriaActivo VARCHAR(255);
+
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+            -- Se consultan constantes asociadas a estados
+            SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO
+            FROM util.VW_ConstanteEstado AS vce;
+            BEGIN TRAN RegistrarDetalleContable;
+            INSERT INTO dbo.NominaContabilidad
+            (EstadoRegistro, 
+             CreadoPor, 
+             FechaCreacion, 
+             NominaFuncionarioId, 
+             ConceptoNominaId, 
+             CentroCostoId, 
+             CuentaContableId, 
+             TipoComprobante, 
+             Nit, 
+             Fecha, 
+             Debito, 
+             Credito
+            )
+            VALUES
+            (@AuditoriaActivo, 
+             @UsuarioOperacion, 
+             GETDATE(), 
+             @NominaFuncionarioId, 
+             @ConceptoNominaId, 
+             @CentroCostoId, 
+             @CuentaContableId, 
+             @TipoComprobante, 
+             @NitTercero, 
+             @FechaActual, 
+             @Debito, 
+             @Credito
+            );
+            IF @@TRANCOUNT > 0
+                BEGIN
+                    IF XACT_STATE() = 1
+                        BEGIN
+                            COMMIT TRAN RegistrarDetalleContable;
+                    END;
+                        ELSE
+                        BEGIN
+                            EXEC util.USP_GenerarExcepcion 
+                                 50000, 
+                                 'No se puede confirmar la transacción.  Error desconocido.';
+                    END;
+            END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_RegistrarDetalleContable', 'P') IS NOT NULL
+BEGIN
+    DROP PROCEDURE [dbo].[USP_RegistrarDetalleContable];
+END;
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

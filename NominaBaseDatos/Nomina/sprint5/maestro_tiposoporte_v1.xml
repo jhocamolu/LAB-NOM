@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_tiposoporte_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[TipoSoporte] ON 
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (1, 'Cédula de Ciudadanía', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (2, 'Cédula de Extranjería', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (3, 'Pasaporte', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (4, 'Visa', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (5, 'Registro único Tibutario RUT', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (6, 'Tarjeta Profesional', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (7, 'Registro civil de matrimonio', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (8, 'Declaración extrajuicio unión libre', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (9, 'Cédula de Ciudadanía conyuge', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (10, 'Libreta militar', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (11, 'Registro civil de nacimiento', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (12, 'Tarjeta de Identidad', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (13, 'Diploma secundaria', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (14, 'Diploma técnico', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (15, 'Diploma tecnólogo', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (16, 'Diploma profesional', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (17, 'Diploma posgrado', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (18, 'Diploma Especialziación', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (19, 'Diploma Maestría', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (20, 'Diploma Doctorado', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (21, 'Certificado experiencia laboral', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (22, 'Certificado Afiliación Administradora Fondo de Pensiones', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (23, 'Certificado Afiliación EPS', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (24, 'Certificado Afiliación a Cesantias', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (25, 'Certificado de cuenta bancaria activa', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (26, 'Permiso Especial de Permanencia (Exclusivo para ciudadanos venezolanos)', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (27, 'Soat', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (28, 'Licencia de Conducción', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (29, 'Fórmula médica', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (30, 'Factura compra', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSoporte] ([Id], [Nombre] ,[EstadoRegistro], [CreadoPor] ,[FechaCreacion]) VALUES (31, 'Pensum académico', 'Activo', 'sistema', GETDATE())
+GO
+
+
+SET IDENTITY_INSERT [dbo].[TipoSoporte] OFF
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoSoporte] WHERE Id BETWEEN 1 AND 31;
+</rollback>
+</changeSet>
+</databaseChangeLog>

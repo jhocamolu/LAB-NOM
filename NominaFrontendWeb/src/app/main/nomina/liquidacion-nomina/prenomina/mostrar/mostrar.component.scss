@@ -1,0 +1,52 @@
+@import "src/@alcanos/scss/alcanos-modal";
+
+liquidacion-prenomina-mostrar {
+    @import "src/@alcanos/scss/alcanos-v2";
+
+    table {
+        td.concepto {
+            max-width: 190px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 12px !important;
+        }
+        .p-left {
+            padding-left: 12px !important;
+        }
+        .p-right {
+            text-align: right;
+            padding-right: 12px !important;
+        }
+        .iz {
+            padding-left: 18px !important;
+        }
+        .dr {
+            text-align: right;
+        }
+         .estado {
+            text-align: center;
+        }
+        .total {
+            padding-right: 12px !important;
+            text-align: right;
+            font-weight: bold;
+        }
+        .procesado {
+            text-align: center;
+            color: #6e992e !important;
+        }
+        .pendiente {
+            text-align: center;
+            color: #ef6100 !important;
+        }
+        .inconsistente {
+            text-align: center;
+            color: #e2564b !important;
+        }
+    }
+    mat-expansion-panel-header .mat-content {
+        flex: none;
+        margin-left: auto;
+    }
+}

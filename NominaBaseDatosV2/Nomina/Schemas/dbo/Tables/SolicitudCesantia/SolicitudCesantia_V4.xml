@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="SolicitudCesantia_V4">
+<comment>HU065 Solicitud Cesantias</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+DECLARE @var0 sysname;
+SELECT @var0 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[SolicitudCesantia]') AND [c].[name] = N'Observacion');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [SolicitudCesantia] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [SolicitudCesantia] ALTER COLUMN [Observacion] varchar(255) NOT NULL;
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE [SolicitudCesantia] ALTER COLUMN [Observacion] varchar(255) NULL;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,224 @@
+<div class="page-layout simple fullwidth cargos-listar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Reportes</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/reportes/nomina/dashboard">Nómina</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Generar reporte bitacora de nómina</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Generar reporte bitacora de nómina</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <div class="spiner" *ngIf="espera">
+        <mat-spinner></mat-spinner>
+    </div>
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <form (ngSubmit)="guardarHandle($event)" name="form" [formGroup]="form">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Método</mat-label>
+                    <mat-select formControlName="metodo" required>
+                        <mat-option [value]="null"></mat-option>
+                        <mat-option [value]="bitacoraConstant.acumulado"> Acumulado </mat-option>
+                        <mat-option [value]="bitacoraConstant.periodo"> Por período </mat-option>
+                    </mat-select>
+                    <mat-error *ngFor=" let error of form.get('metodo').errors | keyvalue ">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{ error.key }}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Método sobre el cual se genera el reporte.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+                <article [ngStyle]="{ 'display': (estado == null ? 'none' : 'block') }">
+                    <div [ngClass]="{ 'medio-bloque': estado == 'acumulado', 'dos-bloque': estado == 'periodo', third: false }">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Tipo de liquidación *</mat-label>
+                            <mat-select formControlName="tipoLiquidacionId">
+                                <mat-option></mat-option>
+                                <mat-option *ngFor="let item of tipoLiquidacionOptions" [value]="item.id">
+                                    {{item.nombre}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of form.get('tipoLiquidacionId').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Tipo de liquidación sobre la cual se genera el reporte.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" *ngIf="estado == 'periodo'">
+                            <mat-label>Subperíodo *</mat-label>
+                            <mat-select formControlName="subperiodoId" multiple>
+                                <mat-option disabled></mat-option>
+                                <mat-option *ngFor="let item of subperiodoOptions" [value]="item.id">
+                                    {{ item.nombre }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="
+                                    let error of form.get('subperiodoId').errors
+                                        | keyvalue
+                                ">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{ error.key }}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Subperíodo sobre el cual se genera el reporte.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="dos-bloque" *ngIf="estado == 'periodo'">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Año *</mat-label>
+                            <input matInput formControlName="nominaAnio" type="number" />
+                            <mat-error *ngFor="let error of form.get('nominaAnio').errors | keyvalue" style="height: 15px;">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'max'">
+                                        Valor máximo 3000.
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'min'">
+                                        Valor mínimo 2011.
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{ error.key }}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Año sobre el cual se genera el reporte.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Mes *</mat-label>
+                            <mat-select formControlName="nominaMes" multiple>
+                                <mat-option [value]="null" disabled></mat-option>
+                                <mat-option *ngFor="let item of mesesData" [value]="item.id" [disabled]="!item.activo">
+                                    {{ item.mes }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngFor="let error of form.get('nominaMes').errors | keyvalue ">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{ error.key }}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Mes sobre el cual se genera el reporte.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="dos-bloque" *ngIf="estado == 'acumulado'">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Fecha de inicio *</mat-label>
+                            <input matInput [matDatepicker]="fechaInicial" (click)="fechaInicial.open()"
+                                formControlName="fechaInicial">
+                            <mat-datepicker-toggle matPrefix [for]="fechaInicial">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker startView="year" #fechaInicial></mat-datepicker>
+                            <mat-error *ngFor="let error of form.get('fechaInicial').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                        No es un formato de fecha válido.
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Fecha inicial que se establece para generar el reporte.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Fecha de finalización *</mat-label>
+                            <input matInput [matDatepicker]="fechaFinal" (click)="fechaFinal.open()"
+                                formControlName="fechaFinal">
+                            <mat-datepicker-toggle matPrefix [for]="fechaFinal">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker startView="year" #fechaFinal></mat-datepicker>
+                            <mat-error *ngFor="let error of form.get('fechaFinal').errors | keyvalue">
+                                <div [ngSwitch]="error.key">
+                                    <ng-template [ngSwitchCase]="'required'">
+                                        Requerido
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                        No es un formato de fecha válido.
+                                    </ng-template>
+                                    <ng-template ngSwitchDefault>
+                                        {{error.key}}
+                                    </ng-template>
+                                </div>
+                            </mat-error>
+                            <mat-icon matSuffix matTooltip="Fecha final que se establece para generar el reporte.">
+                                info
+                            </mat-icon>
+                        </mat-form-field>
+                        
+                    </div>
+                </article>
+
+                <div class="actions">
+                    <a mat-raised-button routerLink="/reportes/nomina/dashboard">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+
+                    <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+                        <mat-icon>save_alt</mat-icon>
+                        <span>Generar</span>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

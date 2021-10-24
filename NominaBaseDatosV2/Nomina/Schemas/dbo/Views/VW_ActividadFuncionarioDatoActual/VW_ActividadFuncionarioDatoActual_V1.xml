@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="VW_ActividadFuncionarioDatoActual_V1">
+<comment>Se agrega vista</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[VW_ActividadFuncionarioDatoActual]') IS NOT NULL
+BEGIN
+    DROP VIEW [dbo].[VW_ActividadFuncionarioDatoActual]
+END
+GO
+
+--=====================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 02-12-2020
+-- Description: Vista para generar los datos contractuales del funcionario para la tabla ActividadFuncionario.
+--=====================================================================================
+
+CREATE VIEW [dbo].[VW_ActividadFuncionarioDatoActual]
+AS
+     SELECT af.Id, 
+            af.FuncionarioId, 
+            CONCAT(vfda.PrimerNombre, ' ', vfda.PrimerApellido) AS Nombre, 
+            c.Id AS CargoId, 
+            c.Nombre AS Cargo, 
+            d.Id AS DependenciaId, 
+            d.Nombre AS Dependencia
+     FROM dbo.ActividadFuncionario af
+          INNER JOIN dbo.VW_FuncionarioDatoActual vfda ON af.FuncionarioId = vfda.Id
+          INNER JOIN dbo.Cargo c ON vfda.CargoId = c.Id
+          INNER JOIN dbo.Dependencia d ON vfda.DependenciaId = d.Id
+     WHERE af.EstadoRegistro =
+     (
+         SELECT AUDITORIA_ACTIVO
+         FROM util.VW_ConstanteEstado
+     );
+GO
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[VW_ActividadFuncionarioDatoActual]') IS NOT NULL
+BEGIN
+    DROP VIEW [dbo].[VW_ActividadFuncionarioDatoActual]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

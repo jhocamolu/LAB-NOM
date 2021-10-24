@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_CalcularValorNovedadEmbargo_V1">
+<comment>HT028</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 02/05/2020
+-- Description: Permite calcular el valor de una novedad asociada a un embargo
+--
+-- Parameters:
+--  @NominaId:			   Identificador de la nómina a la que va a vincular la novedad
+--  @FuncionarioId:		   Identificador del funcionario
+--  @NominaDetalleId:	   Identificador del detalle de la nómina asociado al embargo
+--  @Valor:			   Parámetro de salida con el valor para el detalle
+--  @Inconsistencia:	   Parámetro de salida con el texto de la inconsistencia
+-- ==========================================================================================
+IF OBJECT_ID('dbo.USP_CalcularValorNovedadEmbargo', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_CalcularValorNovedadEmbargo as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 02/05/2020
+-- Description: Permite calcular el valor de una novedad asociada a un embargo
+--
+-- Parameters:
+--  @NominaId:			   Identificador de la nómina a la que va a vincular la novedad
+--  @FuncionarioId:		   Identificador del funcionario
+--  @NominaDetalleId:	   Identificador del detalle de la nómina asociado al embargo
+--  @Valor:			   Parámetro de salida con el valor para el detalle
+--  @Inconsistencia:	   Parámetro de salida con el texto de la inconsistencia
+-- ==========================================================================================
+ALTER PROCEDURE dbo.USP_CalcularValorNovedadEmbargo @NominaId        INT,
+                                                    @FuncionarioId   INT,
+                                                    @NominaDetalleId INT,
+                                                    @Valor           MONEY OUTPUT,
+                                                    @Inconsistencia  VARCHAR(255) OUTPUT
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaDetalleId=', CONVERT(VARCHAR, @NominaDetalleId), '&', '@Valor=', CONVERT(VARCHAR, @Valor), '&', '@Inconsistencia=', CONVERT(VARCHAR, @Inconsistencia));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255)=
+    (
+        SELECT ces.AUDITORIA_ACTIVO
+        FROM util.VW_ConstanteEstado AS ces
+    );
+    DECLARE @ModuloSistema VARCHAR(255)=
+    (
+        SELECT cms.[EMBARGOS]
+        FROM util.VW_ConstanteModuloSistema AS cms
+    );
+    DECLARE @ValorNoValido MONEY=
+    (
+        SELECT vcg.[VALORNOVALIDO]
+        FROM util.VW_ConstanteGenerica AS vcg
+    );
+    DECLARE @EmbargoId INT;
+    DECLARE @ConceptoEmbargarAlias VARCHAR(255);
+    DECLARE @TipoEmbargoId INT;
+    DECLARE @MaximoEmbargarConcepto FLOAT;
+    DECLARE @ValorConceptoEmbargar MONEY;
+    DECLARE @ValorAEmbargarConcepto MONEY;
+    DECLARE @ValorMaximoAEmbargarConcepto MONEY;
+    DECLARE @ValorCuota MONEY;
+    DECLARE @PorcentajeCuota DECIMAL(5, 2);
+    DECLARE @ConceptoNombre VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        SET @Valor = 0;
+
+        -- Se consulta el embargo asociado al detalle de la nómina
+        SELECT @EmbargoId = emb.Id,
+               @TipoEmbargoId = emb.TipoEmbargoId,
+               @ValorCuota = emb.ValorCuota,
+               @PorcentajeCuota = emb.PorcentajeCuota
+        FROM dbo.NominaDetalle AS nod
+             INNER JOIN dbo.NominaFuenteNovedad AS nfn ON(nfn.Id = nod.NominaFuenteNovedadId)
+             INNER JOIN dbo.Embargo AS emb ON(emb.Id = nfn.ModuloRegistroId)
+        WHERE nfn.Modulo = @ModuloSistema
+              AND emb.EstadoRegistro = @AuditoriaActivo;
+
+        IF @EmbargoId IS NOT NULL
+           AND @EmbargoId > 0
+        BEGIN
+            -- Se consultan los conceptos a embargar asociados al embargo
+            DECLARE CUR_ConceptosAEmbargar CURSOR LOCAL
+            FOR SELECT cno.Alias,
+                       tecn.MaximoEmbargarConcepto,
+                       cno.Nombre
+                FROM dbo.EmbargoConceptoNomina AS ecn
+                     INNER JOIN dbo.ConceptoNomina AS cno ON(cno.Id = ecn.ConceptoNominaId)
+                     INNER JOIN dbo.TipoEmbargoConceptoNomina AS tecn ON(tecn.ConceptoNominaId = ecn.ConceptoNominaId
+                                                                         AND tecn.TipoEmbargoId = @TipoEmbargoId)
+                WHERE ecn.EmbargoId = @EmbargoId
+                      AND ecn.EstadoRegistro = @AuditoriaActivo;
+
+            OPEN CUR_ConceptosAEmbargar;
+
+            FETCH NEXT FROM CUR_ConceptosAEmbargar INTO @ConceptoEmbargarAlias, @MaximoEmbargarConcepto, @ConceptoNombre;
+
+            WHILE @@FETCH_STATUS = 0
+
+            BEGIN
+
+                SET @ValorConceptoEmbargar = 0;
+                SET @ValorAEmbargarConcepto = 0;
+                SET @ValorMaximoAEmbargarConcepto = 0;
+
+                -- Se obtiene el valor del concepto a embargar.
+                EXEC [dbo].[USP_ObtenerValorConceptoNomina]
+                     @FuncionarioId = @FuncionarioId,
+                     @NominaId = @NominaId,
+                     @AliasConcepto = @ConceptoEmbargarAlias,
+                     @NominaDetalleId = @NominaDetalleId,
+                     @Valor = @ValorConceptoEmbargar OUTPUT;
+
+                -- Se obtiene el valor del embargo para el concepto
+                IF @ValorCuota IS NOT NULL
+                   AND @ValorCuota > 0
+                BEGIN
+                    SET @ValorAEmbargarConcepto = @ValorCuota;
+                END;
+                ELSE
+                BEGIN
+                    SET @ValorAEmbargarConcepto = @ValorConceptoEmbargar * @PorcentajeCuota / 100;
+                END;
+
+                IF @ValorAEmbargarConcepto IS NULL
+                BEGIN
+                    SET @ValorAEmbargarConcepto = 0;
+                END;
+
+                -- Se obtiene el valor máximo a embargar para el concepto
+                SET @ValorMaximoAEmbargarConcepto = @ValorConceptoEmbargar * @MaximoEmbargarConcepto / 100;
+
+                IF @ValorAEmbargarConcepto <= @ValorMaximoAEmbargarConcepto
+                BEGIN
+                    SET @Valor = @Valor + @ValorAEmbargarConcepto;
+                END;
+                ELSE
+                BEGIN
+                    SET @Valor = @ValorNoValido;
+                    SET @Inconsistencia = 'El valor a embargar supera el máximo establecido para el concepto ' + @ConceptoNombre + '.';
+                    BREAK;
+                END;
+
+                FETCH NEXT FROM CUR_ConceptosAEmbargar INTO @ConceptoEmbargarAlias, @MaximoEmbargarConcepto, @ConceptoNombre;
+
+            END;
+
+            CLOSE CUR_ConceptosAEmbargar;
+
+            DEALLOCATE CUR_ConceptosAEmbargar;
+        END;
+        ELSE
+        BEGIN
+            SET @Valor = @ValorNoValido;
+            SET @Inconsistencia = 'El embargo asociado a la novedad no existe.';
+        END;
+
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_CalcularValorNovedadEmbargo];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

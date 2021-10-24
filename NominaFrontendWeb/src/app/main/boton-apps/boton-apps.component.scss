@@ -1,0 +1,36 @@
+// Modulo Layout/toolbar/html
+
+.mat-menu-panel {
+    max-width: 300px !important;
+    overflow: visible !important;
+}
+
+.api-lista {
+    width: 300px;
+    max-height: 320px;
+    flex: auto;
+    justify-content: start;
+    text-align: center;
+    padding: 20px 0px;
+
+    .api-lista--item {
+        width: 70px;
+        display: inline-block;
+        margin: 13px;
+        font-size: 11px;
+        margin: 10px 8px;
+        white-space: nowrap;
+
+        a {
+            &:hover {
+                text-decoration: none !important;
+            }
+
+            span.iso {
+                color: black;
+                display: block;
+                word-spacing: -1px;
+            }
+        }
+    }
+}

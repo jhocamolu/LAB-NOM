@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_EliminarNovedadNomina_V1">
+<comment>HU056</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('util.USP_EliminarNovedadNomina', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE util.USP_EliminarNovedadNomina as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 17/09/2020
+-- Description: Permite eliminar una novedad cargada en una nómina a partir del módulo y Id
+--
+-- Parameters:
+--  @NominaId:			   Identificador de la nómina
+--  @ModuloSistema		   Código del módulo del sistema desde donde se genero la novedad
+--  @NovedadId			   Identificador de la novedad
+--  @UsuarioOperacion :	   Usuario que realiza la operación.
+-- ==========================================================================================
+
+ALTER PROCEDURE [util].[USP_EliminarNovedadNomina] @NominaId         INT,
+                                                  @ModuloSistema    VARCHAR(255),
+                                                  @NovedadId        INT,
+                                                  @UsuarioOperacion VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@ModuloSistema=', CONVERT(VARCHAR, @ModuloSistema), '&', '@NovedadId=', CONVERT(VARCHAR, @NovedadId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @AuditoriaActivo VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN EliminarNovedadNomina;
+
+        -- Se obtiene el detalle de la nómina creado a partir de la novedad
+        SELECT nfn.Id AS NominaFuenteNovedadId,
+               nde.Id AS NominaDetalleId
+        INTO #NovedadDetalle
+        FROM dbo.NominaDetalle AS nde
+             INNER JOIN dbo.NominaFuenteNovedad AS nfn ON(nde.NominaFuenteNovedadId = nfn.Id)
+             INNER JOIN dbo.NominaFuncionario AS nfu ON(nde.NominaFuncionarioId = nfu.Id)
+        WHERE nfu.NominaId = @NominaId
+              AND nfn.Modulo = @ModuloSistema
+              AND nfn.ModuloRegistroId = @NovedadId;
+
+        -- Se borra el detalle de la nómina
+        DELETE FROM dbo.NominaDetalle
+        WHERE Id IN
+        (
+            SELECT NominaDetalleId
+            FROM #NovedadDetalle
+        );
+
+        -- Se borra la fuente de la novedad
+        DELETE FROM dbo.NominaFuenteNovedad
+        WHERE Id IN
+        (
+            SELECT NominaFuenteNovedadId
+            FROM #NovedadDetalle
+        );
+
+        -- Se borra tabla temporal	   
+        DROP TABLE #NovedadDetalle;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN EliminarNovedadNomina;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [util].[USP_EliminarNovedadNomina];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

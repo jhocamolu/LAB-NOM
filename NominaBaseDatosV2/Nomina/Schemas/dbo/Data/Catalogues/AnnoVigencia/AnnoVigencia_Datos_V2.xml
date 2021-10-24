@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="AnnoVigencia_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[AnnoVigencia] ON 
+GO
+
+INSERT INTO dbo.AnnoVigencia (EstadoRegistro, CreadoPor, FechaCreacion, Id, Anno, Estado) VALUES ('Activo', 'sistema', GETDATE(), '2', 2019, 'Cerrado');
+GO
+INSERT INTO dbo.AnnoVigencia (EstadoRegistro, CreadoPor, FechaCreacion, Id, Anno, Estado) VALUES ('Activo', 'sistema', GETDATE(), '3', 2018, 'Cerrado');
+GO
+
+SET IDENTITY_INSERT [dbo].[AnnoVigencia] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+DELETE FROM [dbo].[AnnoVigencia] WHERE Id BETWEEN 2 AND 3;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

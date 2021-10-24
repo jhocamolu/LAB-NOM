@@ -1,0 +1,216 @@
+{
+	"info": {
+		"_postman_id": "f436dffd-d6bf-43ed-851c-4e18b5bc3329",
+		"name": "HU019Administrar_informacion_basica_compania",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ConsultarInformacionBasica(Todos)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/odata/InformacionBasicas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"InformacionBasicas"
+					]
+				},
+				"description": "{{host}}/odata/InformacionBasicas?$expand=actividadEconomica,divisionPoliticaNivel2($expand=divisionPoliticaNivel1($expand=pais)),tipoContribuyente,operadorPago,arl($expand=TipoAdministradora)"
+			},
+			"response": []
+		},
+		{
+			"name": "ConsultarInformacionBasica/n",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/InformacionBasicas/1?$expand=actividadEconomica,divisionPoliticaNivel2($expand=divisionPoliticaNivel1($expand=pais)),tipoContribuyente,operadorPago,arl($expand=TipoAdministradora)",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"InformacionBasicas",
+						"1"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "actividadEconomica,divisionPoliticaNivel2($expand=divisionPoliticaNivel1($expand=pais)),tipoContribuyente,operadorPago,arl($expand=TipoAdministradora)"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CrearInformacionbasica",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"alcanos\",\r\n    \"nit\": \"1110487472\",\r\n    \"digitoVerificacion\": 3,\r\n    \"razonSocial\": \"alcanos SA\",\r\n    \"actividadEconomicaId\": 8,\r\n    \"divisionPoliticaNivel2Id\": 5,\r\n    \"direccion\": \"37 con 5\",\r\n    \"telefono\": \"3012454997\",\r\n    \"correoElectronico\": \"alcanos@alcanos.com\",\r\n    \"web\": \"http://www.alcanosesp.com/\",\r\n    \"fechaConstitucion\": \"1980-11-01T00:00:00-05:00\",\r\n    \"tipoContribuyenteId\": 1,\r\n    \"operadorPagoId\": 1,\r\n    \"arlId\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/InformacionBasicas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"InformacionBasicas"
+					]
+				},
+				"description": "{{host}}/api/InformacionBasicas"
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarInformacionBasicas",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 13,\r\n    \"nombre\": \"alcanos\",\r\n    \"nit\": \"1110487472\",\r\n    \"digitoVerificacion\": 3,\r\n    \"razonSocial\": \"alcanos s SA\",\r\n    \"actividadEconomicaId\": 600,\r\n    \"divisionPoliticaNivel2Id\": 1026,\r\n    \"direccion\": \"37 con 5\",\r\n    \"telefono\": \"3012454997\",\r\n    \"correoElectronico\": \"alcanos@alcanos.com\",\r\n    \"web\": \"http://www.alcanosesp.com/\",\r\n    \"fechaConstitucion\": \"1980-11-01T00:00:00-05:00\",\r\n    \"tipoContribuyenteId\": 1,\r\n    \"operadorPagoId\": 1,\r\n    \"arlId\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/InformacionBasicas/13",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"InformacionBasicas",
+						"13"
+					]
+				},
+				"description": "{{host}}/api/InformacionBasicas/13"
+			},
+			"response": []
+		},
+		{
+			"name": "EliminaeInformacionBasicas",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/InformacionBasicas/13",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"InformacionBasicas",
+						"13"
+					]
+				},
+				"description": "{{host}}/api/InformacionBasicas/1"
+			},
+			"response": []
+		},
+		{
+			"name": "ParcialInformacionBasicas",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 13,\r\n    \"nombre\": \"alcanos\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/InformacionBasicas/13",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"InformacionBasicas",
+						"13"
+					]
+				},
+				"description": "{{host}}/api/InformacionBasicas/13"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

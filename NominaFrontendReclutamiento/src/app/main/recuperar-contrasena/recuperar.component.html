@@ -1,0 +1,55 @@
+<div class="inner-scroll fullwidth" fxLayout="row" fxLayoutAlign="start">
+    <!-- CONTENT -->
+    <div class="content">
+        <div class="title">
+            Recordar contraseña
+        </div>
+        <div class="box-shadow registrado" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
+
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <mat-list-item class="pt-16">
+                    <div class="row padding_top">
+                        <div class="col-md-6 offset-md-3">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Correo electrónico personal</mat-label>
+                                <input type="email" matInput formControlName="correoElectronicoPersonal" required>
+                                <mat-error
+                                    *ngFor="let error of objToArray(form.get('correoElectronicoPersonal').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Correo electrónico personal del usuario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-list-item>
+                <div class="register_button text-center">
+                    <button type="submit" [disabled]="form.invalid || submit" mat-raised-button color="accent">
+                        <mat-icon>save</mat-icon>
+                        <span>Recordar contraseña</span>
+                    </button>
+                </div>
+                <div class="text-center mt-5">
+                    <a [routerLink]="'/login'" class="cursor-pointer">Volver intentar el acceso</a>
+                </div>
+            </form>
+        </div>
+
+
+
+    </div>
+    <!-- / CONTENT -->
+    
+</div>
+<div class="div_spinner" *ngIf="loading">
+    <mat-spinner class="spinner" color="#066f77"></mat-spinner>
+</div>

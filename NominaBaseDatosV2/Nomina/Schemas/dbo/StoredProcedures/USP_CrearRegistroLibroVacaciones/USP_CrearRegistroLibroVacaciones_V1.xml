@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_CrearRegistroLibroVacaciones_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_CrearRegistroLibroVacaciones', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_CrearRegistroLibroVacaciones as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 02/05/2020
+-- Description: Procedimiento el cual permite realizar el/los registros en la tabla LibroVacaciones
+--
+-- Parameters:
+--   @ContratoId:	Identificador del contrato.
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_CrearRegistroLibroVacaciones] @ContratoId INT
+AS
+    BEGIN
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuración y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@ContratoId=', CONVERT(VARCHAR, @ContratoId));
+        DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+
+        --------------------------------------------------------------------------
+        -- Variables
+        --------------------------------------------------------------------------
+        DECLARE @FechaInicial DATE;
+        DECLARE @FuncionarioId INT;
+        DECLARE @Tipo VARCHAR(255)=
+        (
+            SELECT LIBROVACACIONES_ANTICIPADO
+            FROM util.VW_ConstanteEstado
+        );
+        
+        DECLARE @DiasTrabajados INT =0;
+        DECLARE @DiasCausados INT = 15;
+        DECLARE @DiasDisponibles INT = 0;
+       
+        DECLARE @FechaFinal DATE;
+	
+        --------------------------------------------------------------------------
+        -- Proceso
+        --------------------------------------------------------------------------
+        BEGIN TRY
+            -- Inicio de la transacción
+            BEGIN TRAN CrearRegistroLibroVacaciones;
+            SELECT @FechaInicial = FechaInicio, 
+                   @FuncionarioId = FuncionarioId
+            FROM Contrato
+            WHERE Id = @ContratoId;
+
+			SET @FechaFinal= (DATEADD(DAY, 364, @FechaInicial))
+            IF(
+            (
+                SELECT DATEDIFF(YEAR, @FechaFinal, CONVERT(DATE, GETDATE()))
+            ) = 0)
+                BEGIN 
+                   
+                    -- Crear un nuevo registro en el libro de vacaciones
+                    INSERT INTO LibroVacaciones
+                    (EstadoRegistro, 
+                     CreadoPor, 
+                     FechaCreacion, 
+                     ContratoId, 
+                     InicioCausacion, 
+                     FinCausacion, 
+                     Tipo, 
+                     DiasTrabajados, 
+                     DiasCausados, 
+                     DiasDisponibles
+                    )
+                    VALUES
+                    (
+                    (
+                        SELECT AUDITORIA_ACTIVO
+                        FROM util.VW_ConstanteEstado
+                    ), 
+                    'sistema', 
+                    GETDATE(), 
+                    @ContratoId, 
+                    @FechaInicial, 
+                    @FechaFinal, 
+                    @Tipo, 
+                    @DiasTrabajados, 
+                    @DiasCausados, 
+                    @DiasDisponibles
+                    );
+            END;
+                ELSE
+                BEGIN
+                    SET @DiasCausados = (SELECT util.UFS_ObtenerParametro((SELECT DIASLEY FROM util.VW_ConstanteParametroGeneral)));
+                    SET @DiasDisponibles = 0;
+					SET @DiasTrabajados = (SELECT util.UFS_ObtenerParametro((SELECT DIASTRABAJADOS FROM util.VW_ConstanteParametroGeneral)));
+                    -- Cursor para obtener las libranzas asociadas al funcionario
+                    DECLARE CUR_LibroVacaciones CURSOR LOCAL
+                    FOR SELECT CONVERT(DATE, DATEADD(year, x.number, @FechaInicial)) AS FechaInicial, 
+                               CONVERT(DATE, DATEADD(year, x.number, @FechaFinal)) AS FechaFinal
+                        FROM master.dbo.spt_values x
+                        WHERE x.type = 'P'
+                              AND x.number <= DATEDIFF(YEAR, @FechaInicial, CONVERT(DATE, GETDATE()));
+                    OPEN CUR_LibroVacaciones;
+                    FETCH NEXT FROM CUR_LibroVacaciones INTO @FechaInicial, @FechaFinal;
+                    WHILE @@FETCH_STATUS = 0
+                        BEGIN
+							IF (@FechaFinal < CONVERT(DATE, GETDATE()))
+							BEGIN
+							SET @Tipo =
+								(
+									SELECT LIBROVACACIONES_CAUSADO
+									FROM util.VW_ConstanteEstado
+								);
+								
+							END
+							ELSE
+							BEGIN
+								SET @Tipo =
+								(
+									SELECT LIBROVACACIONES_ANTICIPADO
+									FROM util.VW_ConstanteEstado
+								);
+								 SET @DiasCausados = 0;
+								 SET @DiasTrabajados = 0;
+							END
+
+        					
+                            -- Crear un nuevo registro en el libro de vacaciones
+                            INSERT INTO LibroVacaciones
+                            (EstadoRegistro, 
+                             CreadoPor, 
+                             FechaCreacion, 
+                             ContratoId, 
+                             InicioCausacion, 
+                             FinCausacion, 
+                             Tipo, 
+                             DiasTrabajados, 
+                             DiasCausados, 
+                             DiasDisponibles
+                            )
+                            VALUES
+                            (
+                            (
+                                SELECT AUDITORIA_ACTIVO
+                                FROM util.VW_ConstanteEstado
+                            ), 
+                            'sistema', 
+                            GETDATE(), 
+                            @ContratoId, 
+                            @FechaInicial, 
+                            @FechaFinal, 
+                            @Tipo, 
+                            @DiasTrabajados, 
+                            @DiasCausados, 
+                            @DiasDisponibles
+                            );
+
+                            
+                            FETCH NEXT FROM CUR_LibroVacaciones INTO @FechaInicial, @FechaFinal;
+            END;
+                    CLOSE CUR_LibroVacaciones;
+                    DEALLOCATE CUR_LibroVacaciones;
+
+                    -- Cierre de la transacción
+                    IF @@TRANCOUNT > 0
+                        BEGIN
+                            IF XACT_STATE() = 1
+                                BEGIN
+                                    COMMIT TRAN CrearRegistroLibroVacaciones;
+                            END;
+                                ELSE
+                                BEGIN
+                                    EXEC util.USP_GenerarExcepcion 
+                                         50000, 
+                                         'No se puede confirmar la transacción.  Error desconocido.';
+                            END;
+                    END;
+            END;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transacción
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+            END;
+
+            -- Se almacena la información del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepción
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_CrearRegistroLibroVacaciones];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

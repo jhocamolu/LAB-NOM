@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TareaProgramada_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[TareaProgramada] ON
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias]) VALUES (6, N'Iniciar vigencia de libranzas', N'diaria', N'Se encarga de revisar las libranzas en estado pendiente y cuya fecha de inicio sea igual o anterior a la actual para cambiar el estado a vigente', N'node C:\inetpub\wwwroot\NominaConsola\index.js iniciar-libranza', 0, NULL, NULL, NULL, N'null', N'2020-07-28 17:38:00', NULL, NULL, N'iniciar-libranza')
+GO
+INSERT INTO [dbo].[TareaProgramada] ([Id], [Nombre], [Periodicidad], [Descripcion], [Instruccion], [EnEjecucion], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Alias]) VALUES (7, N'Finalizar ausentismos', N'diaria', N'Se encarga de revisar los ausentismos en estado Aprobado y cuya fecha de finalización sea anterior a la actual para cambiar el estado a Finalizado', N'node C:\inetpub\wwwroot\NominaConsola\index.js finalizar-ausentismo', 0, NULL, NULL, NULL, N'null', N'2020-07-28 17:38:00', NULL, NULL, N'finalizar-ausentismo')
+GO
+SET IDENTITY_INSERT [dbo].[TareaProgramada] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TareaProgramada] WHERE Id BETWEEN 6 AND 7;
+</rollback>
+</changeSet>
+</databaseChangeLog>

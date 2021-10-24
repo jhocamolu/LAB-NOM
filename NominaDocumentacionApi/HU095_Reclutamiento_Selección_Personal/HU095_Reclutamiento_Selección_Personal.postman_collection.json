@@ -1,0 +1,147 @@
+{
+	"info": {
+		"_postman_id": "f25b3f63-45f6-454e-a838-a6717a8efce3",
+		"name": "HU095_Reclutamiento_Selección_Personal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtener Candidatos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/Candidatos/?$expand=requisicionPersonal,hojaDeVida&$filter=requisicionPersonalId eq 16 and estado ne 'Descartado' ",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"Candidatos",
+						""
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "requisicionPersonal,hojaDeVida"
+						},
+						{
+							"key": "$filter",
+							"value": "requisicionPersonalId eq 16 and estado ne 'Descartado' "
+						}
+					]
+				},
+				"description": "{{host}}/odata/Candidatos"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Candidatos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"hojaDeVidaId\": 1,\r\n    \"requisicionPersonalId\": 16\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Candidatos",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Candidatos"
+					]
+				},
+				"description": "{{host}}/api/Candidatos"
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar  Candidatos",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/Candidatos/3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Candidatos",
+						"3"
+					]
+				},
+				"description": "{{host}}/api/Candidatos/3"
+			},
+			"response": []
+		},
+		{
+			"name": "Candidatos Estado",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":12,\r\n    \"estado\": \"Elegible\"\r\n}\r\n\r\n\r\n/*\r\n\"adjuntoPruebas\": null,\r\n\"adjuntoExamen\": null,\r\n\r\nPostulado = 0,\r\nDescartado = 1,\r\nCompetente = 2,\r\nElegible = 3,\r\nNoApto = 4,\r\nSeleccionado = 5\r\nReprobado =6\r\n*/",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Candidatos/12/Estado",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Candidatos",
+						"12",
+						"Estado"
+					]
+				},
+				"description": "{{host}}/api/Candidatos/1/Estado"
+			},
+			"response": []
+		},
+		{
+			"name": "PArcial Candidatos/3",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":12,\r\n    \"Activo\": false\r\n}\r\n    ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/Candidatos/12",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"Candidatos",
+						"12"
+					]
+				},
+				"description": "{{host}}/api/Candidatos/3"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

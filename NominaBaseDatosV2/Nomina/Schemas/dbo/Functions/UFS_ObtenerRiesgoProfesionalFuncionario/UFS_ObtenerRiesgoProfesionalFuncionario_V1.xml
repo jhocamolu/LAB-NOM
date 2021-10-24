@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_ObtenerRiesgoProfesionalFuncionario_V1">
+<comment>HT031</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerRiesgoProfesionalFuncionario]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerRiesgoProfesionalFuncionario];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 01/06/2020
+-- Description: Permite obtener el porcentaje de riesgo profesional de un funcionario
+--
+-- Parameters:
+--   FuncionarioId:	Identificador del funcionario del cual se va a obtener la información
+--
+-- Return:
+--	   Porcentaje:	Porcentaje del riesgo profesional
+-- ==========================================================================================
+CREATE FUNCTION [dbo].[UFS_ObtenerRiesgoProfesionalFuncionario]
+(
+@FuncionarioId INT
+)
+RETURNS DECIMAL(16,6)
+AS
+     BEGIN
+
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         -- Declare the return variable here
+         DECLARE @Porcentaje DECIMAL(16,6);
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+	    SELECT @Porcentaje = ctr.PorcentajeRiesgo
+	    FROM dbo.VW_FuncionarioDatoActual vfda INNER JOIN dbo.Contrato con ON (con.Id = vfda.ContratoId)
+	    INNER JOIN dbo.CentroTrabajo ctr ON (ctr.Id = con.CentroTrabajoId)
+	    WHERE vfda.Id = @FuncionarioId;
+
+	    IF @Porcentaje IS NULL
+	    BEGIN
+		  SET @Porcentaje = 0;
+	    END
+
+         RETURN @Porcentaje;
+     END;
+GO 
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerRiesgoProfesionalFuncionario]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerRiesgoProfesionalFuncionario]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

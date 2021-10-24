@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_tipo_embargo_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[TipoEmbargo] ON 
+GO
+
+INSERT INTO dbo.TipoEmbargo (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Prioridad, SalarioMinimoEmbargable) VALUES ('Activo', 'sistema', GETDATE(), '1', 'Alimentos', '1', 0);
+GO
+INSERT INTO dbo.TipoEmbargo (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Prioridad, SalarioMinimoEmbargable) VALUES ('Activo', 'sistema', GETDATE(), '2', 'Cooperativa', '2', 0);
+GO
+INSERT INTO dbo.TipoEmbargo (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Prioridad, SalarioMinimoEmbargable) VALUES ('Activo', 'sistema', GETDATE(), '3', 'Ejecutivo', '3', 0);
+GO
+INSERT INTO dbo.TipoEmbargo (EstadoRegistro, CreadoPor, FechaCreacion, Id, Nombre, Prioridad, SalarioMinimoEmbargable) VALUES ('Activo', 'sistema', GETDATE(), '4', 'Registraduría', '4', 0);
+GO
+
+SET IDENTITY_INSERT [dbo].[TipoEmbargo] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoEmbargo] WHERE Id BETWEEN 1 AND 4;
+</rollback>
+</changeSet>
+</databaseChangeLog>

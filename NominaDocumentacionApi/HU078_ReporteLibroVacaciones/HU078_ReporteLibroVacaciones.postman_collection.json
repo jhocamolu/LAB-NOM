@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "53380ee1-12db-40b7-9c2c-8aeb6cb077e6",
+		"name": "HU078_ReporteLibroVacaciones",
+		"description": "        [Required(ErrorMessage = ConstantesErrores.Requerido)]\r\n        public string Periodo { get; set; }\r\n\r\n        public string EstadoContrato { get; set; }\r\n\r\n        public string CentroOperativoId { get; set; }\r\n\r\n        public string DependenciaId { get; set; }",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte libro vacaciones",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Periodo\" : \"CausadosTomados,CausadosPendientes,AnticipadosTomados\",\r\n    \"EstadoContrato\":\"Vigente,Terminado,PendientePorLiquidar\",\r\n    \"DependenciaId\": \"1,2,3,4,5,6,7,8,9\",\r\n    \"CentroOperativoId\" : \"1,2,3,4,5,6,7,8,9\",\r\n    \"FuncionarioId\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/LibroVacaciones",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"LibroVacaciones"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

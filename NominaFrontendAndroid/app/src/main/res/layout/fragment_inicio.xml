@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.menulateral.inicio.InicioFragment">
+
+    <data>
+
+        <variable
+            name="funcionario"
+            type="com.alcanosesp.appalcanos.db.entity.Funcionario" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rlprinciaplInicio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <ScrollView
+            android:id="@+id/svInicio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/blanco">
+
+
+            <RelativeLayout
+                android:id="@+id/rlContenidoInicio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rlDatosFuncionarioInicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@color/blanco"
+                    android:elevation="3dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivFotoInicio"
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="17dp"
+                        android:src="@drawable/ic_fondo_splash"
+                        app:civ_border_color="@color/gris_claro_linea"
+                        app:civ_border_width="0.5dp" />
+
+
+                    <TextView
+                        android:id="@+id/tvNombreInicio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="45dp"
+                        android:layout_toRightOf="@+id/ivFotoInicio"
+                        android:fontFamily="@font/muli_bold"
+                        android:hint="Hola Jesus"
+                        android:text="@{funcionario.saludo()}"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/tvCargoInicio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvNombreInicio"
+                        android:layout_toRightOf="@+id/ivFotoInicio"
+                        android:fontFamily="@font/muli_regular"
+                        android:hint="Bienvenido a GHestic"
+                        android:text="@{funcionario.bienvenida()}"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/tvSloganInicio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvCargoInicio"
+                        android:layout_toRightOf="@+id/ivFotoInicio"
+                        android:fontFamily="@font/muli_light"
+                        android:hint="Cargo"
+                        android:text="Gestión humana a un clic."
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/rlBotonesInicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/rlDatosFuncionarioInicio"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/blanco"
+                    android:elevation="1dp"
+                    android:gravity="center_vertical|left"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+
+                    <RelativeLayout
+                        android:id="@+id/rlMisDatos"
+                        style="@style/tarjetasMenuInicio"
+                        android:background="@drawable/chip"
+                        android:backgroundTint="@color/amarillo_solicitudes"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:id="@+id/ivMisDatosInicio"
+                            style="@style/imagenOpcionesInicio"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:src="@drawable/ic_mis_datos" />
+
+                        <TextView
+                            android:id="@+id/tvMisDatosInicio"
+                            style="@style/tituloTarjetasMenuInicio"
+                            android:layout_alignParentEnd="true"
+                            android:layout_toRightOf="@+id/ivMisDatosInicio"
+                            android:text="@string/mis_datos" />
+
+                        <TextView
+                            style="@style/descripcionTarjetasMenuInicio"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_toRightOf="@+id/ivMisDatosInicio"
+                            android:text="@string/descripcion_mis_datos" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rlConsulta"
+                        style="@style/tarjetasMenuInicio"
+                        android:background="@drawable/chip"
+                        android:backgroundTint="@color/turquesa">
+
+                        <ImageView
+                            android:id="@+id/ivConsultasinicio"
+                            style="@style/imagenOpcionesInicio"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:src="@drawable/ic_consultas" />
+
+                        <TextView
+                            android:id="@+id/tvConsultasInicio"
+                            style="@style/tituloTarjetasMenuInicio"
+                            android:layout_alignParentEnd="true"
+                            android:layout_toRightOf="@+id/ivConsultasinicio"
+                            android:text="@string/menu_consultas" />
+
+                        <TextView
+                            style="@style/descripcionTarjetasMenuInicio"
+                            android:layout_below="@id/tvConsultasInicio"
+                            android:layout_alignParentEnd="true"
+                            android:layout_toRightOf="@+id/ivConsultasinicio"
+                            android:text="@string/descipcion_consultas" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rlIncapacidades"
+                        style="@style/tarjetasMenuInicio"
+                        android:background="@drawable/chip"
+                        android:backgroundTint="@color/verde_incapacidades">
+
+                        <ImageView
+                            android:id="@+id/ivIncapacidadesinicio"
+                            style="@style/imagenOpcionesInicio"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:src="@drawable/ic_incapacidades" />
+
+                        <TextView
+                            android:id="@+id/tvIncapacidades"
+                            style="@style/tituloTarjetasMenuInicio"
+                            android:layout_alignParentEnd="true"
+                            android:layout_toRightOf="@+id/ivIncapacidadesinicio"
+                            android:text="@string/menu_incapacidades" />
+
+                        <TextView
+                            style="@style/descripcionTarjetasMenuInicio"
+                            android:layout_below="@id/tvIncapacidades"
+                            android:layout_alignParentEnd="true"
+                            android:layout_toRightOf="@+id/ivIncapacidadesinicio"
+                            android:text="@string/descripcion_incapacidades" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rlSolicitudes"
+                        style="@style/tarjetasMenuInicio"
+                        android:background="@drawable/chip"
+                        android:backgroundTint="@color/coral">
+
+                        <ImageView
+                            android:id="@+id/ivSolicitudesInicio"
+                            style="@style/imagenOpcionesInicio"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentBottom="true"
+                            android:src="@drawable/ic_solicitudes" />
+
+                        <TextView
+                            android:id="@+id/tvSolicitudesInicio"
+                            style="@style/tituloTarjetasMenuInicio"
+                            android:layout_alignParentEnd="true"
+                            android:layout_toRightOf="@+id/ivSolicitudesInicio"
+                            android:text="@string/menu_solicitudes" />
+
+                        <TextView
+                            style="@style/descripcionTarjetasMenuInicio"
+                            android:layout_below="@id/tvSolicitudesInicio"
+                            android:layout_alignParentEnd="true"
+                            android:layout_toRightOf="@+id/ivSolicitudesInicio"
+                            android:text="@string/descripcion_solicitudes" />
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+        </ScrollView>
+    </RelativeLayout>
+</layout>

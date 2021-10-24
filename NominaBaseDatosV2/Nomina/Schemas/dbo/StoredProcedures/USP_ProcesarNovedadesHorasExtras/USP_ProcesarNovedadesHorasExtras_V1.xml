@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_ProcesarNovedadesHorasExtras_V1">
+<comment>HU054</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ProcesarNovedadesHorasExtras', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ProcesarNovedadesHorasExtras as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 24/04/2020
+-- Description: Pemite procesar las novedades del funcionario del módulo de horas extra
+--			 al aprobar la nómina
+--
+-- Parameters:
+--  @NominaId:			   Identificador de la nómina a la que va a vincular la novedad
+--  @UsuarioOperacion:	   Usuario que realiza la operación
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ProcesarNovedadesHorasExtras] @NominaId         INT,
+                                                        @UsuarioOperacion VARCHAR(255)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@UsuarioOperacion=', CONVERT(VARCHAR, @UsuarioOperacion));
+    DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @HoraExtraAplicada VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @NovedadId INT;
+    DECLARE @NovedadCantidad INT;
+    DECLARE @ModuloSistema VARCHAR(255)=
+    (
+        SELECT cms.HORASEXTRA
+        FROM util.VW_ConstanteModuloSistema AS cms
+    );
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    BEGIN TRY
+
+        -- Inicio de la transacción
+        BEGIN TRAN ProcesarNovedades;
+
+        -- Se consultan estado
+        SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO,
+               @HoraExtraAplicada = vce.HORAEXTRA_APLICADA
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Cursor para obtener las hora extra de la nómina
+        DECLARE CUR_HorasExtra CURSOR LOCAL
+        FOR SELECT nfn.ModuloRegistroId,
+                   SUM(nde.Cantidad)
+            FROM dbo.Nomina AS nom
+                 INNER JOIN dbo.NominaFuncionario AS nfu ON(nom.Id = nfu.NominaId)
+                 INNER JOIN dbo.NominaDetalle AS nde ON(nfu.Id = nde.NominaFuncionarioId)
+                 INNER JOIN dbo.NominaFuenteNovedad AS nfn ON(nde.NominaFuenteNovedadId = nfn.Id)
+            WHERE nom.Id = @NominaId
+                  AND nfn.Modulo = @ModuloSistema
+                  AND nfu.EstadoRegistro = @AuditoriaActivo
+                  AND nde.EstadoRegistro = @AuditoriaActivo
+            GROUP BY nfn.ModuloRegistroId;
+
+        OPEN CUR_HorasExtra;
+
+        FETCH NEXT FROM CUR_HorasExtra INTO @NovedadId, @NovedadCantidad;
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+
+            UPDATE dbo.HoraExtra
+              SET
+                  Estado = @HoraExtraAplicada,
+                  ModificadoPor = @UsuarioOperacion,
+                  FechaModificacion = GETDATE()
+            WHERE Id = @NovedadId;
+
+            FETCH NEXT FROM CUR_HorasExtra INTO @NovedadId, @NovedadCantidad;
+        END;
+
+        CLOSE CUR_HorasExtra;
+
+        DEALLOCATE CUR_HorasExtra;
+
+        -- Cierre de la transacción
+        IF @@TRANCOUNT > 0
+        BEGIN
+            IF XACT_STATE() = 1
+            BEGIN
+                COMMIT TRAN ProcesarNovedades;
+            END;
+            ELSE
+            BEGIN
+                EXEC util.USP_GenerarExcepcion
+                     50000,
+                     'No se puede confirmar la transacción.  Error desconocido.';
+            END;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ProcesarNovedadesHorasExtras];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

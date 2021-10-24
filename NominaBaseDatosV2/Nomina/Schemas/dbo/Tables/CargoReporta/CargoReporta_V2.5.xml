@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="CargoReporta_V2.5">
+<comment>cargo reporta</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF EXISTS(SELECT * FROM sys.indexes WHERE OBJECT_ID = OBJECT_ID('dbo.cargoReporta') AND NAME ='IX_CargoReporta_CargoFuncionarioId')
+    DROP INDEX [IX_CargoReporta_CargoFuncionarioId] ON dbo.cargoReporta;
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+SELECT 1;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

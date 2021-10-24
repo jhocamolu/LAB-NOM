@@ -1,0 +1,1003 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_ocupaciones_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[Ocupacion] ON 
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, '0011', 'Miembros del Poder Ejecutivo y Legislativo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, '0012', 'Personal Directivo de la Administración Pública')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, '0013', 'Directores y Gerentes Generales de Servicios Financieros, de Telecomunicaciones y Otros Servicios a las Empresas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, '0014', 'Directores y Gerentes Generales de Salud, Educación, Servicios Social y Comunitario y Organizaciones de Membresía')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 5, 'Activo', GETDATE(), NULL, NULL, '0015', 'Directores y Gerentes Generales de Comercio, Medios de Comunicación y Otros Servicios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 6, 'Activo', GETDATE(), NULL, NULL, '0016', 'Directores y Gerentes Generales de Producción de Bienes, Servicios Públicos, Transporte y Construcción')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 7, 'Activo', GETDATE(), NULL, NULL, '0111', 'Gerentes Financieros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 8, 'Activo', GETDATE(), NULL, NULL, '0112', 'Gerentes de Recursos Humanos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 9, 'Activo', GETDATE(), NULL, NULL, '0113', 'Gerentes de Compras y Adquisiciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 10, 'Activo', GETDATE(), NULL, NULL, '0114', 'Gerentes de Otros Servicios Administrativos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 11, 'Activo', GETDATE(), NULL, NULL, '0121', 'Gerentes de Seguros, Bienes Raíces y Corretaje Financiero')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 12, 'Activo', GETDATE(), NULL, NULL, '0122', 'Gerentes de Banca, Crédito e Inversiones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 13, 'Activo', GETDATE(), NULL, NULL, '0123', 'Gerentes de Otros Servicios a las Empresas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 14, 'Activo', GETDATE(), NULL, NULL, '0131', 'Gerentes de Empresas de Telecomunicaciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 15, 'Activo', GETDATE(), NULL, NULL, '0132', 'Gerentes de Servicios de Correo y Mensajería')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 16, 'Activo', GETDATE(), NULL, NULL, '0211', 'Gerentes de Ingeniería')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 17, 'Activo', GETDATE(), NULL, NULL, '0212', 'Gerentes de Investigación y Desarrollo en Ciencias Naturales y Aplicadas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 18, 'Activo', GETDATE(), NULL, NULL, '0213', 'Gerentes de Sistemas de Información y Procesamiento de Datos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 19, 'Activo', GETDATE(), NULL, NULL, '0311', 'Gerentes de Servicios a la Salud')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 20, 'Activo', GETDATE(), NULL, NULL, '0411', 'Gerentes de Programas de Política Social y de Salud')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 21, 'Activo', GETDATE(), NULL, NULL, '0412', 'Gerentes de Programas de Política de Desarrollo Económico')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 22, 'Activo', GETDATE(), NULL, NULL, '0413', 'Gerentes de Programas de Política Educativa')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 23, 'Activo', GETDATE(), NULL, NULL, '0414', 'Otros Gerentes de Administración Pública')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 24, 'Activo', GETDATE(), NULL, NULL, '0421', 'Administradores de Educación Superior y Formación para el Trabajo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 25, 'Activo', GETDATE(), NULL, NULL, '0422', 'Directores y Administradores de Educación Básica y Media')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 26, 'Activo', GETDATE(), NULL, NULL, '0423', 'Gerentes de Servicios Social, Comunitario y Correccional')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 27, 'Activo', GETDATE(), NULL, NULL, '0511', 'Gerentes de Biblioteca, Museo y Galería de Arte')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 28, 'Activo', GETDATE(), NULL, NULL, '0512', 'Gerentes de Medios de Comunicación y Artes Escénicas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 29, 'Activo', GETDATE(), NULL, NULL, '0513', 'Directores de Programas de Esparcimiento y Deportes')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 30, 'Activo', GETDATE(), NULL, NULL, '0611', 'Gerentes de Ventas, Mercadeo y Publicidad')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 31, 'Activo', GETDATE(), NULL, NULL, '0612', 'Gerentes de Servicios de Comercio Exterior')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 32, 'Activo', GETDATE(), NULL, NULL, '0621', 'Gerentes de Comercio al Por Menor')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 33, 'Activo', GETDATE(), NULL, NULL, '0631', 'Gerentes de Restaurantes y Servicios de Alimentos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 34, 'Activo', GETDATE(), NULL, NULL, '0632', 'Gerentes de Servicios de Alojamiento')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 35, 'Activo', GETDATE(), NULL, NULL, '0641', 'Oficiales de las Fuerzas Militares')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 36, 'Activo', GETDATE(), NULL, NULL, '0642', 'Oficiales de Policía')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 37, 'Activo', GETDATE(), NULL, NULL, '0643', 'Oficiales de Bomberos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 38, 'Activo', GETDATE(), NULL, NULL, '0651', 'Gerentes de Otros Servicios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 39, 'Activo', GETDATE(), NULL, NULL, '0711', 'Gerentes de Producción Primaria (excepto agricultura)')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 40, 'Activo', GETDATE(), NULL, NULL, '0712', 'Gerentes de Producción Agrícola y Pecuaria')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 41, 'Activo', GETDATE(), NULL, NULL, '0811', 'Gerentes de Construcción')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 42, 'Activo', GETDATE(), NULL, NULL, '0812', 'Gerentes de Transporte y Distribución')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 43, 'Activo', GETDATE(), NULL, NULL, '0821', 'Gerentes de Operación de Instalaciones Físicas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 44, 'Activo', GETDATE(), NULL, NULL, '0822', 'Gerentes de Mantenimiento')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 45, 'Activo', GETDATE(), NULL, NULL, '0911', 'Gerentes de Producción Industrial')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 46, 'Activo', GETDATE(), NULL, NULL, '0912', 'Gerentes de Empresas de Servicios Públicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 47, 'Activo', GETDATE(), NULL, NULL, '1111', 'Contadores y Auditores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 48, 'Activo', GETDATE(), NULL, NULL, '1112', 'Analistas y Agentes de Inversiones y Finanzas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 49, 'Activo', GETDATE(), NULL, NULL, '1121', 'Profesionales en Recursos Humanos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 50, 'Activo', GETDATE(), NULL, NULL, '1122', 'Profesionales en Organización y Administración de las Empresas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 51, 'Activo', GETDATE(), NULL, NULL, '1123', 'Evaluadores de Competencias Laborales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 52, 'Activo', GETDATE(), NULL, NULL, '1124', 'Archivistas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 53, 'Activo', GETDATE(), NULL, NULL, '1211', 'Supervisores deEmpleados de Apoyo Administrativo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 54, 'Activo', GETDATE(), NULL, NULL, '1212', 'Supervisores de Empleados de Seguros y Finanzas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 55, 'Activo', GETDATE(), NULL, NULL, '1213', 'Supervisores de Empleados de Información y Servicio al Cliente')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 56, 'Activo', GETDATE(), NULL, NULL, '1214', 'Supervisores deEmpleados de Correo y Mensajería')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 57, 'Activo', GETDATE(), NULL, NULL, '1215', 'Supervisores de Empleados de Registro, Distribución y Programación')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 58, 'Activo', GETDATE(), NULL, NULL, '1221', 'Asistentes Administrativos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 59, 'Activo', GETDATE(), NULL, NULL, '1222', 'Administradores de Inmuebles')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 60, 'Activo', GETDATE(), NULL, NULL, '1223', 'Asistentes de Personal y Selección')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 61, 'Activo', GETDATE(), NULL, NULL, '1224', 'Asistentes de Compras y Adquisiciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 62, 'Activo', GETDATE(), NULL, NULL, '1225', 'Asistentes de Juzgados, Tribunales y Afines')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 63, 'Activo', GETDATE(), NULL, NULL, '1226', 'Funcionarios de Aduanas, Impuestos, Inmigración y Seguridad Social')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 64, 'Activo', GETDATE(), NULL, NULL, '1227', 'Asistentes de Comercio Exterior')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 65, 'Activo', GETDATE(), NULL, NULL, '1228', 'Organizadores de Eventos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 66, 'Activo', GETDATE(), NULL, NULL, '1229', 'Técnicos en Archivística')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 67, 'Activo', GETDATE(), NULL, NULL, '1231', 'Asistentes Contables y Financieros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 68, 'Activo', GETDATE(), NULL, NULL, '1232', 'Analistas de Crédito y Cobranzas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 69, 'Activo', GETDATE(), NULL, NULL, '1233', 'Avaluadores y Liquidadores de Seguros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 70, 'Activo', GETDATE(), NULL, NULL, '1234', 'Agentes de Aduana')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 71, 'Activo', GETDATE(), NULL, NULL, '1311', 'Secretarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 72, 'Activo', GETDATE(), NULL, NULL, '1312', 'Auxiliares de Oficina')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 73, 'Activo', GETDATE(), NULL, NULL, '1313', 'Recepcionistas y Operadores de Conmutador')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 74, 'Activo', GETDATE(), NULL, NULL, '1321', 'Digitadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 75, 'Activo', GETDATE(), NULL, NULL, '1322', 'Transcriptores y Relatores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 76, 'Activo', GETDATE(), NULL, NULL, '1323', 'Digitalizadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 77, 'Activo', GETDATE(), NULL, NULL, '1331', 'Auxiliares Contables')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 78, 'Activo', GETDATE(), NULL, NULL, '1332', 'Cajeros de Servicios Financieros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 79, 'Activo', GETDATE(), NULL, NULL, '1333', 'Auxiliares de Banca, Seguros y Otros Servicios Financieros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 80, 'Activo', GETDATE(), NULL, NULL, '1334', 'Auxiliares de Cartera y Cobranzas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 81, 'Activo', GETDATE(), NULL, NULL, '1335', 'Auxiliares de Nómina y Prestaciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 82, 'Activo', GETDATE(), NULL, NULL, '1336', 'Auxiliares de Avaluo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 83, 'Activo', GETDATE(), NULL, NULL, '1341', 'Auxiliares Administrativos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 84, 'Activo', GETDATE(), NULL, NULL, '1342', 'Auxiliares de Personal')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 85, 'Activo', GETDATE(), NULL, NULL, '1343', 'Auxiliares de Tribunales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 86, 'Activo', GETDATE(), NULL, NULL, '1344', 'Auxiliares de Archivo y Registro')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 87, 'Activo', GETDATE(), NULL, NULL, '1345', 'Auxiliares Administrativos en Salud')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 88, 'Activo', GETDATE(), NULL, NULL, '1351', 'Auxiliares de Biblioteca')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 89, 'Activo', GETDATE(), NULL, NULL, '1352', 'Auxiliares de Publicación y Afines')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 90, 'Activo', GETDATE(), NULL, NULL, '1353', 'Auxiliares de Información y Servicio al Cliente')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 91, 'Activo', GETDATE(), NULL, NULL, '1354', 'Auxiliares de Estadística y Encuestadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 92, 'Activo', GETDATE(), NULL, NULL, '1361', 'Auxiliares de Correo y Servicio Postal')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 93, 'Activo', GETDATE(), NULL, NULL, '1362', 'Carteros y Mensajeros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 94, 'Activo', GETDATE(), NULL, NULL, '1371', 'Auxiliares de Almacén y Bodega')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 95, 'Activo', GETDATE(), NULL, NULL, '1372', 'Auxiliares de Compras e Inventarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 96, 'Activo', GETDATE(), NULL, NULL, '1373', 'Operadores de Radio y Despachadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 97, 'Activo', GETDATE(), NULL, NULL, '1374', 'Programadores de Rutas y Tripulaciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 98, 'Activo', GETDATE(), NULL, NULL, '1375', 'Operadores Telefónicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 99, 'Activo', GETDATE(), NULL, NULL, '2111', 'Físicos y Astrónomos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 100, 'Activo', GETDATE(), NULL, NULL, '2112', 'Químicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 101, 'Activo', GETDATE(), NULL, NULL, '2113', 'Geólogos, Geoquímicos y Geofísicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 102, 'Activo', GETDATE(), NULL, NULL, '2114', 'Meteorólogos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 103, 'Activo', GETDATE(), NULL, NULL, '2121', 'Biólogos, Botánicos, Zoólogos y Relacionados')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 104, 'Activo', GETDATE(), NULL, NULL, '2122', 'Expertos Forestales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 105, 'Activo', GETDATE(), NULL, NULL, '2123', 'Expertos Agrícolas y Pecuarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 106, 'Activo', GETDATE(), NULL, NULL, '2131', 'Ingenieros en Construcción y Obras Civiles')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 107, 'Activo', GETDATE(), NULL, NULL, '2132', 'Ingenieros Mecánicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 108, 'Activo', GETDATE(), NULL, NULL, '2133', 'Ingenieros Electricistas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 109, 'Activo', GETDATE(), NULL, NULL, '2134', 'Ingenieros Electrónicos y de Telecomunicaciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 110, 'Activo', GETDATE(), NULL, NULL, '2135', 'Ingenieros Químicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 111, 'Activo', GETDATE(), NULL, NULL, '2136', 'Ingenieros de Automatización e Instrumentación')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 112, 'Activo', GETDATE(), NULL, NULL, '2141', 'Ingenieros Industriales y de Fabricación')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 113, 'Activo', GETDATE(), NULL, NULL, '2142', 'Ingenieros de Materiales y Metalurgia')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 114, 'Activo', GETDATE(), NULL, NULL, '2143', 'Ingenieros de Minas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 115, 'Activo', GETDATE(), NULL, NULL, '2144', 'Ingenieros de Petróleos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 116, 'Activo', GETDATE(), NULL, NULL, '2145', 'Ingenieros de Sistemas, Informática y Computación')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 117, 'Activo', GETDATE(), NULL, NULL, '2146', 'Otros Ingenieros n.c.a.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 118, 'Activo', GETDATE(), NULL, NULL, '2151', 'Arquitectos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 119, 'Activo', GETDATE(), NULL, NULL, '2152', 'Urbanistas y Planificadores del Uso del Suelo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 120, 'Activo', GETDATE(), NULL, NULL, '2153', 'Profesionales Topográficos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 121, 'Activo', GETDATE(), NULL, NULL, '2161', 'Matemáticos, Estadísticos y Actuarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 122, 'Activo', GETDATE(), NULL, NULL, '2171', 'Analistas de Sistemas Informáticos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 123, 'Activo', GETDATE(), NULL, NULL, '2172', 'Administradores de Sistemas Informáticos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 124, 'Activo', GETDATE(), NULL, NULL, '2173', 'Programadores de Aplicaciones Informáticas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 125, 'Activo', GETDATE(), NULL, NULL, '2211', 'Técnicos en Química Aplicada')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 126, 'Activo', GETDATE(), NULL, NULL, '2212', 'Técnicos en Geología y Minería')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 127, 'Activo', GETDATE(), NULL, NULL, '2213', 'Técnicos en Meteorología')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 128, 'Activo', GETDATE(), NULL, NULL, '2221', 'Técnicos en Ciencias Biológicas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 129, 'Activo', GETDATE(), NULL, NULL, '2222', 'Técnicos Forestales y de Recursos Naturales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 130, 'Activo', GETDATE(), NULL, NULL, '2223', 'Técnicos en Prevención y Control Ambiental')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 131, 'Activo', GETDATE(), NULL, NULL, '2231', 'Técnicos en Construcción y Arquitectura')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 132, 'Activo', GETDATE(), NULL, NULL, '2232', 'Técnicos en Mecánica y Construcción Mecánica')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 133, 'Activo', GETDATE(), NULL, NULL, '2233', 'Técnicos en Fabricación Industrial')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 134, 'Activo', GETDATE(), NULL, NULL, '2241', 'Técnicos en Electricidad')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 135, 'Activo', GETDATE(), NULL, NULL, '2242', 'Técnicos en Electrónica y Telecomunicaciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 136, 'Activo', GETDATE(), NULL, NULL, '2243', 'Técnicos en Automatización e Instrumentación')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 137, 'Activo', GETDATE(), NULL, NULL, '2244', 'Técnicos en Instrumentos de Aeronavegación')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 138, 'Activo', GETDATE(), NULL, NULL, '2251', 'Diseñadores Industriales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 139, 'Activo', GETDATE(), NULL, NULL, '2252', 'Dibujantes Técnicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 140, 'Activo', GETDATE(), NULL, NULL, '2253', 'Topógrafos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 141, 'Activo', GETDATE(), NULL, NULL, '2254', 'Técnicos en Cartografía')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 142, 'Activo', GETDATE(), NULL, NULL, '2261', 'Inspectores de Pruebas No destructivas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 143, 'Activo', GETDATE(), NULL, NULL, '2262', 'Inspectores de Sanidad, Seguridad y Salud Ocupacional')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 144, 'Activo', GETDATE(), NULL, NULL, '2263', 'Inspectores de Construcción')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 145, 'Activo', GETDATE(), NULL, NULL, '2264', 'Inspectores de Equipos de Transporte e Instrumentos de Medición')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 146, 'Activo', GETDATE(), NULL, NULL, '2265', 'Inspectores de Productos Agrícola, Pecuarios y de Pesca')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 147, 'Activo', GETDATE(), NULL, NULL, '2271', 'Pilotos de Ingenieros e Instructores de Vuelo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 148, 'Activo', GETDATE(), NULL, NULL, '2272', 'Controladores de Tráfico Aéreo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 149, 'Activo', GETDATE(), NULL, NULL, '2273', 'Capitanes y Oficiales de Cubierta')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 150, 'Activo', GETDATE(), NULL, NULL, '2274', 'Oficiales de Máquinas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 151, 'Activo', GETDATE(), NULL, NULL, '2275', 'Controladores de Tráfico Ferroviario y Marítimo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 152, 'Activo', GETDATE(), NULL, NULL, '2276', 'Despachadoresde Aeronaves')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 153, 'Activo', GETDATE(), NULL, NULL, '2281', 'Técnicos de Sistemas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 154, 'Activo', GETDATE(), NULL, NULL, '2311', 'Asistentes en Saneamiento Ambiental')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 155, 'Activo', GETDATE(), NULL, NULL, '2312', 'Auxiliares de Laboratorio')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 156, 'Activo', GETDATE(), NULL, NULL, '2321', 'Auxiliares en Automatización e Instrumentación Industrial')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 157, 'Activo', GETDATE(), NULL, NULL, '3111', 'Médicos Especialistas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 158, 'Activo', GETDATE(), NULL, NULL, '3112', 'Médicos Generales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 159, 'Activo', GETDATE(), NULL, NULL, '3113', 'Odontólogos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 160, 'Activo', GETDATE(), NULL, NULL, '3114', 'Veterinarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 161, 'Activo', GETDATE(), NULL, NULL, '3121', 'Optómetras')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 162, 'Activo', GETDATE(), NULL, NULL, '3122', 'Otras Ocupaciones Profesionales en Diagnóstico y Tratamiento de la Salud n.c.a.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 163, 'Activo', GETDATE(), NULL, NULL, '3131', 'Farmacéuticos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 164, 'Activo', GETDATE(), NULL, NULL, '3132', 'Dietistas y Nutricionistas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 165, 'Activo', GETDATE(), NULL, NULL, '3141', 'Audiólogos y Terapeutas del Lenguaje')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 166, 'Activo', GETDATE(), NULL, NULL, '3142', 'Fisioterapeutas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 167, 'Activo', GETDATE(), NULL, NULL, '3143', 'Terapeutas Ocupacionales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 168, 'Activo', GETDATE(), NULL, NULL, '3151', 'Enfermeros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 169, 'Activo', GETDATE(), NULL, NULL, '3161', 'Psicólogos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 170, 'Activo', GETDATE(), NULL, NULL, '3211', 'Técnicos de Laboratorio Médico y Patología')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 171, 'Activo', GETDATE(), NULL, NULL, '3212', 'Técnicos en Terapia Respiratoria y Cardiovascular')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 172, 'Activo', GETDATE(), NULL, NULL, '3213', 'Técnicos en Imágenes Diagnósticas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 173, 'Activo', GETDATE(), NULL, NULL, '3214', 'Técnicos en Radioterapia y Medicina Nuclear')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 174, 'Activo', GETDATE(), NULL, NULL, '3215', 'Instrumentador Quirúrgico')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 175, 'Activo', GETDATE(), NULL, NULL, '3221', 'Técnicos Dentales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 176, 'Activo', GETDATE(), NULL, NULL, '3222', 'Higienistas Dentales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 177, 'Activo', GETDATE(), NULL, NULL, '3231', 'Técnicos Ópticos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 178, 'Activo', GETDATE(), NULL, NULL, '3232', 'Practicantes de Medicina Alternativa')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 179, 'Activo', GETDATE(), NULL, NULL, '3233', 'Asistentes de Ambulancia y Otras Ocupaciones Paramédicas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 180, 'Activo', GETDATE(), NULL, NULL, '3234', 'Otras Ocupaciones Técnicas en Terapia y Valoración n.c.a.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 181, 'Activo', GETDATE(), NULL, NULL, '3311', 'Auxiliares de Enfermería')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 182, 'Activo', GETDATE(), NULL, NULL, '3312', 'Auxiliares de Odontología')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 183, 'Activo', GETDATE(), NULL, NULL, '3313', 'Promotores de Salud')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 184, 'Activo', GETDATE(), NULL, NULL, '3314', 'Auxiliares de Laboratorio Clínico')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 185, 'Activo', GETDATE(), NULL, NULL, '3315', 'Auxiliares de Droguería y Farmacia')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 186, 'Activo', GETDATE(), NULL, NULL, '3316', 'Otros Auxiliares de Servicios a la Salud n.c.a.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 187, 'Activo', GETDATE(), NULL, NULL, '4111', 'Jueces')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 188, 'Activo', GETDATE(), NULL, NULL, '4112', 'Abogados')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 189, 'Activo', GETDATE(), NULL, NULL, '4121', 'Profesores de Educación Superior')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 190, 'Activo', GETDATE(), NULL, NULL, '4122', 'Especialistas en Métodos Pedagógicos y Material Didáctico')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 191, 'Activo', GETDATE(), NULL, NULL, '4131', 'Instructores de Formación para el Trabajo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 192, 'Activo', GETDATE(), NULL, NULL, '4141', 'Profesores de Educación Básica Secundaria y Media')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 193, 'Activo', GETDATE(), NULL, NULL, '4142', 'Profesores de Educación Básica Primaria')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 194, 'Activo', GETDATE(), NULL, NULL, '4143', 'Profesores de Preescolar')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 195, 'Activo', GETDATE(), NULL, NULL, '4144', 'Orientadores Educativos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 196, 'Activo', GETDATE(), NULL, NULL, '4152', 'Trabajadores Sociales y Consultores de Familia')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 197, 'Activo', GETDATE(), NULL, NULL, '4153', 'Ministros del Culto')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 198, 'Activo', GETDATE(), NULL, NULL, '4161', 'Sociólogos,Antropólogos y Afines')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 199, 'Activo', GETDATE(), NULL, NULL, '4162', 'Filósofos, Filólogos y Afines')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 200, 'Activo', GETDATE(), NULL, NULL, '4171', 'Consultores, Investigadores y Analistas de Política Económica')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 201, 'Activo', GETDATE(), NULL, NULL, '4172', 'Consultores y Funcionarios de Desarrollo Económico y Comercial')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 202, 'Activo', GETDATE(), NULL, NULL, '4173', 'Investigadores, Consultores y Funcionarios de Políticas Sociales de de Salud y de Educación')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 203, 'Activo', GETDATE(), NULL, NULL, '4174', 'Funcionarios de Programas Exclusivos de la Administración Pública')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 204, 'Activo', GETDATE(), NULL, NULL, '4175', 'Investigadores, Consultores y Funcionarios de Políticas de Ciencias Naturales y Aplicadas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 205, 'Activo', GETDATE(), NULL, NULL, '4211', 'Asistentes en Servicios Social y Comunitario')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 206, 'Activo', GETDATE(), NULL, NULL, '4212', 'Consejeros de Servicios de Empleo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 207, 'Activo', GETDATE(), NULL, NULL, '4213', 'Instructores y Profesores de Personas con Discapacidad')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 208, 'Activo', GETDATE(), NULL, NULL, '4214', 'Otros Instructores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 209, 'Activo', GETDATE(), NULL, NULL, '4215', 'Ocupaciones Religiosas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 210, 'Activo', GETDATE(), NULL, NULL, '4221', 'Investigadores Criminalísticos yJudiciales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 211, 'Activo', GETDATE(), NULL, NULL, '4222', 'Asistentes Legales y Afines')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 212, 'Activo', GETDATE(), NULL, NULL, '5111', 'Bibliotecarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 213, 'Activo', GETDATE(), NULL, NULL, '5112', 'Restauradores y Curadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 214, 'Activo', GETDATE(), NULL, NULL, '5121', 'Escritores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 215, 'Activo', GETDATE(), NULL, NULL, '5122', 'Editores - Redactores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 216, 'Activo', GETDATE(), NULL, NULL, '5123', 'Periodistas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 217, 'Activo', GETDATE(), NULL, NULL, '5124', 'Traductores e Intérpretes')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 218, 'Activo', GETDATE(), NULL, NULL, '5125', 'Ocupaciones Profesionales en Relaciones Públicas y Comunicaciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 219, 'Activo', GETDATE(), NULL, NULL, '5131', 'Productores, Directores Artísticos, Coreógrafos y Ocupaciones Relacionadas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 220, 'Activo', GETDATE(), NULL, NULL, '5132', 'Músicos, Cantantes, Compositores y Directores Músicales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 221, 'Activo', GETDATE(), NULL, NULL, '5134', 'Bailarines')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 222, 'Activo', GETDATE(), NULL, NULL, '5135', 'Actores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 223, 'Activo', GETDATE(), NULL, NULL, '5136', 'Pintores, Escultores y Otros Artistas Visuales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 224, 'Activo', GETDATE(), NULL, NULL, '5211', 'Ocupaciones Técnicas Relacionadas con Museos y Galerías')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 225, 'Activo', GETDATE(), NULL, NULL, '5212', 'Técnicos en Biblioteca')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 226, 'Activo', GETDATE(), NULL, NULL, '5213', 'Técnicos en Promoción y Animación a la Lectura y la Escritura')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 227, 'Activo', GETDATE(), NULL, NULL, '5221', 'Fotógrafos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 228, 'Activo', GETDATE(), NULL, NULL, '5222', 'Operadores de Cámara de Cine y Televisión')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 229, 'Activo', GETDATE(), NULL, NULL, '5223', 'Técnicos de Arte Gráfico')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 230, 'Activo', GETDATE(), NULL, NULL, '5224', 'Técnicos en Transmisión de Radio y Televisión')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 231, 'Activo', GETDATE(), NULL, NULL, '5225', 'Técnicos en Grabación de Audio y Vídeo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 232, 'Activo', GETDATE(), NULL, NULL, '5226', 'Otras Ocupaciones Técnicas en Cine, TV y Artes Escénicas n.c.a.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 233, 'Activo', GETDATE(), NULL, NULL, '5227', 'Ocupaciones de Asistencia en Cine, TV y Artes Escénicas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 234, 'Activo', GETDATE(), NULL, NULL, '5228', 'Productoresde Campo para Cine y Televisión')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 235, 'Activo', GETDATE(), NULL, NULL, '5231', 'Locutores de Radio, Televisión y Otros Medios de Comunicación.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 236, 'Activo', GETDATE(), NULL, NULL, '5232', 'Otros Artistas n.c.a.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 237, 'Activo', GETDATE(), NULL, NULL, '5233', 'Artistas Creativos e Interpretativos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 238, 'Activo', GETDATE(), NULL, NULL, '5241', 'Diseñadores Gráficos y Dibujantes Artísticos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 239, 'Activo', GETDATE(), NULL, NULL, '5242', 'Diseñadores de Interiores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 240, 'Activo', GETDATE(), NULL, NULL, '5243', 'Diseñadores de Teatro, Moda, Exhibición y Otros Diseñadores Creativos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 241, 'Activo', GETDATE(), NULL, NULL, '5244', 'Artesanos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 242, 'Activo', GETDATE(), NULL, NULL, '5245', 'Patronistas - Productos de Tela, Cuero y Piel')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 243, 'Activo', GETDATE(), NULL, NULL, '5251', 'Deportistas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 244, 'Activo', GETDATE(), NULL, NULL, '5252', 'Entrenadores y Preparadores Físicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 245, 'Activo', GETDATE(), NULL, NULL, '5253', 'Árbitros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 246, 'Activo', GETDATE(), NULL, NULL, '6211', 'Supervisores de Ventas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 247, 'Activo', GETDATE(), NULL, NULL, '6212', 'Administradores y Supervisores de Comercio al Por Menor')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 248, 'Activo', GETDATE(), NULL, NULL, '6213', 'Supervisores de Servicios de Alimentos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 249, 'Activo', GETDATE(), NULL, NULL, '6214', 'Supervisores de Personal de Manejo Doméstico')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 250, 'Activo', GETDATE(), NULL, NULL, '6215', 'Sommeliers')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 251, 'Activo', GETDATE(), NULL, NULL, '6221', 'Suboficiales de las Fuerzas Militares')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 252, 'Activo', GETDATE(), NULL, NULL, '6222', 'Suboficiales de Policía')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 253, 'Activo', GETDATE(), NULL, NULL, '6223', 'Supervisores de Vigilantes')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 254, 'Activo', GETDATE(), NULL, NULL, '6231', 'Agentes y Corredores de Seguros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 255, 'Activo', GETDATE(), NULL, NULL, '6232', 'Agentes de Bienes Raíces')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 256, 'Activo', GETDATE(), NULL, NULL, '6233', 'Vendedores - Ventas Técnicas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 257, 'Activo', GETDATE(), NULL, NULL, '6234', 'Agentes de Compras e Intermediarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 258, 'Activo', GETDATE(), NULL, NULL, '6241', 'Chefs')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 259, 'Activo', GETDATE(), NULL, NULL, '6251', 'Auxiliares deVuelo y Sobrecargos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 260, 'Activo', GETDATE(), NULL, NULL, '6311', 'Vendedores - Ventas no Técnicas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 261, 'Activo', GETDATE(), NULL, NULL, '6321', 'Vendedores de Mostrador')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 262, 'Activo', GETDATE(), NULL, NULL, '6322', 'Mercaderistas e Impulsadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 263, 'Activo', GETDATE(), NULL, NULL, '6323', 'Cajeros de Comercio')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 264, 'Activo', GETDATE(), NULL, NULL, '6324', 'Modelos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 265, 'Activo', GETDATE(), NULL, NULL, '6331', 'Agentes de Viajes')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 266, 'Activo', GETDATE(), NULL, NULL, '6332', 'Empleados de Ventas y Servicios de Líneas Aéreas, Marítimas y Terrestres')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 267, 'Activo', GETDATE(), NULL, NULL, '6334', 'Empleados de Recepción Hotelera')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 268, 'Activo', GETDATE(), NULL, NULL, '6341', 'Guías de Viaje y Turismo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 269, 'Activo', GETDATE(), NULL, NULL, '6342', 'Recreacionistas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 270, 'Activo', GETDATE(), NULL, NULL, '6343', 'Operadores de Juegos Mecánicos y de Salón')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 271, 'Activo', GETDATE(), NULL, NULL, '6351', 'Cortadores de Carne - Comercio Mayorista y al Detal')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 272, 'Activo', GETDATE(), NULL, NULL, '6352', 'Panaderos y Pasteleros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 273, 'Activo', GETDATE(), NULL, NULL, '6353', 'Meseros y Capitán de Meseros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 274, 'Activo', GETDATE(), NULL, NULL, '6354', 'Barmans')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 275, 'Activo', GETDATE(), NULL, NULL, '6355', 'Cocineros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 276, 'Activo', GETDATE(), NULL, NULL, '6356', 'Baristas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 277, 'Activo', GETDATE(), NULL, NULL, '6361', 'Inspectores de Policía')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 278, 'Activo', GETDATE(), NULL, NULL, '6362', 'Funcionarios de Regulación')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 279, 'Activo', GETDATE(), NULL, NULL, '6363', 'Agentes de Policía')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 280, 'Activo', GETDATE(), NULL, NULL, '6364', 'Bomberos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 281, 'Activo', GETDATE(), NULL, NULL, '6365', 'Guardianes de Prisión')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 282, 'Activo', GETDATE(), NULL, NULL, '6366', 'Soldados')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 283, 'Activo', GETDATE(), NULL, NULL, '6367', 'Vigilantes y Guardias de Seguridad')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 284, 'Activo', GETDATE(), NULL, NULL, '6368', 'Técnicos Investigadores Criminalísticos y Judiciales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 285, 'Activo', GETDATE(), NULL, NULL, '6371', 'Acompañantes Domiciliarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 286, 'Activo', GETDATE(), NULL, NULL, '6372', 'Auxiliares del Cuidado de Niños')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 287, 'Activo', GETDATE(), NULL, NULL, '6373', 'Estilistas, Esteticistas y Afines')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 288, 'Activo', GETDATE(), NULL, NULL, '6374', 'Trabajadores del Cuidado de Animales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 289, 'Activo', GETDATE(), NULL, NULL, '6375', 'Empleados de Pompas Fúnebres')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 290, 'Activo', GETDATE(), NULL, NULL, '6376', 'Astrólogos, Adivinadores y Relacionados')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 291, 'Activo', GETDATE(), NULL, NULL, '6611', 'Trabajadores de Estación de Servicio')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 292, 'Activo', GETDATE(), NULL, NULL, '6612', 'Otras Ocupaciones Elementales de las Ventas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 293, 'Activo', GETDATE(), NULL, NULL, '6621', 'Ayudantes de Cocina y Cafetería')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 294, 'Activo', GETDATE(), NULL, NULL, '6631', 'Aseadores y Servicio Doméstico')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 295, 'Activo', GETDATE(), NULL, NULL, '6632', 'Aseadores Especializados y Fumigadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 296, 'Activo', GETDATE(), NULL, NULL, '6633', 'Recolectores de Material paraReciclaje')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 297, 'Activo', GETDATE(), NULL, NULL, '6641', 'Auxiliares de Servicios a Viajeros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 298, 'Activo', GETDATE(), NULL, NULL, '6642', 'Auxiliares de Servicios de Recreación y Deporte')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 299, 'Activo', GETDATE(), NULL, NULL, '6643', 'Empleados de Lavandería')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 300, 'Activo', GETDATE(), NULL, NULL, '6644', 'Otras Ocupaciones Elementales de los Servicios n.c.a.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 301, 'Activo', GETDATE(), NULL, NULL, '7211', 'Supervisores de Minería y Canteras')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 302, 'Activo', GETDATE(), NULL, NULL, '7212', 'Supervisores dePerforación y Servicios - Pozos de Petróleo y Gas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 303, 'Activo', GETDATE(), NULL, NULL, '7221', 'Supervisores de Producción Agrícola')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 304, 'Activo', GETDATE(), NULL, NULL, '7222', 'Supervisores de Producción Pecuaria')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 305, 'Activo', GETDATE(), NULL, NULL, '7223', 'Supervisores de Explotación Forestal y Silvicultura')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 306, 'Activo', GETDATE(), NULL, NULL, '7231', 'Agricultores y Administradores Agropecuarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 307, 'Activo', GETDATE(), NULL, NULL, '7232', 'Contratistas de Servicios Agrícolas y Relacionados')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 308, 'Activo', GETDATE(), NULL, NULL, '7233', 'Contratistas y Supervisores de Servicios de Jardinería y Viverismo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 309, 'Activo', GETDATE(), NULL, NULL, '7234', 'ADMINISTRADORES DE EXPLOTACIÓN ACUÍCOLA')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 310, 'Activo', GETDATE(), NULL, NULL, '7241', 'Capitanes y Patrones de Pesca')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 311, 'Activo', GETDATE(), NULL, NULL, '7311', 'Operarios de Apoyo y Servicios en Minería Bajo Tierra')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 312, 'Activo', GETDATE(), NULL, NULL, '7312', 'Operarios de Apoyo y Servicios en Perforación de Petróleo y Gas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 313, 'Activo', GETDATE(), NULL, NULL, '7313', 'Mineros - Producción Bajo Tierra')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 314, 'Activo', GETDATE(), NULL, NULL, '7314', 'Perforadores de Pozos de Gas y Petróleo y Trabajadores Relacionados')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 315, 'Activo', GETDATE(), NULL, NULL, '7315', 'Inspectoresde Construcción de Oleoductos y Gasoductos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 316, 'Activo', GETDATE(), NULL, NULL, '7316', 'Operadores de Equipo Minero')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 317, 'Activo', GETDATE(), NULL, NULL, '7321', 'Trabajadores de Explotación Forestal')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 318, 'Activo', GETDATE(), NULL, NULL, '7322', 'Trabajadores de Silvicultura y Forestación')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 319, 'Activo', GETDATE(), NULL, NULL, '7331', 'Trabajadores Agrícolas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 320, 'Activo', GETDATE(), NULL, NULL, '7332', 'Trabajadores Pecuarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 321, 'Activo', GETDATE(), NULL, NULL, '7333', 'Trabajadores de Vivero')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 322, 'Activo', GETDATE(), NULL, NULL, '7334', 'Trabajadores del Campo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 323, 'Activo', GETDATE(), NULL, NULL, '7335', 'Trabajadores de Plantas de Incubación Artificial')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 324, 'Activo', GETDATE(), NULL, NULL, '7341', 'Pescadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 325, 'Activo', GETDATE(), NULL, NULL, '7611', 'Obreros y Ayudantes de Minería')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 326, 'Activo', GETDATE(), NULL, NULL, '7612', 'Obreros y Ayudantes de Producción en Pozos de Petróleo y Gas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 327, 'Activo', GETDATE(), NULL, NULL, '7613', 'Obreros Agropecuarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 328, 'Activo', GETDATE(), NULL, NULL, '7614', 'Jardineros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 329, 'Activo', GETDATE(), NULL, NULL, '7615', 'Obreros de Acuicultura')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 330, 'Activo', GETDATE(), NULL, NULL, '8211', 'Contratistas y Supervisores de Ajustadores de Máquinas - Herramientas y Ocupaciones Relacionadas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 331, 'Activo', GETDATE(), NULL, NULL, '8212', 'Contratistas y Supervisores de Electricidad y Telecomunicaciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 332, 'Activo', GETDATE(), NULL, NULL, '8213', 'Contratistas y Supervisores de Instalación de Tuberías')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 333, 'Activo', GETDATE(), NULL, NULL, '8214', 'Contratistas y Supervisores de Moldeo de Forja y Montaje de Estructuras Metálicas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 334, 'Activo', GETDATE(), NULL, NULL, '8215', 'Contratistas y Supervisores de Carpintería')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 335, 'Activo', GETDATE(), NULL, NULL, '8216', 'Contratistas y Supervisores de Mecánica')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 336, 'Activo', GETDATE(), NULL, NULL, '8217', 'Contratistas y Supervisores de Operación de Equipo Pesado')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 337, 'Activo', GETDATE(), NULL, NULL, '8218', 'Contratistas y Supervisores de Construcción y Otras Ocupaciones de Instalación y Reparación')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 338, 'Activo', GETDATE(), NULL, NULL, '8221', 'Supervisores de Operación de Transporte Ferroviario')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 339, 'Activo', GETDATE(), NULL, NULL, '8222', 'Supervisores de Operación de Transporte Terrestre (no ferroviario)')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 340, 'Activo', GETDATE(), NULL, NULL, '8311', 'Ajustadores de Máquinas - Herramientas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 341, 'Activo', GETDATE(), NULL, NULL, '8312', 'Modelistas y Matriceros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 342, 'Activo', GETDATE(), NULL, NULL, '8321', 'Electricistas Industriales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 343, 'Activo', GETDATE(), NULL, NULL, '8322', 'Electricistas Residenciales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 344, 'Activo', GETDATE(), NULL, NULL, '8323', 'Instaladores de Redes de Energía Eléctrica')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 345, 'Activo', GETDATE(), NULL, NULL, '8324', 'Instaladores y Reparadores de Redes y Líneas de Telecomunicaciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 346, 'Activo', GETDATE(), NULL, NULL, '8325', 'Trabajadores de Instalación y Reparación de Equipos de Telecomunicaciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 347, 'Activo', GETDATE(), NULL, NULL, '8326', 'Operarios de Mantenimiento y Servicio de Televisión por Cable')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 348, 'Activo', GETDATE(), NULL, NULL, '8331', 'Plomeros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 349, 'Activo', GETDATE(), NULL, NULL, '8332', 'Instaladores de Tuberías y Sistemas de Aspersión')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 350, 'Activo', GETDATE(), NULL, NULL, '8333', 'Instaladores de Redes y Equipos a Gas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 351, 'Activo', GETDATE(), NULL, NULL, '8341', 'Chapistas, Caldereros y Paileros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 352, 'Activo', GETDATE(), NULL, NULL, '8342', 'Soldadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 353, 'Activo', GETDATE(), NULL, NULL, '8343', 'Montadores de Estructuras Metálicas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 354, 'Activo', GETDATE(), NULL, NULL, '8344', 'Ornamentistas y Forjadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 355, 'Activo', GETDATE(), NULL, NULL, '8345', 'Tuberos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 356, 'Activo', GETDATE(), NULL, NULL, '8351', 'Carpinteros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 357, 'Activo', GETDATE(), NULL, NULL, '8352', 'Ebanistas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 358, 'Activo', GETDATE(), NULL, NULL, '8361', 'Oficiales de Construcción')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 359, 'Activo', GETDATE(), NULL, NULL, '8362', 'Trabajadores en Concreto, Hormigón y Enfoscado')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 360, 'Activo', GETDATE(), NULL, NULL, '8363', 'Enchapadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 361, 'Activo', GETDATE(), NULL, NULL, '8364', 'Techadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 362, 'Activo', GETDATE(), NULL, NULL, '8365', 'Instaladores de Material Aislante')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 363, 'Activo', GETDATE(), NULL, NULL, '8366', 'Pintores y Empapeladores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 364, 'Activo', GETDATE(), NULL, NULL, '8367', 'Instaladores de Pisos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 365, 'Activo', GETDATE(), NULL, NULL, '8368', 'Revocadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 366, 'Activo', GETDATE(), NULL, NULL, '8371', 'Mecánicos Industriales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 367, 'Activo', GETDATE(), NULL, NULL, '8372', 'Mecánicos de Maquinaria Textil')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 368, 'Activo', GETDATE(), NULL, NULL, '8373', 'Mecánicos de Equipo Pesado')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 369, 'Activo', GETDATE(), NULL, NULL, '8374', 'Mecánicos de Aviación')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 370, 'Activo', GETDATE(), NULL, NULL, '8375', 'Mecánicos de Aire Acondicionado y Refrigeración')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 371, 'Activo', GETDATE(), NULL, NULL, '8381', 'Mecánicos de Vehículos Automotores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 372, 'Activo', GETDATE(), NULL, NULL, '8382', 'Electricistas de Vehículos Automotores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 373, 'Activo', GETDATE(), NULL, NULL, '8383', 'Mecánicos de Motos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 374, 'Activo', GETDATE(), NULL, NULL, '8384', 'Latoneros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 375, 'Activo', GETDATE(), NULL, NULL, '8391', 'Reparadores de Aparatos Electrodomésticos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 376, 'Activo', GETDATE(), NULL, NULL, '8392', 'Mecánicos Electricistas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 377, 'Activo', GETDATE(), NULL, NULL, '8393', 'Ajustadores y Reparadores de Equipos Electrónicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 378, 'Activo', GETDATE(), NULL, NULL, '8394', 'Mecánicos de Otros Pequeñas Máquinas y Motores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 379, 'Activo', GETDATE(), NULL, NULL, '8411', 'Instaladores Residenciales y Comerciales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 380, 'Activo', GETDATE(), NULL, NULL, '8412', 'Operarios de Mantenimiento - Instalaciones de Abastecimiento de Agua y Gas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 381, 'Activo', GETDATE(), NULL, NULL, '8413', 'Vidrieros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 382, 'Activo', GETDATE(), NULL, NULL, '8414', 'Otros Reparadores n.c.a.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 383, 'Activo', GETDATE(), NULL, NULL, '8415', 'Ayudantes Electricistas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 384, 'Activo', GETDATE(), NULL, NULL, '8416', 'Ayudantes de Mecánica')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 385, 'Activo', GETDATE(), NULL, NULL, '8421', 'Tapiceros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 386, 'Activo', GETDATE(), NULL, NULL, '8422', 'Sastres, Modistos, Peleteros y Sombrereros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 387, 'Activo', GETDATE(), NULL, NULL, '8423', 'ZAPATEROS Y AFINES')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 388, 'Activo', GETDATE(), NULL, NULL, '8424', 'Joyeros y Relojeros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 389, 'Activo', GETDATE(), NULL, NULL, '8425', 'Tipógrafos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 390, 'Activo', GETDATE(), NULL, NULL, '8426', 'Cerrajeros y afines')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 391, 'Activo', GETDATE(), NULL, NULL, '8427', 'Buzos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 392, 'Activo', GETDATE(), NULL, NULL, '8431', 'Operadores de Máquinas Estacionarias y Equipo Auxiliar')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 393, 'Activo', GETDATE(), NULL, NULL, '8432', 'Operadores de Plantas de Generación y Distribución de Energía')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 394, 'Activo', GETDATE(), NULL, NULL, '8441', 'Operadores de Grúa')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 395, 'Activo', GETDATE(), NULL, NULL, '8442', 'Perforadores y Operarios de Voladura - Minería de Superficie de Canteras y Construcción')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 396, 'Activo', GETDATE(), NULL, NULL, '8443', 'Perforadores de Pozos de Agua')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 397, 'Activo', GETDATE(), NULL, NULL, '8451', 'Operadores de Equipo Pesado (excepto grúa)')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 398, 'Activo', GETDATE(), NULL, NULL, '8452', 'Operadores de Equipo para Limpieza de Vías y Alcantarillado')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 399, 'Activo', GETDATE(), NULL, NULL, '8453', 'Operadores de Maquinaria Agrícola')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 400, 'Activo', GETDATE(), NULL, NULL, '8461', 'Maquinistas de Transporte Ferroviario')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 401, 'Activo', GETDATE(), NULL, NULL, '8462', 'Guardafrenos y Otros Operadores Ferroviarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 402, 'Activo', GETDATE(), NULL, NULL, '8471', 'Conductores de Vehículos Pesados')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 403, 'Activo', GETDATE(), NULL, NULL, '8472', 'Conductores de Bus, Operadores de Metro y Otros Medios de Transporte Colectivo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 404, 'Activo', GETDATE(), NULL, NULL, '8473', 'Conductores de Vehículos Livianos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 405, 'Activo', GETDATE(), NULL, NULL, '8481', 'Marineros de Cubierta')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 406, 'Activo', GETDATE(), NULL, NULL, '8482', 'Marineros de Sala de Máquinas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 407, 'Activo', GETDATE(), NULL, NULL, '8483', 'Operadores de Pequeñas Embarcaciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 408, 'Activo', GETDATE(), NULL, NULL, '8484', 'Operarios de Rampa - Transporte Aéreo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 409, 'Activo', GETDATE(), NULL, NULL, '8491', 'Operarios Portuarios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 410, 'Activo', GETDATE(), NULL, NULL, '8492', 'Operarios de Cargue y Descargue de Materiales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 411, 'Activo', GETDATE(), NULL, NULL, '8493', 'Aparejadores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 412, 'Activo', GETDATE(), NULL, NULL, '8611', 'Ayudantes y Obreros de Construcción')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 413, 'Activo', GETDATE(), NULL, NULL, '8612', 'Ayudantes de Otros Oficios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 414, 'Activo', GETDATE(), NULL, NULL, '8621', 'Obreros de Mantenimiento de Obras Públicas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 415, 'Activo', GETDATE(), NULL, NULL, '8622', 'Ayudantes de Transporte Automotor')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 416, 'Activo', GETDATE(), NULL, NULL, '9211', 'Supervisores de Tratamiento de Metales y Minerales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 417, 'Activo', GETDATE(), NULL, NULL, '9212', 'Supervisores de Procesamiento de Químico, Petróleo, Gas y Tratamiento de Agua y Generación de Energía')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 418, 'Activo', GETDATE(), NULL, NULL, '9213', 'Supervisores de Procesamiento de Alimentos, Bebidas y Tabaco')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 419, 'Activo', GETDATE(), NULL, NULL, '9214', 'Supervisores de Fabricación de Productos de Plástico y Caucho')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 420, 'Activo', GETDATE(), NULL, NULL, '9215', 'Supervisores de Procesamiento de la Madera y Producción de Pulpa y Papel')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 421, 'Activo', GETDATE(), NULL, NULL, '9216', 'Supervisores de Procesamiento Textil')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 422, 'Activo', GETDATE(), NULL, NULL, '9221', 'Supervisores de Ensamble de Vehículos de Motor')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 423, 'Activo', GETDATE(), NULL, NULL, '9222', 'Supervisores de Fabricación de Productos Electrónicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 424, 'Activo', GETDATE(), NULL, NULL, '9223', 'Supervisores de Fabricación de Productos Eléctricos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 425, 'Activo', GETDATE(), NULL, NULL, '9224', 'Supervisores de Fabricación de Muebles y Accesorios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 426, 'Activo', GETDATE(), NULL, NULL, '9225', 'Supervisores de Fabricación de Productos de Tela, Cuero y Piel')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 427, 'Activo', GETDATE(), NULL, NULL, '9226', 'Supervisores de Impresión y Ocupaciones Relacionadas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 428, 'Activo', GETDATE(), NULL, NULL, '9227', 'Supervisores de Fabricación de Otros Productos Mecánicos y Metálicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 429, 'Activo', GETDATE(), NULL, NULL, '9228', 'Supervisores de Fabricación y Ensamble de Otros Productos n.c.a')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 430, 'Activo', GETDATE(), NULL, NULL, '9231', 'Operadores de Control Central de Procesos, Tratamiento de Metales y Minerales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 431, 'Activo', GETDATE(), NULL, NULL, '9232', 'Operadores de Procesos, Químicos, Gas y Petróleo')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 432, 'Activo', GETDATE(), NULL, NULL, '9233', 'Operadores de Control de Procesos, Producción de Pulpa')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 433, 'Activo', GETDATE(), NULL, NULL, '9234', 'Operadores de Control de Procesos, Fabricación de Papel')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 434, 'Activo', GETDATE(), NULL, NULL, '9311', 'Operadores de Máquinas, Tratamiento de Metales y Minerales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 435, 'Activo', GETDATE(), NULL, NULL, '9312', 'Trabajadores de Fundición')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 436, 'Activo', GETDATE(), NULL, NULL, '9313', 'Operadores de Fabricación, Moldeo y Acabado del Vidrio')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 437, 'Activo', GETDATE(), NULL, NULL, '9314', 'Operadores de Moldeo de Arcilla, Piedra y Concreto')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 438, 'Activo', GETDATE(), NULL, NULL, '9315', 'Inspectores de Control de Calidad, Tratamiento de Metales y Minerales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 439, 'Activo', GETDATE(), NULL, NULL, '9321', 'Operadores de Máquinas de Planta Química')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 440, 'Activo', GETDATE(), NULL, NULL, '9322', 'Operadores de Máquinas para Procesamiento de Plásticos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 441, 'Activo', GETDATE(), NULL, NULL, '9323', 'Operadores de Máquinas y Trabajadores Relacionados con el Procesamiento del Caucho')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 442, 'Activo', GETDATE(), NULL, NULL, '9324', 'Operadores de Plantas de Tratamiento de Aguas y Desechos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 443, 'Activo', GETDATE(), NULL, NULL, '9331', 'Operadores de Máquinas para Procesamiento de la Madera')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 444, 'Activo', GETDATE(), NULL, NULL, '9332', 'Operadores de Máquinas para la Producción de Pulpa')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 445, 'Activo', GETDATE(), NULL, NULL, '9333', 'Operadores de Máquinas para la Fabricación de Papel')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 446, 'Activo', GETDATE(), NULL, NULL, '9334', 'Operadores de Máquinas para la Fabricación de Productos de Papel')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 447, 'Activo', GETDATE(), NULL, NULL, '9335', 'Inspectores de Control de Calidad, Procesamiento de la Madera')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 448, 'Activo', GETDATE(), NULL, NULL, '9341', 'Operadores de Máquinas para la Preparación de Fibras Textiles')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 449, 'Activo', GETDATE(), NULL, NULL, '9342', 'Operadores de Telares y Otras Máquinas Tejedoras')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 450, 'Activo', GETDATE(), NULL, NULL, '9343', 'Operadores de Máquinas de Tintura y Acabado Textil')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 451, 'Activo', GETDATE(), NULL, NULL, '9344', 'Analistas de Calidad, Textiles')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 452, 'Activo', GETDATE(), NULL, NULL, '9351', 'Operadores de Máquinas para Coser')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 453, 'Activo', GETDATE(), NULL, NULL, '9352', 'Cortadores de Tela, Cuero y Piel')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 454, 'Activo', GETDATE(), NULL, NULL, '9353', 'Operadores de Máquinas y Trabajadores Relacionados con la Fabricación de Calzado y Marroquinería')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 455, 'Activo', GETDATE(), NULL, NULL, '9354', 'Trabajadores del Tratamiento de Pieles y Cueros')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 456, 'Activo', GETDATE(), NULL, NULL, '9355', 'Inspectores de Control de Calidad, Fabricación de Productos de Tela, Piel y Cuero')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 457, 'Activo', GETDATE(), NULL, NULL, '9361', 'Operadores de Control de Procesos y Máquinas para la Elaboración de Alimentos y Bebidas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 458, 'Activo', GETDATE(), NULL, NULL, '9362', 'Operarios de Planta de Beneficio Animal')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 459, 'Activo', GETDATE(), NULL, NULL, '9363', 'Operarios de Planta de Procesamiento y Empaque de Pescado')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 460, 'Activo', GETDATE(), NULL, NULL, '9364', 'Operarios de Máquinas para la Elaboración de Productos de Tabaco')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 461, 'Activo', GETDATE(), NULL, NULL, '9365', 'Inspectores de Control de Calidad, Procesamiento de Alimentos y Bebidas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 462, 'Activo', GETDATE(), NULL, NULL, '9371', 'Operadores de Máquinas de Impresión')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 463, 'Activo', GETDATE(), NULL, NULL, '9372', 'Grabadores y Otras Ocupaciones de Pre - impresión')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 464, 'Activo', GETDATE(), NULL, NULL, '9373', 'Operadores de Máquinas de Encuadernación y Acabado')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 465, 'Activo', GETDATE(), NULL, NULL, '9374', 'Procesadores Fotográficos y de Películas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 466, 'Activo', GETDATE(), NULL, NULL, '9381', 'Ensambladores e Inspectores de Vehículos Automotores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 467, 'Activo', GETDATE(), NULL, NULL, '9382', 'Ensambladores, Fabricantes e Inspectores de Equipos y Componentes Electrónicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 468, 'Activo', GETDATE(), NULL, NULL, '9383', 'Ensambladores e Inspectores de Aparatos y Equipo Eléctrico')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 469, 'Activo', GETDATE(), NULL, NULL, '9384', 'Ensambladores, Fabricantes e Inspectores de Transformadores y Motores Eléctricos Industriales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 470, 'Activo', GETDATE(), NULL, NULL, '9385', 'Ensambladores e Inspectores de Productos Mecánicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 471, 'Activo', GETDATE(), NULL, NULL, '9386', 'Ensambladores e Inspectores de Ensamble de Aeronaves')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 472, 'Activo', GETDATE(), NULL, NULL, '9387', 'Operadores de Máquinas e Inspectores de la Fabricación de Productos y Componentes Eléctricos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 473, 'Activo', GETDATE(), NULL, NULL, '9391', 'Ensambladores e Inspectores de Embarcaciones')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 474, 'Activo', GETDATE(), NULL, NULL, '9392', 'Ensambladores e Inspectores de Muebles y Accesorios')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 475, 'Activo', GETDATE(), NULL, NULL, '9393', 'Operarios de Acabado de Muebles')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 476, 'Activo', GETDATE(), NULL, NULL, '9394', 'Ensambladores de Productos Plásticos e Inspectores')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 477, 'Activo', GETDATE(), NULL, NULL, '9395', 'Operarios de Recubrimientos Metálicos')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 478, 'Activo', GETDATE(), NULL, NULL, '9396', 'Pintores en Procesos de Manufactura')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 479, 'Activo', GETDATE(), NULL, NULL, '9397', 'Otros Ensambladores e Inspectores n.c.a.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 480, 'Activo', GETDATE(), NULL, NULL, '9411', 'Operadores de Máquinas Herramientas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 481, 'Activo', GETDATE(), NULL, NULL, '9412', 'Operadores de Máquinas para el Trabajo de la Madera')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 482, 'Activo', GETDATE(), NULL, NULL, '9413', 'Operadores de Máquinas para el Trabajo del Metal')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 483, 'Activo', GETDATE(), NULL, NULL, '9414', 'Operadores de Máquinas para Forja')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 484, 'Activo', GETDATE(), NULL, NULL, '9415', 'Operadores de Máquinas de Soldadura')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 485, 'Activo', GETDATE(), NULL, NULL, '9416', 'Operadores de Máquinas para la Fabricación de Otros Productos Metálicos (n.c.a)')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 486, 'Activo', GETDATE(), NULL, NULL, '9417', 'Operadores de Máquinas para la fabricación de Otros Productos n.c.a.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 487, 'Activo', GETDATE(), NULL, NULL, '9611', 'Obreros y Ayudantes en el Tratamiento de Metales y Minerales')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 488, 'Activo', GETDATE(), NULL, NULL, '9612', 'Ayudantes en la Fabricación Metálica')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 489, 'Activo', GETDATE(), NULL, NULL, '9613', 'Obreros y Ayudantes de Planta Química')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 490, 'Activo', GETDATE(), NULL, NULL, '9614', 'Obreros y Ayudantes en el Procesamiento de la Madera y Producción de Pulpa y Papel')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 491, 'Activo', GETDATE(), NULL, NULL, '9615', 'Obreros y Ayudantes en la Elaboración de Alimentos y Bebidas')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 492, 'Activo', GETDATE(), NULL, NULL, '9616', 'Otros Obreros y Ayudantes en Fabricación y Procesamiento n.c.a.')
+GO
+INSERT [dbo].[Ocupacion] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 493, 'Activo', GETDATE(), NULL, NULL, 'SD', 'Sin definir')
+GO
+SET IDENTITY_INSERT [dbo].[Ocupacion] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[Ocupacion] WHERE Id BETWEEN 1 AND 493;
+</rollback>
+</changeSet>
+</databaseChangeLog>

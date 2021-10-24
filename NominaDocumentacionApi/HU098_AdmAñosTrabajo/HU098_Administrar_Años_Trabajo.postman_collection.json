@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "e57d9e2a-022c-4e9a-ab20-b6b831dc147a",
+		"name": "HU098_Administrar_Años_Trabajo",
+		"description": "[Table(\"AnnoVigencia\")]\r\n    public class AnnoVigencia : AuditoriaRegistro\r\n    {\r\n        [Key]\r\n        public int Id { get; set; }\r\n\r\n        [Required]\r\n        public int Anno { get; set; }\r\n\r\n        [Required]\r\n        [Column(TypeName = \"varchar(255)\")]\r\n        public EstadoAnnoVigencia Estado { get; set; }\r\n    }\r\n\r\npublic enum EstadoAnnoVigencia\r\n    {\r\n        Vigente = 0,\r\n        Cerrado = 1,\r\n    }",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listado años de vigencia",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/AnnoVigencias",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"AnnoVigencias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear ano de vigencia",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n    \"anno\": 2021\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/AnnoVigencias",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"AnnoVigencias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Estado año de vigencia",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n    \"id\": 9,\r\n    \"estado\": \"Vigente\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/AnnoVigencias/9",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"AnnoVigencias",
+						"9"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

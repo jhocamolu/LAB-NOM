@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="Parametro_V3">
+<comment>Parametros reporte novedad embargo</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[Parametro] ON 
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (10, N'Activo    ', N'sistema', CAST(N'2020-06-17T15:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'TipoLiquidacionId', N'Integer')
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (11, N'Activo    ', N'sistema', CAST(N'2020-06-17T15:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'SubperiodoId', N'Integer')
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (12, N'Activo    ', N'sistema', CAST(N'2020-06-17T15:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'NominaFechaInicio', N'DateTime')
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (13, N'Activo    ', N'sistema', CAST(N'2020-06-17T15:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'NominaFechaFin', N'DateTime')
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (14, N'Activo    ', N'sistema', CAST(N'2020-06-17T15:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'NominaMes', N'String')
+GO
+INSERT [dbo].[Parametro] ([Id], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [Nombre], [TipoDato]) VALUES (15, N'Activo    ', N'sistema', CAST(N'2020-06-17T15:18:00' AS SmallDateTime), NULL, NULL, NULL, NULL, N'NominaAnio', N'Integer')
+GO
+SET IDENTITY_INSERT [dbo].[Parametro] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [dbo].[Parametro] WHERE Id IN (10,11,12,13,14,15)
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

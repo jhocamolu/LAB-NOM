@@ -1,0 +1,1063 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="maestro_cargo_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[Cargo] ON 
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('1', 'ADMIARCH', 'ADMINISTRADOR DE ARCHIVO', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('2', 'ADMINOMI', 'ADMINISTRADOR DE NOMINA I', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('3', 'ADMISIST', 'ADMINISTRADOR DEL SISTEMA', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('4', 'AGECALCE', 'AGENTE CALL CENTER', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('5', 'ALMACENI', 'ALMACENISTA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('6', 'ANALAMBI', 'ANALISTA AMBIENTAL', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('7', 'ANALCALI', 'ANALISTA DE CALIDAD', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('8', 'ANALCOMP', 'ANALISTA DE COMPRAS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('9', 'ANALCOIN', 'ANALISTA DE CONTROL INTERNO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('10', 'ANALFACT', 'ANALISTA DE FACTURACION', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('11', 'ANALPLAN', 'ANALISTA DE PLANEACION', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('12', 'ANALTRAN', 'ANALISTA DE TRANSACCIONES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('13', 'ANALVENT', 'ANALISTA DE VENTAS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('14', 'ANALFINA', 'ANALISTA FINANCIERO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('15', 'ANALSYSO', 'ANALISTA SYSO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('16', 'ANATCOIN', 'ANALISTA TECNICO DE CONTROL INTERNO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('17', 'ASESCOME', 'ASESOR COMERCIAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('18', 'ASISCONT', 'ASISTENTE CONTABLE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('19', 'ASISTESO', 'ASISTENTE DE TESORERIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('20', 'ASISJURI', 'ASISTENTE JURIDICO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('21', 'AUDIEXTE', 'AUDITOR EXTERNO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('22', 'AUXADTVO', 'AUXILIAR ADMINISTRATIVO', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('23', 'AUXICONT', 'AUXILIAR CONTABLE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('24', 'AUXIACOM', 'AUXILIAR DE ACOMETIDAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('25', 'AUXIALMA', 'AUXILIAR DE ALMACEN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('26', 'AUXIARCH', 'AUXILIAR DE ARCHIVO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('27', 'AUXICAMP', 'AUXILIAR DE CAMPO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('28', 'AUXCPLQU', 'AUXILIAR DE CAMPO PLAN QUINQUENAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('29', 'AUXCARTE', 'AUXILIAR DE CARTERA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('30', 'AUXCARTO', 'AUXILIAR DE CARTOGRAFIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('31', 'AUXICOMG', 'AUXILIAR DE COMERCIALIZACION DE GAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('32', 'AUXICOMP', 'AUXILIAR DE COMPRAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('33', 'AUXCOINV', 'AUXILIAR DE CONTROL DE INVENTARIOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('34', 'AUXIGEHU', 'AUXILIAR DE GESTION HUMANA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('35', 'AUXILGNC', 'AUXILIAR DE GNC', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('36', 'AUXIHSEQ', 'AUXILIAR DE HSEQ', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('37', 'AUXINVPE', 'AUXILIAR DE INVESTIGACIONES Y PERDIDAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('38', 'AUXINOMI', 'AUXILIAR DE NOMINA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('39', 'AUXSERCL', 'AUXILIAR DE SERVICIO AL CLIENTE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('40', 'AUXSERGE', 'AUXILIAR DE SERVICIOS GENERALES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('41', 'AUXISIST', 'AUXILIAR DE SISTEMAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('42', 'AUXTESOR', 'AUXILIAR DE TESORERIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('43', 'AUXIVENT', 'AUXILIAR DE VENTAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('44', 'AUXIJURI', 'AUXILIAR JURIDICO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('45', 'AUXTEADT', 'AUXILIAR TECNICO ADMINISTRATIVO', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('46', 'AUXTEINS', 'AUXILIAR TECNICO DE INSTALACIONES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('47', 'AUXTEOYM', 'AUXILIAR TECNICO DE O Y M', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('48', 'AUXTEPER', 'AUXILIAR TECNICO DE PERDIDAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('49', 'AUXTETEL', 'AUXILIAR TECNICO DE TELEMETRIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('50', 'CAJERO', 'CAJERO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('51', 'CONDUCTO', 'CONDUCTOR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('52', 'COORCART', 'COORDINADOR DE CARTERA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('53', 'COORCONS', 'COORDINADOR DE CONSTRUCCIONES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('54', 'COORCOIN', 'COORDINADOR DE CONTROL DE INVENTARIOS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('55', 'COORFACT', 'COORDINADOR DE FACTURACION', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('56', 'COORDGNC', 'COORDINADOR DE GNC', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('57', 'COORHARE', 'COORDINADOR DE HARDWARE Y REDES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('58', 'COORDOYM', 'COORDINADOR DE O Y M', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('59', 'COOREDES', 'COORDINADOR REDES LA DORADA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('60', 'COORSERC', 'COORDINADOR DE SERVICIO AL CLIENTE', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('61', 'COORSERG', 'COORDINADOR DE SERVICIOS GENERALES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('62', 'COORVENT', 'COORDINADOR DE VENTAS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('63', 'COORPLQU', 'COORDINADOR PLAN QUINQUENAL', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('64', 'DELINEAN', 'DELINEANTE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('65', 'DIGIDOBR', 'DIGITADOR DE OBRA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('66', 'DIGIPQRS', 'DIGITADOR DE PQRS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('67', 'DIREADFI', 'DIRECTOR ADMINISTRATIVO Y FINANCIERO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('68', 'DIRCOMGA', 'DIRECTOR DE COMERCIALIZACION DE GAS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('69', 'DIRCONST', 'DIRECTOR DE CONTRUCCIONES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('70', 'DIRDEGHU', 'DIRECTOR DE GESTION HUMANA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('71', 'DIRINSPC', 'DIRECTOR DE INSPECCION Y CERTIFICACION', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('72', 'DIREDPRO', 'DIRECTOR DE REDES Y PROYECTOS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('73', 'DIREVENT', 'DIRECTOR DE VENTAS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('74', 'GERETCOP', 'GERENTE DE CENTRO OPERATIVO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('75', 'GESCARTE', 'GESTOR DE CARTERA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('76', 'GESTSOCI', 'GESTOR SOCIAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('77', 'INGEDGAS', 'INGENIERO DE GAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('78', 'INGEMETR', 'INGENIERO DE METROLOGIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('79', 'INGESOPO', 'INGENIERO DE SOPORTE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('80', 'INGETELE', 'INGENIERO DE TELEMETRIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('81', 'INSPINDU', 'INSPECTOR DE INDUSTRIALES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('82', 'INTALADO', 'INSTALADOR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('83', 'INSTECOM', 'INSTRUCTOR TECNICO COMERCIAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('84', 'INTERVEN', 'INTERVENTOR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('85', 'JEFECALL', 'JEFE DE CALL CENTER', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('86', 'JEFECART', 'JEFE DE CARTERA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('87', 'JEFCARTO', 'JEFE DE CARTOGRAFIA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('88', 'JEFCOMPR', 'JEFE DE COMPRAS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('89', 'JEFECOMU', 'JEFE DE COMUNICACIONES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('90', 'JEFCONST', 'JEFE DE CONSTRUCCIONES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('91', 'COORDESO', 'COORDINADOR DESARROLLO Y SOPORTE', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('92', 'JEFCONTA', 'JEFE DE CONTABILIDAD', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('93', 'JEFECINT', 'JEFE DE CONTROL INTERNO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('94', 'JEFEHSEQ', 'JEFE DE HSEQ', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('95', 'JEFEOYM', 'JEFE DE OPERACIÓN Y MANTENIMIENTO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('96', 'JEFEPLAN', 'JEFE DE PLANEACION', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('97', 'JEFEREDE', 'JEFE DE REDES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('98', 'JEFESIST', 'JEFE DE SISTEMAS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('99', 'JEFETESO', 'JEFE DE TESORERIA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('100', 'JEFEVENT', 'JEFE DE VENTAS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('101', 'MENSAJER', 'MENSAJERO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('102', 'PEGADOR', 'PEGADOR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('103', 'PRESIDEN', 'PRESIDENTE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('104', 'PROCAPDE', 'PROFESIONAL DE CAPACITACION Y DESARROLLO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('105', 'PROPETRE', 'PROFESIONAL DE PETICIONES Y RECURSOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('106', 'PSICOLOG', 'PSICOLOGO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('107', 'RECEPCIO', 'RECEPCIONISTA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('108', 'SECRETAR', 'SECRETARIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('109', 'SECRPRES', 'SECRETARIA DE PRESIDENCIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('110', 'SECRGRAL', 'SECRETARIA GENERAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('111', 'SUPERNUM', 'SUPERNUMERARIO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('112', 'SUPVCAMP', 'SUPERVISOR DE CAMPO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('113', 'SUPVMUNI', 'SUPERVISOR DE MUNICIPIO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('114', 'SUPVREDE', 'SUPERVISOR DE REDES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('115', 'TEMPASIS', 'TEMPORAL ASISTENCIAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('116', 'APSELECT', 'APRENDIZ SENA ESTAPA LECTIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('117', 'APSEPROD', 'APRENDIZ SENA ESTAPA PRODUCTIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('118', 'PRACUNIV', 'PRACTICANTE UNIVERSITARIO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('119', 'ASIADTCO', 'ASISTENTE ADM DE CENTRO OPERATIVO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('120', 'AUXPLQUI', 'AUXILIAR ADM DE PLAN QUINQUENAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('121', 'AUXTREME', 'AUXILIAR TEC DE RECEPCION DE EMERG', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('122', 'COORINPE', 'COORDI DE INVESTIGACIONES Y PERDIDAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('123', 'ANALJURI', 'ANALISTA JURIDICO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('124', 'AUXIAACO', 'AUXILIAR DE ASIGNACION DE ACOMETIDA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('125', 'AUXTEMET', 'AUXILIAR TECNICO DE METROLOGIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('126', 'AUXTECPQ', 'AUXILIAR TECNICO PLAN QUINQUENAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('127', 'INSTRUME', 'INSTRUMENTISTA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('128', 'JEFEGNC', 'JEFE DE GNC', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('129', 'JEFEJURI', 'JEFE JURIDICA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('130', 'PROCOORG', 'PROFESIONAL DE COMUNICACION', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('131', 'PROINVPE', 'PROFESIONAL DE INVEST. Y PERDIDAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('132', 'PROJURID', 'PROFESIONAL JURIDICO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('133', 'JEFEGESH', 'JEFE DE GESTION HUMANA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('134', 'ANALTESO', 'ANALISTA DE TESORERIA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('135', 'AUXIADMS', 'AUXILIAR DE ADMINISTRADOR DEL SISTEMA', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('136', 'JEFECENT', 'JEFE CENTRAL DE OPERACIONES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('137', 'INSPOTI', 'INSPECTOR OTI', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('138', 'AUXACTFI', 'AUXILIAR DE ACTIVOS FIJOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('139', 'SUPVOTI', 'SUPERVISOR OTI', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('140', 'COORAOTI', 'COORDINADOR ADM DE OTI', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('141', 'DIRTEOTI', 'DIRECTOR TECNICO OTI', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('142', 'JEFEZOTI', 'JEFE DE ZONA OTI', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('143', 'ANALCINV', 'ANALISTA DE CONTROL INVENTARIOS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('144', 'INTESISO', 'INTERVENTOR SISO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('145', 'DIRINTER', 'DIRECTOR DE INTERVENTORIA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('146', 'JEFEINTE', 'JEFE DE INTERVENTORIA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('147', 'COORINTE', 'COORDINADOR DE INTERVENTORIA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('148', 'JEFEMANT', 'JEFE DE MANTENIMIENTO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('149', 'COORMANT', 'COORDINADOR DE MANTENIMIENTO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('150', 'AUXTEMAN', 'AUXILIAR TECNICO DE MANTENIMIENTO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('151', 'CAJEROPR', 'CAJERO PRINCIPAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('152', 'AUXCOMER', 'AUXILIAR COMERCIAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('153', 'AUXPLASU', 'AUXILIAR PLAN DE SUBCIDIOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('154', 'AUXOFICI', 'AUXILIAR DE OFICINA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('155', 'ASESJURI', 'ASESOR JURIDICO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('156', 'AUXTECON', 'AUXILIAR TECNICO DE CONSTRUCCIONES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('157', 'COORCEOP', 'COORDINADOR CENTRO OPERATIVO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('158', 'AUXOFVAR', 'AUXILIAR OFICIOS VARIOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('159', 'AUXAUDIT', 'AUXILIAR DE AUDITORIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('160', 'DIGIVENT', 'DIGITADOR DE VENTAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('161', 'GEREAYF', 'GERENTE ADMINISTRATIVO Y FINANCIERO', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('162', 'INGTRANS', 'INGENIERO DE TRANSACCIONES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('163', 'COORINST', 'COORDINADOR DE INSTALACIONES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('164', 'ANALMYV', 'ANALISTA DE MECADEO Y VENTAS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('165', 'JEFESINT', 'JEFE DE SERVICIOS INTERNOS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('166', 'AUXTEINT', 'AUXILIAR TECNICO DE INTERVENTORIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('167', 'INGSOCIN', 'INGENIERO DE SOPORTE CONTROL INTERNO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('168', 'GEREPESP', 'GERENTE DE PROYECTOS ESPECIALES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('169', 'AUXISO', 'AUXILIAR ISO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('170', 'INGRESID', 'INGENIERO RESIDENTE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('171', 'JEFEINSP', 'JEDE DE INSPECCIONES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('172', 'DIRPROYE', 'DIRECTOR DE PROYECTOS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('173', 'COORINSP', 'COORDINADOR DE INPECCIONES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('174', 'COORPQRS', 'COORDINADOR DE PQR', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('175', 'GERECOME', 'GERENTE COMERCIAL', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('176', 'JEFECOPE', 'JEFE DE CENTRO OPERATIVO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('177', 'AUXSISO', 'AUXILIAR SISO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('178', 'DIRSERCL', 'DIRECTOR DE SERVICIO AL CLIENTE', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('179', 'AUXIFACT', 'AUXILIAR DE FACTURACION I', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('180', 'COOROTI', 'COORDINADOR OTI', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('181', 'DIRADMCO', 'DIRECTOR ADMINISTRATIVO CENTRO OPERATIVO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('182', 'ANALGEIN', 'ANALISTA DE GESTION DE INVENTARIOS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('183', 'INTEADM', 'INTERVENTOR ADMINISTRATIVO', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('184', 'AYUDOBRA', 'AYUDANTE DE OBRA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('185', 'JEFEGAYM', 'JEFE DE GESTION AMBIENTAL Y METROLOGIA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('186', 'COORADMI', 'COORDINADOR ADMINISTRATIVO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('187', 'ANALIMPU', 'ANALISTA DE IMPUESTOS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('188', 'AUXTESER', 'AUXILIAR TECNICO DE SERVICIOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('189', 'MAESOBRA', 'MAESTRO DE OBRA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('190', 'OFICOBRA', 'OFICIAL DE OBRA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('191', 'AUXIOBRA', 'AUXILIAR DE OBRA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('192', 'OPERCOMP', 'OPERADOR COMPRESOR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('193', 'OPERCORT', 'OPERADOR CORTADORA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('194', 'GESINSPE', 'GESTOR DE INSPECCIONES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('195', 'ASISPRES', 'ASISTENTE DE PRESIDENCIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('196', 'AUXADMOT', 'AUXILIAR ADMINISTRATIVO OTI', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('197', 'DIGIOTI', 'DIGITADOR OTI', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('198', 'ANALOTI', 'ANALISTA OTI', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('199', 'SUPINTER', 'SUPERVISOR DE INTERVENTORIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('200', 'TECSOPOR', 'TECNICO DE SOPORTE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('201', 'AUXINFRA', 'AUXILIAR DE INFRAESTRUCTURA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('202', 'INGSOFTO', 'INGENIERO DE SOFTWARE 1', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('203', 'INGSOFTT', 'INGENIERO DE SOFTWARE 2', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('204', 'PROTCAPD', 'PROFESIONAL TEC CAPACITACION Y DESAROLLO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('205', 'COORDYF', 'COORDINADOR DE DESARROLLO Y SOFTWARE', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('206', 'JEFEADYF', 'JEFE ADMINISTRATIVO Y FINACIERO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('207', 'ANALOPER', 'ANALISTA DE OPERACIONES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('208', 'JEFEFNB', 'JEFE DE FINANCIACION NO BANCARIA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('209', 'SUPERCAR', 'SUPERVISOR CARTOGRAFICO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('210', 'SUPVCALL', 'SUPERVISOR DE CALL CENTER', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('211', 'JEFREDCO', 'JEFE REDES Y CONSTRUCCIONES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('212', 'ANALCONT', 'ANALISTA CONTABLE', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('213', 'JEFREDP', 'JEFE REDES DE POPAYAN', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('214', 'INGERYC', 'INGENIERO DE REDES Y CONSTRUCCIONES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('215', 'ANALCTRA', 'ANALISTA DE CONTRATACION', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('216', 'COORCDO', 'COORDINADOR CENTRAL OPERACIONES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('217', 'PLANMTO', 'PLANEADOR DE MANTENIMIENTO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('218', 'SUPREDIB', 'SUPERVISOR REDES IBAGUE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('219', 'CORDCARN', 'COORDINADOR CARTERA NEIVA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('220', 'GESTCARN', 'GESTOR CARTERA NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('221', 'AUXGNCPO', 'AUXILIAR DE GNC POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('222', 'COORGNCP', 'COORDINADOR GNC POPAYAN', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('223', 'COORGNCN', 'COORDINADOR GNC NEIVA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('224', 'AUXGNCN', 'AUXILIAR GNC NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('225', 'PEGADORP', 'PEGADOR POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('226', 'AUXFACT2', 'AUXILIAR DE FACTURACION II', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('227', 'AUXNOMII', 'AUXILIAR DE NOMINA II', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('228', 'GESANTIC', 'GESTOR DE ANTICIPOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('229', 'ADMNOMI', 'ADMINISTRADOR DE NOMINA II', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('230', 'AUXCARTI', 'AUXILIAR DE CARTERA I', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('231', 'AUXCARII', 'AUXILIAR DE CARTERA II', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('232', 'AUXCONTI', 'AUXILIAR CONTABLE I', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('233', 'AUXCONII', 'AUXILIAR CONTABLE II', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('234', 'AUXCOIII', 'AUXILIAR CONTABLE III', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('235', 'DIRTECNI', 'DIRECTOR TECNICO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('236', 'SUPERNCO', 'SUPERNUMERARIO DE CO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('237', 'INTGINV', 'INTERVENTOR GESTION INVENTARIOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('238', 'JEFEREDP', 'JEFE REDES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('239', 'COORED', 'COORDINADOR DE REDES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('240', 'SUPREDP', 'SUPERVISOR REDES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('241', 'PEGADC', 'PEGADOR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('242', 'SUPREDES', 'SUPERVISOR DE REDES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('243', 'INGSOPRE', 'INGENIERO DE SOPORTE DE REDES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('244', 'COORED1', 'COORDINADOR REDES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('245', 'JFNCONS', 'JEFE NACIONAL DE CONSTRUCCIONES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('246', 'COORDINP', 'COORDINADOR INVESTIGACIONES Y PERDIDAS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('247', 'ANANIF', 'ANALISTA CONTABLE DE NORMAS INTERNACIONA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('248', 'SUPENOYM', 'SUPERNUMERARIO DE OYM', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('249', 'COORCARI', 'COORDINADOR CARTERA IBAGUE', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('250', 'GESCARTF', 'GESTOR CARTERA FUSA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('251', 'GESCARTI', 'GESTOR CARTERA IBAGUE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('252', 'ANACOMER', 'ANALISTA COMERCIALIZACION DE GAS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('253', 'GESCATFL', 'GESTOR CARTERA FLORENCIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('254', 'SUPREDPO', 'SUPERVISOR REDES POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('255', 'AUXGNCGI', 'AUXILIAR GNC GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('256', 'ANASOPTE', 'ANALISTA SOPORTE TECNICO I', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('257', 'PROJURPA', 'PROFESIONAL JURIDICO PASTO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('258', 'COOREDFU', 'COORDINADOR REDES FUSA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('259', 'SUPRENEI', 'SUPERVISOR REDES NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('260', 'CONDUCTS', 'CONDUCTOR SERVICIOS GENERALES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('261', 'SUPREDFU', 'SUPERVISOR REDES FUSA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('262', 'INSTRGNC', 'INSTRUMENTISTA GNC', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('263', 'AUXAINVP', 'AUXILIAR ADM DE INVESTIGACION Y PERDIDA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('264', 'INGSUPCO', 'INGENIERO SUPERNUMERARIO DE CONTRUCCIONE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('265', 'JEFPROY', 'JEFE DE PROYECTOS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('266', 'ASIDIRTE', 'ASISTENTE DE DIRECCION TECNICA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('267', 'SUPCAMPO', 'SUPERVISOR CAMPO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('268', 'AUXCAMPO', 'AUXILIAR DE CAMPO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('269', 'SUPMPIOP', 'SUPERVISOR MUNICIPIO PUERTO SALGAR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('270', 'JEFENCAR', 'JEFE NACIONAL DE CARTERA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('271', 'JEFESERZ', 'JEFE SERVICIO DE ZONA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('272', 'INGLIOPE', 'INGENIERO LIDER DE OPERACIONES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('273', 'JFNALCTP', 'JEFE NACIONAL CONTROL PERDIDAS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('274', 'CORCTPER', 'COORDINADOR CONTROL PERDIDAS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('275', 'JEFECOMG', 'JEFE COMERCIALIZACION DE GAS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('276', 'COOROYMD', 'COORDINADOR O Y M DORADA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('277', 'TECINDCO', 'TECNICO INDUSTRIALES Y COMERCIALES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('278', 'DIGOBRAF', 'DIGITADOR OBRA FUSA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('279', 'COORVTAN', 'COORDINADOR DE VENTAS NEIVA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('280', 'JEFCONTC', 'JEFE CONTACT CENTER', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('281', 'PROFCPER', 'PROFESIONAL CONTROL PERDIDAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('282', 'SUPCONCE', 'SUPERVISOR CONTAC CENTER', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('283', 'AGENTCEN', 'AGENTE DE CONTACT CENTER', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('284', 'ANATELEM', 'ANALISTA TELEMETRIA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('285', 'DIGOBR-P', 'DIGITADOR DE OBRA POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('286', 'AUXTCGNS', 'AUXILIAR TECNICO DE GNS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('287', 'PROBIENL', 'PROFESIONAL DE BIENESTAR LABORAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('288', 'AUXPOCON', 'AUXILIAR PORTAL DE CONTRATACION', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('289', 'JEFECOME', 'JEFE COMERCIAL', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('290', 'ANATECAD', 'ANALISTA TECNICO ADMINISTRATIVO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('291', 'ASECOMF', 'ASESOR COMERCIAL FUSAGASUGA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('292', 'ASECOMG', 'ASESOR COMERCIAL GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('293', 'COORVTAG', 'COORDINADOR VENTA GIRARDOT', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('294', 'ASECOMN', 'ASESOR COMERCIAL NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('295', 'GTECOENC', 'GERENTE CENTRO OPERATIVO ENCARGADO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('296', 'GTECON', 'GERENTE CENTRO OPERATIVO NEIVA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('297', 'INSTGNCN', 'INSTRUMENTISTA GNC NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('298', 'AUXGNCFL', 'AUXILIAR GNC FLANDES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('299', 'AUXTOMFL', 'AUXILIAR TECNICO O Y M FLORENCIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('300', 'JEFESEGR', 'JEFE SERVICIOS GENERALES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('301', 'COOREDPA', 'COORDINADOR REDES DE PASTO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('302', 'EJECCIAL', 'EJECUTIVO COMERCIAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('303', 'AUXSCLNV', 'AUXILIAR SERVICIO AL CLIENTE NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('304', 'SUPREDEG', 'SUPERVISOR REDES GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('305', 'SUPREDED', 'SUPERVISOR REDES LA DORADA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('306', 'ASIADMFR', 'ASISTENTE DIRECCION ADTVA Y FINANCIERA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('307', 'PRCONTNI', 'PROFESIONAL CONTABLE NIFF', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('308', 'PROFCNIM', 'PROFESIONAL CONTABLE DE IMPUESTOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('309', 'PROFCOMG', 'PROFESIONAL COMERCIALIZACION DEGAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('310', 'AUXSOPNV', 'AUXILIAR SOPORTE TECNICO NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('311', 'SUPCTPIB', 'SUPERVISOR CONTROL PERDIDAS IBAGUE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('312', 'AUXICONP', 'AUXILIAR TECNICO CONTROL DE PERDIDAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('313', 'CONDGRAL', 'CONDUCTOR GERENCIA GENERAL', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('314', 'SUPREDEF', 'SUPERVISOR REDES FLORENCIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('315', 'AUXCARTD', 'AUXILIAR CARTOGRAFIA DORADA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('316', 'MENSJRIO', 'MENSAJERO RIONEGRO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('317', 'COOROYM1', 'COORDINADOR O Y M', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('318', 'AUXVTAIB', 'AUXILIAR VENTA IBAGUE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('319', 'ANAPQR', 'ANALISTA PQR', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('320', 'DIGOBRGI', 'DIGITADOR DE OBRA GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('321', 'COORDCG', 'COORDINADOR CONSTRUCIIONES GIRARDOT', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('322', 'AUXTECSF', 'AUXILIAR TECNICO SERVICIOS FLORENCIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('323', 'AUXACOMF', 'AUXILIAR ACOMETIDAS FLORENCIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('324', 'PROPQR', 'PROFESIONAL PQR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('325', 'LIDEREG', 'LIDER DE REGULACION', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('326', 'ANASERCL', 'ANALISTA SERVICIO AL CLIENTE', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('327', 'AYUDOBRG', 'AYUDANTE OBRA GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('328', 'INSPOTIR', 'INSPECTOR OTI RIONEGRO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('329', 'AUXADTOD', 'AUXILIAR ADMINISTRATIVA OTI DORADA', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('330', 'SUPOTIDO', 'SUPERVISOR OTI DORADA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('331', 'COOROTID', 'COORDINADOR OTI LA DORADA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('332', 'COOROTIG', 'COORDINADOR OTI GIRARDOT', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('333', 'AUXADOTF', 'AUXILIAR ADMINISTRATIVA OTI FUSAGASUGA', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('334', 'AUXTECSG', 'AUXILIAR TECNICO SERVICIO GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('335', 'AUXGNCD', 'AUXILIAR GNC DORADA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('336', 'SUPOTIG', 'SUPERVISOR OTI GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('337', 'SUPREDPA', 'SUPERVISOR REDES PASTO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('338', 'AUXPQR', 'AUXILIAR PQR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('339', 'AUXVTAPA', 'AUXILIAR VENTA PASTO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('340', 'JEFREGSE', 'JEFE DE SERVICIOS REGIONAL', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('341', 'INSPOTIG', 'INSPECTOR OTI GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('342', 'AUXADTOR', 'AUXILIAR ADMINISTRATIVO OTI RIONEGRO', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('343', 'GESCARIO', 'GESTOR CARTERA RIONEGRO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('344', 'AUXADTES', 'AUXILIAR ADMINISTRATIVO TESORERIA', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('345', 'AUXADOYM', 'AUXILIAR ADMINISTRATIVO O Y M', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('346', 'SUPSERV', 'SUPERVISOR SERVICIOS ASOCIADOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('347', 'COORSERA', 'COORDINADOR SERVICIOS ASOCIADOS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('348', 'AUXADSEP', 'AUXILIAR ADMITIVO SERVICIOS ASOCIADOS PO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('349', 'AUXVTAFU', 'AUXILIAR VENTA FUSAGASUGA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('350', 'AUXTCSAP', 'AUX TECNICO SERVICIOS ASOCIADOS PASTO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('351', 'SUPSVASP', 'SUPERVISOR SERVICIOS ASOCIADOS POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('352', 'SUPOTIPO', 'SUPERVISOR OTI POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('353', 'AUXADTOP', 'AUXILIAR ADMINISTRATIVO OTI POPAYAN', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('354', 'COORCONF', 'COORDINADOR CONSTRUCCIONES FLORENCIA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('355', 'JESERCLI', 'JEFE SERVICIO AL CLIENTE', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('356', 'COORCONC', 'COORDINADOR CONTAC CENTER', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('357', 'AUXTECSA', 'AUXILIAR TECNICO SERVICIOS ASOCIADOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('358', 'COOREDIB', 'COORDINADOR REDES IBAGUE', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('359', 'AUXADSAS', 'AUXILIAR ADMINISTRATIVO SERVICIOS ASOCIA', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('360', 'AUXTEADC', 'AUXILIAR TECNICO ADMINISTRATIVO DE CONST', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('361', 'AUXTECPG', 'AUXILIAR TECNICO CONTROL PERDIAS GIRARDO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('362', 'PROFGNCV', 'PROFESIONAL GNCV Y CRM', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('363', 'SUPMPIOT', 'SUPERVISOR MUNICIPIO TESALIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('364', 'AUXADTOF', 'AUXILIAR ADMINISTRATIVO OTI FLORENCIA', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('365', 'ADMINCXP', 'ADMINISTRADOR CUENTAS POR PAGAR', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('366', 'AUXPROYE', 'AUXILIAR DE PROYECTOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('367', 'COORGNCG', 'COORDINADOR GNC GIRARDOT', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('368', 'AUXCARTP', 'AUXILIAR CARTOGRAFIA POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('369', 'ANALSST', 'ANALISTA SST', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('370', 'INPOTIPA', 'INSPECTOR OTI PASTO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('371', 'AUXTCSAG', 'AUXILIAR TECNICO SERVICIO ASOCIADO GIRAR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('372', 'AUXADSAI', 'AUXILIAR ADTIVO SERVICIOS ASOCIADOS IBAG', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('373', 'COOROTIP', 'COORDINADOR OTI POPAYAN', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('374', 'JEFEOYM1', 'JEFE OPERACION Y MANTENIMIENTO 1', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('375', 'DIGOBRLD', 'DIGITADOR OBRA LA DORADA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('376', 'ANALPROC', 'ANALISTA DE PROCESOS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('377', 'DIROPERA', 'DIRECTOR DE OPERACIONES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('378', 'SUPSVASO', 'SUPERVISOR SERVICIOS ASOCIADOS PASTO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('379', 'DIGOBRAI', 'DIGITADOR OBRA IBAGUE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('380', 'LIDNALSA', 'LIDER NACIONAL SERVICIOS ASOCIADOS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('381', 'COORGESH', 'COORDINADOR GESTION HUMANA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('382', 'AUXSERCF', 'AUXILIAR SERVICIO AL CLIENTE FLORENCIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('383', 'INSPOTIB', 'INSPECTOR OTI IBAGUE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('384', 'SUPOTIPA', 'SUPERVISOR OTI PASTO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('385', 'PRGNCCRM', 'PROFESIONAL DE GNC Y CRM', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('386', 'COORSERI', 'COORDINADOR SERVICIOS ASOCIADOS IBAGUE', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('387', 'SUPOTIGI', 'SUPERVISOR OTI GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('388', 'AUADOTIG', 'AUXILIAR ADMINISTRATIVO OTI GIRARDOT', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('389', 'MENSIBAG', 'MENSAJERO IBAGUE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('390', 'SUPOTIRI', 'SUPERVISOR OTI RIONEGRO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('391', 'MENSNEIV', 'MENSAJERO NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('392', 'DIGIOTIG', 'DIGITADOR OTI GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('393', 'AUXADOML', 'AUXILIAR ADMINISTRATIVO O Y M LA DORADA', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('394', 'SOPOTIN1', 'SUPERVISOR OTI NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('395', 'AUXPLAN', 'AUXILIAR DE PLANEACION', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('396', 'INGPYESP', 'INGENIERO PROYECTOS ESPECIALES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('397', 'JEFADMAC', 'JEFE ADMINISTRACION ACTIVOS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('398', 'COOREDIT', 'COORDINADOR DE EDIFICACIONES Y TANQUE ES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('399', 'ANALISOC', 'ANALISTA DE SALUD OCUPACIONAL', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('400', 'JEFESERE', 'JEFE DE SERVICIOS REGIONAL', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('401', 'JEFEAUDI', 'JEFE DE AUDITORIA INTERNA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('402', 'AYOBROYM', 'AYUDANTE DE OBRA OYM', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('403', 'LIDCUAD', 'LIDER DE CUADRILLA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('404', 'PROGCUAD', 'PROGRAMADOR DE CUADRILLA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('405', 'AUXTEPRO', 'AUXILIAR TECNICO DE PROYECTOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('406', 'COORDPLA', 'COORDINADOR DE PLANEACION', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('407', 'AUDITECN', 'AUDITOR TECNICO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('408', 'PROFCARJ', 'PROFESIONAL CARTERA JUNIOR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('409', 'DESARROL', 'DESARROLLADOR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('410', 'JEFENSCT', 'JEFE NACIONAL DE SERVICIOS Y CONTROL', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('411', 'AUXTCSAI', 'AUX TECNICO SERVICIOS ASOCIADOS IBAGUE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('412', 'AUXTCSAD', 'AUX TECNICO SERVICIOS ASOCIADOS LA DORAD', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('413', 'COORSAPO', 'COORDINADOR SERVICIOS ASOCIADOS POPAYAN', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('414', 'ADMONCXP', 'ADMINISTRACION CUENTA POR PAGAR', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('415', 'AUXTCSAR', 'AUX TECNICO SERVICIOS ASOCIADOS RIONEGRO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('416', 'AUXTCSAF', 'AUXILIAR TECNICO SERVICIOS ASOCIADOS FUS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('417', 'INSPFORS', 'INSPECTOR EN FORMACION(SEMILLERO)', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('418', 'AUXADSAG', 'AUX ADTIVO SERVCIOS ASOCIADOS GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('419', 'SUPSVASG', 'SUPERVISOR SERVICIOS ASOCIADOS GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('420', 'GESTADTI', 'GESTOR ADMINISTRATIVO TI', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('421', 'FUNOMINA', 'FUNCIONAL NOMINA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('422', 'GESTORCO', 'GESTOR DE LA CONFIGURACION', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('423', 'DIRABAST', 'DIRECTOR DE ABASTECIMIENTO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('424', 'AUDCTRIN', 'AUDITOR CONTROL INTERNO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('425', 'ANALISOL', 'ANALISTA ISOLUCION', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('426', 'ARQSOFT', 'ARQUITECTO DE SOFTWARE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('427', 'ANALQA', 'ANALISTA DE QA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('428', 'TECARTOG', 'TECNICO CARTOGRAFIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('429', 'AUXTCSAY', 'AUX TECNICO SERVICIOS ASOCIADOS POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('430', 'ANALPROY', 'ANALISTA DE PROYECTOS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('431', 'JEFEREL', 'JEFE DE RELACIONES LABORALES', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('432', 'DIRJURID', 'DIRECTOR JURIDICO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('433', 'SUPHSEQ', 'SUPERVISOR HSEQ', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('434', 'ASISERVT', 'ASISTENTE SERVICIOS TECNICOS Y C/CION', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('435', 'SUSERTEC', 'SUPERNUMERARIO DE SERVICIOS TECNICOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('436', 'LIDCONST', 'LIDER DE CONSTRUCCIONES MDO ABIERTO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('437', 'AUXSOPOM', 'AUXILIAR SOPORTE OBRA MOVIL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('438', 'AUDTCIII', 'AUDITOR TECNICO CONTROL INTERNO III', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('439', 'AUDTCNII', 'AUDITOR TECNICO CONTROL INTERNO II', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('440', 'AUDTCNI', 'AUDITOR TECNICO CONTROL INTERNO I', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('441', 'ANALNEGO', 'ANALISTA DE NEGOCIOS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('442', 'AUDISIST', 'AUDITOR DE SISTEMAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('443', 'SUPINTNV', 'SUPERVISOR INTERVENTORIA NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('444', 'COOREDRI', 'COORDINADOR REDES RIONEGRO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('445', 'SUPREDRI', 'SUPERVISOR REDES RIONEGRO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('446', 'AUXACOMR', 'AUX ACOMETIDAS RIONEGRO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('447', 'ANASOPII', 'ANALISTA SOPORTE TECNICO 2', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('448', 'AUXSOPTE', 'AUXILIAR SOPORTE TECNICO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('449', 'COROMGI', 'COORDINADOR O Y M GIRARDOT', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('450', 'GTEGRAL', 'GERENTE GENERAL', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('451', 'DIRCIAL', 'DIRECTOR COMERCIAL', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('452', 'ANACART', 'ANALISTA DE CARTERA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('453', 'COORCIAL', 'COORDINADOR COMERCIAL', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('454', 'CORDJURD', 'COORDINADOR JURIDICO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('455', 'CGRACLIE', 'COORDINADOR GRANDES CLIENTES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('456', 'AUXCONPE', 'AUXILIAR TECNICO DE CONTROL DE PERDIDAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('457', 'AUXADMCP', 'AUXILIAR ADMINISTRATIVO CONTROL PERDIDAS', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('458', 'INGPROYE', 'INGENIERO DE PROYECTOS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('459', 'PCONPERD', 'PROFESIONAL CONTROL PERDIDAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('460', 'ASDICOME', 'ASISTENTE DE DIRECCION COMERCIAL', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('461', 'COORDMER', 'COORDINADOR DE MERCADEO', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('462', 'ANACOPE', 'ANALISTA CONTROL PERDIDAS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('463', 'SUPCTRPE', 'SUPERVISOR CONTROL PERDIDAS', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('464', 'INTERVE1', 'INTERVENTORIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('465', 'INGLIDCP', 'INGENIERO LIDER CONTROL PERDIDAS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('466', 'COORSTEC', 'COORDINADOR SERVICIOS TECNICOS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('467', 'GESCARGI', 'GESTOR CARTERA GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('468', 'GESCARPO', 'GESTOR CARTERA POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('469', 'COORCARP', 'COORDINADOR CARTERA POPAYAN', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('470', 'AUXADTCO', 'AUXILIAR ADMINISTRATIVA CENTRO OPERATIVO', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('471', 'AUXTSAFL', 'AUXILIAR TECNICO SERVICIOS ASOCIADOS FLO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('472', 'AUXVTALD', 'AUXILIAR VENTA LA DORADA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('473', 'DIRSERTE', 'DIRECTOR SERVICIOS TECNICOS', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('474', 'AUXGESTH', 'AUXILIAR GESTION HUMANA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('475', 'ANALGHUM', 'ANALISTA GESTION HUMANA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('476', 'PRACTJUR', 'PRACTICANTE JURIDICO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('477', 'LIDERMTO', 'LIDER DE MANTENIMIENTO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('478', 'ANALCONS', 'ANALISTA DE CONSTRUCCIONES', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('479', 'COORPROY', 'COORDINADOR DE PROYECTOS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('480', 'COMPJUNI', 'COMPRADOR JUNIOR', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('481', 'ANALSERA', 'ANALISTA SERVICIOS ASOCIADOS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('482', 'LIDPROYE', 'LIDER DE PROYECTO', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('483', 'SUPCONST', 'SUPERVISOR DE CONSTRUCCIONES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('484', 'FUNGHUMA', 'FUNCIONAL GESTION HUMANA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('485', 'DISUX/UI', 'DISEÑADOR UX/UI', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('486', 'LIDCONFS', 'LIDER CONTABILIDAD FISCAL Y FINANCIERA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('487', 'LIDERQA', 'LIDER DE QA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('488', 'COORGNCI', 'COORDINADOR GNC IBAGUE', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('489', 'AUXTECAD', 'AUXILIAR TECNICO ADMINISTRATIVO LA DORAD', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('490', 'ANTCNIII', 'ANALISTA TECNICO DE CONTROL INTERNO III', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('491', 'DIRCALOB', 'DIRECTOR CALIDAD DE OBRA', '4', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('492', 'AUXTECCN', 'AUXILIAR TECNICO DE CONSTRUCCIONES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('493', 'AUDADTIV', 'AUDITOR ADMINISTRATIVO', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('494', 'ANALCREC', 'ANALISTA DE CREDITO Y CARTERA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('495', 'DIGOBRCO', 'DIGITADOR OBRA CONSTRUCCIONES', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('496', 'DIGOBRFL', 'DIGITADOR OBRA FLORENCIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('497', 'DIGOTIDO', 'DIGITADOR OTI LA DORADA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('498', 'INSTGIR', 'INSTALADOR GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('499', 'CONDUGIR', 'CONDUCTOR GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('500', 'INSPOTIF', 'INSPECTOR OTI FLORENCIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('501', 'AUXVTAPO', 'AUXILIAR VENTA POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('502', 'AUXVTAGI', 'AUXILIAR VENTA GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('503', 'GESTSOCG', 'GESTOR SOCIAL GIRARDOT', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('504', 'AUXTECPO', 'AUXILIAR TECNICO SERVICIOS POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('505', 'INSTPOPA', 'INSTALADOR POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('506', 'AYUDOBPO', 'AYUDANTE OBRA POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('507', 'INPOTIFU', 'INSPECTOR OTI FUSAGASUGA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('508', 'INSPOTD', 'INSPECTOR OTI LA DORADA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('509', 'INSPOTIP', 'INSPECTOR OTI POPAYAN', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('510', 'SUPOTIFL', 'SUPERVISOR OTI FLORENCIA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('511', 'COORCOM', 'COORDINADOR COMPRAS', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('512', 'AUXADTON', 'AUXILIAR ADMINISTRATIVO OTI NEIVA', '1', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('513', 'INSOOTIN', 'INSPECTOR OTI NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('514', 'SUPOTINE', 'SUPERVISOR OTI NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('515', 'DIGIOTIN', 'DIGITADOR OTI NEIVA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('516', 'COORCARD', 'COORDINADOR CARTERA LA DORADA', '2', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('517', 'GESCARDO', 'GESTOR CARTERA LA DORADA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('518', 'SUPOTIFU', 'SUPERVISOR OTI FUSAGASUGA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('519', 'SUPSVASI', 'SUPERVISOR SERVICIOS ASOCIADOS IBAGUE', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('520', 'SUPSVASR', 'SPERVISOR SERVICIOS ASOCADOS RIONEGRO', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('521', 'SUPSVASD', 'SUPERVISOR SERVICIOS ASOCIADOS LA DORADA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('522', 'AUXADSPA', 'AUXILIAR ADTIVO SERVICIOS ASOCIADOS PAST', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+INSERT INTO [dbo].[Cargo] (Id, Codigo, Nombre, NivelCargoId, EstadoRegistro, CreadoPor, FechaCreacion, ObjetivoCargo) VALUES ('523', 'AUXADSLD', 'AUX ADTIVO SERVICIOS ASOCIADOS LA DORADA', '3', 'Activo' , 'sistema', GETDATE(), '')
+GO
+SET IDENTITY_INSERT [dbo].[Cargo] OFF
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[Cargo] WHERE Id BETWEEN 1 AND 523;
+</rollback>
+</changeSet>
+</databaseChangeLog>

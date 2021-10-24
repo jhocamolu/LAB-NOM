@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_entidad_financiera_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[EntidadFinanciera] ON 
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, '1', '860002964-4', '0', 'Banco de Bogotá', 1123, '00000000', 'Calle 36 No.7- 47', 'Alejandro Augusto Figueroa Jaramillo')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, '2', '860007738-9', '0', 'Banco Popular S.A.', 1123, '00000000', 'Calle 17 No. 7- 35/43', 'Carlos Eduardo Upegui Cuartas')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, '6', '890903937-0', '0', 'ITAÚ Corpobanca Colombia S.A. podrá utilizar cualquiera de las siguientes siglas ITAÚ; BANCO CORPBANCA; o CORPBANCA', 1123, '00000000', 'Carrera 7 No. 99 - 53', 'Alvaro de Alvarenga Freire Pimentel')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, '7', '890903938-8', '0', 'Bancolombia S.A. o Banco de Colombia S.A. o Bancolombia', 12, '00000000', 'Carrera 48 No. 26 - 85 Avenida Los Industriales', 'Juan Carlos Mora Uribe')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 5, 'Activo', GETDATE(), NULL, NULL, '9', '860051135-4', '0', 'Citibank-Colombia -Expresión Citibank', 1123, '00000000', 'Carrera 9A No. 99 - 02 Piso 3', 'Alvaro Jaramillo Escallón')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 6, 'Activo', GETDATE(), NULL, NULL, '12', '860050750-1', '0', 'SUDAMERIS S.A.', 1123, '00000000', 'Notificación: Carrera 7No 75 - 85/87Correspondencia:Por la Carrera Octava (8a.)', 'Camilo Verastegui Carvajal')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 7, 'Activo', GETDATE(), NULL, NULL, '13', '860003020-1', '0', 'Banco Bilbao Vizcaya Argentaria Colombia S.A. (BBVA)', 1123, '00000000', 'Carrera 9 No. 72 - 21', 'Oscar Cabrera Izquierdo')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 8, 'Activo', GETDATE(), NULL, NULL, '23', '890300279-4', '0', 'BancodeOccidente S.A.', 1095, '00000000', 'Carrera 4 No. 7- 61 Piso 15', 'Cesar Prado Villegas')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 9, 'Activo', GETDATE(), NULL, NULL, '30', '860007335-4', '0', 'Banco Caja Social S.A.', 1123, '00000000', 'Carrera 7 No. 77- 65 Torre Colmena', 'Diego Fernando Prieto Rivera')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 10, 'Activo', GETDATE(), NULL, NULL, '39', '860034313-7', '0', 'Banco Davivienda S.A. "Banco Davivienda" o "Davivienda"', 1123, '00000000', 'Avenida el Dorado No. 68 C -61 Piso 10Avenida El Dorado No 68B - 31 Piso 1 - Notificaciones', 'Efraín Enrique Forero Fonseca')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 11, 'Activo', GETDATE(), NULL, NULL, '42', '860034594-1', '0', 'Colpatria SCOTIABANK', 1123, '00000000', 'Carrera 7 No. 24 - 89 Piso 10', 'Jaime Alberto Upegui Cuartas')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 12, 'Activo', GETDATE(), NULL, NULL, '43', '800037800-8', '0', 'Banco Agrario de Colombia S.A. -Banagrario-', 1123, '00000000', 'Carrera 8 No. 15 - 43', 'Francisco José Mejía Sendoya')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 13, 'Activo', GETDATE(), NULL, NULL, '49', '860035827-5', '0', 'Banco Comercial AV Villas S.A. Podrá girar bajo la denominación Banco de Ahorro y Vivienda AV Villas, Banco AV Villas o AV Villas.', 1123, '00000000', 'Carrera 13 No. 27- 47', 'Juan Camilo Ángel Mejía')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 14, 'Activo', GETDATE(), NULL, NULL, '51', '900200960-9', '0', 'Banco ProCredit Colombia S.A. siglas "BPCC", "PROCREDIT" o "BANCO PROCREDIT"', 1123, '00000000', 'Avenida Calle 39 No. 13 A - 16', 'Meik Proescher')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 15, 'Activo', GETDATE(), NULL, NULL, '52', '900215071-1', '0', 'Banco de las Microfinanzas -Bancamía S.A.', 1123, '00000000', 'Carrera 9 No. 66 - 25', 'Miguel Angel Charria Lievano')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 16, 'Activo', GETDATE(), NULL, NULL, '53', '900378212-2', '0', 'Banco W S.A.', 1095, '00000000', 'Avenida 5 Norte No. 16 N - 57 Piso 4', 'José Alejandro Guerrero Becerra')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 17, 'Activo', GETDATE(), NULL, NULL, '54', '900406150-5', '0', 'Banco Coomeva S.A.', 1095, '00000000', 'Casa Principal y Notificación: Calle 13 No. 57 - 50Piso 2', 'Hans Juergen Theilkuh Ochoa')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 18, 'Activo', GETDATE(), NULL, NULL, '55', '860051894-6', '0', 'Banco Finandina S.A. o Finandina Establecimiento Bancario. Sigla: FINANDINA', 530, '00000000', 'Kilometro 17 carretera central del Norte vía a Chia', 'Orlando Forero Gómez')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 19, 'Activo', GETDATE(), NULL, NULL, '56', '900047981-8', '0', 'Banco Falabella S.A.', 1123, '00000000', 'Avenida 19 No. 120 - 71 Piso 3', 'Sergio Muñoz Gómez')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 20, 'Activo', GETDATE(), NULL, NULL, '57', '890200756-7', '0', 'Banco Pichincha S.A.', 916, '00000000', 'Carrera 35 No. 42 - 39', 'Liliana Marcela De Plaza Buritica')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 21, 'Activo', GETDATE(), NULL, NULL, '58', '890203088-9', '0', 'El Banco Cooperativo CoopcentralSigla', 1123, '00000000', 'Avenida Calle 116 No. 23 - 06 /28 Edificio Business Center 116', 'Jorge Andrés López Bautista')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 22, 'Activo', GETDATE(), NULL, NULL, '59', '900628110-3', '0', 'Banco Santander de Negocios Colombia S.A.', 1123, '00000000', 'Calle 93 A No. 13-24 Piso 4', 'Manuel De la Cruz De la Cruz')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 23, 'Activo', GETDATE(), NULL, NULL, '60', '900768933-8', '0', 'Banco Mundo Mujer S.A.', 401, '00000000', 'Carrera 11 No. 5 - 56', 'Leonor Melo de Velasco')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 24, 'Activo', GETDATE(), NULL, NULL, '61', '860024414-1', '0', 'Banco Multibanck S.A.', 1123, '00000000', 'Carrera 7 No. 73 - 47 Piso 6', 'Jaime De Gamboa Gamboa')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 25, 'Activo', GETDATE(), NULL, NULL, '62', '860025971-5', '0', 'Banco Compartir S.A.', 1123, '00000000', 'Calle 16 No. 6 - 66 Edificio Avianca', 'Gregorio Alberto de Jesús Mejía Solano')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 26, 'Activo', GETDATE(), NULL, NULL, '63', '860043186-6', '0', 'Banco Serfinanza S.A.', 146, '00000000', 'Calle 72 No. 54 - 63 / 67 / 71 / 75 Locales 5, 6, 7 y 8', 'Gian Piero Celia Martínez Aparicio')
+GO
+INSERT [dbo].[EntidadFinanciera] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nit], [Dv], [Nombre], [DivisionPoliticaNivel2Id], [Telefono], [Direccion], [RepresentanteLegal]) VALUES ('sistema', 27, 'Activo', GETDATE(), NULL, NULL, 'SD', '111111111-1', '0', 'Sin definir', 1123, '00000000', 'Sin definir', 'Sin definir')
+GO
+SET IDENTITY_INSERT [dbo].[EntidadFinanciera] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[EntidadFinanciera] WHERE Id BETWEEN 1 AND 27;
+</rollback>
+</changeSet>
+</databaseChangeLog>

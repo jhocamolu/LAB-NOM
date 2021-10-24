@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="Contrato_V2">
+<comment>Crear constraint contrato estado</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    ALTER TABLE [Contrato] 
+    ADD CONSTRAINT [CK_Contrato_Estado] CHECK ((
+        [Estado]='Vigente' OR 
+        [Estado]='SinIniciar' OR 
+        [Estado]='Terminado' OR 
+        [Estado]='Cancelado' OR 
+        [Estado]='PendientePorLiquidar'
+    ));
+
+    GO
+
+    ALTER TABLE [Contrato] ADD [CargoGrupoId] int NULL;
+
+    GO
+
+    ALTER TABLE [Contrato] ADD [Justificacion] text NULL;
+
+    GO
+
+    ALTER TABLE [Contrato] ADD [TipoPeriodoId] int NULL;
+
+    GO
+
+    CREATE INDEX [IX_Contrato_CargoGrupoId] ON [Contrato] ([CargoGrupoId]);
+
+    GO
+
+    CREATE INDEX [IX_Contrato_TipoPeriodoId] ON [Contrato] ([TipoPeriodoId]);
+
+    GO
+
+    ALTER TABLE [Contrato] ADD CONSTRAINT [FK_Contrato_CargoGrupo_CargoGrupoId] FOREIGN KEY ([CargoGrupoId]) REFERENCES [CargoGrupo] ([Id]) ON DELETE NO ACTION;
+
+    GO
+
+    ALTER TABLE [Contrato] ADD CONSTRAINT [FK_Contrato_TipoPeriodo_TipoPeriodoId] FOREIGN KEY ([TipoPeriodoId]) REFERENCES [TipoPeriodo] ([Id]) ON DELETE NO ACTION;
+
+    GO
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    ALTER TABLE [Contrato] DROP CONSTRAINT CK_Contrato_Estado;
+    GO
+
+    DROP INDEX IX_Contrato_CargoGrupoId ON [Contrato];
+    GO
+    ALTER TABLE [Contrato] DROP COLUMN  [CargoGrupoId];
+    GO
+
+    ALTER TABLE [Contrato] DROP COLUMN  [Justificacion];
+    GO
+
+    DROP INDEX IX_Contrato_TipoPeriodoId ON [Contrato];
+    GO
+    ALTER TABLE [Contrato] DROP COLUMN  [TipoPeriodoId];
+    GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

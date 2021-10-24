@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ObtenerValorConceptoNomina_V2">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerValorConceptoNomina', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerValorConceptoNomina as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 14/04/2020
+-- Description: Permite obtener la valor según el concepto para NominaFuncionario.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario.
+--   @NominaId:				Identificador de la nómina.
+--   @AliasConcepto:			Alias identificación del concepto.
+--   @NominaDetalleId:			Id del detalle de nómina específico del cual se requiere valor.
+--		
+--	 Returns:						
+--	 Valor:					Valor de la tabla NominaDetalle.
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ObtenerValorConceptoNomina]
+(@FuncionarioId   INT,
+ @NominaId        INT,
+ @AliasConcepto   VARCHAR(255),
+ @NominaDetalleId INT = NULL,
+ @Valor           MONEY OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@AliasConcepto=', CONVERT(VARCHAR, @AliasConcepto));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @ConceptoNominaId INT= NULL;
+    DECLARE @NominaFuncionarioId INT= NULL;
+    DECLARE @MensajeError VARCHAR(250);
+    DECLARE @ErrorMessage NVARCHAR(4000);
+    DECLARE @ErrorSeverity INT;
+    DECLARE @ErrorState INT;
+	DECLARE @TotalRegistros INT = 0;
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        -- Consulta el identificador del Concepto de nómina.
+        SELECT @ConceptoNominaId = id
+        FROM ConceptoNomina
+        WHERE Alias = @AliasConcepto;
+
+        IF @ConceptoNominaId IS NOT NULL
+        BEGIN
+
+            -- Consulta identificador de la tabla NominaFuncionario
+            SELECT @NominaFuncionarioId = Id
+            FROM NominaFuncionario
+            WHERE FuncionarioId = @FuncionarioId
+                  AND NominaId = @NominaId;
+        END
+	   ELSE
+	   BEGIN
+		  SET @MensajeError = CONCAT('No existe un concepto con el alias ', @AliasConcepto, '.');
+            EXEC util.USP_GenerarExcepcion
+                 50000,
+                 @MensajeError;
+	   END
+
+        IF @NominaFuncionarioId IS NOT NULL
+        BEGIN			
+			IF @NominaDetalleId IS NULL 
+			BEGIN 
+				SET @TotalRegistros = 0;
+				SELECT @TotalRegistros = COUNT(*)
+				FROM NominaDetalle nde
+				WHERE nde.NominaFuncionarioId = @NominaFuncionarioId
+				AND nde.ConceptoNominaId = @ConceptoNominaId
+
+				IF @TotalRegistros IS NOT NULL AND @TotalRegistros > 1
+				BEGIN 
+					SET @MensajeError = CONCAT('Hay mas de un registro del concepto ', @AliasConcepto, '.');
+					EXEC util.USP_GenerarExcepcion
+					50000,
+					@MensajeError;
+				END
+
+				SELECT @Valor = nde.Valor
+				FROM NominaDetalle nde
+				WHERE nde.NominaFuncionarioId = @NominaFuncionarioId
+				AND nde.ConceptoNominaId = @ConceptoNominaId
+				
+			END
+			ELSE
+			BEGIN				
+				SELECT @Valor = nde.Valor
+				FROM NominaDetalle nde
+				WHERE nde.NominaFuncionarioId = @NominaFuncionarioId
+				AND nde.ConceptoNominaId = @ConceptoNominaId
+				AND nde.Id = @NominaDetalleId;
+			END
+
+            -- Consulta valor según parámetros ingresados.			
+            --SELECT @Valor = nde.Valor
+            --FROM NominaDetalle nde
+            --WHERE nde.NominaFuncionarioId = @NominaFuncionarioId
+            --AND nde.ConceptoNominaId = @ConceptoNominaId
+			--AND ((@NominaDetalleId IS NOT NULL AND nde.Id = @NominaDetalleId) OR 1=1);
+        END;
+
+        IF @Valor IS NULL
+        BEGIN
+            SET @Valor = 0;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerValorConceptoNomina', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerValorConceptoNomina as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Laura Katherine Estrada Arango
+-- Create date: 14/04/2020
+-- Description: Permite obtener la valor según el concepto para NominaFuncionario.
+--
+-- Parameters:
+--   @FuncionarioId:			Identificador del funcionario.
+--   @NominaId:				Identificador de la nómina.
+--   @AliasConcepto:			Alias identificación del concepto.
+--   @NominaDetalleId:			Id del detalle de nómina específico del cual se requiere valor.
+--		
+--	 Returns:						
+--	 Valor:					Valor de la tabla NominaDetalle.
+-- ==========================================================================================
+
+ALTER PROCEDURE [dbo].[USP_ObtenerValorConceptoNomina]
+(@FuncionarioId   INT,
+ @NominaId        INT,
+ @AliasConcepto   VARCHAR(255),
+ @NominaDetalleId INT = NULL,
+ @Valor           MONEY OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '&', '@NominaId=', CONVERT(VARCHAR, @NominaId), '&', '@AliasConcepto=', CONVERT(VARCHAR, @AliasConcepto));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @ConceptoNominaId INT= NULL;
+    DECLARE @NominaFuncionarioId INT= NULL;
+    DECLARE @MensajeError VARCHAR(250);
+    DECLARE @ErrorMessage NVARCHAR(4000);
+    DECLARE @ErrorSeverity INT;
+    DECLARE @ErrorState INT;
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        -- Consulta el identificador del Concepto de nómina.
+        SELECT @ConceptoNominaId = id
+        FROM ConceptoNomina
+        WHERE Alias = @AliasConcepto;
+
+        IF @ConceptoNominaId IS NOT NULL
+        BEGIN
+
+            -- Consulta identificador de la tabla NominaFuncionario
+            SELECT @NominaFuncionarioId = Id
+            FROM NominaFuncionario
+            WHERE FuncionarioId = @FuncionarioId
+                  AND NominaId = @NominaId;
+        END
+	   ELSE
+	   BEGIN
+		  SET @MensajeError = CONCAT('No existe un concepto con el alias ', @AliasConcepto, '.');
+            EXEC util.USP_GenerarExcepcion
+                 50000,
+                 @MensajeError;
+	   END
+
+        IF @NominaFuncionarioId IS NOT NULL
+        BEGIN
+            -- Consulta valor según parámetros ingresados.
+            SELECT @Valor = nde.Valor
+            FROM NominaDetalle nde
+            WHERE nde.NominaFuncionarioId = @NominaFuncionarioId
+                  AND nde.ConceptoNominaId = @ConceptoNominaId
+			   AND ((@NominaDetalleId IS NOT NULL AND nde.Id = @NominaDetalleId) OR 1=1);
+        END;
+
+        IF @Valor IS NULL
+        BEGIN
+            SET @Valor = 0;
+        END;
+    END TRY
+    BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+GO
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

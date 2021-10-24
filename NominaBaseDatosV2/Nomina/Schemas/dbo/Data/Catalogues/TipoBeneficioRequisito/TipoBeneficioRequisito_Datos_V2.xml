@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoBeneficioRequisito_Datos_V2">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoBeneficioRequisito] ON 
+GO
+UPDATE dbo.TipoBeneficioRequisito SET TipoBeneficioId=3 WHERE Id=4;
+
+SET IDENTITY_INSERT [dbo].[TipoBeneficioRequisito] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE dbo.TipoBeneficioRequisito SET TipoBeneficioId=4 WHERE Id=4;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

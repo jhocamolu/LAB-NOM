@@ -1,0 +1,9 @@
+changeLogFile: dbchangelog.xml
+  url: jdbc:sqlserver://172.16.1.26:1433;database=DANIEL-PRUEBAS;
+  username: NominaIntegracion
+  password: *QAY9fxbfYGq
+  driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  classpath: C:\\DrivesJDBC\\sqljdbc_8.2\\enu\\mssql-jdbc-8.2.0.jre8.jar
+  databaseChangeLogTableName: _LogCambioBaseDatos
+  databaseChangeLogLockTableName: _LogCambioBaseDatosBloqueo
+  liquibaseSchemaName: util

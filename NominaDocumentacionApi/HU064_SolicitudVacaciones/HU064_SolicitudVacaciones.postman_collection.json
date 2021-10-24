@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "21d766a6-ede3-4c6a-843b-284a7096d549",
+		"name": "HU064_SolicitudVacaciones",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listado Solicitud Vacaciones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/SolicitudVacaciones",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"SolicitudVacaciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Solicitud de Vacaciones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/SolicitudVacaciones/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"SolicitudVacaciones",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Solicitud Vacaciones",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"funcionarioId\": 4,\r\n    \"libroVacacionesId\": 49,\r\n    \"fechaInicioDisfrute\": \"2020-05-27\",\r\n    \"diasDisfrute\": 6,\r\n    \"diasDinero\": 1,\r\n    \"observacion\": \"ninguna\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudVacaciones",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudVacaciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"id\":1,\r\n    \"funcionarioId\": 4,\r\n    \"libroVacacionesId\": 5670,\r\n    \"fechaInicioDisfrute\": \"2020-05-26\",\r\n    \"diasDisfrute\": 6,\r\n    \"diasDinero\": 1,\r\n    \"observacion\": \"ninguna\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudVacaciones/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudVacaciones",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cambiar Estado",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"Estado\": 4,\r\n    \"Justificacion\": 49\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudVacaciones/estado/1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudVacaciones",
+						"estado",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listado interrupciones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/SolicitudVacacionesInterrupciones",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"SolicitudVacacionesInterrupciones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TareaProgramadaActualizar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fecha\":\"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudVacaciones/TareaProgramadaActualizar",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudVacaciones",
+						"TareaProgramadaActualizar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TareaProgramadaActualizarInterrupcion",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fecha\":\"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/SolicitudVacaciones/TareaProgramadaActualizarInterrupcion",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"SolicitudVacaciones",
+						"TareaProgramadaActualizarInterrupcion"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

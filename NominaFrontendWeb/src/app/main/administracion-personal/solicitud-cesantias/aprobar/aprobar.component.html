@@ -1,0 +1,111 @@
+<!-- CONTENIDO -->
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <div *ngIf="element">
+        <h1 mat-dialog-title>Aprobar solicitud</h1>
+        <div mat-dialog-content fusePerfectScrollbar>
+
+            <div>
+                <div>
+                    <h3>Funcionario</h3>
+                    <p>
+                        {{element.funcionario?.criterioBusqueda}}
+                      
+                    </p>
+                </div>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Fecha de solicitud</h3>
+                    <p> {{element.fechaSolicitud | date:'dd / LL / yyyy'}} </p>
+                </div>
+                <div>
+                    <h3>Base cálculo de cesantías</h3>
+                    <p> {{element.baseCalculoCesantia | currency:'COP':'symbol-narrow':'4.2-2': 'co'}} </p>
+                </div>
+            </div>
+
+            <div class="dos-bloque">
+                <div>
+                    <h3>Valor solicitado</h3>
+                    <p>{{element.valorSolicitado | currency:'COP':'symbol-narrow':'4.2-2': 'co'}} </p>
+                </div>
+
+                <div>
+                    <h3>Motivo de solicitud</h3>
+                    <p>{{element.motivoSolicitudCesantia?.nombre}}</p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <h3>Observación</h3>
+                    <p> {{element.observacion ? element.observacion : 'N/A'}} </p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <h3>Documento de soporte</h3>
+                    <p>
+                        <button mat-icon-button matTooltip="Descargar" (click)="descargarHandle($event, element)">
+                            <mat-icon class="s-20 green_">save_alt</mat-icon>
+                        </button>
+                    </p>
+                </div>
+            </div>
+
+            <mat-form-field appearance="outline">
+                <mat-label>¿Desea aprobar esta solicitud?</mat-label>
+                <mat-select formControlName="estado" required>
+                    <mat-option [value]="null"></mat-option>
+                    <mat-option [value]="estadoSolicitud.aprobada">Si</mat-option>
+                    <mat-option [value]="estadoSolicitud.rechazada">No</mat-option>
+                </mat-select>
+                <mat-error *ngFor="let error of objToArray(form.get('estado').errors)">
+                    <div [ngSwitch]="error">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Selecciona si apruebas o no esta solicitud.">info
+                </mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Respuesta a la solicitud</mat-label>
+                <textarea matInput formControlName="observacion" required>
+                            </textarea>
+                <mat-error *ngFor="let error of objToArray(form.get('observacion').errors)">
+                    <div [ngSwitch]="error">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Breve descripción con respecto de la aprobación.">
+                    info</mat-icon>
+            </mat-form-field>
+
+        </div>
+
+        <div mat-dialog-actions>
+            <button mat-raised-button type="button" (click)="dialogRef.close() ">
+                <mat-icon>cancel</mat-icon>
+                <span>Cancelar</span>
+            </button>
+            <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+                <mat-icon>save</mat-icon>
+                <span>Guardar</span>
+            </button>
+        </div>
+
+    </div>
+</form>

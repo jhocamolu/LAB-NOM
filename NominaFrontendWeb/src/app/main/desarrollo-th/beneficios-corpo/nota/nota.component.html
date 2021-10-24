@@ -1,0 +1,54 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+    <h1 mat-dialog-title>Registrar nota académica de auxilio educativo</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nota académica</mat-label>
+            <input matInput formControlName="notaAcademica" type="number" required>
+            <mat-error *ngFor="let error of form.get('notaAcademica').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                     <ng-template [ngSwitchCase]="'required'">
+                         Requerido
+                     </ng-template>
+                     <ng-template [ngSwitchCase]="'max'">
+                         Valor máximo 5.
+                     </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Calificación obtenida en el proceso académico.">
+                info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Observaciones</mat-label>
+            <textarea matInput formControlName="observacionNotaAcademica"></textarea>
+            <mat-error *ngFor="let error of form.get('observacionNotaAcademica').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Descripción de la nota académica.">
+                info</mat-icon>
+        </mat-form-field>
+
+    </div>
+
+    <div mat-dialog-actions fxLayout="row " fxLayoutAlign="end center ">
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid || submit " color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

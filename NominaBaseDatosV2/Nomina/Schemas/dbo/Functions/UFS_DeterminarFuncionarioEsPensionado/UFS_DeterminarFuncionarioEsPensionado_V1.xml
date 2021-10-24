@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_DeterminarFuncionarioEsPensionado_V1">
+<comment>HT030</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_DeterminarFuncionarioEsPensionado]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_DeterminarFuncionarioEsPensionado];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 13/05/2020
+-- Description: Permite determinar si un funcionario es pensionado o no
+--
+-- Parameters:
+--   FuncionarioId:	Identificador del funcionario del cual se va a obtener la información
+--
+-- Return:
+--	   Booleano:	1 -> Si; 0 -> NO
+-- ==========================================================================================
+CREATE FUNCTION [dbo].[UFS_DeterminarFuncionarioEsPensionado]
+(
+@FuncionarioId INT
+)
+RETURNS BIT
+AS
+     BEGIN
+
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         -- Declare the return variable here
+         DECLARE @Booleano BIT;
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+	    SELECT @Booleano = fun.Pensionado
+	    FROM dbo.Funcionario fun
+	    WHERE fun.Id = @FuncionarioId;
+
+	    IF @Booleano IS NULL
+	    BEGIN
+		  SET @Booleano = 0;
+	    END
+
+         RETURN @Booleano;
+     END;
+GO 
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_DeterminarFuncionarioEsPensionado]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_DeterminarFuncionarioEsPensionado]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

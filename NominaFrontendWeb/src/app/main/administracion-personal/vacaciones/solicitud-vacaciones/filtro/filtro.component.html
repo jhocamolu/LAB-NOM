@@ -1,0 +1,116 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Funcionario</mat-label>
+            <input matInput formControlName="criterioBusqueda">
+            <mat-error *ngFor="let error of form.get('criterioBusqueda').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Documento de identificación o nombre del funcionario.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha inicio de vacaciones</mat-label>
+            <input matInput [matDatepicker]="fechaInicioDisfrute" (click)="fechaInicioDisfrute.open()" formControlName="fechaInicioDisfrute">
+            <mat-datepicker-toggle matPrefix [for]="fechaInicioDisfrute">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaInicioDisfrute></mat-datepicker>
+            <mat-error *ngFor="let error of objToArray(form.get('fechaInicioDisfrute').errors)">
+               <div [ngSwitch]="error">
+                  <ng-template [ngSwitchCase]="'required'">
+                     Requerido
+                  </ng-template>
+                  <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                     No es un formato de fecha válido.
+                  </ng-template>
+                  <ng-template ngSwitchDefault>
+                     {{error}}
+                  </ng-template>
+               </div>
+            </mat-error>
+            <mat-icon matSuffix
+               matTooltip="Fecha en la que se inicia el disfrute de las vacaciones.">
+               info
+            </mat-icon>
+         </mat-form-field>
+
+         <mat-form-field appearance="outline">
+            <mat-label>Fecha fin de vacaciones</mat-label>
+            <input matInput [matDatepicker]="fechaFinDisfrute" (click)="fechaFinDisfrute.open()" formControlName="fechaFinDisfrute">
+            <mat-datepicker-toggle matPrefix [for]="fechaFinDisfrute">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaFinDisfrute></mat-datepicker>
+            <mat-error *ngFor="let error of objToArray(form.get('fechaFinDisfrute').errors)">
+               <div [ngSwitch]="error">
+                  <ng-template [ngSwitchCase]="'required'">
+                     Requerido
+                  </ng-template>
+                  <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                     No es un formato de fecha válido.
+                  </ng-template>
+                  <ng-template ngSwitchDefault>
+                     {{error}}
+                  </ng-template>
+               </div>
+            </mat-error>
+            <mat-icon matSuffix
+               matTooltip="Fecha en la que termina el disfrute de las vacaciones.">
+               info
+            </mat-icon>
+         </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estado" step="any">
+                <mat-option [value]="null"></mat-option>
+                <mat-option [value]="estadoVacaciones.aprobada">Aprobada</mat-option>
+                <mat-option [value]="estadoVacaciones.autorizada">Autorizada</mat-option>
+                <mat-option [value]="estadoVacaciones.cancelada">Cancelada</mat-option>
+                <mat-option [value]="estadoVacaciones.enCurso">En curso</mat-option>
+                <mat-option [value]="estadoVacaciones.interrumpida">Interrumpida</mat-option>
+                <mat-option [value]="estadoVacaciones.rechazada">Rechazada</mat-option>
+                <mat-option [value]="estadoVacaciones.solicitada">Solicitada</mat-option>
+                <mat-option [value]="estadoVacaciones.terminada">Terminada</mat-option>
+            </mat-select>
+
+            <mat-error *ngFor="let error of estado.errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Estado de la solicitud.">info</mat-icon>
+        </mat-form-field>
+
+    </div>
+
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+            <mat-icon>cancel</mat-icon>
+            <span>Borrar filtros</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+            <mat-icon>search</mat-icon>
+            <span>Buscar</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+   
+	<!-- Se debe incluir un archivo por cada objeto de base de datos -->
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerValorConceptoNominaAcumulado/USP_ObtenerValorConceptoNominaAcumulado_V1.xml" />
+	<include file="Schemas/dbo/StoredProcedures/USP_ObtenerNetoPagarParcial/USP_ObtenerNetoPagarParcial_V1.xml" />
+	<include file="Schemas/dbo/Tables/AusentismoFuncionario/AusentismoFuncionario_V3.xml" />
+
+
+	<!-- dbo  -->
+	<include file="Schemas/dbo/Tables/TipoContrato/TipoContrato_V2.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/TipoContrato/TipoContrato_Datos_V2.xml"/>
+	<include file="Schemas/dbo/Tables/TipoContrato/TipoContrato_V3.xml"/>
+	<include file="Schemas/dbo/Tables/TipoBeneficio/TipoBeneficio_V2.xml" />
+	<include file='Schemas/dbo/Data/Catalogues/TipoBeneficio/TipoBeneficio_Datos_V2.xml' />
+	<include file="Schemas/dbo/Tables/MotivoSolicitudCesantia/MotivoSolicitudCesantia_V1.xml" />
+	<include file="Schemas/dbo/Tables/SolicitudCesantia/SolicitudCesantia_V1.xml" />
+	<include file="Schemas/dbo/Tables/SolicitudCesantia/SolicitudCesantia_V2.xml" />
+	
+	<include file="Schemas/dbo/Data/Catalogues/TipoAusentismo/TipoAusentismo_Datos_V2.xml" />
+	<include file="Schemas/dbo/Data/Catalogues/TipoBeneficioRequisito/TipoBeneficioRequisito_Datos_V2.xml" />
+	<include file="Schemas/dbo/Data/Catalogues/MotivoSolicitudCesantia/MotivoSolicitudCesantia_V1.xml" />
+	<include file="Schemas/util/Data/Catalogues/_LogConfiguracion/_LogConfiguracion_Datos_V2.xml" />
+
+	<!-- Datos iniciales -->
+	<include file="Schemas/dbo/Data/Catalogues/TipoContrato/TipoContrato_Datos_V2.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/Contrato/Contrato_V1.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/Contrato/Contrato_V2.xml"/>
+
+	<!-- dbo  -->
+	<include file="Schemas/dbo/Tables/TipoContrato/TipoContrato_V2.xml"/>
+	<include file="Schemas/dbo/Tables/TipoContrato/TipoContrato_V3.xml"/>
+	<include file="Schemas/dbo/Tables/Contrato/Contrato_V3.xml"/>
+	<include file="Schemas/dbo/Tables/RangoUvt/RangoUvt_V1.xml"/>
+	<include file="Schemas/dbo/Tables/RangoUvt/RangoUvt_V2.xml"/>
+	<include file="Schemas/dbo/Tables/AplicacionExternaCargo/AplicacionExternaCargo_V2.xml"/>
+
+
+
+	<!-- Datos iniciales -->
+	<include file='Schemas/dbo/Data/Catalogues/Grupo/Grupo_V1.xml' />
+
+
+	<!-- Triggers  -->
+	<include file='Schemas/dbo/Triggers/ParametroGeneral/TR_ActualizarAlias_V2.xml'/>
+	<include file='Schemas/dbo/Triggers/ParametroGeneral/TR_ActualizarAlias_V3.xml'/>
+
+	<!-- util  -->
+
+	<!-- Functions  -->
+
+	<!-- Stored Procedures  -->
+	
+	<include file="Schemas/dbo/StoredProcedures/USP_ActualizarLibroVacaciones/USP_ActualizarLibroVacaciones_V3.xml"/>
+	<include file="Schemas/dbo/StoredProcedures/USP_ActualizarSolicitudVacaciones/USP_ActualizarSolicitudVacaciones_V4.xml"/>
+	<include file="Schemas/dbo/StoredProcedures/USP_ActualizarSolicitudVacacionesInterrupcion/USP_ActualizarSolicitudVacacionesInterrupcion_V3.xml"/>
+	<include file="Schemas/dbo/StoredProcedures/USP_RegistrarTareaProgramadaLog/USP_RegistrarTareaProgramadaLog_V1.xml"/>
+	<include file="Schemas/dbo/StoredProcedures/USP_CrearRegistroLibroVacaciones/USP_CrearRegistroLibroVacaciones_V3.xml"/>
+	<!-- Views  -->
+	<include file="Schemas/util/Views/VW_ConstanteEstado/VW_ConstanteEstado_V2.xml"/>
+	<include file="Schemas/util/Views/VW_ConstanteCodigoTipoLiquidacion/VW_ConstanteCodigoTipoLiquidacion_V2.xml"/>
+	<include file="Schemas/util/Views/VW_ConstanteParametroGeneral/VW_ConstanteParametroGeneral_V2.xml"/>
+	<include file="Schemas/util/Views/VW_ConstanteEstado/VW_ConstanteEstado_V3.xml"/>
+	
+
+
+	<include file='Schemas/dbo/Data/Catalogues/TipoEmbargoConceptoNomina/TipoEmbargoConceptoNomina_Datos_V2.xml' />
+
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V13.xml"/>  
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V14.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V15.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V16.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V17.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V18.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V19.xml"/>
+	<include file="Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V20.xml"/>
+
+	<!-- Triggers  -->
+
+	<!-- util  -->
+
+	<!-- Functions  -->
+	<include file="Schemas/dbo/Functions/UFT_ObtenerDistribucionNomina/UFT_ObtenerDistribucionNomina_V1.xml" />
+	<include file="Schemas/dbo/Functions/UFT_ObtenerHistoricoNomina/UFT_ObtenerHistoricoNomina_V1.xml" />
+	<!--<include file="Schemas/dbo/Functions/UFT_ObtenerInformacionWidget/UFT_ObtenerInformacionWidget_V1.xml" />-->
+	<include file="Schemas/dbo/Functions/UFS_DeterminarFuncionarioEsPensionado/UFS_DeterminarFuncionarioEsPensionado_V1.xml" />
+	<include file="Schemas/dbo/Functions/UFS_ObtenerConstanteBooleana/UFS_ObtenerConstanteBooleana_V1.xml" />
+	<include file="Schemas/dbo/Functions/UFS_ObtenerRiesgoProfesionalFuncionario/UFS_ObtenerRiesgoProfesionalFuncionario_V1.xml" />
+	<include file="Schemas/dbo/Functions/UFT_ObtenerPorcentajeActualizacionDatosFuncionario/UFT_ObtenerPorcentajeActualizacionDatosFuncionario_V1.xml"/>
+	<include file="Schemas/dbo/Functions/UFT_ObtenerCantidadPermisosPorEstadoFuncionario/UFT_ObtenerCantidadPermisosPorEstadoFuncionario_V1.xml"/>
+	<include file="Schemas/dbo/Functions/UFT_ObtenerCantidadBeneficiosPorEstadoFuncionario/UFT_ObtenerCantidadBeneficiosPorEstadoFuncionario_V1.xml"/>
+	<include file="Schemas/dbo/Functions/UFT_ObtenerPorcentajeActualizacionDatosFuncionario/UFT_ObtenerPorcentajeActualizacionDatosFuncionario_V2.xml"/>
+	<include file="Schemas/dbo/Functions/UFT_ObtenerCantidadPermisosPorEstadoFuncionario/UFT_ObtenerCantidadPermisosPorEstadoFuncionario_V2.xml"/>
+	<include file="Schemas/dbo/Functions/UFT_ObtenerCantidadBeneficiosPorEstadoFuncionario/UFT_ObtenerCantidadBeneficiosPorEstadoFuncionario_V2.xml"/>
+	<include file="Schemas/dbo/Functions/UFT_ObtenerDatosCesantias/UFT_ObtenerDatosCesantias_V1.xml"/>
+	<include file="Schemas/dbo/Functions/UFT_ObtenerDatosCesantias/UFT_ObtenerDatosCesantias_V2.xml"/>
+	<include file="Schemas/dbo/Functions/UFT_ObtenerDatosCesantias/UFT_ObtenerDatosCesantias_V3.xml"/>
+	<include file="Schemas/dbo/Functions/UFT_ObtenerDatosCesantias/UFT_ObtenerDatosCesantias_V4.xml"/>
+	<include file="Schemas/dbo/Functions/UFT_ObtenerInformacionContractual/UFT_ObtenerInformacionContractual_V2.xml"/>
+	<include file="Schemas/util/Functions/UFT_Split/UFT_Split_V1.xml"/>
+	<include file="Schemas/dbo/Functions/UFS_ObtenerClaseContratoFuncionario/UFS_ObtenerClaseContratoFuncionario_V1.xml" />
+	<!-- Stored Procedures  -->
+
+	<!-- Views  -->
+	<include file="Schemas/dbo/Views/VW_FuncionarioDatoActual/VW_FuncionarioDatoActual_V2.xml"/>
+
+</databaseChangeLog>

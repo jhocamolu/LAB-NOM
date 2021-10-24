@@ -1,0 +1,109 @@
+<div class="btn-lateral-filtro">
+    <button class="mat-icon-button warn mat-elevation-z2" (click)="filtroHandle($event)">
+        <span class="mat-button-wrapper">
+            <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" matTooltip="Filtrar" role="img"
+                aria-hidden="true">
+                filter_list</mat-icon>
+        </span>
+        <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple=""></div>
+        <div class="mat-button-focus-overlay"></div>
+    </button>
+</div>
+
+<div class="page-layout simple fullwidth inner-scroll" id="academy-courses" [fusePerfectScrollbar]="true"
+    (ps-y-reach-end)="doSomethingOnScroll($event)">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/reportes/administracion-personal">Reportes</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>{{title.nombre}}</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>{{title.nombre}}</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- CONTENIDO -->
+        <div>
+            <div *ngIf="!hasFilter && !dataLength && !dataRequest">
+                <div class="empty p-24" fxLayoutAlign="center center" fxLayout="column">
+                    <img src="/assets/alcanos/empty_state_crear.svg" width="50%" />
+                    <div fxLayout="row">
+                        <h1>No existen reportes en la base de datos.</h1>
+                    </div>
+                    <div fxLayout="row">
+                        <h2>¡Contacte al área de TI!</h2>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px">
+                        <button mat-raised-button color="accent" routerLink="/">
+                            <mat-icon>home</mat-icon>
+                            <span>Ir a la página principal</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+
+            <div class="courses" fxLayout="row wrap" fxLayoutAlign="start" [@animateStagger]="{value:'50'}">
+
+                <div class="course" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33"
+                    *ngFor="let item of todosReportes; let i = index" [@animate]="{value:'*',params:{y:'100%'}}" [ngClass]="{'none': !probarPermiso( item.alias+'_GenerarReporte' )}">
+                    
+                    <div class="course-content" fxLayout="column" fxFlex="1 1 auto"  *ngIf="probarPermiso( item.alias+'_GenerarReporte' )">
+                        <div class="header" [ngStyle]="{'background': color(i) }" fxLayout="row"
+                            fxLayoutAlign="center center">
+                            <div class="category" fxFlex>
+                                <h3 [ngClass]="( item.nombre.length < 110 ) ? '' : 'text-truncate'">{{item.nombre}} </h3>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="center center">
+                                <div class="svg-icon"><span style="visibility: hidden;">XLSX</span>
+                                    <img src="assets/icons/reportes-icons/word.svg" alt="{{item.extension}}" *ngIf="item.extension == reportesArchivos.doc" style="margin-top:-20px">
+                                    <img src="assets/icons/reportes-icons/xls.svg" alt="{{item.extension}}" *ngIf="item.extension == reportesArchivos.xlsx" style="margin-top:-20px">
+                                    <img src="assets/icons/reportes-icons/xml.svg" alt="{{item.extension}}" *ngIf="item.extension == reportesArchivos.xml" style="margin-top:-20px">
+                                    <img src="assets/icons/reportes-icons/csv.svg" alt="{{item.extension}}" *ngIf="item.extension == reportesArchivos.csv" style="margin-top:-20px">
+                                    <img src="assets/icons/reportes-icons/pdf.svg" alt="{{item.extension}}" *ngIf="item.extension == reportesArchivos.pdf" style="margin-top:-20px">
+                                    <img src="assets/icons/reportes-icons/html.svg" alt="{{item.extension}}" *ngIf="item.extension == reportesArchivos.html" style="margin-top:-20px">
+                                    <img src="assets/icons/reportes-icons/txt.svg" alt="{{item.extension}}" *ngIf="item.extension == reportesArchivos.txt" style="margin-top:-20px">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contenido" fxLayout="column" fxLayoutAlign="start start" fxFlex="1 1 auto">
+                            <p>{{item.descripcion}}</p>
+                        </div>
+                        <div class="footer" fxLayout="row" fxLayoutAlign="center center" *ngIf="item.vistaGeneracion != null">
+                            <button mat-button color="accent" *ngIf="item.esModal" (click)="ejecutarHandle($event, item.vistaGeneracion)"> Ingresar </button>
+                            <button mat-button color="accent" *ngIf="!item.esModal" [routerLink]="'/reportes/'+title.alias+'/'+item.vistaGeneracion"> Ingresar </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--ng-container *ngFor="let item of todosFuncionarios; let i = index">
+                    <funcionarios-cards-listar [funcionario]="item" [colorsInput]="i"></funcionarios-cards-listar>
+                </ng-container-->
+            </div>
+            <!-- / CONTENIDO -->
+        </div>
+    </div>
+    <!-- / CONTENT -->
+</div>

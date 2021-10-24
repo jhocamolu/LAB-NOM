@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="UFT_ObtenerFuncionarioPilaTipo2_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[reporte].[UFT_ObtenerFuncionarioPilaTipo2]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [reporte].[UFT_ObtenerFuncionarioPilaTipo2]
+END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Jhonatan Camilo Moreno Luna
+-- Create date: 13-08-2020
+-- Description: Permite obtener los funcionarios para la generacion del registro tipo 2 de la PILA.
+-- Parametros:
+-- @PeriodoPagoId INT= Id del periodo contable que se debe seleccionar para la PILA;
+-- @funcionarios NVARCHAR = Id de los funcionarios que se desean registar para generar la PILA, si es NULL son todos los funcionarios.;
+-- Retorna: 
+-- @Tabla TABLE: Retorna todos los valores para lista los funcionarios seleccionados.
+-- =============================================
+
+CREATE FUNCTION [reporte].[UFT_ObtenerFuncionarioPilaTipo2](@PeriodoPagoId     INT, 
+                                                           @funcionarios      NVARCHAR(MAX) = NULL, 
+                                                           @TipoCotizanteId   INT           = NULL, 
+                                                           @SubtiposCotizante NVARCHAR(MAX) = NULL)
+RETURNS @Funcionario TABLE
+(Id                                   INT, 
+ TipoDocumento                        CHAR(2), 
+ NumeroDocumento                      CHAR(16), 
+ TipoCotizante                        CHAR(2), 
+ SubtipoCotizante                     CHAR(2), 
+ ExtranjeroNoObligadoACotizarAPension CHAR(1), 
+ ColombianoEnElExterior               CHAR(1), 
+ CodigoDepartamento                   CHAR(2), 
+ CodigoMunicipio                      CHAR(3), 
+ Pensionado                           CHAR(1), 
+ PrimerNombre                         CHAR(20), 
+ SegundoNombre                        CHAR(30), 
+ PrimerApellido                       CHAR(20), 
+ SegundoApellido                      CHAR(30), 
+ TipoSalario                          CHAR(1)
+)
+AS
+     BEGIN
+         --Variables
+         DECLARE @AuditoriaActivo VARCHAR(255);
+         DECLARE @ContratoSinIniciar VARCHAR(255);
+         DECLARE @ContratoCancelado VARCHAR(255);
+         DECLARE @NominaFuncionarioLiquidado VARCHAR(255);
+         DECLARE @NominaAplicada VARCHAR(255);
+         -- Se consultan constantes para los estados
+         SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO, 
+                @ContratoSinIniciar = vce.CONTRATO_SININICIAR, 
+                @ContratoCancelado = vce.CONTRATO_CANCELADO, 
+                @NominaFuncionarioLiquidado = vce.NOMINAFUNCIONARIO_LIQUIDADO, 
+                @NominaAplicada = vce.NOMINA_APLICADA
+         FROM util.VW_ConstanteEstado AS vce;
+
+         -- Fill the table variable with the rows for your result set
+
+         INSERT INTO @Funcionario
+         (Id, 
+          TipoDocumento, 
+          NumeroDocumento, 
+          TipoCotizante, 
+          SubtipoCotizante, 
+          ExtranjeroNoObligadoACotizarAPension, 
+          ColombianoEnElExterior, 
+          CodigoDepartamento, 
+          CodigoMunicipio, 
+          Pensionado, 
+          PrimerNombre, 
+          SegundoNombre, 
+          PrimerApellido, 
+          SegundoApellido, 
+          TipoSalario
+         )
+                SELECT DISTINCT 
+                       fun.Id, 
+                       td.CodigoPila AS 'TipoDocumento', 
+                       fun.NumeroDocumento, 
+                       tc.Codigo AS 'TipoCotizante', 
+                       sc.Codigo AS 'SubtipoCotizante', 
+                       IIF(con.ExtranjeroNoObligadoACotizarAPension = 1, 'X', ' ') AS 'ExtranjeroNoObligado', 
+                       IIF(con.ColombianoEnElExterior = 1, 'X', ' ') AS 'Extranjero', 
+                       IIF(cots.DivisionPoliticaNivel2Id IS NULL, dpn1c.Codigo, dpn1o.Codigo) AS 'CodigoDepartamento', 
+                       IIF(cots.DivisionPoliticaNivel2Id IS NULL, SUBSTRING(dpn2c.Codigo, 3, 5), SUBSTRING(dpn2o.Codigo, 3, 5)) AS 'CodigoMunicipio', 
+                       IIF(fun.Pensionado = 1, 'X', ' ') AS 'Pensionado', 
+                       fun.PrimerNombre, 
+                       fun.SegundoNombre, 
+                       fun.PrimerApellido, 
+                       fun.SegundoApellido,
+                       CASE
+                           WHEN tc.Codigo IN(1, 2, 20, 22, 32, 58)
+                           THEN CASE tcon.Clase
+                                    WHEN 'Variable'
+                                    THEN 'V'
+                                    WHEN 'Integral'
+                                    THEN 'X'
+                                    ELSE 'F'
+                                END
+                           ELSE ' '
+                       END AS 'TipoSalario'
+                FROM dbo.Funcionario AS fun
+                     LEFT JOIN dbo.Contrato AS con ON fun.Id = con.FuncionarioId
+                                                      AND con.EstadoRegistro = @AuditoriaActivo
+                                                      AND con.Estado NOT IN(@ContratoSinIniciar, @ContratoCancelado)
+                     INNER JOIN dbo.DivisionPoliticaNivel2 AS dpn2c ON con.DivisionPoliticaNivel2Id = dpn2c.Id
+                                                                       AND dpn2c.EstadoRegistro = @AuditoriaActivo
+                     INNER JOIN dbo.DivisionPoliticaNivel1 AS dpn1c ON dpn2c.DivisionPoliticaNivel1Id = dpn1c.Id
+                                                                       AND dpn1c.EstadoRegistro = @AuditoriaActivo
+                     INNER JOIN dbo.TipoDocumento AS td ON fun.TipoDocumentoId = td.Id
+                                                           AND td.EstadoRegistro = @AuditoriaActivo
+                     INNER JOIN dbo.TipoContrato AS tcon ON con.TipoContratoId = tcon.Id
+                     INNER JOIN dbo.TipoCotizanteSubtipoCotizante AS tcsc ON con.TipoCotizanteSubtipoCotizanteId = tcsc.Id
+                                                                             AND tcsc.EstadoRegistro = @AuditoriaActivo
+                     INNER JOIN dbo.TipoCotizante AS tc ON tcsc.TipoCotizanteId = tc.Id
+                                                           AND tc.EstadoRegistro = @AuditoriaActivo
+                     INNER JOIN dbo.SubtipoCotizante AS sc ON tcsc.SubtipoCotizanteId = sc.Id
+                                                              AND sc.EstadoRegistro = @AuditoriaActivo
+                     LEFT JOIN dbo.ContratoOtroSi AS cots ON con.Id = cots.ContratoId
+                                                             AND cots.EstadoRegistro = @AuditoriaActivo
+                     LEFT JOIN dbo.DivisionPoliticaNivel2 AS dpn2o ON cots.DivisionPoliticaNivel2Id = dpn2o.Id
+                                                                      AND dpn2o.EstadoRegistro = @AuditoriaActivo
+                     LEFT JOIN dbo.DivisionPoliticaNivel1 AS dpn1o ON dpn2o.DivisionPoliticaNivel1Id = dpn1o.Id
+                                                                      AND dpn1o.EstadoRegistro = @AuditoriaActivo
+                     INNER JOIN dbo.NominaFuncionario AS nof ON fun.Id = nof.FuncionarioId
+                                                                AND nof.EstadoRegistro = @AuditoriaActivo
+                                                                AND nof.Estado = @NominaFuncionarioLiquidado
+                     INNER JOIN dbo.Nomina AS nom ON nof.NominaId = nom.Id
+                                                     AND nom.Estado = @NominaAplicada
+                                                     AND nom.EstadoRegistro = @AuditoriaActivo
+                     INNER JOIN dbo.TipoLiquidacion tli ON(nom.TipoLiquidacionId = tli.Id
+                                                           AND tli.AplicaPila = 1)
+                WHERE nom.PeriodoContableId = @PeriodoPagoId
+                      AND ((@funcionarios IS NULL)
+                           OR (@Funcionarios IS NOT NULL
+                               AND fun.Id IN
+                (
+                    SELECT CAST(Value AS INT) AS valor
+                    FROM util.UFT_Split(@Funcionarios, ',')
+                )))
+                     AND ((@TipoCotizanteId IS NULL)
+                          OR (@TipoCotizanteId IS NOT NULL
+                              AND tc.Id = @TipoCotizanteId))
+                     AND ((@SubtiposCotizante IS NULL)
+                          OR (@SubtiposCotizante IS NOT NULL
+                              AND sc.Id IN
+                (
+                    SELECT CAST(Value AS INT) AS valor
+                    FROM util.UFT_Split(@SubtiposCotizante, ',')
+                )));
+         RETURN;
+     END;
+     GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[reporte].[UFT_ObtenerFuncionarioPilaTipo2]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [reporte].[UFT_ObtenerFuncionarioPilaTipo2]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,582 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Administración de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/administracion-personal/contratos">Contratos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Ver contrato</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Contrato N° {{ item.numeroContrato }}</h2>
+            </div>
+        </div>
+        <div class="Acciones">
+            <button color="accent" mat-raised-button [matMenuTriggerFor]="menu">
+                <mat-icon class="s-20">add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button *ngIf="arrayPermisos.actualizar && item && (item.estado == 'SinIniciar' || item.estado == 'Vigente')" mat-menu-item routerLink="/administracion-personal/contratos/{{item.id}}/editar">
+                    <span>Editar contrato</span>
+                </button>
+                <button *ngIf="arrayPermisosOtroSi.crear && item && item.estado === 'Vigente'" mat-menu-item (click)="registrarOtrosi(item)">
+                    <span>Registrar otrosí</span>
+                </button>
+                <button *ngIf="arrayPermisos.estadoRegistro && (item && item.estado == 'SinIniciar')" mat-menu-item (click)="cancelarContratoHandle(item)">
+                    <span>Cancelar contrato</span>
+                </button>
+                <button (click)="urlDocument(2)" download mat-menu-item>Descargar carta de vencimiento</button>
+                <button (click)="urlDocument(3)" mat-menu-item>Descargar contrato</button>
+                <button *ngIf="arrayPermisos.op2 && (item && item.estado === 'Vigente')" (click)="finalizarContratoHandle(item)" mat-menu-item>Finalizar contrato</button>
+                <a routerLink="/administracion-personal/contratos" mat-menu-item>Cerrar</a>
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+
+            <contrato-header [contratos]="item"></contrato-header>
+
+            <mat-tab-group *ngIf="item" animationDuration="0ms" [selectedIndex]="indexTab"
+                (selectedTabChange)="onTabChangedHandle($event);">
+
+                <!-- Datos basicos -->
+                <mat-tab label="Datos básicos">
+                    <mat-list>
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>assignment</mat-icon>
+                                <h2>Contrato</h2>
+                            </div>
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Fecha de inicio contrato
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Fecha en la que se da comienzo al contrato.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.fechaInicio | date:'dd / LL / yyyy' }}</p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        Fecha de finalización contrato
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Fecha en la que finaliza el contrato.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p> {{ !( item.tipoContrato.terminoIndefinido ) ? (item.fechaFinalizacion | date:'dd / LL / yyyy') : 'N/A' }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Fecha de terminación de contrato
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Fecha en la que termine el contrato.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.fechaFinalizacion != '2050-12-31' ? (item.fechaFinalizacion  != null ? (item.fechaFinalizacion | date:'dd / LL / yyyy') : 'N/A') : 'N/A'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        Estado contrato
+                                        <mat-icon class="s-16" matSuffix matTooltip="Estado del contrato.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p *ngIf="item.estado == 'Vigente'">{{estadoContrato.vigente}}</p>
+                                    <p *ngIf="item.estado == 'SinIniciar'">{{estadoContrato.sinIniciar}}</p>
+                                    <p *ngIf="item.estado == 'Cancelado'">{{estadoContrato.cancelado}}</p>
+                                    <p *ngIf="item.estado == 'Terminado'">{{estadoContrato.terminado}}</p>
+                                    <p *ngIf="item.estado == 'PendientePorLiquidar'">{{estadoContrato.pendientePorLiquidar}}</p>
+                                </div>
+                            </div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>assignment_ind</mat-icon>
+                                <h2>Datos laborales</h2>
+                            </div>
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Sueldo
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Salario básico  que devengará el funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.sueldo | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        Grupo de trabajo
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Grupo al que pertenece el cargo asociado al funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.cargoGrupo?.grupo?.nombre  != null ? item.cargoGrupo?.grupo?.nombre : 'N/A'}}
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Departamento
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Departamento del país  donde trabajará el funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2?.divisionPoliticaNivel1?.nombre }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        Municipio
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Municipio donde trabajará el funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{item.divisionPoliticaNivel2?.nombre}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Centro operativo
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Ubicación de la compañía en donde trabajará el funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.centroOperativo?.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        Centro de costo
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Centro de costo que debe llevar el funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.centroCosto?.codigo}} | {{item.centroCosto?.nombre}}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Forma de pago
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Medio por el cual se le realizará el pago al funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.formaPago?.nombre}}</p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        Moneda
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Tipo de moneda en la que se pagará el sueldo al funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tipoMoneda?.nombre}}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Tipo de cuenta
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Tipo de cuenta bancaria del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{(item.tipoCuenta?.nombre == null || item.tipoCuenta?.nombre == "")? 'No aplica': item.tipoCuenta?.nombre}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        N° de cuenta
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Número de la cuenta bancaria del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{(item.numeroCuenta == null || item.numeroCuenta == "")? 'No aplica': item.numeroCuenta}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Entidad financiera
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Entidad financiera que recibirá el pago del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>
+                                        {{(item.entidadFinanciera?.nombre == null || item.entidadFinanciera?.nombre == "")? 'No aplica': item.entidadFinanciera?.nombre}}
+                                    </p>
+                                </div>
+
+
+                                <div>
+                                    <h3>
+                                        Período de pago
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Indica en qué período de pago se le remunera el sueldo al funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tipoPeriodo?.nombre}}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Jornada laboral
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Jornada de trabajo del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.jornadaLaboral?.nombre}}</p>
+                                </div>
+
+                                <div>
+                                    <h3>
+                                        Días de periodo de prueba
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Cantidad de días que el funcionario tiene de periodo de prueba.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.periodoPrueba}}</p>
+                                </div>
+
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Centro de trabajo
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Centro de trabajo establecido para el funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{contratoCentroTrabajo}}</p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        Empleado de confianza
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Especifica si el funcionario es de confianza para la compañía.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.empleadoConfianza == true?'Si': 'No'}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>
+                                        Recibe dotación
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Especifica si el funcionario recibe o no dotación.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.recibeDotacion == true?'Si': 'No'}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        Grupo nómina
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Grupo al que pertenece el funcionario para ser liquidado en la nómina.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.grupoNomina?.nombre}}</p>
+                                </div>
+                            </div>
+
+
+
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>assessment</mat-icon>
+                                <h2>Impuestos</h2>
+                            </div>
+                            <div>
+                                <h3>
+                                    Procedimiento de retenciones
+                                    <mat-icon class="s-16" matSuffix
+                                        matTooltip="Procedimiento de retención de impuestos del funcionario.">
+                                        info
+                                    </mat-icon>
+                                </h3>
+                                <p>{{item.procedimientoRetencion === '0' ? 'Procedimiento1' : item.procedimientoRetencion}}</p>
+                            </div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>assignment_turned_in</mat-icon>
+                                <h2>Datos de seguridad social</h2>
+                            </div>
+                            <div *ngIf="item.contratoAdministradoras.length > 0">
+                                <table class="simple">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo</th>
+                                            <th>Nombre</th>
+                                            <th>Fecha vinculación</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let element of item.contratoAdministradoras">
+                                            <ng-container *ngIf="!element?.fechaFin">
+                                                <td>
+                                                    <span> {{ element?.administradora?.tipoAdministradora?.nombre}}</span>
+                                                </td>
+                                                <td> <span class="text-truncate" style="max-width: 25vw;">
+                                                        {{element.administradora?.nombre}} </span></td>
+                                                <td>
+                                                    {{element.fechaInicio | date:'dd / LL / yyyy' }}
+                                                </td>
+                                            </ng-container>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div *ngIf="item.contratoAdministradoras.length === 0">
+                                <p>N/A</p>
+                            </div>
+
+                                <div>
+                                    <h3>
+                                        Tipo de cotizante
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Indica el tipo de cotizante del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p> {{item.tipoCotizanteSubtipoCotizante?.tipoCotizante?.nombre}}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3>
+                                        Subtipo de cotizante
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Indica el subtipo de cotizante del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.tipoCotizanteSubtipoCotizante?.subtipoCotizante?.nombre}}</p>
+                                </div>
+
+                                <div class="dos-bloque">
+                                    <div>
+                                        <h3>
+                                            ¿Extranjero no obligado a cotizar pensión?
+                                            <mat-icon class="s-16" matSuffix
+                                                matTooltip="Indica si el funcionario está exento a cotizar pensión.">
+                                                info
+                                            </mat-icon>
+                                        </h3>
+                                        <p>{{item.extranjeroNoObligadoACotizarAPension  ? 'Si' : 'No'}}
+                                        </p>
+                                    </div>
+    
+                                    <div>
+                                        <h3>
+                                            ¿Colombiano en el exterior?
+                                            <mat-icon class="s-16" matSuffix
+                                                matTooltip="Indica si el funcionario es un colombiano en el exterior.">
+                                                info
+                                            </mat-icon>
+                                        </h3>
+                                        <p>{{item.colombianoEnElExterior  ? 'Si' : 'No'}}
+                                        </p>
+                                    </div>
+                                </div>
+
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>
+                            <div class="list-item-title">
+                                <mat-icon>assignment</mat-icon>
+                                <h2>Datos adicionales</h2>
+                            </div>
+                                <div>
+                                    <h3>
+                                        Observaciones
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Ingrese alguna observación que requiera de la actualización de datos del funcionario.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.observaciones ? item.observaciones : 'N/A'}}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3>
+                                        Justificación
+                                        <mat-icon class="s-16" matSuffix
+                                            matTooltip="Descripción del porqué de la cancelación del contrato.">
+                                            info
+                                        </mat-icon>
+                                    </h3>
+                                    <p>{{item.justificacion ? item.justificacion : 'N/A'}}
+                                    </p>
+                                </div>
+
+                        </mat-list-item>
+
+                    </mat-list>
+
+                </mat-tab>
+                <!-- / Datos basicos -->
+
+                <!-- informacion otrosi -->
+
+                <mat-tab label="Otrosí" [disabled]="!item" *ngIf="arrayPermisosOtroSi.listar">
+
+                    <table mat-table *ngIf="hasOtrosiDataSource && !otrosiDataRequest" [dataSource]="otrosiDataSource"
+                        class="mat-elevation-z8  p-4">
+
+                        <!-- Columna N° -->
+                        <ng-container matColumnDef="numero">
+                            <th mat-header-cell *matHeaderCellDef style="width:60px;"> N°</th>
+                            <td mat-cell *matCellDef="let element">
+                                <p class="text-truncate">{{element.numeroOtroSi}} </p>
+                            </td>
+                        </ng-container>
+
+                        <!-- Aplicación N° -->
+                        <ng-container matColumnDef="fechaAplicacion">
+                            <th mat-header-cell *matHeaderCellDef style="width:160px">Fecha de aplicación</th>
+                            <td mat-cell *matCellDef="let element">
+                                <p class="text-truncate">{{element.fechaAplicacion | date:'dd / LL / yyyy'}} </p>
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna tipo contrato -->
+                        <ng-container matColumnDef="tipoContrato">
+                            <th mat-header-cell *matHeaderCellDef style="width:200px;"> Tipo contrato </th>
+                            <td mat-cell *matCellDef="let element">
+                                <p class="text-truncate">{{element.tipoContrato?.nombre}} </p>
+                            </td>
+                        </ng-container>
+
+                        <!-- Columna fecha fin -->
+                        <ng-container matColumnDef="fechaFinalizacion">
+                            <th mat-header-cell *matHeaderCellDef> Fecha finalización</th>
+                            <td mat-cell *matCellDef="let element">
+                                <p class="text-truncate">{{ element.fechaFinalizacion != '2050-12-31' ?  ( element.fechaFinalizacion | date:'dd / LL / yyyy' ) : 'N/A'}}
+                                </p>
+                            </td>
+                        </ng-container>
+
+
+                        <!-- Columna Cargo -->
+                        <ng-container matColumnDef="cargo">
+                            <th mat-header-cell *matHeaderCellDef> Cargo </th>
+                            <td mat-cell *matCellDef="let element">
+                                <p class="text-truncate">{{element.cargoDependencia?.cargo.nombre }}</p>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="acciones" style="text-align:center">
+                            <th mat-header-cell *matHeaderCellDef style="text-align:center"> Acciones </th>
+                            <td mat-cell *matCellDef="let element" style="text-align:center">
+                                <div *ngIf="1" style="text-align:center">
+                                    <button *ngIf="arrayPermisos.obtener" mat-icon-button matTooltip="Visualizar"
+                                        (click)="mostrarOtrosiHandle($event, element)">
+                                        <mat-icon class="s-20">visibility</mat-icon>
+                                    </button>
+                                    <button mat-icon-button matTooltip="Descargar" (click)="urlDocument(4)">
+                                        <mat-icon>save_alt</mat-icon>
+                                    </button>
+                                    <button *ngIf="arrayPermisos.eliminar" mat-icon-button matTooltip="Eliminar"
+                                        (click)="eliminarHandle($event, element)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsOtrosi"></tr>
+                        <tr mat-row *matRowDef="let element; columns: displayedColumnsOtrosi; let i = index">
+                        </tr>
+                    </table>
+
+                    <alcanos-empty-list (fnCreate)="registrarOtrosi($event)"
+                        labelH1="¡Uy! Aún no has registrado un otrosí, para este contrato." labelBtn="Registrar otrosí"
+                        [visibleBtnCreate]="arrayPermisos.crear && item.estado === 'Vigente'"
+                        [visible]="(!hasOtrosiDataSource && !otrosiDataRequest)">
+                    </alcanos-empty-list>
+
+
+                </mat-tab>
+                <!-- / información otrosi -->
+
+            </mat-tab-group>
+
+
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

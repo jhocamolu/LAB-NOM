@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+         
+	<!-- Datos iniciales -->
+	<include file='Schemas/dbo/Tables/__EFMigrationsHistory/__EFMigrationsHistory_V1.xml'/>
+  <include file='Schemas/dbo/Tables/GrupoDocumento/GrupoDocumento_V1.xml'/>
+  <include file='Schemas/dbo/Tables/Etiqueta/Etiqueta_V1.xml'/>
+  <include file='Schemas/dbo/Tables/ServicioFijo/ServicioFijo_V1.xml'/>
+  <include file='Schemas/dbo/Tables/GrupoDocumentoEtiqueta/GrupoDocumentoEtiqueta_V1.xml'/>
+  <include file='Schemas/dbo/Tables/ComplementoPlantilla/ComplementoPlantilla_V1.xml'/>
+  <include file='Schemas/dbo/Tables/Documento/Documento_V1.xml'/>
+  <include file='Schemas/dbo/Tables/Plantilla/Plantilla_V1.xml'/>
+
+  <include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V1.xml'/>
+  <include file='Schemas/dbo/Data/Catalogues/GrupoDocumento/GrupoDocumento_Datos_V1.xml'/>
+  <include file='Schemas/dbo/Data/Catalogues/Etiqueta/Etiqueta_Datos_V1.xml'/>
+  <include file='Schemas/dbo/Data/Catalogues/ServicioFijo/ServicioFijo_Datos_V1.xml'/>
+  <include file='Schemas/dbo/Data/Catalogues/GrupoDocumentoEtiqueta/GrupoDocumentoEtiqueta_Datos_V1.xml'/>
+  <include file='Schemas/dbo/Data/Catalogues/ComplementoPlantilla/ComplementoPlantilla_Datos_V1.xml'/>
+  <include file='Schemas/dbo/Data/Catalogues/Documento/Documento_Datos_V1.xml'/>
+  <include file='Schemas/dbo/Data/Catalogues/Plantilla/Plantilla_Datos_V1.xml'/>
+
+	
+
+</databaseChangeLog>

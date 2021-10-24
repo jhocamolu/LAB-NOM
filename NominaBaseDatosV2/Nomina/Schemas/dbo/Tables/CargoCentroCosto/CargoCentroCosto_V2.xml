@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="CargoCentroCosto_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    ALTER TABLE [CargoCentroCosto] ADD [CreadoPor] varchar(255) NULL;
+
+GO
+
+ALTER TABLE [CargoCentroCosto] ADD [EliminadoPor] varchar(255) NULL;
+
+GO
+
+ALTER TABLE [CargoCentroCosto] ADD [EstadoRegistro] char(10) NULL;
+
+GO
+
+ALTER TABLE [CargoCentroCosto] ADD [FechaCreacion] smalldatetime NULL;
+
+GO
+
+ALTER TABLE [CargoCentroCosto] ADD [FechaEliminacion] smalldatetime NULL;
+
+GO
+
+ALTER TABLE [CargoCentroCosto] ADD [FechaModificacion] smalldatetime NULL;
+
+GO
+
+ALTER TABLE [CargoCentroCosto] ADD [ModificadoPor] varchar(255) NULL;
+
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    ALTER TABLE [CargoCentroCosto] DROP COLUMN [CreadoPor];
+    GO
+
+    ALTER TABLE [CargoCentroCosto] DROP COLUMN [EliminadoPor];
+    GO
+
+    ALTER TABLE [CargoCentroCosto] DROP COLUMN [EstadoRegistro];
+    GO
+
+    ALTER TABLE [CargoCentroCosto] DROP COLUMN [FechaCreacion];
+    GO
+
+    ALTER TABLE [CargoCentroCosto] DROP COLUMN [FechaEliminacion];
+    GO
+
+    ALTER TABLE [CargoCentroCosto] DROP COLUMN [FechaModificacion];
+    GO
+
+    ALTER TABLE [CargoCentroCosto] DROP COLUMN [ModificadoPor];
+    GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="USP_ObtenerDeduccionesArticulo387_V2">
+<comment>HU093 correcciones dependientes</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerDeduccionesArticulo387', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerDeduccionesArticulo387 as SELECT 1');
+END;
+GO
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 18/07/2020
+-- Description: Obtener valor de las deducciones asociadas al artículo 384
+--
+-- Parameters:
+--   @FuncionarioId:	   Identificador del funcionario.
+--   @PagosBrutosLaborales: Valor de los pagos brutos laborales del periodo
+--   @Tipo:			   Tipo de deducción Mensual o Recalculo.
+--		
+-- Returns:						
+--   @Valor:		    Valor base retefuente
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerDeduccionesArticulo387]
+(@FuncionarioId		   INT,
+ @PagosBrutosLaborales	   MONEY,
+ @Tipo				   VARCHAR(255),
+ @Valor				   MONEY OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@FuncionarioId=', CONVERT(VARCHAR, @FuncionarioId), '@PagosBrutosLaborales=', CONVERT(VARCHAR, @PagosBrutosLaborales), '@Tipo=', CONVERT(VARCHAR, @Tipo), '@Valor=', CONVERT(VARCHAR, @Valor));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @AnioVigente VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255);
+    DECLARE @TipoRetefuenteMensual VARCHAR(255);
+    DECLARE @AnioVigenteId INT;
+    DECLARE @AliasParametroDeduccionDependientes VARCHAR(255);
+	DECLARE @AliasParametroUvtLimiteDeduccionDependientes VARCHAR(255);
+	DECLARE @PocentajeDeduccionDependientes INT= 0;
+    DECLARE @ValorInteresesViviendaAnio MONEY= 0;
+    DECLARE @ValorInteresesVivienda MONEY= 0;
+    DECLARE @ValorDeduccionDependientes MONEY= 0;
+    DECLARE @CantidadDependientes INT = 0;
+    DECLARE @ValorMedicinaPrepagadaAnio MONEY= 0;
+    DECLARE @ValorMedicinaPrepagada MONEY= 0;
+    DECLARE @MensajeExcepcion VARCHAR(255);	
+	DECLARE @NumeroUvtLimiteDeduccionDependientes INT = 0;
+	DECLARE @AliasParametroValorUvt VARCHAR(255);
+	DECLARE @ValorUvtAnual MONEY= 0;
+	DECLARE @ValorMaximoDeduccionDependientes MONEY= 0;
+	
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        -- Se obtienen constantes asociadas a estados
+        SELECT @AnioVigente = vce.ANIO_VIGENTE,
+               @AuditoriaActivo = vce.AUDITORIA_ACTIVO
+        FROM util.VW_ConstanteEstado AS vce;
+
+	   PRINT CONCAT('@AnioVigente=', CONVERT(VARCHAR, @AnioVigente));
+
+        -- Se obtienen constantes asociadas a alias de parámetros del sistema
+        SELECT @AliasParametroDeduccionDependientes = vcpg.[PORCENTAJEDEDUCCIONDEPENDIENTES],
+			   @AliasParametroUvtLimiteDeduccionDependientes = vcpg.[UVTLIMITEDEDUCCIONEDEPENDIENTES],
+			   @AliasParametroValorUvt = vcpg.UVTANUAL
+        FROM util.VW_ConstanteParametroGeneral AS vcpg;
+
+        -- Se obtiene la constante para el tipo de retención en la fuente mensual
+        SELECT @TipoRetefuenteMensual = vctr.MENSUAL
+        FROM [util].[VW_ConstanteTipoRetefuente] AS vctr;
+
+        -- Se obtiene el año de trabajo vigente
+        SET @AnioVigenteId = [dbo].[UFS_ObtenerAnioTrabajo](@AnioVigente);
+
+
+	   PRINT CONCAT('@AnioVigenteId=', CONVERT(VARCHAR, @AnioVigenteId));
+
+	   -- Se obtienen los valores asociados a los parámetros del sistema
+        SET @PocentajeDeduccionDependientes = CAST([util].[UFS_ObtenerParametro](@AliasParametroDeduccionDependientes, @AnioVigenteId) AS INT);
+
+	   IF @PocentajeDeduccionDependientes IS NULL
+        BEGIN
+            SET @MensajeExcepcion = 'No se ha encontrado valor para alguno de los siguientes parámetros: "@Pocentaje deduccion dependientes".';
+            EXEC util.USP_GenerarExcepcion
+                 50000,
+                 @MensajeExcepcion;
+        END;
+
+        -- Se obtiene la información de intereses vivienda y medicina prepagada del año anterior
+        SELECT @ValorInteresesViviendaAnio = drf.InteresVivienda,
+               @ValorMedicinaPrepagadaAnio = drf.MedicinaPrepagada
+        FROM dbo.DeduccionRetefuente AS drf
+        WHERE drf.FuncionarioId = @FuncionarioId
+              AND drf.AnnoVigenciaId = @AnioVigenteId
+              AND drf.EstadoRegistro = @AuditoriaActivo;
+
+        IF @ValorInteresesViviendaAnio IS NULL
+        BEGIN
+            SET @ValorInteresesViviendaAnio = 0;
+        END;
+
+        IF @ValorMedicinaPrepagadaAnio IS NULL
+        BEGIN
+            SET @ValorMedicinaPrepagadaAnio = 0;
+        END;
+
+        SET @ValorInteresesVivienda = @ValorInteresesViviendaAnio;
+        SET @ValorMedicinaPrepagada = @ValorMedicinaPrepagadaAnio;
+
+	   PRINT CONCAT('@Tipo=', CONVERT(VARCHAR, @Tipo));
+	   PRINT CONCAT('@TipoRetefuenteMensual=', CONVERT(VARCHAR, @TipoRetefuenteMensual));
+
+
+        -- Si el tipo de retefuente es mensual, se divide en los meses del año
+        IF @Tipo = @TipoRetefuenteMensual
+        BEGIN
+            SET @ValorInteresesVivienda = @ValorInteresesViviendaAnio / 12;
+            SET @ValorMedicinaPrepagada = @ValorMedicinaPrepagadaAnio / 12;
+        END;
+
+        -- Se consulta si el funcionario tiene familiares dependientes
+        SELECT @CantidadDependientes = COUNT(ifa.Id)
+        FROM dbo.InformacionFamiliar AS ifa
+        WHERE ifa.FuncionarioId = @FuncionarioId
+              AND ifa.Dependiente = 1
+              AND ifa.EstadoRegistro = @AuditoriaActivo;
+
+        -- Si tiene familiares dependientes se calcula la deducción por dependientes
+        IF @CantidadDependientes IS NOT NULL
+           AND @CantidadDependientes > 0
+        BEGIN
+			-- Obtener el valor límite de uvt permitido para dependientes
+			SET @NumeroUvtLimiteDeduccionDependientes = CAST([util].[UFS_ObtenerParametro](@AliasParametroUvtLimiteDeduccionDependientes, @AnioVigenteId) AS INT);
+			SET @ValorUvtAnual = CAST([util].[UFS_ObtenerParametro](@AliasParametroValorUvt, @AnioVigenteId) AS MONEY);
+			SET @ValorMaximoDeduccionDependientes = @NumeroUvtLimiteDeduccionDependientes * @ValorUvtAnual;
+            SET @ValorDeduccionDependientes = @PagosBrutosLaborales * @PocentajeDeduccionDependientes / 100;
+
+			IF @ValorDeduccionDependientes > @ValorMaximoDeduccionDependientes 
+			BEGIN
+				SET @ValorDeduccionDependientes = @ValorMaximoDeduccionDependientes;
+			END;					   
+
+        END;
+
+		
+	   PRINT CONCAT('@CantidadDependientes=', CONVERT(VARCHAR, @CantidadDependientes));
+	   PRINT CONCAT('@ValorInteresesVivienda=', CONVERT(VARCHAR, @ValorInteresesVivienda));
+	   PRINT CONCAT('@ValorMedicinaPrepagada=', CONVERT(VARCHAR, @ValorMedicinaPrepagada));
+	   PRINT CONCAT('@ValorDeduccionDependientes=', CONVERT(VARCHAR, @ValorDeduccionDependientes));
+
+        -- Se calcula el valor de las deducciones
+        SET @Valor = @ValorInteresesVivienda + @ValorMedicinaPrepagada + @ValorDeduccionDependientes;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerDeduccionesArticulo387];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

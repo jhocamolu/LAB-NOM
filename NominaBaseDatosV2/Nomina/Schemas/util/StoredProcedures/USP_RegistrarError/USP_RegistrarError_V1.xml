@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_RegistrarError_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('util.USP_RegistrarError', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE util.USP_RegistrarError as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 13/02/2020
+-- Description: registra información de errores en la tabla _LogError sobre 
+-- 				errores que se generan dentro de un bloque TRY ... CATCH. 
+-- 				en procedimientos almacenados o triggers
+
+--
+-- Parameters:
+--  @NombreObjeto:  Nombre del objeto donde se genero el error
+--  @Parametros:	Parametros y valores con los que se genero el error   
+--  @ErrorLogID:    Parámetro de salida que contiene el id de la fila insertada en la 
+--				tabla _ErrorLog
+
+-- ==========================================================================================
+ALTER PROCEDURE [util].[USP_RegistrarError] 
+    @NombreObjeto VARCHAR(256) = NULL,
+    @Parametros TEXT = NULL,
+    @LogErrorId [int] = 0 OUTPUT 
+AS                               
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET NOCOUNT ON;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    -- El valor 0 indica que la información no se ha registrado
+    SET @LogErrorId = 0;
+
+    BEGIN TRY
+
+        -- Regresa si no hay información de error para registrar
+        IF ERROR_NUMBER() IS NULL
+            RETURN;
+
+	   -- Regresa si el error corresponde al procedimiento USP_LanzarExcepcion ya que 
+	   -- si se genera en dicho procedimiento corresponde a una replica del error original
+        IF ERROR_PROCEDURE() = 'USP_LanzarExcepcion'
+            RETURN;
+
+        -- Regresa si se encuentra en una transacción sin confirmar.
+        -- La inserción / modificación de datos no está permitida cuando
+        -- una transacción se encuentra en estado sin confirmar.
+        IF (XACT_STATE()) = -1
+        BEGIN
+            PRINT 'No se puede registrar el error ya que la transacción actual está en un estado sin confirmar. ' 
+                + 'Revierta la transacción antes de ejecutar USP_RegistrarError para registrar correctamente la información de error.';
+            RETURN;
+        END
+
+	   IF @NombreObjeto IS NULL
+	   BEGIN
+		  SET @NombreObjeto = ERROR_PROCEDURE();
+	   END
+
+        INSERT [util].[_LogError] 
+            (
+            [Usuario], 
+            [Numero], 
+            [Severidad], 
+            [Estado], 
+            [Procedimiento], 
+            [Linea], 
+            [Mensaje],
+		  [Parametros]
+            ) 
+        VALUES 
+            (
+            CONVERT(sysname, CURRENT_USER), 
+            ERROR_NUMBER(),
+            ERROR_SEVERITY(),
+            ERROR_STATE(),
+            @NombreObjeto,
+            ERROR_LINE(),
+            ERROR_MESSAGE(),
+		  @Parametros
+            );
+
+        -- Pase el LogErrorId de la fila insertada
+        SET @LogErrorId = @@IDENTITY;
+	   
+    END TRY
+    BEGIN CATCH
+        PRINT 'Se produjo un error en el procedimiento almacenado USP_RegistrarError: ';
+        EXECUTE [util].[USP_ImprimirError];
+        RETURN -1;
+    END CATCH
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [util].[USP_RegistrarError];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

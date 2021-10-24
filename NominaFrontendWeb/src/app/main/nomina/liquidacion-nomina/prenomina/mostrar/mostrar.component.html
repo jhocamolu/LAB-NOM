@@ -1,0 +1,139 @@
+<!-- CONTENIDO -->
+<div *ngIf="element">
+    <h1 mat-dialog-title>Detalle de liquidación funcionario {{element?.nominaFuncionario?.funcionario?.primerNombre}}
+        {{element?.nominaFuncionario?.funcionario?.primerApellido}}</h1>
+
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div>
+            <table class="simple" *ngIf="detalleFuncionarioCount > 0">
+                <thead>
+                    <tr>
+                        <th class="mat-header-cell p-left">Código</th>
+                        <th class="mat-header-cell">Concepto</th>
+                        <th class="mat-header-cell dr">Unidad</th>
+                        <th class="mat-header-cell dr">Cant</th>
+                        <th class="mat-header-cell dr">Valor</th>
+                        <th class="mat-header-cell dr">Total devengado</th>
+                        <th class="mat-header-cell p-right">Total deducido</th>
+                        <th class="mat-header-cell estado">Estado</th>
+                        <th class="mat-header-cell dr"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of detalleFuncionario" class="mat-row">
+                        <td class="p-left">{{item.conceptoNomina?.codigo}}</td>
+                        <td class="concepto" matTooltip="{{item.conceptoNomina?.nombre}}"> 
+                            {{item.conceptoNomina?.nombre}}
+                        </td>
+                        <td class="dr">{{item.unidadMedida}}</td>
+                        <td class="dr">{{item.cantidad}}</td>
+                        <td class="dr">{{item.valor | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</td>
+                        <td class="dr">{{ devengo(item) | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</td>
+                        <td class="dr p-right">{{ deducido(item) | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</td>
+                        <td class="procesado" *ngIf="item.estado == 'Procesado'">
+                            <mat-icon *ngIf="item.inconsistencia == null" matTooltip="Procesado">
+                                check_circle</mat-icon>
+                            <mat-icon *ngIf="item.inconsistencia != null"
+                                matTooltip="Procesado: {{item.inconsistencia}}">check_circle</mat-icon>
+                        </td>
+                        <td class="pendiente" *ngIf="item.estado == 'Pendiente'">
+                            <mat-icon *ngIf="item.inconsistencia == null" matTooltip="Pendiente">notifications_off
+                            </mat-icon>
+                            <mat-icon *ngIf="item.inconsistencia != null"
+                                matTooltip="Pendiente: {{item.inconsistencia}}">notifications_off</mat-icon>
+                        </td>
+                        <td class="inconsistente" *ngIf="item.estado == 'Inconsistente'">
+                            <mat-icon *ngIf="item.inconsistencia == null" matTooltip="Inconsistente">error_outline
+                            </mat-icon>
+                            <mat-icon *ngIf="item.inconsistencia != null"
+                                matTooltip="Inconsistente: {{item.inconsistencia}}">error_outline</mat-icon>
+                        </td>
+                    </tr>
+                    <tr class="mat-row">
+                        <th colspan="12">
+                            <mat-accordion>
+                                <mat-expansion-panel (opened)="panelOpenState = true"
+                                                     (closed)="panelOpenState = false"
+                                                     [expanded]="panelOpenState"
+                                                     [disabled]="showTable">
+                                  <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Conceptos de calculo agrupoadores o con valor en cero
+                                    </mat-panel-title>
+                                  </mat-expansion-panel-header>
+                                  <table class="simple" *ngIf="detalleFuncionarioCount > 0">
+                                    <thead>
+                                        <tr>
+                                            <th class="mat-header-cell p-left">Código</th>
+                                            <th class="mat-header-cell">Concepto</th>
+                                            <th class="mat-header-cell dr">Unidad</th>
+                                            <th class="mat-header-cell dr">Cant</th>
+                                            <th class="mat-header-cell dr">Valor</th>
+                                            <th class="mat-header-cell dr">Total devengado</th>
+                                            <th class="mat-header-cell p-right">Total deducido</th>
+                                            <th class="mat-header-cell estado">Estado</th>
+                                            <th class="mat-header-cell dr"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of detalleFuncionarioAgrupados" class="mat-row">
+                                            <td class="p-left">{{item.conceptoNomina?.codigo}}</td>
+                                            <td class="concepto" matTooltip="{{item.conceptoNomina?.nombre}}"> 
+                                                {{item.conceptoNomina?.nombre}}
+                                            </td>
+                                            <td class="dr">{{item.unidadMedida}}</td>
+                                            <td class="dr">{{item.cantidad}}</td>
+                                            <td class="dr">{{item.valor | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</td>
+                                            <td class="dr">{{ devengo(item) | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</td>
+                                            <td class="dr p-right">{{ deducido(item) | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</td>
+                                            <td class="procesado" *ngIf="item.estado == 'Procesado'">
+                                                <mat-icon *ngIf="item.inconsistencia == null" matTooltip="Procesado">
+                                                    check_circle</mat-icon>
+                                                <mat-icon *ngIf="item.inconsistencia != null"
+                                                    matTooltip="Procesado: {{item.inconsistencia}}">check_circle</mat-icon>
+                                            </td>
+                                            <td class="pendiente" *ngIf="item.estado == 'Pendiente'">
+                                                <mat-icon *ngIf="item.inconsistencia == null" matTooltip="Pendiente">notifications_off
+                                                </mat-icon>
+                                                <mat-icon *ngIf="item.inconsistencia != null"
+                                                    matTooltip="Pendiente: {{item.inconsistencia}}">notifications_off</mat-icon>
+                                            </td>
+                                            <td class="inconsistente" *ngIf="item.estado == 'Inconsistente'">
+                                                <mat-icon *ngIf="item.inconsistencia == null" matTooltip="Inconsistente">error_outline
+                                                </mat-icon>
+                                                <mat-icon *ngIf="item.inconsistencia != null"
+                                                    matTooltip="Inconsistente: {{item.inconsistencia}}">error_outline</mat-icon>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </mat-expansion-panel>
+                              </mat-accordion>
+                        </th>
+                    </tr>
+                    <tr class="mat-row">
+                        <th colspan="5" class="mat-header-cell dr">Totales</th>
+                        <td class="dr">{{totalDevengo | currency:'COP':'symbol-narrow':'4.2-2': 'co'}} </td>
+                        <td class="p-right">{{totalDeducido | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</td>
+                    </tr>
+                    <tr class="mat-row">
+                        <th colspan="5" class="mat-header-cell dr">Total</th>
+                        <td colspan="2" class="total">{{(total) | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div *ngIf="detalleFuncionarioCount == 0">
+                No existe información relacionada.
+            </div>
+        </div>
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+</div>

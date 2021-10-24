@@ -1,0 +1,125 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+
+    <h1 mat-dialog-title>Registrar hora extra</h1>
+    <div mat-dialog-content>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Funcionario</mat-label>
+            <input matInput formControlName="funcionario" [matAutocomplete]="auto" (focusout)="focusData($event)"  required >
+            <mat-autocomplete [displayWith]="displayFnFuncionarios" #auto="matAutocomplete">
+                <mat-option *ngFor="let item of filteredFuncionarios | async" [value]="item">
+                     {{item.criterioBusqueda}}
+                </mat-option>
+            </mat-autocomplete>
+
+            <mat-error *ngFor="let error of objToArray(form.get('funcionario').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Trabajador que labora en la compañía.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha </mat-label>
+            <input matInput [matDatepicker]="fecha" (focus)="fecha.open()" (click)="fecha.open()"
+                formControlName="fecha" required>
+            <mat-datepicker-toggle matPrefix [for]="fecha"> </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fecha></mat-datepicker>
+            <mat-error *ngFor="let error of objToArray(form.get('fecha').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Fecha en la que se efectúa la hora extra.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo </mat-label>
+            <mat-select formControlName="tipoHoraExtraId" required>
+                <mat-option [value]="null"></mat-option>
+                <mat-option *ngFor="let item of tipoHoraExtraOptions" [value]="item.id">
+                    <span *ngIf="item.tipo ==horaExtra.recargoNocturno">{{ horaExtraM.recargoNocturno }} </span>
+                    <span *ngIf="item.tipo == horaExtra.horaExtraDiurna">{{ horaExtraM.horaExtraDiurna }}</span>
+                    <span *ngIf="item.tipo == horaExtra.horaExtraNocturna">{{ horaExtraM.horaExtraNocturna }}</span>
+                    <span
+                        *ngIf="item.tipo == horaExtra.horaExtraFestivaDominicalDiurna">{{ horaExtraM.horaExtraFestivaDominicalDiurna }}</span>
+                    <span
+                        *ngIf="item.tipo == horaExtra.horaExtraFestivaDominicalNocturna">{{ horaExtraM.horaExtraFestivaDominicalNocturna }}</span>
+                    <span
+                        *ngIf="item.tipo == horaExtra.recargoNocturnoDominicalFestivo">{{ horaExtraM.recargoNocturnoDominicalFestivo }}</span>
+                    <span
+                        *ngIf="item.tipo == horaExtra.dominicalFestivoCompensado">{{ horaExtraM.dominicalFestivoCompensado }}</span>
+                    <span
+                        *ngIf="item.tipo == horaExtra.dominicalFestivoNoCompensado">{{ horaExtraM.dominicalFestivoNoCompensado }}</span>
+
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of objToArray(form.get('tipoHoraExtraId').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Clase de hora extra.">info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cantidad</mat-label>
+            <input matInput formControlName="cantidad" type="number" required>
+            <mat-error *ngFor="let error of objToArray(form.get('cantidad').errors)">
+                <div [ngSwitch]="error">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'max'">
+                        Valor máximo 100.
+                    </ng-template>
+                     <ng-template [ngSwitchCase]="'min'">
+                         Valor mínimo 1.
+                     </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número de horas extras.">
+                info</mat-icon>
+        </mat-form-field>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+
+</form>

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="HT019_V2-1">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE dbo._LogError ADD [Parametros] TEXT NULL;
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Parámetros y valores con los que se genero el error.' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'_LogError', @level2type=N'COLUMN',@level2name=N'Parametros'
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER TABLE dbo._LogError DROP COLUMN [Parametros];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+
+<changeSet author="dvillega" id="HT019_V2-2">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_RegistrarError', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_RegistrarError as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 13/02/2020
+-- Description: registra información de errores en la tabla _LogError sobre 
+-- 				errores que se generan dentro de un bloque TRY ... CATCH. 
+-- 				en procedimientos almacenados o triggers
+
+--
+-- Parameters:
+--  @NombreObjeto:  Nombre del objeto donde se genero el error
+--  @Parametros:	Parametros y valores con los que se genero el error   
+--  @ErrorLogID:    Parámetro de salida que contiene el id de la fila insertada en la 
+--				tabla _ErrorLog
+
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_RegistrarError] 
+    @NombreObjeto VARCHAR(256) = NULL,
+    @Parametros TEXT = NULL,
+    @LogErrorId [int] = 0 OUTPUT 
+AS                               
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET NOCOUNT ON;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    -- El valor 0 indica que la información no se ha registrado
+    SET @LogErrorId = 0;
+
+    BEGIN TRY
+
+        -- Regresa si no hay información de error para registrar
+        IF ERROR_NUMBER() IS NULL
+            RETURN;
+
+	   -- Regresa si el error corresponde al procedimiento USP_LanzarExcepcion ya que 
+	   -- si se genera en dicho procedimiento corresponde a una replica del error original
+        IF ERROR_PROCEDURE() = 'USP_LanzarExcepcion'
+            RETURN;
+
+        -- Regresa si se encuentra en una transacción sin confirmar.
+        -- La inserción / modificación de datos no está permitida cuando
+        -- una transacción se encuentra en estado sin confirmar.
+        IF (XACT_STATE()) = -1
+        BEGIN
+            PRINT 'No se puede registrar el error ya que la transacción actual está en un estado sin confirmar. ' 
+                + 'Revierta la transacción antes de ejecutar USP_RegistrarError para registrar correctamente la información de error.';
+            RETURN;
+        END
+
+	   IF @NombreObjeto IS NULL
+	   BEGIN
+		  SET @NombreObjeto = ERROR_PROCEDURE();
+	   END
+
+        INSERT [dbo].[_LogError] 
+            (
+            [Usuario], 
+            [Numero], 
+            [Severidad], 
+            [Estado], 
+            [Procedimiento], 
+            [Linea], 
+            [Mensaje],
+		  [Parametros]
+            ) 
+        VALUES 
+            (
+            CONVERT(sysname, CURRENT_USER), 
+            ERROR_NUMBER(),
+            ERROR_SEVERITY(),
+            ERROR_STATE(),
+            @NombreObjeto,
+            ERROR_LINE(),
+            ERROR_MESSAGE(),
+		  @Parametros
+            );
+
+        -- Pase el LogErrorId de la fila insertada
+        SET @LogErrorId = @@IDENTITY;
+	   
+    END TRY
+    BEGIN CATCH
+        PRINT 'Se produjo un error en el procedimiento almacenado USP_RegistrarError: ';
+        EXECUTE [dbo].[USP_ImprimirError];
+        RETURN -1;
+    END CATCH
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+/****** Object:  StoredProcedure [dbo].[USP_RegistrarError]    Script Date: 25/02/2020 2:48:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 13/02/2020
+-- Description: registra información de errores en la tabla _LogError sobre 
+-- 				errores que se generan dentro de un bloque TRY ... CATCH. 
+-- 				en procedimientos almacenados o triggers
+
+--
+-- Parameters:
+--   @ErrorLogID:	Parámetro de salida que contiene el id de la fila insertada en la 
+--					tabla _ErrorLog
+
+-- ==========================================================================================
+
+-- USP_RegistrarError logs error information in the ErrorLog table about the 
+-- error that caused execution to jump to the CATCH block of a 
+-- TRY...CATCH construct. This should be executed from within the scope 
+-- of a CATCH block otherwise it will return without inserting error 
+-- information. 
+ALTER PROCEDURE [dbo].[USP_RegistrarError] 
+    @LogErrorId [int] = 0 OUTPUT 
+AS                               
+BEGIN
+    SET NOCOUNT ON;
+
+    -- El valor 0 indica que la información no se ha registrado
+    SET @LogErrorId = 0;
+
+    BEGIN TRY
+        -- Regresa si no hay información de error para registrar
+        IF ERROR_NUMBER() IS NULL
+            RETURN;
+
+        -- Regresa si se encuentra en una transacción sin confirmar.
+        -- La inserción / modificación de datos no está permitida cuando
+        -- una transacción se encuentra en estado sin confirmar.
+        IF XACT_STATE() = -1
+        BEGIN
+            PRINT 'No se puede registrar el error ya que la transacción actual está en un estado sin confirmar. ' 
+                + 'Revierta la transacción antes de ejecutar USP_RegistrarError para registrar correctamente la información de error.';
+            RETURN;
+        END
+
+        INSERT [dbo].[_LogError] 
+            (
+            [Usuario], 
+            [Numero], 
+            [Severidad], 
+            [Estado], 
+            [Procedimiento], 
+            [Linea], 
+            [Mensaje]
+            ) 
+        VALUES 
+            (
+            CONVERT(sysname, CURRENT_USER), 
+            ERROR_NUMBER(),
+            ERROR_SEVERITY(),
+            ERROR_STATE(),
+            ERROR_PROCEDURE(),
+            ERROR_LINE(),
+            ERROR_MESSAGE()
+            );
+
+        -- Pase el LogErrorId de la fila insertada
+        SET @LogErrorId = @@IDENTITY;
+    END TRY
+    BEGIN CATCH
+        PRINT 'Se produjo un error en el procedimiento almacenado USP_RegistrarError: ';
+        EXECUTE [dbo].[USP_ImprimirError];
+        RETURN -1;
+    END CATCH
+END;
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+
+<changeSet author="dvillega" id="HT019_V2-3">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.[USP_ImprimirError]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.[USP_ImprimirError] as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 13/02/2020
+-- Description: Imprime información sobre el error que causó
+-- 				el salto a un bloque CATCH de un bloque TRY ... CATCH.
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ImprimirError]
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración
+    --------------------------------------------------------------------------
+    SET NOCOUNT ON;
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    PRINT 'Error ' + CONVERT(VARCHAR(50), ERROR_NUMBER()) + ', Severidad ' + CONVERT(VARCHAR(5), ERROR_SEVERITY()) + ', Estado ' + CONVERT(VARCHAR(5), ERROR_STATE()) + ', Procedimiento/Disparador ' + ISNULL(ERROR_PROCEDURE(), '-') + ', Línea ' + CONVERT(VARCHAR(5), ERROR_LINE());
+    PRINT ERROR_MESSAGE();
+
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 13/02/2020
+-- Description: Imprime información sobre el error que causó
+-- 				el salto a un bloque CATCH de un bloque TRY ... CATCH.
+-- ==========================================================================================
+
+IF OBJECT_ID('dbo.[USP_ImprimirError]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.[USP_ImprimirError] as SELECT 1');
+END;
+GO
+
+ALTER PROCEDURE [dbo].[USP_ImprimirError]
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración
+    --------------------------------------------------------------------------
+    SET NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    PRINT 'Error ' + CONVERT(VARCHAR(50), ERROR_NUMBER()) + ', Severidad ' + CONVERT(VARCHAR(5), ERROR_SEVERITY()) + ', Estado ' + CONVERT(VARCHAR(5), ERROR_STATE()) + ', Procedimiento/Disparador ' + ISNULL(ERROR_PROCEDURE(), '-') + ', Línea ' + CONVERT(VARCHAR(5), ERROR_LINE());
+    PRINT ERROR_MESSAGE();
+
+END;
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+
+<changeSet author="dvillega" id="HT019_V2-4">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+CREATE SCHEMA util;
+GO
+
+ALTER SCHEMA Util
+TRANSFER dbo._LogError
+GO
+
+ALTER SCHEMA Util
+TRANSFER [dbo].[USP_RegistrarError]
+GO
+
+ALTER SCHEMA Util
+TRANSFER dbo.[USP_ImprimirError]
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+ALTER SCHEMA dbo
+TRANSFER util._LogError
+GO
+
+ALTER SCHEMA dbo
+TRANSFER util.[USP_RegistrarError]
+GO
+
+ALTER SCHEMA dbo
+TRANSFER util.[USP_ImprimirError]
+GO
+
+DROP SCHEMA util;
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+
+<changeSet author="dvillega" id="HT019_V2-5">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('util.[USP_GenerarExcepcion]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE util.[USP_GenerarExcepcion] as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 13/02/2020
+-- Description: Permite generar una excepción y causa
+--			 el salto a un bloque CATCH de un bloque TRY ... CATCH.
+-- Parameters:
+--   @NumeroError:	Número del error (Pendiente definir identificador para errores)
+--   @MensajeError:	Texto con el mensaje del error 
+--   
+-- ==========================================================================================
+ALTER PROCEDURE [util].[USP_GenerarExcepcion] @NumeroError  INT,
+                                             @MensajeError NVARCHAR(4000)
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración
+    --------------------------------------------------------------------------
+    SET NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @EstadoError INT= 1;
+    DECLARE @SeveridadError INT= 16;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    RAISERROR(@MensajeError, @SeveridadError, @EstadoError);
+
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [util].[USP_GenerarExcepcion];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+
+<changeSet author="dvillega" id="HT019_V2-6">
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('util.[USP_LanzarExcepcion]', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE util.[USP_LanzarExcepcion] as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Villegas
+-- Create date: 13/02/2020
+-- Description: Lanza una excepción con la información del error capturada 
+-- 			 en el bloque CATCH de un bloque TRY ... CATCH.
+-- ==========================================================================================
+ALTER PROCEDURE [util].[USP_LanzarExcepcion]
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración
+    --------------------------------------------------------------------------
+    SET NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+    --------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+    DECLARE @MensajeError NVARCHAR(4000);
+    DECLARE @SeveridadError INT;
+    DECLARE @EstadoError INT;
+
+    --------------------------------------------------------------------------
+    -- Proceso
+    --------------------------------------------------------------------------
+    SELECT @MensajeError = ERROR_MESSAGE(),
+           @SeveridadError = ERROR_SEVERITY(),
+           @EstadoError = ERROR_STATE();
+
+    -- Lanza el error
+    RAISERROR(@MensajeError, @SeveridadError, @EstadoError);
+
+END;
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [util].[USP_LanzarExcepcion];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+
+</databaseChangeLog>

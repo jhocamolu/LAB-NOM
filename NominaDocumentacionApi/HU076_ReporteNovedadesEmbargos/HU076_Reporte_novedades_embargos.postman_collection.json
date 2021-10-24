@@ -1,0 +1,60 @@
+{
+	"info": {
+		"_postman_id": "e6bb7f4d-03a8-4f60-9b96-390926a759b5",
+		"name": "HU076_Reporte_novedades_embargos",
+		"description": " #region Validacion\r\n        [Required(ErrorMessage = ConstantesErrores.Requerido)]\r\n        [EnumDataType(typeof(MetodoReporteEmbargo), ErrorMessage = \"No es un método valido.\")]\r\n        public MetodoReporteEmbargo Metodo { get; set; }\r\n\r\n        [Required(ErrorMessage = ConstantesErrores.Requerido)]\r\n        public int? TipoLiquidacionId { get; set; }\r\n\r\n        public int? SubperiodoId { get; set; }\r\n\r\n        public int? NominaAnio { get; set; }\r\n\r\n        public string NominaMes { get; set; }\r\n\r\n        public DateTime FechaInicial { get; set; }\r\n\r\n        public DateTime FechaFinal { get; set; }\r\n\r\n        #endregion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reporte novedades embargo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"Metodo\": \"PorPeriodo\",\r\n   \"TipoLiquidacionId\":1,\r\n   \"SubperiodoId\":\"1,2,3,4,5\",\r\n   \"FechaInicial\":null,\r\n   \"FechaFinal\":\"2020-06-12\",\r\n   \"NominaAnio\": 2020,\r\n   \"NominaMes\":\"1,2,3,4,5,6\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/reporte/NovedadesEmbargo",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"reporte",
+						"NovedadesEmbargo"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "18a1fa85-aa4c-4d73-880a-412a5a3ff9c3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "98a22bd1-1ac5-408d-b52c-4d8ca9c4e1ec",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

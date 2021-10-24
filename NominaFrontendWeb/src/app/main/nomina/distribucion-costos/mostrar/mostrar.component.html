@@ -1,0 +1,93 @@
+<!-- CONTENIDO -->
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Nómina</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/nomina/distribucion-costos">Distribución de costos</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Visualizar distribución de costos</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Visualizar distribución de costos</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+
+            <mat-menu #menu="matMenu">
+                <a mat-menu-item *ngIf="arrayPermisos.actualizar"
+                    routerLink="/nomina/distribucion-costos/{{item.id}}/editar">
+                    <span>Editar distribución de costos</span>
+                </a>
+                <a routerLink="/nomina/distribucion-costos" mat-menu-item>Volver</a>
+            </mat-menu>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="selectedTabChangeHandle($event)">
+                <!-- Información -->
+
+                <mat-tab label="Información">
+
+                    <div *ngIf="item">
+                        <div mat-dialog-content fusePerfectScrollbar>
+
+                            <div>
+                                <h3>Nombre de la actividad</h3>
+                                <p> {{item.nombre}} </p>
+                            </div>
+
+
+                            <div class="dos-bloque">
+                                <div>
+                                    <h3>Código</h3>
+                                    <p> {{item.codigo}} </p>
+                                </div>
+
+                                <div>
+                                    <h3>Promedio de productividad diario</h3>
+                                    <p> {{ item.promedioProductividad }} </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3>Descripción</h3>
+                                <p> {{item.descripcion  != null ? item.descripcion : 'N/A'}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </mat-tab>
+
+                <!-- Conceptos asociados-->
+                <mat-tab label="Costos asociados">
+                    <distribucion-costos-conceptos-listar [actividadId]="item.id" [mostrar-boton-crear]="false">
+                    </distribucion-costos-conceptos-listar>
+                </mat-tab>
+                <!-- Conceptos asociados-->
+            </mat-tab-group>
+        </div>
+
+        <!-- / CONTENIDO -->
+    </div>
+    <!-- / CONTENT -->
+</div>

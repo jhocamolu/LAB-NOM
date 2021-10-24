@@ -1,0 +1,1852 @@
+<!-- HEADER -->
+<div class="hoja_vida_header">
+	<div class="title_">
+		Hoja de vida
+	</div>
+	<div class="acciones">
+		<button mat-raised-button color="accent" [matMenuTriggerFor]="menu" [disabled]="loading">
+			<mat-icon>add</mat-icon>
+			<span>Acciones</span>
+		</button>
+		<mat-menu #menu="matMenu">
+				<button mat-menu-item (click)="tabChangeHandle(0)">
+					<span>Editar hoja de vida</span>
+				</button>
+				<button mat-menu-item (click)="tabChangeHandle(1)">
+					<span>Registrar estudio realizado</span>
+				</button>
+				<button mat-menu-item (click)="tabChangeHandle(2);">
+					<span>Registrar experiencia laboral</span>
+				</button>
+				<button mat-menu-item (click)="tabChangeHandle(3)">
+					<span>Cargar documento</span>
+				</button>
+		</mat-menu>
+
+	</div>
+
+</div>
+<!-- / HEADER -->
+<div class="content_head">
+	<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar *ngIf="hoja_vida && !loading">
+	
+		<!-- CONTENT -->
+		<div class="content">
+	
+			<div>				
+				<mat-tab-group animationDuration="0ms" [(selectedIndex)]="tabSelection" (selectedTabChange)="hoja_vida ? tabChangeHandleLoadData($event,hoja_vida) : tabChangeHandleLoadData($event)">
+					<!--DATOS BASICOS -->
+					<mat-tab label="Datos básicos ">
+	
+						<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+	
+							<div class="dos-bloque">
+								<mat-form-field appearance="outline">
+									<mat-label>Primer nombre</mat-label>
+									<input matInput formControlName="primerNombre" required>
+									<mat-error *ngFor="let error of objToArray(form.get('primerNombre').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Primer nombre del aspirante.">info
+									</mat-icon>
+								</mat-form-field>
+	
+								<mat-form-field appearance="outline">
+									<mat-label>Segundo nombre</mat-label>
+									<input matInput formControlName="segundoNombre">
+									<mat-error *ngFor="let error of objToArray(form.get('segundoNombre').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Segundo nombre del aspirante.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div class="dos-bloque">
+								<mat-form-field appearance="outline">
+									<mat-label>Primer apellido</mat-label>
+									<input matInput formControlName="primerApellido" required>
+									<mat-error *ngFor="let error of objToArray(form.get('primerApellido').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Primer apellido del aspirante.">
+										info
+									</mat-icon>
+								</mat-form-field>
+	
+								<mat-form-field appearance="outline">
+									<mat-label>Segundo apellido</mat-label>
+									<input matInput formControlName="segundoApellido">
+									<mat-error *ngFor="let error of objToArray(form.get('segundoApellido').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Segundo apellido del aspirante.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div class="dos-bloque">
+								<mat-form-field appearance="outline">
+									<mat-label>Sexo</mat-label>
+									<mat-select formControlName="sexoId" required>
+										<mat-option></mat-option>
+										<mat-option *ngFor="let item of generos" [value]="item.id">
+											{{item.nombre}}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngFor="let error of objToArray(form.get('sexoId').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Sexo del aspirante.">info
+									</mat-icon>
+								</mat-form-field>
+	
+								<mat-form-field appearance="outline">
+									<mat-label>Estado civil</mat-label>
+									<mat-select formControlName="estadoCivilId" required>
+										<mat-option></mat-option>
+										<mat-option *ngFor="let item of estadoCiviles" [value]="item.id">
+											{{item.nombre}}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngFor="let error of objToArray(form.get('estadoCivilId').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Estado civil del aspirante.">info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div class="dos-bloque">
+								<mat-form-field appearance="outline">
+									<mat-label>Ocupación</mat-label>
+									<input matInput formControlName="ocupacion" [matAutocomplete]="auto" required>
+									<mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+										<mat-option *ngFor="let item of filteredOcupaciones | async" [value]="item">
+											{{item.nombre}}
+										</mat-option>
+									</mat-autocomplete>
+									<mat-error *ngFor="let error of objToArray(form.get('ocupacion').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Ocupación que desempeña el aspirante en la compañía.">
+										info
+									</mat-icon>
+								</mat-form-field>
+	
+								<mat-form-field appearance="outline">
+									<mat-label>Pensionado</mat-label>
+									<mat-select [compareWith]="compareBooleanWith" formControlName="pensionado" required>
+										<mat-option></mat-option>
+										<mat-option value="true"> Si</mat-option>
+										<mat-option value="false"> No</mat-option>
+									</mat-select>
+									<mat-error *ngFor="let error of objToArray(form.get('pensionado').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Se define si el aspirante es pensionado.">info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<mat-divider></mat-divider>
+							<!-- Nacimiento-->
+							<mat-list-item class="w-100-p h-100-p pb-20">
+								<div fxFlex="1 0 auto">
+									<div class="w-100-p pb-8" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+										<mat-icon>face</mat-icon>
+										<h2>Nacimiento</h2>
+									</div>
+	
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Fecha</mat-label>
+											<input matInput [matDatepicker]="fechaNacimiento" (focus)="fechaNacimiento.open()"
+												(click)="fechaNacimiento.open()" formControlName="fechaNacimiento" required>
+											<mat-datepicker-toggle matPrefix [for]="fechaNacimiento">
+											</mat-datepicker-toggle>
+											<mat-datepicker startView="year" #fechaNacimiento>
+											</mat-datepicker>
+											<mat-error *ngFor="let error of objToArray(form.get('fechaNacimiento').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template [ngSwitchCase]="'matDatepickerParse'">
+														No es un formato de fecha válido.
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Fecha de nacimiento del aspirante.">info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>País</mat-label>
+											<mat-select formControlName="paisOrigenId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of paises" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('paisOrigenId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="País de origen del aspirante.">info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Departamento</mat-label>
+											<mat-select formControlName="departamentoOrigenId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of departamentosOrigen" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('departamentoOrigenId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Departamento de origen del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>Municipio</mat-label>
+											<mat-select formControlName="divisionPoliticaNivel2OrigenId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of municipiosOrigen" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error
+												*ngFor="let error of objToArray(form.get('divisionPoliticaNivel2OrigenId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Municipio de origen del aspirante.">info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+								</div>
+	
+							</mat-list-item>
+							<!--/Nacimiento -->
+							<mat-divider></mat-divider>
+							<!--Identificación -->
+							<mat-list-item class="w-100-p h-100-p pb-20">
+								<div fxFlex="1 0 auto">
+									<div class="w-100-p pb-8" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+										<mat-icon>credit_card</mat-icon>
+										<h2>Identificación</h2>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Tipo</mat-label>
+											<mat-select formControlName="tipoDocumentoId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of tipoDocumentos" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('tipoDocumentoId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Tipo del documento de identificación del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+										<mat-form-field appearance="outline">
+											<mat-label>Número</mat-label>
+											<input matInput formControlName="numeroDocumento" required>
+											<mat-error *ngFor="let error of objToArray(form.get('numeroDocumento').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Número del documento de identificación del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Fecha de expedición</mat-label>
+											<input matInput [matDatepicker]="fechaExpedicionDocumento"
+												(focus)="fechaExpedicionDocumento.open()" (click)="fechaExpedicionDocumento.open()"
+												formControlName="fechaExpedicionDocumento">
+											<mat-datepicker-toggle matPrefix [for]="fechaExpedicionDocumento">
+											</mat-datepicker-toggle>
+											<mat-datepicker startView="year" #fechaExpedicionDocumento>
+											</mat-datepicker>
+											<mat-error *ngFor="let error of objToArray(form.get('fechaExpedicionDocumento').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template [ngSwitchCase]="'matDatepickerParse'">
+														No es un formato de fecha válido.
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix
+												matTooltip="Fecha de expedición del documento de identidad del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>País</mat-label>
+											<mat-select formControlName="paisExpedicionDocumentoId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of paises" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('paisExpedicionDocumentoId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix
+												matTooltip="País de expedición del documento de identidad del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Departamento</mat-label>
+											<mat-select formControlName="departamentoExpedicionDocumentoId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of departamentosExpedicionDocumento" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error
+												*ngFor="let error of objToArray(form.get('departamentoExpedicionDocumentoId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix
+												matTooltip="Departamento de expedición del documento de identidad del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>Municipio</mat-label>
+											<mat-select formControlName="divisionPoliticaNivel2ExpedicionDocumentoId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of municipiosExpedicionDocumento" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error
+												*ngFor="let error of objToArray(form.get('divisionPoliticaNivel2ExpedicionDocumentoId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Municipio de expedición del documento de identidad.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>NIT</mat-label>
+											<input matInput formControlName="nit" required>
+											<mat-error *ngFor="let error of objToArray(form.get('nit').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix
+												matTooltip="Número de identificación Tributaria que le asigna la DIAN cuando el aspirante se inscribe en el RUT (Registro Único Tributario).">
+												info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>DV</mat-label>
+											<input matInput formControlName="digitoVerificacion" required>
+											<mat-error *ngFor="let error of objToArray(form.get('digitoVerificacion').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Dígito de verificación del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+								</div>
+	
+							</mat-list-item>
+							<!--/Identificación -->
+							<mat-divider></mat-divider>
+							<!--Residencia -->
+							<mat-list-item class="w-100-p h-100-p pb-20">
+								<div fxFlex="1 0 auto">
+									<div class="w-100-p pb-8" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+										<mat-icon>home</mat-icon>
+										<h2>Residencia</h2>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>País</mat-label>
+											<mat-select formControlName="paisResidenciaId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of paises" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('paisResidenciaId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="País de residencia del aspirante.">info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>Departamento</mat-label>
+											<mat-select formControlName="departamentoResidenciaId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of departamentosResidencia" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('departamentoResidenciaId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Departamento de residencia del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Municipio</mat-label>
+											<mat-select formControlName="divisionPoliticaNivel2ResidenciaId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of municipiosResidencia" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error
+												*ngFor="let error of objToArray(form.get('divisionPoliticaNivel2ResidenciaId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Municipio de residencia del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>Celular</mat-label>
+											<input matInput formControlName="celular" required>
+											<mat-error *ngFor="let error of objToArray(form.get('celular').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Número del celular del aspirante.">info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Teléfono fijo</mat-label>
+											<input matInput formControlName="telefonoFijo">
+											<mat-error *ngFor="let error of objToArray(form.get('telefonoFijo').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Número del teléfono fijo del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>Tipo de vivienda</mat-label>
+											<mat-select formControlName="tipoViviendaId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of tipoViviendas" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('tipoViviendaId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Tipo de vivienda en la que reside el aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div>
+										<mat-form-field appearance="outline" fxFlex="100">
+											<mat-label>Dirección</mat-label>
+											<input matInput formControlName="direccion" required>
+											<mat-error *ngFor="let error of objToArray(form.get('direccion').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix
+												matTooltip="Dirección de la vivienda en la que reside el aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+								</div>
+							</mat-list-item>
+							<!--/Residencia -->
+							<mat-divider></mat-divider>
+							<!--Libreta militar -->
+							<mat-list-item class="w-100-p h-100-p pb-20">
+								<div fxFlex="1 0 auto">
+									<div class="w-100-p pb-8" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+										<mat-icon>credit_card</mat-icon>
+										<h2>Libreta militar</h2>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Clase</mat-label>
+											<mat-select formControlName="claseLibretaMilitarId">
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of claseLibretaMilitares" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('claseLibretaMilitarId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Clase de la libreta militar del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>Número</mat-label>
+											<input matInput formControlName="numeroLibreta">
+											<mat-error *ngFor="let error of objToArray(form.get('numeroLibreta').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Número de la libreta militar del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div>
+										<mat-form-field appearance="outline">
+											<mat-label>Distrito</mat-label>
+											<input matInput formControlName="distrito">
+											<mat-error *ngFor="let error of objToArray(form.get('distrito').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix
+												matTooltip="Distrito donde  prestó el servicio militar el aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+								</div>
+							</mat-list-item>
+							<!--/Libreta militar -->
+							<mat-divider></mat-divider>
+							<!--Licencia de conducción -->
+							<mat-list-item class="w-100-p h-100-p pb-20">
+								<div fxFlex="1 0 auto">
+									<div class="w-100-p pb-8" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+										<mat-icon>credit_card</mat-icon>
+										<h2>Licencia de conducción</h2>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Categoría A</mat-label>
+											<mat-select formControlName="licenciaConduccionAId">
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of licenciasA" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('licenciaConduccionAId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Categoría de la licencia de conducción del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>Fecha de vencimiento</mat-label>
+											<input matInput [matDatepicker]="licenciaConduccionAFechaVencimiento"
+												(focus)="licenciaConduccionAFechaVencimiento.open()"
+												(click)="licenciaConduccionAFechaVencimiento.open()"
+												formControlName="licenciaConduccionAFechaVencimiento">
+											<mat-datepicker-toggle matPrefix [for]="licenciaConduccionAFechaVencimiento">
+											</mat-datepicker-toggle>
+											<mat-datepicker startView="year" #licenciaConduccionAFechaVencimiento>
+											</mat-datepicker>
+											<mat-error
+												*ngFor="let error of objToArray(form.get('licenciaConduccionAFechaVencimiento').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template [ngSwitchCase]="'matDatepickerParse'">
+														No es un formato de fecha válido.
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix
+												matTooltip="Fecha de vencimiento de la licencia de conducción del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Categoría B</mat-label>
+											<mat-select formControlName="licenciaConduccionBId">
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of licenciasB" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('licenciaConduccionBId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Categoría de la licencia de conducción del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>Fecha de vencimiento</mat-label>
+											<input matInput [matDatepicker]="licenciaConduccionBFechaVencimiento"
+												(focus)="licenciaConduccionBFechaVencimiento.open()"
+												(click)="licenciaConduccionBFechaVencimiento.open()"
+												formControlName="licenciaConduccionBFechaVencimiento">
+											<mat-datepicker-toggle matPrefix [for]="licenciaConduccionBFechaVencimiento">
+											</mat-datepicker-toggle>
+											<mat-datepicker startView="year" #licenciaConduccionBFechaVencimiento>
+											</mat-datepicker>
+											<mat-error
+												*ngFor="let error of objToArray(form.get('licenciaConduccionBFechaVencimiento').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template [ngSwitchCase]="'matDatepickerParse'">
+														No es un formato de fecha válido.
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix
+												matTooltip="Fecha de vencimiento de la licencia de conducción del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Categoría C</mat-label>
+											<mat-select formControlName="licenciaConduccionCId">
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of licenciasC" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('licenciaConduccionCId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Categoría de la licencia de conducción del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>Fecha de vencimiento</mat-label>
+											<input matInput [matDatepicker]="licenciaConduccionCFechaVencimiento"
+												(focus)="licenciaConduccionCFechaVencimiento.open()"
+												(click)="licenciaConduccionCFechaVencimiento.open()"
+												formControlName="licenciaConduccionCFechaVencimiento">
+											<mat-datepicker-toggle matPrefix [for]="licenciaConduccionCFechaVencimiento">
+											</mat-datepicker-toggle>
+											<mat-datepicker startView="year" #licenciaConduccionCFechaVencimiento>
+											</mat-datepicker>
+											<mat-error
+												*ngFor="let error of objToArray(form.get('licenciaConduccionCFechaVencimiento').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template [ngSwitchCase]="'matDatepickerParse'">
+														No es un formato de fecha válido.
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix
+												matTooltip="Fecha de vencimiento de la licencia de conducción del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+								</div>
+							</mat-list-item>
+							<!--/Licencia de conducción -->
+							<mat-divider></mat-divider>
+							<!--Otros -->
+							<mat-list-item class="w-100-p h-100-p pb-20">
+								<div fxFlex="1 0 auto">
+									<div class="w-100-p pb-8" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+										<mat-icon>add_circle</mat-icon>
+										<h2>Otros</h2>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Talla de camisa</mat-label>
+											<input matInput formControlName="tallaCamisa">
+											<mat-error *ngFor="let error of objToArray(form.get('tallaCamisa').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Talla de camisa del aspirante.">info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>Talla de pantalón</mat-label>
+											<input matInput formControlName="tallaPantalon">
+											<mat-error *ngFor="let error of objToArray(form.get('tallaPantalon').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Talla de pantalón del aspirante.">info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div class="dos-bloque">
+										<mat-form-field appearance="outline">
+											<mat-label>Número de calzado</mat-label>
+											<input matInput formControlName="numeroCalzado">
+											<mat-error *ngFor="let error of objToArray(form.get('numeroCalzado').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Número de calzado del aspirante.">info
+											</mat-icon>
+										</mat-form-field>
+	
+										<mat-form-field appearance="outline">
+											<mat-label>¿Usa lentes?</mat-label>
+											<mat-select [compareWith]="compareBooleanWith" formControlName="usaLentes" required>
+												<mat-option></mat-option>
+												<mat-option value="true"> Si</mat-option>
+												<mat-option value="false"> No</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('usaLentes').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Se define si el aspirante usa lentes.">
+												info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div>
+										<mat-form-field appearance="outline">
+											<mat-label>Tipo de sangre</mat-label>
+											<mat-select formControlName="tipoSangreId" required>
+												<mat-option></mat-option>
+												<mat-option *ngFor="let item of tipoSangres" [value]="item.id">
+													{{item.nombre}}
+												</mat-option>
+											</mat-select>
+											<mat-error *ngFor="let error of objToArray(form.get('tipoSangreId').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Tipo de sangre del aspirante.">info
+											</mat-icon>
+										</mat-form-field>
+									</div>
+	
+									<div>
+										<mat-form-field appearance="outline">
+											<mat-label>Correo electrónico personal</mat-label>
+											<input type="email" matInput formControlName="correoElectronicoPersonal">
+											<mat-error *ngFor="let error of objToArray(form.get('correoElectronicoPersonal').errors)">
+												<div [ngSwitch]="error">
+													<ng-template [ngSwitchCase]="'required'">
+														Requerido
+													</ng-template>
+													<ng-template ngSwitchDefault>
+														{{error}}
+													</ng-template>
+												</div>
+											</mat-error>
+											<mat-icon matSuffix matTooltip="Correo electrónico personal del aspirante.">
+												info
+											</mat-icon>
+										</mat-form-field>
+	
+									</div>
+	
+								</div>
+							</mat-list-item>
+							<!--/Otros-->
+	
+							<div class="actions">
+								<a *ngIf="!item" mat-raised-button [routerLink]="'/reclutamiento-seleccion/hojas-vida'">
+									<mat-icon>cancel</mat-icon>
+									<span>Cancelar</span>
+								</a>
+								<a *ngIf="item" mat-raised-button
+									routerLink="/reclutamiento-seleccion/hojas-vida/{{item.id}}/mostrar">
+									<mat-icon>cancel</mat-icon>
+									<span>Cancelar</span>
+								</a>
+								<button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+									<mat-icon>save</mat-icon>
+									<span>Guardar</span>
+								</button>
+	
+							</div>
+	
+	
+						</form>
+	
+					</mat-tab>
+					<!-- Estudios realizados-->
+					<mat-tab label="Estudios realizados">
+						<form [formGroup]="formEstudios" *ngIf="!dataEstudios && createEstudios" (ngSubmit)="guardarEstudioHandle($event)">
+
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Nivel educativo</mat-label>
+									<mat-select formControlName="nivelEducativoId" required>
+										<mat-option></mat-option>
+										<mat-option *ngFor="let item of nivelEducativos" [value]="item.id">
+											{{item.nombre}}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngFor="let error of objToArray(formEstudios.get('nivelEducativoId').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Seleccione el grado de estudio que tiene.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Institución educativa</mat-label>
+									<input matInput formControlName="institucionEducativa" required>
+									<mat-error *ngFor="let error of objToArray(formEstudios.get('institucionEducativa').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix
+										matTooltip="Ingrese el colegio, instituto o universidad con la que realizó los estudios.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div class="dos-bloque">
+								<mat-form-field appearance="outline">
+									<mat-label>Estado</mat-label>
+									<mat-select formControlName="estadoEstudio" required>
+										<mat-option></mat-option>
+										<mat-option *ngFor="let item of estadoEstudios" [value]="item.id">
+											{{item.nombre}}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngFor="let error of objToArray(formEstudios.get('estadoEstudio').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix
+										matTooltip="Selecciona el estado en el que se encuentra su estudio.">
+										info
+									</mat-icon>
+								</mat-form-field>
+	
+								<mat-form-field appearance="outline">
+									<mat-label>País</mat-label>
+									<mat-select formControlName="paisId" required>
+										<mat-option></mat-option>
+										<mat-option *ngFor="let item of paises" [value]="item.id">
+											{{item.nombre}}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngFor="let error of objToArray(formEstudios.get('paisId').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Seleccione el país en el que realizó sus estudios.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div class="dos-bloque">
+								<mat-form-field appearance="outline">
+									<mat-label>Fecha de inicio</mat-label>
+									<input matInput [matDatepicker]="fechaInicio" (focus)="fechaInicio.open()"
+										(click)="fechaInicio.open()" formControlName="fechaInicio" required>
+									<mat-datepicker-toggle matPrefix [for]="fechaInicio">
+									</mat-datepicker-toggle>
+									<mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+									<mat-error *ngFor="let error of objToArray(formEstudios.get('fechaInicio').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template [ngSwitchCase]="'matDatepickerParse'">
+												No es un formato de fecha válido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Fecha en la que comenzó sus estudios.">info
+									</mat-icon>
+								</mat-form-field>
+	
+								<mat-form-field appearance="outline">
+									<mat-label>Fecha de finalización</mat-label>
+									<input matInput [matDatepicker]="fechaFin" (focus)="fechaFin.open()"
+										(click)="fechaFin.open()" formControlName="fechaFin" required>
+									<mat-datepicker-toggle matPrefix [for]="fechaFin"> </mat-datepicker-toggle>
+									<mat-datepicker startView="year" #fechaFin></mat-datepicker>
+									<mat-error *ngFor="let error of objToArray(formEstudios.get('fechaFin').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template [ngSwitchCase]="'matDatepickerParse'">
+												No es un formato de fecha válido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Fecha en la que terminó sus estudios.">info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>N° de Tarjeta profesional</mat-label>
+									<input matInput formControlName="tarjetaProfesional">
+									<mat-error *ngFor="let error of objToArray(formEstudios.get('tarjetaProfesional').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template [ngSwitchCase]="'pattern'">
+												El campo debe contener números, letras en mayúscula y guión.
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Digite el número de la tarjeta profesional.">info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Profesión</mat-label>
+									<input matInput formControlName="profesion" [matAutocomplete]="auto">
+									<mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+										<mat-option *ngFor="let item of filteredProfesiones | async" [value]="item">
+											{{item.nombre}}
+										</mat-option>
+									</mat-autocomplete>
+									<mat-error *ngFor="let error of objToArray(formEstudios.get('profesion').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix
+										matTooltip="Seleccione la profesión que se relaciona con los estudios realizados.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Título</mat-label>
+									<input matInput formControlName="titulo" required>
+									<mat-error *ngFor="let error of objToArray(formEstudios.get('titulo').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix
+										matTooltip="Ingrese el nombre del título descrito en el diploma de graduación.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Observación</mat-label>
+									<textarea matInput formControlName="observacion"></textarea>
+									<mat-error *ngFor="let error of objToArray(formEstudios.get('observacion').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template [ngSwitchCase]="'maxlength'">
+												Máximo
+												{{ form.get('observacion').errors.maxlength.requiredLength }}
+												caracteres actualmente tiene
+												{{ form.get('observacion').errors.maxlength.actualLength }}
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Escriba alguna observación si lo requiere.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div class="actions">
+								<a mat-raised-button (click)="atrasEstudios()">
+									<mat-icon>cancel</mat-icon>
+									<span>Cancelar</span>
+								</a>
+								<button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+									<mat-icon>save</mat-icon>
+									<span>Guardar</span>
+								</button>
+							</div>
+	
+						</form>
+
+						<div class="box-shadow" *ngIf="dataLength && dataEstudios && !createEstudios && !dataExperiencia && !dataDocumentos" [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}">
+							<table mat-table *ngIf="dataLength" #table [dataSource]="dataSource" matSort matSortActive="fechaCreacion" matSortDirection="desc" matSortDisableClear
+								[@animateStagger]="{value:'50'}">
+			
+								<ng-container matColumnDef="nivelEducativo/nombre">
+									<th mat-header-cell *matHeaderCellDef mat-sort-header> Nivel educativo </th>
+									<td mat-cell *matCellDef="let element"><p class="text-truncate">
+										{{element.nivelEducativo?.nombre}}
+										</p>
+									</td>
+								</ng-container>
+			
+								<ng-container matColumnDef="titulo">
+									<th mat-header-cell *matHeaderCellDef mat-sort-header> Título </th>
+									<td mat-cell *matCellDef="let element"><p class="text-truncate">
+										{{element.titulo}}
+										</p>
+									</td>
+								</ng-container>
+						
+								<ng-container matColumnDef="accion">
+									<th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+									<td mat-cell *matCellDef="let element">
+										<div class="padding-r19" *ngIf="1">
+											<button mat-icon-button (click)="tabChangeHandle(1, true,element)">
+												<mat-icon matTooltip="Editar"
+												>edit</mat-icon>
+											</button>
+											<button mat-icon-button (click)="eliminarEstudio(element)">
+												<mat-icon matTooltip="Eliminar"
+												>delete</mat-icon>
+											</button>
+										</div>
+									</td>
+								</ng-container>
+			
+								<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+								<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+							</table>
+			
+							<mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+								showFirstLastButtons>
+							</mat-paginator>
+						</div>
+	
+					</mat-tab>
+					<mat-tab label="Experiencia laboral"> 
+						<form [formGroup]="formExperiencia" *ngIf="!dataExperiencia && createExperiencia" (ngSubmit)="guardarExperienciaHandle($event)">
+
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Nombre del cargo</mat-label>
+									<input matInput formControlName="nombreCargo" required>
+									<mat-error *ngFor="let error of objToArray(formExperiencia.get('nombreCargo').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Digite el nombre del cargo que realizó o realiza.">info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Nombre de la empresa</mat-label>
+									<input matInput formControlName="nombreEmpresa" required>
+									<mat-error *ngFor="let error of objToArray(formExperiencia.get('nombreEmpresa').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Digite el nombre de la empresa donde laboraba.">info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div class="dos-bloque">
+								<mat-form-field appearance="outline">
+									<mat-label>Teléfono</mat-label>
+									<input matInput formControlName="telefono" required>
+									<mat-error *ngFor="let error of objToArray(formExperiencia.get('telefono').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template [ngSwitchCase]="'max'">
+												Valor máximo 9999999999.
+											</ng-template>
+											<ng-template [ngSwitchCase]="'min'">
+												Valor mínimo 1000000.
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Número telefónico de la empresa donde laboraba.">info
+									</mat-icon>
+								</mat-form-field>
+	
+								<mat-form-field appearance="outline">
+									<mat-label>Salario</mat-label>
+									<input matInput formControlName="salario" mask="separator.2"
+										separatorLimit="9999999999" thousandSeparator=".">
+									<mat-error *ngFor="let error of objToArray(formExperiencia.get('salario').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template [ngSwitchCase]="'max'">
+												Valor máximo 9999999999.
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Digite el sueldo que tenía en su trabajo.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Último jefe inmediato</mat-label>
+									<input matInput formControlName="nombreJefeInmediato">
+									<mat-error *ngFor="let error of objToArray(formExperiencia.get('nombreJefeInmediato').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Nombre de su último jefe inmediato con el que laboró.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Trabaja actualmente en la empresa</mat-label>
+									<mat-select [compareWith]="compareBooleanWith" formControlName="trabajaActualmente"
+										required>
+										<mat-option></mat-option>
+										<mat-option value="true"> Si</mat-option>
+										<mat-option value="false"> No</mat-option>
+									</mat-select>
+									<mat-error *ngFor="let error of objToArray(formExperiencia.get('trabajaActualmente').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Seleccione si trabaja actualmente en la empresa.">info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div class="dos-bloque">
+								<mat-form-field appearance="outline">
+									<mat-label>Fecha de inicio</mat-label>
+									<input matInput [matDatepicker]="fechaInicio" (focus)="fechaInicio.open()"
+										(click)="fechaInicio.open()" formControlName="fechaInicio" required>
+									<mat-datepicker-toggle matPrefix [for]="fechaInicio">
+									</mat-datepicker-toggle>
+									<mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+									<mat-error *ngFor="let error of objToArray(formExperiencia.get('fechaInicio').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template [ngSwitchCase]="'matDatepickerParse'">
+												No es un formato de fecha válido.
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Fecha en la que inició labores en la empresa anterior.">
+										info
+									</mat-icon>
+								</mat-form-field>
+	
+								<mat-form-field appearance="outline">
+									<mat-label>Fecha de finalización</mat-label>
+									<input matInput [matDatepicker]="fechaFin" (focus)="fechaFin.open()"
+										(click)="fechaFin.open()" formControlName="fechaFin" required>
+									<mat-datepicker-toggle matPrefix [for]="fechaFin"> </mat-datepicker-toggle>
+									<mat-datepicker startView="year" #fechaFin></mat-datepicker>
+									<mat-error *ngFor="let error of objToArray(formExperiencia.get('fechaFin').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template [ngSwitchCase]="'matDatepickerParse'">
+												No es un formato de fecha válido.
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix
+										matTooltip="Fecha en la que terminó labores en la empresa anterior.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Funciones del cargo</mat-label>
+									<textarea matInput formControlName="funcionesCargo"></textarea>
+									<mat-error *ngFor="let error of objToArray(formExperiencia.get('funcionesCargo').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix
+										matTooltip="Describa las funciones que desempeñaba en la empresa donde laboraba.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Motivo de retiro</mat-label>
+									<textarea matInput formControlName="motivoRetiro"></textarea>
+									<mat-error *ngFor="let error of objToArray(formExperiencia.get('motivoRetiro').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix
+										matTooltip="Describa las razones por las cuales se produjo el retiro.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Observaciones</mat-label>
+									<textarea matInput formControlName="observaciones"></textarea>
+									<mat-error *ngFor="let error of objToArray(formExperiencia.get('observaciones').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Escriba alguna observación si lo requiere.">
+										info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div class="actions">
+								<a mat-raised-button
+									(click)="atrasExperiencia()">
+									<mat-icon>cancel</mat-icon>
+									<span>Cancelar</span>
+								</a>
+								<button type="submit" mat-raised-button [disabled]="formExperiencia.invalid || submit" color="accent">
+									<mat-icon>save</mat-icon>
+									<span>Guardar</span>
+								</button>
+							</div>
+						</form>
+
+						<div class="box-shadow" *ngIf="dataLength && dataExperiencia && !createExperiencia && !dataEstudios && !dataDocumentos" [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}">
+							<table mat-table *ngIf="dataLength" #table [dataSource]="dataSource" matSort matSortActive="fechaCreacion" matSortDirection="desc" matSortDisableClear
+								[@animateStagger]="{value:'50'}">
+			
+								<ng-container matColumnDef="nombreCargo">
+									<th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del cargo </th>
+									<td mat-cell *matCellDef="let element"><p class="text-truncate">
+										{{element.nombreCargo}}
+										</p>
+									</td>
+								</ng-container>
+			
+								<ng-container matColumnDef="nombreEmpresa">
+									<th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa </th>
+									<td mat-cell *matCellDef="let element"><p class="text-truncate">
+										{{element.nombreEmpresa}}
+										</p>
+									</td>
+								</ng-container>
+			
+								<ng-container matColumnDef="telefono">
+									<th mat-header-cell *matHeaderCellDef mat-sort-header> Télefono </th>
+									<td mat-cell *matCellDef="let element"><p class="text-truncate">
+										{{element.telefono}}
+										</p>
+									</td>
+								</ng-container>
+						
+								<ng-container matColumnDef="accion">
+									<th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+									<td mat-cell *matCellDef="let element">
+										<div class="padding-r19" *ngIf="1">
+											<button mat-icon-button (click)="tabChangeHandle(2, true,element)">
+												<mat-icon matTooltip="Editar"
+												>edit</mat-icon>
+											</button>
+											<button mat-icon-button (click)="eliminarExperiencia(element)">
+												<mat-icon matTooltip="Eliminar"
+												>delete</mat-icon>
+											</button>
+										</div>
+									</td>
+								</ng-container>
+			
+								<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+								<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+							</table>
+			
+							<mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+								showFirstLastButtons>
+							</mat-paginator>
+						</div>
+					
+					</mat-tab>
+					<mat-tab label="Documentos">
+						<form [formGroup]="formDocumentos" *ngIf="!dataDocumentos && createDocumentos" (ngSubmit)="guardarDocumentoHandle($event)">
+
+							<div>
+								<div fxFlex="100" class="pb-24">
+									<label>Archivo o documento</label>
+									<input type="file" formControlName="file" (change)="fileInputHandle($event)" required
+										accept=".pdf">
+									<mat-icon matSuffix matTooltip="El formato del archivo debe ser PDF.">
+										info
+									</mat-icon>
+									<div
+										*ngIf="formDocumentos.get('file').invalid && (formDocumentos.get('file').dirty || formDocumentos.get('file').touched)">
+										<mat-error *ngFor="let error of objToArray(formDocumentos.get('file').errors)">
+											<div [ngSwitch]="error">
+												<ng-template [ngSwitchCase]="'required'">
+													Requerido
+												</ng-template>
+												<ng-template ngSwitchDefault>
+													{{error}}
+												</ng-template>
+											</div>
+										</mat-error>
+									</div>
+								</div>
+	
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Tipo de soporte</mat-label>
+									<mat-select formControlName="tipoSoporteId" required>
+										<mat-option></mat-option>
+										<mat-option *ngFor="let item of tipoSoportes" [value]="item.id">
+											{{item.nombre}}
+										</mat-option>
+									</mat-select>
+									<mat-error *ngFor="let error of objToArray(formDocumentos.get('tipoSoporteId').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Tipo de soporte del aspirante.">info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div>
+								<mat-form-field appearance="outline">
+									<mat-label>Comentario</mat-label>
+									<textarea matInput formControlName="comentario"></textarea>
+									<mat-error *ngFor="let error of objToArray(formDocumentos.get('comentario').errors)">
+										<div [ngSwitch]="error">
+											<ng-template [ngSwitchCase]="'required'">
+												Requerido
+											</ng-template>
+											<ng-template ngSwitchDefault>
+												{{error}}
+											</ng-template>
+										</div>
+									</mat-error>
+									<mat-icon matSuffix matTooltip="Descripción breve del documento.">info
+									</mat-icon>
+								</mat-form-field>
+							</div>
+	
+							<div class="actions">
+								<a mat-raised-button (click)="atrasDocumentos()">
+									<mat-icon>cancel</mat-icon>
+									<span>Cancelar</span>
+								</a>
+								<button type="submit" mat-raised-button [disabled]="formDocumentos.invalid || submit" color="accent">
+									<mat-icon>save</mat-icon>
+									<span>Guardar</span>
+								</button>
+							</div>
+						</form>
+
+						<div class="box-shadow" *ngIf="dataLength && dataDocumentos && !createDocumentos && !dataEstudios && !dataExperiencia" [@animate]="{value:'*',params:{delay:'180ms',y:'25px'}}">
+							<table mat-table *ngIf="dataLength" #table [dataSource]="dataSource" matSort matSortActive="fechaCreacion" matSortDirection="desc" matSortDisableClear
+								[@animateStagger]="{value:'50'}">
+			
+								<ng-container matColumnDef="tipoSoporte/nombre">
+									<th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+									<td mat-cell *matCellDef="let element"><p class="text-truncate">
+										{{element.tipoSoporte?.nombre}}
+										</p>
+									</td>
+								</ng-container>
+			
+								<ng-container matColumnDef="comentario">
+									<th mat-header-cell *matHeaderCellDef mat-sort-header> Comentario </th>
+									<td mat-cell *matCellDef="let element"><p class="text-truncate">
+										{{element.comentario ? element.comentario : 'N/A'}}
+										</p>
+									</td>
+								</ng-container>
+						
+								<ng-container matColumnDef="accion" class="tcenter">
+									<th class="tcenter" mat-header-cell *matHeaderCellDef>Acciones</th>
+									<td mat-cell *matCellDef="let element" class="tcenter">
+										<div *ngIf="1">
+											<button mat-icon-button matTooltip="Descargar"
+												(click)="descargarHandle($event, element)">
+												<mat-icon class="s-20">save_alt</mat-icon>
+											</button>
+											<button mat-icon-button
+												matTooltip="Eliminar" (click)="eliminaDocumento(element)">
+												<mat-icon class="s-20">delete</mat-icon>
+											</button>
+										</div>
+									</td>
+								</ng-container>
+			
+								<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+								<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+							</table>
+			
+							<mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+								showFirstLastButtons>
+							</mat-paginator>
+						</div>
+					</mat-tab>
+				</mat-tab-group>
+			</div>
+		</div>
+		<!-- / CONTENIDO -->
+	
+	</div>
+	
+	<div *ngIf="loading" class="container_spinner">
+		<mat-spinner class="spinner"></mat-spinner>
+	</div>
+</div>
+
+<div class="div_spinner" *ngIf="loadingSave">
+    <mat-spinner class="spinner_save" color="#066f77"></mat-spinner>
+</div>

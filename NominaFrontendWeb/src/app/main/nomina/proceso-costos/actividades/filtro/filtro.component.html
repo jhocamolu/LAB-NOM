@@ -1,0 +1,164 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+    <mat-toolbar class="toolbar-filter">
+        <mat-toolbar-row>
+            <h1 mat-dialog-title>Filtro</h1>
+            <button type="button" mat-icon-button (click)="dialogRef.close()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Código actividad</mat-label>
+            <input matInput placeholder="" formControlName="codigoActividad">
+            <mat-error *ngFor="let error of form.get('codigoActividad').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Código de la labor que realiza un funcionario en la compañía.">info</mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre actividad</mat-label>
+            <input matInput placeholder="" formControlName="actividad">
+            <mat-error *ngFor="let error of form.get('actividad').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Labor que realiza un funcionario en la compañía.">info</mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Municipio</mat-label>
+            <mat-select formControlName="municipio">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let item of municipiosOrigen" [value]="item.id">
+                    {{item.nombre}}
+                </mat-option>
+            </mat-select>
+            <mat-error
+                *ngFor="let error of form.get('municipio').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Municipio donde trabajará el funcionario.">info
+            </mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha inicio</mat-label>
+            <input matInput [matDatepicker]="fechaInicio" (click)="fechaInicio.open()" formControlName="fechaInicio">
+            <mat-datepicker-toggle matPrefix [for]="fechaInicio">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+            <mat-error *ngFor="let error of form.get('fechaInicio').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Fecha de comienzo de las actividades.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha fin</mat-label>
+            <input matInput [matDatepicker]="fechaFinalizacion" (click)="fechaFinalizacion.open()"
+                formControlName="fechaFinalizacion">
+            <mat-datepicker-toggle matPrefix [for]="fechaFinalizacion">
+            </mat-datepicker-toggle>
+            <mat-datepicker startView="year" #fechaFinalizacion></mat-datepicker>
+            <mat-error *ngFor="let error of form.get('fechaFinalizacion').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                        No es un formato de fecha válido.
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Fecha de fin de las actividades.">
+                info
+            </mat-icon>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cantidad</mat-label>
+            <input matInput placeholder="" formControlName="cantidad">
+            <mat-error *ngFor="let error of form.get('cantidad').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Número que indica la cuantía de actividades.">info</mat-icon>
+        </mat-form-field>
+
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="estado">
+                <mat-option></mat-option>
+                <mat-option value="Pendiente">Pendiente</mat-option>
+                <mat-option value="Aplicado">Aplicado</mat-option>
+            </mat-select>
+            <mat-error
+                *ngFor="let error of form.get('estado').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Estados que pueden tener las actividades de costos.">info
+            </mat-icon>
+        </mat-form-field>
+
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+            <mat-icon>cancel</mat-icon>
+            <span>Borrar filtros</span>
+        </button>
+        <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+            <mat-icon>search</mat-icon>
+            <span>Buscar</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="TipoAusentismo_Datos_V4">
+<comment>insertar nuevo registro TipoAusentismo</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    SET IDENTITY_INSERT [dbo].[TipoAusentismo] ON 
+    GO
+
+    INSERT INTO dbo.TipoAusentismo (Id,Codigo,Nombre,ClaseAusentismoId,UnidadTiempo,EstadoRegistro,CreadoPor)
+	VALUES (15,'LPC','Licencia por calamidad',2,'Días','Activo','sistema') ;
+    GO
+
+    INSERT INTO dbo.TipoAusentismo (Id,Codigo,Nombre,ClaseAusentismoId,UnidadTiempo,EstadoRegistro,CreadoPor)
+	VALUES (16,'HLD','Huelga legalmente declarada',3,'Días','Activo','sistema') ;
+    GO
+    
+    SET IDENTITY_INSERT [dbo].[TipoAusentismo] OFF
+    GO
+
+
+
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+    DELETE dbo.TipoAusentismo WHERE ID = 15 OR ID = 16
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="yiaguirr" id="TipoAusentismo_Datos_V6">
+<comment>Actualizar un tipo de ausentismo e insertar uno nuevo</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+UPDATE TipoAusentismo SET ClaseAusentismoId='5' WHERE Id='14';
+
+SET IDENTITY_INSERT [dbo].[TipoAusentismo] ON;
+INSERT INTO TipoAusentismo(Id, Codigo, Nombre, ClaseAusentismoId, UnidadTiempo, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES(18, 'D', 'Diligencia ', 3, 'Dias', 'Activo    ', 'sistema', GETDATE());
+INSERT INTO TipoAusentismo(Id, Codigo, Nombre, ClaseAusentismoId, UnidadTiempo, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES(19, 'ALARL', 'Accidente laboral ARL', 4, 'Días', 'Activo    ', 'sistema', GETDATE());
+
+
+SET IDENTITY_INSERT [dbo].[TipoAusentismo] OFF;
+
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+   DELETE FROM [dbo].[TipoAusentismo] WHERE Id IN (18,19);
+]]>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

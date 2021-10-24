@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="InformacionBasica_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+DELETE FROM [dbo].[InformacionBasica] WHERE Id BETWEEN 1 AND 1;
+SET IDENTITY_INSERT [dbo].[InformacionBasica] ON 
+GO
+INSERT INTO [dbo].[InformacionBasica]
+           (Id,[Nombre],[Nit],[DigitoVerificacion],[RazonSocial],[ActividadEconomicaId],[DivisionPoliticaNivel2Id],[Direccion],[Telefono],[CorreoElectronico],[Web],[FechaConstitucion],[TipoContribuyenteId],[OperadorPagoId],[ArlId],[EstadoRegistro],[CreadoPor],[FechaCreacion],[BeneficiarioImpuestoEquidad],[BeneficiarioLey1429De2010],[CargoId],[ClaseAportanteTipoAportanteId],[Fax],[NaturalezaJuridicaId],[TipoDocumentoId],[TipoPersonaId])
+     VALUES
+           (1, 'Alcanos De Colombia', '8911015774', '1', 'Alcanos de Colombia S.A. E.S.P.', 207, 657, 'Cra. 9 #7 - 25, Neiva, Huila', '01-800-0954141', 'info@alcanosesp.com', 'http://www.alcanosesp.com', '1977-11-18', 1, 1, 71,'Activo', 'sistema', GETDATE(),1,0,10,1,'8721695',2,5,1)
+GO
+SET IDENTITY_INSERT [dbo].[InformacionBasica] OFF
+GO
+
+</sql>
+
+<rollback>
+<sql endDelimiter="\nGO" splitStatements="true">
+DELETE FROM [dbo].[InformacionBasica] WHERE Id BETWEEN 1 AND 1;
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

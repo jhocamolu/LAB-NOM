@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="VW_ConstanteParametroGeneral_V2">
+<comment>Se adicionan alias de algunos conceptos de nomina</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteParametroGeneral]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteParametroGeneral]
+END
+GO
+
+--=======================================================================
+-- Author: Diego Villegas
+-- Create date: 21-04-2020
+-- Description: Vista que permite la simulación de constantes para los parámetros generales
+--		por medio de Pseudo-Constants.  Para mayor información visitar 
+--		https://docs.microsoft.com/es-es/archive/blogs/sql_server_appendix_z/sql-server-variables-parameters-or-literals-or-constants
+--		El uso de estas Pseudo-Constans es mucho más eficiente si se usan por medio de una subconsulta, pero para sentencias en donde
+--		la eficiencia no sea tan importante se puede hacer por medio de variables
+--=======================================================================
+CREATE VIEW [util].[VW_ConstanteParametroGeneral]
+AS
+SELECT 
+		-- Parámetros generales
+		CAST('conceptoDescuentoLibranza' AS VARCHAR) AS [CONCEPTODESCUENTOLIBRANZA]
+		,CAST('decimalesMostrar' AS VARCHAR) AS [DECIMALESMOSTRAR]
+		,CAST('diasTrabajados' AS VARCHAR) AS [DIASTRABAJADOS]
+		,CAST('diasLey' AS VARCHAR) AS [DIASLEY]
+        ,CAST('diasCalendario' AS VARCHAR) AS [DIASCALENDARIO]
+		,CAST('basePrimaCesantiasMes' AS VARCHAR) AS BASEPRIMACESANTIASMES
+		,CAST('ProvCesantias' AS VARCHAR) AS [PROVCESANTIAS]
+		,CAST('ProvIntCesantias' AS VARCHAR) AS [PROVINTCESANTIAS]
+		,CAST('CesantiasConsolidadas' AS VARCHAR) AS [CESANTIASCONSOLIDADAS]
+		,CAST('InteresCesantiasConsolidadas' AS VARCHAR) AS [INTERESESCESANTIASCONSOLIDADAS]
+GO
+
+-- Descripción de la vista 
+EXEC sys.sp_addextendedproperty 
+		@name=N'MS_Description', 
+		@value=N'Vista que permite la simulación de constantes para los parámetros generales.' , 
+		@level0type=N'SCHEMA', @level0name=N'util', 
+		@level1type=N'VIEW', @level1name=N'VW_ConstanteParametroGeneral'
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Concepto que se usará para descuento de libranza.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'CONCEPTODESCUENTOLIBRANZA';  
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Cantidad de números decimales que se pueden mostrar en la nómina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DECIMALESMOSTRAR';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al número de días trabajados .',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DIASTRABAJADOS';  
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al número de días al que se tieine derecho por un período causado.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DIASLEY';  
+GO
+
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al número de días al que se tieine derecho por un período causado.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'DIASCALENDARIO';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'BASEPRIMACESANTIASMES';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'PROVCESANTIAS';  
+GO
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'PROVINTCESANTIAS';  
+GO
+
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'CESANTIASCONSOLIDADAS';  
+GO
+EXEC sys.sp_addextendedproperty 
+    @name = N'MS_Description',   
+    @value = 'Corresponde al  alias de la tabla concepto de nomina.',  
+    @level0type = N'Schema', @level0name = 'util',  
+    @level1type = N'View',  @level1name = 'VW_ConstanteParametroGeneral',  
+    @level2type = N'Column', @level2name = 'INTERESESCESANTIASCONSOLIDADAS';  
+GO
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[VW_ConstanteParametroGeneral]') IS NOT NULL
+BEGIN
+    DROP VIEW [util].[VW_ConstanteParametroGeneral]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

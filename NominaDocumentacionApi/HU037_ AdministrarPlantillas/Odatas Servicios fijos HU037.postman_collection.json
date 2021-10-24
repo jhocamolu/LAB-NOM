@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "57733a9b-2148-472b-a510-d0e7f33e0240",
+		"name": "Odatas Servicios fijos HU037",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Informacion Basicas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://nomintegra.alcanosesp.com:9001/odata/informacionbasicas/1?$expand=divisionPoliticaNivel2($expand=divisionpoliticanivel1($expand=pais)),actividadEconomica,tipoContribuyente,arl",
+					"protocol": "http",
+					"host": [
+						"nomintegra",
+						"alcanosesp",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"odata",
+						"informacionbasicas",
+						"1"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "divisionPoliticaNivel2($expand=divisionpoliticanivel1($expand=pais)),actividadEconomica,tipoContribuyente,arl"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "representanteEmpresas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://nomintegra.alcanosesp.com:9001/api/representanteEmpresas/gruposlug/{grupo}/fecha/{fecha}",
+					"protocol": "http",
+					"host": [
+						"nomintegra",
+						"alcanosesp",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"api",
+						"representanteEmpresas",
+						"gruposlug",
+						"{grupo}",
+						"fecha",
+						"{fecha}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

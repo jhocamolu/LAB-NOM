@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+   
+	<!-- Se debe incluir un archivo por cada objeto de base de datos -->
+	<include file="Schemas/dbo/Tables/__EFMigrationsHistory/__EFMigrationsHistory_V1.xml" />	
+	<include file="Schemas/dbo/Tables/Categoria/Categoria_V1.xml" />
+	<include file="Schemas/dbo/Tables/Parametro/Parametro_V1.xml" />
+	<include file="Schemas/dbo/Tables/Subcategoria/Subcategoria_V1.xml" />
+	<include file="Schemas/dbo/Tables/Reporte/Reporte_V1.xml" />
+	<include file="Schemas/dbo/Tables/ReporteParametro/ReporteParametro_V1.xml" />
+	
+	<!-- Datos iniciales -->
+	<include file='Schemas/dbo/Data/Catalogues/__EFMigrationsHistory/__EFMigrationsHistory_Datos_V1.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/Categoria/Categoria_Datos_V1.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/Subcategoria/Subcategoria_Datos_V1.xml'/>
+	<include file='Schemas/dbo/Data/Transaccional/Parametro/Parametro_Datos_V1.xml'/>
+	<include file='Schemas/dbo/Data/Transaccional/Reporte/Reporte_Datos_V1.xml'/>
+	<include file='Schemas/dbo/Data/Transaccional/ReporteParametro/ReporteParametro_Datos_V1.xml'/>
+	<include file='Schemas/dbo/Data/Catalogues/Categoria/Categoria_Datos_V2.xml'/>
+
+</databaseChangeLog>

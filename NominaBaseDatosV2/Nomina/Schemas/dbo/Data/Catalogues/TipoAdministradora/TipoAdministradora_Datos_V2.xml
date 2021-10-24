@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="TipoAdministradora_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+UPDATE dbo.TipoAdministradora
+SET
+    dbo.TipoAdministradora.TarifaAporteEmpresa = '0.12',
+    dbo.TipoAdministradora.TarifaAporteFuncionario = '0.04',
+    dbo.TipoAdministradora.TarifaAporteTotal = '0.16' 
+WHERE Id = 2
+GO
+UPDATE dbo.TipoAdministradora
+SET
+    dbo.TipoAdministradora.TarifaAporteEmpresa = '0.085',
+    dbo.TipoAdministradora.TarifaAporteFuncionario = '0.04',
+    dbo.TipoAdministradora.TarifaAporteTotal = '0.125' 
+WHERE Id = 3
+GO
+UPDATE dbo.TipoAdministradora
+SET
+    dbo.TipoAdministradora.TarifaAporteEmpresa = '0.04',
+    dbo.TipoAdministradora.TarifaAporteFuncionario = 0,
+    dbo.TipoAdministradora.TarifaAporteTotal = '0.04' 
+WHERE Id = 5
+GO
+UPDATE dbo.TipoAdministradora
+SET
+    dbo.TipoAdministradora.Codigo = 'SENA', 
+    dbo.TipoAdministradora.Nombre = 'Aporte SENA', 
+    dbo.TipoAdministradora.TarifaAporteEmpresa = '0.03',
+    dbo.TipoAdministradora.TarifaAporteFuncionario = 0,
+    dbo.TipoAdministradora.TarifaAporteTotal = '0.03' 
+WHERE Id = 6
+GO
+SET IDENTITY_INSERT [dbo].[TipoAdministradora] ON 
+GO
+INSERT [dbo].[TipoAdministradora] ([Id], [Codigo], [Nombre], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion], [TarifaAporteEmpresa], [TarifaAporteFuncionario], [TarifaAporteTotal]) VALUES (7, N'ICBF', N'Aporte ICBF', N'Activo    ', N'sistema', CAST(N'2020-05-05T20:00:00' AS SmallDateTime), NULL, NULL, NULL, NULL, CAST(0.02 AS Decimal(19, 3)), CAST(0.000 AS Decimal(19, 3)), CAST(0.02 AS Decimal(19, 3)))
+GO
+SET IDENTITY_INSERT [dbo].[TipoAdministradora] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+UPDATE dbo.TipoAdministradora
+SET
+    dbo.TipoAdministradora.TarifaAporteEmpresa = '0.12',
+    dbo.TipoAdministradora.TarifaAporteFuncionario = '0.04',
+    dbo.TipoAdministradora.TarifaAporteTotal = '0.16' 
+WHERE Id = 2
+GO
+UPDATE dbo.TipoAdministradora
+SET
+    dbo.TipoAdministradora.TarifaAporteEmpresa = '0.085',
+    dbo.TipoAdministradora.TarifaAporteFuncionario = '0.04',
+    dbo.TipoAdministradora.TarifaAporteTotal = '0.125' 
+WHERE Id = 3
+GO
+UPDATE dbo.TipoAdministradora
+SET
+    dbo.TipoAdministradora.TarifaAporteEmpresa = '0.04',
+    dbo.TipoAdministradora.TarifaAporteFuncionario = 0,
+    dbo.TipoAdministradora.TarifaAporteTotal = '0.04' 
+WHERE Id = 5
+GO
+UPDATE dbo.TipoAdministradora
+SET
+    dbo.TipoAdministradora.Codigo = 'SENA', 
+    dbo.TipoAdministradora.Nombre = 'Aporte SENA', 
+    dbo.TipoAdministradora.TarifaAporteEmpresa = '0.03',
+    dbo.TipoAdministradora.TarifaAporteFuncionario = 0,
+    dbo.TipoAdministradora.TarifaAporteTotal = '0.03' 
+WHERE Id = 6
+GO
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

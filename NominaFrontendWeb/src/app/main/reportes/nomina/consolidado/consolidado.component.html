@@ -1,0 +1,126 @@
+<div class="page-layout simple fullwidth cargos-listar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon class="mat-icon24" color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Reportes</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/reportes/nomina/dashboard">Nómina</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Generar reporte consolidado conceptos de nómina</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Generar reporte consolidado conceptos de nómina</h2>
+            </div>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <div class="spiner" *ngIf="espera">
+        <mat-spinner></mat-spinner>
+    </div>
+    <!-- CONTENT -->
+    <div class="content">
+        <div>
+            <form (ngSubmit)="guardarHandle($event)" name="form" [formGroup]="form">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Fecha inicial</mat-label>
+                    <input matInput [matDatepicker]="fechaInicial" (focus)="fechaInicial.open()"
+                        (click)="fechaInicial.open()" formControlName="fechaInicial" required>
+                    <mat-datepicker-toggle matPrefix [for]="fechaInicial"> </mat-datepicker-toggle>
+                    <mat-datepicker startView="year" #fechaInicial></mat-datepicker>
+                    <mat-error *ngFor="let error of form.get('fechaInicial').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                No es un formato de fecha válido.
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Fecha inicial que se establece para generar el reporte.">info
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Fecha final</mat-label>
+                    <input matInput [matDatepicker]="fechaFinal" (focus)="fechaFinal.open()" (click)="fechaFinal.open()"
+                        formControlName="fechaFinal" required>
+                    <mat-datepicker-toggle matPrefix [for]="fechaFinal"> </mat-datepicker-toggle>
+                    <mat-datepicker startView="year" #fechaFinal></mat-datepicker>
+                    <mat-error *ngFor="let error of form.get('fechaFinal').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                No es un formato de fecha válido.
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix matTooltip="Fecha final que se establece para generar el reporte.">info
+                    </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Concepto de nómina</mat-label>
+                    <mat-chip-list #chipList>
+                        <mat-chip *ngFor="let concepto of conceptos;let indx=index;" [selectable]="selectable"
+                            [removable]="removable" (removed)="remove(concepto,indx)">
+                            {{concepto.nombre}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                        <input placeholder="Nuevo concepto..." #ConceptoInput formControlName="concepto"
+                            [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <!--[matChipInputAddOnBlur]="addOnBlur"-->
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                        <mat-option *ngFor="let concepto of conceptoNominaOptions | async" [value]="concepto">
+                            {{concepto.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+
+                    <mat-error *ngFor="let error of form.get('concepto').errors | keyvalue">
+                        <div [ngSwitch]="error.key">
+                            <ng-template [ngSwitchCase]="'required'">
+                                Requerido
+                            </ng-template>
+                            <ng-template ngSwitchDefault>
+                                {{error.key}}
+                            </ng-template>
+                        </div>
+                    </mat-error>
+                    <mat-icon matSuffix
+                        matTooltip="Indica el concepto o los conceptos de nómina con los cuales se desea generar el reporte.">
+                        info
+                    </mat-icon>
+                </mat-form-field>
+
+                <div class="actions">
+                    <a mat-raised-button routerLink="/reportes/nomina/dashboard">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+
+                    <button mat-raised-button type="submit" [disabled]="form.invalid || submit" color="accent">
+                        <mat-icon>save_alt</mat-icon>
+                        <span>Generar</span>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

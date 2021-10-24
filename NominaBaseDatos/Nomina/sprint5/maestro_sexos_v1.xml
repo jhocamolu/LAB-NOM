@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_sexos_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[Sexo] ON 
+GO
+INSERT [dbo].[Sexo] ([Id], [Nombre], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [CreadoPor]) VALUES (1, 'Femenino', 'Activo', GETDATE(), NULL, NULL, 'sistema')
+GO
+INSERT [dbo].[Sexo] ([Id], [Nombre], [EstadoRegistro], [FechaCreacion], [FechaEliminacion], [FechaModificacion], [CreadoPor]) VALUES (2, 'Masculino', 'Activo', GETDATE(), NULL, NULL, 'sistema')
+GO
+SET IDENTITY_INSERT [dbo].[Sexo] OFF
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[Sexo] WHERE Id IN (1, 2);
+</rollback>
+</changeSet>
+</databaseChangeLog>

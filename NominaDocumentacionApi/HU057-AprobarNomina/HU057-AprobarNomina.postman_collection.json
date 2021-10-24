@@ -1,0 +1,92 @@
+{
+	"info": {
+		"_postman_id": "cab98555-f5d0-453e-ad27-d16cce1e2de8",
+		"name": "HU057-AprobarNomina",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Graficas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/nominas/graficas/109",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"nominas",
+						"graficas",
+						"109"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aprobar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":109,\r\n    \"aprobar\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44366/api/nominas/aprobar/109",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44366",
+					"path": [
+						"api",
+						"nominas",
+						"aprobar",
+						"109"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aplicar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":109\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44366/api/nominas/aplicar/109",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44366",
+					"path": [
+						"api",
+						"nominas",
+						"aplicar",
+						"109"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,171 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Nómina</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/nomina/liquidacion-nomina">Liquidaciones</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span *ngIf="item">Generar</span>
+                <span *ngIf="!item">Generar</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 *ngIf="item">Generar liquidación</h2>
+                <h2 *ngIf="!item">Generar liquidación</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <liquidacion-nomina-menu [item]="item" *ngIf="item"></liquidacion-nomina-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <div class="content">
+
+        <div>
+            <!-- CONTENIDO -->
+            <liquidacion-nomina-header [item]="item" *ngIf="item" [nuevoEstado]="newEstado"></liquidacion-nomina-header>
+            <liquidacion-nomina-navegacion [paso]="1" [item]="item" [nuevoEstado]="newEstado"></liquidacion-nomina-navegacion>
+
+            <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                <div class="dos-bloque">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Tipo de liquidación</mat-label>
+                        <mat-select formControlName="tipoLiquidacionId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of tipoLiquidacionOptions" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('tipoLiquidacionId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Tipo de proceso que se va a usar para liquidar la nómina.">info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Subperiodo de liquidación</mat-label>
+                        <mat-select formControlName="subperiodoId" required>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let item of subperiodoOptions" [value]="item.id">
+                                {{item.nombre}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of form.get('subperiodoId').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="Subitem del tipo de liquidación.">info
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+
+                 <div class="dos-bloque" *ngIf="form.get('fechaInicio').enabled">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha inicial</mat-label>
+                        <input matInput [matDatepicker]="fechaInicio" (focus)="fechaInicio.open()"
+                            (click)="fechaInicio.open()" formControlName="fechaInicio" required>
+                        <mat-datepicker-toggle matPrefix [for]="fechaInicio">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker startView="year" #fechaInicio></mat-datepicker>
+                        <mat-error *ngFor="let error of form.get('fechaInicio').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                    No es un formato de fecha válido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha final</mat-label>
+                        <input matInput [matDatepicker]="fechaFinal" (focus)="fechaFinal.open()"
+                            (click)="fechaFinal.open()" formControlName="fechaFinal" required>
+                        <mat-datepicker-toggle matPrefix [for]="fechaFinal">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker startView="year" #fechaFinal></mat-datepicker>
+                        <mat-error *ngFor="let error of form.get('fechaFinal').errors | keyvalue">
+                            <div [ngSwitch]="error.key">
+                                <ng-template [ngSwitchCase]="'required'">
+                                    Requerido
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                                    No es un formato de fecha válido.
+                                </ng-template>
+                                <ng-template ngSwitchDefault>
+                                    {{error.key}}
+                                </ng-template>
+                            </div>
+                        </mat-error>
+                        <mat-icon matSuffix matTooltip="">
+                            info
+                        </mat-icon>
+                    </mat-form-field>
+                </div> 
+
+
+                <div fxLayout="row" style="min-height: 100px;"
+                    *ngIf="form.get('fechaInicio').disabled">
+                    <div>
+                        <b>Fecha inicial</b>
+                        <p *ngIf="!form.disabled">{{ fechaInicio | date:'dd / LL / yyyy' }}</p>
+                        <p *ngIf="form.disabled">{{ item?.fechaInicio | date:'dd / LL / yyyy' }}</p>
+                    </div>
+                    <div class="pl">
+                        <b>Fecha final</b>
+                        <p *ngIf="!form.disabled">{{ fechaFin | date:'dd / LL / yyyy' }}</p>
+                        <p *ngIf="form.disabled">{{ item?.fechaFinal | date:'dd / LL / yyyy' }}</p>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <a mat-raised-button type="button" routerLink="/nomina/liquidacion-nomina">
+                        <mat-icon>cancel</mat-icon>
+                        <span>Cancelar</span>
+                    </a>
+
+                    <button mat-raised-button [disabled]="form.invalid || submit" type="submit" color="accent"
+                        *ngIf="arrayPermisosFuncionarios.op2 && (!isDisabled)">
+                        <mat-icon>refresh</mat-icon>
+                        <span>Iniciar</span>
+                    </button>
+
+                    <a mat-raised-button color="accent" *ngIf="isDisabled && item"
+                        routerLink="/nomina/liquidacion-nomina/{{item.id}}/asignacion">
+                        <mat-icon>arrow_forward</mat-icon>
+                        <span>Siguiente</span>
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

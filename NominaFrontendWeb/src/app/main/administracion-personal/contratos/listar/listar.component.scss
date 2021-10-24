@@ -1,0 +1,23 @@
+contratos-listar {
+    @import "src/@alcanos/scss/alcanos-v2";
+
+    table {
+        width: 100%;
+        .mat-column-codigo {
+            max-width: 70px;
+        }
+        .mat-column-nombre {
+            max-width: 150px;
+        }
+    }
+
+    .header{
+        position: sticky;
+        top: 0;
+        z-index: 99999;
+        background: whitesmoke;
+    }
+    table th {
+        top: 100px !important;
+    }
+}

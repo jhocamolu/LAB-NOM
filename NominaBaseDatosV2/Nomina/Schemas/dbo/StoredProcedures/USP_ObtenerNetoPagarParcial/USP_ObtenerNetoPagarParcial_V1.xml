@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="USP_ObtenerNetoPagarParcial_V1">
+<comment>HT027</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerNetoPagarParcial', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerNetoPagarParcial as SELECT 1');
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 28/05/2020
+-- Description: Permite obtener el valor neto a pagar de un funcionario en un punto 
+--			 intermedio del proceso de liquidación
+--
+-- Parameters:
+--   @NominaFuncionarioId:		Identificador del funcionario dentro dé la nómina.
+--		
+--	 Returns:						
+--	 Valor:					Valor de la tabla NominaDetalle.
+-- ==========================================================================================
+ALTER PROCEDURE [dbo].[USP_ObtenerNetoPagarParcial]
+(@NominaFuncionarioId INT,
+ @Valor               MONEY OUTPUT
+)
+AS
+BEGIN
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+    DECLARE @Parametros VARCHAR(MAX)= CONCAT('@NominaFuncionarioId=', CONVERT(VARCHAR, @NominaFuncionarioId));
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+    ---------------------------------------------
+    -- Declaraciones
+    ---------------------------------------------
+    DECLARE @ConceptoClaseDevengo VARCHAR(255);
+    DECLARE @ConceptoClaseDeduccion VARCHAR(255);
+    DECLARE @NominaDetalleProcesado VARCHAR(255);
+    DECLARE @AuditoriaActivo VARCHAR(255)=
+    (
+        SELECT vce.AUDITORIA_ACTIVO
+        FROM util.VW_ConstanteEstado AS vce
+    );
+    DECLARE @TotalDevengos MONEY;
+    DECLARE @TotalDeducciones MONEY;
+
+    ---------------------------------------------
+    -- Proceso
+    ---------------------------------------------
+    BEGIN TRY
+
+        -- Se consultan constantes para las clases de concepto
+        SELECT @ConceptoClaseDevengo = vccc.DEVENGO,
+               @ConceptoClaseDeduccion = vccc.DEDUCCION
+        FROM util.VW_ConstanteClaseConcepto AS vccc;
+
+        -- Se consultan constantes para el estado de nómina detalle procesado.
+        SELECT @NominaDetalleProcesado = vce.NOMINADETALLE_PROCESADO
+        FROM util.VW_ConstanteEstado AS vce;
+
+        -- Se consultan los devengos
+        SELECT @TotalDevengos = SUM(COALESCE(nde.Valor, 0))
+        FROM dbo.NominaDetalle AS nde
+             INNER JOIN dbo.ConceptoNomina AS cno ON(nde.ConceptoNominaId = cno.Id)
+        WHERE nde.NominaFuncionarioId = @NominaFuncionarioId
+              AND nde.Estado = @NominaDetalleProcesado
+              AND cno.ClaseConceptoNomina = @ConceptoClaseDevengo
+              AND nde.EstadoRegistro = @AuditoriaActivo;
+
+        -- Se consultan las deducciones
+        SELECT @TotalDeducciones = SUM(COALESCE(nde.Valor, 0))
+        FROM dbo.NominaDetalle AS nde
+             INNER JOIN dbo.ConceptoNomina AS cno ON(nde.ConceptoNominaId = cno.Id)
+        WHERE nde.NominaFuncionarioId = @NominaFuncionarioId
+              AND nde.Estado = @NominaDetalleProcesado
+              AND cno.ClaseConceptoNomina = @ConceptoClaseDeduccion
+              AND nde.EstadoRegistro = @AuditoriaActivo;
+
+        IF @TotalDevengos IS NULL
+        BEGIN
+            SET @TotalDevengos = 0;
+        END;
+
+        IF @TotalDeducciones IS NULL
+        BEGIN
+            SET @TotalDeducciones = 0;
+        END;
+
+        SET @Valor = @TotalDevengos - @TotalDeducciones;
+    END TRY
+    BEGIN CATCH
+
+        -- Rollback de la transacción
+        IF XACT_STATE() <> 0
+           AND @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK;
+        END;
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END;
+
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerNetoPagarParcial];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

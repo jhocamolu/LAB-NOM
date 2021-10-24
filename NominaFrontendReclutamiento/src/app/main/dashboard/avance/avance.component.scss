@@ -1,0 +1,59 @@
+@import "src/@fuse/scss/fuse";
+
+avance-list {
+    // display: flex;
+    // flex: 1 1 auto;
+    // width: 100%;
+
+    mat-form-field {
+        width: 100%;
+    }
+    mat-icon {
+        cursor: pointer;
+    }
+    a {
+        text-decoration: none !important;
+    }
+    .header {
+        border-bottom: 7px #6e992e solid !important;
+        box-shadow: 0px 2px 4px 0px grey;
+    }
+    .header h2 {
+        color: #6e992e;
+    }
+    mat-card {
+        margin-bottom: 10px;
+    }
+    mat-card-content {
+        text-align: center;
+        height: 160px;
+        .card-circe {
+            margin: auto;
+            margin-top: 25px !important;
+            height: 120px;
+            min-width: 120px;
+            width: 50%;
+            border-radius: 50%;
+            font-size: 40px;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            line-height: 115px;
+        }
+    }
+    .spinner{
+        position: absolute;
+        left: 45%;
+        top: 25%;
+        z-index: 999;
+    }
+
+    .container_spinner{
+        min-height: 150px;
+    }
+
+    .card-circe{
+        font-size: 55px !important;
+        white-space: nowrap;
+    }
+}

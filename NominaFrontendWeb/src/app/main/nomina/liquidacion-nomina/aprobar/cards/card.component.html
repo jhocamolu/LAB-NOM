@@ -1,0 +1,14 @@
+<!-- Front -->
+<div class="fuse-widget-front" [ngClass]="{'card-hover': hoover }" (click)="modalHandle($event, widgets)" (mouseover)="hooverHanlde(widgets)">
+    <div class="pt-40 pb-40" fxLayout="column" fxLayoutAlign="center center">
+        <div class="{{ color }} font-size-72 line-height-72" *ngIf="widgets?.count < 9999">
+            {{widgets?.count}}
+        </div>
+        <div class="{{ color }} mat-display-2 line-height-20" *ngIf="widgets?.count > 9999">
+            {{  widgets?.count.replace(',', '.') | currency:'COP':'symbol-narrow':'4.1-2': 'co' }}
+        </div>
+        <div class="h3 primary-text font-weight-500">{{widgets.label}}
+        </div>
+    </div>
+</div>
+<!-- / Front -->

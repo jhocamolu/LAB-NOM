@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="yiaguirr" id="GrupoNomina_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[GrupoNomina] ON;
+INSERT INTO dbo.GrupoNomina
+(Id, Nombre, EstadoRegistro, CreadoPor, FechaCreacion)
+VALUES(4, 'TEMP', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[GrupoNomina] OFF;
+
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM dbo.GrupoNomina WHERE ID = 4;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

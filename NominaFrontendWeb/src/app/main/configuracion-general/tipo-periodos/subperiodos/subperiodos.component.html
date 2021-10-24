@@ -1,0 +1,59 @@
+<div>
+    <div>
+        <alcanos-empty-list (fnCreate)="subperiodoHandle($event)" labelH1="¡Uy! Aún no has registrado subperíodos."
+            labelBtn="Agregar subperíodo" [visible]="!dataLength && !dataRequest">
+        </alcanos-empty-list>
+
+
+        <div [hidden]="!dataLength" class="box-shadow">
+            <table mat-table #table [dataSource]="dataSource" matSort matSortDisableClear matSortDirection="desc"
+                [@animateStagger]="{value:'50'}">
+
+                <!-- Columna subperiodo -->
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Subperíodo</th>
+                    <td mat-cell *matCellDef="let element">{{ element.nombre }}
+                    </td>
+                </ng-container>
+
+                <!-- Columna días -->
+                <ng-container matColumnDef="dias">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Días</th>
+                    <td mat-cell *matCellDef="let element">{{ element.dias }}
+                    </td>
+                </ng-container>
+
+                <!-- Columna dia inicial -->
+                <ng-container matColumnDef="diaInicial">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Día inicial</th>
+                    <td mat-cell *matCellDef="let element">{{ element.diaInicial }}<span></span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef [ngStyle]="{ display: mostrarBtnCrear ? '': 'none'}"> Acciones
+                    </th>
+                    <td mat-cell *matCellDef="let element" [ngStyle]="{ display: mostrarBtnCrear ? '': 'none'}">
+
+                        <button *ngIf="mostrarBtnCrear" mat-icon-button matTooltip="Editar"
+                            (click)="editarHandle($event, element)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+
+                        <button *ngIf="mostrarBtnCrear" mat-icon-button (click)="eliminarHandle($event, element.id)">
+                            <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <!-- <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5" showFirstLastButtons>
+            </mat-paginator> -->
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+</div>

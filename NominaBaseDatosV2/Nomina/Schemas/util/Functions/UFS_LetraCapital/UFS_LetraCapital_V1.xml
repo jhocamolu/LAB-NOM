@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="UFS_LetraCapital_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_LetraCapital]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_LetraCapital]
+END
+GO
+
+-- =============================================
+-- Author:		Jesus Albeiro Gaviria
+-- Create date: 04/09/2020
+-- Description:	Función obtiene string y lo cambia a Letra capital.
+-- =============================================
+CREATE  FUNCTION [util].[UFS_LetraCapital](@str AS VARCHAR(MAX)) RETURNS VARCHAR(MAX)
+BEGIN
+
+	RETURN upper(left(@str,1)) + lower(substring(@str,2,len(@str)));
+	
+END
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[util].[UFS_LetraCapital]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [util].[UFS_LetraCapital]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,338 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+	<!-- HEADER -->
+	<div class="header">
+
+		<div>
+			<div class="breadcrumb">
+				<mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+				<mat-icon>chevron_right</mat-icon>
+				<span>Administración de personal</span>
+				<mat-icon>chevron_right</mat-icon>
+				<a routerLink="/administracion-personal/funcionarios">Funcionarios</a>
+				<mat-icon>chevron_right</mat-icon>
+				<span *ngIf="itemEstudio">Editar estudio realizado</span>
+				<span *ngIf="!itemEstudio">Registrar estudio realizado</span>
+			</div>
+			<div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+				<h2 class="title" *ngIf="itemEstudio">Editar estudio realizado</h2>
+				<h2 class="title" *ngIf="!itemEstudio">Registrar estudio realizado</h2>
+			</div>
+		</div>
+
+		<div class="actions">
+			<button *ngIf="itemEstudio" mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+				<mat-icon>add</mat-icon>
+				<span>Acciones</span>
+			</button>
+			<mat-menu #menu="matMenu">
+				<a *ngIf="itemEstudio"
+					routerLink="/administracion-personal/funcionarios/{{itemFuncionario.id}}/datos-basicos"
+					mat-menu-item>Editar
+					datos básicos</a>
+				<a *ngIf="itemEstudio" routerLink="/administracion-personal/funcionarios/{{itemFuncionario.id}}/familiar"
+					mat-menu-item>Registrar
+					información familiar</a>
+				<a *ngIf="itemEstudio" routerLink="/administracion-personal/funcionarios/{{itemFuncionario.id}}/estudio"
+					mat-menu-item>Registrar
+					estudio realizado</a>
+				<a *ngIf="itemEstudio"
+					routerLink="/administracion-personal/funcionarios/{{itemFuncionario.id}}/experiencia-laboral"
+					mat-menu-item>Registrar experiencia laboral
+				</a>
+				<a *ngIf="itemEstudio" routerLink="/administracion-personal/contratos/crear" mat-menu-item>Registrar
+					contrato</a>
+				<a *ngIf="itemEstudio" routerLink="/administracion-personal/funcionarios/{{itemFuncionario.id}}/documentos"
+					mat-menu-item>Cargar
+					documento</a>
+			</mat-menu>
+
+		</div>
+
+
+	</div>
+	<!-- / HEADER -->
+
+	<!-- CONTENT -->
+	<div class="content">
+
+		<div>
+			<funcionarios-header [funcionario]="itemFuncionario"></funcionarios-header>
+
+			<mat-tab-group animationDuration="0ms" [selectedIndex]="2" (selectedTabChange)="tabChangeHandle($event)">
+
+				<mat-tab label="Datos básicos">
+				</mat-tab>
+
+				<mat-tab label="Información familiar">
+				</mat-tab>
+
+				<!-- ESTUDIOS -->
+				<mat-tab label="Estudios realizados">
+
+					<form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label>Nivel educativo</mat-label>
+								<mat-select formControlName="nivelEducativoId" required>
+									<mat-option></mat-option>
+									<mat-option *ngFor="let item of nivelEducativos" [value]="item.id">
+										{{item.nombre}}
+									</mat-option>
+								</mat-select>
+								<mat-error *ngFor="let error of objToArray(form.get('nivelEducativoId').errors)">
+									<div [ngSwitch]="error">
+										<ng-template [ngSwitchCase]="'required'">
+											Requerido
+										</ng-template>
+										<ng-template ngSwitchDefault>
+											{{error}}
+										</ng-template>
+									</div>
+								</mat-error>
+								<mat-icon matSuffix matTooltip="Seleccione el grado de estudio que tiene.">
+									info
+								</mat-icon>
+							</mat-form-field>
+						</div>
+
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label>Institución educativa</mat-label>
+								<input matInput formControlName="institucionEducativa" required>
+								<mat-error *ngFor="let error of objToArray(form.get('institucionEducativa').errors)">
+									<div [ngSwitch]="error">
+										<ng-template [ngSwitchCase]="'required'">
+											Requerido
+										</ng-template>
+										<ng-template ngSwitchDefault>
+											{{error}}
+										</ng-template>
+									</div>
+								</mat-error>
+								<mat-icon matSuffix
+									matTooltip="Ingrese el colegio, instituto o universidad con la que realizó los estudios.">
+									info
+								</mat-icon>
+							</mat-form-field>
+						</div>
+
+						<div class="dos-bloque">
+							<mat-form-field appearance="outline">
+								<mat-label>Estado</mat-label>
+								<mat-select formControlName="estadoEstudio" required>
+									<mat-option></mat-option>
+									<mat-option *ngFor="let item of estadoEstudios" [value]="item.id">
+										{{item.nombre}}
+									</mat-option>
+								</mat-select>
+								<mat-error *ngFor="let error of objToArray(form.get('estadoEstudio').errors)">
+									<div [ngSwitch]="error">
+										<ng-template [ngSwitchCase]="'required'">
+											Requerido
+										</ng-template>
+										<ng-template ngSwitchDefault>
+											{{error}}
+										</ng-template>
+									</div>
+								</mat-error>
+								<mat-icon matSuffix matTooltip="Selecciona el estado en el que se encuentra su estudio.">
+									info
+								</mat-icon>
+							</mat-form-field>
+
+							<mat-form-field appearance="outline">
+								<mat-label>País</mat-label>
+								<mat-select formControlName="paisId" required>
+									<mat-option></mat-option>
+									<mat-option *ngFor="let item of paises" [value]="item.id">
+										{{item.nombre}}
+									</mat-option>
+								</mat-select>
+								<mat-error *ngFor="let error of objToArray(form.get('paisId').errors)">
+									<div [ngSwitch]="error">
+										<ng-template [ngSwitchCase]="'required'">
+											Requerido
+										</ng-template>
+										<ng-template ngSwitchDefault>
+											{{error}}
+										</ng-template>
+									</div>
+								</mat-error>
+								<mat-icon matSuffix matTooltip="Seleccione el país en el que realizó sus estudios.">
+									info
+								</mat-icon>
+							</mat-form-field>
+						</div>
+
+						<div class="dos-bloque">
+							<mat-form-field appearance="outline">
+								<mat-label>Fecha de inicio</mat-label>
+								<input matInput [matDatepicker]="anioDeInicio" (focus)="anioDeInicio.open()"
+									(click)="anioDeInicio.open()" formControlName="anioDeInicio" required>
+								<mat-datepicker-toggle matPrefix [for]="anioDeInicio">
+								</mat-datepicker-toggle>
+								<mat-datepicker startView="year" #anioDeInicio></mat-datepicker>
+								<mat-error *ngFor="let error of objToArray(form.get('anioDeInicio').errors)">
+									<div [ngSwitch]="error">
+										<ng-template [ngSwitchCase]="'required'">
+											Requerido
+										</ng-template>
+										<ng-template [ngSwitchCase]="'matDatepickerParse'">
+											No es un formato de fecha válido
+										</ng-template>
+										<ng-template ngSwitchDefault>
+											{{error}}
+										</ng-template>
+									</div>
+								</mat-error>
+								<mat-icon matSuffix matTooltip="Fecha en la que comenzó sus estudios.">info
+								</mat-icon>
+							</mat-form-field>
+
+							<mat-form-field appearance="outline">
+								<mat-label>Fecha de finalización</mat-label>
+								<input matInput [matDatepicker]="anioDeFin" (focus)="anioDeFin.open()"
+									(click)="anioDeFin.open()" formControlName="anioDeFin" required>
+								<mat-datepicker-toggle matPrefix [for]="anioDeFin"> </mat-datepicker-toggle>
+								<mat-datepicker startView="year" #anioDeFin></mat-datepicker>
+								<mat-error *ngFor="let error of objToArray(form.get('anioDeFin').errors)">
+									<div [ngSwitch]="error">
+										<ng-template [ngSwitchCase]="'required'">
+											Requerido
+										</ng-template>
+										<ng-template [ngSwitchCase]="'matDatepickerParse'">
+											No es un formato de fecha válido
+										</ng-template>
+										<ng-template ngSwitchDefault>
+											{{error}}
+										</ng-template>
+									</div>
+								</mat-error>
+								<mat-icon matSuffix matTooltip="Fecha en la que terminó sus estudios.">info
+								</mat-icon>
+							</mat-form-field>
+						</div>
+
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label>N° de Tarjeta profesional</mat-label>
+								<input matInput formControlName="tarjetaProfesional">
+								<mat-error *ngFor="let error of objToArray(form.get('tarjetaProfesional').errors)">
+									<div [ngSwitch]="error">
+										<ng-template [ngSwitchCase]="'required'">
+											Requerido
+										</ng-template>
+										<ng-template [ngSwitchCase]="'pattern'">
+											El campo debe contener números, letras en mayúscula y guión.
+										</ng-template>
+										<ng-template ngSwitchDefault>
+											{{error}}
+										</ng-template>
+									</div>
+								</mat-error>
+								<mat-icon matSuffix matTooltip="Digite el número de la tarjeta profesional.">info
+								</mat-icon>
+							</mat-form-field>
+						</div>
+
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label>Profesión</mat-label>
+								<input matInput formControlName="profesion" [matAutocomplete]="auto">
+								<mat-autocomplete [displayWith]="displayFn" #auto="matAutocomplete">
+									<mat-option *ngFor="let item of filteredProfesiones | async" [value]="item">
+										{{item.nombre}}
+									</mat-option>
+								</mat-autocomplete>
+								<mat-error *ngFor="let error of objToArray(form.get('profesion').errors)">
+									<div [ngSwitch]="error">
+										<ng-template [ngSwitchCase]="'required'">
+											Requerido
+										</ng-template>
+										<ng-template ngSwitchDefault>
+											{{error}}
+										</ng-template>
+									</div>
+								</mat-error>
+								<mat-icon matSuffix
+									matTooltip="Seleccione la profesión que se relaciona con los estudios realizados.">
+									info
+								</mat-icon>
+							</mat-form-field>
+						</div>
+
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label>Título</mat-label>
+								<input matInput formControlName="titulo" required>
+								<mat-error *ngFor="let error of objToArray(form.get('titulo').errors)">
+									<div [ngSwitch]="error">
+										<ng-template [ngSwitchCase]="'required'">
+											Requerido
+										</ng-template>
+										<ng-template ngSwitchDefault>
+											{{error}}
+										</ng-template>
+									</div>
+								</mat-error>
+								<mat-icon matSuffix
+									matTooltip="Ingrese el nombre del título descrito en el diploma de graduación.">
+									info
+								</mat-icon>
+							</mat-form-field>
+						</div>
+
+						<div>
+							<mat-form-field appearance="outline">
+								<mat-label>Observación</mat-label>
+								<textarea matInput formControlName="observacion"></textarea>
+								<mat-error *ngFor="let error of objToArray(form.get('observacion').errors)">
+									<div [ngSwitch]="error">
+										<ng-template [ngSwitchCase]="'required'">
+											Requerido
+										</ng-template>
+										<ng-template [ngSwitchCase]="'maxlength'">
+											Máximo
+											{{ form.get('observacion').errors.maxlength.requiredLength }}
+											caracteres actualmente tiene
+											{{ form.get('observacion').errors.maxlength.actualLength }}
+										</ng-template>
+										<ng-template ngSwitchDefault>
+											{{error}}
+										</ng-template>
+									</div>
+								</mat-error>
+								<mat-icon matSuffix matTooltip="Escriba alguna observación si lo requiere.">
+									info
+								</mat-icon>
+							</mat-form-field>
+						</div>
+
+						<div class="actions">
+							<a mat-raised-button
+								routerLink="/administracion-personal/funcionarios/{{itemFuncionario.id}}/mostrar"
+								[queryParams]="{tab: 2}">
+								<mat-icon>cancel</mat-icon>
+								<span>Cancelar</span>
+							</a>
+							<button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+								<mat-icon>save</mat-icon>
+								<span>Guardar</span>
+							</button>
+						</div>
+
+					</form>
+
+				</mat-tab>
+				<!-- /ESTUDIOS -->
+				<mat-tab label="Experiencia laboral"> </mat-tab>
+				<mat-tab label="Contratos"></mat-tab>
+				<mat-tab label="Documentos"></mat-tab>
+				 <mat-tab label="Retefuente"></mat-tab>
+			</mat-tab-group>
+		</div>
+	</div>
+	<!-- / CONTENIDO -->
+</div>

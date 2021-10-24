@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="FuncionNomina_Datos_V11">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [dbo].[FuncionNomina] ON;
+INSERT INTO dbo.FuncionNomina (Id, Nombre, Alias, Ayuda, ParaCantidad, Proceso, TipoFuncion, FuncionParametro, EstadoRegistro, CreadoPor, FechaCreacion) VALUES('77', 'Días a cotizar quincena', 'DIAS_COTIZAR_QUIN_LIQ', 'Devuelve la cantidad de días de un funcionario en la quincena que se está liquidando y que se deben reportar a seguridad social y provisiones.', '1', '[dbo].[USP_ObtenerDiasACotizar]', 'USP', '[dbo].[USP_ObtenerDiasACotizar] @FuncionarioId = {{FuncionarioId}}, @FechaInicial = {{FechaInicioMes}}, @FechaFinal={{FechaFinalMes}}, @Cantidad = {{Cantidad}} OUTPUT', 'Activo    ', 'sistema', GETDATE());
+SET IDENTITY_INSERT [dbo].[FuncionNomina] OFF;
+
+]]>
+</sql>
+<rollback>
+<![CDATA[
+DELETE FROM FuncionNomina WHERE Id=77;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="_EnlaceExterno_Datos_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+SET IDENTITY_INSERT [util].[_EnlaceExterno] ON 
+GO
+INSERT [util].[_EnlaceExterno] ([Id], [Titulo], [Url], [Imagen], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (1, N'Obra web', N'http://172.16.1.180/admin/login', N'assets/alcanos/obra.png', N'Activo    ', N'sistema', CAST(N'2020-08-31T10:34:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [util].[_EnlaceExterno] ([Id], [Titulo], [Url], [Imagen], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (2, N'Valera', N'https://valeraemocional.alcanosesp.com', N'assets/alcanos/valera.png', N'Activo    ', N'sistema', CAST(N'2020-08-31T10:34:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [util].[_EnlaceExterno] ([Id], [Titulo], [Url], [Imagen], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (3, N'Lecturas', N'http://172.16.1.82/sicomweb', N'assets/alcanos/lecturas.png', N'Activo    ', N'sistema', CAST(N'2020-08-31T10:34:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [util].[_EnlaceExterno] ([Id], [Titulo], [Url], [Imagen], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (4, N'SysAid', N'https://sysaid_vm:8080/Home.jsp', N'assets/alcanos/sysaid.png', N'Activo    ', N'sistema', CAST(N'2020-08-31T10:34:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [util].[_EnlaceExterno] ([Id], [Titulo], [Url], [Imagen], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (5, N'Desempeño', N'http://172.16.1.107:1216', N'assets/alcanos/evaluacion.png', N'Activo    ', N'sistema', CAST(N'2020-08-31T10:34:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [util].[_EnlaceExterno] ([Id], [Titulo], [Url], [Imagen], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (6, N'Horas extras', N'https://horasextras.alcanos.net:3589', N'assets/alcanos/extra.png', N'Activo    ', N'sistema', CAST(N'2020-08-31T10:34:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [util].[_EnlaceExterno] ([Id], [Titulo], [Url], [Imagen], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (7, N'Gastos de viaje', N'https://gastosdeviaje.alcanosesp.com:8080/#/', N'assets/alcanos/viaje.png', N'Activo    ', N'sistema', CAST(N'2020-08-31T10:34:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [util].[_EnlaceExterno] ([Id], [Titulo], [Url], [Imagen], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (8, N'Contratación', N'http://172.16.0.254/contratacion', N'assets/alcanos/contratacion.png', N'Activo    ', N'sistema', CAST(N'2020-08-31T10:34:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [util].[_EnlaceExterno] ([Id], [Titulo], [Url], [Imagen], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (9, N'CDO', N'https://cdo.alcanosesp.com/admin.php', N'assets/alcanos/central.png', N'Activo    ', N'sistema', CAST(N'2020-08-31T10:34:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [util].[_EnlaceExterno] ([Id], [Titulo], [Url], [Imagen], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (10, N'Sitio web', N'https://www.alcanosesp.com', N'assets/alcanos/alcanos.png', N'Activo    ', N'sistema', CAST(N'2020-08-31T10:34:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+INSERT [util].[_EnlaceExterno] ([Id], [Titulo], [Url], [Imagen], [EstadoRegistro], [CreadoPor], [FechaCreacion], [ModificadoPor], [FechaModificacion], [EliminadoPor], [FechaEliminacion]) VALUES (11, 'Correo','https://www.gmail.com','assets/alcanos/gmail.svg', N'Activo    ', N'sistema', CAST(N'2020-08-31T10:34:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
+GO
+
+SET IDENTITY_INSERT [util].[_EnlaceExterno] OFF
+GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DELETE FROM [util].[_EnlaceExterno] WHERE Id BETWEEN 1 AND 11
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

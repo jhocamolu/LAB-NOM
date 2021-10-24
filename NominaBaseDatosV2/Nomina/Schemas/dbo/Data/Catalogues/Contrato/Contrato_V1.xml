@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="Contrato_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+
+    DECLARE @GrupoId as int = (SELECT TOP 1 GrupoId FROM dbo.CargoGrupo WHERE CargoGrupo.Defecto = 1)
+    
+    UPDATE dbo.Contrato
+    SET dbo.Contrato.CargoGrupoId = @GrupoId
+    WHERE dbo.Contrato.CargoGrupoId IS NULL;
+    
+
+    DECLARE @TipoPeriodoId as int = (SELECT TOP 1 dbo.TipoPeriodo.Id FROM dbo.TipoPeriodo WHERE dbo.TipoPeriodo.Nombre LIKE '%mensual%');
+    
+    UPDATE dbo.Contrato
+    SET dbo.Contrato.TipoPeriodoId = @TipoPeriodoId
+    WHERE dbo.Contrato.TipoPeriodoId IS NULL;
+    
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+   
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

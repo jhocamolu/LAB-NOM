@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="CargoCentroCosto_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    CREATE TABLE [CargoCentroCosto] (
+        [Id] int NOT NULL IDENTITY,
+        [CargoId] int NOT NULL,
+        [Porcentaje] decimal(16,6) NULL,
+        [FechaCorte] date NOT NULL,
+        CONSTRAINT [PK_CargoCentroCosto] PRIMARY KEY ([Id]),
+        CONSTRAINT [FK_CargoCentroCosto_Cargo_CargoId] FOREIGN KEY ([CargoId]) REFERENCES [Cargo] ([Id]) ON DELETE CASCADE
+    );
+    GO
+
+    CREATE INDEX [IX_CargoCentroCosto_CargoId] ON [CargoCentroCosto] ([CargoId]);
+    GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    DROP TABLE [CargoCentroCosto];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

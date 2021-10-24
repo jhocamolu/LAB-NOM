@@ -1,0 +1,67 @@
+<!-- CONTENIDO -->
+
+<div *ngIf="element">
+
+    <div class="spiner" *ngIf="espera">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <h1 mat-dialog-title>Visualizar detalle del periodo de vacaciones</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <div class="dos-bloque">
+            <div>
+                <h3>Inicio de causación</h3>
+                <p>{{element.inicioCausacion | date:'dd / LL / yyyy'}}</p>
+            </div>
+            <div>
+                <h3>Fin de causación</h3>
+                <p>{{element.finCausacion | date:'dd / LL / yyyy'}}</p>
+            </div>
+        </div>
+
+        <div mat-dialog-content fusePerfectScrollbar>
+            <div>
+                <table class="simple" *ngIf="contador > 0">
+                    <thead>
+                        <tr>
+                            <th class="mat-header-cell">Inicio de vacaciones</th>
+                            <th class="mat-header-cell">Fin de vacaciones</th>
+                            <th class="mat-header-cell">Regreso de vacaciones</th>
+                            <th class="mat-header-cell">Pago de vacaciones</th>
+                            <th class="mat-header-cell">Días disfrutados</th>
+                            <th class="mat-header-cell">Días en dinero</th>
+                            <th class="mat-header-cell">Número de interrupciones</th>
+                            <th class="mat-header-cell">Remuneración</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="mat-row" *ngFor="let item of datosNuevos">
+                            <td>{{item.fechaInicioDisfrute | date:'dd / LL / yyyy'}}</td>
+                            <td>{{item.fechaFinDisfrute | date:'dd / LL / yyyy'}}</td>
+                            <td>{{item.fechaRegreso | date:'dd / LL / yyyy'}}</td>
+                            <td>{{item.fechaPago | date:'dd / LL / yyyy'}}</td>
+                            <td class="disfrutado dr">{{item.diasDisfrute}}</td>
+                            <td class="dinero dr">{{item.diasDinero}}</td>
+                            <td class="interrupciones dr">{{interrupcionesCount}}</td>
+                            <td class="dr">{{item.remuneracion | currency:'COP':'symbol-narrow':'4.2-2': 'co'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div *ngIf="contador == 0">
+                    No existe información relacionada.
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button type="button" (click)="dialogRef.close()" color="accent">
+            <mat-icon>check</mat-icon>
+            <span>Aceptar</span>
+        </button>
+    </div>
+
+</div>

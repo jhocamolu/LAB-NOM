@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="TipoContrato_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[TipoContrato] ON 
+GO
+INSERT [dbo].[TipoContrato] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CantidadProrrogas], [DuracionMaxima], [TerminoIndefinido]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, 'Término fijo inferior a 1 año', 3, 1095, 0)
+GO
+INSERT [dbo].[TipoContrato] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CantidadProrrogas], [DuracionMaxima], [TerminoIndefinido]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, 'Término indefinido', 0, 10000, 1)
+GO
+INSERT [dbo].[TipoContrato] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CantidadProrrogas], [DuracionMaxima], [TerminoIndefinido]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, 'Aprendizaje', 1, 730, 1)
+GO
+INSERT [dbo].[TipoContrato] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CantidadProrrogas], [DuracionMaxima], [TerminoIndefinido]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, 'Confianza y manejo', 0, 10000, 1)
+GO
+INSERT [dbo].[TipoContrato] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CantidadProrrogas], [DuracionMaxima], [TerminoIndefinido]) VALUES ('sistema', 5, 'Activo', GETDATE(), NULL, NULL, 'Confianza y manejo salario integral', 0, 10000, 1)
+GO
+INSERT [dbo].[TipoContrato] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CantidadProrrogas], [DuracionMaxima], [TerminoIndefinido]) VALUES ('sistema', 6, 'Activo', GETDATE(), NULL, NULL, 'Salario variable', 3, 1095, 0)
+GO
+INSERT [dbo].[TipoContrato] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CantidadProrrogas], [DuracionMaxima], [TerminoIndefinido]) VALUES ('sistema', 7, 'Activo', GETDATE(), NULL, NULL, 'Término fijo inferior a 1 año', 3, 1095, 0)
+GO
+INSERT [dbo].[TipoContrato] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre], [CantidadProrrogas], [DuracionMaxima], [TerminoIndefinido]) VALUES ('sistema', 8, 'Activo', GETDATE(), NULL, NULL, 'Prácticante universitario', 1, 730, 1)
+GO
+SET IDENTITY_INSERT [dbo].[TipoContrato] OFF
+GO
+
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoContrato] WHERE Id BETWEEN 1 AND 8;
+</rollback>
+</changeSet>
+</databaseChangeLog>

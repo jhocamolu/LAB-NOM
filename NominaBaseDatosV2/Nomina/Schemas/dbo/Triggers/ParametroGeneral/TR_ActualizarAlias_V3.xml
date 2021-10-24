@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="TR_ActualizarAlias_V3">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.TR_ActualizarAlias', 'TR') IS NULL
+    BEGIN
+        EXECUTE ('CREATE TRIGGER dbo.TR_ActualizarAlias ON dbo.ParametroGeneral AFTER INSERT,UPDATE as SELECT 1');
+END;
+GO
+-- =============================================
+-- Author:		Laura Katherine Estrada Arango
+-- Create date: 28/02/2020
+-- Description:	Disparador utiliza funcion camel case para ajustar el campo alias
+--              de la tabla ParametroGeneral.
+-- =============================================
+ALTER TRIGGER [dbo].[TR_ActualizarAlias]
+   ON [dbo].[ParametroGeneral]
+   AFTER  INSERT,UPDATE
+AS 
+BEGIN
+	IF EXISTS(SELECT Alias 
+            FROM inserted)
+	
+	DECLARE @Id AS INT;
+	DECLARE @Alias AS VARCHAR(MAX);
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+    SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+  
+    DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+	
+    -- Insert statements for trigger here
+	BEGIN TRY	
+		DECLARE CUR_ParametroGeneral CURSOR LOCAL
+        FOR SELECT ins.Alias, ins.Id FROM inserted ins
+        OPEN CUR_ParametroGeneral;
+
+        FETCH NEXT FROM CUR_ParametroGeneral INTO @Alias,@Id
+
+        WHILE @@FETCH_STATUS = 0
+
+        BEGIN
+			  
+			DECLARE @Camelcase AS VARCHAR(MAX)   = (SELECT [util].[UFS_CamelCase](@Alias));
+			DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Id=', CONVERT(VARCHAR, @Id), '&', '@Alias=', CONVERT(VARCHAR, @Alias));
+			
+			UPDATE 
+				[ParametroGeneral]
+			SET
+				[Alias] = @camelcase
+			WHERE 
+				Id = @Id
+            FETCH NEXT FROM CUR_ParametroGeneral INTO @Alias,@Id
+        END;
+
+        CLOSE CUR_ParametroGeneral;
+
+        DEALLOCATE CUR_ParametroGeneral;
+			
+    END TRY
+	BEGIN CATCH
+
+        -- Se almacena la información del error
+        EXEC util.USP_Registrarerror
+             @NombreObjeto,
+             @Parametros;
+
+        -- Se lanza la excepción
+        EXEC util.USP_LanzarExcepcion;
+    END CATCH;
+END
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TRIGGER [dbo].[TR_ActualizarAlias];
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

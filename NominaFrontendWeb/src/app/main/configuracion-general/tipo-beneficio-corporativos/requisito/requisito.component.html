@@ -1,0 +1,37 @@
+
+    <h1 mat-dialog-title>Agregar requisito</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+        <form [formGroup]="form" *ngIf="form">
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo de soporte</mat-label>
+                <mat-select formControlName="tipoSoporteId" step="any" required>
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let item of requisitosOptions" [value]="item.id">
+                        {{ item.nombre }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngFor="let error of tipoSoporteId.errors | keyvalue">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Nombre del requisito para el tipo de beneficio.">info
+                </mat-icon>
+            </mat-form-field>
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button [disabled]="form.invalid" (click)="guardarHandle($event)" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>

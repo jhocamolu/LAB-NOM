@@ -1,0 +1,149 @@
+<div id="dashboard-proyecto" class="page-layout simple right-sidebar" fxLayout="row">
+
+    <div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+        <!-- HEADER -->
+        <div class="header">
+            <div>
+                <div class="breadcrumb">
+                    <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                    <mat-icon>chevron_right</mat-icon>
+                    <span>Nómina</span>
+                    <mat-icon>chevron_right</mat-icon>
+                    <a routerLink="/nomina/liquidacion-nomina">Liquidaciones</a>
+                    <mat-icon>chevron_right</mat-icon>
+                    <span>Generar </span>
+                </div>
+                <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    <h2>Generar liquidación</h2>
+                </div>
+            </div>
+            <div class="actions">
+                <liquidacion-nomina-menu [item]="item" *ngIf="item"></liquidacion-nomina-menu>
+
+            </div>
+        </div>
+        <!-- / HEADER -->
+
+
+        <div class="content">
+
+            <div>
+                <!-- CONTENIDO -->
+
+                <liquidacion-nomina-header [item]="item" [nuevoEstado]="newEstado"></liquidacion-nomina-header>
+                <liquidacion-nomina-navegacion [paso]="5" [item]="item" [nuevoEstado]="newEstado"></liquidacion-nomina-navegacion>
+
+                <div>
+
+                    <div class="widget-group p-12" fxLayout="row wrap" fxFlex="100" *fuseIfOnDom
+                        [@animateStagger]="{value:'100'}">
+
+                        <!-- <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column" fxFlex="100" fxFlex.gt-sm="100">
+                            <alcanos-chart
+                            title="Distribución nómina"
+                            type="doughnut"
+                            [labels]="labelsDoughnut"
+                            [data]="dataDoughnut"
+                            [footerVisible]="true"
+                            [footerTitle]="doughnutFooterTitle"
+                            [footerValue]="doughnutFooterValue"
+                            ></alcanos-chart>
+                        </fuse-widget> -->
+
+                        <fuse-widget [ngClass]="{'ocultar': disable, 'widget': true}" [@animate]="{value:'*',params:{y:'100%'}}" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-sm="100">
+                            <alcanos-chart title="Últimas liquidaciones de nómina" type="bar" [labels]="labelsBar"
+                                [data]="dataBar" [options]="optionsBar" [footerTitle]="barFooterTitle"
+                                [footerValue]="barFooterValue"></alcanos-chart>
+                        </fuse-widget>
+
+                        <!--[footerTitle]="'barFooterTitle'"
+                            [footerValue]="'barFooterValue'"-->
+                            
+                        <!-- WIDGET 1 -->
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="33">
+                            <card-data class="fuse-widget-front" wid="1" color="azul-alcanos"
+                                [widget]="widgets.widget1"></card-data>
+                        </fuse-widget>
+                        <!-- / WIDGET 1 -->
+
+
+                        <!-- WIDGET 2 -->
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="33">
+                            <card-data class="fuse-widget-front" wid="2" color="salmon-alcanos"
+                                [widget]="widgets.widget2"></card-data>
+                        </fuse-widget>
+                        <!-- / WIDGET 2 -->
+
+                        <!-- WIDGET 3 -->
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="33">
+                            <card-data class="fuse-widget-front" wid="3" color="purpura-alcanos"
+                                [widget]="widgets.widget3"></card-data>
+                        </fuse-widget>
+                        <!-- / WIDGET 3 -->
+
+                        <!-- WIDGET 4 -->
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="33">
+                            <card-data class="fuse-widget-front" wid="4" color="menta-alcanos"
+                                [widget]="widgets.widget4"></card-data>
+                        </fuse-widget>
+                        <!-- / WIDGET 4 -->
+
+                        <!-- WIDGET 5 -->
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="33">
+                            <card-data class="fuse-widget-front" wid="5" color="azul-alcanos"
+                                [widget]="widgets.widget5"></card-data>
+                        </fuse-widget>
+                        <!-- / WIDGET 5 -->
+
+                        <!-- WIDGET 6 -->
+                        <fuse-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
+                            fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="33">
+                            <card-data class="fuse-widget-front" wid="6" color="salmon-alcanos"
+                                [widget]="widgets.widget6"></card-data>
+                        </fuse-widget>
+                        <!-- / WIDGET 6 -->
+                    </div>
+                    <!-- / WIDGET GROUP -->
+                </div>
+
+                <div class="actions">
+                    <a mat-raised-button routerLink="/nomina/liquidacion-nomina/{{id}}/prenomina">
+                        <mat-icon>arrow_back</mat-icon>
+                        <span>Anterior</span>
+                    </a>
+
+                    <a mat-raised-button class="terciaria" (click)="actualizarHandle()">
+                        <mat-icon>refresh</mat-icon>
+                        <span>Actualizar</span>
+                    </a>
+                    
+                    <button mat-raised-button type="button" class="secundaria" (click)="aprobarHandle($event, item.id)"
+                        *ngIf="newEstado.estado == estadoLiquidacion.liquidada">
+                        <mat-icon>pan_tool</mat-icon>
+                        <span>Aprobar</span>
+                    </button>
+
+                    <button mat-raised-button type="button" class="secundaria" (click)="desaprobarHandle($event, item.id)"
+                        *ngIf="newEstado.estado == estadoLiquidacion.aprobada">
+                        <mat-icon>pan_tool</mat-icon>
+                        <span>Desaprobar</span>
+                    </button>
+                    <button mat-raised-button color="accent" (click)="aplicarHandle($event, item.id)"  *ngIf="newEstado.estado != estadoLiquidacion.aplicada">
+                        <mat-icon>thumb_up</mat-icon>
+                        <span>Aplicar</span>
+                    </button>
+                </div>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CENTER -->
+
+    </div>

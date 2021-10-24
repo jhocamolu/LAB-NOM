@@ -1,0 +1,1006 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_actividad_economica_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[ActividadEconomica] ON 
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, '0111', 'Cultivo de cereales (excepto arroz), legumbres y semillas oleaginosas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, '0112', 'Cultivo de arroz')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 3, 'Activo', GETDATE(), NULL, NULL, '0113', 'Cultivo de hortalizas, raíces y tubérculos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 4, 'Activo', GETDATE(), NULL, NULL, '0114', 'Cultivo de tabaco')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 5, 'Activo', GETDATE(), NULL, NULL, '0115', 'Cultivo de plantas textiles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 6, 'Activo', GETDATE(), NULL, NULL, '0119', 'Otros cultivos transitorios n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 7, 'Activo', GETDATE(), NULL, NULL, '0121', 'Cultivo de frutas tropicales y subtropicales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 8, 'Activo', GETDATE(), NULL, NULL, '0122', 'Cultivo de plátano y banano')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 9, 'Activo', GETDATE(), NULL, NULL, '0123', 'Cultivo de café')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 10, 'Activo', GETDATE(), NULL, NULL, '0124', 'Cultivo de caña de azúcar')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 11, 'Activo', GETDATE(), NULL, NULL, '0125', 'Cultivo de flor de corte')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 12, 'Activo', GETDATE(), NULL, NULL, '0126', 'Cultivo de palma para aceite (palma africana) y otros frutos oleaginosos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 13, 'Activo', GETDATE(), NULL, NULL, '0127', 'Cultivo de plantas con las que se preparan bebidas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 14, 'Activo', GETDATE(), NULL, NULL, '0128', 'Cultivo de especias y de plantas aromáticas y medicinales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 15, 'Activo', GETDATE(), NULL, NULL, '0129', 'Otros cultivos permanentes n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 16, 'Activo', GETDATE(), NULL, NULL, '0130', 'Propagación de plantas (actividades de los viveros, excepto viveros forestales)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 17, 'Activo', GETDATE(), NULL, NULL, '0141', 'Cría de ganado bovino y bufalino')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 18, 'Activo', GETDATE(), NULL, NULL, '0142', 'Cría de caballos y otros equinos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 19, 'Activo', GETDATE(), NULL, NULL, '0143', 'Cría de ovejas y cabras')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 20, 'Activo', GETDATE(), NULL, NULL, '0144', 'Cría de ganado porcino')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 21, 'Activo', GETDATE(), NULL, NULL, '0145', 'Cría de aves de corral')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 22, 'Activo', GETDATE(), NULL, NULL, '0149', 'Cría de otros animales n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 23, 'Activo', GETDATE(), NULL, NULL, '0150', 'Explotación mixta (agrícola y pecuaria)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 24, 'Activo', GETDATE(), NULL, NULL, '0161', 'Actividades de apoyo a la agricultura')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 25, 'Activo', GETDATE(), NULL, NULL, '0162', 'Actividades de apoyo a la ganadería')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 26, 'Activo', GETDATE(), NULL, NULL, '0163', 'Actividades posteriores a la cosecha')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 27, 'Activo', GETDATE(), NULL, NULL, '0164', 'Tratamiento de semillas para propagación')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 28, 'Activo', GETDATE(), NULL, NULL, '0170', 'Caza ordinaria y mediante trampas y actividades de servicios conexas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 29, 'Activo', GETDATE(), NULL, NULL, '0210', 'Silvicultura y otras actividades forestales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 30, 'Activo', GETDATE(), NULL, NULL, '0220', 'Extracción de madera')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 31, 'Activo', GETDATE(), NULL, NULL, '0230', 'Recolección de productos forestales diferentes a la madera')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 32, 'Activo', GETDATE(), NULL, NULL, '0240', 'Servicios de apoyo a la silvicultura')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 33, 'Activo', GETDATE(), NULL, NULL, '0311', 'Pesca marítima')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 34, 'Activo', GETDATE(), NULL, NULL, '0312', 'Pesca de agua dulce')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 35, 'Activo', GETDATE(), NULL, NULL, '0321', 'Acuicultura marítima')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 36, 'Activo', GETDATE(), NULL, NULL, '0322', 'Acuicultura de agua dulce')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 37, 'Activo', GETDATE(), NULL, NULL, '0510', 'Extracción de hulla (carbón de piedra)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 38, 'Activo', GETDATE(), NULL, NULL, '0520', 'Extracción de carbón lignito')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 39, 'Activo', GETDATE(), NULL, NULL, '0610', 'Extracción de petróleo crudo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 40, 'Activo', GETDATE(), NULL, NULL, '0620', 'Extracción de gas natural')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 41, 'Activo', GETDATE(), NULL, NULL, '0710', 'Extracción de minerales de hierro')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 42, 'Activo', GETDATE(), NULL, NULL, '0721', 'Extracción de minerales de uranio y de torio')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 43, 'Activo', GETDATE(), NULL, NULL, '0722', 'Extracción de oro y otros metales preciosos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 44, 'Activo', GETDATE(), NULL, NULL, '0723', 'Extracción de minerales de níquel')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 45, 'Activo', GETDATE(), NULL, NULL, '0729', 'Extracción de otros minerales metalíferos no ferrosos n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 46, 'Activo', GETDATE(), NULL, NULL, '0811', 'Extracción de piedra, arena, arcillas comunes, yeso y anhidrita')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 47, 'Activo', GETDATE(), NULL, NULL, '0812', 'Extracción de arcillas de uso industrial, caliza, caolín y bentonitas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 48, 'Activo', GETDATE(), NULL, NULL, '0820', 'Extracción de esmeraldas, piedras preciosas y semipreciosas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 49, 'Activo', GETDATE(), NULL, NULL, '0891', 'Extracción de minerales para la fabricación de abonos y productos químicos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 50, 'Activo', GETDATE(), NULL, NULL, '0892', 'Extracción de halita (sal)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 51, 'Activo', GETDATE(), NULL, NULL, '0899', 'Extracción de otros minerales no metálicos n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 52, 'Activo', GETDATE(), NULL, NULL, '0910', 'Actividades de apoyo para la extracción de petróleo y de gas natural')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 53, 'Activo', GETDATE(), NULL, NULL, '0990', 'Actividades de apoyo para otras actividades de explotación de minas y canteras')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 54, 'Activo', GETDATE(), NULL, NULL, '1011', 'Procesamiento y conservación de carne y productos cárnicos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 55, 'Activo', GETDATE(), NULL, NULL, '1012', 'Procesamiento y conservación de pescados, crustáceos y moluscos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 56, 'Activo', GETDATE(), NULL, NULL, '1020', 'Procesamiento y conservación de frutas, legumbres, hortalizas y tubérculos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 57, 'Activo', GETDATE(), NULL, NULL, '1030', 'Elaboración de aceites y grasas de origen vegetal y animal')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 58, 'Activo', GETDATE(), NULL, NULL, '1040', 'Elaboración de productos lácteos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 59, 'Activo', GETDATE(), NULL, NULL, '1051', 'Elaboración de productos de molinería')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 60, 'Activo', GETDATE(), NULL, NULL, '1052', 'Elaboración de almidones y productos derivados del almidón')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 61, 'Activo', GETDATE(), NULL, NULL, '1061', 'Trilla de café')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 62, 'Activo', GETDATE(), NULL, NULL, '1062', 'Descafeinado, tostión y molienda del café')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 63, 'Activo', GETDATE(), NULL, NULL, '1063', 'Otros derivados del café')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 64, 'Activo', GETDATE(), NULL, NULL, '1071', 'Elaboración y refinación de azúcar')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 65, 'Activo', GETDATE(), NULL, NULL, '1072', 'Elaboración de panela')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 66, 'Activo', GETDATE(), NULL, NULL, '1081', 'Elaboración de productos de panadería')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 67, 'Activo', GETDATE(), NULL, NULL, '1082', 'Elaboración de cacao, chocolate y productos de confitería')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 68, 'Activo', GETDATE(), NULL, NULL, '1083', 'Elaboración de macarrones, fideos, alcuzcuz y productos farináceos similares')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 69, 'Activo', GETDATE(), NULL, NULL, '1084', 'Elaboración de comidas y platos preparados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 70, 'Activo', GETDATE(), NULL, NULL, '1089', 'Elaboración de otros productos alimenticios n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 71, 'Activo', GETDATE(), NULL, NULL, '1090', 'Elaboración de alimentos preparados para animales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 72, 'Activo', GETDATE(), NULL, NULL, '1101', 'Destilación, rectificación y mezcla de bebidas alcohólicas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 73, 'Activo', GETDATE(), NULL, NULL, '1102', 'Elaboración de bebidas fermentadas no destiladas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 74, 'Activo', GETDATE(), NULL, NULL, '1103', 'Producción de malta, elaboración de cervezas y otras bebidas malteadas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 75, 'Activo', GETDATE(), NULL, NULL, '1104', 'Elaboración de bebidas no alcohólicas, producción de aguas minerales y de otras aguas embotelladas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 76, 'Activo', GETDATE(), NULL, NULL, '1200', 'Elaboración de productos de tabaco')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 77, 'Activo', GETDATE(), NULL, NULL, '1311', 'Preparación e hilatura de fibras textiles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 78, 'Activo', GETDATE(), NULL, NULL, '1312', 'Tejeduría de productos textiles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 79, 'Activo', GETDATE(), NULL, NULL, '1313', 'Acabado de productos textiles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 80, 'Activo', GETDATE(), NULL, NULL, '1391', 'Fabricación de tejidos de punto y ganchillo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 81, 'Activo', GETDATE(), NULL, NULL, '1392', 'Confección de artículos con materiales textiles, excepto prendas de vestir')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 82, 'Activo', GETDATE(), NULL, NULL, '1393', 'Fabricación de tapetes y alfombras para pisos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 83, 'Activo', GETDATE(), NULL, NULL, '1394', 'Fabricación de cuerdas, cordeles, cables, bramantes y redes')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 84, 'Activo', GETDATE(), NULL, NULL, '1399', 'Fabricación de otros artículos textiles n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 85, 'Activo', GETDATE(), NULL, NULL, '1410', 'Confección de prendas de vestir, excepto prendas de piel')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 86, 'Activo', GETDATE(), NULL, NULL, '1420', 'Fabricación de artículos de piel')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 87, 'Activo', GETDATE(), NULL, NULL, '1430', 'Fabricación de artículos de punto y ganchillo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 88, 'Activo', GETDATE(), NULL, NULL, '1511', 'Curtido y recurtido de cueros; recurtido y teñido de pieles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 89, 'Activo', GETDATE(), NULL, NULL, '1512', 'Fabricación de artículos de viaje, bolsos de mano y artículos similares elaborados en cuero, y fabricación de artículos de talabartería y guarnicionería')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 90, 'Activo', GETDATE(), NULL, NULL, '1513', 'Fabricación de artículos de viaje, bolsos de mano y artículos similares; artículos de talabartería y guarnicionería elaborados en otros materiales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 91, 'Activo', GETDATE(), NULL, NULL, '1521', 'Fabricación de calzado de cuero y piel, con cualquier tipo de suela')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 92, 'Activo', GETDATE(), NULL, NULL, '1522', 'Fabricación de otros tipos de calzado, excepto calzado de cuero y piel')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 93, 'Activo', GETDATE(), NULL, NULL, '1523', 'Fabricación de partes del calzado')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 94, 'Activo', GETDATE(), NULL, NULL, '1610', 'Aserrado, acepillado e impregnación de la madera')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 95, 'Activo', GETDATE(), NULL, NULL, '1620', 'Fabricación de hojas de madera para enchapado; fabricación de tableros contrachapados, tableros laminados, tableros de partículas y otros tableros y paneles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 96, 'Activo', GETDATE(), NULL, NULL, '1630', 'Fabricación de partes y piezas de madera, de carpintería y ebanistería para la construcción')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 97, 'Activo', GETDATE(), NULL, NULL, '1640', 'Fabricación de recipientes de madera')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 98, 'Activo', GETDATE(), NULL, NULL, '1690', 'Fabricación de otros productos de madera; fabricación de artículos de corcho, cestería y espartería')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 99, 'Activo', GETDATE(), NULL, NULL, '1701', 'Fabricación de pulpas (pastas) celulósicas; papel y cartón')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 100, 'Activo', GETDATE(), NULL, NULL, '1702', 'Fabricación de papel y cartón ondulado (corrugado); fabricación de envases, empaques y de embalajes de papel y cartón.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 101, 'Activo', GETDATE(), NULL, NULL, '1709', 'Fabricación de otros artículos de papel y cartón')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 102, 'Activo', GETDATE(), NULL, NULL, '1811', 'Actividades de impresión')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 103, 'Activo', GETDATE(), NULL, NULL, '1812', 'Actividades de servicios relacionados con la impresión')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 104, 'Activo', GETDATE(), NULL, NULL, '1820', 'Producción de copias a partir de grabaciones originales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 105, 'Activo', GETDATE(), NULL, NULL, '1910', 'Fabricación de productos de hornos de coque')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 106, 'Activo', GETDATE(), NULL, NULL, '1921', 'Fabricación de productos de la refinación del petróleo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 107, 'Activo', GETDATE(), NULL, NULL, '1922', 'Actividad de mezcla de combustibles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 108, 'Activo', GETDATE(), NULL, NULL, '2011', 'Fabricación de sustancias y productos químicos básicos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 109, 'Activo', GETDATE(), NULL, NULL, '2012', 'Fabricación de abonos y compuestos inorgánicos nitrogenados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 110, 'Activo', GETDATE(), NULL, NULL, '2013', 'Fabricación de plásticos en formas primarias')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 111, 'Activo', GETDATE(), NULL, NULL, '2014', 'Fabricación de caucho sintético en formas primarias')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 112, 'Activo', GETDATE(), NULL, NULL, '2021', 'Fabricación de plaguicidas y otros productos químicos de uso agropecuario')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 113, 'Activo', GETDATE(), NULL, NULL, '2022', 'Fabricación de pinturas, barnices y revestimientos similares, tintas para impresión y masillas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 114, 'Activo', GETDATE(), NULL, NULL, '2023', 'Fabricación de jabones y detergentes, preparados para limpiar y pulir; perfumes y preparados de tocador')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 115, 'Activo', GETDATE(), NULL, NULL, '2029', 'Fabricación de otros productos químicos n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 116, 'Activo', GETDATE(), NULL, NULL, '2030', 'Fabricación de fibras sintéticas y artificiales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 117, 'Activo', GETDATE(), NULL, NULL, '2100', 'Fabricación de productos farmacéuticos, sustancias químicas medicinales y productos botánicos de uso farmacéutico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 118, 'Activo', GETDATE(), NULL, NULL, '2211', 'Fabricación de llantas y neumáticos de caucho')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 119, 'Activo', GETDATE(), NULL, NULL, '2212', 'Reencauche de llantas usadas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 120, 'Activo', GETDATE(), NULL, NULL, '2219', 'Fabricación de formas básicas de caucho y otros productos de caucho n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 121, 'Activo', GETDATE(), NULL, NULL, '2221', 'Fabricación de formas básicas de plástico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 122, 'Activo', GETDATE(), NULL, NULL, '2229', 'Fabricación de artículos de plástico n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 123, 'Activo', GETDATE(), NULL, NULL, '2310', 'Fabricación de vidrio y productos de vidrio')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 124, 'Activo', GETDATE(), NULL, NULL, '2391', 'Fabricación de productos refractarios')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 125, 'Activo', GETDATE(), NULL, NULL, '2392', 'Fabricación de materiales de arcilla para la construcción')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 126, 'Activo', GETDATE(), NULL, NULL, '2393', 'Fabricación de otros productos de cerámica y porcelana')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 127, 'Activo', GETDATE(), NULL, NULL, '2394', 'Fabricación de cemento, cal y yeso')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 128, 'Activo', GETDATE(), NULL, NULL, '2395', 'Fabricación de artículos de hormigón, cemento y yeso')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 129, 'Activo', GETDATE(), NULL, NULL, '2396', 'Corte, tallado y acabado de la piedra')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 130, 'Activo', GETDATE(), NULL, NULL, '2399', 'Fabricación de otros productos minerales no metálicos n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 131, 'Activo', GETDATE(), NULL, NULL, '2410', 'Industrias básicas de hierro y de acero')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 132, 'Activo', GETDATE(), NULL, NULL, '2421', 'Industrias básicas de metales preciosos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 133, 'Activo', GETDATE(), NULL, NULL, '2429', 'Industrias básicas de otros metales no ferrosos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 134, 'Activo', GETDATE(), NULL, NULL, '2431', 'Fundición de hierro y de acero')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 135, 'Activo', GETDATE(), NULL, NULL, '2432', 'Fundición de metales no ferrosos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 136, 'Activo', GETDATE(), NULL, NULL, '2511', 'Fabricación de productos metálicos para uso estructural')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 137, 'Activo', GETDATE(), NULL, NULL, '2512', 'Fabricación de tanques, depósitos y recipientes de metal, excepto los utilizados para el envase o transporte de mercancías')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 138, 'Activo', GETDATE(), NULL, NULL, '2513', 'Fabricación de generadores de vapor, excepto calderas de agua caliente para calefacción central')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 139, 'Activo', GETDATE(), NULL, NULL, '2520', 'Fabricación de armas y municiones')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 140, 'Activo', GETDATE(), NULL, NULL, '2591', 'Forja, prensado, estampado y laminado de metal; pulvimetalurgia')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 141, 'Activo', GETDATE(), NULL, NULL, '2592', 'Tratamiento y revestimiento de metales; mecanizado')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 142, 'Activo', GETDATE(), NULL, NULL, '2593', 'Fabricación de artículos de cuchillería, herramientas de mano y artículos de ferretería')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 143, 'Activo', GETDATE(), NULL, NULL, '2599', 'Fabricación de otros productos elaborados de metal n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 144, 'Activo', GETDATE(), NULL, NULL, '2610', 'Fabricación de componentes y tableros electrónicos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 145, 'Activo', GETDATE(), NULL, NULL, '2620', 'Fabricación de computadoras y de equipo periférico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 146, 'Activo', GETDATE(), NULL, NULL, '2630', 'Fabricación de equipos de comunicación')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 147, 'Activo', GETDATE(), NULL, NULL, '2640', 'Fabricación de aparatos electrónicos de consumo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 148, 'Activo', GETDATE(), NULL, NULL, '2651', 'Fabricación de equipo de medición, prueba, navegación y control')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 149, 'Activo', GETDATE(), NULL, NULL, '2652', 'Fabricación de relojes')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 150, 'Activo', GETDATE(), NULL, NULL, '2660', 'Fabricación de equipo de irradiación y equipo electrónico de uso médico y terapéutico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 151, 'Activo', GETDATE(), NULL, NULL, '2670', 'Fabricación de instrumentos ópticos y equipo fotográfico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 152, 'Activo', GETDATE(), NULL, NULL, '2680', 'Fabricación de medios magnéticos y ópticos para almacenamiento de datos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 153, 'Activo', GETDATE(), NULL, NULL, '2711', 'Fabricación de motores, generadores y transformadores eléctricos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 154, 'Activo', GETDATE(), NULL, NULL, '2712', 'Fabricación de aparatos de distribución y control de la energía eléctrica')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 155, 'Activo', GETDATE(), NULL, NULL, '2720', 'Fabricación de pilas, baterías y acumuladores eléctricos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 156, 'Activo', GETDATE(), NULL, NULL, '2731', 'Fabricación de hilos y cables eléctricos y de fibra óptica')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 157, 'Activo', GETDATE(), NULL, NULL, '2732', 'Fabricación de dispositivos de cableado')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 158, 'Activo', GETDATE(), NULL, NULL, '2740', 'Fabricación de equipos eléctricos de iluminación')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 159, 'Activo', GETDATE(), NULL, NULL, '2750', 'Fabricación de aparatos de uso doméstico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 160, 'Activo', GETDATE(), NULL, NULL, '2790', 'Fabricación de otros tipos de equipo eléctrico n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 161, 'Activo', GETDATE(), NULL, NULL, '2811', 'Fabricación de motores, turbinas, y partes para motores de combustión interna')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 162, 'Activo', GETDATE(), NULL, NULL, '2812', 'Fabricación de equipos de potencia hidráulica y neumática')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 163, 'Activo', GETDATE(), NULL, NULL, '2813', 'Fabricación de otras bombas, compresores, grifos y válvulas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 164, 'Activo', GETDATE(), NULL, NULL, '2814', 'Fabricación de cojinetes, engranajes, trenes de engranajes y piezas de transmisión')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 165, 'Activo', GETDATE(), NULL, NULL, '2815', 'Fabricación de hornos, hogares y quemadores industriales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 166, 'Activo', GETDATE(), NULL, NULL, '2816', 'Fabricación de equipo de elevación y manipulación')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 167, 'Activo', GETDATE(), NULL, NULL, '2817', 'Fabricación de maquinaria y equipo de oficina (excepto computadoras y equipo periférico)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 168, 'Activo', GETDATE(), NULL, NULL, '2818', 'Fabricación de herramientas manuales con motor')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 169, 'Activo', GETDATE(), NULL, NULL, '2819', 'Fabricación de otros tipos de maquinaria y equipo de uso general n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 170, 'Activo', GETDATE(), NULL, NULL, '2821', 'Fabricación de maquinaria agropecuaria y forestal')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 171, 'Activo', GETDATE(), NULL, NULL, '2822', 'Fabricación de máquinas formadoras de metal y de máquinas herramienta')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 172, 'Activo', GETDATE(), NULL, NULL, '2823', 'Fabricación de maquinaria para la metalurgia')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 173, 'Activo', GETDATE(), NULL, NULL, '2824', 'Fabricación de maquinaria para explotación de minas y canteras y para obras de construcción')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 174, 'Activo', GETDATE(), NULL, NULL, '2825', 'Fabricación de maquinaria para la elaboración de alimentos, bebidas y tabaco')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 175, 'Activo', GETDATE(), NULL, NULL, '2826', 'Fabricación de maquinaria para la elaboración de productos textiles, prendas de vestir y cueros')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 176, 'Activo', GETDATE(), NULL, NULL, '2829', 'Fabricación de otros tipos de maquinaria y equipo de uso especial n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 177, 'Activo', GETDATE(), NULL, NULL, '2910', 'Fabricación de vehículos automotores y sus motores')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 178, 'Activo', GETDATE(), NULL, NULL, '2920', 'Fabricación de carrocerías para vehículos automotores; fabricación de remolques y semirremolques')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 179, 'Activo', GETDATE(), NULL, NULL, '2930', 'Fabricación de partes, piezas (autopartes) y accesorios (lujos) para vehículos automotores')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 180, 'Activo', GETDATE(), NULL, NULL, '3011', 'Construcción de barcos y de estructuras flotantes')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 181, 'Activo', GETDATE(), NULL, NULL, '3012', 'Construcción de embarcaciones de recreo y deporte')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 182, 'Activo', GETDATE(), NULL, NULL, '3020', 'Fabricación de locomotoras y de material rodante para ferrocarriles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 183, 'Activo', GETDATE(), NULL, NULL, '3030', 'Fabricación de aeronaves, naves espaciales y de maquinaria conexa')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 184, 'Activo', GETDATE(), NULL, NULL, '3040', 'Fabricación de vehículos militares de combate')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 185, 'Activo', GETDATE(), NULL, NULL, '3091', 'Fabricación de motocicletas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 186, 'Activo', GETDATE(), NULL, NULL, '3092', 'Fabricación de bicicletas y de sillas de ruedas para personas con discapacidad')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 187, 'Activo', GETDATE(), NULL, NULL, '3099', 'Fabricación de otros tipos de equipo de transporte n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 188, 'Activo', GETDATE(), NULL, NULL, '3110', 'Fabricación de muebles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 189, 'Activo', GETDATE(), NULL, NULL, '3120', 'Fabricación de colchones y somieres')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 190, 'Activo', GETDATE(), NULL, NULL, '3210', 'Fabricación de joyas, bisutería y artículos conexos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 191, 'Activo', GETDATE(), NULL, NULL, '3220', 'Fabricación de instrumentos musicales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 192, 'Activo', GETDATE(), NULL, NULL, '3230', 'Fabricación de artículos y equipo para la práctica del deporte')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 193, 'Activo', GETDATE(), NULL, NULL, '3240', 'Fabricación de juegos, juguetes y rompecabezas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 194, 'Activo', GETDATE(), NULL, NULL, '3250', 'Fabricación de instrumentos, aparatos y materiales médicos y odontológicos (incluido mobiliario)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 195, 'Activo', GETDATE(), NULL, NULL, '3290', 'Otras industrias manufactureras n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 196, 'Activo', GETDATE(), NULL, NULL, '3311', 'Mantenimiento y reparación especializado de productos elaborados en metal')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 197, 'Activo', GETDATE(), NULL, NULL, '3312', 'Mantenimiento y reparación especializado de maquinaria y equipo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 198, 'Activo', GETDATE(), NULL, NULL, '3313', 'Mantenimiento y reparación especializado de equipo electrónico y óptico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 199, 'Activo', GETDATE(), NULL, NULL, '3314', 'Mantenimiento y reparación especializado de equipo eléctrico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 200, 'Activo', GETDATE(), NULL, NULL, '3315', 'Mantenimiento y reparación especializado de equipo de transporte, excepto los vehículos automotores, motocicletas y bicicletas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 201, 'Activo', GETDATE(), NULL, NULL, '3319', 'Mantenimiento y reparación de otros tipos de equipos y sus componentes n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 202, 'Activo', GETDATE(), NULL, NULL, '3320', 'Instalación especializada de maquinaria y equipo industrial')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 203, 'Activo', GETDATE(), NULL, NULL, '3511', 'Generación de energía eléctrica')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 204, 'Activo', GETDATE(), NULL, NULL, '3512', 'Transmisión de energía eléctrica')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 205, 'Activo', GETDATE(), NULL, NULL, '3513', 'Distribución de energía eléctrica')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 206, 'Activo', GETDATE(), NULL, NULL, '3514', 'Comercialización de energía eléctrica')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 207, 'Activo', GETDATE(), NULL, NULL, '3520', 'Producción de gas; distribución de combustibles gaseosos por tuberías')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 208, 'Activo', GETDATE(), NULL, NULL, '3530', 'Suministro de vapor y aire acondicionado')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 209, 'Activo', GETDATE(), NULL, NULL, '3600', 'Captación, tratamiento y distribución de agua')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 210, 'Activo', GETDATE(), NULL, NULL, '3700', 'Evacuación y tratamiento de aguas residuales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 211, 'Activo', GETDATE(), NULL, NULL, '3811', 'Recolección de desechos no peligrosos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 212, 'Activo', GETDATE(), NULL, NULL, '3812', 'Recolección de desechos peligrosos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 213, 'Activo', GETDATE(), NULL, NULL, '3821', 'Tratamiento y disposición de desechos no peligrosos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 214, 'Activo', GETDATE(), NULL, NULL, '3822', 'Tratamiento y disposición de desechos peligrosos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 215, 'Activo', GETDATE(), NULL, NULL, '3830', 'Recuperación de materiales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 216, 'Activo', GETDATE(), NULL, NULL, '3900', 'Actividades de saneamiento ambiental y otros servicios de gestión de desechos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 217, 'Activo', GETDATE(), NULL, NULL, '4111', 'Construcción de edificios residenciales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 218, 'Activo', GETDATE(), NULL, NULL, '4112', 'Construcción de edificios no residenciales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 219, 'Activo', GETDATE(), NULL, NULL, '4210', 'Construcción de carreteras y vías de ferrocarril')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 220, 'Activo', GETDATE(), NULL, NULL, '4220', 'Construcción de proyectos de servicio público')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 221, 'Activo', GETDATE(), NULL, NULL, '4290', 'Construcción de otras obras de ingeniería civil')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 222, 'Activo', GETDATE(), NULL, NULL, '4311', 'Demolición')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 223, 'Activo', GETDATE(), NULL, NULL, '4312', 'Preparación del terreno')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 224, 'Activo', GETDATE(), NULL, NULL, '4321', 'Instalaciones eléctricas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 225, 'Activo', GETDATE(), NULL, NULL, '4322', 'Instalaciones de fontanería, calefacción y aire acondicionado')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 226, 'Activo', GETDATE(), NULL, NULL, '4329', 'Otras instalaciones especializadas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 227, 'Activo', GETDATE(), NULL, NULL, '4330', 'Terminación y acabado de edificios y obras de ingeniería civil')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 228, 'Activo', GETDATE(), NULL, NULL, '4390', 'Otras actividades especializadas para la construcción de edificios y obras de ingeniería civil')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 229, 'Activo', GETDATE(), NULL, NULL, '4511', 'Comercio de vehículos automotores nuevos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 230, 'Activo', GETDATE(), NULL, NULL, '4512', 'Comercio de vehículos automotores usados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 231, 'Activo', GETDATE(), NULL, NULL, '4520', 'Mantenimiento y reparación de vehículos automotores')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 232, 'Activo', GETDATE(), NULL, NULL, '4530', 'Comercio de partes, piezas (autopartes) y accesorios (lujos) para vehículos automotores')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 233, 'Activo', GETDATE(), NULL, NULL, '4541', 'Comercio de motocicletas y de sus partes, piezas y accesorios')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 234, 'Activo', GETDATE(), NULL, NULL, '4542', 'Mantenimiento y reparación de motocicletas y de sus partes y piezas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 235, 'Activo', GETDATE(), NULL, NULL, '4610', 'Comercio al por mayor a cambio de una retribución o por contrata')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 236, 'Activo', GETDATE(), NULL, NULL, '4620', 'Comercio al por mayor de materias primas agropecuarias; animales vivos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 237, 'Activo', GETDATE(), NULL, NULL, '4631', 'Comercio al por mayor de productos alimenticios')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 238, 'Activo', GETDATE(), NULL, NULL, '4632', 'Comercio al por mayor de bebidas y tabaco')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 239, 'Activo', GETDATE(), NULL, NULL, '4641', 'Comercio al por mayor de productos textiles, productos confeccionados para uso doméstico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 240, 'Activo', GETDATE(), NULL, NULL, '4642', 'Comercio al por mayor de prendas de vestir')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 241, 'Activo', GETDATE(), NULL, NULL, '4643', 'Comercio al por mayor de calzado')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 242, 'Activo', GETDATE(), NULL, NULL, '4644', 'Comercio al por mayor de aparatos y equipo de uso doméstico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 243, 'Activo', GETDATE(), NULL, NULL, '4645', 'Comercio al por mayor de productos farmacéuticos, medicinales, cosméticos y de tocador')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 244, 'Activo', GETDATE(), NULL, NULL, '4649', 'Comercio al por mayor de otros utensilios domésticos n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 245, 'Activo', GETDATE(), NULL, NULL, '4651', 'Comercio al por mayor de computadores, equipo periférico y programas de informática')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 246, 'Activo', GETDATE(), NULL, NULL, '4652', 'Comercio al por mayor de equipo, partes y piezas electrónicos y de telecomunicaciones')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 247, 'Activo', GETDATE(), NULL, NULL, '4653', 'Comercio al por mayor de maquinaria y equipo agropecuarios')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 248, 'Activo', GETDATE(), NULL, NULL, '4659', 'Comercio al por mayor de otros tipos de maquinaria y equipo n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 249, 'Activo', GETDATE(), NULL, NULL, '4661', 'Comercio al por mayor de combustibles sólidos, líquidos, gaseosos y productos conexos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 250, 'Activo', GETDATE(), NULL, NULL, '4662', 'Comercio al por mayor de metales y productos metalíferos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 251, 'Activo', GETDATE(), NULL, NULL, '4663', 'Comercio al por mayor de materiales de construcción, artículos de ferretería, pinturas, productos de vidrio, equipo y materiales de fontanería y calefacción')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 252, 'Activo', GETDATE(), NULL, NULL, '4664', 'Comercio al por mayor de productos químicos básicos, cauchos y plásticos en formas primarias y productos químicos de uso agropecuario')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 253, 'Activo', GETDATE(), NULL, NULL, '4665', 'Comercio al por mayor de desperdicios, desechos y chatarra')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 254, 'Activo', GETDATE(), NULL, NULL, '4669', 'Comercio al por mayor de otros productos n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 255, 'Activo', GETDATE(), NULL, NULL, '4690', 'Comercio al por mayor no especializado')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 256, 'Activo', GETDATE(), NULL, NULL, '4711', 'Comercio al por menor en establecimientos no especializados con surtido compuesto principalmente por alimentos, bebidas o tabaco')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 257, 'Activo', GETDATE(), NULL, NULL, '4719', 'Comercio al por menor en establecimientos no especializados, con surtido compuesto principalmente por productos diferentes de alimentos (víveres en general), bebidas y tabaco')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 258, 'Activo', GETDATE(), NULL, NULL, '4721', 'Comercio al por menor de productos agrícolas para el consumo en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 259, 'Activo', GETDATE(), NULL, NULL, '4722', 'Comercio al por menor de leche, productos lácteos y huevos, en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 260, 'Activo', GETDATE(), NULL, NULL, '4723', 'Comercio al por menor de carnes (incluye aves de corral), productos cárnicos, pescados y productos de mar, en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 261, 'Activo', GETDATE(), NULL, NULL, '4724', 'Comercio al por menor de bebidas y productos del tabaco, en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 262, 'Activo', GETDATE(), NULL, NULL, '4729', 'Comercio al por menor de otros productos alimenticios n.c.p., en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 263, 'Activo', GETDATE(), NULL, NULL, '4731', 'Comercio al por menor de combustible para automotores')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 264, 'Activo', GETDATE(), NULL, NULL, '4732', 'Comercio al por menor de lubricantes (aceites, grasas), aditivos y productos de limpieza para vehículos automotores')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 265, 'Activo', GETDATE(), NULL, NULL, '4741', 'Comercio al por menor de computadores, equipos periféricos, programas de informática y equipos de telecomunicaciones en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 266, 'Activo', GETDATE(), NULL, NULL, '4742', 'Comercio al por menor de equipos y aparatos de sonido y de video, en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 267, 'Activo', GETDATE(), NULL, NULL, '4751', 'Comercio al por menor de productos textiles en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 268, 'Activo', GETDATE(), NULL, NULL, '4752', 'Comercio al por menor de artículos de ferretería, pinturas y productos de vidrio en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 269, 'Activo', GETDATE(), NULL, NULL, '4753', 'Comercio al por menor de tapices, alfombras y cubrimientos para paredes y pisos en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 270, 'Activo', GETDATE(), NULL, NULL, '4754', 'Comercio al por menor de electrodomésticos y gasodomésticos de uso doméstico, muebles y equipos de iluminación')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 271, 'Activo', GETDATE(), NULL, NULL, '4755', 'Comercio al por menor de artículos y utensilios de uso doméstico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 272, 'Activo', GETDATE(), NULL, NULL, '4759', 'Comercio al por menor de otros artículos domésticos en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 273, 'Activo', GETDATE(), NULL, NULL, '4761', 'Comercio al por menor de libros, periódicos, materiales y artículos de papelería y escritorio, en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 274, 'Activo', GETDATE(), NULL, NULL, '4762', 'Comercio al por menor de artículos deportivos, en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 275, 'Activo', GETDATE(), NULL, NULL, '4769', 'Comercio al por menor de otros artículos culturales y de entretenimiento n.c.p. en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 276, 'Activo', GETDATE(), NULL, NULL, '4771', 'Comercio al por menor de prendas de vestir y sus accesorios (incluye artículos de piel) en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 277, 'Activo', GETDATE(), NULL, NULL, '4772', 'Comercio al por menor de todo tipo de calzado y artículos de cuero y sucedáneos del cuero en establecimientos especializados.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 278, 'Activo', GETDATE(), NULL, NULL, '4773', 'Comercio al por menor de productos farmacéuticos y medicinales, cosméticos y artículos de tocador en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 279, 'Activo', GETDATE(), NULL, NULL, '4774', 'Comercio al por menor de otros productos nuevos en establecimientos especializados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 280, 'Activo', GETDATE(), NULL, NULL, '4775', 'Comercio al por menor de artículos de segunda mano')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 281, 'Activo', GETDATE(), NULL, NULL, '4781', 'Comercio al por menor de alimentos, bebidas y tabaco, en puestos de venta móviles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 282, 'Activo', GETDATE(), NULL, NULL, '4782', 'Comercio al por menor de productos textiles, prendas de vestir y calzado, en puestos de venta móviles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 283, 'Activo', GETDATE(), NULL, NULL, '4789', 'Comercio al por menor de otros productos en puestos de venta móviles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 284, 'Activo', GETDATE(), NULL, NULL, '4791', 'Comercio al por menor realizado a través de Internet')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 285, 'Activo', GETDATE(), NULL, NULL, '4792', 'Comercio al por menor realizado a través de casas de venta o por correo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 286, 'Activo', GETDATE(), NULL, NULL, '4799', 'Otros tipos de comercio al por menor no realizado en establecimientos, puestos de venta o mercados.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 287, 'Activo', GETDATE(), NULL, NULL, '4911', 'Transporte férreo de pasajeros')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 288, 'Activo', GETDATE(), NULL, NULL, '4912', 'Transporte férreo de carga')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 289, 'Activo', GETDATE(), NULL, NULL, '4921', 'Transporte de pasajeros')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 290, 'Activo', GETDATE(), NULL, NULL, '4922', 'Transporte mixto')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 291, 'Activo', GETDATE(), NULL, NULL, '4923', 'Transporte de carga por carretera')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 292, 'Activo', GETDATE(), NULL, NULL, '4930', 'Transporte por tuberías')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 293, 'Activo', GETDATE(), NULL, NULL, '5011', 'Transporte de pasajeros marítimo y de cabotaje')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 294, 'Activo', GETDATE(), NULL, NULL, '5012', 'Transporte de carga marítimo y de cabotaje')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 295, 'Activo', GETDATE(), NULL, NULL, '5021', 'Transporte fluvial de pasajeros')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 296, 'Activo', GETDATE(), NULL, NULL, '5022', 'Transporte fluvial de carga')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 297, 'Activo', GETDATE(), NULL, NULL, '5111', 'Transporte aéreo nacional de pasajeros')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 298, 'Activo', GETDATE(), NULL, NULL, '5112', 'Transporte aéreo internacional de pasajeros')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 299, 'Activo', GETDATE(), NULL, NULL, '5121', 'Transporte aéreo nacional de carga')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 300, 'Activo', GETDATE(), NULL, NULL, '5122', 'Transporte aéreo internacional de carga')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 301, 'Activo', GETDATE(), NULL, NULL, '5210', 'Almacenamiento y depósito')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 302, 'Activo', GETDATE(), NULL, NULL, '5221', 'Actividades de estaciones, vías y servicios complementarios para el transporte terrestre')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 303, 'Activo', GETDATE(), NULL, NULL, '5222', 'Actividades de puertos y servicios complementarios para el transporte acuático')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 304, 'Activo', GETDATE(), NULL, NULL, '5223', 'Actividades de aeropuertos, servicios de navegación aérea y demás actividades conexas al transporte aéreo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 305, 'Activo', GETDATE(), NULL, NULL, '5224', 'Manipulación de carga')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 306, 'Activo', GETDATE(), NULL, NULL, '5229', 'Otras actividades complementarias al transporte')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 307, 'Activo', GETDATE(), NULL, NULL, '5310', 'Actividades postales nacionales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 308, 'Activo', GETDATE(), NULL, NULL, '5320', 'Actividades de mensajería')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 309, 'Activo', GETDATE(), NULL, NULL, '5511', 'Alojamiento en hoteles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 310, 'Activo', GETDATE(), NULL, NULL, '5512', 'Alojamiento en apartahoteles')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 311, 'Activo', GETDATE(), NULL, NULL, '5513', 'Alojamiento en centros vacacionales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 312, 'Activo', GETDATE(), NULL, NULL, '5514', 'Alojamiento rural')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 313, 'Activo', GETDATE(), NULL, NULL, '5519', 'Otros tipos de alojamientos para visitantes')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 314, 'Activo', GETDATE(), NULL, NULL, '5520', 'Actividades de zonas de camping y parques para vehículos recreacionales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 315, 'Activo', GETDATE(), NULL, NULL, '5530', 'Servicio por horas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 316, 'Activo', GETDATE(), NULL, NULL, '5590', 'Otros tipos de alojamiento n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 317, 'Activo', GETDATE(), NULL, NULL, '5611', 'Expendio a la mesa de comidas preparadas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 318, 'Activo', GETDATE(), NULL, NULL, '5612', 'Expendio por autoservicio de comidas preparadas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 319, 'Activo', GETDATE(), NULL, NULL, '5613', 'Expendio de comidas preparadas en cafeterías')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 320, 'Activo', GETDATE(), NULL, NULL, '5619', 'Otros tipos de expendio de comidas preparadas n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 321, 'Activo', GETDATE(), NULL, NULL, '5621', 'Catering para eventos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 322, 'Activo', GETDATE(), NULL, NULL, '5629', 'Actividades de otros servicios de comidas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 323, 'Activo', GETDATE(), NULL, NULL, '5630', 'Expendio de bebidas alcohólicas para el consumo dentro del establecimiento')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 324, 'Activo', GETDATE(), NULL, NULL, '5811', 'Edición de libros')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 325, 'Activo', GETDATE(), NULL, NULL, '5812', 'Edición de directorios y listas de correo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 326, 'Activo', GETDATE(), NULL, NULL, '5813', 'Edición de periódicos, revistas y otras publicaciones periódicas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 327, 'Activo', GETDATE(), NULL, NULL, '5819', 'Otros trabajos de edición')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 328, 'Activo', GETDATE(), NULL, NULL, '5820', 'Edición de programas de informática (software)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 329, 'Activo', GETDATE(), NULL, NULL, '5911', 'Actividades de producción de películas cinematográficas, videos, programas, anuncios y comerciales de televisión')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 330, 'Activo', GETDATE(), NULL, NULL, '5912', 'Actividades de posproducción de películas cinematográficas, videos, programas, anuncios y comerciales de televisión')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 331, 'Activo', GETDATE(), NULL, NULL, '5913', 'Actividades de distribución de películas cinematográficas, videos, programas, anuncios y comerciales de televisión')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 332, 'Activo', GETDATE(), NULL, NULL, '5914', 'Actividades de exhibición de películas cinematográficas y videos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 333, 'Activo', GETDATE(), NULL, NULL, '5920', 'Actividades de grabación de sonido y edición de música')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 334, 'Activo', GETDATE(), NULL, NULL, '6010', 'Actividades de programación y transmisión en el servicio de radiodifusión sonora')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 335, 'Activo', GETDATE(), NULL, NULL, '6020', 'Actividades de programación y transmisión de televisión')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 336, 'Activo', GETDATE(), NULL, NULL, '6110', 'Actividades de telecomunicaciones alámbricas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 337, 'Activo', GETDATE(), NULL, NULL, '6120', 'Actividades de telecomunicaciones inalámbricas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 338, 'Activo', GETDATE(), NULL, NULL, '6130', 'Actividades de telecomunicación satelital')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 339, 'Activo', GETDATE(), NULL, NULL, '6190', 'Otras actividades de telecomunicaciones')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 340, 'Activo', GETDATE(), NULL, NULL, '6201', 'Actividades de desarrollo de sistemas informáticos (planificación, análisis, diseño, programación, pruebas)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 341, 'Activo', GETDATE(), NULL, NULL, '6202', 'Actividades de consultoría informática y actividades de administración de instalaciones informáticas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 342, 'Activo', GETDATE(), NULL, NULL, '6209', 'Otras actividades de tecnologías de información y actividades de servicios informáticos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 343, 'Activo', GETDATE(), NULL, NULL, '6311', 'Procesamiento de datos, alojamiento (hosting) y actividades relacionadas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 344, 'Activo', GETDATE(), NULL, NULL, '6312', 'Portales web')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 345, 'Activo', GETDATE(), NULL, NULL, '6391', 'Actividades de agencias de noticias')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 346, 'Activo', GETDATE(), NULL, NULL, '6399', 'Otras actividades de servicio de información n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 347, 'Activo', GETDATE(), NULL, NULL, '6411', 'Banco Central')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 348, 'Activo', GETDATE(), NULL, NULL, '6412', 'Bancos comerciales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 349, 'Activo', GETDATE(), NULL, NULL, '6421', 'Actividades de las corporaciones financieras')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 350, 'Activo', GETDATE(), NULL, NULL, '6422', 'Actividades de las compañías de financiamiento')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 351, 'Activo', GETDATE(), NULL, NULL, '6423', 'Banca de segundo piso')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 352, 'Activo', GETDATE(), NULL, NULL, '6424', 'Actividades de las cooperativas financieras')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 353, 'Activo', GETDATE(), NULL, NULL, '6431', 'Fideicomisos, fondos y entidades financieras similares')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 354, 'Activo', GETDATE(), NULL, NULL, '6432', 'Fondos de cesantías')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 355, 'Activo', GETDATE(), NULL, NULL, '6491', 'Leasing financiero (arrendamiento financiero)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 356, 'Activo', GETDATE(), NULL, NULL, '6492', 'Actividades financieras de fondos de empleados y otras formas asociativas del sector solidario')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 357, 'Activo', GETDATE(), NULL, NULL, '6493', 'Actividades de compra de cartera o factoring')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 358, 'Activo', GETDATE(), NULL, NULL, '6494', 'Otras actividades de distribución de fondos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 359, 'Activo', GETDATE(), NULL, NULL, '6495', 'Instituciones especiales oficiales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 360, 'Activo', GETDATE(), NULL, NULL, '6499', 'Otras actividades de servicio financiero, excepto las de seguros y pensiones n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 361, 'Activo', GETDATE(), NULL, NULL, '6511', 'Seguros generales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 362, 'Activo', GETDATE(), NULL, NULL, '6512', 'Seguros de vida')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 363, 'Activo', GETDATE(), NULL, NULL, '6513', 'Reaseguros')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 364, 'Activo', GETDATE(), NULL, NULL, '6514', 'Capitalización')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 365, 'Activo', GETDATE(), NULL, NULL, '6521', 'Servicios de seguros sociales de salud')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 366, 'Activo', GETDATE(), NULL, NULL, '6522', 'Servicios de seguros sociales de riesgos profesionales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 367, 'Activo', GETDATE(), NULL, NULL, '6531', 'Régimen de prima media con prestación definida (RPM)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 368, 'Activo', GETDATE(), NULL, NULL, '6532', 'Régimen de ahorro individual (RAI)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 369, 'Activo', GETDATE(), NULL, NULL, '6611', 'Administración de mercados financieros')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 370, 'Activo', GETDATE(), NULL, NULL, '6612', 'Corretaje de valores y de contratos de productos básicos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 371, 'Activo', GETDATE(), NULL, NULL, '6613', 'Otras actividades relacionadas con el mercado de valores')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 372, 'Activo', GETDATE(), NULL, NULL, '6614', 'Actividades de las casas de cambio')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 373, 'Activo', GETDATE(), NULL, NULL, '6615', 'Actividades de los profesionales de compra y venta de divisas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 374, 'Activo', GETDATE(), NULL, NULL, '6619', 'Otras actividades auxiliares de las actividades de servicios financieros n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 375, 'Activo', GETDATE(), NULL, NULL, '6621', 'Actividades de agentes y corredores de seguros')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 376, 'Activo', GETDATE(), NULL, NULL, '6629', 'Evaluación de riesgos y daños, y otras actividades de servicios auxiliares')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 377, 'Activo', GETDATE(), NULL, NULL, '6630', 'Actividades de administración de fondos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 378, 'Activo', GETDATE(), NULL, NULL, '6810', 'Actividades inmobiliarias realizadas con bienes propios o arrendados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 379, 'Activo', GETDATE(), NULL, NULL, '6820', 'Actividades inmobiliarias realizadas a cambio de una retribución o por contrato')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 380, 'Activo', GETDATE(), NULL, NULL, '6910', 'Actividades jurídicas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 381, 'Activo', GETDATE(), NULL, NULL, '6920', 'Actividades de contabilidad, teneduría de libros, auditoría financiera y asesoría tributaria')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 382, 'Activo', GETDATE(), NULL, NULL, '7010', 'Actividades de administración empresarial')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 383, 'Activo', GETDATE(), NULL, NULL, '7020', 'Actividades de consultoría de gestión')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 384, 'Activo', GETDATE(), NULL, NULL, '7110', 'Actividades de arquitectura e ingeniería y otras actividades conexas de consultoría técnica')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 385, 'Activo', GETDATE(), NULL, NULL, '7120', 'Ensayos y análisis técnicos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 386, 'Activo', GETDATE(), NULL, NULL, '7210', 'Investigaciones y desarrollo experimental en el campo de las ciencias naturales y la ingeniería')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 387, 'Activo', GETDATE(), NULL, NULL, '7220', 'Investigaciones y desarrollo experimental en el campo de las ciencias sociales y las humanidades')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 388, 'Activo', GETDATE(), NULL, NULL, '7310', 'Publicidad')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 389, 'Activo', GETDATE(), NULL, NULL, '7320', 'Estudios de mercado y realización de encuestas de opinión pública')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 390, 'Activo', GETDATE(), NULL, NULL, '7410', 'Actividades especializadas de diseño')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 391, 'Activo', GETDATE(), NULL, NULL, '7420', 'Actividades de fotografía')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 392, 'Activo', GETDATE(), NULL, NULL, '7490', 'Otras actividades profesionales, científicas y técnicas n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 393, 'Activo', GETDATE(), NULL, NULL, '7500', 'Actividades veterinarias')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 394, 'Activo', GETDATE(), NULL, NULL, '7710', 'Alquiler y arrendamiento de vehículos automotores')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 395, 'Activo', GETDATE(), NULL, NULL, '7721', 'Alquiler y arrendamiento de equipo recreativo y deportivo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 396, 'Activo', GETDATE(), NULL, NULL, '7722', 'Alquiler de videos y discos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 397, 'Activo', GETDATE(), NULL, NULL, '7729', 'Alquiler y arrendamiento de otros efectos personales y enseres domésticos n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 398, 'Activo', GETDATE(), NULL, NULL, '7730', 'Alquiler y arrendamiento de otros tipos de maquinaria, equipo y bienes tangibles n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 399, 'Activo', GETDATE(), NULL, NULL, '7740', 'Arrendamiento de propiedad intelectual y productos similares, excepto obras protegidas por derechos de autor')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 400, 'Activo', GETDATE(), NULL, NULL, '7810', 'Actividades de agencias de empleo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 401, 'Activo', GETDATE(), NULL, NULL, '7820', 'Actividades de agencias de empleo temporal')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 402, 'Activo', GETDATE(), NULL, NULL, '7830', 'Otras actividades de suministro de recurso humano')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 403, 'Activo', GETDATE(), NULL, NULL, '7911', 'Actividades de las agencias de viaje')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 404, 'Activo', GETDATE(), NULL, NULL, '7912', 'Actividades de operadores turísticos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 405, 'Activo', GETDATE(), NULL, NULL, '7990', 'Otros servicios de reserva y actividades relacionadas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 406, 'Activo', GETDATE(), NULL, NULL, '8010', 'Actividades de seguridad privada')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 407, 'Activo', GETDATE(), NULL, NULL, '8020', 'Actividades de servicios de sistemas de seguridad')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 408, 'Activo', GETDATE(), NULL, NULL, '8030', 'Actividades de detectives e investigadores privados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 409, 'Activo', GETDATE(), NULL, NULL, '8110', 'Actividades combinadas de apoyo a instalaciones')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 410, 'Activo', GETDATE(), NULL, NULL, '8121', 'Limpieza general interior de edificios')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 411, 'Activo', GETDATE(), NULL, NULL, '8129', 'Otras actividades de limpieza de edificios e instalaciones industriales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 412, 'Activo', GETDATE(), NULL, NULL, '8130', 'Actividades de paisajismo y servicios de mantenimiento conexos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 413, 'Activo', GETDATE(), NULL, NULL, '8211', 'Actividades combinadas de servicios administrativos de oficina')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 414, 'Activo', GETDATE(), NULL, NULL, '8219', 'Fotocopiado, preparación de documentos y otras actividades especializadas de apoyo a oficina')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 415, 'Activo', GETDATE(), NULL, NULL, '8220', 'Actividades de centros de llamadas (Call center)')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 416, 'Activo', GETDATE(), NULL, NULL, '8230', 'Organización de convenciones y eventos comerciales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 417, 'Activo', GETDATE(), NULL, NULL, '8291', 'Actividades de agencias de cobranza y oficinas de calificación crediticia')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 418, 'Activo', GETDATE(), NULL, NULL, '8292', 'Actividades de envase y empaque')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 419, 'Activo', GETDATE(), NULL, NULL, '8299', 'Otras actividades de servicio de apoyo a las empresas n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 420, 'Activo', GETDATE(), NULL, NULL, '8411', 'Actividades legislativas de la administración pública')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 421, 'Activo', GETDATE(), NULL, NULL, '8412', 'Actividades ejecutivas de la administración pública')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 422, 'Activo', GETDATE(), NULL, NULL, '8413', 'Regulación de las actividades de organismos que prestan servicios de salud, educativos, culturales y otros servicios sociales, excepto servicios de seguridad social')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 423, 'Activo', GETDATE(), NULL, NULL, '8414', 'Actividades reguladoras y facilitadoras de la actividad económica')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 424, 'Activo', GETDATE(), NULL, NULL, '8415', 'Actividades de los otros órganos de control')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 425, 'Activo', GETDATE(), NULL, NULL, '8421', 'Relaciones exteriores')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 426, 'Activo', GETDATE(), NULL, NULL, '8422', 'Actividades de defensa')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 427, 'Activo', GETDATE(), NULL, NULL, '8423', 'Orden público y actividades de seguridad')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 428, 'Activo', GETDATE(), NULL, NULL, '8424', 'Administración de justicia')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 429, 'Activo', GETDATE(), NULL, NULL, '8430', 'Actividades de planes de seguridad social de afiliación obligatoria')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 430, 'Activo', GETDATE(), NULL, NULL, '8511', 'Educación de la primera infancia')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 431, 'Activo', GETDATE(), NULL, NULL, '8512', 'Educación preescolar')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 432, 'Activo', GETDATE(), NULL, NULL, '8513', 'Educación básica primaria')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 433, 'Activo', GETDATE(), NULL, NULL, '8521', 'Educación básica secundaria')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 434, 'Activo', GETDATE(), NULL, NULL, '8522', 'Educación media académica')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 435, 'Activo', GETDATE(), NULL, NULL, '8523', 'Educación media técnica y de formación laboral')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 436, 'Activo', GETDATE(), NULL, NULL, '8530', 'Establecimientos que combinan diferentes niveles de educación')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 437, 'Activo', GETDATE(), NULL, NULL, '8541', 'Educación técnica profesional')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 438, 'Activo', GETDATE(), NULL, NULL, '8542', 'Educación tecnológica')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 439, 'Activo', GETDATE(), NULL, NULL, '8543', 'Educación de instituciones universitarias o de escuelas tecnológicas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 440, 'Activo', GETDATE(), NULL, NULL, '8544', 'Educación de universidades')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 441, 'Activo', GETDATE(), NULL, NULL, '8551', 'Formación académica no formal')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 442, 'Activo', GETDATE(), NULL, NULL, '8552', 'Enseñanza deportiva y recreativa')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 443, 'Activo', GETDATE(), NULL, NULL, '8553', 'Enseñanza cultural')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 444, 'Activo', GETDATE(), NULL, NULL, '8559', 'Otros tipos de educación n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 445, 'Activo', GETDATE(), NULL, NULL, '8560', 'Actividades de apoyo a la educación')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 446, 'Activo', GETDATE(), NULL, NULL, '8610', 'Actividades de hospitales y clínicas, con internación')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 447, 'Activo', GETDATE(), NULL, NULL, '8621', 'Actividades de la práctica médica, sin internación')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 448, 'Activo', GETDATE(), NULL, NULL, '8622', 'Actividades de la práctica odontológica')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 449, 'Activo', GETDATE(), NULL, NULL, '8691', 'Actividades de apoyo diagnóstico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 450, 'Activo', GETDATE(), NULL, NULL, '8692', 'Actividades de apoyo terapéutico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 451, 'Activo', GETDATE(), NULL, NULL, '8699', 'Otras actividades de atención de la salud humana')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 452, 'Activo', GETDATE(), NULL, NULL, '8710', 'Actividades de atención residencial medicalizada de tipo general')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 453, 'Activo', GETDATE(), NULL, NULL, '8720', 'Actividades de atención residencial, para el cuidado de pacientes con retardo mental, enfermedad mental y consumo de sustancias psicoactivas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 454, 'Activo', GETDATE(), NULL, NULL, '8730', 'Actividades de atención en instituciones para el cuidado de personas mayores y/o discapacitadas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 455, 'Activo', GETDATE(), NULL, NULL, '8790', 'Otras actividades de atención en instituciones con alojamiento')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 456, 'Activo', GETDATE(), NULL, NULL, '8810', 'Actividades de asistencia social sin alojamiento para personas mayores y discapacitadas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 457, 'Activo', GETDATE(), NULL, NULL, '8890', 'Otras actividades de asistencia social sin alojamiento')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 458, 'Activo', GETDATE(), NULL, NULL, '9001', 'Creación literaria')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 459, 'Activo', GETDATE(), NULL, NULL, '9002', 'Creación musical')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 460, 'Activo', GETDATE(), NULL, NULL, '9003', 'Creación teatral')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 461, 'Activo', GETDATE(), NULL, NULL, '9004', 'Creación audiovisual')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 462, 'Activo', GETDATE(), NULL, NULL, '9005', 'Artes plásticas y visuales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 463, 'Activo', GETDATE(), NULL, NULL, '9006', 'Actividades teatrales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 464, 'Activo', GETDATE(), NULL, NULL, '9007', 'Actividades de espectáculos musicales en vivo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 465, 'Activo', GETDATE(), NULL, NULL, '9008', 'Otras actividades de espectáculos en vivo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 466, 'Activo', GETDATE(), NULL, NULL, '9101', 'Actividades de bibliotecas y archivos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 467, 'Activo', GETDATE(), NULL, NULL, '9102', 'Actividades y funcionamiento de museos, conservación de edificios y sitios históricos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 468, 'Activo', GETDATE(), NULL, NULL, '9103', 'Actividades de jardines botánicos, zoológicos y reservas naturales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 469, 'Activo', GETDATE(), NULL, NULL, '9200', 'Actividades de juegos de azar y apuestas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 470, 'Activo', GETDATE(), NULL, NULL, '9311', 'Gestión de instalaciones deportivas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 471, 'Activo', GETDATE(), NULL, NULL, '9312', 'Actividades de clubes deportivos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 472, 'Activo', GETDATE(), NULL, NULL, '9319', 'Otras actividades deportivas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 473, 'Activo', GETDATE(), NULL, NULL, '9321', 'Actividades de parques de atracciones y parques temáticos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 474, 'Activo', GETDATE(), NULL, NULL, '9329', 'Otras actividades recreativas y de esparcimiento n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 475, 'Activo', GETDATE(), NULL, NULL, '9411', 'Actividades de asociaciones empresariales y de empleadores')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 476, 'Activo', GETDATE(), NULL, NULL, '9412', 'Actividades de asociaciones profesionales')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 477, 'Activo', GETDATE(), NULL, NULL, '9420', 'Actividades de sindicatos de empleados')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 478, 'Activo', GETDATE(), NULL, NULL, '9491', 'Actividades de asociaciones religiosas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 479, 'Activo', GETDATE(), NULL, NULL, '9492', 'Actividades de asociaciones políticas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 480, 'Activo', GETDATE(), NULL, NULL, '9499', 'Actividades de otras asociaciones n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 481, 'Activo', GETDATE(), NULL, NULL, '9511', 'Mantenimiento y reparación de computadores y de equipo periférico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 482, 'Activo', GETDATE(), NULL, NULL, '9512', 'Mantenimiento y reparación de equipos de comunicación')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 483, 'Activo', GETDATE(), NULL, NULL, '9521', 'Mantenimiento y reparación de aparatos electrónicos de consumo')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 484, 'Activo', GETDATE(), NULL, NULL, '9522', 'Mantenimiento y reparación de aparatos y equipos domésticos y de jardinería')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 485, 'Activo', GETDATE(), NULL, NULL, '9523', 'Reparación de calzado y artículos de cuero')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 486, 'Activo', GETDATE(), NULL, NULL, '9524', 'Reparación de muebles y accesorios para el hogar')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 487, 'Activo', GETDATE(), NULL, NULL, '9529', 'Mantenimiento y reparación de otros efectos personales y enseres domésticos')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 488, 'Activo', GETDATE(), NULL, NULL, '9601', 'Lavado y limpieza, incluso la limpieza en seco, de productos textiles y de piel')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 489, 'Activo', GETDATE(), NULL, NULL, '9602', 'Peluquería y otros tratamientos de belleza')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 490, 'Activo', GETDATE(), NULL, NULL, '9603', 'Pompas fúnebres y actividades relacionadas')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 491, 'Activo', GETDATE(), NULL, NULL, '9609', 'Otras actividades de servicios personales n.c.p.')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 492, 'Activo', GETDATE(), NULL, NULL, '9700', 'Actividades de los hogares individuales como empleadores de personal doméstico')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 493, 'Activo', GETDATE(), NULL, NULL, '9810', 'Actividades no diferenciadas de los hogares individuales como productores de bienes para uso propio')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 494, 'Activo', GETDATE(), NULL, NULL, '9820', 'Actividades no diferenciadas de los hogares individuales como productores de servicios para uso propio')
+GO
+INSERT [dbo].[ActividadEconomica] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Codigo], [Nombre]) VALUES ('sistema', 495, 'Activo', GETDATE(), NULL, NULL, '9900', 'Actividades de organizaciones y entidades extraterritoriales')
+GO
+SET IDENTITY_INSERT [dbo].[ActividadEconomica] OFF
+GO
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[ActividadEconomica] WHERE Id BETWEEN 1 AND 495;
+</rollback>
+</changeSet>
+</databaseChangeLog>

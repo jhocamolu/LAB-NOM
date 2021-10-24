@@ -1,0 +1,104 @@
+<form [formGroup]="form" *ngIf="form">
+    <h1 mat-dialog-title>Agregar cargo al que reporta</h1>
+    <div mat-dialog-content fusePerfectScrollbar>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Dependencia del cargo que reporta</mat-label>
+            <mat-select formControlName="cargoDependenciaId" step="any" required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let item of cargoDependencia" [value]="item.id">
+                    {{ item.dependencia?.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('cargoDependenciaId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Área de la compañía a la que pertenece el cargo.">
+                info</mat-icon>
+        </mat-form-field>
+       
+        <mat-form-field appearance="outline">
+            <mat-label> Dependencia superior </mat-label>
+            <mat-select formControlName="dependenciaSuperior" step="any" required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let item of dependenciaCargoOptions" [value]="item.id">
+                    {{ item.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('dependenciaSuperior').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Área de la compañía a la que pertenece el cargo.">
+                info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Cargo superior</mat-label>
+            <mat-select formControlName="cargoDependenciaReportaId" step="any" required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let item of cargoDependenciaReporta" [value]="item.id">
+                    {{ item.cargo?.nombre }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('cargoDependenciaReportaId').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Seleccione el cargo o superior a quien informa. ">
+                info</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>¿Es jefe inmediato?</mat-label>
+            <mat-select formControlName="jefeInmediato" required>
+                <mat-option></mat-option>
+                <mat-option [value]="true">Si</mat-option>
+                <mat-option [value]="false">No</mat-option>
+            </mat-select>
+            <mat-error *ngFor="let error of form.get('jefeInmediato').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{error.key}}
+                    </ng-template>
+                </div>
+            </mat-error>
+            <mat-icon matSuffix matTooltip="Especifica si el cargo que reporta es el jefe directo.">
+                info</mat-icon>
+        </mat-form-field>
+
+
+    </div>
+    <div mat-dialog-actions>
+        <button mat-raised-button (click)="dialogRef.close() ">
+            <mat-icon>cancel</mat-icon>
+            <span>Cancelar</span>
+        </button>
+        <button mat-raised-button [disabled]="form.invalid" (click)="guardarHandle($event)" color="accent">
+            <mat-icon>save</mat-icon>
+            <span>Guardar</span>
+        </button>
+    </div>
+</form>

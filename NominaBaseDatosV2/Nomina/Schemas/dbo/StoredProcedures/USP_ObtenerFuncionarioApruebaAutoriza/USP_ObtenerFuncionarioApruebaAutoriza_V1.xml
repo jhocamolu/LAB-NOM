@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="lestrada" id="USP_ObtenerFuncionarioApruebaAutoriza_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('dbo.USP_ObtenerFuncionarioApruebaAutoriza', 'P') IS NULL
+BEGIN
+    EXECUTE ('CREATE PROCEDURE dbo.USP_ObtenerFuncionarioApruebaAutoriza as SELECT 1');
+END;
+GO
+
+ALTER PROCEDURE [dbo].[USP_ObtenerFuncionarioApruebaAutoriza] @NumeroDocumento VARCHAR(255),
+															  @AplicacionExternaCodigo VARCHAR(10),
+															  @TipoOpcion VARCHAR(255), 
+															  @NumeroDocumentoApruebaAutoriza VARCHAR(255) OUTPUT
+AS
+BEGIN
+
+    --------------------------------------------------------------------------
+    -- Instrucciones de configuración y manejo de errores
+    --------------------------------------------------------------------------
+	SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+	DECLARE @NombreObjeto VARCHAR(255)= OBJECT_NAME(@@PROCID);
+    DECLARE @MensajeExcepcion VARCHAR(255);
+    DECLARE @ResultadoBloqueo INT= 0;
+	DECLARE @AuditoriaActivo VARCHAR(255);
+	--------------------------------------------------------------------------
+    -- Variables
+    --------------------------------------------------------------------------
+	-- Variables para el Funcionario
+	DECLARE @IdFuncionario INT = 0;
+	DECLARE @IdCargoFuncionario INT = 0; 
+	DECLARE @IdDependenciaFuncionario INT = 0 ; 
+	DECLARE @IdCentroOperativoFuncionario INT = 0; 
+	DECLARE @IdGrupoNominaFuncionario INT = 0;
+	DECLARE @ClaseCargoFuncionario VARCHAR(255);
+	
+	DECLARE @Proceso VARCHAR(255); 
+	DECLARE @IdCargoDependenciaSuperior INT = 0;	
+	DECLARE @IdCentroOperativoSuperior INT = 0;
+	DECLARE @IdFuncionarioSuperior INT = -1;	
+
+	DECLARE @IdAplicacionExternaCargo INT = 0;
+	DECLARE @IdAppExternaCargoSuperior INT = 0;
+	DECLARE @IdAppExternaCentroOperativo INT = 0;
+	DECLARE @ClaseCargoSuperior VARCHAR(255);
+	DECLARE @IdCargoSuperior INT = 0;
+
+	DECLARE @IdCargoSustituto INT = 0;	
+	DECLARE @IdCentroOperativoSustituto INT = 0;
+	DECLARE @ClaseCargoSustituto VARCHAR(255);
+
+	DECLARE @IdAplicacionExterna INT = 0;
+
+	SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO
+    FROM util.VW_ConstanteEstado AS vce;
+
+	PRINT(@TipoOpcion);
+	PRINT(@AplicacionExternaCodigo);
+
+	IF(@TipoOpcion IS NULL OR (@TipoOpcion != 'Autorizacion' AND @TipoOpcion != 'Revision' AND @TipoOpcion != 'Aprobacion'))
+	BEGIN 
+		SET @MensajeExcepcion = 'Valor de TipoOpcion no está dentro de las opciones Validas';
+        EXEC util.USP_GenerarExcepcion 50000, @MensajeExcepcion;
+		RETURN;
+	END 
+
+	--Obtener los datos de la aplicacion 
+	SELECT @IdAplicacionExterna = ae.Id,
+		   @Proceso =  CASE(@TipoOpcion)					
+							WHEN 'Aprobacion' THEN  Aprueba
+							WHEN 'Autorizacion' THEN Autoriza
+							WHEN 'Revision' THEN Revisa							
+							ELSE ''
+					   END		  
+	FROM dbo.AplicacionExterna ae
+	WHERE ae.Codigo = @AplicacionExternaCodigo
+	AND ae.EstadoRegistro = @AuditoriaActivo;
+
+	PRINT CONCAT('@Proceso=', CONVERT(VARCHAR(255), @Proceso));
+
+	IF(@Proceso IS NULL OR @Proceso = '')
+	BEGIN 
+		--Se genera excepcion porque no se econtro la aplicacion activa y/o tipo de opcion
+		SET @MensajeExcepcion = 'Aplicacion Externa no Existe o no esta Activa';
+        EXEC util.USP_GenerarExcepcion 50000, @MensajeExcepcion;
+		RETURN;
+	END;
+
+	IF(@Proceso = 'NoAplica')
+	BEGIN 
+		SET @NumeroDocumentoApruebaAutoriza = '';
+		RETURN; 
+	END;
+	
+	--Obtener datos del Funcionario para obtener el id y otros datos
+	SELECT @IdFuncionario = vwfda.Id, 
+		   @IdCargoFuncionario = vwfda.CargoId,
+		   @IdDependenciaFuncionario = vwfda.DependenciaId, 
+		   @IdCentroOperativoFuncionario = vwfda.CentroOperativoId,
+		   @IdGrupoNominaFuncionario = vwfda.GrupoNominaId,
+		   @ClaseCargoFuncionario = cg.Clase
+	FROM dbo.VW_FuncionarioDatoActual AS vwfda INNER JOIN dbo.Cargo AS cg ON cg.Id = vwfda.CargoId
+	WHERE vwfda.NumeroDocumento = @NumeroDocumento
+	AND vwfda.Estado = @AuditoriaActivo;
+	
+	PRINT CONCAT('@IdFuncionario=', CONVERT(VARCHAR(255), @IdFuncionario));
+	PRINT CONCAT('@@IdCargo=', CONVERT(VARCHAR(255), @IdCargoFuncionario));
+	PRINT CONCAT('@@IdDependencia=', CONVERT(VARCHAR(255), @IdDependenciaFuncionario));
+	PRINT CONCAT('@@IdCentroOperativo=', CONVERT(VARCHAR(255), @IdCentroOperativoFuncionario));
+	PRINT CONCAT('@@IdGrupoNomina=', CONVERT(VARCHAR(255), @IdGrupoNominaFuncionario));
+
+	IF(@Proceso = 'JefeInmediato')
+	BEGIN 		    
+		SET @IdFuncionarioSuperior = dbo.UFS_ObtenerJefeInmediato(@IdFuncionario); 
+		PRINT CONCAT('@IdFuncionarioSuperior=', CONVERT(VARCHAR(255), @IdFuncionarioSuperior));
+		IF(@IdFuncionarioSuperior <= 0)
+		BEGIN 
+			SET @MensajeExcepcion = 'No se encontró parametrizado un jefe inmediato para el funcionario o existe una inconsistencia con el cargo';
+			EXEC util.USP_GenerarExcepcion 50000, @MensajeExcepcion;
+		END 
+	END 
+	ELSE 			
+	BEGIN 		    
+		-- Seleccionar la relacion cargo/dependencia del funcionario superior						 
+		IF(@ClaseCargoFuncionario = 'Nacional')
+		BEGIN 
+			SELECT @IdCargoDependenciaSuperior = aec.CargoDependenciaIndependienteId,
+				   @IdCentroOperativoSuperior = aec.CentroOperativoIndependienteId
+			FROM AplicacionExternaCargoDependiente AS aecd 
+			INNER JOIN CargoDependencia AS cd ON( cd.Id = aecd.CargoDependenciaId)
+			INNER JOIN AplicacionExternaCargo AS aec ON (aec.Id = aecd.AplicacionExternaCargoId)
+			WHERE cd.CargoId = @IdCargoFuncionario
+			AND cd.DependenciaId = @IdDependenciaFuncionario
+			AND aecd.EstadoRegistro = @AuditoriaActivo
+			AND aec.EstadoRegistro = @AuditoriaActivo
+			AND aec.AplicacionExternaId = @IdAplicacionExterna
+			AND aec.Tipo = @TipoOpcion				
+			AND aec.CentroOperativoDependienteId IS NULL 											
+		END
+		ELSE 
+		BEGIN
+			SELECT @IdCargoDependenciaSuperior = aec.CargoDependenciaIndependienteId,
+				   @IdCentroOperativoSuperior = aec.CentroOperativoIndependienteId
+			FROM AplicacionExternaCargoDependiente AS aecd 
+			INNER JOIN CargoDependencia AS cd ON( cd.Id = aecd.CargoDependenciaId)
+			INNER JOIN AplicacionExternaCargo AS aec ON (aec.Id = aecd.AplicacionExternaCargoId)
+			WHERE cd.CargoId = @IdCargoFuncionario
+			AND cd.DependenciaId = @IdDependenciaFuncionario
+			AND aecd.EstadoRegistro = @AuditoriaActivo
+			AND aec.EstadoRegistro = @AuditoriaActivo
+			AND aec.AplicacionExternaId = @IdAplicacionExterna
+			AND aec.Tipo = @TipoOpcion
+			AND aec.CentroOperativoDependienteId = @IdCentroOperativoFuncionario				
+		END
+
+		PRINT CONCAT('@IdCargoDependenciaSuperior=', CONVERT(VARCHAR(255), @IdCargoDependenciaSuperior));
+		PRINT CONCAT('@IdCentroOperativoSuperior=', CONVERT(VARCHAR(255), @IdCentroOperativoSuperior));			
+
+		--Seleccionar la clase de cargo del superior para saber si es Nacional o por CO
+		SELECT @ClaseCargoSuperior = cg.Clase,
+			   @IdCargoSuperior = cg.Id
+		FROM CargoDependencia AS cd
+		INNER JOIN Cargo AS cg ON(cg.Id = cd.CargoId)
+		WHERE cd.Id = @IdCargoDependenciaSuperior
+		AND cd.EstadoRegistro = @AuditoriaActivo
+		AND cg.EstadoRegistro = @AuditoriaActivo
+
+		PRINT CONCAT('@ClaseCargoSuperior=', CONVERT(VARCHAR(255), @ClaseCargoSuperior));
+		PRINT CONCAT('@IdCargoSuperior=', CONVERT(VARCHAR(255), @IdCargoSuperior));
+
+		--Se seleccionan los datos el superior a realiza la accion
+		IF(@ClaseCargoSuperior = 'Nacional')
+		BEGIN
+			SELECT @IdFuncionarioSuperior = vwfda.Id
+			FROM dbo.VW_FuncionarioDatoActual AS vwfda 				
+			WHERE vwfda.CargoId = @IdCargoSuperior				
+		END
+		ELSE 
+		BEGIN 
+			SELECT @IdFuncionarioSuperior = vwfda.Id
+			FROM dbo.VW_FuncionarioDatoActual AS vwfda 				
+			WHERE vwfda.CargoId = @IdCargoSuperior
+			AND vwfda.CentroOperativoId = @IdCentroOperativoSuperior
+		END
+	END;
+	
+	--Se verifica si esta tiene un reemplazo activo
+	IF(@ClaseCargoSuperior = 'Nacional')
+	BEGIN 
+		PRINT('Busca Sustituto Nacional');
+		SELECT @IdCargoSustituto = sus.CargoSustitutoId,
+			   @IdCentroOperativoSustituto = sus.CentroOperativoSustitutoId,
+			   @ClaseCargoSustituto = cg.Clase
+		FROM Sustituto AS sus
+		INNER JOIN Cargo AS cg ON( cg.Id = sus.CargoSustitutoId)
+		WHERE sus.CargoASustituirId = @IdCargoSuperior
+		AND	CAST(GETDATE() AS DATE) BETWEEN sus.FechaInicio AND FechaFinal
+		AND sus.EstadoRegistro =  @AuditoriaActivo
+		AND sus.CentroOperativoASutituirId IS NULL
+		AND cg.EstadoRegistro = @AuditoriaActivo
+	END
+	ELSE 
+	BEGIN 
+		PRINT('Busca Sustituto CEntro');
+		SELECT @IdCargoSustituto = sus.CargoSustitutoId,
+			   @IdCentroOperativoSustituto = sus.CentroOperativoSustitutoId,
+			   @ClaseCargoSustituto = cg.Clase
+		FROM Sustituto AS sus 
+		INNER JOIN Cargo AS cg ON( cg.Id = sus.CargoSustitutoId)
+		WHERE sus.CargoASustituirId = @IdCargoSuperior
+		AND	CAST(GETDATE() AS DATE) BETWEEN sus.FechaInicio AND FechaFinal
+		AND sus.EstadoRegistro =  @AuditoriaActivo
+		AND sus.CentroOperativoASutituirId = @IdCentroOperativoSuperior
+		AND cg.EstadoRegistro = @AuditoriaActivo
+	END 
+
+	PRINT CONCAT('@IdCargoSustituto=', CONVERT(VARCHAR(255), @IdCargoSustituto));
+	PRINT CONCAT('@IdCentroOperativoSustituto=', CONVERT(VARCHAR(255), @IdCentroOperativoSustituto));
+	PRINT CONCAT('@ClaseCargoSustituto=', CONVERT(VARCHAR(255), @ClaseCargoSustituto));
+
+	IF(@IdCargoSustituto IS NOT NULL AND @IdCargoSustituto > 0)
+	BEGIN 
+		PRINT('Buscar Sustituto'); 
+	    IF(@ClaseCargoSustituto = 'Nacional')
+		BEGIN
+			PRINT('Nacional');
+			SELECT @IdFuncionarioSuperior = vwfda.Id
+			FROM dbo.VW_FuncionarioDatoActual AS vwfda 				
+			WHERE vwfda.CargoId = @IdCargoSustituto
+		END
+		ELSE 
+		BEGIN 
+			PRINT('Centro Operativo');
+			SELECT @IdFuncionarioSuperior = vwfda.Id
+			FROM dbo.VW_FuncionarioDatoActual AS vwfda 				
+			WHERE vwfda.CargoId = @IdCargoSustituto
+			AND vwfda.CentroOperativoId = @IdCentroOperativoSustituto
+		END 
+	END 
+		
+	SELECT @NumeroDocumentoApruebaAutoriza = NumeroDocumento  
+	FROM dbo.Funcionario 
+	WHERE Id = @IdFuncionarioSuperior
+	AND EstadoRegistro = @AuditoriaActivo;
+
+	IF(@NumeroDocumentoApruebaAutoriza IS NULL OR @NumeroDocumentoApruebaAutoriza = '')
+	BEGIN 
+		SET @MensajeExcepcion = 'No se encontró el Funcionario para esta Acción';
+		EXEC util.USP_GenerarExcepcion 50000, @MensajeExcepcion;
+	END
+	RETURN;
+END
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [dbo].[USP_ObtenerValorConceptoNomina];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

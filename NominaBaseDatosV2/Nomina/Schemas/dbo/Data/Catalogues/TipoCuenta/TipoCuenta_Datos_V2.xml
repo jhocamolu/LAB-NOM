@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dgalindo" id="TipoCuenta_Datos_V1">
+<sql endDelimiter="\nGO" splitStatements="true">
+
+SET IDENTITY_INSERT [dbo].[TipoCuenta] ON 
+GO
+INSERT [dbo].[TipoCuenta] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 1, 'Activo', GETDATE(), NULL, NULL, 'Ahorros')
+GO
+INSERT [dbo].[TipoCuenta] ([CreadoPor], [Id], [EstadoRegistro], [FechaCreacion], [FechaModificacion], [FechaEliminacion], [Nombre]) VALUES ('sistema', 2, 'Activo', GETDATE(), NULL, NULL, 'Corriente')
+GO
+SET IDENTITY_INSERT [dbo].[TipoCuenta] OFF
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoCuenta] WHERE Id BETWEEN 1 AND 2;
+</rollback>
+</changeSet>
+</databaseChangeLog>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="__EFMigrationsHistory_Initial_V102">
+<comment>Adicion de campo tipoLiquidacion, crear tipoLiquidacionModulo</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20200922192750_sprint14026', N'3.1.1');
+
+    GO
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    DELETE FROM [__EFMigrationsHistory] WHERE [MigrationId] = '20200922192750_sprint14026' 
+    AND [ProductVersion] = '3.1.1';
+
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

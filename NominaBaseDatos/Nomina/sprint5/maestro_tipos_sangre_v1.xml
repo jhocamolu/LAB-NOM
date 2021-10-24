@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="maestro_tipo_sangre_v1">
+<sql endDelimiter="\nGO" splitStatements="true">
+SET IDENTITY_INSERT [dbo].[TipoSangre] ON 
+GO
+INSERT [dbo].[TipoSangre] ([Id], [Nombre], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (1, 'A+', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSangre] ([Id], [Nombre], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (2, 'A-', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSangre] ([Id], [Nombre], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (3, 'AB+', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSangre] ([Id], [Nombre], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (4, 'AB-', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSangre] ([Id], [Nombre], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (5, 'O+', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSangre] ([Id], [Nombre], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (6, 'O-', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSangre] ([Id], [Nombre], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (7, 'B+', 'Activo', 'sistema', GETDATE())
+GO
+INSERT [dbo].[TipoSangre] ([Id], [Nombre], [EstadoRegistro], [CreadoPor], [FechaCreacion]) VALUES (8, 'B-', 'Activo', 'sistema', GETDATE())
+GO
+SET IDENTITY_INSERT [dbo].[TipoSangre] OFF
+GO
+
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[TipoSangre] WHERE Id BETWEEN 1 AND 8;
+</rollback>
+</changeSet>
+</databaseChangeLog>

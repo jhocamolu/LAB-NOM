@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="USP_GenerarCertificadoRetenciones_V1">
+<comment>HUM014</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+IF OBJECT_ID('reporte.USP_GenerarCertificadoRetenciones', 'P') IS NULL
+    BEGIN
+        EXECUTE ('CREATE PROCEDURE reporte.USP_GenerarCertificadoRetenciones as SELECT 1');
+    END;
+GO
+SET ANSI_NULLS ON;
+GO
+SET QUOTED_IDENTIFIER ON;
+GO
+-- ==========================================================================================
+-- Author:      Jhonatan Camilo Moreno Luna
+-- Create date: 17/09/2020 Nomina_MediosMagneticos
+-- Description: Permite generar la informacion del archivo de certificado de ingresos y retenciones de la Dian.
+--
+-- Parameters:
+--   @Anio :	   Ano que se desea consultar
+--		
+-- Returns:						
+--   @Resultado:		   Estado resultado del proceso. = 0 Todo bien; > 0 Error
+-- ==========================================================================================
+ALTER PROCEDURE reporte.USP_GenerarCertificadoRetenciones @FuncionarioConsultado INT, 
+                                                          @Anio                  INT, 
+                                                          @Resultado             INT OUTPUT
+AS
+    BEGIN
+        --------------------------------------------------------------------------
+        -- Instrucciones de configuracion y manejo de errores
+        --------------------------------------------------------------------------
+        SET XACT_ABORT, NOCOUNT, ANSI_NULLS, QUOTED_IDENTIFIER ON;
+        DECLARE @Parametros VARCHAR(MAX)= CONCAT('@Anio=', CONVERT(VARCHAR, @Anio));
+        DECLARE @NombreObjeto VARCHAR(256)= OBJECT_NAME(@@PROCID);
+
+        ---------------------------------------------
+        -- Declaraciones
+        ---------------------------------------------
+        -- Variables de Error
+        DECLARE @MensajeExcepcion VARCHAR(255);
+
+        -- Variables de apoyo
+        DECLARE @AnioConsulta INT;
+        DECLARE @FechaInicio DATE;
+        DECLARE @FechaFin DATE;
+
+        -- DECLARE ALIAS CONCEPTOS
+        DECLARE @AliasBaseIbcMes NVARCHAR(255)= 'BaseIbcMes';
+        DECLARE @AliasInteresCesantiasConsolidadas NVARCHAR(255)= 'InteresCesantiasConsolidadas';
+        DECLARE @AliasNetoVacaciones NVARCHAR(255)= 'NetoVacaciones';
+        DECLARE @AliasDotacion NVARCHAR(255)= 'Dotacion';
+        DECLARE @AliasViaticosAlimentacion NVARCHAR(255)= 'ViaticosAlimentacion';
+        DECLARE @AliasFondoMutuo NVARCHAR(255)= 'FondoMutuo';
+        DECLARE @AliasComision NVARCHAR(255)= 'Comision';
+        DECLARE @AliasAuxOptico NVARCHAR(255)= 'AuxOptico';
+        DECLARE @AliasPrimaLegal NVARCHAR(255)= 'PrimaLegal';
+        DECLARE @AliasAuxEducativo NVARCHAR(255)= 'AuxEducativo';
+        DECLARE @AliasViaticosHospedaje NVARCHAR(255)= 'ViaticosHospedaje';
+        DECLARE @AliasAuxCalamidad NVARCHAR(255)= 'AuxCalamidad';
+        DECLARE @AliasAnticipoCesantias NVARCHAR(255)= 'AnticipoCesantias';
+        DECLARE @AliasLiqCesantias NVARCHAR(255)= 'LiqCesantias';
+        DECLARE @AliasIntCesantiasConsolidadas NVARCHAR(255)= 'InteresCesantiasConsolidadas';
+        DECLARE @AliasInteresAnticipoCesantias NVARCHAR(255)= 'InteresAnticipoCesantias';
+        DECLARE @AliasPrimaExtra NVARCHAR(255)= 'PrimaExtra';
+        DECLARE @AliasLiqintCesantias NVARCHAR(255)= 'LiqintCesantias';
+        DECLARE @AliasCesantiasConsolidadas NVARCHAR(255)= 'CesantiasConsolidadas';
+        DECLARE @AliasCesantiasFondo NVARCHAR(255)= 'CesantiasFondo';
+        DECLARE @AliasAporteFondoSolidaridad NVARCHAR(255)= 'AporteFondoSolidaridad';
+        DECLARE @AliasSaludFuncionario NVARCHAR(255)= 'SaludFuncionario';
+        DECLARE @AliasPensionFuncionario NVARCHAR(255)= 'PensionFuncionario';
+        DECLARE @AliasAportePensionVoluntario NVARCHAR(255)= 'AportePensionVoluntario';
+        DECLARE @AliasCuentasAfc NVARCHAR(255)= 'CuentasAfc';
+        DECLARE @AliasRetefuente NVARCHAR(255)= 'Retefuente';
+
+        -- DECLARE valores de variables
+
+        DECLARE @ValorBaseIbcMes MONEY;
+        DECLARE @ValorInteresCesantiasConsolidadas MONEY;
+        DECLARE @ValorNetoVacaciones MONEY;
+        DECLARE @ValorDotacion MONEY;
+        DECLARE @ValorViaticosAlimentacion MONEY;
+        DECLARE @ValorFondoMutuo MONEY;
+        DECLARE @ValorComision MONEY;
+        DECLARE @ValorAuxOptico MONEY;
+        DECLARE @ValorPrimaLegal MONEY;
+        DECLARE @ValorAuxEducativo MONEY;
+        DECLARE @ValorViaticosHospedaje MONEY;
+        DECLARE @ValorAuxCalamidad MONEY;
+        DECLARE @ValorAnticipoCesantias MONEY;
+        DECLARE @ValorLiqCesantias MONEY;
+        DECLARE @ValorIntCesantiasConsolidadas MONEY;
+        DECLARE @ValorInteresAnticipoCesantias MONEY;
+        DECLARE @ValorPrimaExtra MONEY;
+        DECLARE @ValorLiqintCesantias MONEY;
+        DECLARE @ValorCesantiasConsolidadas MONEY;
+        DECLARE @ValorCesantiasFondo MONEY;
+        DECLARE @ValorAporteFondoSolidaridad MONEY;
+        DECLARE @ValorSaludFuncionario MONEY;
+        DECLARE @ValorPensionFuncionario MONEY;
+        DECLARE @ValorAportePensionVoluntario MONEY;
+        DECLARE @ValorCuentasAfc MONEY;
+        DECLARE @ValorRetefuente MONEY;
+
+        -- DECLARE Variable para llenar tabla funcionarios
+        DECLARE @FuncionarioId INT;
+        DECLARE @EmpresaNIT VARCHAR(255);
+        DECLARE @DVEmpresa VARCHAR(255);
+        DECLARE @PrimerapellidoEmpresa VARCHAR(255);
+        DECLARE @SegundoapellidoEmpresa VARCHAR(255);
+        DECLARE @PrimernombreEmpresa VARCHAR(255);
+        DECLARE @OtrosnombresEmpresa VARCHAR(255);
+        DECLARE @RazonsocialEmpresa VARCHAR(255);
+        DECLARE @TipodedocumentoEmpleado VARCHAR(255);
+        DECLARE @NumerodeIdentificacionEmpleado VARCHAR(255);
+        DECLARE @PrimerapellidoEmpleado VARCHAR(255);
+        DECLARE @SegundoapellidoEmpleado VARCHAR(255);
+        DECLARE @PrimernombreEmpleado VARCHAR(255);
+        DECLARE @OtrosnombresEmpleado VARCHAR(255);
+        DECLARE @FechaInicioContrato DATE;
+        DECLARE @FechaFinalContrato DATE;
+        DECLARE @Fechadeexpedicion DATE= GETDATE();
+        DECLARE @Lugardondesepracticalaretencion VARCHAR(255);
+        DECLARE @CodDpto VARCHAR(255);
+        DECLARE @CodCiudadMunicipio VARCHAR(255);
+        DECLARE @Numerodeagencias INT;
+        DECLARE @Pagosporsalarios MONEY;
+        DECLARE @Pagosporhonorarios MONEY;
+        DECLARE @Pagosporservicios MONEY;
+        DECLARE @Pagosporcomisiones MONEY;
+        DECLARE @Pagosporprestacionessociales MONEY;
+        DECLARE @Pagosporviaticos MONEY;
+        DECLARE @Pagosporgastosderepresentacion MONEY;
+        DECLARE @Pagosporcompensaciones MONEY;
+        DECLARE @Otrospagos MONEY;
+        DECLARE @Cesantias MONEY;
+        DECLARE @Pensionesdejubilacionvejezoinvalidez MONEY;
+        DECLARE @Totaldeingresosbrutos MONEY;
+        DECLARE @Aportesobligatoriosporsalud MONEY;
+        DECLARE @AportesobligatoriosAFP MONEY;
+        DECLARE @AportesvoluntariosAFP MONEY;
+        DECLARE @AportesacuentasAFC MONEY;
+        DECLARE @Valorretencionfuente MONEY;
+        DECLARE @Nombredelpagadoroagenteretenedor VARCHAR(255);
+        DECLARE @Datosacargodeltrabajadoropensionado VARCHAR(255);
+        DECLARE @Identificaciondelosbienesyderechosposeidos VARCHAR(255);
+        DECLARE @ValorPatrimonial MONEY;
+        DECLARE @CCNIT VARCHAR(255);
+        DECLARE @ApellidosyNombres VARCHAR(255);
+        DECLARE @Parentesco VARCHAR(255);
+
+        -- tabla temporal
+        CREATE TABLE #Certificado
+        (FuncionarioId                              INT, 
+         EmpresaNIT                                 VARCHAR(255), 
+         DVEmpresa                                  VARCHAR(255), 
+         PrimerapellidoEmpresa                      VARCHAR(255), 
+         SegundoapellidoEmpresa                     VARCHAR(255), 
+         PrimernombreEmpresa                        VARCHAR(255), 
+         OtrosnombresEmpresa                        VARCHAR(255), 
+         RazonsocialEmpresa                         VARCHAR(255), 
+         TipodedocumentoEmpleado                    VARCHAR(255), 
+         NumerodeIdentificacionEmpleado             VARCHAR(255), 
+         PrimerapellidoEmpleado                     VARCHAR(255), 
+         SegundoapellidoEmpleado                    VARCHAR(255), 
+         PrimernombreEmpleado                       VARCHAR(255), 
+         OtrosnombresEmpleado                       VARCHAR(255), 
+         FechaInicio                                DATE, 
+         FechaFinal                                 DATE, 
+         Fechadeexpedicion                          VARCHAR(255), 
+         Lugardondesepracticalaretencion            VARCHAR(255), 
+         CodDpto                                    VARCHAR(255), 
+         CodCiudadMunicipio                         VARCHAR(255), 
+         Numerodeagencias                           INT, 
+         Pagosporsalarios                           MONEY, 
+         Pagosporhonorarios                         MONEY, 
+         Pagosporservicios                          MONEY, 
+         Pagosporcomisiones                         MONEY, 
+         Pagosporprestacionessociales               MONEY, 
+         Pagosporviaticos                           MONEY, 
+         Pagosporgastosderepresentacion             MONEY, 
+         Pagosporcompensaciones                     MONEY, 
+         Otrospagos                                 MONEY, 
+         Cesantias                                  MONEY, 
+         Pensionesdejubilacionvejezoinvalidez       MONEY, 
+         Totaldeingresosbrutos                      MONEY, 
+         Aportesobligatoriosporsalud                MONEY, 
+         AportesobligatoriosAFP                     MONEY, 
+         AportesvoluntariosAFP                      MONEY, 
+         AportesacuentasAFC                         MONEY, 
+         Valorretencionfuente                       MONEY, 
+         Nombredelpagadoroagenteretenedor           VARCHAR(255), 
+         Datosacargodeltrabajadoropensionado        VARCHAR(255), 
+         Identificaciondelosbienesyderechosposeidos VARCHAR(255), 
+         ValorPatrimonial                           MONEY, 
+         CCNIT                                      VARCHAR(255), 
+         ApellidosyNombres                          VARCHAR(255), 
+         Parentesco                                 VARCHAR(255)
+        );
+        BEGIN TRY
+            SET @Resultado = 1;
+            SET @AnioConsulta =
+            (
+                SELECT TOP 1 av.Anno
+                FROM dbo.AnnoVigencia AS av
+                WHERE av.Id = @Anio
+            );
+            IF @AnioConsulta IS NULL
+                BEGIN
+                    SET @MensajeExcepcion = 'No se han pasado los parametros apropiados para ejecutar el procedimiento.';
+                    EXEC util.USP_GenerarExcepcion 
+                         50000, 
+                         @MensajeExcepcion;
+                END;
+            -- Configuracion de fechas
+            SET @FechaInicio = CONVERT(DATE, CONCAT((@AnioConsulta - 1), '-01-01'));
+            SET @FechaFin = CONVERT(DATE, CONCAT((@AnioConsulta - 1), '-12-31'));
+
+            -- Configuracion de Informacion Empresa funcionario
+            SELECT TOP 1 @EmpresaNIT = ib.Nit, 
+                         @DVEmpresa = ib.DigitoVerificacion, 
+                         @PrimerapellidoEmpresa = '', 
+                         @SegundoapellidoEmpresa = '', 
+                         @PrimernombreEmpresa = '', 
+                         @OtrosnombresEmpresa = '', 
+                         @RazonsocialEmpresa = ib.RazonSocial, 
+                         @Lugardondesepracticalaretencion = dpn2.Nombre, 
+                         @CodDpto = dpn1.Codigo, 
+                         @CodCiudadMunicipio = dpn2.Codigo
+            FROM dbo.InformacionBasica ib
+                 INNER JOIN DivisionPoliticaNivel2 dpn2 ON ib.DivisionPoliticaNivel2Id = dpn2.Id
+                 INNER JOIN DivisionPoliticaNivel1 dpn1 ON dpn2.DivisionPoliticaNivel1Id = dpn1.Id;
+
+            -- Configuracion de Informacion funcionario
+            SELECT TOP 1 @FuncionarioId = f.Id, 
+                         @TipodedocumentoEmpleado = td.CodigoDian, 
+                         @NumerodeIdentificacionEmpleado = f.NumeroDocumento, 
+                         @PrimerapellidoEmpleado = f.PrimerApellido, 
+                         @SegundoapellidoEmpleado = f.SegundoApellido, 
+                         @PrimernombreEmpleado = f.PrimerNombre, 
+                         @OtrosnombresEmpleado = f.SegundoNombre, 
+                         @FechaInicioContrato = IIF(c.FechaInicio < @FechaInicio, @FechaInicio, c.FechaInicio), 
+                         @FechaFinalContrato = IIF((c.FechaTerminacion IS NOT NULL
+                                                    AND c.FechaTerminacion BETWEEN @FechaInicio AND @FechaFin), c.FechaTerminacion, @FechaFin)
+            FROM dbo.VW_FuncionarioDatoActual f
+                 INNER JOIN TipoDocumento AS td ON f.TipoDocumentoId = td.Id
+                 INNER JOIN Contrato AS c ON f.ContratoId = c.Id
+            WHERE f.Id = @FuncionarioConsultado;
+
+            -- Calculo de procedimientos
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasBaseIbcMes, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorBaseIbcMes OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasInteresCesantiasConsolidadas, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorInteresCesantiasConsolidadas OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasNetoVacaciones, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorNetoVacaciones OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasDotacion, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorDotacion OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasViaticosAlimentacion, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorViaticosAlimentacion OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasFondoMutuo, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorFondoMutuo OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasComision, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorComision OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasAuxOptico, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorAuxOptico OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasPrimaLegal, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorPrimaLegal OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasAuxEducativo, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorAuxEducativo OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasViaticosHospedaje, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorViaticosHospedaje OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasAuxCalamidad, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorAuxCalamidad OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasAnticipoCesantias, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorAnticipoCesantias OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasLiqCesantias, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorLiqCesantias OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasIntCesantiasConsolidadas, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorIntCesantiasConsolidadas OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasInteresAnticipoCesantias, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorInteresAnticipoCesantias OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasPrimaExtra, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorPrimaExtra OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasLiqintCesantias, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorLiqintCesantias OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasCesantiasConsolidadas, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorCesantiasConsolidadas OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasCesantiasFondo, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorCesantiasFondo OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasAporteFondoSolidaridad, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorAporteFondoSolidaridad OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasSaludFuncionario, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorSaludFuncionario OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasPensionFuncionario, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorPensionFuncionario OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasAportePensionVoluntario, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorAportePensionVoluntario OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasCuentasAfc, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorCuentasAfc OUTPUT;
+            EXECUTE [dbo].[USP_ObtenerValorConceptoNominaAcumulado] 
+                    @FuncionarioId, 
+                    @AliasRetefuente, 
+                    @FechaInicio, 
+                    @FechaFin, 
+                    @ValorRetefuente OUTPUT;
+            -- calculo de variables
+            SET @Pagosporsalarios = @ValorBaseIbcMes;
+            SET @Pagosporhonorarios = 0;
+            SET @Pagosporservicios = 0;
+            SET @Pagosporcomisiones = @ValorComision;
+            SET @Pagosporprestacionessociales = @ValorPrimaLegal + @ValorInteresCesantiasConsolidadas + @ValorNetoVacaciones + @ValorDotacion;
+            SET @Pagosporviaticos = @ValorViaticosHospedaje + @ValorViaticosAlimentacion;
+            SET @Pagosporgastosderepresentacion = 0;
+            SET @Pagosporcompensaciones = 0;
+            SET @Otrospagos = @ValorPrimaExtra + @ValorFondoMutuo + @ValorAuxOptico + @ValorAuxEducativo + @ValorAuxCalamidad;
+            SET @Cesantias = @ValorCesantiasConsolidadas + @ValorAnticipoCesantias + @ValorLiqCesantias + @ValorIntCesantiasConsolidadas + @ValorInteresAnticipoCesantias + @ValorLiqintCesantias + @ValorCesantiasFondo;
+            SET @Pensionesdejubilacionvejezoinvalidez = 0;
+            SET @Totaldeingresosbrutos = @Pagosporsalarios + @Pagosporhonorarios + @Pagosporservicios + @Pagosporcomisiones + @Pagosporprestacionessociales + @Pagosporviaticos + @Pagosporgastosderepresentacion + @Pagosporcompensaciones + @Otrospagos + @Cesantias + @Pensionesdejubilacionvejezoinvalidez;
+            SET @Aportesobligatoriosporsalud = @ValorSaludFuncionario;
+            SET @AportesobligatoriosAFP = @ValorPensionFuncionario + @ValorAporteFondoSolidaridad;
+            SET @AportesvoluntariosAFP = @ValorAportePensionVoluntario;
+            SET @AportesacuentasAFC = @ValorCuentasAfc;
+            SET @Valorretencionfuente = @ValorRetefuente;
+
+            -- INSERT de los Funcionarios
+            INSERT INTO #Certificado
+            (FuncionarioId, 
+             EmpresaNIT, 
+             DVEmpresa, 
+             PrimerapellidoEmpresa, 
+             SegundoapellidoEmpresa, 
+             PrimernombreEmpresa, 
+             OtrosnombresEmpresa, 
+             RazonsocialEmpresa, 
+             TipodedocumentoEmpleado, 
+             NumerodeIdentificacionEmpleado, 
+             PrimerapellidoEmpleado, 
+             SegundoapellidoEmpleado, 
+             PrimernombreEmpleado, 
+             OtrosnombresEmpleado, 
+             FechaInicio, 
+             FechaFinal, 
+             Fechadeexpedicion, 
+             Lugardondesepracticalaretencion, 
+             CodDpto, 
+             CodCiudadMunicipio, 
+             Numerodeagencias, 
+             Pagosporsalarios, 
+             Pagosporhonorarios, 
+             Pagosporservicios, 
+             Pagosporcomisiones, 
+             Pagosporprestacionessociales, 
+             Pagosporviaticos, 
+             Pagosporgastosderepresentacion, 
+             Pagosporcompensaciones, 
+             Otrospagos, 
+             Cesantias, 
+             Pensionesdejubilacionvejezoinvalidez, 
+             Totaldeingresosbrutos, 
+             Aportesobligatoriosporsalud, 
+             AportesobligatoriosAFP, 
+             AportesvoluntariosAFP, 
+             AportesacuentasAFC, 
+             Valorretencionfuente, 
+             Nombredelpagadoroagenteretenedor, 
+             Datosacargodeltrabajadoropensionado, 
+             Identificaciondelosbienesyderechosposeidos, 
+             ValorPatrimonial, 
+             CCNIT, 
+             ApellidosyNombres, 
+             Parentesco
+            )
+            VALUES
+            (@FuncionarioConsultado, 
+             @EmpresaNIT, 
+             @DVEmpresa, 
+             @PrimerapellidoEmpresa, 
+             @SegundoapellidoEmpresa, 
+             @PrimernombreEmpresa, 
+             @OtrosnombresEmpresa, 
+             @RazonsocialEmpresa, 
+             @TipodedocumentoEmpleado, 
+             @NumerodeIdentificacionEmpleado, 
+             @PrimerapellidoEmpleado, 
+             @SegundoapellidoEmpleado, 
+             @PrimernombreEmpleado, 
+             @OtrosnombresEmpleado, 
+             @FechaInicioContrato, 
+             @FechaFinalContrato, 
+             @Fechadeexpedicion, 
+             @Lugardondesepracticalaretencion, 
+             @CodDpto, 
+             @CodCiudadMunicipio, 
+             @Numerodeagencias, 
+             @Pagosporsalarios, 
+             @Pagosporhonorarios, 
+             @Pagosporservicios, 
+             @Pagosporcomisiones, 
+             @Pagosporprestacionessociales, 
+             @Pagosporviaticos, 
+             @Pagosporgastosderepresentacion, 
+             @Pagosporcompensaciones, 
+             @Otrospagos, 
+             @Cesantias, 
+             @Pensionesdejubilacionvejezoinvalidez, 
+             @Totaldeingresosbrutos, 
+             @Aportesobligatoriosporsalud, 
+             @AportesobligatoriosAFP, 
+             @AportesvoluntariosAFP, 
+             @AportesacuentasAFC, 
+             @Valorretencionfuente, 
+             @Nombredelpagadoroagenteretenedor, 
+             @Datosacargodeltrabajadoropensionado, 
+             @Identificaciondelosbienesyderechosposeidos, 
+             @ValorPatrimonial, 
+             @CCNIT, 
+             @ApellidosyNombres, 
+             @Parentesco
+            );
+            -- Se muestran los resultados
+            SELECT *
+            FROM #Certificado cc;
+            -- No se presento ningun problema se retorna codigo de estado exitoso
+            SET @Resultado = 0;
+            RETURN @Resultado;
+        END TRY
+        BEGIN CATCH
+
+            -- Rollback de la transaccion si existe
+            IF XACT_STATE() <> 0
+               AND @@TRANCOUNT > 0
+                BEGIN
+                    ROLLBACK;
+                END;
+
+            -- Se almacena la informacion del error
+            EXEC util.USP_Registrarerror 
+                 @NombreObjeto, 
+                 @Parametros;
+
+            -- Se lanza la excepcion
+            EXEC util.USP_LanzarExcepcion;
+        END CATCH;
+    END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP PROCEDURE [reporte].[USP_GenerarCertificadoRetenciones];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

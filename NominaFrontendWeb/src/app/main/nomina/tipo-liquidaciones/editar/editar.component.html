@@ -1,0 +1,380 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Nómina</span>
+                <mat-icon>chevron_right</mat-icon>
+                <a routerLink="/nomina/tipo-liquidaciones">Tipos de liquidación</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Editar tipo de liquidación</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Editar tipo de liquidación</h2>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <button mat-raised-button color="accent" [matMenuTriggerFor]="menu" *ngIf="item">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item *ngIf="arrayPermisosConceptos.crear" (click)="conceptoHandle($event)">
+                    <span>Agregar concepto</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisosEstados.crear" (click)="estadoHandle($event)">
+                    <span>Agregar estado funcionario</span>
+                </button>
+                <button mat-menu-item *ngIf="arrayPermisosConceptos.crear" (click)="crearParametroHandle($event)">
+                    <span>Agregar parámetro contable</span>
+                </button>
+
+                <a routerLink="/nomina/tipo-liquidaciones" mat-menu-item>Volver</a>
+
+            </mat-menu>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTab"
+                (selectedTabChange)="tabChangeHandle($event)">
+                <!-- Información -->
+                <mat-tab label="Información">
+
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Código</mat-label>
+                                <input matInput formControlName="codigo" required>
+                                <mat-error *ngFor="let error of form.get('codigo').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Identificador del código del tipo de liquidación.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Nombre</mat-label>
+                                <input matInput formControlName="nombre" required>
+                                <mat-error *ngFor="let error of form.get('nombre').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Nombre del tipo de liquidación.">info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="dos-bloque">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tipo de período</mat-label>
+                                <mat-select formControlName="tipoPeriodoId" required>
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let item of tipoPeriodosOptions" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('tipoPeriodoId').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Período de liquidación que utiliza el tipo de nómina.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Fechas manuales</mat-label>
+                                <mat-select formControlName="fechaManual" required>
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="true">Si</mat-option>
+                                    <mat-option [value]="false">No</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('fechaManual').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Establece si las fechas de liquidación deben ser calculadas o ingresadas por el funcionario.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="dos-bloque">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tipo de proceso</mat-label>
+                                <mat-select formControlName="proceso" step="any" required>
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="tipoLiquidacion.anticipos">Anticipos</mat-option>
+                                    <mat-option [value]="tipoLiquidacion.cesantias">Cesantías</mat-option>
+                                    <mat-option [value]="tipoLiquidacion.definitivo">Definitivo</mat-option>
+                                    <mat-option [value]="tipoLiquidacion.normal">Normal</mat-option>
+                                    <mat-option [value]="tipoLiquidacion.retefuente">Retefuente</mat-option>
+                                    <mat-option [value]="tipoLiquidacion.vacaciones">Vacaciones</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('proceso').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Procedimiento que utiliza el tipo de liquidación.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Contabiliza</mat-label>
+                                <mat-select formControlName="contabiliza" step="any" required>
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="true">Si</mat-option>
+                                    <mat-option [value]="false">No</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('contabiliza').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Indica si el tipo de liquidación maneja contabilidad.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="dos-bloque">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Concepto de nómina agrupador</mat-label>
+                                <input matInput formControlName="conceptoNominaAgrupadorId" [matAutocomplete]="auto"
+                                    required>
+                                <mat-autocomplete [displayWith]="displayFnConceptos" #auto="matAutocomplete">
+                                    <mat-option *ngFor="let item of conceptoNominaOptions | async" [value]="item">
+                                        {{item.codigo}}, {{item.nombre}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error
+                                    *ngFor="let error of form.get('conceptoNominaAgrupadorId').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Item de la nómina que se utilizará para agrupar valores en la liquidación de nómina.">
+                                    info</mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Afecta PILA</mat-label>
+                                <mat-select formControlName="aplicaPila" step="any" required>
+                                    <mat-option></mat-option>
+                                    <mat-option [value]="true">Si</mat-option>
+                                    <mat-option [value]="false">No</mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of form.get('aplicaPila').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica si el tipo de liquidación afecta la generación del reporte de la PILA.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="dos-bloque">
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Operación total funcionario</mat-label>
+                                <mat-select formControlName="operacionTotal" step="any" required>
+                                    <mat-option [value]="null" disabled></mat-option>
+                                    <mat-option [value]="operacionesTotales.totalcalculos">Total cálculos
+                                    </mat-option>
+                                    <mat-option [value]="operacionesTotales.calculosinagrupar">Solo total cálculos sin
+                                        agrupadores</mat-option>
+                                    <mat-option [value]="operacionesTotales.totaldeducciones">Solo total deducciones
+                                    </mat-option>
+                                    <mat-option [value]="operacionesTotales.devengomenosdeducciones">Total devengos
+                                        menos total deducciones</mat-option>
+                                </mat-select>
+
+                                <mat-error *ngFor="let error of form.get('operacionTotal').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Indica el valor total que se debe mostrar por cada liquidación de nómina.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline">
+                                <mat-label>Novedad que aplica para liquidar</mat-label>
+                                <mat-select formControlName="ListaTipoLiquidacionModulos" step="any" multiple>
+                                    <mat-option [value]="null" disabled></mat-option>
+                                    <mat-option [value]="novedadesLiquidar.anticiposcesantias">Anticipos censantías
+                                    </mat-option>
+                                    <mat-option [value]="novedadesLiquidar.ausentismos">Ausentismos </mat-option>
+                                    <mat-option [value]="novedadesLiquidar.beneficios">Beneficios</mat-option>
+                                    <mat-option [value]="novedadesLiquidar.embargos">Embargos </mat-option>
+                                    <mat-option [value]="novedadesLiquidar.gastosdeviaje">Gastos de viaje </mat-option>
+                                    <mat-option [value]="novedadesLiquidar.horasExtras">Horas extras </mat-option>
+                                    <mat-option [value]="novedadesLiquidar.libranzas">Libranzas </mat-option>
+                                    <mat-option [value]="novedadesLiquidar.otrasNovedades">Otras novedades</mat-option>
+                                    <mat-option [value]="novedadesLiquidar.vacaciones">Vacaciones </mat-option>
+                                </mat-select>
+
+                                <mat-error
+                                    *ngFor="let error of form.get('ListaTipoLiquidacionModulos').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix
+                                    matTooltip="Conceptos eventuales que se van a procesar en este tipo de liquidación.">
+                                    info
+                                </mat-icon>
+                            </mat-form-field>
+
+
+                        </div>
+
+
+
+                        <div>
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Descripción</mat-label>
+                                <textarea matInput formControlName="descripcion"></textarea>
+                                <mat-error *ngFor="let error of form.get('descripcion').errors | keyvalue">
+                                    <div [ngSwitch]="error.key">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error.key}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Haga una breve descripción del tipo de nómina.">info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+
+                        <div class="actions">
+                            <a mat-raised-button routerLink="/nomina/tipo-liquidaciones">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+
+
+                            <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </mat-tab>
+                <!-- Información -->
+
+                <!-- Conceptos asociados-->
+                <mat-tab label="Conceptos asociados">
+                    <tipo-liquidaciones-listar-editar [tipo-liquidaciones]="item" *ngIf="item">
+                    </tipo-liquidaciones-listar-editar>
+                </mat-tab>
+                <!-- Conceptos asociados-->
+
+                <!-- Conceptos asociados-->
+                <mat-tab label="Estados asociados">
+                    <tipo-liquidaciones-estados [tipo-liquidaciones-id]="id">
+                    </tipo-liquidaciones-estados>
+                </mat-tab>
+                <!-- Conceptos asociados-->
+
+
+                <!-- Parámetros contables-->
+                <mat-tab label="Parámetros contables">
+                    <tipo-liquidaciones-parametros [tipo-liquidaciones-id]="id">
+                    </tipo-liquidaciones-parametros>
+                </mat-tab>
+                <!-- Parámetros contables-->
+
+            </mat-tab-group>
+
+        </div>
+        <!-- / CONTENIDO -->
+
+    </div>
+
+</div>

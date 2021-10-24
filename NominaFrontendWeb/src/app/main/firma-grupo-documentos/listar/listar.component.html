@@ -1,0 +1,136 @@
+<div class="page-layout simple inner-sidebar">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="breadcrumb">
+                <mat-icon routerLink="/" color="accent" class="mat-icon24 cursor-pointer">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Configuración general</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Plantillas</span>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Firmas</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2>Firmas</h2>
+            </div>
+        </div>
+        <div class="actions">
+            <button mat-raised-button (click)="filtroHandle($event)" [matBadge]="filterSize" matBadgePosition="before"
+                [matBadgeHidden]="!hasFilter" matBadgeColor="warn">
+                <mat-icon>filter_list</mat-icon>
+                <span>Filtrar</span>
+            </button>
+            <button *ngIf="arrayPermisos.crear" mat-raised-button color="accent" (click)="crearHandle($event)">
+                <mat-icon>add</mat-icon>
+                <span>Crear firma</span>
+            </button>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content ">
+
+        <div>
+
+            <alcanos-empty-list [visibleBtnCreate]="arrayPermisos.crear" (fnCreate)="crearHandle($event)"
+                labelH1="¡Uy! Aún no has registrado firmas." labelBtn="Crear firma"
+                [visible]="!hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-list>
+
+            <alcanos-empty-filter (fnClear)="limpiarHandle($event)" (fnFilter)="filtroHandle($event)"
+                [visible]="hasFilter && !dataLength && !dataRequest">
+            </alcanos-empty-filter>
+
+
+            <div [hidden]="!dataLength" class="box-shadow">
+                <table mat-table #table [dataSource]="dataSource" matSortDisableClear matSort
+                    [@animateStagger]="{value:'50'}">
+
+                    <!-- Columna Numero documento -->
+                    <ng-container matColumnDef="funcionario/numeroDocumento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>N° documento</th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate">{{element.funcionario?.numeroDocumento}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna Funcionario -->
+                    <ng-container matColumnDef="funcionario/primerNombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Funcionario</th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate">{{element.funcionario?.primerNombre}}
+                                {{element.funcionario?.segundoNombre}}
+                                {{element.funcionario?.primerApellido}} {{element.funcionario?.segundoApellido}}</p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna Fecha inicio -->
+                    <ng-container matColumnDef="fechaInicio">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha inicio </th>
+                        <td mat-cell *matCellDef="let element">{{element.fechaInicio | date:'dd / LL / yyyy'}}
+                        </td>
+                    </ng-container>
+
+
+                    <!-- Columna Fecha fin -->
+                    <ng-container matColumnDef="fechaFin">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha fin </th>
+                        <td mat-cell *matCellDef="let element">{{element.fechaFin | date:'dd / LL / yyyy'}}
+                        </td>
+                    </ng-container>
+
+
+                    <!-- Columna Grupo documento -->
+                    <ng-container matColumnDef="grupoDocumentoSlug">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Grupo documento</th>
+                        <td mat-cell *matCellDef="let element">
+                            <p class="text-truncate">{{element.grupoDocumentoSlug}}
+                            </p>
+                        </td>
+                    </ng-container>
+
+                    <!-- Columna activo -->
+                    <ng-container matColumnDef="estadoRegistro">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Activo</th>
+                        <td mat-cell *matCellDef="let element">
+                             <!-- para simplificar el codigo, se usa un operador ternario en el tooltip, en la accion del boton, el boton y en el icono -->
+							 <button mat-icon-button disabled="{{element.estado === 'Aplicada' ? true : false}}">
+                                <mat-icon
+                                    [ngClass]="element.estadoRegistro === 'Activo' ? 'text-success' : 'text-danger'"
+                                    [matTooltip]="arrayPermisos.estadoRegistro && element.estado !== 'Activo' ? ( element.estadoRegistro == 'Activo' ? 'Inactivar': 'Activar' ) : null "
+                                (click)="arrayPermisos.estadoRegistro && element.estado !== 'Activo' ? activarHandle($event, element) : null">
+                                    {{element.estadoRegistro === 'Activo' ? 'check' : 'clear'}}
+                                </mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+         
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef [ngStyle]="{'display': !( arrayPermisos.actualizar ) ? 'none' : ''}"> Acciones </th>
+                        <td mat-cell *matCellDef="let element">
+							<button *ngIf="arrayPermisos.actualizar" mat-icon-button (click)="editarHandle($event, element)">
+                                <mat-icon matTooltip="Editar">edit</mat-icon>
+							</button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                    <tr mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [length]="dataLength" [pageSizeOptions]="[5, 10, 25]" [pageSize]="5"
+                    showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

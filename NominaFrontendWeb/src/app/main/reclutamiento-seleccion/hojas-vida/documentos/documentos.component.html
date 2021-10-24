@@ -1,0 +1,159 @@
+<div class="page-layout simple fullwidth inner-scroll" fusePerfectScrollbar>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div>
+            <div class="breadcrumb">
+                <mat-icon color="accent">home</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Selección de personal</span>
+                <mat-icon>chevron_right</mat-icon>
+                 <a routerLink="/reclutamiento-seleccion/hojas-vida">Hojas de vida</a>
+                <mat-icon>chevron_right</mat-icon>
+                <span>Cargar documento</span>
+            </div>
+            <div [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                <h2 class="title">Cargar documento</h2>
+            </div>
+        </div>
+        <div class="acciones">
+            <button *ngIf="!itemFuncionario" mat-raised-button color="accent" class="acciones"
+                [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+                <span>Acciones</span>
+            </button>
+            <mat-menu #menu="matMenu">
+
+					 <button *ngIf="arraySoloPermiso.actualizar" mat-menu-item (click)="editarDatosBasicosHandle($event)">
+					     <span>Editar datos básicos</span>
+					 </button>
+					 <button *ngIf="arrayPermisos.op2" mat-menu-item (click)="crearEstudioHandle($event)">
+					     <span>Registrar estudio realizado</span>
+					 </button>
+					 <button *ngIf="arrayPermisos.op1" mat-menu-item (click)="crearExperienciaHandle($event)">
+					     <span>Registrar experiencia laboral</span>
+					 </button>
+					 <button *ngIf="arrayPermisos.op3" mat-menu-item (click)="crearDocumentoHandle($event)">
+					     <span>Cargar documento</span>
+					 </button>
+					 <button mat-menu-item (click)="volverHandle($event)">
+					     <span>Volver</span>
+					 </button>
+
+            </mat-menu>
+
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div>
+            <hojas-vida-header [aspirante]="itemFuncionario"></hojas-vida-header>
+
+            <mat-tab-group animationDuration="0ms" [selectedIndex]="3" (selectedTabChange)="tabChangeHandle($event)">
+
+                <mat-tab label="Datos básicos">
+                </mat-tab>
+                <mat-tab label="Estudios realizados">
+                </mat-tab>
+                <mat-tab label="Experiencia laboral">
+                </mat-tab>
+
+                <!-- Documentos -->
+                <mat-tab label="Documentos">
+
+                    <form [formGroup]="form" *ngIf="form" (ngSubmit)="guardarHandle($event)">
+
+                        <div>
+                            <div fxFlex="100" class="pb-24 text-center">
+                                <label>Archivo o documento</label>
+                                <input type="file" formControlName="file" (change)="fileInputHandle($event)" required
+                                    accept=".pdf">
+                                <mat-icon matSuffix matTooltip="El formato del archivo debe ser PDF.">
+                                    info
+                                </mat-icon>
+                                <div
+                                    *ngIf="form.get('file').invalid && (form.get('file').dirty || form.get('file').touched)">
+                                    <mat-error *ngFor="let error of objToArray(form.get('file').errors)">
+                                        <div [ngSwitch]="error">
+                                            <ng-template [ngSwitchCase]="'required'">
+                                                Requerido
+                                            </ng-template>
+                                            <ng-template ngSwitchDefault>
+                                                {{error}}
+                                            </ng-template>
+                                        </div>
+                                    </mat-error>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Tipo de soporte</mat-label>
+                                <mat-select formControlName="tipoSoporteId" required>
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let item of tipoSoportes" [value]="item.id">
+                                        {{item.nombre}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngFor="let error of objToArray(form.get('tipoSoporteId').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Tipo de soporte del aspirante.">info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Comentario</mat-label>
+                                <textarea matInput formControlName="comentario"></textarea>
+                                <mat-error *ngFor="let error of objToArray(form.get('comentario').errors)">
+                                    <div [ngSwitch]="error">
+                                        <ng-template [ngSwitchCase]="'required'">
+                                            Requerido
+                                        </ng-template>
+                                        <ng-template ngSwitchDefault>
+                                            {{error}}
+                                        </ng-template>
+                                    </div>
+                                </mat-error>
+                                <mat-icon matSuffix matTooltip="Descripción breve del documento.">info
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="actions">
+                            <a mat-raised-button
+                                routerLink="/reclutamiento-seleccion/hojas-vida/{{itemFuncionario.id}}/mostrar"
+                                [queryParams]="{tab: 3}">
+                                <mat-icon>cancel</mat-icon>
+                                <span>Cancelar</span>
+                            </a>
+                            <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                                <mat-icon>save</mat-icon>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+                    </form>
+
+                </mat-tab>
+                <!--/ Documentos -->
+            </mat-tab-group>
+        </div>
+    </div>
+
+</div>

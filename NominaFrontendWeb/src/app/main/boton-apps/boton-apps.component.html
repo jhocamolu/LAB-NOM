@@ -1,0 +1,14 @@
+<button *ngIf="arrayPermisos?.listar" mat-icon-button fxShow [matMenuTriggerFor]="languageMenu">
+    <mat-icon>apps</mat-icon>
+</button>
+
+<mat-menu #languageMenu="matMenu" [overlapTrigger]="false">
+    <div class="api-lista">
+        <div *ngFor="let app of appOnline" class="api-lista--item">
+            <a href="{{app.url}}" target="_blank">           
+                <img src="{{app.imagen}}" alt="" style="width: 40px;">
+                <span class="iso">{{app.titulo}}</span>
+            </a>
+        </div>
+    </div>
+</mat-menu>

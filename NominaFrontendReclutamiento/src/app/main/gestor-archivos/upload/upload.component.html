@@ -1,0 +1,37 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="onSubmitHandle($event)">
+    <div class="">
+        <div mat-dialog-content class="p-32 pt-16 pb-16 m-0 text-center">
+            <label>
+                <mat-icon class="previewImg cursor-pointer" *ngIf="!previewSignsrc">
+                    account_circle
+                </mat-icon>
+                <img class="previewImg cursor-pointer" *ngIf="previewSignsrc && !changeImg" [src]="enviroments + '/bucket/download?document_id=' + previewSignsrc">
+                <img class="previewImg cursor-pointer" *ngIf="previewSignsrc && changeImg" [src]="previewSignsrc">
+                <input type="file" formControlName="file" (change)="fileInputHandle($event)" [accept]="accept" style="padding: 0 0px !important; ">
+            </label>
+            
+            <mat-error *ngFor="let error of this.form.get('file').errors | keyvalue">
+                <div [ngSwitch]="error.key">
+                    <ng-template [ngSwitchCase]="'required'">
+                        Requerido
+                    </ng-template>
+                    <ng-template ngSwitchDefault>
+                        {{ error.key }}
+                    </ng-template>
+                </div>
+            </mat-error>
+        </div>
+
+        <div mat-dialog-actions class="m-0 p-32 pt-16 " fxLayout="row " fxLayoutAlign="end center ">
+            <button type="button" mat-raised-button (click)="dialogRef.close() ">
+                <mat-icon>cancel</mat-icon>
+                <span>Cancelar</span>
+            </button>
+            <button type="submit" mat-raised-button [disabled]="form.invalid || submit" color="accent">
+                <mat-icon>save</mat-icon>
+                <span>Guardar</span>
+            </button>
+        </div>
+    </div>
+
+</form>

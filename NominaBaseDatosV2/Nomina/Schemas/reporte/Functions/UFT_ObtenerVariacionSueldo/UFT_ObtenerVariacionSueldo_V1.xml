@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="UFT_ObtenerVariacionSueldo_V1">
+<comment>Migración general</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('reporte.UFT_ObtenerVariacionSueldo') IS NOT NULL
+    BEGIN
+        EXECUTE ('DROP FUNCTION reporte.UFT_ObtenerVariacionSueldo');
+    END;
+GO
+SET ANSI_NULLS ON;
+GO
+SET QUOTED_IDENTIFIER ON;
+GO
+-- =============================================
+-- Author:      Jhonatan Camilo Moreno Luna
+-- Create date: 29/12/2020
+-- Description:	Obtiene los valores para el VSP de un funcionario
+-- Parameters:
+--   @PeriodoPagoId:	   Identificador del periodo de pago
+--   @FuncionarioId:	   Identificador del funcionario
+-- =============================================
+CREATE FUNCTION reporte.UFT_ObtenerVariacionSueldo
+(
+-- Add the parameters for the function here
+@FuncionarioId INT, 
+@PeriodoPagoId INT
+)
+RETURNS @tabla TABLE
+(FuncionarioId                 INT, 
+ Cambio                        INT, 
+ FechaInicio                   DATE, 
+ FechaFin                      DATE, 
+ Sueldo                        MONEY, -- funciona como base IBC para cambio de salario
+ DiasCotizadosPension          CHAR(2) DEFAULT SPACE(2), 
+ DiasCotizadosSalud            CHAR(2) DEFAULT SPACE(2), 
+ DiasCotizadosRiesgosLaborales CHAR(2) DEFAULT SPACE(2), 
+ DiasCotizadosCcf              CHAR(2) DEFAULT SPACE(2)
+)
+AS
+     BEGIN
+         ---------------------------------------------
+         -- Declaraciones
+         ---------------------------------------------
+         DECLARE @SueldoBasico DECIMAL(16, 6)= 0;
+         DECLARE @FechaInicioNomina DATE;
+         DECLARE @FechaFinalNomina DATE;
+         DECLARE @IdContrato INT;
+         DECLARE @Sueldo DECIMAL(16, 6);
+         DECLARE @FechaInicioContrato DATE;
+         DECLARE @FechaFinContato DATE;
+         DECLARE @DiasTrabajados INT;
+         DECLARE @FechaInferior DATE;
+         DECLARE @FechaSuperior DATE;
+         DECLARE @DiasMesLaboral INT= 30;
+         DECLARE @CantidadOtrosi INT= 0;
+         DECLARE @FechaAplicacionOtrosi DATE;
+         DECLARE @AuditoriaActivo VARCHAR(255);
+         DECLARE @Contador INT= 1;
+         ---------------------------------------------
+         -- Proceso
+         ---------------------------------------------
+
+         SELECT @AuditoriaActivo = vce.AUDITORIA_ACTIVO
+         FROM util.VW_ConstanteEstado AS vce;
+         SET @FechaInicioNomina =
+         (
+             SELECT DATEADD(mm, DATEDIFF(mm, 0, pc.Fecha), 0)
+             FROM dbo.PeriodoContable pc
+             WHERE pc.Id = @PeriodoPagoId
+         );
+         SET @FechaFinalNomina =
+         (
+             SELECT pc.Fecha
+             FROM dbo.PeriodoContable pc
+             WHERE pc.Id = @PeriodoPagoId
+         );
+
+         -- Determinamos cantidad de otrosi que puede tener el funcionario
+         SELECT @CantidadOtrosi = COUNT(otrosi.Id)
+         FROM ContratoOtroSi AS otrosi
+              INNER JOIN Contrato AS c ON c.Id = otrosi.ContratoId
+         WHERE c.FuncionarioId = @FuncionarioId
+               AND (@FechaInicioNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion
+                    OR @FechaFinalNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion)
+               AND otrosi.EstadoRegistro = @AuditoriaActivo;
+
+         -- Obtiene los contratos / otros sis activos en el período
+         DECLARE CUR_Contratos CURSOR LOCAL
+         FOR
+            (
+                SELECT con.Id, 
+                       con.sueldo, 
+                       con.FechaInicio, 
+                       con.FechaFinalizacion
+                FROM Contrato AS con
+                WHERE con.FuncionarioId = @FuncionarioId
+                      AND (@FechaInicioNomina BETWEEN con.FechaInicio AND con.FechaFinalizacion
+                           OR @FechaFinalNomina BETWEEN con.FechaInicio AND con.FechaFinalizacion)
+                      AND con.EstadoRegistro = @AuditoriaActivo
+            )
+            UNION
+            (
+                SELECT otrosi.Id, 
+                       otrosi.sueldo, 
+                       otrosi.FechaAplicacion, 
+                       otrosi.FechaFinalizacion
+                FROM ContratoOtroSi AS otrosi
+                     INNER JOIN Contrato AS c ON c.Id = otrosi.ContratoId
+                WHERE c.FuncionarioId = @FuncionarioId
+                      AND (@FechaInicioNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion
+                           OR @FechaFinalNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion)
+                      AND otrosi.EstadoRegistro = @AuditoriaActivo
+            );
+         OPEN CUR_Contratos;
+         FETCH NEXT FROM CUR_Contratos INTO @IdContrato, @Sueldo, @FechaInicioContrato, @FechaFinContato;
+         WHILE @@fetch_status = 0
+             BEGIN
+                 SET @FechaInferior = @FechaInicioContrato;
+                 SET @FechaSuperior = @FechaFinContato;
+                 IF @FechaInicioContrato < @FechaInicioNomina
+                     BEGIN
+                         SET @FechaInferior = @FechaInicioNomina;
+                     END;
+                 IF @FechaFinContato > @FechaFinalNomina
+                    AND @CantidadOtrosi = 0
+                     BEGIN
+                         SET @FechaSuperior = @FechaFinalNomina;
+                     END;
+                 IF @FechaFinContato < @FechaFinalNomina
+                    AND @CantidadOtrosi > 0
+                     BEGIN
+                         SELECT @FechaAplicacionOtrosi = MAX(otrosi.FechaAplicacion)
+                         FROM ContratoOtroSi AS otrosi
+                              INNER JOIN Contrato AS c ON c.Id = otrosi.ContratoId
+                         WHERE c.FuncionarioId = @FuncionarioId
+                               AND (@FechaInicioNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion
+                                    OR @FechaFinalNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion)
+                               AND otrosi.EstadoRegistro = @AuditoriaActivo;
+                         SET @FechaSuperior = DATEADD(DAY, -1, @FechaAplicacionOtrosi);
+                         SET @CantidadOtrosi = 0;
+                     END;
+                 IF @FechaFinContato > @FechaFinalNomina
+                    AND @CantidadOtrosi > 0
+                     BEGIN
+
+                         /* Obtiene fecha aplicación del otrosi */
+
+                         SELECT @FechaAplicacionOtrosi = MAX(otrosi.FechaAplicacion)
+                         FROM ContratoOtroSi AS otrosi
+                              INNER JOIN Contrato AS c ON c.Id = otrosi.ContratoId
+                         WHERE c.FuncionarioId = @FuncionarioId
+                               AND (@FechaInicioNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion
+                                    OR @FechaFinalNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion)
+                               AND otrosi.EstadoRegistro = @AuditoriaActivo;
+                         IF @FechaAplicacionOtrosi >= @FechaInicioNomina
+                            AND @FechaAplicacionOtrosi <= @FechaFinalNomina
+                             BEGIN
+                                 SET @FechaSuperior = DATEADD(DAY, -1, @FechaAplicacionOtrosi);
+                                 SET @CantidadOtrosi = 0;
+                             END;
+                             ELSE
+                             BEGIN
+
+                                 /* Obtiene fecha de finalización del otrosi */
+
+                                 SELECT @FechaFinContato = MAX(otrosi.FechaFinalizacion)
+                                 FROM ContratoOtroSi AS otrosi
+                                      INNER JOIN Contrato AS c ON c.Id = otrosi.ContratoId
+                                 WHERE c.FuncionarioId = @FuncionarioId
+                                       AND (@FechaInicioNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion
+                                            OR @FechaFinalNomina BETWEEN otrosi.FechaAplicacion AND otrosi.FechaFinalizacion)
+                                       AND otrosi.EstadoRegistro = @AuditoriaActivo;
+                                 IF @FechaFinContato > @FechaFinalNomina
+                                     BEGIN
+                                         SET @FechaSuperior = @FechaFinalNomina;
+                                         SET @CantidadOtrosi = 0;
+                                     END;
+                                     ELSE
+                                     BEGIN
+                                         SET @FechaSuperior = @FechaFinContato;
+                                         SET @CantidadOtrosi = 0;
+                                     END;
+                             END;
+                     END;
+
+                 -- Obtiene Dias a pagar 
+                 EXEC [dbo].[USP_ObtenerDiasApagar] 
+                      @FuncionarioId = @FuncionarioId, 
+                      @FechaInicial = @FechaInferior, 
+                      @FechaFinal = @FechaSuperior, 
+                      @Cantidad = @DiasTrabajados OUTPUT;
+                 SET @SueldoBasico = @SueldoBasico + (@Sueldo * @DiasTrabajados / @DiasMesLaboral);
+                 INSERT INTO @tabla
+                 (FuncionarioId, 
+                  Cambio, 
+                  FechaInicio, 
+                  FechaFin, 
+                  Sueldo, 
+                  DiasCotizadosPension, 
+                  DiasCotizadosSalud, 
+                  DiasCotizadosRiesgosLaborales, 
+                  DiasCotizadosCcf
+                 )
+                 VALUES
+                 (@FuncionarioId, -- FuncionarioId - INT
+                  @Contador, -- Quincena - INT
+                  @FechaInferior, 
+                  @FechaSuperior, 
+                 (
+                     SELECT [util].[UFS_RedondearConDireccion]((@Sueldo * @DiasTrabajados / @DiasMesLaboral), 1, 1)
+                 ), -- Sueldo - MONEY
+                  @DiasTrabajados, -- DiasCotizadosPension - char
+                  @DiasTrabajados, -- DiasCotizadosSalud - char
+                  @DiasTrabajados, -- DiasCotizadosRiesgosLaborales - char
+                  @DiasTrabajados -- DiasCotizadosCcf - char
+                 );
+                 SET @Contador = @Contador + 1;
+                 FETCH NEXT FROM CUR_Contratos INTO @IdContrato, @Sueldo, @FechaInicioContrato, @FechaFinContato;
+             END;
+         CLOSE CUR_Contratos;
+         DEALLOCATE CUR_Contratos;
+         RETURN;
+     END;
+GO
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[reporte].[UFT_ObtenerVariacionSueldo]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [reporte].[UFT_ObtenerVariacionSueldo]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

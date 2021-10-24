@@ -1,0 +1,90 @@
+<form [formGroup]="form" *ngIf="form" (ngSubmit)="buscarHandle($event)">
+        <mat-toolbar class="toolbar-filter">
+            <mat-toolbar-row>
+                <h1 mat-dialog-title>Filtro</h1>
+                <button type="button" mat-icon-button (click)="dialogRef.close()">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <div mat-dialog-content fusePerfectScrollbar>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Título</mat-label>
+                <input matInput formControlName="titulo">
+                <mat-error *ngFor="let error of titulo.errors | keyvalue ">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Nombre de la notificación.">
+                    info
+                </mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo</mat-label>
+                <mat-select formControlName="tipo">
+                    <mat-option [value]='null'></mat-option>
+                    <mat-option [value]='"Email"'>E-mail</mat-option>
+                    <mat-option [value]='"MobilePush"'>Mobile push</mat-option>
+                </mat-select>
+                <mat-error
+                    *ngFor="let error of tipo.errors | keyvalue ">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix
+                    matTooltip="Clasificación de la notificación.">
+                    info
+                </mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Fecha</mat-label>
+                <input matInput [matDatepicker]="fecha" (focus)="fecha.open()"
+                    (click)="fecha.open()" formControlName="fecha">
+                <mat-datepicker-toggle matPrefix [for]="fecha">
+                </mat-datepicker-toggle>
+                <mat-datepicker startView="year" #fecha></mat-datepicker>
+                <mat-error *ngFor="let error of fecha.errors | keyvalue ">
+                    <div [ngSwitch]="error.key">
+                        <ng-template [ngSwitchCase]="'required'">
+                            Requerido
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="'matDatepickerParse'">
+                            No es un formato de fecha válido.
+                        </ng-template>
+                        <ng-template ngSwitchDefault>
+                            {{error.key}}
+                        </ng-template>
+                    </div>
+                </mat-error>
+                <mat-icon matSuffix matTooltip="Fecha en la que comienza la notificación.">info
+                </mat-icon>
+            </mat-form-field>
+
+        </div>
+
+        <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+            <button mat-raised-button type="button" (click)="limpiarHandle($event)">
+                <mat-icon>cancel</mat-icon>
+                <span>Borrar filtros</span>
+            </button>
+            <button mat-raised-button type="submit" [disabled]="form.invalid" color="accent">
+                <mat-icon>search</mat-icon>
+                <span>Buscar</span>
+            </button>
+        </div>
+</form>

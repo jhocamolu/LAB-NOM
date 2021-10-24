@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="_Widget-V1">
+<comment>HT041</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+CREATE TABLE util._Widget (
+  Id                int IDENTITY NOT NULL, 
+  Nombre            varchar(255) NOT NULL, 
+  Descripcion       text NOT NULL, 
+  Ubicacion         varchar(255) NOT NULL, 
+  Tipo              varchar(255) NOT NULL, 
+  Subtipo           varchar(255) NULL, 
+  Interaccion       varchar(255) NULL, 
+  Permiso           varchar(255) NOT NULL, 
+  EstadoRegistro    varchar(255) DEFAULT 'EstadoRegistro' NOT NULL, 
+  CreadoPor         varchar(255) NOT NULL, 
+  FechaCreacion     smalldatetime NOT NULL, 
+  ModificadoPor     varchar(255) NULL, 
+  FechaModificacion smalldatetime NULL, 
+  EliminadoPor      varchar(255) NULL, 
+  FechaEliminacion  smalldatetime NULL, 
+  CONSTRAINT PK_Widget 
+    PRIMARY KEY (Id), 
+  CONSTRAINT CK_Widget_EstadoRegistro 
+    CHECK (EstadoRegistro IN ('Activo', 'Inactivo', 'Eliminado')), 
+  CONSTRAINT CK_Widget_Tipo 
+    CHECK (Tipo IN ('Tarjeta', 'Grafica', 'Otro')), 
+  CONSTRAINT CK_Widget_Ubicacion 
+    CHECK (Ubicacion IN ('Lateral', 'Centro', 'Pie')));
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Almacena los widgets que se pueden mostrar en el dashboard', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Identificador único del registro en la tabla', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Id';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Nombre del widget del dashboard', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Nombre';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Descripción del widget', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Descripcion';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Ubicación por defecto del widget', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Ubicacion';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Tipo de widget', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Tipo';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Subtipo de widget', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Subtipo';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Parámetros para la interacción que tendrá el widget', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Interaccion';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Nombre del permiso que permite identificar si se muestra o no el widget', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'Permiso';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Indica si el registro se encuentra Activo, Inactivo y Eliminado', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'EstadoRegistro';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Usuario que creá el registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'CreadoPor';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha y hora de creación del registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'FechaCreacion';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Ãšltimo usuario que modificá el registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'ModificadoPor';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha y hora de modificación del registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'FechaModificacion';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Usuario que eliminá el registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'EliminadoPor';
+EXEC sp_addextendedproperty 
+  @NAME = N'MS_Description', @VALUE = N'Fecha y hora de eliminación del registro.', 
+  @LEVEL0TYPE = N'Schema', @LEVEL0NAME = N'util', 
+  @LEVEL1TYPE = N'Table', @LEVEL1NAME = N'_Widget', 
+  @LEVEL2TYPE = N'Column', @LEVEL2NAME = N'FechaEliminacion';
+
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+DROP TABLE [util].[_Widget];
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

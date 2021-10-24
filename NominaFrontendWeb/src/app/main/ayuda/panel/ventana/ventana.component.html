@@ -1,0 +1,97 @@
+<div>
+    <mat-toolbar>
+        <mat-toolbar-row class="header--ayuda pl-28" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+            <h1>
+                <mat-icon class="help mr-12">help</mat-icon>
+                Centro de ayuda
+            </h1>
+            <button mat-icon-button (click)="dialogRef.close()">
+            <mat-icon>close</mat-icon>
+        </button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div mat-dialog-content class="contenido" fusePerfectScrollbar>
+        <div *ngIf="estaOcultoSpinner">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <!-- Home = "", Categorias = categorias, Solo Articulo = item-->
+        <div [ngSwitch]="ventana">
+            <!-- ITEMS -->
+            <div *ngSwitchCase="'item'">
+                <div class="breadcrumb articulo-bread">
+                    <ul *ngFor="let item of articuloOnly">
+                        <li>
+                            <mat-icon (click)="urlHome()">arrow_back</mat-icon>
+                        </li>
+                        <li>
+                            <span (click)="urlHome()" class="text-truncate">
+                                {{item.categoria.nombre}}
+                            </span>
+                        </li>
+                        <li>
+                            <mat-icon>chevron_right</mat-icon>
+                        </li>
+                        <li>
+                            <span class="text-truncate">{{item.titulo}}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="pl-28 pr-28">
+                    <div class="articulo" *ngFor="let item of articuloOnly">
+                        <div>
+                            <h2><strong>{{item.titulo}}</strong></h2>
+                        </div>
+                        <div [innerHTML]="item.descripcion | oembed">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ITEMS -->
+            <!--CATEGORIAS-->
+            <div *ngSwitchCase="'categorias'">
+                <div class="breadcrumb categoria-bread">
+                    <ul>
+                        <li>
+                            <mat-icon (click)="urlHome()">arrow_back</mat-icon>
+                        </li>
+                        <li *ngIf="categoria['padre'] != null">
+                            <span (click)="urlHome()" class="text-truncate">
+                                {{categoria['padre'].nombre }}
+                            </span>
+                        </li>
+                        <li>
+                            <mat-icon>chevron_right</mat-icon>
+                        </li>
+                        <li>
+                            <span class="text-truncate">{{categoria['nombre'] }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="pl-28 pr-28">
+                    <div>
+                        <h2><strong>{{categoria['nombre']}}</strong></h2>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <mat-list role="list">
+                        <mat-list-item class="categorias--item" *ngIf="categoriaOnly.length == 0">
+                            No se ha encontrado información.
+                        </mat-list-item>
+                        <mat-list-item class="categorias--item" *ngFor="let item of categoriaOnly">
+                            <a (click)="articuloSearch(item.id)">
+                                <mat-icon class="work">insert_drive_file</mat-icon>{{item.titulo}}
+                            </a>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+            </div>
+            <!--FINAL CATEGORIAS-->
+
+            <div *ngSwitchDefault>
+                <app-ayuda-home (emitArticulo)="escuchaEventArticulo($event)" (emitCategoria)="escuchaEventCategoria($event)">
+                </app-ayuda-home>
+            </div>
+        </div>
+    </div>
+</div>

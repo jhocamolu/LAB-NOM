@@ -1,0 +1,255 @@
+{
+	"info": {
+		"_postman_id": "20d4675c-28e2-4434-838e-2e5bbbded027",
+		"name": "HU069_AplicacionesExternas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Aplicacion externa cargos",
+			"item": [
+				{
+					"name": "Crear AplicacionExternas cargo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"aplicacionExternaId\": 3,\r\n    \"tipo\": \"Aprobacion\",\r\n    \"cargoDependencia\": [\r\n\t\t{\r\n\t\t\t\"cargoDependenciaId\":5\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"cargoDependenciaId\":4\r\n\t\t}\r\n\t],\r\n    \"centroOperativoDependienteId\": 1,\r\n    \"cargoDependenciaIndependienteId\": 3,\r\n    \"centroOperativoIndependienteId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/AplicacionExternaCargos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"AplicacionExternaCargos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listado aplicacion externa cargo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/AplicacionExternaCargos",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"AplicacionExternaCargos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar AplicacionExternaCargos",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 14,\r\n   \"aplicacionExternaId\": 3,\r\n    \"tipo\": \"Aprobacion\",\r\n    \"cargoDependencia\": [\r\n\t\t{\r\n\t\t\t\"cargoDependenciaId\":1\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"cargoDependenciaId\":2\r\n\t\t}\r\n\t],\r\n    \"centroOperativoDependienteId\": 1,\r\n    \"cargoDependenciaIndependienteId\": 3,\r\n    \"centroOperativoIndependienteId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/AplicacionExternaCargos/14",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"AplicacionExternaCargos",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Parcial AplicacionExternaCargos",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 14,\r\n    \"activo\" : true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/AplicacionExternaCargos/14",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"AplicacionExternaCargos",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar aplicacion externa cargo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/AplicacionExternaCargos/2",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"AplicacionExternaCargos",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listado aplicacion externa cargo dependientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/odata/AplicacionExternaCargoDependientes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"odata",
+								"AplicacionExternaCargoDependientes"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Listado aplicaciones externas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/odata/AplicacionExternas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"odata",
+						"AplicacionExternas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear aplicacion externas",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Aplicaociodn externa\",\r\n    \"codigo\": \"eto\",\r\n    \"descripcion\": \"Yo\",\r\n    \"Revisa\": \"Otro\",\r\n    \"aprueba\": \"Otro\",\r\n    \"autoriza\": \"JefeInmediato\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/AplicacionExternas",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"AplicacionExternas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar aplicaciones externas",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\":5,\r\n    \"nombre\": \"Gatos salveajesss\",\r\n    \"descripcion\": \"Yo soy\",\r\n    \"Revisa\": \"Otro\",\r\n    \"aprueba\": \"Otro\",\r\n    \"autoriza\": \"Otro\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/AplicacionExternas/5",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"AplicacionExternas",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Parcial aplicacion externa",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"id\": 5,\r\n    \"nombre\": \"Gatos sd\",\r\n    \"descripcion\": \"Yo soy\",\r\n    \"Revisa\": \"Otro\",\r\n    \"aprueba\": \"Otro\",\r\n    \"autoriza\": \"Otro\",\r\n    \"activo\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/AplicacionExternas/5",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"AplicacionExternas",
+						"5"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

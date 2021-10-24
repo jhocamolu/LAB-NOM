@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="UFS_ObtenerClaseContratoFuncionario_V1">
+<comment>HU056</comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerClaseContratoFuncionario]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerClaseContratoFuncionario];
+END;
+GO
+
+-- ==========================================================================================
+-- Author:      Diego Fernando Villegas Flórez
+-- Create date: 13/05/2020
+-- Description: Permite obtener la clase de contrato actual del funcionario
+--
+-- Parameters:
+--   FuncionarioId:	Identificador del funcionario del cual se va a obtener la información
+--
+-- Return:
+--	   ClaseContrato:	Clase de contrato del funcionario
+-- ==========================================================================================
+CREATE FUNCTION [dbo].[UFS_ObtenerClaseContratoFuncionario]
+(
+-- Add the parameters for the function here
+@FuncionarioId INT
+)
+RETURNS VARCHAR(255)
+AS
+     BEGIN
+
+         --------------------------------------------------------------------------
+         -- Instrucciones de configuración y manejo de errores
+         --------------------------------------------------------------------------
+         SET ANSI_NULLS, QUOTED_IDENTIFIER ON;
+
+         --------------------------------------------------------------------------
+         -- Variables
+         --------------------------------------------------------------------------
+         -- Declare the return variable here
+         DECLARE @ClaseContrato VARCHAR(255);
+
+
+         --------------------------------------------------------------------------
+         -- Proceso
+         --------------------------------------------------------------------------
+         SELECT @ClaseContrato = tco.Clase
+	    FROM dbo.VW_FuncionarioDatoActual vfda 
+	    INNER JOIN dbo.Contrato con ON (con.Id = vfda.ContratoId)
+	    INNER JOIN dbo.TipoContrato tco ON (con.TipoContratoId = tco.Id)
+	    WHERE vfda.Id = @FuncionarioId;
+
+         RETURN @ClaseContrato;
+     END;
+GO 
+
+]]>
+</sql>
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+IF OBJECT_ID('[dbo].[UFS_ObtenerClaseContratoFuncionario]') IS NOT NULL
+BEGIN
+    DROP FUNCTION [dbo].[UFS_ObtenerClaseContratoFuncionario]
+END
+GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+</databaseChangeLog>

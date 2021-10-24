@@ -1,0 +1,292 @@
+// Material theming tools
+@import "~@angular/material/theming";
+// Breakpoint mixins
+@import "partials/breakpoints";
+// **** GLOBALS *****
+h3 {
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+a mat-icon,
+button mat-icon {
+    margin-right: 5px;
+}
+
+// tablas
+table {
+    width: 100%;
+    .mat-sort-header-arrow {
+        color: #6e992e !important;
+    }
+    .mat-row:nth-child(2n + 1) {
+        background-color: rgba(104, 135, 44, 0.08) !important;
+    }
+    .mat-column-active {
+        flex: 0 1 80px;
+    }
+    .mat-header-cell {
+        color: #6e992e !important;
+        font-size: 15px;
+        font-weight: bold;
+    }
+    mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        min-height: 20px;
+        line-height: 20px;
+    }
+}
+
+// formularios
+form {
+    width: 100%;
+    display: block !important;
+    mat-form-field {
+        width: 100%;
+        padding-bottom: 12px;
+    }
+    .actions {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center flex-end;
+        align-items: center;
+        margin-bottom: 0px;
+        min-height: 45px;
+    }
+    .actions button:nth-child(n + 1),
+    .actions a:nth-child(n + 1) {
+        margin-right: 10px;
+    }
+
+    .actions button:last-child,
+    .actions a:last-child {
+        margin-right: 0px;
+    }
+}
+
+// tabs
+mat-ink-bar {
+    background-color: #6e992e!important;
+}
+
+mat-tab-body {
+    padding-top: 25px;
+}
+
+// list vista
+mat-list {
+    height: 100% !important;
+    mat-list-item {
+        height: auto !important;
+    }
+    .mat-list-item-content {
+        display: block !important;
+        padding: 0!important;
+        height: 100% !important;
+    }
+    mat-divider {
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+}
+
+// **** FIN GLOBALS *****
+// correccion de estilos de fuse
+.mat-dialog-actions {
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center flex-end;
+    align-items: center;
+    margin-bottom: 0px;
+    min-height: 45px;
+}
+
+// **** CUSTOM CLASS *****
+.list-item-title {
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center flex-start;
+    align-items: center;
+    mat-icon {
+        margin-right: 5px;
+    }
+}
+
+.toolbar-filter {
+    background: white !important;
+    mat-toolbar-row {
+        padding-left: 0px;
+        padding-right: 0px;
+        display: flex;
+        place-content: center space-between;
+    }
+}
+
+.dos-bloque {
+    flex-direction: row;
+    display: flex;
+    place-content: center flex-start;
+    align-items: center;
+    flex: 1 0 auto;
+    &>mat-form-field,
+    &>div {
+        flex: 1 1 100%;
+        max-width: 50%;
+    }
+    &>div:first-child,
+    &>mat-form-field:first-child {
+        padding-right: 12px;
+    }
+    &>div:last-child,
+    &>mat-form-field:last-child {
+        padding-left: 12px;
+    }
+}
+
+.mat-column-estadoRegistro {
+    width: 50px;
+    text-align: center !important;
+    justify-content: center !important;
+    .mat-sort-header-container {
+        text-align: center !important;
+        margin-left: 5px;
+    }
+}
+
+.mat-column-acciones {
+    text-align: center !important;
+    justify-content: center !important;
+    .mat-sort-header-button {
+        width: 100%;
+        text-align: center !important;
+        justify-content: center !important;
+    }
+}
+
+.box-shadow {
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.header {
+    h2 {
+        color: #6e992e;
+    }
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center space-between;
+    align-items: center;
+    padding: 24px;
+    padding-bottom: 0px;
+    height: 100px !important;
+    min-height: 100px !important;
+    max-height: 100px !important;
+    border-bottom: 7px #6e992e solid !important;
+    box-shadow: 0px 2px 4px 0px grey;
+    .breadcrumb {
+        a {
+            color: rgba(0, 0, 0, 0.54);
+            text-decoration: none !important;
+            top: -2px;
+            position: relative;
+        }
+        .mat-icon24 {
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            min-height: 24px;
+            line-height: 24px;
+        }
+        mat-icon {
+            color: rgba(0, 0, 0, 0.54);
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            min-height: 16px;
+            line-height: 16px;
+        }
+        span {
+            color: rgba(0, 0, 0, 0.54) !important;
+            top: -2px;
+            position: relative;
+        }
+    }
+    .actions button:nth-child(n + 1),
+    .actions a:nth-child(n + 1) {
+        margin-right: 10px;
+    }
+
+    .actions button:last-child,
+    .actions a:last-child {
+        margin-right: 0px;
+    }
+}
+
+.content {
+    padding: 24px;
+    padding-bottom: 12px;
+    &>div {
+        padding: 24px;
+        background-color: white;
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+    }
+    .actions {
+        flex-direction: row;
+        box-sizing: border-box;
+        display: flex;
+        place-content: center flex-end;
+        align-items: center;
+        margin-bottom: 0px;
+        min-height: 45px;
+        margin-top: 10px;
+    }
+    .actions button:nth-child(n + 1),
+    .actions a:nth-child(n + 1) {
+        margin-right: 10px;
+    }
+
+    .actions button:last-child,
+    .actions a:last-child {
+        margin-right: 0px;
+    }
+   
+}
+
+.btn-lateral-filtro {
+    position: absolute;
+    right: 0px;
+    z-index: 999;
+    top: 45%;
+    .mat-icon-button {
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+        background-color: #066f77 !important;
+        padding: 0;
+        min-width: 0;
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        line-height: 40px;
+        color: white;
+        border-radius: 10px 0px 0px 10px;
+    }
+}
+
+.mat-input-element{
+    margin-left: 10px !important;
+}
+// Clase para iconos en caso de que se desahabilite permanesca con el mismo color
+.text-black{
+    color: rgba(0, 0, 0, 0.87) !important;
+}
+// **** FIN CUSTOM CLASS *****

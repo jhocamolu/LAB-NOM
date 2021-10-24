@@ -1,0 +1,41 @@
+{
+	"info": {
+		"_postman_id": "2c6a9306-40d3-4044-b451-fff4a892d197",
+		"name": "HU074-ReporteMaestroFuncionario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "MaestroFuncionarios",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"EstadoFuncionario\":\"Activo\",\r\n    \"CentroOperativo\":null,\r\n    \"Dependencia\":null,\r\n    \"Cargo\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://nomintegra.alcanosesp.com:9001/reporte/MaestroFuncionarios",
+					"protocol": "http",
+					"host": [
+						"nomintegra",
+						"alcanosesp",
+						"com"
+					],
+					"port": "9001",
+					"path": [
+						"reporte",
+						"MaestroFuncionarios"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="dvillega" id="VariableNomina_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[VariableNomina] ON 
+GO
+
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) 
+VALUES('22', 'FechaInicioRecalculo', 'DATE', NULL, 'Input', 'Fecha de inicio desde la cual se obtendrá la información para el recalculo del porcentaje para retención en la fuente procedimiento 2.', 'Activo    ', 'sistema', GETDATE());
+
+INSERT INTO dbo.VariableNomina (Id, Codigo, TipoDato, Tamanio, TipoVariable, Descripcion, EstadoRegistro, CreadoPor, FechaCreacion) 
+VALUES('23', 'FechaFinRecalculo', 'DATE', NULL, 'Input', 'Fecha fin hasta la cual se obtendrá la información para el recalculo del porcentaje para retención en la fuente procedimiento 2.', 'Activo    ', 'sistema', GETDATE());
+GO
+
+SET IDENTITY_INSERT [dbo].[VariableNomina] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[VariableNomina] WHERE Id BETWEEN 22 AND 23;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

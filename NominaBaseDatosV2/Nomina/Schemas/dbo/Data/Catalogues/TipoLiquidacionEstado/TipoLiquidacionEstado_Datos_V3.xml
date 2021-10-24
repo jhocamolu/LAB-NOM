@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="rsabogal" id="TipoLiquidacionEstado_Datos_V3">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[TipoLiquidacionEstado] ON;
+INSERT INTO TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion) VALUES(36, 14, 'Activo', 'Vigente', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL);
+INSERT INTO TipoLiquidacionEstado (Id, TipoLiquidacionId, EstadoFuncionario, EstadoContrato, EstadoRegistro, CreadoPor, FechaCreacion, ModificadoPor, FechaModificacion, EliminadoPor, FechaEliminacion) VALUES(37, 14, 'Incapacitado', 'Vigente', 'Activo    ', 'sistema', GETDATE(), NULL, NULL, NULL, NULL);
+SET IDENTITY_INSERT [dbo].[TipoLiquidacionEstado] OFF;
+
+UPDATE dbo.TipoLiquidacionEstado SET TipoLiquidacionId=3 WHERE Id=2;
+]]>
+</sql>
+
+<rollback>
+<![CDATA[
+DELETE FROM [dbo].[TipoLiquidacionEstado] WHERE Id BETWEEN 36 AND 37;
+]]>
+</rollback>
+</changeSet>
+</databaseChangeLog>

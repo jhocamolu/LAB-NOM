@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jgaviria" id="Contrato_V4">
+<comment>Crear campos ExtranjeroNoObligadoACotizarAPension,ColombianoEnElExterior,TipoCotizanteSubtipoCotizanteID esta ultimo con su foranea </comment>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+
+    ALTER TABLE [dbo].[Contrato] ADD [ColombianoEnElExterior] bit NOT NULL DEFAULT CAST(0 AS bit);
+    GO
+
+    ALTER TABLE [dbo].[Contrato] ADD [ExtranjeroNoObligadoACotizarAPension] bit NOT NULL DEFAULT CAST(0 AS bit);
+    GO
+
+    ALTER TABLE [dbo].[Contrato] ADD [TipoCotizanteSubtipoCotizanteID] int NULL;
+    GO
+
+    CREATE INDEX [IX_Contrato_TipoCotizanteSubtipoCotizanteID] ON [dbo].[Contrato] ([TipoCotizanteSubtipoCotizanteID]);
+    GO
+
+    
+]]>
+</sql>
+
+<rollback>
+<sql endDelimiter="GO" splitStatements="true">
+<![CDATA[
+    ALTER TABLE [dbo].[Contrato] DROP COLUMN [ColombianoEnElExterior];
+    GO
+
+    ALTER TABLE [dbo].[Contrato] DROP COLUMN [ExtranjeroNoObligadoACotizarAPension];
+    GO
+
+    DROP INDEX IX_Contrato_TipoCotizanteSubtipoCotizanteID ON [NOMINA-DESARROLLO].dbo.Contrato 
+    GO 
+
+    ALTER TABLE [dbo].[Contrato] DROP COLUMN [TipoCotizanteSubtipoCotizanteID];
+    GO
+]]>
+</sql>
+</rollback>
+</changeSet>
+
+</databaseChangeLog>

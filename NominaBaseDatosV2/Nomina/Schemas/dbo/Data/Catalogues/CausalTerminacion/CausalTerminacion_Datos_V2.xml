@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+<changeSet author="jhmoreno" id="CausalTerminacion_Datos_V2">
+<sql endDelimiter="\nGO" splitStatements="true">
+<![CDATA[
+SET IDENTITY_INSERT [dbo].[CausalTerminacion] ON 
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(9,'Activo', 'sistema', GETDATE(), 'VCO',	'Vencimiento de contrato');
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(10,'Activo', 'sistema', GETDATE(), 'RVT'	,'Reuncia voluntaria');
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(11,'Activo', 'sistema', GETDATE(), 'RFT',	'Renuncia forzosa');
+GO
+INSERT INTO dbo.CausalTerminacion (Id,EstadoRegistro, CreadoPor, FechaCreacion,Codigo,Nombre) VALUES(12,'Activo', 'sistema', GETDATE(), 'NSP'	,'No se presentó a trabajar');
+GO
+
+SET IDENTITY_INSERT [dbo].[CausalTerminacion] OFF
+GO
+]]>
+</sql>
+
+<rollback>
+DELETE FROM [dbo].[CausalTerminacion] WHERE Id BETWEEN 9 AND 12;
+</rollback>
+</changeSet>
+</databaseChangeLog>
